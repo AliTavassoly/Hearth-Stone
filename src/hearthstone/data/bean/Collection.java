@@ -1,8 +1,8 @@
-package hearthstone.game;
+package hearthstone.data.bean;
 
-import hearthstone.game.cards.Card;
-import hearthstone.game.heroes.Hero;
-import hearthstone.game.heroes.HeroType;
+import hearthstone.data.bean.cards.Card;
+import hearthstone.data.bean.heroes.Hero;
+import hearthstone.data.bean.heroes.HeroType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

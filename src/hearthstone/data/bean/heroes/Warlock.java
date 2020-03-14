@@ -1,4 +1,4 @@
-package hearthstone.game.heroes;
+package hearthstone.data.bean.heroes;
 
 public class Warlock extends Hero {
     public Warlock(String name, String description, int health, HeroType type) {

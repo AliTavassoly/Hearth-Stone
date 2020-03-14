@@ -1,6 +1,6 @@
-package hearthstone.game.cards;
+package hearthstone.data.bean.cards;
 
-import hearthstone.game.heroes.HeroType;
+import hearthstone.data.bean.heroes.HeroType;
 
 public abstract class Card {
     private static int lastId;

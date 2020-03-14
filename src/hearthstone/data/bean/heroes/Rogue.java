@@ -1,4 +1,4 @@
-package hearthstone.game.heroes;
+package hearthstone.data.bean.heroes;
 
 public class Rogue extends Hero{
     public Rogue(String name, String description, int health, HeroType type){

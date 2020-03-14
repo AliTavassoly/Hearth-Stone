@@ -1,4 +1,4 @@
-package hearthstone.game.cards;
+package hearthstone.data.bean.cards;
 
 public enum CardType {
     SPELL,

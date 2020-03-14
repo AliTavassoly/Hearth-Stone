@@ -1,6 +1,6 @@
-package hearthstone.game.cards;
+package hearthstone.data.bean.cards;
 
-import hearthstone.game.heroes.HeroType;
+import hearthstone.data.bean.heroes.HeroType;
 
 public class WeaponCard extends Card {
     public WeaponCard(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){

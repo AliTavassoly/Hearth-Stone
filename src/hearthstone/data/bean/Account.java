@@ -1,18 +1,18 @@
-package hearthstone.credentials;
+package hearthstone.data.bean;
 
-import hearthstone.game.Collection;
-import hearthstone.game.Deck;
-import hearthstone.game.cards.Card;
-import hearthstone.game.heroes.Hero;
-import hearthstone.game.heroes.HeroType;
+import hearthstone.data.bean.cards.Card;
+import hearthstone.data.bean.heroes.Hero;
+import hearthstone.data.bean.heroes.HeroType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class User {
-    private String username, password, name;
+public class Account {
+    private int password;
+    private String username;
+    private String name;
     private int id;
     private ArrayList<Hero> heroes;
     private ArrayList<Card> cards;
@@ -21,22 +21,8 @@ public class User {
     public Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int coins;
 
-    User(){
+    Account(){
         coins = 50;
-
-    }
-    public void setUsername(String username){
-        this.username = username;
-    }
-    public String getUsername(){
-        return username;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
-    }
-    public String getPassword(){
-        return password;
     }
 
     public void setName(String name){
@@ -92,8 +78,8 @@ public class User {
     }
     public void addCard(Card card, int cnt){
         for(Hero hero : heroes){
-            if(heroCollection.get(hero).canAdd(card, cnt))
-                heroCollection.get(hero).add(card, cnt);
+            if(heroCollection.get(hero.getType()).canAdd(card, cnt))
+                heroCollection.get(hero.getType()).add(card, cnt);
         }
     }
 
@@ -102,10 +88,23 @@ public class User {
     }
     public void removeCard(Card card, int cnt){
         for(Hero hero : heroes){
-            if(heroCollection.get(hero).canRemove(card, cnt)){
-                heroCollection.get(hero).remove(card, cnt);
+            if(heroCollection.get(hero.getType()).canRemove(card, cnt)){
+                heroCollection.get(hero.getType()).remove(card, cnt);
             }
         }
     }
 
+    public int getPassword() {
+        return password;
+    }
+    public void setPassword(int password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

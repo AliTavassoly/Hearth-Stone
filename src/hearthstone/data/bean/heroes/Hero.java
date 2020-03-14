@@ -1,6 +1,6 @@
-package hearthstone.game.heroes;
+package hearthstone.data.bean.heroes;
 
-public class Hero{
+public abstract class Hero{
     private static int lastId;
     private int id;
     private String name;

@@ -1,4 +1,4 @@
-package hearthstone.adapter;
+package hearthstone.util;
 
 import java.lang.reflect.Type;
 
