@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class User {
     private String username, password, name;
     private int id;
@@ -18,8 +19,12 @@ public class User {
     private Hero currentHero;
     public Map<HeroType, Collection> heroCollection = new HashMap<>();
     public Map<HeroType, Deck> heroDeck = new HashMap<>();
-    private int gem;
+    private int coins;
 
+    User(){
+        coins = 50;
+
+    }
     public void setUsername(String username){
         this.username = username;
     }
@@ -68,18 +73,18 @@ public class User {
     public Deck getCurrentDeck(){ return heroDeck.get(currentHero.getType()); }
     //public Deck getDeck(Hero hero){ return heroDeck.get(hero.getType()); }
 
-    public void setCurrentHero(Hero heroInUse){
+    public void setCurrentHero(Hero currentHero){
         this.currentHero = currentHero;
     }
     public Hero getCurrentHero(){
         return currentHero;
     }
 
-    public void setGem(int gem){
-        this.gem = gem;
+    public void setCoins(int coins){
+        this.coins = coins;
     }
-    public int getGem(){
-        return gem;
+    public int getCoins(){
+        return coins;
     }
 
     public boolean canAddCard(Card card, int cnt){
@@ -102,4 +107,5 @@ public class User {
             }
         }
     }
+
 }
