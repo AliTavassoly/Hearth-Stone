@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class Deck {
     private Hero hero;
-    public ArrayList<Card> cards = new ArrayList<>();
-    public Map<Integer, Integer> numberOfCard = new HashMap<>();
+    private ArrayList<Card> cards = new ArrayList<>();
+    private Map<Integer, Integer> numberOfCard = new HashMap<>();
     private int deckMaxSize;
     private int maxNumberOfCard;
 

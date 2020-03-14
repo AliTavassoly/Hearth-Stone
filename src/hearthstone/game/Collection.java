@@ -10,14 +10,35 @@ import java.util.Map;
 
 public class Collection {
     private Hero hero;
-    public ArrayList<Card> cards = new ArrayList<>();
-    public Map<Integer, Integer> numberOfCard = new HashMap<>();
+    private ArrayList<Card> cards = new ArrayList<>();
+    private Map<Integer, Integer> numberOfCard = new HashMap<>();
+    private int collectionMaxSize;
+    private int maxNumberOfCard;
+
+    Collection(){
+        maxNumberOfCard = 2;
+        collectionMaxSize = 50;
+    }
 
     public ArrayList<Card> getCards() {
         return cards;
     }
 
     public Map<Integer, Integer> getNumberOfCard() { return numberOfCard; }
+
+    public void setCollectionMaxSize(int collectionMaxSize){
+        this.collectionMaxSize = collectionMaxSize;
+    }
+    public int getCollectionMaxSize(){
+        return collectionMaxSize;
+    }
+
+    public void setMaxNumberOfCard(int maxNumberOfCard){
+        this.maxNumberOfCard = maxNumberOfCard;
+    }
+    public int getMaxNumberOfCard(){
+        return maxNumberOfCard;
+    }
 
     public boolean canAdd(Card card, int cnt) {
         numberOfCard.putIfAbsent(card.getId(), 0);
@@ -31,7 +52,6 @@ public class Collection {
         }
         return true;
     }
-
     public void add(Card card, int cnt) {
         numberOfCard.putIfAbsent(card.getId(), 0);
         if(numberOfCard.get(card.getId()) == 0){
@@ -48,7 +68,6 @@ public class Collection {
         }
         return true;
     }
-
     public void remove(Card card, int cnt) {
         numberOfCard.putIfAbsent(card.getId(), 0);
         numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) - cnt);

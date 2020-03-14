@@ -45,7 +45,7 @@ public class Store {
 
     public static boolean canBuy(Card card, int cnt, User user) {
         numberOfCard.putIfAbsent(card.getId(), 0);
-        if (numberOfCard.get(card.getId()) < cnt || user.getGem() < cnt * card.getBuyCost() || !user.canAddCard(card, cnt))
+        if (numberOfCard.get(card.getId()) < cnt || user.getCoins() < cnt * card.getBuyCost() || !user.canAddCard(card, cnt))
             return false;
         if (card.getHeroType() == HeroType.ALL || user.getCurrentHero().getType() == card.getHeroType()) {
             return true;
@@ -56,7 +56,7 @@ public class Store {
     }
 
     public static void buy(Card card, int cnt, User user) {
-        user.setGem(user.getGem() - cnt * card.getBuyCost());
+        user.setCoins(user.getCoins() - cnt * card.getBuyCost());
         user.addCard(card, cnt);
         Store.removeCard(card, cnt);
     }
@@ -66,7 +66,7 @@ public class Store {
     }
 
     public static void sell(Card card, int cnt, User user) {
-        user.setGem(user.getGem() + cnt * card.getSellCost());
+        user.setCoins(user.getCoins() + cnt * card.getSellCost());
         user.removeCard(card, cnt);
         Store.addCard(card, cnt);
     }
