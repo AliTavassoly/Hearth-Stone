@@ -5,6 +5,8 @@ import hearthstone.data.bean.heroes.HeroType;
 public class MinionCard extends Card {
     private int health, attack;
 
+    public MinionCard(){ }
+
     public MinionCard(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack) {
         super(name, description, manaCost, heroType, rarity, cardType);
         this.health = health;

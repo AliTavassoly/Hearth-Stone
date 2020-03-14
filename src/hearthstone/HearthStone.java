@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class HearthStone {
+    public static final int maxCollectionSize = 50;
+    public static final int initialCoins = 50;
+    public static final int maxDeckSize = 30;
+    public static final int maxNumberOfCard = 2;
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Account currentAccount;

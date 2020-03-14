@@ -3,6 +3,7 @@ package hearthstone.gamestuff;
 import hearthstone.HearthStone;
 import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
+import hearthstone.util.HearthStoneException;
 
 import java.util.Properties;
 
@@ -18,7 +19,15 @@ public class CollectionManager {
         System.out.println(HearthStone.currentAccount.getCurrentHero().getName());
     }
 
-    //public static void selectHero(){ }
+    public static void selectHero(String heroName) throws Exception{
+        for(Hero hero : HearthStone.currentAccount.getHeroes()){
+            if(hero.getName().equals(heroName)){
+                HearthStone.currentAccount.setCurrentHero(hero);
+                return;
+            }
+        }
+        throw new HearthStoneException("An error occurred");
+    }
 
     public static void showCollectionCards() {
         if (HearthStone.currentAccount.getCurrentCollection() == null) {
@@ -44,20 +53,22 @@ public class CollectionManager {
         }
     }
 
-    public static void addToDeck(Card card, int cnt) {
+    public static void addToDeck(Card card, int cnt) throws Exception{
         if(HearthStone.currentAccount.getCurrentDeck().canAdd(card, cnt)){
             HearthStone.currentAccount.getCurrentDeck().add(card, cnt);
         }
         else{
+            throw new HearthStoneException("An error occurred");
             //System.out.println("Can not add this card !");
         }
     }
 
-    public static void removeFromDeck(Card card, int cnt) {
+    public static void removeFromDeck(Card card, int cnt) throws Exception{
         if(HearthStone.currentAccount.getCurrentDeck().canRemove(card, cnt)){
             HearthStone.currentAccount.getCurrentDeck().remove(card, cnt);
         }
         else{
+            throw new HearthStoneException("An error occurred");
             //System.out.println("Can not remove this card !");
         }
     }

@@ -8,6 +8,8 @@ public abstract class Hero{
     private int health;
     private HeroType type;
 
+    Hero(){ }
+
     Hero(String name, String description, int health, HeroType type){
         id = lastId;
 

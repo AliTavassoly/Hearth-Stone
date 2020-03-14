@@ -1,5 +1,6 @@
 package hearthstone.data.bean;
 
+import hearthstone.HearthStone;
 import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
 
@@ -11,29 +12,6 @@ public class Deck {
     private Hero hero;
     private ArrayList<Card> cards = new ArrayList<>();
     private Map<Integer, Integer> numberOfCard = new HashMap<>();
-    private int deckMaxSize;
-    private int maxNumberOfCard;
-
-    Deck() {
-        maxNumberOfCard = 2;
-        deckMaxSize = 30;
-    }
-
-    public int getDeckMaxSize() {
-        return deckMaxSize;
-    }
-
-    public void setDeckMaxSize(int deckMaxSize) {
-        this.deckMaxSize = deckMaxSize;
-    }
-
-    public int getMaxNumberOfCard() {
-        return maxNumberOfCard;
-    }
-
-    public void setMaxNumberOfCard(int maxNumberOfCard) {
-        this.maxNumberOfCard = maxNumberOfCard;
-    }
 
     public ArrayList<Card> getCards() {
         return cards;
@@ -53,13 +31,13 @@ public class Deck {
 
     public boolean canAdd(Card card, int cnt) {
         numberOfCard.putIfAbsent(card.getId(), 0);
-        if (currentNumberOfCards() + cnt > getDeckMaxSize()) {
+        if (currentNumberOfCards() + cnt > HearthStone.maxDeckSize) {
             return false;
         }
         if (card.getHeroType() != hero.getType()) {
             return false;
         }
-        if (numberOfCard.get(card.getId()) + cnt > maxNumberOfCard) {
+        if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxDeckSize) {
             return false;
         }
         return true;

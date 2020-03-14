@@ -1,5 +1,6 @@
 package hearthstone.data.bean;
 
+import hearthstone.HearthStone;
 import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
 import hearthstone.data.bean.heroes.HeroType;
@@ -13,13 +14,6 @@ public class Collection {
     private Hero hero;
     private ArrayList<Card> cards = new ArrayList<>();
     private Map<Integer, Integer> numberOfCard = new HashMap<>();
-    private int collectionMaxSize;
-    private int maxNumberOfCard;
-
-    Collection() {
-        maxNumberOfCard = 2;
-        collectionMaxSize = 50;
-    }
 
     public ArrayList<Card> getCards() {
         return cards;
@@ -29,21 +23,6 @@ public class Collection {
         return numberOfCard;
     }
 
-    public void setCollectionMaxSize(int collectionMaxSize) {
-        this.collectionMaxSize = collectionMaxSize;
-    }
-
-    public int getCollectionMaxSize() {
-        return collectionMaxSize;
-    }
-
-    public void setMaxNumberOfCard(int maxNumberOfCard) {
-        this.maxNumberOfCard = maxNumberOfCard;
-    }
-
-    public int getMaxNumberOfCard() {
-        return maxNumberOfCard;
-    }
 
     public int getNumberOfAllCards(){
         int sum = 0;
@@ -58,7 +37,7 @@ public class Collection {
         if (card.getHeroType() == HeroType.ALL || card.getHeroType() != hero.getType()) {
             return false;
         }
-        if (numberOfCard.get(card.getId()) + cnt > maxNumberOfCard || getNumberOfAllCards() + cnt > collectionMaxSize) {
+        if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard || getNumberOfAllCards() + cnt > HearthStone.maxCollectionSize) {
             return false;
         }
         return true;
@@ -69,10 +48,10 @@ public class Collection {
         if (card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType()) {
             throw new HearthStoneException("Hero does not match !");
         }
-        if(numberOfCard.get(card.getId()) + cnt > maxNumberOfCard){
+        if(numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard){
             throw new HearthStoneException("Can not have this number of this card !");
         }
-        if(getNumberOfAllCards() + cnt > collectionMaxSize){
+        if(getNumberOfAllCards() + cnt > HearthStone.maxCollectionSize){
             throw new HearthStoneException("Not enough space !");
         }
         if (numberOfCard.get(card.getId()) == 0) {

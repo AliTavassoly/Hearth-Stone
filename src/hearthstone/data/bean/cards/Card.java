@@ -13,7 +13,8 @@ public abstract class Card {
     private CardType cardType;
     private int buyCost, sellCost;
 
-    Card(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
+    public Card(){ }
+    public Card(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
         id = lastId;
         this.name = name;
         this.description = description;

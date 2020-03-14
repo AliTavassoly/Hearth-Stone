@@ -24,7 +24,7 @@ public class Account {
     private int coins;
 
     Account() {
-        coins = 50;
+        coins = HearthStone.initialCoins;
     }
 
     public void setName(String name) {
