@@ -42,10 +42,21 @@ public class CollectionManager {
         }
     }
 
-    public static void addToDeck() {
-
+    public static void addToDeck(Card card, int cnt) {
+        if(Properties.currentUser.getCurrentDeck().canAdd(card, cnt)){
+            Properties.currentUser.getCurrentDeck().add(card, cnt);
+        }
+        else{
+            //System.out.println("Can not add this card !");
+        }
     }
 
-    public static void removeFromDeck() {
+    public static void removeFromDeck(Card card, int cnt) {
+        if(Properties.currentUser.getCurrentDeck().canRemove(card, cnt)){
+            Properties.currentUser.getCurrentDeck().remove(card, cnt);
+        }
+        else{
+            //System.out.println("Can not remove this card !");
+        }
     }
 }

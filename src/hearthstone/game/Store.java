@@ -36,6 +36,7 @@ public class Store {
     }
 
     public static void addCard(Card card, int cnt) {
+        numberOfCard.putIfAbsent(card.getId(), 0);
         if(numberOfCard.get(card.getId()) == 0){
             cards.add(card);
         }
@@ -43,6 +44,7 @@ public class Store {
     }
 
     public static boolean canBuy(Card card, int cnt, User user) {
+        numberOfCard.putIfAbsent(card.getId(), 0);
         if (numberOfCard.get(card.getId()) < cnt || user.getGem() < cnt * card.getBuyCost() || !user.canAddCard(card, cnt))
             return false;
         if (card.getHeroType() == HeroType.ALL || user.getHero().getType() == card.getHeroType()) {
