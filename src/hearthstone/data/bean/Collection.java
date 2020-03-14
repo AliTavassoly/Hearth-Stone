@@ -63,7 +63,8 @@ public class Collection {
         }
         return true;
     }
-    public void add(Card card, int cnt) throws HearthStoneException {
+
+    public void add(Card card, int cnt) throws Exception {
         numberOfCard.putIfAbsent(card.getId(), 0);
         if (card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType()) {
             throw new HearthStoneException("Hero does not match !");
@@ -83,7 +84,8 @@ public class Collection {
     public boolean canRemove(Card card, int cnt){
         return numberOfCard.get(card.getId()) - cnt >= 0;
     }
-    public void remove(Card card, int cnt) throws HearthStoneException {
+
+    public void remove(Card card, int cnt) throws Exception {
         numberOfCard.putIfAbsent(card.getId(), 0);
         if (numberOfCard.get(card.getId()) - cnt < 0) {
             throw new HearthStoneException("It does not exist this number from this card !");

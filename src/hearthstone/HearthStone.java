@@ -21,7 +21,10 @@ public class HearthStone {
     }
 
     public static void register(String username, String password, String repeat) throws Exception{
-        Data.addAccountCredentials(username, password, repeat);
+        if(!password.equals(repeat)){
+            throw new HearthStoneException("Passwords does not match !");
+        }
+        Data.addAccountCredentials(username, password);
     }
 
     public static void main(String[] args) {

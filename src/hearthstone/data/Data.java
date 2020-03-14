@@ -21,7 +21,7 @@ public class Data {
         }
     }
 
-    public static void addAccountCredentials(String username, String password, String repeat) throws Exception {
+    public static void addAccountCredentials(String username, String password) throws Exception {
         if(accounts.containsKey(username)){
             throw new HearthStoneException("This username is already exists !");
         }
