@@ -1,8 +1,10 @@
 package hearthstone.data.bean;
 
+import hearthstone.HearthStone;
 import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
 import hearthstone.data.bean.heroes.HeroType;
+import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,82 +23,95 @@ public class Account {
     public Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int coins;
 
-    Account(){
+    Account() {
         coins = 50;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
-    public int getId(){
+
+    public int getId() {
         return id;
     }
 
-    public void setHeroes(ArrayList<Hero> heroes){
+    public void setHeroes(ArrayList<Hero> heroes) {
         this.heroes = heroes;
     }
-    public ArrayList<Hero> getHeroes(){
+
+    public ArrayList<Hero> getHeroes() {
         return heroes;
     }
 
-    public void setBaseCards(ArrayList<Card> cards){
+    public void setBaseCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
-    public ArrayList<Card> getBaseCards(){
+
+    public ArrayList<Card> getBaseCards() {
         return cards;
     }
 
-    public Collection getCurrentCollection(){ return heroCollection.get(currentHero.getType()); }
+    public Collection getCurrentCollection() {
+        return heroCollection.get(currentHero.getType());
+    }
     //public Collection getCollection(Hero hero){ return heroCollection.get(hero.getType()); }
 
-    public Deck getCurrentDeck(){ return heroDeck.get(currentHero.getType()); }
+    public Deck getCurrentDeck() {
+        return heroDeck.get(currentHero.getType());
+    }
     //public Deck getDeck(Hero hero){ return heroDeck.get(hero.getType()); }
 
-    public void setCurrentHero(Hero currentHero){
+    public void setCurrentHero(Hero currentHero) {
         this.currentHero = currentHero;
     }
-    public Hero getCurrentHero(){
+
+    public Hero getCurrentHero() {
         return currentHero;
     }
 
-    public void setCoins(int coins){
+    public void setCoins(int coins) {
         this.coins = coins;
     }
-    public int getCoins(){
+
+    public int getCoins() {
         return coins;
     }
 
-    public boolean canAddCard(Card card, int cnt){
-        return getCurrentCollection().canAdd(card, cnt);
+    public boolean canBuy(Card card, int cnt) {
+        return cnt * card.getBuyCost() <= coins && getCurrentCollection().canAdd(card, cnt);
     }
-    public void addCard(Card card, int cnt){
-        for(Hero hero : heroes){
-            if(heroCollection.get(hero.getType()).canAdd(card, cnt))
+
+    public void buyCards(Card card, int cnt) throws Exception {
+        if (card.getBuyCost() * cnt > coins) {
+            throw new HearthStoneException("Not enough coins !");
+        }
+        getCurrentCollection().add(card, cnt);
+        for (Hero hero : heroes) {
+            if (currentHero.getType() != hero.getType())
                 heroCollection.get(hero.getType()).add(card, cnt);
         }
     }
 
-    public boolean canRemoveCard(Card card, int cnt){
-        return getCurrentCollection().canRemove(card, cnt);
-    }
-    public void removeCard(Card card, int cnt){
-        for(Hero hero : heroes){
-            if(heroCollection.get(hero.getType()).canRemove(card, cnt)){
+    public void sellCards(Card card, int cnt) throws Exception {
+        getCurrentCollection().remove(card, cnt);
+        for (Hero hero : heroes) {
+            if (hero.getType() != currentHero.getType())
                 heroCollection.get(hero.getType()).remove(card, cnt);
-            }
         }
     }
 
     public int getPassword() {
         return password;
     }
+
     public void setPassword(int password) {
         this.password = password;
     }
@@ -104,6 +119,7 @@ public class Account {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
