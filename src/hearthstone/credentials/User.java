@@ -15,7 +15,7 @@ public class User {
     private int id;
     private ArrayList<Hero> heroes;
     private ArrayList<Card> cards;
-    private Hero hero;
+    private Hero currentHero;
     public Map<HeroType, Collection> heroCollection = new HashMap<>();
     public Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int gem;
@@ -62,17 +62,17 @@ public class User {
         return cards;
     }
 
-    public Collection getCurrentCollection(){ return heroCollection.get(getHero().getType()); }
+    public Collection getCurrentCollection(){ return heroCollection.get(currentHero.getType()); }
     //public Collection getCollection(Hero hero){ return heroCollection.get(hero.getType()); }
 
-    public Deck getCurrentDeck(){ return heroDeck.get(getHero().getType()); }
+    public Deck getCurrentDeck(){ return heroDeck.get(currentHero.getType()); }
     //public Deck getDeck(Hero hero){ return heroDeck.get(hero.getType()); }
 
-    public void setHero(Hero heroInUse){
-        this.hero = hero;
+    public void setCurrentHero(Hero heroInUse){
+        this.currentHero = currentHero;
     }
-    public Hero getHero(){
-        return hero;
+    public Hero getCurrentHero(){
+        return currentHero;
     }
 
     public void setGem(int gem){

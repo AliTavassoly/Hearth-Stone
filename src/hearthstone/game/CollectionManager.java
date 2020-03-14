@@ -13,7 +13,7 @@ public class CollectionManager {
     }
 
     public static void showMyHero() {
-        System.out.println(Properties.currentUser.getHero().getName());
+        System.out.println(Properties.currentUser.getCurrentHero().getName());
     }
 
     //public static void selectHero(){ }

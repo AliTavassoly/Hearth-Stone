@@ -20,7 +20,7 @@ public class Store {
 
     public static void showCardsCanBuy(User user) {
         for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getHeroType() == HeroType.ALL || cards.get(i).getHeroType() == user.getHero().getType()) {
+            if (cards.get(i).getHeroType() == HeroType.ALL || cards.get(i).getHeroType() == user.getCurrentHero().getType()) {
                 if (user.canAddCard(cards.get(i), 1)) {
                     //System.out.println(cards.get(i).getName());
                 }
@@ -47,7 +47,7 @@ public class Store {
         numberOfCard.putIfAbsent(card.getId(), 0);
         if (numberOfCard.get(card.getId()) < cnt || user.getGem() < cnt * card.getBuyCost() || !user.canAddCard(card, cnt))
             return false;
-        if (card.getHeroType() == HeroType.ALL || user.getHero().getType() == card.getHeroType()) {
+        if (card.getHeroType() == HeroType.ALL || user.getCurrentHero().getType() == card.getHeroType()) {
             return true;
         } else {
             //System.err.println("This card can not be used for this hero !");

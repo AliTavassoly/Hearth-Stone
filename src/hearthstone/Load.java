@@ -4,7 +4,6 @@ import hearthstone.game.cards.CardType;
 import hearthstone.game.cards.MinionCard;
 import hearthstone.game.cards.Rarity;
 import hearthstone.game.cards.SpellCard;
-import hearth.stone.game.cards.*;
 import hearthstone.game.heroes.HeroType;
 import hearthstone.game.heroes.Rogue;
 
