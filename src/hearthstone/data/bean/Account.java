@@ -19,8 +19,8 @@ public class Account {
     private ArrayList<Hero> heroes;
     private ArrayList<Card> cards;
     private Hero currentHero;
-    public Map<HeroType, Collection> heroCollection = new HashMap<>();
-    public Map<HeroType, Deck> heroDeck = new HashMap<>();
+    private Map<HeroType, Collection> heroCollection = new HashMap<>();
+    private Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int coins;
 
     Account() {
@@ -86,26 +86,24 @@ public class Account {
     }
 
     public boolean canBuy(Card card, int cnt) {
-        return cnt * card.getBuyCost() <= coins && getCurrentCollection().canAdd(card, cnt);
+        return cnt * card.getBuyPrice() <= coins && getCurrentCollection().canAdd(card, cnt);
     }
 
     public void buyCards(Card card, int cnt) throws Exception {
-        if (card.getBuyCost() * cnt > coins) {
+        if (card.getBuyPrice() * cnt > coins) {
             throw new HearthStoneException("Not enough coins !");
         }
-        getCurrentCollection().add(card, cnt);
         for (Hero hero : heroes) {
-            if (currentHero.getType() != hero.getType())
-                heroCollection.get(hero.getType()).add(card, cnt);
+            heroCollection.get(hero.getType()).add(card, cnt);
         }
+        coins -= card.getBuyPrice() * cnt;
     }
 
     public void sellCards(Card card, int cnt) throws Exception {
-        getCurrentCollection().remove(card, cnt);
         for (Hero hero : heroes) {
-            if (hero.getType() != currentHero.getType())
-                heroCollection.get(hero.getType()).remove(card, cnt);
+            heroCollection.get(hero.getType()).remove(card, cnt);
         }
+        coins += card.getSellPrice() * cnt;
     }
 
     public int getPassword() {

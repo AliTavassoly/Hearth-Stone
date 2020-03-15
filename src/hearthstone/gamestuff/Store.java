@@ -44,24 +44,30 @@ public class Store {
         numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) + cnt);
     }
 
-    public static void buy(Card card, int cnt, Account account){
-        try{
-            account.buyCards(card, cnt);
-        } catch (HearthStoneException e){
-            System.out.println(e.getMessage());
-        } catch (Exception e){
-            System.out.println("An error occurred !");
+    public static void buy(Card card, int cnt, Account account) throws Exception{
+        if(numberOfCard.get(card.getId()) > cnt){
+            throw new HearthStoneException("There is not this amount from this card !");
+        }
+        account.buyCards(card, cnt);
+        removeCard(card, cnt);
+    }
+
+    public static void sell(Card card, int cnt, Account account) throws Exception{
+        account.sellCards(card, cnt);
+        addCard(card, cnt);
+    }
+
+    public static void main(String[] args) {
+        while (true) {
+            try {
+
+            } catch (HearthStoneException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("An error occurred !");
+            }
         }
     }
 
-    public static void sell(Card card, int cnt, Account account){
-        try{
-            account.sellCards(card, cnt);
-        } catch (HearthStoneException e){
-            System.out.println(e.getMessage());
-        } catch (Exception e){
-            System.out.println("An error occurred !");
-        }
-    }
 }
 

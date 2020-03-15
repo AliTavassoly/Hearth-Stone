@@ -19,29 +19,33 @@ public class CollectionManager {
         System.out.println(HearthStone.currentAccount.getCurrentHero().getName());
     }
 
-    public static void selectHero(String heroName) throws Exception{
-        for(Hero hero : HearthStone.currentAccount.getHeroes()){
-            if(hero.getName().equals(heroName)){
+    public static void selectHero(String heroName) throws Exception {
+        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
+            if (hero.getName().equals(heroName)) {
                 HearthStone.currentAccount.setCurrentHero(hero);
                 return;
             }
         }
-        throw new HearthStoneException("An error occurred");
+        throw new HearthStoneException("This hero does not exist or you can not choose it !");
     }
 
     public static void showCollectionCards() {
-        if (HearthStone.currentAccount.getCurrentCollection() == null) {
-            System.out.println("No cards is in your hand");
+        if (HearthStone.currentAccount.getCurrentCollection() == null || HearthStone.currentAccount.getCurrentCollection().getCards().size() == 0) {
+            System.out.println("No cards is in your Collection !");
         } else {
-            System.out.println(HearthStone.currentAccount.getCurrentCollection());
+            for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
+                System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentCollection().getNumberOfCard().get(card.getId()));
+            }
         }
     }
 
     public static void showDeckCards() {
-        if (HearthStone.currentAccount.getCurrentDeck() == null) {
-            System.out.println("No cards is in your hand");
+        if (HearthStone.currentAccount.getCurrentDeck() == null || HearthStone.currentAccount.getCurrentDeck().getCards().size() == 0) {
+            System.out.println("No cards is in your Deck !");
         } else {
-            System.out.println(HearthStone.currentAccount.getCurrentDeck());
+            for (Card card : HearthStone.currentAccount.getCurrentDeck().getCards()) {
+                System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentDeck().getNumberOfCard().get(card.getId()));
+            }
         }
     }
 
@@ -53,23 +57,23 @@ public class CollectionManager {
         }
     }
 
-    public static void addToDeck(Card card, int cnt) throws Exception{
-        if(HearthStone.currentAccount.getCurrentDeck().canAdd(card, cnt)){
-            HearthStone.currentAccount.getCurrentDeck().add(card, cnt);
-        }
-        else{
-            throw new HearthStoneException("An error occurred");
-            //System.out.println("Can not add this card !");
-        }
+    public static void addToDeck(Card card, int cnt) throws Exception {
+        HearthStone.currentAccount.getCurrentDeck().add(card, cnt);
     }
 
-    public static void removeFromDeck(Card card, int cnt) throws Exception{
-        if(HearthStone.currentAccount.getCurrentDeck().canRemove(card, cnt)){
-            HearthStone.currentAccount.getCurrentDeck().remove(card, cnt);
-        }
-        else{
-            throw new HearthStoneException("An error occurred");
-            //System.out.println("Can not remove this card !");
+    public static void removeFromDeck(Card card, int cnt) throws Exception {
+        HearthStone.currentAccount.getCurrentDeck().remove(card, cnt);
+    }
+
+    public static void main(String[] args) {
+        while (true) {
+            try {
+
+            } catch (HearthStoneException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("An error occurred !");
+            }
         }
     }
 }

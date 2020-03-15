@@ -7,6 +7,7 @@ import hearthstone.data.bean.heroes.Hero;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -29,6 +30,11 @@ public class HearthStone {
             throw new HearthStoneException("Passwords does not match !");
         }
         Data.addAccountCredentials(username, password);
+    }
+
+    public static void logout(Account account) throws Exception{
+        FileWriter writer = new FileWriter("./users" + account.getId() + ".json");
+        gson.toJson(account, "./test.json");
     }
 
     public static void main(String[] args) {

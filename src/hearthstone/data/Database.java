@@ -29,4 +29,8 @@ public class Database {
     }
 
     public static void loadStore(){}
+
+    public static void loadUsers(){
+
+    }
 }

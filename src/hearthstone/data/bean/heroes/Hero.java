@@ -1,7 +1,6 @@
 package hearthstone.data.bean.heroes;
 
 public abstract class Hero{
-    private static int lastId;
     private int id;
     private String name;
     private String description;
@@ -11,39 +10,50 @@ public abstract class Hero{
     Hero(){ }
 
     Hero(String name, String description, int health, HeroType type){
-        id = lastId;
-
         this.name = name;
         this.description = description;
         this.health = health;
         this.type = type;
-
-        lastId++;
     }
 
-    public void setType(HeroType heroType){
-        this.type = heroType;
-    }
-    public HeroType getType(){
-        return type;
-    }
 
-    public int getLastId(){
-        return lastId;
-    }
-
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public String getName(){
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setHealth(int health){
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
         this.health = health;
     }
-    public int getHealth(){
-        return health;
+
+    public HeroType getType() {
+        return type;
+    }
+
+    public void setType(HeroType type) {
+        this.type = type;
     }
 }
