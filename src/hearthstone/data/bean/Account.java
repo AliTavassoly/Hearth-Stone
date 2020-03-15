@@ -12,7 +12,6 @@ import java.util.Map;
 
 
 public class Account {
-    private int password;
     private String username;
     private String name;
     private int id;
@@ -23,7 +22,14 @@ public class Account {
     private Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int coins;
 
-    Account() {
+    public Account() {
+        coins = HearthStone.initialCoins;
+    }
+
+    public Account(int id, String name, String username){
+        this.id = id;
+        this.name = name;
+        this.username = username;
         coins = HearthStone.initialCoins;
     }
 
@@ -104,14 +110,6 @@ public class Account {
             heroCollection.get(hero.getType()).remove(card, cnt);
         }
         coins += card.getSellPrice() * cnt;
-    }
-
-    public int getPassword() {
-        return password;
-    }
-
-    public void setPassword(int password) {
-        this.password = password;
     }
 
     public String getUsername() {

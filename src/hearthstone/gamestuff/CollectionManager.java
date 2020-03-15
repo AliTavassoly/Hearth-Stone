@@ -5,8 +5,6 @@ import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
 import hearthstone.util.HearthStoneException;
 
-import java.util.Properties;
-
 public class CollectionManager {
 
     public static void showAllHeroes() {
@@ -65,7 +63,7 @@ public class CollectionManager {
         HearthStone.currentAccount.getCurrentDeck().remove(card, cnt);
     }
 
-    public static void main(String[] args) {
+    public static void cli() {
         while (true) {
             try {
 
