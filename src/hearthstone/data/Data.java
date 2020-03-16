@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Data {
-    private static Map<String, AccountCredential> accounts = new HashMap<>();
+    public static Map<String, AccountCredential> accounts = new HashMap<>();
 
     public static void setAccounts(Map<String, AccountCredential> accounts) {
             Data.accounts = accounts;

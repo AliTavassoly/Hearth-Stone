@@ -43,6 +43,7 @@ public class DataBase {
     }
 
     public static Map<String, AccountCredential> getCredentials() throws Exception {
+//        System.out.println(dataPath);
         File json = new File(dataPath + "/credentials.json");
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/credentials.json");
@@ -77,6 +78,8 @@ public class DataBase {
     }
 
     public static void saveAccount(Account account) throws Exception {
+        File json = new File(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
+        json.createNewFile();
         FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
         gson.toJson(account, fileWriter);
         fileWriter.flush();
@@ -100,23 +103,24 @@ public class DataBase {
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
-        saveCurrentAccount();
+        if (currentAccount != null)
+            saveCurrentAccount();
     }
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Card.class,new InterfaceAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class,new InterfaceAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Card.class, new InterfaceAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new InterfaceAdapter<Hero>());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
         Data.setAccounts(getCredentials());
 
-        var configs = getConfigs();
+        /*var configs = getConfigs();
         maxCollectionSize = (int) configs.get("maxCollectionSize");
         maxDeckSize = (int) configs.get("maxDeckSize");
         initialCoins = (int) configs.get("initialCoins");
-        maxNumberOfCard = (int) configs.get("maxNumberOfCard");
+        maxNumberOfCard = (int) configs.get("maxNumberOfCard");*/
 
         market = getMarket();
     }
