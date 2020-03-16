@@ -83,13 +83,13 @@ public class CollectionManager {
         HearthStone.currentAccount.getCurrentDeck().remove(currentCard, cnt);
     }
 
-    public static void cli() {
+    public static void cli(){
+        Scanner scanner = new Scanner(System.in);
+        String command, cardName, heroName, sure;
+        int number;
+
         while (true) {
             try {
-                Scanner scanner = new Scanner(System.in);
-                String command, cardName, heroName, sure;
-                int number;
-
                 System.out.print("@" + HearthStone.currentAccount.getUsername() + " "+ " account @collection manager, please enter your command : ");
                 command = scanner.next();
 
@@ -125,12 +125,14 @@ public class CollectionManager {
                         System.out.print("please enter number of it you want to add : ");
                         number = scanner.nextInt();
                         addToDeck(cardName, number);
+                        //LOG : add to deck
                     case "remove" :
                         System.out.print("please enter card name : ");
                         cardName = scanner.next();
                         System.out.print("please enter number of it you want to remove : ");
                         number = scanner.nextInt();
                         removeFromDeck(cardName, number);
+                        //LOG : remove from deck
                     case "exit" :
                         HearthStone.cli();
                     case "EXIT" :

@@ -92,13 +92,12 @@ public class Market {
     }
 
     public static void cli() {
+        Scanner scanner = new Scanner(System.in);
+        String command, cardName, sure;
+        int number;
 
         while (true) {
             try {
-                Scanner scanner = new Scanner(System.in);
-                String command, cardName, sure;
-                int number;
-
                 System.out.print("@" + HearthStone.currentAccount.getUsername() + " "+ " account @market, please enter your command : ");
                 command = scanner.next();
 
@@ -123,18 +122,21 @@ public class Market {
                         System.out.print("how many you want to buy : ");
                         number = scanner.nextInt();
                         HearthStone.market.buy(cardName, number);
+                        //LOG : buy
                     case "sell":
                         System.out.print("card name : ");
                         cardName = scanner.nextLine();
                         System.out.print("how many you want to sell : ");
                         number = scanner.nextInt();
                         HearthStone.market.sell(cardName, number);
+                        //LOG : sell
                     case "exit" :
                         HearthStone.cli();
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
                         if(sure.equals("y")) {
+                            //LOG : registration
                             HearthStone.logout();
                             System.exit(0);
                         }

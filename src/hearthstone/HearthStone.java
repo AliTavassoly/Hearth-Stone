@@ -48,12 +48,15 @@ public class HearthStone {
     }
 
     public static void loginCli(){
+        Scanner scanner = new Scanner(System.in);
+        String name, username, password, repeat, sure;
+
         while (true){
             try {
-                Scanner scanner = new Scanner(System.in);
-                String name, username, password, repeat, sure;
-                String command = scanner.nextLine();
+                if(currentAccount != null)
+                    cli();
 
+                String command = scanner.nextLine();
                 System.out.print("@login/register page, please enter your command : ");
 
                 switch (command) {
@@ -67,7 +70,7 @@ public class HearthStone {
                         System.out.print("password : ");
                         password = scanner.next();
                         login(username, password);
-                        return;
+                        //LOG : login
                     case "register" :
                         System.out.print("enter your name : ");
                         name = scanner.next();
@@ -78,11 +81,12 @@ public class HearthStone {
                         System.out.print("repeat your password : ");
                         repeat = scanner.next();
                         register(name, username, password, repeat);
-                        return;
+                        //LOG : registration
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
                         if(sure.equals("y")) {
+                            //LOG : registration
                             logout();
                             System.exit(0);
                         }
@@ -97,14 +101,14 @@ public class HearthStone {
         }
     }
 
+
     public static void cli(){
+        String sure, password;
+        Scanner scanner = new Scanner(System.in);
         while (true){
             try {
                 if (currentAccount == null)
                     loginCli();
-
-                Scanner scanner = new Scanner(System.in);
-                String sure, password;
 
                 System.out.print("@" + currentAccount.getUsername() + " "+ " account, please enter your command : ");
                 String command = scanner.nextLine();
