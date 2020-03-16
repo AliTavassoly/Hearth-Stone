@@ -10,7 +10,7 @@ import hearthstone.data.bean.heroes.Hero;
 import hearthstone.data.bean.heroes.HeroType;
 import hearthstone.data.bean.heroes.Rogue;
 import hearthstone.HearthStone;
-import hearthstone.gamestuff.Store;
+import hearthstone.gamestuff.Market;
 import hearthstone.util.InterfaceAdapter;
 
 import java.io.*;
@@ -42,9 +42,6 @@ public class DataBase {
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
     }
 
-    public static void loadStore() {
-    }
-
     public static Map<String, AccountCredential> getCredentials() throws Exception {
         File json = new File(dataPath + "/credentials.json");
         json.createNewFile();
@@ -68,11 +65,11 @@ public class DataBase {
         }.getType());
     }
 
-    public static Store getStore() throws Exception {
-        File json = new File(dataPath + "/store.json");
+    public static Market getMarket() throws Exception {
+        File json = new File(dataPath + "/market.json");
         json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/store.json");
-        return gson.fromJson(fileReader, Store.class);
+        FileReader fileReader = new FileReader(dataPath + "/market.json");
+        return gson.fromJson(fileReader, Market.class);
     }
 
     public static void saveCurrentAccount() throws Exception {
@@ -93,16 +90,16 @@ public class DataBase {
         fileWriter.close();
     }
 
-    public static void saveStore() throws Exception {
-        FileWriter fileWriter = new FileWriter(dataPath + "/store.json");
-        gson.toJson(store, fileWriter);
+    public static void saveMarket() throws Exception {
+        FileWriter fileWriter = new FileWriter(dataPath + "/market.json");
+        gson.toJson(market, fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
     public static void save() throws Exception {
         saveCredentials();
-        saveStore();
+        saveMarket();
         saveCurrentAccount();
     }
 
@@ -121,6 +118,6 @@ public class DataBase {
         initialCoins = (int) configs.get("initialCoins");
         maxNumberOfCard = (int) configs.get("maxNumberOfCard");
 
-        store = getStore();
+        market = getMarket();
     }
 }

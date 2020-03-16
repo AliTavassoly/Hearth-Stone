@@ -95,6 +95,10 @@ public class Account {
         return cnt * card.getBuyPrice() <= coins && getCurrentCollection().canAdd(card, cnt);
     }
 
+    public boolean canSell(Card card, int cnt){
+        return getCurrentCollection().canRemove(card, cnt);
+    }
+
     public void buyCards(Card card, int cnt) throws Exception {
         if (card.getBuyPrice() * cnt > coins) {
             throw new HearthStoneException("Not enough coins !");
