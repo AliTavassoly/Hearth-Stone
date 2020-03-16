@@ -56,14 +56,15 @@ public class HearthStone {
                 if(currentAccount != null)
                     cli();
 
-                String command = scanner.nextLine();
                 System.out.print("@login/register page, please enter your command : ");
+                String command = scanner.nextLine();
 
                 switch (command) {
                     case "help" :
                         System.out.println("login : if you already have an account !");
                         System.out.println("register : if you want to create new account !");
                         System.out.println("EXIT : if you want to exit from Hearth Stone !");
+                        break;
                     case "login" :
                         System.out.print("username : ");
                         username = scanner.next();
@@ -71,6 +72,7 @@ public class HearthStone {
                         password = scanner.next();
                         login(username, password);
                         //LOG : login
+                        break;
                     case "register" :
                         System.out.print("enter your name : ");
                         name = scanner.next();
@@ -82,6 +84,7 @@ public class HearthStone {
                         repeat = scanner.next();
                         register(name, username, password, repeat);
                         //LOG : registration
+                        break;
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
@@ -90,6 +93,7 @@ public class HearthStone {
                             logout();
                             System.exit(0);
                         }
+                        break;
                     default :
                         System.out.println("please enter correct command !");
                 }
@@ -100,7 +104,6 @@ public class HearthStone {
             }
         }
     }
-
 
     public static void cli(){
         String sure, password;
@@ -120,10 +123,13 @@ public class HearthStone {
                         System.out.println("delete : delete your account !");
                         System.out.println("exit : to logout !");
                         System.out.println("EXIT : exit from Hearth Stone !");
+                        break;
                     case "store" :
                         Market.cli();
+                        break;
                     case "collection" :
                         CollectionManager.cli();
+                        break;
                     case "delete" :
                         System.out.print("are you sure you want to logout ?!(y/n) ");
                         sure = scanner.next();
@@ -132,12 +138,14 @@ public class HearthStone {
                             password = scanner.next();
                             deleteAccount(currentAccount.getUsername(), password);
                         }
+                        break;
                     case "exit" :
                         System.out.print("are you sure you want to logout ?!(y/n) ");
                         sure = scanner.next();
                         if(sure.equals("y")){
                             logout();
                         }
+                        break;
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
@@ -145,6 +153,7 @@ public class HearthStone {
                             logout();
                             System.exit(0);
                         }
+                        break;
                     default :
                         System.out.println("please enter correct command !");
                 }
@@ -166,10 +175,10 @@ public class HearthStone {
 
         try {
             DataBase.load();
+            cli();
         } catch (Exception e){
-            System.out.println("Failed to load DataBase !");
+            System.out.println(e.getMessage());
+            //System.out.println("Failed to load DataBase !");
         }
-
-        cli();
     }
 }

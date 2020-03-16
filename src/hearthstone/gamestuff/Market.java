@@ -110,12 +110,16 @@ public class Market {
                         System.out.println("sell : to sell cards, then you should enter card name and number of card you want to sell");
                         System.out.println("exit : exit from market and back to main menu !");
                         System.out.println("EXIT : exit from hearth stone !");
+                        break;
                     case "wallet":
                         HearthStone.market.showWallet();
+                        break;
                     case "cs":
                         HearthStone.market.showCardsCanSell();
+                        break;
                     case "cb":
                         HearthStone.market.showCardsCanBuy();
+                        break;
                     case "buy":
                         System.out.print("card name : ");
                         cardName = scanner.nextLine();
@@ -123,6 +127,7 @@ public class Market {
                         number = scanner.nextInt();
                         HearthStone.market.buy(cardName, number);
                         //LOG : buy
+                        break;
                     case "sell":
                         System.out.print("card name : ");
                         cardName = scanner.nextLine();
@@ -130,8 +135,10 @@ public class Market {
                         number = scanner.nextInt();
                         HearthStone.market.sell(cardName, number);
                         //LOG : sell
+                        break;
                     case "exit" :
                         HearthStone.cli();
+                        break;
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
@@ -140,6 +147,7 @@ public class Market {
                             HearthStone.logout();
                             System.exit(0);
                         }
+                        break;
                     default :
                         System.out.println("please enter correct command !");
                 }

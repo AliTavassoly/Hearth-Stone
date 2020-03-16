@@ -43,32 +43,31 @@ public class DataBase {
     }
 
     public static Map<String, AccountCredential> getCredentials() throws Exception {
-        File json = new File(dataPath + "/credentials.json");
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/credentials.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {
-        }.getType());
+        System.out.println("safafafaf");
+        FileReader fileReader = new FileReader("credentials.json");
+        System.out.println("safafafaf");
+        return gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {}.getType());
     }
 
     public static Account getAccount(int id) throws Exception {
-        File json = new File(dataPath + "/accounts" + "/account_" + id + ".json");
+        File json = new File( "/accounts" + "/account_" + id + ".json");
         json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/accounts" + "/account_" + id + ".json");
+        FileReader fileReader = new FileReader("/accounts" + "/account_" + id + ".json");
         return gson.fromJson(fileReader, Account.class);
     }
 
     public static Map<String, Object> getConfigs() throws Exception {
-        File json = new File(dataPath + "/configs.json");
+        File json = new File("/configs.json");
         json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/configs.json");
+        FileReader fileReader = new FileReader("/configs.json");
         return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
         }.getType());
     }
 
     public static Market getMarket() throws Exception {
-        File json = new File(dataPath + "/market.json");
+        File json = new File("/market.json");
         json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/market.json");
+        FileReader fileReader = new FileReader("/market.json");
         return gson.fromJson(fileReader, Market.class);
     }
 
@@ -77,21 +76,25 @@ public class DataBase {
     }
 
     public static void saveAccount(Account account) throws Exception {
-        FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
+        FileWriter fileWriter = new FileWriter("/accounts" + "/account_" + account.getId() + ".json");
+
         gson.toJson(account, fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
     public static void saveCredentials() throws Exception {
-        FileWriter fileWriter = new FileWriter(dataPath + "/credentials.json");
+        System.out.println("hi");
+        FileWriter fileWriter = new FileWriter("/credentials.json");
+        System.out.println("hi");
         gson.toJson(Data.getAccounts(), fileWriter);
+        System.out.println("hi");
         fileWriter.flush();
         fileWriter.close();
     }
 
     public static void saveMarket() throws Exception {
-        FileWriter fileWriter = new FileWriter(dataPath + "/market.json");
+        FileWriter fileWriter = new FileWriter("/market.json");
         gson.toJson(market, fileWriter);
         fileWriter.flush();
         fileWriter.close();
@@ -100,23 +103,24 @@ public class DataBase {
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
-        saveCurrentAccount();
+        getCredentials().size();
+        //saveCurrentAccount();
     }
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Card.class,new InterfaceAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class,new InterfaceAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Card.class, new InterfaceAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new InterfaceAdapter<Hero>());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
         Data.setAccounts(getCredentials());
 
-        var configs = getConfigs();
+        /*var configs = getConfigs();
         maxCollectionSize = (int) configs.get("maxCollectionSize");
         maxDeckSize = (int) configs.get("maxDeckSize");
         initialCoins = (int) configs.get("initialCoins");
-        maxNumberOfCard = (int) configs.get("maxNumberOfCard");
+        maxNumberOfCard = (int) configs.get("maxNumberOfCard");*/
 
         market = getMarket();
     }

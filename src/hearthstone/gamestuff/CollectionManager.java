@@ -105,20 +105,27 @@ public class CollectionManager {
                         System.out.println("remove : you can remove cards from you deck !");
                         System.out.println("exit : exit from collection manager !");
                         System.out.println("EXIT : exit from hearth stone !");
+                        break;
                     case "select hero" :
                         System.out.print("select your hero name : ");
                         heroName = scanner.next();
                         selectHero(heroName);
+                        break;
                     case "all heroes" :
                         showAllHeroes();
+                        break;
                     case "my hero" :
                         showMyHero();
+                        break;
                     case "my cards" :
                         showCollectionCards();
+                        break;
                     case "my deck" :
                         showDeckCards();
+                        break;
                     case "can add" :
                         showAddableCards();
+                        break;
                     case "add" :
                         System.out.print("please enter card name : ");
                         cardName = scanner.next();
@@ -126,6 +133,7 @@ public class CollectionManager {
                         number = scanner.nextInt();
                         addToDeck(cardName, number);
                         //LOG : add to deck
+                        break;
                     case "remove" :
                         System.out.print("please enter card name : ");
                         cardName = scanner.next();
@@ -133,8 +141,10 @@ public class CollectionManager {
                         number = scanner.nextInt();
                         removeFromDeck(cardName, number);
                         //LOG : remove from deck
+                        break;
                     case "exit" :
                         HearthStone.cli();
+                        break;
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
                         sure = scanner.next();
@@ -142,6 +152,7 @@ public class CollectionManager {
                             HearthStone.logout();
                             System.exit(0);
                         }
+                        break;
                     default :
                         System.out.println("please enter correct command !");
                 }
