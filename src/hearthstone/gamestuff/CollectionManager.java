@@ -5,7 +5,6 @@ import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.Hero;
 import hearthstone.util.HearthStoneException;
 
-import java.awt.*;
 import java.util.Scanner;
 
 public class CollectionManager {

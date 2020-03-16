@@ -1,6 +1,5 @@
 package hearthstone.data;
 
-import hearthstone.data.bean.Account;
 import hearthstone.data.bean.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;

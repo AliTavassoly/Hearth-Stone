@@ -1,12 +1,10 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.bean.Account;
 import hearthstone.data.bean.cards.Card;
 import hearthstone.data.bean.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
