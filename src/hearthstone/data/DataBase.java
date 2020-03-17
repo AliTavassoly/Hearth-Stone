@@ -90,9 +90,13 @@ public class DataBase {
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
-        String newLog = title + " @ " + ts + " -> " + description + "\n";
         FileWriter fileWriter = new FileWriter(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".txt", true);
+        String newLog = username + "@" + "HearthStone" + "\n";
         fileWriter.append(newLog);
+
+        newLog = title + " @ " + ts + " -> " + description + "\n";
+        fileWriter.append(newLog);
+
         fileWriter.close();
     }
 

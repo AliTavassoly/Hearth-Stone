@@ -28,6 +28,27 @@ public class HearthStone {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
+    public static boolean userNameIsValid(String username) {
+        return username.length() >= 4;
+    }
+
+    public static boolean passwordIsValid(String username) {
+        boolean capital = false;
+        boolean number = false;
+
+        if (username.length() < 4)
+            return false;
+        for (int i = 0; i < username.length(); i++) {
+            if (username.charAt(i) >= 'A' && username.charAt(i) <= 'Z') {
+                capital = true;
+            }
+            if (username.charAt(i) >= '0' && username.charAt(i) <= '9') {
+                number = true;
+            }
+        }
+        return number && capital;
+    }
+
     public static void login(String username, String password) throws Exception {
         Data.checkAccountCredentials(username, password);
         currentAccount = DataBase.getAccount(Data.getAccountId(username));
@@ -36,6 +57,12 @@ public class HearthStone {
     public static void register(String name, String username, String password, String repeat) throws Exception {
         if (!password.equals(repeat)) {
             throw new HearthStoneException("Passwords does not match!");
+        }
+        if(!userNameIsValid(username)){
+            throw new HearthStoneException("Username should contains at least 4 character !");
+        }
+        if(!passwordIsValid(password)){
+            throw new HearthStoneException("Passwords contains at least 4 character and it should contains a capital letter and at least a digit !");
         }
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
@@ -57,7 +84,7 @@ public class HearthStone {
 
         while (true) {
             try {
-                if (currentAccount!= null)
+                if (currentAccount != null)
                     cli();
 
                 System.out.print(ANSI_YELLOW + "@HearthStone : " + ANSI_RESET);
@@ -80,9 +107,9 @@ public class HearthStone {
                     case "register":
                         System.out.print("enter your name : ");
                         name = scanner.nextLine().trim();
-                        System.out.print("enter your username : ");
+                        System.out.print("enter your username (at least 4 character) : ");
                         username = scanner.nextLine().trim();
-                        System.out.print("enter password : ");
+                        System.out.print("enter password (at least 4 character and contains digit and capital letter): ");
                         password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
                         repeat = scanner.nextLine().trim();
@@ -185,5 +212,4 @@ public class HearthStone {
             System.out.println("Failed to load DataBase!");
         }
     }
-
 }

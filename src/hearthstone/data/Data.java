@@ -32,7 +32,7 @@ public class Data {
         if(accounts.get(username).isDeleted()){
             throw new HearthStoneException("This username has been deleted!");
         }
-        DataBase.saveLog("Login", username, username);
+        DataBase.saveLog("Login", "signed in!", username);
     }
 
     public static void addAccountCredentials(String username, String password) throws Exception {
@@ -48,7 +48,7 @@ public class Data {
             throw new HearthStoneException("Password is not correct!");
         }
         accounts.get(username).setDeleted(true);
-        DataBase.saveLog("Delete Account", username);
+        DataBase.saveLog("Delete Account", "account deleted!");
     }
 
     public static int getAccountId(String username){

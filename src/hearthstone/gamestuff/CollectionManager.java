@@ -11,10 +11,9 @@ import java.util.Scanner;
 public class CollectionManager {
 
     public static void showAllHeroes() throws Exception{
-        /*for (Hero hero : HearthStone.currentAccount.getHeroes()) {
+        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
             System.out.println(hero.getName());
-        }*/
-        DataBase.saveLog("Show Hero", "Nothing");
+        }
     }
 
     public static void showMyHero() {
