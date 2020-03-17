@@ -25,6 +25,7 @@ public class HearthStone {
     public static Market market = new Market();
 
     public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
     public static void login(String username, String password) throws Exception {
@@ -89,7 +90,7 @@ public class HearthStone {
                         //LOG : registration
                         break;
                     case "EXIT":
-                        System.out.print("are you sure you want to EXIT ?!(y/n) ");
+                        System.out.print(ANSI_RED + "are you sure you want to EXIT ?!(y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             //LOG : registration
@@ -118,7 +119,7 @@ public class HearthStone {
                     loginCli();
 
                 System.out.print(ANSI_YELLOW + currentAccount.getUsername() + "@" + "HearthStone : " + ANSI_RESET);
-                String command = scanner.next().trim();
+                String command = scanner.nextLine().trim();
 
                 switch (command) {
                     case "help":
@@ -135,7 +136,7 @@ public class HearthStone {
                         CollectionManager.cli();
                         break;
                     case "delete":
-                        System.out.print("are you sure you want to logout?! (y/n) ");
+                        System.out.print(ANSI_RED + "are you sure you want to logout?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             System.out.print("enter password : ");
@@ -144,14 +145,14 @@ public class HearthStone {
                         }
                         break;
                     case "exit":
-                        System.out.print("are you sure you want to logout?! (y/n) ");
+                        System.out.print(ANSI_RED + "are you sure you want to logout?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             logout();
                         }
                         break;
                     case "EXIT":
-                        System.out.print("are you sure you want to EXIT?! (y/n) ");
+                        System.out.print(ANSI_RED + "are you sure you want to EXIT?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             logout();

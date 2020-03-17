@@ -131,6 +131,7 @@ public class CollectionManager {
                         cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to add : ");
                         number = scanner.nextInt();
+                        scanner.nextLine().trim();
                         addToDeck(cardName, number);
                         //LOG : add to deck
                         break;
@@ -139,6 +140,7 @@ public class CollectionManager {
                         cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to remove : ");
                         number = scanner.nextInt();
+                        scanner.nextLine().trim();
                         removeFromDeck(cardName, number);
                         //LOG : remove from deck
                         break;
@@ -146,7 +148,7 @@ public class CollectionManager {
                         HearthStone.cli();
                         break;
                     case "EXIT" :
-                        System.out.print("are you sure you want to EXIT ?!(y/n) ");
+                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT ?!(y/n) " + HearthStone.ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if(sure.equals("y")) {
                             HearthStone.logout();

@@ -98,8 +98,8 @@ public class Market {
 
         while (true) {
             try {
-                System.out.print(HearthStone.ANSI_YELLOW + HearthStone.currentAccount.getUsername() + "@" + "HearthStone @market : " + HearthStone.ANSI_RESET);
-                command = scanner.next();
+                System.out.print(HearthStone.ANSI_YELLOW + HearthStone.currentAccount.getUsername() + "@" + "HearthStone @Market : " + HearthStone.ANSI_RESET);
+                command = scanner.nextLine().trim();
 
                 switch (command) {
                     case "help":
@@ -122,17 +122,19 @@ public class Market {
                         break;
                     case "buy":
                         System.out.print("card name : ");
-                        cardName = scanner.next();
+                        cardName = scanner.nextLine().trim();
                         System.out.print("how many you want to buy : ");
                         number = scanner.nextInt();
+                        scanner.nextLine().trim();
                         HearthStone.market.buy(cardName, number);
                         //LOG : buy
                         break;
                     case "sell":
                         System.out.print("card name : ");
-                        cardName = scanner.next();
+                        cardName = scanner.nextLine().trim();
                         System.out.print("how many you want to sell : ");
                         number = scanner.nextInt();
+                        scanner.nextLine().trim();
                         HearthStone.market.sell(cardName, number);
                         //LOG : sell
                         break;
@@ -140,8 +142,8 @@ public class Market {
                         HearthStone.cli();
                         break;
                     case "EXIT" :
-                        System.out.print("are you sure you want to EXIT?! (y/n) ");
-                        sure = scanner.next();
+                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT?! (y/n) " + HearthStone.ANSI_RESET);
+                        sure = scanner.nextLine().trim();
                         if(sure.equals("y")) {
                             //LOG : registration
                             HearthStone.logout();
