@@ -43,16 +43,20 @@ public class DataBase {
     }
 
     public static Map<String, AccountCredential> getCredentials() throws Exception {
-//        System.out.println(dataPath);
         File json = new File(dataPath + "/credentials.json");
+        json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/credentials.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {
+        Map<String, AccountCredential> ans = gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {
         }.getType());
+        if (ans == null)
+            return Data.getAccounts();
+        return ans;
     }
 
     public static Account getAccount(int id) throws Exception {
         File json = new File(dataPath + "/accounts" + "/account_" + id + ".json");
+        json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/accounts" + "/account_" + id + ".json");
         return gson.fromJson(fileReader, Account.class);
@@ -60,6 +64,7 @@ public class DataBase {
 
     public static Map<String, Object> getConfigs() throws Exception {
         File json = new File(dataPath + "/configs.json");
+        json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/configs.json");
         return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
@@ -68,9 +73,13 @@ public class DataBase {
 
     public static Market getMarket() throws Exception {
         File json = new File(dataPath + "/market.json");
+        json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/market.json");
-        return gson.fromJson(fileReader, Market.class);
+        Market ans = gson.fromJson(fileReader, Market.class);
+        if (ans == null)
+            return market;
+        return ans;
     }
 
     public static void saveCurrentAccount() throws Exception {
@@ -79,6 +88,7 @@ public class DataBase {
 
     public static void saveAccount(Account account) throws Exception {
         File json = new File(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
+        json.getParentFile().mkdirs();
         json.createNewFile();
         FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
         gson.toJson(account, fileWriter);
@@ -115,6 +125,7 @@ public class DataBase {
         gson = gsonBuilder.create();
 
         Data.setAccounts(getCredentials());
+        market = getMarket();
 
         /*var configs = getConfigs();
         maxCollectionSize = (int) configs.get("maxCollectionSize");
@@ -122,6 +133,5 @@ public class DataBase {
         initialCoins = (int) configs.get("initialCoins");
         maxNumberOfCard = (int) configs.get("maxNumberOfCard");*/
 
-        market = getMarket();
     }
 }

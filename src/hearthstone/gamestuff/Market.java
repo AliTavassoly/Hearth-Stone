@@ -98,18 +98,18 @@ public class Market {
 
         while (true) {
             try {
-                System.out.print("@" + HearthStone.currentAccount.getUsername() + " "+ " account @market, please enter your command : ");
+                System.out.print(HearthStone.ANSI_YELLOW + HearthStone.currentAccount.getUsername() + "@" + "HearthStone @market : " + HearthStone.ANSI_RESET);
                 command = scanner.next();
 
                 switch (command) {
                     case "help":
-                        System.out.println("wallet : see your coins !");
-                        System.out.println("cs : show all cards you can sell !");
-                        System.out.println("cb : show all cards you can buy !");
+                        System.out.println("wallet : see your coins!");
+                        System.out.println("cs : show all cards you can sell!");
+                        System.out.println("cb : show all cards you can buy!");
                         System.out.println("buy : to buy cards, then you should enter card name and number of card you want to buy");
                         System.out.println("sell : to sell cards, then you should enter card name and number of card you want to sell");
-                        System.out.println("exit : exit from market and back to main menu !");
-                        System.out.println("EXIT : exit from hearth stone !");
+                        System.out.println("exit : exit from market and back to main menu!");
+                        System.out.println("EXIT : exit from hearth stone!");
                         break;
                     case "wallet":
                         HearthStone.market.showWallet();
@@ -122,7 +122,7 @@ public class Market {
                         break;
                     case "buy":
                         System.out.print("card name : ");
-                        cardName = scanner.nextLine();
+                        cardName = scanner.next();
                         System.out.print("how many you want to buy : ");
                         number = scanner.nextInt();
                         HearthStone.market.buy(cardName, number);
@@ -130,7 +130,7 @@ public class Market {
                         break;
                     case "sell":
                         System.out.print("card name : ");
-                        cardName = scanner.nextLine();
+                        cardName = scanner.next();
                         System.out.print("how many you want to sell : ");
                         number = scanner.nextInt();
                         HearthStone.market.sell(cardName, number);
@@ -140,7 +140,7 @@ public class Market {
                         HearthStone.cli();
                         break;
                     case "EXIT" :
-                        System.out.print("are you sure you want to EXIT ?!(y/n) ");
+                        System.out.print("are you sure you want to EXIT?! (y/n) ");
                         sure = scanner.next();
                         if(sure.equals("y")) {
                             //LOG : registration
@@ -149,12 +149,12 @@ public class Market {
                         }
                         break;
                     default :
-                        System.out.println("please enter correct command !");
+                        System.out.println("please enter correct command! (enter help for more info)");
                 }
             } catch (HearthStoneException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("An error occurred !");
+                System.out.println("An error occurred!");
             }
         }
     }

@@ -9,7 +9,6 @@ import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +23,9 @@ public class HearthStone {
     public static Account currentAccount;
     public static String dataPath;
     public static Market market = new Market();
+
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public static void login(String username, String password) throws Exception {
         Data.checkAccountCredentials(username, password);
@@ -45,6 +47,7 @@ public class HearthStone {
 
     public static void deleteAccount(String username, String password) throws Exception {
         Data.deleteAccount(username, password);
+        logout();
     }
 
     public static void loginCli() {
@@ -56,8 +59,8 @@ public class HearthStone {
                 if (currentAccount != null)
                     cli();
 
-                System.out.print("@login/register page, please enter your command : ");
-                String command = scanner.nextLine();
+                System.out.print(ANSI_YELLOW + "@HearthStone : " + ANSI_RESET);
+                String command = scanner.nextLine().trim();
 
                 switch (command) {
                     case "help":
@@ -67,27 +70,27 @@ public class HearthStone {
                         break;
                     case "login":
                         System.out.print("username : ");
-                        username = scanner.next();
+                        username = scanner.nextLine().trim();
                         System.out.print("password : ");
-                        password = scanner.next();
+                        password = scanner.nextLine().trim();
                         login(username, password);
                         //LOG : login
                         break;
                     case "register":
                         System.out.print("enter your name : ");
-                        name = scanner.next();
+                        name = scanner.nextLine().trim();
                         System.out.print("enter your username : ");
-                        username = scanner.next();
+                        username = scanner.nextLine().trim();
                         System.out.print("enter password : ");
-                        password = scanner.next();
+                        password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
-                        repeat = scanner.next();
+                        repeat = scanner.nextLine().trim();
                         register(name, username, password, repeat);
                         //LOG : registration
                         break;
                     case "EXIT":
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
-                        sure = scanner.next();
+                        sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             //LOG : registration
                             logout();
@@ -105,63 +108,63 @@ public class HearthStone {
         }
     }
 
-
     public static void cli() {
         String sure, password;
         Scanner scanner = new Scanner(System.in);
+
         while (true) {
             try {
                 if (currentAccount == null)
                     loginCli();
 
-                System.out.print("@" + currentAccount.getUsername() + " " + " account, please enter your command : ");
-                String command = scanner.nextLine();
+                System.out.print(ANSI_YELLOW + currentAccount.getUsername() + "@" + "HearthStone : " + ANSI_RESET);
+                String command = scanner.next().trim();
 
                 switch (command) {
                     case "help":
-                        System.out.println("store : go and shopping !");
-                        System.out.println("collection : rearrange your deck and fight !");
-                        System.out.println("delete : delete your account !");
-                        System.out.println("exit : to logout !");
-                        System.out.println("EXIT : exit from Hearth Stone !");
+                        System.out.println("market : go and shopping!");
+                        System.out.println("collection : rearrange your deck and fight!");
+                        System.out.println("delete : delete your account!");
+                        System.out.println("exit : to logout!");
+                        System.out.println("EXIT : exit from Hearth Stone!");
                         break;
-                    case "store":
+                    case "market":
                         Market.cli();
                         break;
                     case "collection":
                         CollectionManager.cli();
                         break;
                     case "delete":
-                        System.out.print("are you sure you want to logout ?!(y/n) ");
-                        sure = scanner.next();
+                        System.out.print("are you sure you want to logout?! (y/n) ");
+                        sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             System.out.print("enter password : ");
-                            password = scanner.next();
+                            password = scanner.nextLine().trim();
                             deleteAccount(currentAccount.getUsername(), password);
                         }
                         break;
                     case "exit":
-                        System.out.print("are you sure you want to logout ?!(y/n) ");
-                        sure = scanner.next();
+                        System.out.print("are you sure you want to logout?! (y/n) ");
+                        sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             logout();
                         }
                         break;
                     case "EXIT":
-                        System.out.print("are you sure you want to EXIT ?!(y/n) ");
-                        sure = scanner.next();
+                        System.out.print("are you sure you want to EXIT?! (y/n) ");
+                        sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             logout();
                             System.exit(0);
                         }
                         break;
                     default:
-                        System.out.println("please enter correct command !");
+                        System.out.println("please enter correct command! (enter help for more info)");
                 }
             } catch (HearthStoneException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("An error occurred !");
+                System.out.println("An error occurred!");
             }
         }
     }
@@ -173,13 +176,12 @@ public class HearthStone {
         } catch (Exception e){
             dataPath = "./data";
         }*/
-        dataPath = ".";
+        dataPath = "./data";
         try {
             DataBase.load();
             cli();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //System.out.println("Failed to load DataBase !");
+            System.out.println("Failed to load DataBase !");
         }
     }
 }

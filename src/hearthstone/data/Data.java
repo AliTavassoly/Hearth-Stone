@@ -1,5 +1,6 @@
 package hearthstone.data;
 
+import hearthstone.HearthStone;
 import hearthstone.data.bean.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Data {
-    public static Map<String, AccountCredential> accounts = new HashMap<>();
+    private static Map<String, AccountCredential> accounts = new HashMap<>();
 
     public static void setAccounts(Map<String, AccountCredential> accounts) {
             Data.accounts = accounts;

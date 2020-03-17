@@ -90,25 +90,25 @@ public class CollectionManager {
 
         while (true) {
             try {
-                System.out.print("@" + HearthStone.currentAccount.getUsername() + " "+ " account @collection manager, please enter your command : ");
-                command = scanner.next();
+                System.out.print(HearthStone.ANSI_YELLOW + HearthStone.currentAccount.getUsername() + "@" + "HearthStone @CollectionManager : " + HearthStone.ANSI_RESET);
+                command = scanner.nextLine().trim();
 
                 switch (command){
                     case "help" :
-                        System.out.println("select hero : for choose a hero !");
-                        System.out.println("all heroes : show all heroes in your account !");
-                        System.out.println("my hero : show your hero !");
+                        System.out.println("select hero : for choose a hero!");
+                        System.out.println("all heroes : show all heroes in your account!");
+                        System.out.println("my hero : show your hero!");
                         System.out.println("my cards : show all your cards according to this hero!");
-                        System.out.println("my deck : show cards in your deck(hand) !");
-                        System.out.println("can add : show cards you can add to your deck !");
-                        System.out.println("add : you can add cards to your deck !");
-                        System.out.println("remove : you can remove cards from you deck !");
-                        System.out.println("exit : exit from collection manager !");
-                        System.out.println("EXIT : exit from hearth stone !");
+                        System.out.println("my deck : show cards in your deck!");
+                        System.out.println("can add : show cards you can add to your deck!");
+                        System.out.println("add : you can add cards to your deck!");
+                        System.out.println("remove : you can remove cards from you deck!");
+                        System.out.println("exit : exit from collection manager!");
+                        System.out.println("EXIT : exit from hearth stone!");
                         break;
                     case "select hero" :
                         System.out.print("select your hero name : ");
-                        heroName = scanner.next();
+                        heroName = scanner.nextLine().trim();
                         selectHero(heroName);
                         break;
                     case "all heroes" :
@@ -128,7 +128,7 @@ public class CollectionManager {
                         break;
                     case "add" :
                         System.out.print("please enter card name : ");
-                        cardName = scanner.next();
+                        cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to add : ");
                         number = scanner.nextInt();
                         addToDeck(cardName, number);
@@ -136,7 +136,7 @@ public class CollectionManager {
                         break;
                     case "remove" :
                         System.out.print("please enter card name : ");
-                        cardName = scanner.next();
+                        cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to remove : ");
                         number = scanner.nextInt();
                         removeFromDeck(cardName, number);
@@ -147,7 +147,7 @@ public class CollectionManager {
                         break;
                     case "EXIT" :
                         System.out.print("are you sure you want to EXIT ?!(y/n) ");
-                        sure = scanner.next();
+                        sure = scanner.nextLine().trim();
                         if(sure.equals("y")) {
                             HearthStone.logout();
                             System.exit(0);
