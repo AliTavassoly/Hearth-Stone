@@ -1,6 +1,6 @@
-package hearthstone.data.bean.cards;
+package hearthstone.modules.cards;
 
-import hearthstone.data.bean.heroes.HeroType;
+import hearthstone.modules.heroes.HeroType;
 
 public class MinionCard extends Card {
     private int health, attack;

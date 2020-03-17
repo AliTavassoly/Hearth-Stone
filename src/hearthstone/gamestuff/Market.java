@@ -1,8 +1,8 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.bean.cards.Card;
-import hearthstone.data.bean.heroes.HeroType;
+import hearthstone.modules.cards.Card;
+import hearthstone.modules.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -67,10 +67,10 @@ public class Market {
             }
         }
         if(currentCard == null){
-            throw new HearthStoneException("please enter correct name !");
+            throw new HearthStoneException("please enter correct name!");
         }
         if (numberOfCard.get(currentCard.getId()) > cnt) {
-            throw new HearthStoneException("There is not this amount from this card !");
+            throw new HearthStoneException("There is not this amount from this card!");
         }
         HearthStone.currentAccount.buyCards(currentCard, cnt);
         removeCard(currentCard, cnt);
@@ -85,7 +85,7 @@ public class Market {
             }
         }
         if(currentCard == null){
-            throw new HearthStoneException("please enter correct name !");
+            throw new HearthStoneException("please enter correct name!");
         }
         HearthStone.currentAccount.sellCards(currentCard, cnt);
         addCard(currentCard, cnt);

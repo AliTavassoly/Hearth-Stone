@@ -21,26 +21,26 @@ public class Data {
 
     public static void checkAccountCredentials(String username, String  password) throws Exception{
         if(!accounts.containsKey(username)){
-            throw new HearthStoneException("This username does not exists !");
+            throw new HearthStoneException("This username does not exists!");
         }
-        if(accounts.get(username).getPasswordHash() != Crypt.hash(password)){
-            throw new HearthStoneException("Password is not correct !");
+        if(accounts.get(username).getPasswordHash()!= Crypt.hash(password)){
+            throw new HearthStoneException("Password is not correct!");
         }
         if(accounts.get(username).isDeleted()){
-            throw new HearthStoneException("This username has been deleted !");
+            throw new HearthStoneException("This username has been deleted!");
         }
     }
 
     public static void addAccountCredentials(String username, String password) throws Exception {
         if(accounts.containsKey(username)){
-            throw new HearthStoneException("This username is already exists !");
+            throw new HearthStoneException("This username is already exists!");
         }
         accounts.put(username, new AccountCredential(accounts.size(), Crypt.hash(password)));
     }
 
     public static void deleteAccount(String username, String password) throws Exception{
-        if(accounts.get(username).getPasswordHash() != Crypt.hash(password)){
-            throw new HearthStoneException("Password is not correct !");
+        if(accounts.get(username).getPasswordHash()!= Crypt.hash(password)){
+            throw new HearthStoneException("Password is not correct!");
         }
         accounts.get(username).setDeleted(true);
     }

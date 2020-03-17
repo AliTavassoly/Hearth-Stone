@@ -5,15 +5,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import hearthstone.data.bean.Account;
 import hearthstone.data.bean.AccountCredential;
-import hearthstone.data.bean.cards.*;
-import hearthstone.data.bean.heroes.Hero;
-import hearthstone.data.bean.heroes.HeroType;
-import hearthstone.data.bean.heroes.Rogue;
+import hearthstone.modules.cards.*;
+import hearthstone.modules.heroes.Hero;
+import hearthstone.modules.heroes.HeroType;
+import hearthstone.modules.heroes.Rogue;
 import hearthstone.HearthStone;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.InterfaceAdapter;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -22,7 +23,7 @@ public class DataBase {
     public static Gson gson;
 
     public static void loadMinionCards() {
-        MinionCard ali = new MinionCard("ali", "Kill all !", 10, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 5);
+        MinionCard ali = new MinionCard("ali", "Kill all!", 10, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 5);
         HearthStone.baseCards.put(ali.getId(), ali);
     }
 
@@ -47,8 +48,7 @@ public class DataBase {
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/credentials.json");
-        Map<String, AccountCredential> ans = gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {
-        }.getType());
+        Map<String, AccountCredential> ans = gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {}.getType());
         if (ans == null)
             return Data.getAccounts();
         return ans;
@@ -62,13 +62,12 @@ public class DataBase {
         return gson.fromJson(fileReader, Account.class);
     }
 
-    public static Map<String, Object> getConfigs() throws Exception {
+    public static Map<String, Integer> getConfigs() throws Exception {
         File json = new File(dataPath + "/configs.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/configs.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
-        }.getType());
+        return gson.fromJson(fileReader, new TypeToken<Map<String, Integer>>() {}.getType());
     }
 
     public static Market getMarket() throws Exception {
@@ -110,11 +109,34 @@ public class DataBase {
         fileWriter.close();
     }
 
+    /*public static void saveConfifs(Map<String, Integer> s) throws Exception{
+        FileWriter fileWriter = new FileWriter(dataPath + "/configs.json");
+        gson.toJson(s, fileWriter);
+        fileWriter.flush();
+        fileWriter.close();
+    }*/
+
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
-        if (currentAccount != null)
+        if (currentAccount!= null)
             saveCurrentAccount();
+    }
+
+    public static void loadConfigs() throws Exception{
+        var configs = getConfigs();
+        maxCollectionSize = (int) configs.get("maxCollectionSize");
+        maxDeckSize = (int) configs.get("maxDeckSize");
+        initialCoins = (int) configs.get("initialCoins");
+        maxNumberOfCard = (int) configs.get("maxNumberOfCard");
+    }
+
+    public static void loadMarket() throws Exception{
+        market = getMarket();
+    }
+
+    public static void loadAccounts() throws Exception{
+        Data.setAccounts(getCredentials());
     }
 
     public static void load() throws Exception {
@@ -124,14 +146,8 @@ public class DataBase {
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
-        Data.setAccounts(getCredentials());
-        market = getMarket();
-
-        /*var configs = getConfigs();
-        maxCollectionSize = (int) configs.get("maxCollectionSize");
-        maxDeckSize = (int) configs.get("maxDeckSize");
-        initialCoins = (int) configs.get("initialCoins");
-        maxNumberOfCard = (int) configs.get("maxNumberOfCard");*/
-
+        loadAccounts();
+        loadMarket();
+        loadConfigs();
     }
 }

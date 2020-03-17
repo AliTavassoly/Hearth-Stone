@@ -1,4 +1,4 @@
-package hearthstone.data.bean.heroes;
+package hearthstone.modules.heroes;
 
 public enum HeroType {
     ALL,

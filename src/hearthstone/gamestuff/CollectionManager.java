@@ -1,8 +1,8 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.bean.cards.Card;
-import hearthstone.data.bean.heroes.Hero;
+import hearthstone.modules.cards.Card;
+import hearthstone.modules.heroes.Hero;
 import hearthstone.util.HearthStoneException;
 
 import java.util.Scanner;
@@ -26,12 +26,12 @@ public class CollectionManager {
                 return;
             }
         }
-        throw new HearthStoneException("This hero does not exist or you can not choose it !");
+        throw new HearthStoneException("This hero does not exist or you can not choose it!");
     }
 
     public static void showCollectionCards() {
         if (HearthStone.currentAccount.getCurrentCollection() == null || HearthStone.currentAccount.getCurrentCollection().getCards().size() == 0) {
-            System.out.println("No cards is in your Collection !");
+            System.out.println("No cards is in your Collection!");
         } else {
             for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
                 System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentCollection().getNumberOfCard().get(card.getId()));
@@ -41,7 +41,7 @@ public class CollectionManager {
 
     public static void showDeckCards() {
         if (HearthStone.currentAccount.getCurrentDeck() == null || HearthStone.currentAccount.getCurrentDeck().getCards().size() == 0) {
-            System.out.println("No cards is in your Deck !");
+            System.out.println("No cards is in your Deck!");
         } else {
             for (Card card : HearthStone.currentAccount.getCurrentDeck().getCards()) {
                 System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentDeck().getNumberOfCard().get(card.getId()));
@@ -65,7 +65,7 @@ public class CollectionManager {
             }
         }
         if(currentCard == null){
-            throw new HearthStoneException("this card does not exist in your collection or does not exist at all !");
+            throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
         }
         HearthStone.currentAccount.getCurrentDeck().add(currentCard, cnt);
     }
@@ -78,7 +78,7 @@ public class CollectionManager {
             }
         }
         if(currentCard == null){
-            throw new HearthStoneException("this card does not exist in your collection or does not exist at all !");
+            throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
         }
         HearthStone.currentAccount.getCurrentDeck().remove(currentCard, cnt);
     }
@@ -148,7 +148,7 @@ public class CollectionManager {
                         HearthStone.cli();
                         break;
                     case "EXIT" :
-                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT ?!(y/n) " + HearthStone.ANSI_RESET);
+                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT?!(y/n) " + HearthStone.ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if(sure.equals("y")) {
                             HearthStone.logout();
@@ -156,12 +156,12 @@ public class CollectionManager {
                         }
                         break;
                     default :
-                        System.out.println("please enter correct command !");
+                        System.out.println("please enter correct command!");
                 }
             } catch (HearthStoneException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("An error occurred !");
+                System.out.println("An error occurred!");
             }
         }
     }

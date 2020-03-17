@@ -3,8 +3,8 @@ package hearthstone;
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.data.bean.Account;
-import hearthstone.data.bean.cards.Card;
-import hearthstone.data.bean.heroes.Hero;
+import hearthstone.modules.cards.Card;
+import hearthstone.modules.heroes.Hero;
 import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
@@ -35,7 +35,7 @@ public class HearthStone {
 
     public static void register(String name, String username, String password, String repeat) throws Exception {
         if (!password.equals(repeat)) {
-            throw new HearthStoneException("Passwords does not match !");
+            throw new HearthStoneException("Passwords does not match!");
         }
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
@@ -57,7 +57,7 @@ public class HearthStone {
 
         while (true) {
             try {
-                if (currentAccount != null)
+                if (currentAccount!= null)
                     cli();
 
                 System.out.print(ANSI_YELLOW + "@HearthStone : " + ANSI_RESET);
@@ -65,9 +65,9 @@ public class HearthStone {
 
                 switch (command) {
                     case "help":
-                        System.out.println("login : if you already have an account !");
-                        System.out.println("register : if you want to create new account !");
-                        System.out.println("EXIT : if you want to exit from Hearth Stone !");
+                        System.out.println("login : if you already have an account!");
+                        System.out.println("register : if you want to create new account!");
+                        System.out.println("EXIT : if you want to exit from Hearth Stone!");
                         break;
                     case "login":
                         System.out.print("username : ");
@@ -90,7 +90,7 @@ public class HearthStone {
                         //LOG : registration
                         break;
                     case "EXIT":
-                        System.out.print(ANSI_RED + "are you sure you want to EXIT ?!(y/n) " + ANSI_RESET);
+                        System.out.print(ANSI_RED + "are you sure you want to EXIT?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             //LOG : registration
@@ -99,12 +99,12 @@ public class HearthStone {
                         }
                         break;
                     default:
-                        System.out.println("please enter correct command !");
+                        System.out.println("please enter correct command! (enter help for more info)");
                 }
             } catch (HearthStoneException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("An error occurred !");
+                System.out.println("An error occurred!");
             }
         }
     }
@@ -182,7 +182,7 @@ public class HearthStone {
             DataBase.load();
             cli();
         } catch (Exception e) {
-            System.out.println("Failed to load DataBase !");
+            System.out.println("Failed to load DataBase!");
         }
     }
 }

@@ -1,4 +1,4 @@
-package hearthstone.data.bean.cards;
+package hearthstone.modules.cards;
 
 public enum Rarity {
     COMMON,

@@ -1,9 +1,11 @@
 package hearthstone.data.bean;
 
 import hearthstone.HearthStone;
-import hearthstone.data.bean.cards.Card;
-import hearthstone.data.bean.heroes.Hero;
-import hearthstone.data.bean.heroes.HeroType;
+import hearthstone.modules.Collection;
+import hearthstone.modules.Deck;
+import hearthstone.modules.cards.Card;
+import hearthstone.modules.heroes.Hero;
+import hearthstone.modules.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -101,7 +103,7 @@ public class Account {
 
     public void buyCards(Card card, int cnt) throws Exception {
         if (card.getBuyPrice() * cnt > coins) {
-            throw new HearthStoneException("Not enough coins !");
+            throw new HearthStoneException("Not enough coins!");
         }
         for (Hero hero : heroes) {
             heroCollection.get(hero.getType()).add(card, cnt);
