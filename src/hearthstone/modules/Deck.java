@@ -36,7 +36,7 @@ public class Deck {
         if (currentNumberOfCards() + cnt > HearthStone.maxDeckSize) {
             return false;
         }
-        if (card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType()) {
+        if (card.getHeroType()!= HeroType.ALL && card.getHeroType()!= hero.getType()) {
             return false;
         }
         if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard) {
@@ -48,13 +48,13 @@ public class Deck {
     public void add(Card card, int cnt) throws Exception {
         numberOfCard.putIfAbsent(card.getId(), 0);
         if (currentNumberOfCards() + cnt > HearthStone.maxDeckSize) {
-            throw new HearthStoneException("Not enough space in your deck !");
+            throw new HearthStoneException("Not enough space in your deck!");
         }
-        if (card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType()) {
-            throw new HearthStoneException("Hero does not match !");
+        if (card.getHeroType()!= HeroType.ALL && card.getHeroType()!= hero.getType()) {
+            throw new HearthStoneException("Hero does not match!");
         }
         if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard) {
-            throw new HearthStoneException("You can not have " + cnt + " number of this card !");
+            throw new HearthStoneException("You can not have " + cnt + " number of this card!");
         }
         if (numberOfCard.get(card.getId()) == 0) {
             cards.add(card);
@@ -70,7 +70,7 @@ public class Deck {
     public void remove(Card card, int cnt) throws Exception{
         numberOfCard.putIfAbsent(card.getId(), 0);
         if (numberOfCard.get(card.getId()) - cnt >= 0) {
-            throw new HearthStoneException("There is not " + cnt + " number of this card in your deck !");
+            throw new HearthStoneException("There is not " + cnt + " number of this card in your deck!");
         }
         numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) - cnt);
         if (numberOfCard.get(card.getId()) == 0) {

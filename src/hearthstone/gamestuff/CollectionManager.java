@@ -1,6 +1,7 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.modules.cards.Card;
 import hearthstone.modules.heroes.Hero;
 import hearthstone.util.HearthStoneException;
@@ -9,10 +10,11 @@ import java.util.Scanner;
 
 public class CollectionManager {
 
-    public static void showAllHeroes() {
-        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
+    public static void showAllHeroes() throws Exception{
+        /*for (Hero hero : HearthStone.currentAccount.getHeroes()) {
             System.out.println(hero.getName());
-        }
+        }*/
+        DataBase.saveLog("Show Hero", "Nothing");
     }
 
     public static void showMyHero() {
@@ -23,6 +25,7 @@ public class CollectionManager {
         for (Hero hero : HearthStone.currentAccount.getHeroes()) {
             if (hero.getName().equals(heroName)) {
                 HearthStone.currentAccount.setCurrentHero(hero);
+                DataBase.saveLog("Select Hero", "Hero Name : " + heroName);
                 return;
             }
         }
@@ -30,22 +33,14 @@ public class CollectionManager {
     }
 
     public static void showCollectionCards() {
-        if (HearthStone.currentAccount.getCurrentCollection() == null || HearthStone.currentAccount.getCurrentCollection().getCards().size() == 0) {
-            System.out.println("No cards is in your Collection!");
-        } else {
-            for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
-                System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentCollection().getNumberOfCard().get(card.getId()));
-            }
+        for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
+            System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentCollection().getNumberOfCard().get(card.getId()));
         }
     }
 
     public static void showDeckCards() {
-        if (HearthStone.currentAccount.getCurrentDeck() == null || HearthStone.currentAccount.getCurrentDeck().getCards().size() == 0) {
-            System.out.println("No cards is in your Deck!");
-        } else {
-            for (Card card : HearthStone.currentAccount.getCurrentDeck().getCards()) {
-                System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentDeck().getNumberOfCard().get(card.getId()));
-            }
+        for (Card card : HearthStone.currentAccount.getCurrentDeck().getCards()) {
+            System.out.println(card.getName() + " " + HearthStone.currentAccount.getCurrentDeck().getNumberOfCard().get(card.getId()));
         }
     }
 
@@ -59,31 +54,33 @@ public class CollectionManager {
 
     public static void addToDeck(String cardName, int cnt) throws Exception {
         Card currentCard = null;
-        for(Card card : HearthStone.currentAccount.getCurrentCollection().getCards()){
-            if(card.getName().equals(cardName)){
+        for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
+            if (card.getName().equals(cardName)) {
                 currentCard = card;
             }
         }
-        if(currentCard == null){
+        if (currentCard == null) {
             throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
         }
         HearthStone.currentAccount.getCurrentDeck().add(currentCard, cnt);
+        DataBase.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void removeFromDeck(String cardName, int cnt) throws Exception {
         Card currentCard = null;
-        for(Card card : HearthStone.currentAccount.getCurrentCollection().getCards()){
-            if(card.getName().equals(cardName)){
+        for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
+            if (card.getName().equals(cardName)) {
                 currentCard = card;
             }
         }
-        if(currentCard == null){
+        if (currentCard == null) {
             throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
         }
         HearthStone.currentAccount.getCurrentDeck().remove(currentCard, cnt);
+        DataBase.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
-    public static void cli(){
+    public static void cli() {
         Scanner scanner = new Scanner(System.in);
         String command, cardName, heroName, sure;
         int number;
@@ -93,8 +90,8 @@ public class CollectionManager {
                 System.out.print(HearthStone.ANSI_YELLOW + HearthStone.currentAccount.getUsername() + "@" + "HearthStone @CollectionManager : " + HearthStone.ANSI_RESET);
                 command = scanner.nextLine().trim();
 
-                switch (command){
-                    case "help" :
+                switch (command) {
+                    case "help":
                         System.out.println("select hero : for choose a hero!");
                         System.out.println("all heroes : show all heroes in your account!");
                         System.out.println("my hero : show your hero!");
@@ -106,27 +103,27 @@ public class CollectionManager {
                         System.out.println("exit : exit from collection manager!");
                         System.out.println("EXIT : exit from hearth stone!");
                         break;
-                    case "select hero" :
+                    case "select hero":
                         System.out.print("select your hero name : ");
                         heroName = scanner.nextLine().trim();
                         selectHero(heroName);
                         break;
-                    case "all heroes" :
+                    case "all heroes":
                         showAllHeroes();
                         break;
-                    case "my hero" :
+                    case "my hero":
                         showMyHero();
                         break;
-                    case "my cards" :
+                    case "my cards":
                         showCollectionCards();
                         break;
-                    case "my deck" :
+                    case "my deck":
                         showDeckCards();
                         break;
-                    case "can add" :
+                    case "can add":
                         showAddableCards();
                         break;
-                    case "add" :
+                    case "add":
                         System.out.print("please enter card name : ");
                         cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to add : ");
@@ -135,7 +132,7 @@ public class CollectionManager {
                         addToDeck(cardName, number);
                         //LOG : add to deck
                         break;
-                    case "remove" :
+                    case "remove":
                         System.out.print("please enter card name : ");
                         cardName = scanner.nextLine().trim();
                         System.out.print("please enter number of it you want to remove : ");
@@ -144,18 +141,18 @@ public class CollectionManager {
                         removeFromDeck(cardName, number);
                         //LOG : remove from deck
                         break;
-                    case "exit" :
+                    case "exit":
                         HearthStone.cli();
                         break;
-                    case "EXIT" :
-                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT?!(y/n) " + HearthStone.ANSI_RESET);
+                    case "EXIT":
+                        System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT?! (y/n) " + HearthStone.ANSI_RESET);
                         sure = scanner.nextLine().trim();
-                        if(sure.equals("y")) {
+                        if (sure.equals("y")) {
                             HearthStone.logout();
                             System.exit(0);
                         }
                         break;
-                    default :
+                    default:
                         System.out.println("please enter correct command!");
                 }
             } catch (HearthStoneException e) {

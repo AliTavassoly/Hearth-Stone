@@ -185,4 +185,5 @@ public class HearthStone {
             System.out.println("Failed to load DataBase!");
         }
     }
+
 }

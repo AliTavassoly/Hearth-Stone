@@ -14,6 +14,8 @@ import hearthstone.gamestuff.Market;
 import hearthstone.util.InterfaceAdapter;
 
 import java.io.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +50,8 @@ public class DataBase {
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/credentials.json");
-        Map<String, AccountCredential> ans = gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {}.getType());
+        Map<String, AccountCredential> ans = gson.fromJson(fileReader, new TypeToken<Map<String, AccountCredential>>() {
+        }.getType());
         if (ans == null)
             return Data.getAccounts();
         return ans;
@@ -67,7 +70,8 @@ public class DataBase {
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/configs.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, Integer>>() {}.getType());
+        return gson.fromJson(fileReader, new TypeToken<Map<String, Integer>>() {
+        }.getType());
     }
 
     public static Market getMarket() throws Exception {
@@ -81,16 +85,34 @@ public class DataBase {
         return ans;
     }
 
-    public static void saveCurrentAccount() throws Exception {
-        saveAccount(currentAccount);
+    public static void saveLog(String title, String description, String username) throws Exception {
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
+
+        String newLog = title + " @ " + ts + " -> " + description + "\n";
+        FileWriter fileWriter = new FileWriter(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".txt", true);
+        fileWriter.append(newLog);
+        fileWriter.close();
     }
 
-    public static void saveAccount(Account account) throws Exception {
-        File json = new File(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
+    public static void saveLog(String title, String description) throws Exception {
+        saveLog(title, description, currentAccount.getUsername());
+    }
+
+    public static void createAccountLog(String username) throws Exception {
+        File logFile = new File(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".txt");
+        logFile.getParentFile().mkdirs();
+        logFile.createNewFile();
+        saveLog("Register", username, username);
+    }
+
+    public static void saveCurrentAccount() throws Exception {
+        File json = new File(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
         json.getParentFile().mkdirs();
         json.createNewFile();
-        FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + account.getId() + ".json");
-        gson.toJson(account, fileWriter);
+        FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
+        gson.toJson(currentAccount, fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
@@ -119,11 +141,11 @@ public class DataBase {
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
-        if (currentAccount!= null)
+        if (currentAccount != null)
             saveCurrentAccount();
     }
 
-    public static void loadConfigs() throws Exception{
+    public static void loadConfigs() throws Exception {
         var configs = getConfigs();
         maxCollectionSize = (int) configs.get("maxCollectionSize");
         maxDeckSize = (int) configs.get("maxDeckSize");
@@ -131,11 +153,11 @@ public class DataBase {
         maxNumberOfCard = (int) configs.get("maxNumberOfCard");
     }
 
-    public static void loadMarket() throws Exception{
+    public static void loadMarket() throws Exception {
         market = getMarket();
     }
 
-    public static void loadAccounts() throws Exception{
+    public static void loadAccounts() throws Exception {
         Data.setAccounts(getCredentials());
     }
 

@@ -1,6 +1,7 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.modules.cards.Card;
 import hearthstone.modules.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
@@ -74,6 +75,7 @@ public class Market {
         }
         HearthStone.currentAccount.buyCards(currentCard, cnt);
         removeCard(currentCard, cnt);
+        DataBase.saveLog("Buy Card", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public void sell(String cardName, int cnt) throws Exception {
@@ -89,6 +91,7 @@ public class Market {
         }
         HearthStone.currentAccount.sellCards(currentCard, cnt);
         addCard(currentCard, cnt);
+        DataBase.saveLog("Sell Card", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void cli() {
@@ -160,6 +163,5 @@ public class Market {
             }
         }
     }
-
 }
 
