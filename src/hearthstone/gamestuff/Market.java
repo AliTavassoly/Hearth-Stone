@@ -1,10 +1,10 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
-import hearthstone.modules.cards.Card;
-import hearthstone.modules.heroes.HeroType;
+import hearthstone.model.cards.Card;
+import hearthstone.model.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,38 +60,20 @@ public class Market {
     }
 
     public void buy(String cardName, int cnt) throws Exception {
-        Card currentCard = null;
-        for (Card card : HearthStone.baseCards.values()) {
-            if (card.getName().equals(cardName)) {
-                currentCard = card;
-                break;
-            }
-        }
-        if(currentCard == null){
-            throw new HearthStoneException("please enter correct name!");
-        }
-        if (numberOfCard.get(currentCard.getId()) > cnt) {
+        Card baseCard = HearthStone.getCardByName(cardName);
+        if (numberOfCard.get(baseCard.getId()) < cnt) {
             throw new HearthStoneException("There is not this amount from this card!");
         }
-        HearthStone.currentAccount.buyCards(currentCard, cnt);
-        removeCard(currentCard, cnt);
-        DataBase.saveLog("Buy Card", "Card Name : " + cardName + ", Number " + cnt);
+        HearthStone.currentAccount.buyCards(baseCard, cnt);
+        removeCard(baseCard, cnt);
+        Logger.saveLog("Buy Card", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public void sell(String cardName, int cnt) throws Exception {
-        Card currentCard = null;
-        for (Card card : HearthStone.baseCards.values()) {
-            if (card.getName().equals(cardName)) {
-                currentCard = card;
-                break;
-            }
-        }
-        if(currentCard == null){
-            throw new HearthStoneException("please enter correct name!");
-        }
-        HearthStone.currentAccount.sellCards(currentCard, cnt);
-        addCard(currentCard, cnt);
-        DataBase.saveLog("Sell Card", "Card Name : " + cardName + ", Number " + cnt);
+        Card baseCard = HearthStone.getCardByName(cardName);
+        HearthStone.currentAccount.sellCards(baseCard, cnt);
+        addCard(baseCard, cnt);
+        Logger.saveLog("Sell Card", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void cli() {

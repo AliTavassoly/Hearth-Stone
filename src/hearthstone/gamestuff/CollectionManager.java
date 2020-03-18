@@ -1,10 +1,10 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
-import hearthstone.modules.cards.Card;
-import hearthstone.modules.heroes.Hero;
+import hearthstone.model.cards.Card;
+import hearthstone.model.heroes.Hero;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Logger;
 
 import java.util.Scanner;
 
@@ -21,14 +21,7 @@ public class CollectionManager {
     }
 
     public static void selectHero(String heroName) throws Exception {
-        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
-            if (hero.getName().equals(heroName)) {
-                HearthStone.currentAccount.setCurrentHero(hero);
-                DataBase.saveLog("Select Hero", "Hero Name : " + heroName);
-                return;
-            }
-        }
-        throw new HearthStoneException("This hero does not exist or you can not choose it!");
+        HearthStone.currentAccount.setCurrentHero(HearthStone.getHeroByName(heroName));
     }
 
     public static void showCollectionCards() {
@@ -52,31 +45,15 @@ public class CollectionManager {
     }
 
     public static void addToDeck(String cardName, int cnt) throws Exception {
-        Card currentCard = null;
-        for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
-            if (card.getName().equals(cardName)) {
-                currentCard = card;
-            }
-        }
-        if (currentCard == null) {
-            throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
-        }
-        HearthStone.currentAccount.getCurrentDeck().add(currentCard, cnt);
-        DataBase.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
+        Card baseCard = HearthStone.getCardByName(cardName);
+        HearthStone.currentAccount.getCurrentDeck().add(baseCard, cnt);
+        Logger.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void removeFromDeck(String cardName, int cnt) throws Exception {
-        Card currentCard = null;
-        for (Card card : HearthStone.currentAccount.getCurrentCollection().getCards()) {
-            if (card.getName().equals(cardName)) {
-                currentCard = card;
-            }
-        }
-        if (currentCard == null) {
-            throw new HearthStoneException("this card does not exist in your collection or does not exist at all!");
-        }
-        HearthStone.currentAccount.getCurrentDeck().remove(currentCard, cnt);
-        DataBase.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
+        Card baseCard = HearthStone.getCardByName(cardName);
+        HearthStone.currentAccount.getCurrentDeck().remove(baseCard, cnt);
+        Logger.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void cli() {

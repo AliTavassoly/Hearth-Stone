@@ -1,17 +1,13 @@
 package hearthstone.data.bean;
 
 import hearthstone.HearthStone;
-import hearthstone.modules.Collection;
-import hearthstone.modules.Deck;
-import hearthstone.modules.cards.Card;
-import hearthstone.modules.heroes.Hero;
-import hearthstone.modules.heroes.HeroType;
+import hearthstone.model.Collection;
+import hearthstone.model.Deck;
+import hearthstone.model.cards.Card;
+import hearthstone.model.heroes.Hero;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class Account {
     private String username;
@@ -20,8 +16,6 @@ public class Account {
     private ArrayList<Hero> heroes;
     private ArrayList<Card> cards;
     private Hero currentHero;
-    private Map<HeroType, Collection> heroCollection = new HashMap<>();
-    private Map<HeroType, Deck> heroDeck = new HashMap<>();
     private int coins;
 
     public Account() {
@@ -33,6 +27,10 @@ public class Account {
         this.name = name;
         this.username = username;
         coins = HearthStone.initialCoins;
+
+        for(Hero baseHero : HearthStone.baseHeroes.values()){
+            heroes.add(baseHero.copy());
+        }
     }
 
     public void setName(String name) {
@@ -68,14 +66,12 @@ public class Account {
     }
 
     public Collection getCurrentCollection() {
-        return heroCollection.get(currentHero.getType());
+        return currentHero.getCollection();
     }
-    //public Collection getCollection(Hero hero){ return heroCollection.get(hero.getType()); }
 
     public Deck getCurrentDeck() {
-        return heroDeck.get(currentHero.getType());
+        return currentHero.getDeck();
     }
-    //public Deck getDeck(Hero hero){ return heroDeck.get(hero.getType()); }
 
     public void setCurrentHero(Hero currentHero) {
         this.currentHero = currentHero;
@@ -106,14 +102,14 @@ public class Account {
             throw new HearthStoneException("Not enough coins!");
         }
         for (Hero hero : heroes) {
-            heroCollection.get(hero.getType()).add(card, cnt);
+            currentHero.getCollection().add(card, cnt);
         }
         coins -= card.getBuyPrice() * cnt;
     }
 
     public void sellCards(Card card, int cnt) throws Exception {
         for (Hero hero : heroes) {
-            heroCollection.get(hero.getType()).remove(card, cnt);
+            currentHero.getCollection().remove(card, cnt);
         }
         coins += card.getSellPrice() * cnt;
     }

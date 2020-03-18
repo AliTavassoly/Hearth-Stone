@@ -3,8 +3,8 @@ package hearthstone;
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.data.bean.Account;
-import hearthstone.modules.cards.Card;
-import hearthstone.modules.heroes.Hero;
+import hearthstone.model.cards.Card;
+import hearthstone.model.heroes.Hero;
 import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
@@ -12,12 +12,16 @@ import hearthstone.util.HearthStoneException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class HearthStone {
     public static int maxCollectionSize = 50;
     public static int initialCoins = 50;
     public static int maxDeckSize = 30;
     public static int maxNumberOfCard = 2;
+
+    public static Logger logger = Logger.getLogger("HearthStone");
+
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Account currentAccount;
@@ -28,25 +32,49 @@ public class HearthStone {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
+    public static Hero getHeroByName(String heroName) throws Exception{
+        for(Hero hero : baseHeroes.values()){
+            if(hero.getName().equals(heroName)){
+                return hero;
+            }
+        }
+        throw new Exception("please enter correct name!");
+    }
+
+    public static Card getCardByName(String cardName) throws Exception{
+        for(Card baseCard : baseCards.values()){
+            if(baseCard.getName().equals(cardName)){
+                return baseCard;
+            }
+        }
+        throw new Exception("please enter correct name!");
+    }
+
     public static boolean userNameIsValid(String username) {
+        for(int i = 0; i < username.length(); i++){
+            char c = username.charAt(i);
+            if(c >= '0' && c <= '9')
+                continue;
+            if(c >= 'a' && c <= 'z')
+                continue;
+            if(c >= 'A' && c <= 'Z')
+                continue;
+            if(c == '-' || c == '_' || c == '.')
+                continue;
+            return false;
+        }
         return username.length() >= 4;
     }
 
     public static boolean passwordIsValid(String username) {
-        boolean capital = false;
-        boolean number = false;
-
         if (username.length() < 4)
             return false;
         for (int i = 0; i < username.length(); i++) {
             if (username.charAt(i) >= 'A' && username.charAt(i) <= 'Z') {
-                capital = true;
-            }
-            if (username.charAt(i) >= '0' && username.charAt(i) <= '9') {
-                number = true;
+                return true;
             }
         }
-        return number && capital;
+        return false;
     }
 
     public static void login(String username, String password) throws Exception {
@@ -59,10 +87,10 @@ public class HearthStone {
             throw new HearthStoneException("Passwords does not match!");
         }
         if(!userNameIsValid(username)){
-            throw new HearthStoneException("Username should contains at least 4 character !");
+            throw new HearthStoneException("Username is invalid (at least 4 character, only contains 1-9, '-', '_' and letters!)");
         }
         if(!passwordIsValid(password)){
-            throw new HearthStoneException("Passwords contains at least 4 character and it should contains a capital letter and at least a digit !");
+            throw new HearthStoneException("Password is invalid (at least 4 character and contains at least a capital letter!)");
         }
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
@@ -107,9 +135,9 @@ public class HearthStone {
                     case "register":
                         System.out.print("enter your name : ");
                         name = scanner.nextLine().trim();
-                        System.out.print("enter your username (at least 4 character) : ");
+                        System.out.print("enter your username (at least 4 character, only contains 1-9, '-', '_' and letters) : ");
                         username = scanner.nextLine().trim();
-                        System.out.print("enter password (at least 4 character and contains digit and capital letter): ");
+                        System.out.print("enter password (at least 4 character and contains at least a capital letter !): ");
                         password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
                         repeat = scanner.nextLine().trim();

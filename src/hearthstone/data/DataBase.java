@@ -5,18 +5,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import hearthstone.data.bean.Account;
 import hearthstone.data.bean.AccountCredential;
-import hearthstone.modules.cards.*;
-import hearthstone.modules.heroes.Hero;
-import hearthstone.modules.heroes.HeroType;
-import hearthstone.modules.heroes.Rogue;
+import hearthstone.model.cards.*;
+import hearthstone.model.heroes.*;
 import hearthstone.HearthStone;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.InterfaceAdapter;
 
 import java.io.*;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -24,24 +21,40 @@ import static hearthstone.HearthStone.*;
 public class DataBase {
     public static Gson gson;
 
-    public static void loadMinionCards() {
-        MinionCard ali = new MinionCard("ali", "Kill all!", 10, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 5);
-        HearthStone.baseCards.put(ali.getId(), ali);
+    public static void loadCards() {
+        int id = 0;
+        //Mage
+        SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(polymorph.getId(), polymorph);
+
+        SpellCard freezingPotion = new SpellCard(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
+
+        //Warlock
+        MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
+        HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
+
+        //Rogue
+        SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
+
+        //All
+
+
     }
 
-    public static void loadWeaponCards() {
-    }
+    public static void loadHeroes() throws Exception {
+        int id = 0;
+        Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK, "healthier than other!\nreduce 2 health and do somethings !\n", 35, new ArrayList<Integer>(
+                Arrays.asList(2, 3, 4)));
+        HearthStone.baseHeroes.put(warlock.getId(), warlock);
 
-    public static void loadSpellCards() {
-        SpellCard rage = new SpellCard("rage", "speed", 2, HeroType.MAGE, Rarity.EPIC, CardType.SPELL);
-        HearthStone.baseCards.put(rage.getId(), rage);
-    }
+        Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
+                Arrays.asList(2, 3, 4)));
+        HearthStone.baseHeroes.put(mage.getId(), mage);
 
-    public static void loadHeroCards() {
-    }
-
-    public static void loadHeroes() {
-        Rogue rogue = new Rogue("Warlock", "more health", 35, HeroType.WARLOCK);
+        Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
+                Arrays.asList(2, 3, 4)));
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
     }
 
@@ -65,12 +78,12 @@ public class DataBase {
         return gson.fromJson(fileReader, Account.class);
     }
 
-    public static Map<String, Integer> getConfigs() throws Exception {
+    public static Map<String, Object> getConfigs() throws Exception {
         File json = new File(dataPath + "/configs.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/configs.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, Integer>>() {
+        return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
         }.getType());
     }
 
@@ -83,32 +96,6 @@ public class DataBase {
         if (ans == null)
             return market;
         return ans;
-    }
-
-    public static void saveLog(String title, String description, String username) throws Exception {
-        Date date = new Date();
-        long time = date.getTime();
-        Timestamp ts = new Timestamp(time);
-
-        FileWriter fileWriter = new FileWriter(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".txt", true);
-        String newLog = username + "@" + "HearthStone" + "\n";
-        fileWriter.append(newLog);
-
-        newLog = title + " @ " + ts + " -> " + description + "\n";
-        fileWriter.append(newLog);
-
-        fileWriter.close();
-    }
-
-    public static void saveLog(String title, String description) throws Exception {
-        saveLog(title, description, currentAccount.getUsername());
-    }
-
-    public static void createAccountLog(String username) throws Exception {
-        File logFile = new File(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".txt");
-        logFile.getParentFile().mkdirs();
-        logFile.createNewFile();
-        saveLog("Register", username, username);
     }
 
     public static void saveCurrentAccount() throws Exception {
@@ -151,10 +138,10 @@ public class DataBase {
 
     public static void loadConfigs() throws Exception {
         var configs = getConfigs();
-        maxCollectionSize = (int) configs.get("maxCollectionSize");
-        maxDeckSize = (int) configs.get("maxDeckSize");
-        initialCoins = (int) configs.get("initialCoins");
-        maxNumberOfCard = (int) configs.get("maxNumberOfCard");
+        maxCollectionSize = ((Double) configs.get("maxCollectionSize")).intValue();
+        maxDeckSize = ((Double) configs.get("maxDeckSize")).intValue();
+        initialCoins = ((Double) configs.get("initialCoins")).intValue();
+        maxNumberOfCard = ((Double) configs.get("maxNumberOfCard")).intValue();
     }
 
     public static void loadMarket() throws Exception {
@@ -172,6 +159,8 @@ public class DataBase {
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
+        loadHeroes();
+        loadHeroes();
         loadAccounts();
         loadMarket();
         loadConfigs();

@@ -1,6 +1,10 @@
-package hearthstone.modules.cards;
+package hearthstone.model.cards;
 
-import hearthstone.modules.heroes.HeroType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import hearthstone.model.heroes.Hero;
+import hearthstone.model.heroes.HeroType;
+import hearthstone.util.InterfaceAdapter;
 
 public abstract class Card {
     private int id;
@@ -13,7 +17,9 @@ public abstract class Card {
     private int buyPrice, sellPrice;
 
     public Card(){ }
-    public Card(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
+
+    public Card(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
+        this.id = id;
         this.name = name;
         this.description = description;
         this.manaCost = manaCost;
@@ -21,7 +27,6 @@ public abstract class Card {
         this.rarity = rarity;
         this.cardType = cardType;
     }
-
 
     public int getId() {
         return id;
@@ -94,4 +99,13 @@ public abstract class Card {
     public void setSellPrice(int sellPrice) {
         this.sellPrice = sellPrice;
     }
+
+    public Card copy(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Card.class, new InterfaceAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new InterfaceAdapter<Hero>());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(gson.toJson(this), Card.class);
+    }
+
 }

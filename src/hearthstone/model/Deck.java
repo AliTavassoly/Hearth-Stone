@@ -1,16 +1,16 @@
-package hearthstone.modules;
+package hearthstone.model;
 
 import hearthstone.HearthStone;
-import hearthstone.modules.cards.Card;
-import hearthstone.modules.heroes.Hero;
-import hearthstone.modules.heroes.HeroType;
+import hearthstone.model.cards.Card;
+import hearthstone.model.heroes.Hero;
+import hearthstone.model.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Collection {
+public class Deck {
     private Hero hero;
     private ArrayList<Card> cards = new ArrayList<>();
     private Map<Integer, Integer> numberOfCard = new HashMap<>();
@@ -23,10 +23,9 @@ public class Collection {
         return numberOfCard;
     }
 
-
-    public int getNumberOfAllCards(){
+    public int currentNumberOfCards() {
         int sum = 0;
-        for(Card card : cards){
+        for (Card card : cards) {
             sum += numberOfCard.get(card.getId());
         }
         return sum;
@@ -34,22 +33,28 @@ public class Collection {
 
     public boolean canAdd(Card card, int cnt) {
         numberOfCard.putIfAbsent(card.getId(), 0);
+        if (currentNumberOfCards() + cnt > HearthStone.maxDeckSize) {
+            return false;
+        }
         if (card.getHeroType()!= HeroType.ALL && card.getHeroType()!= hero.getType()) {
             return false;
         }
-        return numberOfCard.get(card.getId()) + cnt <= HearthStone.maxNumberOfCard && getNumberOfAllCards() + cnt <= HearthStone.maxCollectionSize;
+        if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard) {
+            return false;
+        }
+        return true;
     }
 
     public void add(Card card, int cnt) throws Exception {
         numberOfCard.putIfAbsent(card.getId(), 0);
+        if (currentNumberOfCards() + cnt > HearthStone.maxDeckSize) {
+            throw new HearthStoneException("Not enough space in your deck!");
+        }
         if (card.getHeroType()!= HeroType.ALL && card.getHeroType()!= hero.getType()) {
             throw new HearthStoneException("Hero does not match!");
         }
-        if(numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard){
-            throw new HearthStoneException("Can not have this number of this card!");
-        }
-        if(getNumberOfAllCards() + cnt > HearthStone.maxCollectionSize){
-            throw new HearthStoneException("Not enough space!");
+        if (numberOfCard.get(card.getId()) + cnt > HearthStone.maxNumberOfCard) {
+            throw new HearthStoneException("You can not have " + cnt + " number of this card!");
         }
         if (numberOfCard.get(card.getId()) == 0) {
             cards.add(card);
@@ -57,14 +62,15 @@ public class Collection {
         numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) + cnt);
     }
 
-    public boolean canRemove(Card card, int cnt){
+    public boolean canRemove(Card card, int cnt) {
+        numberOfCard.putIfAbsent(card.getId(), 0);
         return numberOfCard.get(card.getId()) - cnt >= 0;
     }
 
-    public void remove(Card card, int cnt) throws Exception {
+    public void remove(Card card, int cnt) throws Exception{
         numberOfCard.putIfAbsent(card.getId(), 0);
-        if (numberOfCard.get(card.getId()) - cnt < 0) {
-            throw new HearthStoneException("It does not exist " + cnt + " number from this card!");
+        if (numberOfCard.get(card.getId()) - cnt >= 0) {
+            throw new HearthStoneException("There is not " + cnt + " number of this card in your deck!");
         }
         numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) - cnt);
         if (numberOfCard.get(card.getId()) == 0) {

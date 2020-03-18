@@ -1,4 +1,4 @@
-package hearthstone.modules.cards;
+package hearthstone.model.cards;
 
 public enum Rarity {
     COMMON,

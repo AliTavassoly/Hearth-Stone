@@ -1,14 +1,14 @@
-package hearthstone.modules.cards;
+package hearthstone.model.cards;
 
-import hearthstone.modules.heroes.HeroType;
+import hearthstone.model.heroes.HeroType;
 
 public class MinionCard extends Card {
     private int health, attack;
 
     public MinionCard(){ }
 
-    public MinionCard(String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack) {
-        super(name, description, manaCost, heroType, rarity, cardType);
+    public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack) {
+        super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
         this.attack = attack;
     }

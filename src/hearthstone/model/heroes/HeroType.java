@@ -1,4 +1,4 @@
-package hearthstone.modules.heroes;
+package hearthstone.model.heroes;
 
 public enum HeroType {
     ALL,
