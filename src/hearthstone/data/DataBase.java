@@ -34,12 +34,28 @@ public class DataBase {
         MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
         HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
 
+        SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(soulfire.getId(), soulfire);
+
         //Rogue
         SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
 
-        //All
+        MinionCard labRecruiter = new MinionCard(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3);
+        HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
+        //All
+        SpellCard blur = new SpellCard(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(blur.getId(), blur);
+
+        SpellCard chaosNova = new SpellCard(id++, "Chaos Nova", "Deal 4 damage to all minions.", 5, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(chaosNova.getId(), chaosNova);
+
+        MinionCard hulkingOverfiend = new MinionCard(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10);
+        HearthStone.baseCards.put(hulkingOverfiend.getId(), hulkingOverfiend);
+
+        MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
+        HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
 
     }
 
