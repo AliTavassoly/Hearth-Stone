@@ -10,7 +10,7 @@ import hearthstone.util.AbstractAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Hero implements Cloneable {
+public abstract class Hero {
     private int id;
     private String name;
     private String description;
@@ -129,7 +129,7 @@ public abstract class Hero implements Cloneable {
 
     public void removeCollection(Card baseCard, int cnt) throws Exception {
         if (numberInCollection(baseCard) - cnt < 0) {
-            throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your deck!");
+            throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your collection!");
         }
         for(int i = 0; i < cnt; i++){
             for(int j = 0; j < collection.size(); j++){
@@ -163,6 +163,9 @@ public abstract class Hero implements Cloneable {
         if (numberInDeck(baseCard) + cnt > HearthStone.maxNumberOfCard) {
             return false;
         }
+        if(numberInDeck(baseCard) + cnt > numberInCollection(baseCard)){
+            return false;
+        }
         return true;
     }
 
@@ -172,6 +175,9 @@ public abstract class Hero implements Cloneable {
         }
         if (baseCard.getHeroType()!= HeroType.ALL && baseCard.getHeroType()!= this.getType()) {
             throw new HearthStoneException("Hero does not match!");
+        }
+        if (numberInDeck(baseCard) + cnt > numberInCollection(baseCard)) {
+            throw new HearthStoneException("There is not exist " + cnt + " number of this card in your collection!");
         }
         if (numberInDeck(baseCard) + cnt > HearthStone.maxNumberOfCard) {
             throw new HearthStoneException("You can not have " + cnt + " number of this card!");
@@ -185,7 +191,7 @@ public abstract class Hero implements Cloneable {
     }
 
     public void removeDeck(Card baseCard, int cnt) throws Exception{
-        if (numberInDeck(baseCard) - cnt >= 0) {
+        if (numberInDeck(baseCard) - cnt < 0) {
             throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your deck!");
         }
         for(int i = 0; i < cnt; i++){

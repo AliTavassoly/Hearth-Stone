@@ -1,6 +1,7 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
 import hearthstone.util.HearthStoneException;
@@ -30,7 +31,7 @@ public class CollectionManager {
         if (HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getCollection()) {
-            System.out.println(baseCard.getName() + " " + HearthStone.currentAccount.getCurrentHero().numberInCollection(baseCard));
+            System.out.println(baseCard.getName());
         }
     }
 
@@ -38,7 +39,7 @@ public class CollectionManager {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getDeck()) {
-            System.out.println(baseCard.getName() + " " + HearthStone.currentAccount.getCurrentHero().numberInDeck(baseCard));
+            System.out.println(baseCard.getName());
         }
     }
 
@@ -156,6 +157,7 @@ public class CollectionManager {
                     default:
                         System.out.println("please enter correct command!");
                 }
+                DataBase.save();
             } catch (HearthStoneException e) {
                 try {
                     hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));

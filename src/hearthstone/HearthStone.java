@@ -12,15 +12,12 @@ import hearthstone.util.HearthStoneException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class HearthStone {
-    public static int maxCollectionSize = 50;
-    public static int initialCoins = 50;
-    public static int maxDeckSize = 30;
-    public static int maxNumberOfCard = 2;
-
-    public static Logger logger = Logger.getLogger("HearthStone");
+    public static int maxCollectionSize;
+    public static int initialCoins;
+    public static int maxDeckSize;
+    public static int maxNumberOfCard;
 
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
@@ -83,7 +80,7 @@ public class HearthStone {
         hearthstone.util.Logger.saveLog("login", "signed in successfully!");
     }
 
-    public static void register(String name, String username, String password, String repeat) throws Exception {
+    public static void register(String name, String username, String password, String repeat, String heroName) throws Exception {
         if (!password.equals(repeat)) {
             throw new HearthStoneException("Passwords does not match!");
         }
@@ -94,7 +91,7 @@ public class HearthStone {
             throw new HearthStoneException("Password is invalid (at least 4 character and contains at least a capital letter!)");
         }
         Data.addAccountCredentials(username, password);
-        currentAccount = new Account(Data.getAccountId(username), name, username);
+        currentAccount = new Account(Data.getAccountId(username), name, username, heroName);
         hearthstone.util.Logger.createAccountLog(username);
     }
 
@@ -112,7 +109,7 @@ public class HearthStone {
 
     public static void loginCli() {
         Scanner scanner = new Scanner(System.in);
-        String name, username, password, repeat, sure;
+        String name, username, password, repeat, sure, heroName;
 
         while (true) {
             try {
@@ -139,20 +136,31 @@ public class HearthStone {
                     case "register":
                         System.out.print("enter your name : ");
                         name = scanner.nextLine().trim();
+
+                        System.out.print("select your hero (");
+                        for(int i = 0; i < baseHeroes.size(); i++){
+                            Hero baseHero = baseHeroes.get(i);
+                            if(i == 0)
+                                System.out.print(baseHero.getName());
+                            else
+                                System.out.print(", " + baseHero.getName());
+                        }
+                        System.out.print(") : ");
+                        System.out.flush();
+                        heroName = scanner.nextLine().trim();
+
                         System.out.print("enter your username (at least 4 character, only contains 1-9, '-', '_' and letters) : ");
                         username = scanner.nextLine().trim();
                         System.out.print("enter password (at least 4 character and contains at least a capital letter !): ");
                         password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
                         repeat = scanner.nextLine().trim();
-                        register(name, username, password, repeat);
-                        //LOG : registration
+                        register(name, username, password, repeat, heroName);
                         break;
                     case "EXIT":
                         System.out.print(ANSI_RED + "are you sure you want to EXIT?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
-                            //LOG : registration
                             logout();
                             System.exit(0);
                         }
@@ -160,6 +168,7 @@ public class HearthStone {
                     default:
                         System.out.println("please enter correct command! (enter help for more info)");
                 }
+                DataBase.save();
             } catch (HearthStoneException e) {
                 try {
                     hearthstone.util.Logger.saveLog("ERROR", e.getClass().getName() + ": " + e.getMessage() + "\nStack Trace: " + e.getStackTrace());
@@ -229,6 +238,7 @@ public class HearthStone {
                     default:
                         System.out.println("please enter correct command! (enter help for more info)");
                 }
+                DataBase.save();
             } catch (HearthStoneException e) {
                 try {
                     hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));

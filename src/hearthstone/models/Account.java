@@ -3,6 +3,7 @@ package hearthstone.models;
 import hearthstone.HearthStone;
 import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
+import hearthstone.models.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -22,14 +23,18 @@ public class Account {
 
     }
 
-    public Account(int id, String name, String username) throws CloneNotSupportedException {
+    public Account(int id, String name, String username, String heroName) {
         this.id = id;
         this.name = name;
         this.username = username;
         coins = HearthStone.initialCoins;
 
         for (Hero baseHero : HearthStone.baseHeroes.values()) {
-            heroes.add(baseHero.copy());
+            if (baseHero.getName().equals(heroName)) {
+                currentHero = baseHero.copy();
+                heroes.add(currentHero.copy());
+                break;
+            }
         }
     }
 
@@ -101,7 +106,7 @@ public class Account {
         return cnt * baseCard.getBuyPrice() <= coins && currentHero.canAddCollection(baseCard, cnt);
     }
 
-    public boolean canSell(Card baseCard, int cnt) throws Exception     {
+    public boolean canSell(Card baseCard, int cnt) throws Exception {
         if (currentHero == null)
             return false;
         return currentHero.canRemoveCollection(baseCard, cnt);
@@ -109,34 +114,29 @@ public class Account {
 
     public void buyCards(Card baseCard, int cnt) throws Exception {
         if (currentHero == null) {
-            throw new HearthStoneException("You did not choose a here!");
+            throw new HearthStoneException("You did not choose a hero!");
         }
         if (baseCard.getBuyPrice() * cnt > coins) {
             throw new HearthStoneException("Not enough coins!");
         }
-        try {
-            currentHero.addCollection(baseCard, cnt);
-            coins -= baseCard.getBuyPrice() * cnt;
-        } catch (Exception e) {
-            for (Hero hero : heroes) {
-                if (hero.getType() != currentHero.getType())
-                    hero.addCollection(baseCard, cnt);
-            }
+        currentHero.addCollection(baseCard, cnt);
+        coins -= baseCard.getBuyPrice() * cnt;
+        for (Hero hero : heroes) {
+            if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
+                hero.addCollection(baseCard, cnt);
         }
     }
 
     public void sellCards(Card baseCard, int cnt) throws Exception {
         if (currentHero == null) {
-            throw new HearthStoneException("You did not choose a here!");
+            throw new HearthStoneException("You did not choose a hero!");
         }
-        try {
-            currentHero.removeCollection(baseCard, cnt);
-            coins += baseCard.getSellPrice() * cnt;
-        } catch (Exception e) {
-            for (Hero hero : heroes) {
-                if (hero.getType() != currentHero.getType())
-                    hero.removeCollection(baseCard, cnt);
-            }
+        currentHero.removeCollection(baseCard, cnt);
+        currentHero.removeDeck(baseCard, Math.min(cnt, currentHero.numberInDeck(baseCard)));
+        coins += baseCard.getSellPrice() * cnt;
+        for (Hero hero : heroes) {
+            if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
+                hero.removeCollection(baseCard, cnt);
         }
     }
 

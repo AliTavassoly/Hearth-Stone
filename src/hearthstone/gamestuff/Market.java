@@ -1,22 +1,29 @@
 package hearthstone.gamestuff;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.models.cards.Card;
-import hearthstone.models.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Market {
     private ArrayList<Card> cards = new ArrayList<>();
-    private Map<Integer, Integer> numberOfCard = new HashMap<>();
+
+    public int numberOfCard(Card card) {
+        int ans = 0;
+        for (Card baseCard : cards) {
+            if (baseCard.getId() == card.getId()) {
+                ans++;
+            }
+        }
+        return ans;
+    }
 
     public void showAllCards() {
-        for (Card card : cards) {
-            System.out.println(card.getName() + " " + numberOfCard.get(card.getId()));
+        for (Card baseCard : cards) {
+            System.out.println(baseCard.getName());
         }
     }
 
@@ -24,43 +31,42 @@ public class Market {
         System.out.println("Your coins : " + HearthStone.currentAccount.getCoins());
     }
 
-    public void showCardsCanBuy() throws Exception{
+    public void showCardsCanBuy() throws Exception {
         for (Card card : cards) {
-            if (card.getHeroType() == HeroType.ALL || card.getHeroType() == HearthStone.currentAccount.getCurrentHero().getType()) {
-                if (HearthStone.currentAccount.canBuy(card, 1)) {
-                    System.out.println(card.getName() + " " + numberOfCard.get(card.getId()));
+            if (HearthStone.currentAccount.canBuy(card, 1)) {
+                System.out.println(card.getName());
+            }
+        }
+    }
+
+    public void showCardsCanSell() throws Exception {
+        for (Card card : HearthStone.baseCards.values()) {
+            if (HearthStone.currentAccount.canSell(card, 1)) {
+                System.out.println(card.getName());
+            }
+        }
+    }
+
+    public void removeCard(Card baseCard, int cnt) {
+        for (int i = 0; i < cnt; i++) {
+            for (int j = 0; j < cards.size(); j++) {
+                if (baseCard.getId() == cards.get(j).getId()) {
+                    cards.remove(j);
+                    break;
                 }
             }
         }
     }
 
-    public void showCardsCanSell() throws Exception{
-        for (Card card : cards) {
-            if (HearthStone.currentAccount.canSell(card, 1)) {
-                System.out.println(card.getName() + " " + numberOfCard.get(card.getId()));
-            }
+    public void addCard(Card baseCard, int cnt) {
+        for (int i = 0; i < cnt; i++) {
+            cards.add(baseCard.copy());
         }
-    }
-
-    public void removeCard(Card card, int cnt) {
-        numberOfCard.putIfAbsent(card.getId(), 0);
-        numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) - cnt);
-        if (numberOfCard.get(card.getId()) == 0) {
-            cards.remove(card);
-        }
-    }
-
-    public void addCard(Card card, int cnt) {
-        numberOfCard.putIfAbsent(card.getId(), 0);
-        if (numberOfCard.get(card.getId()) == 0) {
-            cards.add(card);
-        }
-        numberOfCard.put(card.getId(), numberOfCard.get(card.getId()) + cnt);
     }
 
     public void buy(String cardName, int cnt) throws Exception {
         Card baseCard = HearthStone.getCardByName(cardName);
-        if (numberOfCard.get(baseCard.getId()) < cnt) {
+        if (numberOfCard(baseCard) < cnt) {
             throw new HearthStoneException("It does not exist " + cnt + " of this card in the market!");
         }
         HearthStone.currentAccount.buyCards(baseCard, cnt);
@@ -126,33 +132,36 @@ public class Market {
                         HearthStone.market.sell(cardName, number);
                         hearthstone.util.Logger.saveLog("sell", "in market, sold " + number + " of " + cardName + "!");
                         break;
-                    case "exit" :
+                    case "exit":
                         hearthstone.util.Logger.saveLog("exit", "exited from market");
                         HearthStone.cli();
                         break;
-                    case "EXIT" :
+                    case "EXIT":
                         hearthstone.util.Logger.saveLog("EXIT", "requested to EXIT");
                         System.out.print(HearthStone.ANSI_RED + "are you sure you want to EXIT?! (y/n) " + HearthStone.ANSI_RESET);
                         sure = scanner.nextLine().trim();
-                        if(sure.equals("y")) {
+                        if (sure.equals("y")) {
                             //LOG : registration
                             hearthstone.util.Logger.saveLog("EXIT", "EXITED from hearth stone");
                             HearthStone.logout();
                             System.exit(0);
                         }
                         break;
-                    default :
+                    default:
                         System.out.println("please enter correct command! (enter help for more info)");
                 }
+                DataBase.save();
             } catch (HearthStoneException e) {
                 try {
                     hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));
-                } catch (Exception f) { }
+                } catch (Exception f) {
+                }
                 System.out.println(e.getMessage());
             } catch (Exception e) {
                 try {
                     hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));
-                } catch (Exception f) { }
+                } catch (Exception f) {
+                }
                 System.out.println("An error occurred!");
             }
         }
