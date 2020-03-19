@@ -18,8 +18,10 @@ public class CollectionManager {
     }
 
     public static void showMyHero() throws Exception {
-        if (HearthStone.currentAccount.getCurrentHero() == null)
-            throw new HearthStoneException("You did not choose a hero!");
+        if (HearthStone.currentAccount.getCurrentHero() == null) {
+            System.out.println("You did not choose a hero!");
+            return;
+        }
         System.out.println(HearthStone.currentAccount.getCurrentHero().getName());
     }
 
@@ -30,26 +32,41 @@ public class CollectionManager {
     public static void showCollectionCards() throws Exception {
         if (HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
+        boolean isEmpty =  true;
         for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getCollection()) {
             System.out.println(baseCard.getName());
+            isEmpty = false;
+        }
+        if(isEmpty){
+            System.out.println("Your collection is empty!");
         }
     }
 
     public static void showDeckCards() throws Exception {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
+        boolean isEmpty = true;
         for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getDeck()) {
             System.out.println(baseCard.getName());
+            isEmpty = false;
+        }
+        if(isEmpty) {
+            System.out.println("Your deck is empty!");
         }
     }
 
     public static void showAddableCards() throws Exception {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
+        boolean isEmpty = true;
         for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getCollection()) {
             if (HearthStone.currentAccount.getCurrentHero().numberInDeck(baseCard) < HearthStone.currentAccount.getCurrentHero().numberInCollection(baseCard)) {
                 System.out.println(baseCard.getName());
+                isEmpty = false;
             }
+        }
+        if(isEmpty){
+            System.out.println("You can not add any card to your deck!");
         }
     }
 

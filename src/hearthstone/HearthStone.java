@@ -35,7 +35,7 @@ public class HearthStone {
                 return hero.copy();
             }
         }
-        throw new HearthStoneException("please enter correct name!");
+        throw new HearthStoneException("please enter correct hero name!");
     }
 
     public static Card getCardByName(String cardName) throws Exception {
@@ -44,7 +44,7 @@ public class HearthStone {
                 return baseCard.copy();
             }
         }
-        throw new HearthStoneException("please enter correct name!");
+        throw new HearthStoneException("please enter correct card name!");
     }
 
     public static boolean userNameIsValid(String username) {
@@ -56,7 +56,7 @@ public class HearthStone {
                 continue;
             if (c >= 'A' && c <= 'Z')
                 continue;
-            if (c == '-' || c == '_' || c == '.')
+            if (c == '_' || c == '.')
                 continue;
             return false;
         }
@@ -97,7 +97,8 @@ public class HearthStone {
 
     public static void logout() throws Exception {
         DataBase.save();
-        hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
+        if (currentAccount != null)
+            hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
         currentAccount = null;
     }
 
@@ -131,16 +132,15 @@ public class HearthStone {
                         System.out.print("password : ");
                         password = scanner.nextLine().trim();
                         login(username, password);
-                        //LOG : login
                         break;
                     case "register":
                         System.out.print("enter your name : ");
                         name = scanner.nextLine().trim();
 
                         System.out.print("select your hero (");
-                        for(int i = 0; i < baseHeroes.size(); i++){
+                        for (int i = 0; i < baseHeroes.size(); i++) {
                             Hero baseHero = baseHeroes.get(i);
-                            if(i == 0)
+                            if (i == 0)
                                 System.out.print(baseHero.getName());
                             else
                                 System.out.print(", " + baseHero.getName());
@@ -149,13 +149,13 @@ public class HearthStone {
                         System.out.flush();
                         heroName = scanner.nextLine().trim();
 
-                        System.out.print("enter your username (at least 4 character, only contains 1-9, '-', '_' and letters) : ");
+                        System.out.print("enter your username (at least 4 character, only contains 1-9, '.', '_' and letters) : ");
                         username = scanner.nextLine().trim();
                         System.out.print("enter password (at least 4 character and contains at least a capital letter !): ");
                         password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
                         repeat = scanner.nextLine().trim();
-                        register(name, username, password, repeat, heroName);
+                        register(name, username, password, repeat, HearthStone.getHeroByName(heroName).getName());
                         break;
                     case "EXIT":
                         System.out.print(ANSI_RED + "are you sure you want to EXIT?! (y/n) " + ANSI_RESET);
@@ -212,7 +212,7 @@ public class HearthStone {
                         CollectionManager.cli();
                         break;
                     case "delete":
-                        System.out.print(ANSI_RED + "are you sure you want to logout?! (y/n) " + ANSI_RESET);
+                        System.out.print(ANSI_RED + "are you sure you want to delete your account?! (y/n) " + ANSI_RESET);
                         sure = scanner.nextLine().trim();
                         if (sure.equals("y")) {
                             System.out.print("enter password : ");

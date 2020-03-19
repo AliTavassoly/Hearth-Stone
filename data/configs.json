@@ -1,0 +1,6 @@
+{
+  "maxCollectionSize": 30,
+  "maxNumberOfCard": 2,
+  "initialCoins": 50,
+  "maxDeckSize": 15
+}

@@ -3,3 +3,6 @@ out
 *.iml
 *.json
 *.log
+!data/configs.json
+!data/base_cards.json
+!data/base_heroes.json

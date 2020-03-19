@@ -30,7 +30,7 @@ public abstract class Hero {
         this.type = type;
 
         for (int x : collection) {
-            this.addCollection(HearthStone.baseCards.get(x), 1);
+            this.addCollection(HearthStone.baseCards.get(x).copy(), 1);
         }
     }
 
@@ -114,6 +114,7 @@ public abstract class Hero {
             throw new HearthStoneException("Hero does not match!");
         }
         if(numberInCollection(baseCard) + cnt > HearthStone.maxNumberOfCard){
+            System.out.println(numberInCollection(baseCard) + " " + HearthStone.maxNumberOfCard);
             throw new HearthStoneException("Can not have " + numberInCollection(baseCard) + cnt + " number of " + baseCard.getName() + " card!");
         }
         if(collection.size() + cnt > HearthStone.maxCollectionSize){

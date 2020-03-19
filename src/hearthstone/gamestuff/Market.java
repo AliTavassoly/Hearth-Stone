@@ -32,18 +32,28 @@ public class Market {
     }
 
     public void showCardsCanBuy() throws Exception {
+        boolean isEmpty = true;
         for (Card card : cards) {
             if (HearthStone.currentAccount.canBuy(card, 1)) {
                 System.out.println(card.getName());
+                isEmpty = false;
             }
+        }
+        if(isEmpty){
+            System.out.println("You can not buy any card!");
         }
     }
 
     public void showCardsCanSell() throws Exception {
+        boolean isEmpty = true;
         for (Card card : HearthStone.baseCards.values()) {
             if (HearthStone.currentAccount.canSell(card, 1)) {
                 System.out.println(card.getName());
+                isEmpty = false;
             }
+        }
+        if (isEmpty){
+            System.out.println("You can not sell any card!");
         }
     }
 

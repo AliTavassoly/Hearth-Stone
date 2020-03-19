@@ -3,6 +3,7 @@ package hearthstone.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import hearthstone.HearthStone;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
 import hearthstone.models.cards.*;
@@ -11,6 +12,8 @@ import hearthstone.gamestuff.Market;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -95,15 +98,15 @@ public class DataBase {
     public static void loadHeroes() throws Exception {
         /*int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
-                Arrays.asList(0, 1, 6, 9, 10, 13, 16, 19)));
+                Arrays.asList(0, 1, 6, 9, 9, 10, 13, 16, 19)));
         HearthStone.baseHeroes.put(mage.getId(), mage);
 
         Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK, "healthier than other!\nreduce 2 health and do somethings !\n", 35, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 7, 11, 14, 17)));
+                Arrays.asList(2, 3, 7, 11, 11, 14, 14, 17)));
         HearthStone.baseHeroes.put(warlock.getId(), warlock);
 
         Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
-                Arrays.asList(4, 5, 8, 12, 15, 18)));
+                Arrays.asList(4, 5, 8, 12, 15, 15, 18, 18)));
         HearthStone.baseHeroes.put(rogue.getId(), rogue);*/
         baseHeroes = getBaseHeroes();
     }
@@ -240,9 +243,10 @@ public class DataBase {
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
+        loadConfigs();
+
         loadCards();
         loadHeroes();
-        loadConfigs();
         //save1();
         //save2();
         loadAccounts();
