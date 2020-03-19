@@ -2,9 +2,9 @@ package hearthstone;
 
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
-import hearthstone.data.bean.Account;
-import hearthstone.model.cards.Card;
-import hearthstone.model.heroes.Hero;
+import hearthstone.models.Account;
+import hearthstone.models.cards.Card;
+import hearthstone.models.heroes.Hero;
 import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
@@ -32,34 +32,34 @@ public class HearthStone {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static Hero getHeroByName(String heroName) throws Exception{
-        for(Hero hero : baseHeroes.values()){
-            if(hero.getName().equals(heroName)){
-                return hero;
+    public static Hero getHeroByName(String heroName) throws Exception {
+        for (Hero hero : baseHeroes.values()) {
+            if (hero.getName().equals(heroName)) {
+                return hero.copy();
             }
         }
-        throw new Exception("please enter correct name!");
+        throw new HearthStoneException("please enter correct name!");
     }
 
-    public static Card getCardByName(String cardName) throws Exception{
-        for(Card baseCard : baseCards.values()){
-            if(baseCard.getName().equals(cardName)){
-                return baseCard;
+    public static Card getCardByName(String cardName) throws Exception {
+        for (Card baseCard : baseCards.values()) {
+            if (baseCard.getName().equals(cardName)) {
+                return baseCard.copy();
             }
         }
-        throw new Exception("please enter correct name!");
+        throw new HearthStoneException("please enter correct name!");
     }
 
     public static boolean userNameIsValid(String username) {
-        for(int i = 0; i < username.length(); i++){
+        for (int i = 0; i < username.length(); i++) {
             char c = username.charAt(i);
-            if(c >= '0' && c <= '9')
+            if (c >= '0' && c <= '9')
                 continue;
-            if(c >= 'a' && c <= 'z')
+            if (c >= 'a' && c <= 'z')
                 continue;
-            if(c >= 'A' && c <= 'Z')
+            if (c >= 'A' && c <= 'Z')
                 continue;
-            if(c == '-' || c == '_' || c == '.')
+            if (c == '-' || c == '_' || c == '.')
                 continue;
             return false;
         }
@@ -80,29 +80,33 @@ public class HearthStone {
     public static void login(String username, String password) throws Exception {
         Data.checkAccountCredentials(username, password);
         currentAccount = DataBase.getAccount(Data.getAccountId(username));
+        hearthstone.util.Logger.saveLog("login", "signed in successfully!");
     }
 
     public static void register(String name, String username, String password, String repeat) throws Exception {
         if (!password.equals(repeat)) {
             throw new HearthStoneException("Passwords does not match!");
         }
-        if(!userNameIsValid(username)){
+        if (!userNameIsValid(username)) {
             throw new HearthStoneException("Username is invalid (at least 4 character, only contains 1-9, '-', '_' and letters!)");
         }
-        if(!passwordIsValid(password)){
+        if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid (at least 4 character and contains at least a capital letter!)");
         }
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
+        hearthstone.util.Logger.createAccountLog(username);
     }
 
     public static void logout() throws Exception {
         DataBase.save();
+        hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
         currentAccount = null;
     }
 
     public static void deleteAccount(String username, String password) throws Exception {
         Data.deleteAccount(username, password);
+        hearthstone.util.Logger.saveLog("Delete Account", "account deleted!");
         logout();
     }
 
@@ -157,8 +161,16 @@ public class HearthStone {
                         System.out.println("please enter correct command! (enter help for more info)");
                 }
             } catch (HearthStoneException e) {
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR", e.getClass().getName() + ": " + e.getMessage() + "\nStack Trace: " + e.getStackTrace());
+                } catch (Exception f) {
+                }
                 System.out.println(e.getMessage());
             } catch (Exception e) {
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR", e.getClass().getName() + ": " + e.getMessage() + "\nStack Trace: " + e.getStackTrace());
+                } catch (Exception f) {
+                }
                 System.out.println("An error occurred!");
             }
         }
@@ -218,8 +230,16 @@ public class HearthStone {
                         System.out.println("please enter correct command! (enter help for more info)");
                 }
             } catch (HearthStoneException e) {
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));
+                } catch (Exception f) {
+                }
                 System.out.println(e.getMessage());
             } catch (Exception e) {
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR", hearthstone.util.Logger.exceptionToLog(e));
+                } catch (Exception f) {
+                }
                 System.out.println("An error occurred!");
             }
         }
@@ -237,6 +257,7 @@ public class HearthStone {
             DataBase.load();
             cli();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.println("Failed to load DataBase!");
         }
     }

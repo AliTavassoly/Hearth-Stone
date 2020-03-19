@@ -1,8 +1,8 @@
-package hearthstone.model.cards;
+package hearthstone.models.cards;
 
-import hearthstone.model.heroes.HeroType;
+import hearthstone.models.heroes.HeroType;
 
-public class SpellCard extends Card {
+public class SpellCard extends Card implements Cloneable{
     public SpellCard() { }
 
     public SpellCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){

@@ -3,17 +3,14 @@ package hearthstone.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import hearthstone.data.bean.Account;
-import hearthstone.data.bean.AccountCredential;
-import hearthstone.model.cards.*;
-import hearthstone.model.heroes.*;
-import hearthstone.HearthStone;
+import hearthstone.models.Account;
+import hearthstone.models.AccountCredential;
+import hearthstone.models.cards.*;
+import hearthstone.models.heroes.*;
 import hearthstone.gamestuff.Market;
-import hearthstone.util.InterfaceAdapter;
+import hearthstone.util.AbstractAdapter;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -21,57 +18,13 @@ import static hearthstone.HearthStone.*;
 public class DataBase {
     public static Gson gson;
 
-    public static void loadCards() {
+    public static void loadCards() throws Exception{
         int id = 0;
-        //Mage
-        SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(polymorph.getId(), polymorph);
-
-        SpellCard freezingPotion = new SpellCard(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
-
-        //Warlock
-        MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
-        HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
-
-        SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(soulfire.getId(), soulfire);
-
-        //Rogue
-        SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
-
-        MinionCard labRecruiter = new MinionCard(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3);
-        HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
-
-        //All
-        SpellCard blur = new SpellCard(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(blur.getId(), blur);
-
-        SpellCard chaosNova = new SpellCard(id++, "Chaos Nova", "Deal 4 damage to all minions.", 5, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        HearthStone.baseCards.put(chaosNova.getId(), chaosNova);
-
-        MinionCard hulkingOverfiend = new MinionCard(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10);
-        HearthStone.baseCards.put(hulkingOverfiend.getId(), hulkingOverfiend);
-
-        MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
-        HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
-
+        baseCards = getBaseCards();
     }
 
     public static void loadHeroes() throws Exception {
-        int id = 0;
-        Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK, "healthier than other!\nreduce 2 health and do somethings !\n", 35, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 4)));
-        HearthStone.baseHeroes.put(warlock.getId(), warlock);
-
-        Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 4)));
-        HearthStone.baseHeroes.put(mage.getId(), mage);
-
-        Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 4)));
-        HearthStone.baseHeroes.put(rogue.getId(), rogue);
+        baseHeroes = getBaseHeroes();
     }
 
     public static Map<String, AccountCredential> getCredentials() throws Exception {
@@ -114,42 +67,59 @@ public class DataBase {
         return ans;
     }
 
+    public static Map<Integer, Card> getBaseCards() throws Exception {
+        File json = new File(dataPath + "/base_cards.json");
+        json.getParentFile().mkdirs();
+        json.createNewFile();
+        FileReader fileReader = new FileReader(dataPath + "/base_cards.json");
+        Map<Integer, Card> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Card>>() {
+        }.getType());
+        if (ans == null)
+            return baseCards;
+        return ans;
+    }
+
+    public static Map<Integer, Hero> getBaseHeroes() throws Exception {
+        File json = new File(dataPath + "/base_heroes.json");
+        json.getParentFile().mkdirs();
+        json.createNewFile();
+        FileReader fileReader = new FileReader(dataPath + "/base_heroes.json");
+        Map<Integer, Hero> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Hero>>() {
+        }.getType());
+        if (ans == null)
+            return baseHeroes;
+        return ans;
+    }
+
     public static void saveCurrentAccount() throws Exception {
         File json = new File(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
-        gson.toJson(currentAccount, fileWriter);
+        gson.toJson(currentAccount, Account.class, fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
     public static void saveCredentials() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/credentials.json");
-        gson.toJson(Data.getAccounts(), fileWriter);
+        gson.toJson(Data.getAccounts(), Data.getAccounts().getClass(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
     public static void saveMarket() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/market.json");
-        gson.toJson(market, fileWriter);
+        gson.toJson(market, Market.class, fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
-
-    /*public static void saveConfifs(Map<String, Integer> s) throws Exception{
-        FileWriter fileWriter = new FileWriter(dataPath + "/configs.json");
-        gson.toJson(s, fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
-    }*/
 
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
         if (currentAccount != null)
-            saveCurrentAccount();
+             saveCurrentAccount();
     }
 
     public static void loadConfigs() throws Exception {
@@ -170,15 +140,17 @@ public class DataBase {
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Card.class, new InterfaceAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new InterfaceAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
+
+        loadCards();
         loadHeroes();
-        loadHeroes();
+        loadConfigs();
+
         loadAccounts();
         loadMarket();
-        loadConfigs();
     }
 }

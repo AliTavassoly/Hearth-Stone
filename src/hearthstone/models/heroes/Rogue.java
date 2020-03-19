@@ -1,8 +1,8 @@
-package hearthstone.model.heroes;
+package hearthstone.models.heroes;
 
 import java.util.List;
 
-public class Rogue extends Hero{
+public class Rogue extends Hero implements Cloneable {
     public Rogue(){ }
 
     public Rogue(int id, String name, HeroType type, String description, int health, List<Integer> collection) throws Exception{

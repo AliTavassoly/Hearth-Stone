@@ -1,9 +1,8 @@
 package hearthstone.data;
 
-import hearthstone.data.bean.AccountCredential;
+import hearthstone.models.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,6 @@ public class Data {
         if(accounts.get(username).isDeleted()){
             throw new HearthStoneException("This username has been deleted!");
         }
-        Logger.saveLog("Login", "signed in successfully!", username);
     }
 
     public static void addAccountCredentials(String username, String password) throws Exception {
@@ -37,7 +35,6 @@ public class Data {
             throw new HearthStoneException("This username is already exists!");
         }
         accounts.put(username, new AccountCredential(accounts.size(), Crypt.hash(password)));
-        Logger.createAccountLog(username);
     }
 
     public static void deleteAccount(String username, String password) throws Exception{
@@ -45,7 +42,6 @@ public class Data {
             throw new HearthStoneException("Password is not correct!");
         }
         accounts.get(username).setDeleted(true);
-        Logger.saveLog("Delete Account", "account deleted!");
     }
 
     public static int getAccountId(String username){

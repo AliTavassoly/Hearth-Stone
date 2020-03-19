@@ -10,7 +10,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class InterfaceAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+public class AbstractAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
     @Override
     public final JsonElement serialize(final T object, final Type interfaceType, final JsonSerializationContext context)

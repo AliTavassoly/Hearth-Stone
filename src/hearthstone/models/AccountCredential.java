@@ -1,4 +1,4 @@
-package hearthstone.data.bean;
+package hearthstone.models;
 
 public class AccountCredential {
     private int id;

@@ -1,8 +1,8 @@
-package hearthstone.model.cards;
+package hearthstone.models.cards;
 
-import hearthstone.model.heroes.HeroType;
+import hearthstone.models.heroes.HeroType;
 
-public class MinionCard extends Card {
+public class MinionCard extends Card implements Cloneable{
     private int health, attack;
 
     public MinionCard(){ }
