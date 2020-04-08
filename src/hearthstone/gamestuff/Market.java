@@ -3,6 +3,7 @@ package hearthstone.gamestuff;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.models.cards.Card;
+import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class Market {
     }
 
     public void buy(String cardName, int cnt) throws Exception {
-        Card baseCard = HearthStone.getCardByName(cardName);
+        Card baseCard = GetByName.getCardByName(cardName);
         if (numberOfCard(baseCard) < cnt) {
             throw new HearthStoneException("It does not exist " + cnt + " of this card in the market!");
         }
@@ -84,7 +85,7 @@ public class Market {
     }
 
     public void sell(String cardName, int cnt) throws Exception {
-        Card baseCard = HearthStone.getCardByName(cardName);
+        Card baseCard = GetByName.getCardByName(cardName);
         HearthStone.currentAccount.sellCards(baseCard, cnt);
         addCard(baseCard, cnt);
     }

@@ -7,13 +7,14 @@ import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
 import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
+import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class HearthStone {
+public class  HearthStone {
     public static int maxCollectionSize;
     public static int initialCoins;
     public static int maxDeckSize;
@@ -28,24 +29,6 @@ public class HearthStone {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
-
-    public static Hero getHeroByName(String heroName) throws Exception {
-        for (Hero hero : baseHeroes.values()) {
-            if (hero.getName().equals(heroName)) {
-                return hero.copy();
-            }
-        }
-        throw new HearthStoneException("please enter correct hero name!");
-    }
-
-    public static Card getCardByName(String cardName) throws Exception {
-        for (Card baseCard : baseCards.values()) {
-            if (baseCard.getName().equals(cardName)) {
-                return baseCard.copy();
-            }
-        }
-        throw new HearthStoneException("please enter correct card name!");
-    }
 
     public static boolean userNameIsValid(String username) {
         for (int i = 0; i < username.length(); i++) {
@@ -155,7 +138,7 @@ public class HearthStone {
                         password = scanner.nextLine().trim();
                         System.out.print("repeat your password : ");
                         repeat = scanner.nextLine().trim();
-                        register(name, username, password, repeat, HearthStone.getHeroByName(heroName).getName());
+                        register(name, username, password, repeat, GetByName.getHeroByName(heroName).getName());
                         break;
                     case "EXIT":
                         System.out.print(ANSI_RED + "are you sure you want to EXIT?! (y/n) " + ANSI_RESET);

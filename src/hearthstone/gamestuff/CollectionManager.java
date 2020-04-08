@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
+import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Logger;
 
@@ -26,7 +27,7 @@ public class CollectionManager {
     }
 
     public static void selectHero(String heroName) throws Exception {
-        HearthStone.currentAccount.setCurrentHero(HearthStone.getHeroByName(heroName).copy());
+        HearthStone.currentAccount.setCurrentHero(GetByName.getHeroByName(heroName).copy());
     }
 
     public static void showCollectionCards() throws Exception {
@@ -73,7 +74,7 @@ public class CollectionManager {
     public static void addToDeck(String cardName, int cnt) throws Exception {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
-        Card baseCard = HearthStone.getCardByName(cardName).copy();
+        Card baseCard = GetByName.getCardByName(cardName).copy();
         HearthStone.currentAccount.getCurrentHero().addDeck(baseCard, cnt);
         Logger.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
@@ -81,7 +82,7 @@ public class CollectionManager {
     public static void removeFromDeck(String cardName, int cnt) throws Exception {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
-        Card baseCard = HearthStone.getCardByName(cardName).copy();
+        Card baseCard = GetByName.getCardByName(cardName).copy();
         HearthStone.currentAccount.getCurrentHero().removeDeck(baseCard, cnt);
         Logger.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
