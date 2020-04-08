@@ -2,6 +2,7 @@ package hearthstone;
 
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
+import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.Account;
 import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
@@ -248,7 +249,8 @@ public class  HearthStone {
         dataPath = "./data";
         try {
             DataBase.load();
-            cli();
+            CredentialsFrame.getInstance();
+            //cli();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to load DataBase!");
