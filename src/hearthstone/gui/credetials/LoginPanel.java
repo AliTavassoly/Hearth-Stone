@@ -15,9 +15,13 @@ public class LoginPanel extends JPanel {
         configPanel();
 
         loginButton = new JButton("login");
-        backButton = new JButton("back");
-
+        loginButton.setBorderPainted(false);
+        loginButton.setFocusPainted(false);
         loginButton.setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
+
+        backButton = new JButton("back");
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
         backButton.setMargin(new Insets(2, 4 + 35, 2, 4 + 35));
 
         backButton.addActionListener(new ActionListener() {

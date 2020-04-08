@@ -15,9 +15,13 @@ public class LogisterPanel extends JPanel {
         configPanel();
 
         loginButton = new JButton("login");
+        loginButton.setBorderPainted(false);
+        loginButton.setFocusPainted(false);
         loginButton.setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
 
         registerButton = new JButton("register");
+        registerButton.setBorderPainted(false);
+        registerButton.setFocusPainted(false);
         registerButton.setMargin(new Insets(2, 3 + 25, 2, 3 + 25));
 
         loginButton.addActionListener(new ActionListener() {

@@ -18,9 +18,13 @@ public class RegisterPanel extends JPanel {
         configPanel();
 
         registerButton = new JButton("register");
+        registerButton.setBorderPainted(false);
+        registerButton.setFocusPainted(false);
         registerButton.setMargin(new Insets(2, 3 + 30, 2, 3 + 30));
 
         backButton = new JButton("back");
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
         backButton.setMargin(new Insets(2, 15 + 30, 2, 15 + 30));
 
         backButton.addActionListener(new ActionListener() {
