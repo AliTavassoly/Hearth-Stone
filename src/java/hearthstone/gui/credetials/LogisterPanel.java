@@ -9,20 +9,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class LogisterPanel extends JPanel {
-    private JButton loginButton, registerButton;
+    private ImageButton registerButton, loginButton;
 
     public LogisterPanel(){
         configPanel();
 
-        loginButton = new JButton("login");
-        loginButton.setBorderPainted(false);
-        loginButton.setFocusPainted(false);
-        loginButton.setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
+        loginButton = new ImageButton("login.png", 120, 80);
 
-        registerButton = new JButton("register");
-        registerButton.setBorderPainted(false);
-        registerButton.setFocusPainted(false);
-        registerButton.setMargin(new Insets(2, 3 + 25, 2, 3 + 25));
+        registerButton = new ImageButton("register.png", 120, 80);
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -46,7 +40,7 @@ public class LogisterPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logisterBG.jpg"));
+            image = ImageIO.read(new File("logisterBG.png"));
         } catch (Exception e){
             System.out.println(e);
         }
@@ -55,20 +49,7 @@ public class LogisterPanel extends JPanel {
 
     private void configPanel(){
         setVisible(true);
-        setBackground(Color.ORANGE);
     }
-
-    /*private void drawMessage(Graphics graphics){
-        Graphics2D graphics2D = (Graphics2D)graphics;
-        String message = "register or login?";
-        Font font = new Font("Helvetica", Font.BOLD, 40);
-        FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
-        int width = fontMetrics.stringWidth(message);
-        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-        graphics2D.setFont(font);
-        graphics2D.drawString(message, (DefaultSizes.credentialFrameWidth - width) / 2, 150);
-    }*/
 
     private void layoutComponent(){
         setLayout(new GridBagLayout());
@@ -85,12 +66,15 @@ public class LogisterPanel extends JPanel {
 
         grid.gridx = 0;
         grid.gridwidth = 1;
-        grid.insets = new Insets(350, 0, 0, 10);
+        grid.insets = new Insets(150, 10, 0, 10);
         add(loginButton, grid);
 
-        grid.gridx = 1;
+        // third row
+        grid.gridy++;
+
+        grid.gridx = 0;
         grid.gridwidth = 1;
-        grid.insets = new Insets(350, 10, 0, 0);
+        grid.insets = new Insets(10, 10, 0, 10);
         add(registerButton, grid);
     }
 }
