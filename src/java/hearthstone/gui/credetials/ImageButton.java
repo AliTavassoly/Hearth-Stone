@@ -42,7 +42,6 @@ public class ImageButton extends JButton implements MouseListener {
         try {
             image = ImageIO.read(new File(path));
         } catch (Exception e){
-            System.out.println(path);
             System.out.println(e);
         }
         g.drawImage(image, 0, 0, null);
