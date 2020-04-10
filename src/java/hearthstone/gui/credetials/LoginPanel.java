@@ -14,14 +14,20 @@ public class LoginPanel extends JPanel {
     private ImageButton backButton, loginButton;
     private JTextField userField;
     private JPasswordField passField;
-    private final String userText = "username : ";
-    private final String passText = "password : ";
+
+    private final String userText = "Username : ";
+    private final String passText = "Password : ";
     private String error = "no";
+
+    private Color textColor;
+
+    private int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45;
+    private int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50;
 
     public LoginPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", 120, 80);
+        loginButton = new ImageButton("login.png", "loginClicked.png", DefaultSizes.logisterButtonWidth, DefaultSizes.logisterButtonHeight);
 
         backButton = new ImageButton("back.png", 80, 80);
 
@@ -30,6 +36,8 @@ public class LoginPanel extends JPanel {
 
         passField = new JPasswordField(10);
         passField.setBorder(null);
+
+        textColor = new Color(255, 255, 68);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -62,16 +70,16 @@ public class LoginPanel extends JPanel {
         g.setColor(Color.WHITE);
         drawString(userText,
                 DefaultSizes.credentialFrameWidth / 2 - 20,
-                DefaultSizes.credentialFrameHeight / 2 + 16, 20, Font.PLAIN, Color.WHITE, g);
+                startTextY + 0, 20, Font.PLAIN, textColor, g);
         g.setColor(Color.WHITE);
         drawString(passText,
                 DefaultSizes.credentialFrameWidth / 2 - 20,
-                DefaultSizes.credentialFrameHeight / 2 + 48, 20, Font.PLAIN, Color.WHITE, g);
+                startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
             g.setColor(Color.BLACK);
             drawString("username or password is not correct!",
                     DefaultSizes.credentialFrameWidth / 2 - 20,
-                    DefaultSizes.credentialFrameHeight / 2 + 80, 15, Font.ITALIC, Color.RED, g);
+                    startTextY + 30, 15, Font.ITALIC, Color.RED, g);
         }
     }
 
@@ -96,13 +104,13 @@ public class LoginPanel extends JPanel {
         backButton.setBounds(20, 20, DefaultSizes.backButtonWidth, DefaultSizes.backButtonHeight);
         add(backButton);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2, DefaultSizes.credentialFrameHeight / 2, 100, 20);
+        userField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 0 * 30, 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, DefaultSizes.credentialFrameHeight / 2 + 30, 100, 20);
+        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 1 * 30, 100, 20);
         add(passField);
 
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - 80, DefaultSizes.credentialFrameHeight / 2 + 100, (int) loginButton.getPreferredSize().getWidth(), (int) loginButton.getPreferredSize().getHeight());
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - 80, startFieldY + 4 * 30, (int) loginButton.getPreferredSize().getWidth(), (int) loginButton.getPreferredSize().getHeight());
         add(loginButton);
     }
 }

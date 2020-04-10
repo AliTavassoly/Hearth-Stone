@@ -1,5 +1,7 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.gui.DefaultSizes;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +13,15 @@ import java.io.File;
 public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton;
 
-    public LogisterPanel(){
+    public LogisterPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", 120, 80);
+        loginButton = new ImageButton("login.png", "loginClicked.png",
+                DefaultSizes.logisterButtonWidth,     DefaultSizes.logisterButtonHeight);
 
-        registerButton = new ImageButton("register.png", 120, 80);
+        registerButton = new ImageButton("register.png", "registerClicked.png",
+                DefaultSizes.logisterButtonWidth,  DefaultSizes.logisterButtonHeight);
+
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
