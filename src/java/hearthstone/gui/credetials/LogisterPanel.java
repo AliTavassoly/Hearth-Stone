@@ -14,8 +14,8 @@ public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton, minimizeButton, closeButton;
 
     private final int iconX = 20;
-    private final int startButtonsY = 300;
-    private final int buttonsDis = 80;
+    private final int startButtonsY = 200;
+    private final int buttonsDis = 100;
     private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
 
