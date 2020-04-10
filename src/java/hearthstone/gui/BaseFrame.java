@@ -3,7 +3,6 @@ package hearthstone.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 

@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton, minimizeButton, closeButton;

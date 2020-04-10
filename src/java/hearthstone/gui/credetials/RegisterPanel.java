@@ -1,7 +1,5 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.data.Data;
-import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
 import hearthstone.gui.game.GameFrame;
@@ -13,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class RegisterPanel extends JPanel {
     private ImageButton backButton, registerButton, closeButton, minimizeButton;

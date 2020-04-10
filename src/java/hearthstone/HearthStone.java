@@ -6,15 +6,11 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.Account;
 import hearthstone.models.cards.Card;
 import hearthstone.models.heroes.Hero;
-import hearthstone.gamestuff.CollectionManager;
 import hearthstone.gamestuff.Market;
-import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class  HearthStone {
     public static int maxCollectionSize;

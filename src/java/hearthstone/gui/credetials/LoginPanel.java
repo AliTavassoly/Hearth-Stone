@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.*;
 
 public class LoginPanel extends JPanel {
     private ImageButton backButton, loginButton, closeButton, minimizeButton;
