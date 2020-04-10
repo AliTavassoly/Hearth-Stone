@@ -1,6 +1,7 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,13 +22,15 @@ public class LoginPanel extends JPanel {
 
     private Color textColor;
 
-    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45;
-    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50;
+    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45 + 30;
+    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50 + 30;
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
     private final int textFieldDis = 30;
+    private final int constAddX = 20;
+    private final int stringFieldDis = 3;
 
     public LoginPanel() {
         configPanel();
@@ -89,7 +92,7 @@ public class LoginPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logister_background.png"));
+            image = ImageIO.read(new File("logister_background.jpg"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -97,16 +100,16 @@ public class LoginPanel extends JPanel {
 
         g.setColor(Color.WHITE);
         drawString(userText,
-                DefaultSizes.credentialFrameWidth / 2 - 20,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 0, 20, Font.PLAIN, textColor, g);
         g.setColor(Color.WHITE);
         drawString(passText,
-                DefaultSizes.credentialFrameWidth / 2 - 20,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
             g.setColor(Color.BLACK);
             drawString("username or password is not correct!",
-                    DefaultSizes.credentialFrameWidth / 2 - 20,
+                    DefaultSizes.credentialFrameWidth / 2 - 2,
                     startTextY + 30, 15, Font.ITALIC, Color.RED, g);
         }
     }
@@ -136,12 +139,13 @@ public class LoginPanel extends JPanel {
         backButton.setBounds(iconX, iconX, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
         add(backButton);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2,
+        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12,
                 startFieldY + 0 * textFieldDis,
                 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 1 * textFieldDis,
+        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12,
+                startFieldY + 1 * textFieldDis,
                 100, 20);
         add(passField);
 

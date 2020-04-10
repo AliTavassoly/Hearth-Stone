@@ -1,6 +1,7 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -71,7 +72,7 @@ public class LogisterPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logister_background.png"));
+            image = ImageIO.read(new File("logister_background.jpg"));
         } catch (Exception e){
             System.out.println(e);
         }

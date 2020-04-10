@@ -1,6 +1,7 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class RegisterPanel extends JPanel {
     private final int textFiledDis = 30;
     private final int stringsDis = 30;
     private final int constAddX = 20;
+    private final int stringFieldDis = 1;
 
     private String error = "no";
 
@@ -98,25 +100,25 @@ public class RegisterPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logister_background.png"));
+            image = ImageIO.read(new File("logister_background.jpg"));
         } catch (Exception e) { }
         g.drawImage(image, 0, 0, null);
 
         drawString(nameText,
-                DefaultSizes.credentialFrameWidth / 2 - stringsDis,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY, 20, Font.PLAIN, textColor, g);
         drawString(userText,
-                DefaultSizes.credentialFrameWidth / 2 - stringsDis,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + stringsDis, 20, Font.PLAIN, textColor, g);
         drawString(passText,
-                DefaultSizes.credentialFrameWidth / 2 - stringsDis,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 2 * stringsDis, 20, Font.PLAIN, textColor, g);
         drawString(repText,
-                DefaultSizes.credentialFrameWidth / 2 - stringsDis,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 3 * stringsDis,20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
             drawString("username or password is not correct!",
-                    DefaultSizes.credentialFrameWidth / 2 - stringsDis,
+                    DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                     startTextY + 4 * stringsDis,15, Font.ITALIC, Color.RED, g);
         }
     }
@@ -143,16 +145,16 @@ public class RegisterPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        nameField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 0 * textFiledDis, 100, 20);
+        nameField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 0 * textFiledDis, 100, 20);
         add(nameField);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 1 * textFiledDis, 100, 20);
+        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 1 * textFiledDis, 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 2 * textFiledDis, 100, 20);
+        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 2 * textFiledDis, 100, 20);
         add(passField);
 
-        repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 3 * textFiledDis, 100, 20);
+        repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 3 * textFiledDis, 100, 20);
         add(repField);
 
         registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,

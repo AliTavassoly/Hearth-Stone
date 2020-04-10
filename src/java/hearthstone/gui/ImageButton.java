@@ -1,4 +1,4 @@
-package hearthstone.gui.credetials;
+package hearthstone.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

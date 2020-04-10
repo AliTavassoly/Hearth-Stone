@@ -1,8 +1,8 @@
 package hearthstone.gui;
 
 public class DefaultSizes {
-    public static final int credentialFrameWidth = 900;
-    public static final int credentialFrameHeight = 500;
+    public static final int credentialFrameWidth = 600;
+    public static final int credentialFrameHeight = 400;
 
     public static final int logisterButtonWidth = 120;
     public static final int logisterButtonHeight = 80;
