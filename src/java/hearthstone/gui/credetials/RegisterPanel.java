@@ -30,6 +30,7 @@ public class RegisterPanel extends JPanel {
     private final int iconsDis = 70;
     private final int textFiledDis = 30;
     private final int stringsDis = 30;
+    private final int constAddX = 20;
 
     private String error = "no";
 
@@ -142,16 +143,16 @@ public class RegisterPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        nameField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 0 * textFiledDis, 100, 20);
+        nameField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 0 * textFiledDis, 100, 20);
         add(nameField);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 1 * textFiledDis, 100, 20);
+        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 1 * textFiledDis, 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 2 * textFiledDis, 100, 20);
+        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 2 * textFiledDis, 100, 20);
         add(passField);
 
-        repField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 3 * textFiledDis, 100, 20);
+        repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX, startFieldY + 3 * textFiledDis, 100, 20);
         add(repField);
 
         registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
