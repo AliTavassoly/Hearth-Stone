@@ -65,18 +65,21 @@ public class  HearthStone {
         hearthstone.util.Logger.saveLog("login", "signed in successfully!");
     }
 
-    public static void register(String name, String username, String password, String repeat, String heroName) throws Exception {
+    public static void register(String name, String username, String password, String repeat) throws Exception {
+        if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
+            throw new HearthStoneException("please fill all the fields!");
+        }
         if (!password.equals(repeat)) {
             throw new HearthStoneException("Passwords does not match!");
         }
         if (!userNameIsValid(username)) {
-            throw new HearthStoneException("Username is invalid (at least 4 character, only contains 1-9, '-', '_' and letters!)");
+            throw new HearthStoneException("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)");
         }
         if (!passwordIsValid(password)) {
-            throw new HearthStoneException("Password is invalid (at least 4 character and contains at least a capital letter!)");
+            throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
         }
         Data.addAccountCredentials(username, password);
-        currentAccount = new Account(Data.getAccountId(username), name, username, heroName);
+        currentAccount = new Account(Data.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);
     }
 
@@ -93,7 +96,7 @@ public class  HearthStone {
         logout();
     }
 
-    public static void loginCli() {
+    /*public static void loginCli() {
         Scanner scanner = new Scanner(System.in);
         String name, username, password, repeat, sure, heroName;
 
@@ -168,9 +171,9 @@ public class  HearthStone {
                 System.out.println("An error occurred!");
             }
         }
-    }
+    }*/
 
-    public static void cli() {
+    /*public static void cli() {
         String sure, password;
         Scanner scanner = new Scanner(System.in);
 
@@ -238,15 +241,9 @@ public class  HearthStone {
                 System.out.println("An error occurred!");
             }
         }
-    }
+    }*/
 
     public static void main(String[] args) {
-        /*try{
-            dataPath = new File(HearthStone.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-            dataPath += "/data";
-        } catch (Exception e){
-            dataPath = "./data";
-        }*/
         dataPath = "./data";
         try {
             DataBase.load();

@@ -90,7 +90,7 @@ public class Market {
         addCard(baseCard, cnt);
     }
 
-    public static void cli() {
+    /*public static void cli() {
         Scanner scanner = new Scanner(System.in);
         String command, cardName, sure;
         int number;
@@ -176,6 +176,6 @@ public class Market {
                 System.out.println("An error occurred!");
             }
         }
-    }
+    }*/
 }
 

@@ -1,7 +1,11 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.data.Data;
+import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,6 +37,7 @@ public class RegisterPanel extends JPanel {
     private final int stringsDis = 30;
     private final int constAddX = 20;
     private final int stringFieldDis = 1;
+    private final int registerButtonY = 300;
 
     private String error = "no";
 
@@ -55,13 +60,17 @@ public class RegisterPanel extends JPanel {
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        nameField = new JTextField(10); nameField.setBorder(null);
+        nameField = new JTextField(10);
+        nameField.setBorder(null);
 
-        userField = new JTextField(10); userField.setBorder(null);
+        userField = new JTextField(10);
+        userField.setBorder(null);
 
-        passField = new JPasswordField(10); passField.setBorder(null);
+        passField = new JPasswordField(10);
+        passField.setBorder(null);
 
-        repField = new JPasswordField(10); repField.setBorder(null);
+        repField = new JPasswordField(10);
+        repField.setBorder(null);
 
         configText();
 
@@ -85,12 +94,24 @@ public class RegisterPanel extends JPanel {
             }
         });
 
-        /*loginButton.addActionListener(new ActionListener() {
+        registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new RegisterPanel());
+                try {
+                    hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
+                            new String(passField.getPassword()), new String(repField.getPassword()));
+                    CredentialsFrame.getInstance().getContentPane().setVisible(false);
+                    CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                    CredentialsFrame.getInstance().setVisible(false);
+                    GameFrame.getInstance().setVisible(true);
+                } catch (HearthStoneException e) {
+                    error = e.getMessage();
+                    repaint();
+                    System.out.println(e.getMessage());
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
-        });*/
+        });
 
         layoutComponent();
     }
@@ -102,7 +123,8 @@ public class RegisterPanel extends JPanel {
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/logister_background.jpg"));
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         g.drawImage(image, 0, 0, null);
 
         drawString(nameText,
@@ -116,15 +138,32 @@ public class RegisterPanel extends JPanel {
                 startTextY + 2 * stringsDis, 20, Font.PLAIN, textColor, g);
         drawString(repText,
                 DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
-                startTextY + 3 * stringsDis,20, Font.PLAIN, textColor, g);
+                startTextY + 3 * stringsDis, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
-            drawString("username or password is not correct!",
-                    DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
-                    startTextY + 4 * stringsDis,15, Font.ITALIC, Color.RED, g);
+            if(error.equals("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)")){
+                drawString("Username is invalid",
+                        DefaultSizes.credentialFrameWidth / 2,
+                        startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
+                drawString("at least 4 character, only contains 1-9, '-', '_' and letters!",
+                        DefaultSizes.credentialFrameWidth / 2,
+                        startTextY + 4 * stringsDis + 14, 15, Font.PLAIN, Color.RED, g);
+
+            } else if (error.equals("Password is invalid(at least 4 character and contains at least a capital letter!)")){
+                drawString("Password is invalid",
+                        DefaultSizes.credentialFrameWidth / 2,
+                        startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
+                drawString("at least 4 character and contains at least a capital letter!",
+                        DefaultSizes.credentialFrameWidth / 2,
+                        startTextY + 4 * stringsDis + 14, 15, Font.PLAIN, Color.RED, g);
+            } else {
+                drawString(error,
+                        DefaultSizes.credentialFrameWidth / 2,
+                        startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
+            }
         }
     }
 
-    private void configText(){
+    private void configText() {
         textColor = new Color(255, 255, 68);
     }
 
@@ -138,11 +177,20 @@ public class RegisterPanel extends JPanel {
         Font font = CredentialsFrame.getInstance().getCustomFont(style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
+
         graphics2D.setColor(color);
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         graphics2D.setFont(font);
-        graphics2D.drawString(text, x - width, y);
+
+        int isNotError = 1;
+        if (color == Color.RED) {
+            isNotError = 2;
+            graphics2D.setColor(new Color(0, 0, 0, 150));
+            graphics2D.fillRect(x - width / isNotError + 2 - 3, y - 11, width + 6, 14);
+        }
+        graphics2D.setColor(color);
+        graphics2D.drawString(text, x - width / isNotError + 2, y);
     }
 
     private void layoutComponent() {
@@ -159,7 +207,7 @@ public class RegisterPanel extends JPanel {
         add(repField);
 
         registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
-                startFieldY + 5 * textFiledDis,
+                registerButtonY,
                 DefaultSizes.logisterButtonWidth,
                 DefaultSizes.logisterButtonHeight);
         add(registerButton);

@@ -87,7 +87,7 @@ public class CollectionManager {
         Logger.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
-    public static void cli() {
+    /*public static void cli() {
         Scanner scanner = new Scanner(System.in);
         String command, cardName, heroName, sure;
         int number;
@@ -188,5 +188,5 @@ public class CollectionManager {
                 System.out.println("An error occurred!");
             }
         }
-    }
+    }*/
 }

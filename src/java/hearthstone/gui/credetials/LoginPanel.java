@@ -2,6 +2,8 @@ package hearthstone.gui.credetials;
 
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,6 +33,7 @@ public class LoginPanel extends JPanel {
     private final int textFieldDis = 30;
     private final int constAddX = 20;
     private final int stringFieldDis = 3;
+    private final int loginButtonY = 300;
 
     public LoginPanel() {
         configPanel();
@@ -77,12 +80,21 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        /*loginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new RegisterPanel());
+                try{
+                    hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
+                    CredentialsFrame.getInstance().setVisible(false);
+                    GameFrame.getInstance().setVisible(true);
+                } catch (HearthStoneException e){
+                    error = e.getMessage();
+                    repaint();
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                    ex.getStackTrace();
+                }
             }
-        });*/
+        });
 
         layoutComponent();
     }
@@ -99,19 +111,16 @@ public class LoginPanel extends JPanel {
         }
         g.drawImage(image, 0, 0, null);
 
-        g.setColor(Color.WHITE);
         drawString(userText,
                 DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 0, 20, Font.PLAIN, textColor, g);
-        g.setColor(Color.WHITE);
         drawString(passText,
                 DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
-            g.setColor(Color.BLACK);
-            drawString("username or password is not correct!",
-                    DefaultSizes.credentialFrameWidth / 2 - 2,
-                    startTextY + 30, 15, Font.ITALIC, Color.RED, g);
+            drawString(error,
+                    DefaultSizes.credentialFrameWidth / 2,
+                    startTextY + 2 * 30, 15, Font.PLAIN, Color.RED, g);
         }
     }
 
@@ -129,11 +138,20 @@ public class LoginPanel extends JPanel {
         Font font = CredentialsFrame.getInstance().getCustomFont(style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
+
         graphics2D.setColor(color);
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         graphics2D.setFont(font);
-        graphics2D.drawString(text, x - width + 2, y);
+
+        int isNotError = 1;
+        if(color == Color.RED){
+            isNotError = 2;
+            graphics2D.setColor(new Color(0, 0, 0, 150));
+            graphics2D.fillRect(x - width / isNotError + 2 - 3, y - 12, width + 6, 15);
+        }
+        graphics2D.setColor(color);
+        graphics2D.drawString(text, x - width / isNotError + 2, y);
     }
 
     private void layoutComponent() {
@@ -151,7 +169,7 @@ public class LoginPanel extends JPanel {
         add(passField);
 
         loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
-                startFieldY + 4 * textFieldDis,
+                loginButtonY,
                 DefaultSizes.logisterButtonWidth,
                 DefaultSizes.logisterButtonHeight);
         add(loginButton);

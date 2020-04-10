@@ -23,19 +23,11 @@ public class Account {
 
     }
 
-    public Account(int id, String name, String username, String heroName) {
+    public Account(int id, String name, String username) {
         this.id = id;
         this.name = name;
         this.username = username;
         coins = HearthStone.initialCoins;
-
-        for (Hero baseHero : HearthStone.baseHeroes.values()) {
-            if (baseHero.getName().equals(heroName)) {
-                currentHero = baseHero.copy();
-                heroes.add(currentHero.copy());
-                break;
-            }
-        }
     }
 
     public void setName(String name) {

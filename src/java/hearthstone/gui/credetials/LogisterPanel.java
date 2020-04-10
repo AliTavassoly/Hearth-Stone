@@ -14,11 +14,11 @@ import java.io.File;
 public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton, minimizeButton, closeButton;
 
-    private final int iconX = 20;
-    private final int startButtonsY = 200;
-    private final int buttonsDis = 100;
-    private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
-    private final int iconsDis = 70;
+    private static final int iconX = 20;
+    private static final int startButtonsY = 200;
+    private static final int buttonsDis = 100;
+    private static final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private static final int iconsDis = 70;
 
     public LogisterPanel() {
         configPanel();
