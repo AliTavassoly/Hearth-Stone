@@ -22,8 +22,8 @@ public class LoginPanel extends JPanel {
 
     private Color textColor;
 
-    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45 + 30;
-    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50 + 30;
+    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45 + 30 + 1;
+    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50 + 30 + 1;
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
@@ -132,7 +132,7 @@ public class LoginPanel extends JPanel {
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         graphics2D.setFont(font);
-        graphics2D.drawString(text, x - width, y);
+        graphics2D.drawString(text, x - width + 2, y);
     }
 
     private void layoutComponent() {
