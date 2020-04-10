@@ -11,17 +11,43 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class LogisterPanel extends JPanel {
-    private ImageButton registerButton, loginButton;
+    private ImageButton registerButton, loginButton, minimizeButton, closeButton;
+
+    private final int iconX = 20;
+    private final int startButtonsY = 300;
+    private final int buttonsDis = 80;
+    private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int iconsDis = 70;
 
     public LogisterPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", "loginClicked.png",
+        loginButton = new ImageButton("login.png", "login_active.png",
                 DefaultSizes.logisterButtonWidth,     DefaultSizes.logisterButtonHeight);
 
-        registerButton = new ImageButton("register.png", "registerClicked.png",
+        registerButton = new ImageButton("register.png", "register_active.png",
                 DefaultSizes.logisterButtonWidth,  DefaultSizes.logisterButtonHeight);
 
+        closeButton = new ImageButton("close.png", "close_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
+                CredentialsFrame.getInstance().setState(Frame.NORMAL);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -45,7 +71,7 @@ public class LogisterPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logisterBG.png"));
+            image = ImageIO.read(new File("logister_background.png"));
         } catch (Exception e){
             System.out.println(e);
         }
@@ -53,33 +79,34 @@ public class LogisterPanel extends JPanel {
     }
 
     private void configPanel(){
+        setLayout(null);
         setVisible(true);
     }
 
     private void layoutComponent(){
-        setLayout(new GridBagLayout());
-        GridBagConstraints grid = new GridBagConstraints();
-        // first row
-        grid.gridy = 0;
+        //
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+                startButtonsY,
+                DefaultSizes.logisterButtonWidth,
+                DefaultSizes.logisterButtonHeight);
+        add(loginButton);
 
-        grid.gridx = 0;
-        grid.gridwidth = 2;
-        grid.insets = new Insets(0, 0, 200, 10);
+        //
+        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+                startButtonsY + buttonsDis,
+                DefaultSizes.logisterButtonWidth,
+                DefaultSizes.logisterButtonHeight);
+        add(registerButton);
 
-        // second row
-        grid.gridy++;
+        //
+        minimizeButton.setBounds(iconX, endIconY - iconsDis,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(minimizeButton);
 
-        grid.gridx = 0;
-        grid.gridwidth = 1;
-        grid.insets = new Insets(150, 10, 0, 10);
-        add(loginButton, grid);
-
-        // third row
-        grid.gridy++;
-
-        grid.gridx = 0;
-        grid.gridwidth = 1;
-        grid.insets = new Insets(10, 10, 0, 10);
-        add(registerButton, grid);
+        closeButton.setBounds(iconX, endIconY,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(closeButton);
     }
 }

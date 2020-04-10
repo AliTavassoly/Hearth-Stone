@@ -1,10 +1,11 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 
 import javax.swing.*;
 
-public class CredentialsFrame extends JFrame {
+public class CredentialsFrame extends BaseFrame {
     private LogisterPanel logisterPanel;
     private static CredentialsFrame credentialsFrame;
 
@@ -12,8 +13,6 @@ public class CredentialsFrame extends JFrame {
         logisterPanel = new LogisterPanel();
 
         configFrame();
-
-        this.setContentPane(logisterPanel);
     }
 
     public static CredentialsFrame getInstance(){
@@ -30,6 +29,11 @@ public class CredentialsFrame extends JFrame {
         this.setSize(DefaultSizes.credentialFrameWidth, DefaultSizes.credentialFrameHeight);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        this.setContentPane(logisterPanel);
+
+        setUndecorated(true);
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+
         this.setVisible(true);
     }
 }

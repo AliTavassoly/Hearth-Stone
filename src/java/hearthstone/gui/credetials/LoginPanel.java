@@ -8,10 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 
 public class LoginPanel extends JPanel {
-    private ImageButton backButton, loginButton;
+    private ImageButton backButton, loginButton, closeButton, minimizeButton;
     private JTextField userField;
     private JPasswordField passField;
 
@@ -21,28 +21,56 @@ public class LoginPanel extends JPanel {
 
     private Color textColor;
 
-    private int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45;
-    private int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50;
+    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45;
+    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50;
+    private final int iconX = 20;
+    private final int startIconY = 20;
+    private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int iconsDis = 70;
+    private final int textFieldDis = 30;
 
     public LoginPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", "loginClicked.png", DefaultSizes.logisterButtonWidth, DefaultSizes.logisterButtonHeight);
+        loginButton = new ImageButton("login.png", "login_active.png",
+                DefaultSizes.logisterButtonWidth,
+                DefaultSizes.logisterButtonHeight);
 
-        backButton = new ImageButton("back.png", 80, 80);
+        backButton = new ImageButton("back.png", "back_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
 
-        userField = new JTextField(10);
-        userField.setBorder(null);
+        closeButton = new ImageButton("close.png", "close_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
 
-        passField = new JPasswordField(10);
-        passField.setBorder(null);
+        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
 
-        textColor = new Color(255, 255, 68);
+        userField = new JTextField(10); userField.setBorder(null);
+
+        passField = new JPasswordField(10); passField.setBorder(null);
+
+        configText();
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 CredentialsFrame.getInstance().getContentPane().setVisible(false);
                 CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+            }
+        });
+
+        minimizeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
+                CredentialsFrame.getInstance().setState(Frame.NORMAL);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
             }
         });
 
@@ -61,7 +89,7 @@ public class LoginPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logisterBG.png"));
+            image = ImageIO.read(new File("logister_background.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -83,6 +111,10 @@ public class LoginPanel extends JPanel {
         }
     }
 
+    private void configText(){
+        textColor = new Color(255, 255, 68);
+    }
+
     private void configPanel() {
         setLayout(null);
         setVisible(true);
@@ -90,7 +122,7 @@ public class LoginPanel extends JPanel {
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {
         Graphics2D graphics2D = (Graphics2D) graphic;
-        Font font = new Font("Helvetica", style, size);
+        Font font = CredentialsFrame.getInstance().getCustomFont(style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
         graphics2D.setColor(color);
@@ -101,16 +133,39 @@ public class LoginPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        backButton.setBounds(20, 20, DefaultSizes.backButtonWidth, DefaultSizes.backButtonHeight);
+        backButton.setBounds(iconX, iconX, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
         add(backButton);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 0 * 30, 100, 20);
+        userField.setBounds(DefaultSizes.credentialFrameWidth / 2,
+                startFieldY + 0 * textFieldDis,
+                100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 1 * 30, 100, 20);
+        passField.setBounds(DefaultSizes.credentialFrameWidth / 2, startFieldY + 1 * textFieldDis,
+                100, 20);
         add(passField);
 
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - 80, startFieldY + 4 * 30, (int) loginButton.getPreferredSize().getWidth(), (int) loginButton.getPreferredSize().getHeight());
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+                startFieldY + 4 * textFieldDis,
+                DefaultSizes.logisterButtonWidth,
+                DefaultSizes.logisterButtonHeight);
         add(loginButton);
+
+        //
+        backButton.setBounds(iconX, startIconY,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(backButton);
+
+        //
+        minimizeButton.setBounds(iconX, endIconY - iconsDis,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(minimizeButton);
+
+        closeButton.setBounds(iconX, endIconY,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(closeButton);
     }
 }
