@@ -11,10 +11,13 @@ public class BaseFrame extends JFrame {
     private Font hearthStoneFont;
 
     public BaseFrame (){
-        try (InputStream in = new BufferedInputStream(new FileInputStream("text_font.ttf"))) {
+        try (InputStream in = new BufferedInputStream(
+                this.getClass().getResourceAsStream("/fonts/text_font.ttf"))) {
             hearthStoneFont = Font.createFont(Font.TRUETYPE_FONT, in);
         } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
 

@@ -92,7 +92,8 @@ public class LoginPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("logister_background.jpg"));
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/logister_background.jpg"));
         } catch (Exception e) {
             System.out.println(e);
         }

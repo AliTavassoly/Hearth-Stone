@@ -40,7 +40,8 @@ public class ImageButton extends JButton implements MouseListener {
     protected void paintComponent(Graphics g){
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File(path));
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/" + path));
         } catch (Exception e){
             System.out.println(e);
         }
