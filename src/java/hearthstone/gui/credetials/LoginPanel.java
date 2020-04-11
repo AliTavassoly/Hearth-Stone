@@ -61,8 +61,7 @@ public class LoginPanel extends JPanel {
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
             }
         });
 

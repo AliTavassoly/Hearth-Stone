@@ -1,18 +1,16 @@
 package hearthstone.gui.game;
 
-import com.sun.tools.javac.Main;
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.credetials.LogisterPanel;
 
 import javax.swing.*;
 
-public class GameFrame extends JFrame {
-    private MainPanel mainPanel;
+public class GameFrame extends BaseFrame {
+    private MainMenuPanel mainMenuPanel;
     private static GameFrame gameFrame;
 
     private GameFrame(){
-        mainPanel = new MainPanel();
+        mainMenuPanel = new MainMenuPanel();
 
         configFrame();
     }
@@ -31,7 +29,7 @@ public class GameFrame extends JFrame {
         this.setSize(DefaultSizes.gameFrameWidth, DefaultSizes.gameFrameHeight);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setContentPane(mainPanel);
+        this.setContentPane(mainMenuPanel);
 
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);

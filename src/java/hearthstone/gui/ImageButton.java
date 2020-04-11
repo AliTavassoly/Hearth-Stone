@@ -9,15 +9,17 @@ import java.awt.image.BufferedImage;
 
 public class ImageButton extends JButton implements MouseListener {
     private String path, pathNormal, pathClicked;
+    private int width, height;
 
     public ImageButton(String pathNormal, int width, int height){
         this.pathNormal = pathNormal;
+        this.pathClicked = pathNormal;
         path = pathNormal;
 
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
-        setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
+        //setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
 
         addMouseListener(this);
     }
@@ -44,6 +46,7 @@ public class ImageButton extends JButton implements MouseListener {
         } catch (Exception e){
             System.out.println(e);
         }
+        g.clearRect(0, 0, width, height);
         g.drawImage(image, 0, 0, null);
     }
 

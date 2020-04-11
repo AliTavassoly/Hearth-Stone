@@ -86,16 +86,19 @@ public class RegisterPanel extends JPanel {
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
             }
         });
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
+                CredentialsFrame.getInstance().getContentPane().setVisible(false);
+                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                CredentialsFrame.getInstance().setVisible(false);
+                GameFrame.getInstance().setVisible(true);
+                /*try {
                     hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
-                            new String(passField.getPassword()), new String(repField.getPassword()));
+                           new String(passField.getPassword()), new String(repField.getPassword()));
                     CredentialsFrame.getInstance().getContentPane().setVisible(false);
                     CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                     CredentialsFrame.getInstance().setVisible(false);
@@ -106,7 +109,7 @@ public class RegisterPanel extends JPanel {
                     System.out.println(e.getMessage());
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                }
+                }*/
             }
         });
 

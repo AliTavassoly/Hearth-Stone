@@ -1,5 +1,8 @@
 package hearthstone.gui;
 
+import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.credetials.LogisterPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -22,5 +25,10 @@ public class BaseFrame extends JFrame {
 
     public Font getCustomFont(int style, int size){
         return hearthStoneFont.deriveFont(style, size);
+    }
+
+    public void switchPanelTo(JFrame frame, JPanel panel){
+        frame.getContentPane().setVisible(false);
+        frame.setContentPane(panel);
     }
 }
