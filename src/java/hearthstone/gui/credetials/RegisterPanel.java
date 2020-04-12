@@ -3,7 +3,6 @@ package hearthstone.gui.credetials;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -41,19 +40,20 @@ public class RegisterPanel extends JPanel {
     public RegisterPanel() {
         configPanel();
 
-        registerButton = new ImageButton("register.png", "register_active.png",
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+        registerButton = new ImageButton("register", "buttons/blue_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
 
-        backButton = new ImageButton("back.png", "back_active.png",
+        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("close.png", "close_active.png",
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
@@ -206,10 +206,10 @@ public class RegisterPanel extends JPanel {
         repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 3 * textFiledDis, 100, 20);
         add(repField);
 
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
                 registerButtonY,
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
         add(registerButton);
 
         //

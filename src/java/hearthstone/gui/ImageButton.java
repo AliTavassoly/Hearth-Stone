@@ -1,5 +1,7 @@
 package hearthstone.gui;
 
+import hearthstone.gui.credetials.CredentialsFrame;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,46 +10,94 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class ImageButton extends JButton implements MouseListener {
-    private String path, pathNormal, pathClicked;
+    private String imagePath, text;
+    private String normalPath, activePath;
     private int width, height;
+    private int textStyle, textSize;
+    private Color currentColor, textColor, textColorActive;
+    private int tof;
 
-    public ImageButton(String pathNormal, int width, int height){
-        this.pathNormal = pathNormal;
-        this.pathClicked = pathNormal;
-        path = pathNormal;
+    public ImageButton() {
+
+    }
+
+    public ImageButton(String imagePath, int width, int height) {
+
+        this.imagePath = imagePath;
+        this.width = width;
+        this.height = height;
 
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
-        //setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
 
         addMouseListener(this);
     }
 
-    public ImageButton(String pathNormal, String pathClicked, int width, int height){
-        this.pathNormal = pathNormal;
-        this.pathClicked = pathClicked;
-        path = pathNormal;
+    public ImageButton(String normalPath, String activePath, int width, int height) {
+
+        this.normalPath = normalPath;
+        this.activePath = activePath;
+        this.width = width;
+        this.height = height;
+        imagePath = normalPath;
 
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
-        setMargin(new Insets(2, 3 + 35, 2, 3 + 35));
+
+        addMouseListener(this);
+    }
+
+    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+                       int textSize, int textStyle, int width, int height) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.tof = tof;
+        this.textColor = textColor;
+        this.textColorActive = textColorActive;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        currentColor = textColor;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
 
         addMouseListener(this);
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
+        // DRAW IMAGE
+        Graphics2D g2 = (Graphics2D) g;
+
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + path));
-        } catch (Exception e){
+                    "/images/" + imagePath));
+        } catch (Exception e) {
             System.out.println(e);
+            e.getStackTrace();
         }
-        g.clearRect(0, 0, width, height);
-        g.drawImage(image, 0, 0, null);
+        g2.drawImage(image, 0, 0, null);
+
+        // DRAW TEXT
+        if (text != null) {
+            Font font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
+            FontMetrics fontMetrics = g2.getFontMetrics(font);
+            int textWidth = fontMetrics.stringWidth(text);
+
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+            g2.setFont(font);
+            g2.setColor(currentColor);
+
+            g2.drawString(text, width / 2 - textWidth / 2,
+                    (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+        }
     }
 
     @Override
@@ -67,13 +117,19 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        path = pathClicked;
+        if (textColorActive != null)
+            currentColor = textColorActive;
+        if (activePath != null)
+            imagePath = activePath;
         repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        path = pathNormal;
+        if (textColor != null)
+            currentColor = textColor;
+        if (normalPath != null)
+            imagePath = normalPath;
         repaint();
     }
 }

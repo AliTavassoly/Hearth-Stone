@@ -2,6 +2,7 @@ package hearthstone.gui.game;
 
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
+import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

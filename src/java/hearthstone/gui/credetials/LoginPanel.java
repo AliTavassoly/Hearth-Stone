@@ -37,19 +37,20 @@ public class LoginPanel extends JPanel {
     public LoginPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", "login_active.png",
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+        loginButton = new ImageButton("login", "buttons/green_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
 
-        backButton = new ImageButton("back.png", "back_active.png",
+        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("close.png", "close_active.png",
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
@@ -143,10 +144,10 @@ public class LoginPanel extends JPanel {
         graphics2D.setFont(font);
 
         int isNotError = 1;
-        if(color == Color.RED){
+        if (color == Color.RED) {
             isNotError = 2;
             graphics2D.setColor(new Color(0, 0, 0, 150));
-            graphics2D.fillRect(x - width / isNotError + 2 - 3, y - 12, width + 6, 15);
+            graphics2D.fillRect(x - width / isNotError + 2 - 3, y - 11, width + 6, 14);
         }
         graphics2D.setColor(color);
         graphics2D.drawString(text, x - width / isNotError + 2, y);
@@ -166,10 +167,10 @@ public class LoginPanel extends JPanel {
                 100, 20);
         add(passField);
 
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
                 loginButtonY,
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
         add(loginButton);
 
         //

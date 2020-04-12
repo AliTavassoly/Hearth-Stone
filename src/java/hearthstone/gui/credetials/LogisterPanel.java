@@ -22,17 +22,21 @@ public class LogisterPanel extends JPanel {
     public LogisterPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login.png", "login_active.png",
-                DefaultSizes.logisterButtonWidth,     DefaultSizes.logisterButtonHeight);
+        loginButton = new ImageButton("login", "buttons/green_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
 
-        registerButton = new ImageButton("register.png", "register_active.png",
-                DefaultSizes.logisterButtonWidth,  DefaultSizes.logisterButtonHeight);
+        registerButton = new ImageButton("register", "buttons/blue_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
 
-        closeButton = new ImageButton("close.png", "close_active.png",
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
@@ -86,17 +90,17 @@ public class LogisterPanel extends JPanel {
 
     private void layoutComponent(){
         //
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
                 startButtonsY,
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
         add(loginButton);
 
         //
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.logisterButtonWidth / 2,
+        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
                 startButtonsY + buttonsDis,
-                DefaultSizes.logisterButtonWidth,
-                DefaultSizes.logisterButtonHeight);
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
         add(registerButton);
 
         //
