@@ -102,15 +102,17 @@
     }
   },
   "7": {
-    "type": "hearthstone.models.cards.SpellCard",
+    "type": "hearthstone.models.cards.MinionCard",
     "data": {
+      "health": 4,
+      "attack": 4,
       "id": 7,
-      "name": "Chaos Nova",
-      "description": "Deal 4 damage to all minions.",
+      "name": "Abomination",
+      "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
       "manaCost": 5,
       "heroType": "ALL",
-      "rarity": "COMMON",
-      "cardType": "SPELL",
+      "rarity": "RARE",
+      "cardType": "MINIONCARD",
       "buyPrice": 5,
       "sellPrice": 5
     }

@@ -1,4 +1,4 @@
-package hearthstone.models.cards;
+package hearthstone.logic.models.cards;
 
 public enum CardType {
     SPELL,

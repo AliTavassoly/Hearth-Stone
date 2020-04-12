@@ -1,14 +1,11 @@
-package hearthstone.gamestuff;
+package hearthstone.logic.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
-import hearthstone.models.cards.Card;
-import hearthstone.models.heroes.Hero;
+import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.heroes.Hero;
 import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Logger;
-
-import java.util.Scanner;
 
 public class CollectionManager {
 

@@ -3,8 +3,8 @@ package hearthstone.util;
 
 import hearthstone.HearthStone;
 
-import hearthstone.models.cards.Card;
-import hearthstone.models.heroes.Hero;
+import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.heroes.Hero;
 
 public class GetByName {
     public static Hero getHeroByName(String heroName) throws Exception {

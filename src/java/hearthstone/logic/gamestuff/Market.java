@@ -1,13 +1,11 @@
-package hearthstone.gamestuff;
+package hearthstone.logic.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
-import hearthstone.models.cards.Card;
+import hearthstone.logic.models.cards.Card;
 import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Market {
     private ArrayList<Card> cards = new ArrayList<>();

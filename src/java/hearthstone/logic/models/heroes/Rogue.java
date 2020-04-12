@@ -1,4 +1,4 @@
-package hearthstone.models.heroes;
+package hearthstone.logic.models.heroes;
 
 import java.util.List;
 

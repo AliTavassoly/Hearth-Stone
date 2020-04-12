@@ -1,6 +1,6 @@
-package hearthstone.models.cards;
+package hearthstone.logic.models.cards;
 
-import hearthstone.models.heroes.HeroType;
+import hearthstone.logic.models.heroes.HeroType;
 
 public class WeaponCard extends Card implements Cloneable{
     private int durability;

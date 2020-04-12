@@ -1,5 +1,4 @@
 package hearthstone.gui.factory;
 
-public class CardFactory {
-
+public class HeroFactory {
 }

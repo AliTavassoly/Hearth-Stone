@@ -3,10 +3,10 @@ package hearthstone;
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.models.Account;
-import hearthstone.models.cards.Card;
-import hearthstone.models.heroes.Hero;
-import hearthstone.gamestuff.Market;
+import hearthstone.logic.models.Account;
+import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
 
 import java.util.HashMap;

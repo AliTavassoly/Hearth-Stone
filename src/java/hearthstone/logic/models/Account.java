@@ -1,9 +1,9 @@
-package hearthstone.models;
+package hearthstone.logic.models;
 
 import hearthstone.HearthStone;
-import hearthstone.models.cards.Card;
-import hearthstone.models.heroes.Hero;
-import hearthstone.models.heroes.HeroType;
+import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.heroes.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
