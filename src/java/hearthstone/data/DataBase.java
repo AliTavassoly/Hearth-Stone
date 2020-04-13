@@ -12,6 +12,8 @@ import hearthstone.logic.gamestuff.Market;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -20,46 +22,46 @@ public class DataBase {
     public static Gson gson;
 
     public static void loadCards() throws Exception{
-        /*int id = 0;
+        int id = 0;
         //Mage
-        //SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        //HearthStone.baseCards.put(polymorph.getId(), polymorph);
+        SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(polymorph.getId(), polymorph);
 
-        //SpellCard freezingPotion = new SpellCard(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        //HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
+        SpellCard freezingPotion = new SpellCard(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
 
         //Warlock
-        //MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
+        MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
         HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
 
-        //SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
+        SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(soulfire.getId(), soulfire);
 
         //Rogue
-        //SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
+        SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
 
-        //MinionCard labRecruiter = new MinionCard(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3);
+        MinionCard labRecruiter = new MinionCard(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3);
         HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
         //All
 
         //Spell
-        //SpellCard blur = new SpellCard(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        SpellCard blur = new SpellCard(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(blur.getId(), blur);
 
-        //MinionCard abomination = new MinionCard(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4);
+        MinionCard abomination = new MinionCard(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4);
         HearthStone.baseCards.put(abomination.getId(), abomination);
 
-        //SpellCard tracking = new SpellCard(id++, "Tracking", "Look at the top 3 cards of your deck. Draw one and discard the others.", 1, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        SpellCard tracking = new SpellCard(id++, "Tracking", "Look at the top 3 cards of your deck. Draw one and discard the others.", 1, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(tracking.getId(), tracking);
 
 
         //Minion
-        //MinionCard hulkingOverfiend = new MinionCard(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10);
+        MinionCard hulkingOverfiend = new MinionCard(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10);
         HearthStone.baseCards.put(hulkingOverfiend.getId(), hulkingOverfiend);
 
-        //MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
+        MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
         HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
 
         MinionCard wrathspikeBrute = new MinionCard(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2);
@@ -84,17 +86,17 @@ public class DataBase {
         WeaponCard glaivezooka = new WeaponCard(id++, "Glaivezooka", "Battlecry: Give a random friendly minion +1 Attack.", 2, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(glaivezooka.getId(), glaivezooka);
 
-        WeaponCard eaglehornBow = new WeaponCard(id++, "Eaglehorn Bow", "Whenever a friendly Secret is revealed, gain +1 Durability.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 3);
+        WeaponCard eaglehornBow = new WeaponCard(id++, "Eaglehorn Bow", "Whenever a friendly Secret is revealed, gain +1 Durability.", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPONCARD, 2, 3);
         HearthStone.baseCards.put(eaglehornBow.getId(), eaglehornBow);
 
         WeaponCard desertSpear = new WeaponCard(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
-        HearthStone.baseCards.put(desertSpear.getId(), desertSpear);*/
+        HearthStone.baseCards.put(desertSpear.getId(), desertSpear);
 
-        baseCards = getBaseCards();
+        //baseCards = getBaseCards();
     }
 
     public static void loadHeroes() throws Exception {
-        /*int id = 0;
+        int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
                 Arrays.asList(0, 1, 6, 9, 9, 10, 13, 16, 19)));
         HearthStone.baseHeroes.put(mage.getId(), mage);
@@ -105,8 +107,8 @@ public class DataBase {
 
         Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
                 Arrays.asList(4, 5, 8, 12, 15, 15, 18, 18)));
-        HearthStone.baseHeroes.put(rogue.getId(), rogue);*/
-        baseHeroes = getBaseHeroes();
+        HearthStone.baseHeroes.put(rogue.getId(), rogue);
+        //baseHeroes = getBaseHeroes();
     }
 
     public static Map<String, AccountCredential> getCredentials() throws Exception {
@@ -220,7 +222,7 @@ public class DataBase {
         Data.setAccounts(getCredentials());
     }
 
-    /*public static void save1() throws Exception {
+    public static void save1() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_cards.json");
         gson.toJson(baseCards, new TypeToken<Map<Integer, Card>>() {}.getType(), fileWriter);
         fileWriter.flush();
@@ -232,7 +234,7 @@ public class DataBase {
         gson.toJson(baseHeroes, new TypeToken<Map<Integer, Hero>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
-    }*/
+    }
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -245,8 +247,8 @@ public class DataBase {
 
         loadCards();
         loadHeroes();
-        //save1();
-        //save2();
+        save1();
+        save2();
         loadAccounts();
         loadMarket();
     }

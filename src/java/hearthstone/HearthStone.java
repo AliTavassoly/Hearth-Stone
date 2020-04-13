@@ -243,11 +243,11 @@ public class  HearthStone {
         dataPath = "./data";
         try {
             DataBase.load();
-            CredentialsFrame.getInstance();
             //cli();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to load DataBase!");
         }
+        CredentialsFrame.getInstance();
     }
 }

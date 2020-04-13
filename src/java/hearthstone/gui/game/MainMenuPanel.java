@@ -1,5 +1,7 @@
 package hearthstone.gui.game;
 
+import hearthstone.HearthStone;
+import hearthstone.gui.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
 
@@ -14,7 +16,7 @@ public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playButton, collectionButton, marketButton, statusButton;
     private ImageButton logoButton;
-
+    private CardButton cardButton;
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
@@ -24,7 +26,7 @@ public class MainMenuPanel extends JPanel {
     private final int buttonDis = 97;
 
 
-    public MainMenuPanel(){
+    public MainMenuPanel() {
         configPanel();
 
         makeIcons();
@@ -37,19 +39,19 @@ public class MainMenuPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/main_menu_background.jpg"));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         g.drawImage(image, 0, 0, null);
     }
 
-    private void makeIcons(){
+    private void makeIcons() {
         logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
@@ -80,13 +82,13 @@ public class MainMenuPanel extends JPanel {
         });
     }
 
-    private void makeLogo(){
+    private void makeLogo() {
         logoButton = new ImageButton("logo.png",
                 DefaultSizes.mainMenuLogoWidth,
                 DefaultSizes.mainMenuLogoHeight);
     }
 
-    private void makeButtons(){
+    private void makeButtons() {
         playButton = new ImageButton("play", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.longButtonWidth,
@@ -106,17 +108,20 @@ public class MainMenuPanel extends JPanel {
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
+
+        cardButton = new CardButton(HearthStone.baseCards.get(6), DefaultSizes.bigCardWidth,
+                DefaultSizes.bigCardHeight);
     }
 
-    private void configPanel(){
+    private void configPanel() {
         setLayout(null);
         setVisible(true);
     }
 
-    private void layoutComponent(){
+    private void layoutComponent() {
         // LOGO
         logoButton.setBounds(buttonX + DefaultSizes.longButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
-                startButtonY - (int)(1.80 * buttonDis),
+                startButtonY - (int) (1.80 * buttonDis),
                 DefaultSizes.mainMenuLogoWidth,
                 DefaultSizes.mainMenuLogoHeight);
         add(logoButton);
@@ -143,7 +148,7 @@ public class MainMenuPanel extends JPanel {
         add(closeButton);
 
         // BUTTONS
-        playButton.setBounds(buttonX, startButtonY + 0 * buttonDis,
+        /*playButton.setBounds(buttonX, startButtonY + 0 * buttonDis,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
         add(playButton);
@@ -161,6 +166,11 @@ public class MainMenuPanel extends JPanel {
         statusButton.setBounds(buttonX, startButtonY + 3 * buttonDis,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
-        add(statusButton);
+        add(statusButton);*/
+        cardButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.bigCardWidth / 2,
+                20,
+                DefaultSizes.bigCardWidth,
+                DefaultSizes.bigCardHeight);
+        add(cardButton);
     }
 }

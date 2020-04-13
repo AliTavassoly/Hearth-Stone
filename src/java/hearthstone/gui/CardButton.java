@@ -11,11 +11,20 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class CardButton extends ImageButton implements MouseListener {
+    int width, height;
     Card card;
     String size;
 
-    public CardButton(Card card) {
+    public CardButton(Card card, int width, int height) {
         this.card = card;
+        this.width = width;
+        this.height = height;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        addMouseListener(this);
     }
 
     @Override
@@ -25,15 +34,17 @@ public class CardButton extends ImageButton implements MouseListener {
 
         BufferedImage image = null;
         try {
+         //   image = ImageIO.read(this.getClass().getResourceAsStream(
+           //         "/images/cards" + card.getName().replace(' ', '_')));
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/cards" + card.getName().replace(' ', '_')));
+                    "/images/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
         }
         g2.drawImage(image, 0, 0, null);
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 3);
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 60);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
         //int textWidth = fontMetrics.stringWidth(text);
 
@@ -48,35 +59,34 @@ public class CardButton extends ImageButton implements MouseListener {
 
         switch (card.getCardType()){
             case SPELL:
-                //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                g2.drawString(String.valueOf(3), 55, 70);
                 break;
             case HEROCARD:
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
 
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
                 break;
             case MINIONCARD:
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
 
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
 
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
                 break;
             case WEAPONCARD:
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
 
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
 
                 //g2.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
+                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
                 break;
         }
 

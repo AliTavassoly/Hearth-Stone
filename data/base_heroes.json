@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.models.heroes.Mage",
+    "type": "hearthstone.logic.models.heroes.Mage",
     "data": {
       "id": 0,
       "name": "Mage",
@@ -9,7 +9,7 @@
       "type": "MAGE",
       "collection": [
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 0,
             "name": "Polymorph",
@@ -23,7 +23,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 1,
             "name": "Freezing Potion",
@@ -37,7 +37,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 6,
             "name": "Blur",
@@ -51,7 +51,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 5,
             "attack": 10,
@@ -67,7 +67,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 5,
             "attack": 10,
@@ -83,7 +83,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 1,
             "attack": 3,
@@ -99,7 +99,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 2,
             "attack": 1,
@@ -115,7 +115,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 3,
             "attack": 1,
@@ -131,7 +131,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 3,
             "attack": 1,
@@ -151,7 +151,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.models.heroes.Warlock",
+    "type": "hearthstone.logic.models.heroes.Warlock",
     "data": {
       "id": 1,
       "name": "Warlock",
@@ -160,7 +160,7 @@
       "type": "WARLOCK",
       "collection": [
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 2,
             "attack": 4,
@@ -176,7 +176,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 3,
             "name": "Soulfire",
@@ -190,21 +190,23 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
+            "health": 4,
+            "attack": 4,
             "id": 7,
-            "name": "Chaos Nova",
-            "description": "Deal 4 damage to all minions.",
+            "name": "Abomination",
+            "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
             "manaCost": 5,
             "heroType": "ALL",
-            "rarity": "COMMON",
-            "cardType": "SPELL",
+            "rarity": "RARE",
+            "cardType": "MINIONCARD",
             "buyPrice": 5,
             "sellPrice": 5
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 6,
             "attack": 2,
@@ -220,7 +222,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 6,
             "attack": 2,
@@ -236,7 +238,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 4,
             "attack": 3,
@@ -252,7 +254,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 4,
             "attack": 3,
@@ -268,7 +270,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 2,
             "attack": 2,
@@ -288,7 +290,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.models.heroes.Rogue",
+    "type": "hearthstone.logic.models.heroes.Rogue",
     "data": {
       "id": 2,
       "name": "Rogue",
@@ -297,7 +299,7 @@
       "type": "ROGUE",
       "collection": [
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 4,
             "name": "Friendly Smith",
@@ -311,7 +313,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 2,
             "attack": 3,
@@ -327,7 +329,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.SpellCard",
+          "type": "hearthstone.logic.models.cards.SpellCard",
           "data": {
             "id": 8,
             "name": "Tracking",
@@ -341,7 +343,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.MinionCard",
+          "type": "hearthstone.logic.models.cards.MinionCard",
           "data": {
             "health": 9,
             "attack": 7,
@@ -357,7 +359,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 3,
             "attack": 4,
@@ -373,7 +375,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 3,
             "attack": 4,
@@ -389,7 +391,7 @@
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 2,
             "attack": 3,
@@ -398,14 +400,14 @@
             "description": "Whenever a friendly Secret is revealed, gain +1 Durability.",
             "manaCost": 3,
             "heroType": "ALL",
-            "rarity": "COMMON",
+            "rarity": "RARE",
             "cardType": "WEAPONCARD",
             "buyPrice": 5,
             "sellPrice": 5
           }
         },
         {
-          "type": "hearthstone.models.cards.WeaponCard",
+          "type": "hearthstone.logic.models.cards.WeaponCard",
           "data": {
             "durability": 2,
             "attack": 3,
@@ -414,7 +416,7 @@
             "description": "Whenever a friendly Secret is revealed, gain +1 Durability.",
             "manaCost": 3,
             "heroType": "ALL",
-            "rarity": "COMMON",
+            "rarity": "RARE",
             "cardType": "WEAPONCARD",
             "buyPrice": 5,
             "sellPrice": 5

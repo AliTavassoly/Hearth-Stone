@@ -25,6 +25,6 @@ public class DefaultSizes {
     public static final int medCardWidth = 30;
     public static final int medCardHeight = 100;
 
-    public static final int bigCardWidth = 30;
-    public static final int bigCardHeight = 100;
+    public static final int bigCardWidth = 400;
+    public static final int bigCardHeight = 543;
 }

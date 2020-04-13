@@ -1,5 +1,7 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.HearthStone;
+import hearthstone.gui.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
 
@@ -12,6 +14,7 @@ import java.awt.image.BufferedImage;
 
 public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton, minimizeButton, closeButton;
+    private CardButton cardButton;
 
     private static final int iconX = 20;
     private static final int startButtonsY = 200;
