@@ -1,4 +1,4 @@
-package hearthstone.gui;
+package hearthstone.gui.controls;
 
 import hearthstone.gui.credetials.CredentialsFrame;
 

@@ -34,5 +34,8 @@ public class DefaultSizes {
     public static final int marketListWidth = 650;
     public static final int marketListHeight = 300;
 
-    public static final int bigScroll = 10000;
+    public static final int statusListWidth = 450;
+    public static final int statusListHeight = 650;
+
+    public static final int bigScroll = 5000;
 }

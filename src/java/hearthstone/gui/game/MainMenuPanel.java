@@ -1,8 +1,7 @@
 package hearthstone.gui.game;
 
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.ImageButton;
-import hearthstone.gui.game.market.MarketPanel;
+import hearthstone.gui.controls.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -103,7 +102,7 @@ public class MainMenuPanel extends JPanel {
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
 
-        marketButton = new ImageButton("market", "buttons/long_pink_background.png",
+        marketButton = new ImageButton("market", "buttons/long_pink_market_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
@@ -114,6 +113,13 @@ public class MainMenuPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 GameFrame.getInstance().getContentPane().setVisible(false);
                 GameFrame.getInstance().setContentPane(new MarketPanel());
+            }
+        });
+
+        statusButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().getContentPane().setVisible(false);
+                GameFrame.getInstance().setContentPane(new StatusPanel());
             }
         });
     }

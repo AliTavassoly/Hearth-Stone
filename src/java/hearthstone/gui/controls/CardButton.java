@@ -1,13 +1,10 @@
-package hearthstone.gui;
+package hearthstone.gui.controls;
 
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.cards.Card;
-import hearthstone.logic.models.cards.CardType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class CardButton extends ImageButton /*implements MouseListener*/ {

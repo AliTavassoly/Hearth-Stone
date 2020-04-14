@@ -1,8 +1,8 @@
 package hearthstone.gui.game;
 
+import hearthstone.gui.controls.CardsPanel;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.ImageButton;
-import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.controls.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,37 +12,62 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class StatusPanel extends JPanel {
-    private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
+    private ImageButton backButton, minimizeButton, closeButton, logoutButton;
+    private CardsPanel buyPanel;
+    private JScrollPane buyScroll;
 
-    private final int startTextY = DefaultSizes.gameFrameHeight / 2 - 10 - 45 + 30 + 1;
-    private final int startFieldY = DefaultSizes.gameFrameHeight / 2 - 22 - 50 + 30 + 1;
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int textFieldDis = 30;
-    private final int constAddX = 20;
-    private final int stringFieldDis = 3;
-    private final int loginButtonY = 300;
+    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.statusListHeight) / 2;
+    private final int startListX = 100;
 
-    public StatusPanel(){
+    public StatusPanel() {
         configPanel();
 
-        logoutButton = new ImageButton("logout.png", "logout_active.png",
+        makeIcons();
+
+        makeList();
+
+        layoutComponent();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/status_background.jpg"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        g.drawImage(image, 0, 0, null);
+    }
+
+    private void makeIcons() {
+        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        settingsButton = new ImageButton("settings.png", "settings_active.png",
+        logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("minimize.png", "minimize_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("close.png", "close_active.png",
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+            }
+        });
 
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -56,41 +81,33 @@ public class StatusPanel extends JPanel {
                 System.exit(0);
             }
         });
-
-        layoutComponent();
     }
 
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/main_menu_background.jpg"));
-        } catch (Exception e){
-            System.out.println(e);
-        }
-        g.drawImage(image, 0, 0, null);
+    private void makeList() {
+        buyPanel = new CardsPanel();
+        buyScroll = new JScrollPane(buyPanel);
+        buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        buyScroll.setOpaque(false);
     }
 
-    private void configPanel(){
+    private void configPanel() {
         setLayout(null);
         setVisible(true);
     }
 
-    private void layoutComponent(){
-        //
-        logoutButton.setBounds(iconX, startIconY,
+    private void layoutComponent() {
+        // ICONS
+        backButton.setBounds(iconX, startIconY,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(backButton);
+
+        logoutButton.setBounds(iconX, startIconY + iconsDis,
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
         add(logoutButton);
 
-        settingsButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-        add(settingsButton);
-
-        //
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
@@ -100,5 +117,11 @@ public class StatusPanel extends JPanel {
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
         add(closeButton);
+
+        // LISTS
+        buyScroll.setBounds(startListX, startListY,
+                DefaultSizes.statusListWidth,
+                DefaultSizes.statusListHeight);
+        add(buyScroll);
     }
 }

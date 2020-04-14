@@ -1,20 +1,15 @@
-package hearthstone.gui.game.market;
+package hearthstone.gui.controls;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.CardButton;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.logic.models.cards.Card;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SellPanel extends JPanel {
+public class CardsPanel extends JPanel {
 
-    public SellPanel() {
-        JScrollPane scrollPane = new JScrollPane(this);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setBounds(0, 0, DefaultSizes.marketListWidth, DefaultSizes.marketListHeight);
-
+    public CardsPanel() {
         int dis = 210;
         CardButton [] cardButtons = new CardButton[10];
         for(int i = 0; i < 10; i++) {
@@ -24,9 +19,12 @@ public class SellPanel extends JPanel {
             cardButtons[i].setBounds(i * dis, 0, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
             add(cardButtons[i]);
         }
-
         configPanel();
     }
+
+    private void addCard(Card card){ }
+
+    private void removeCard(Card card){ }
 
     private void configPanel() {
         setLayout(null);

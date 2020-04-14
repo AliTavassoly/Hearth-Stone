@@ -1,9 +1,8 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.HearthStone;
-import hearthstone.gui.CardButton;
+import hearthstone.gui.controls.CardButton;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.ImageButton;
+import hearthstone.gui.controls.ImageButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
