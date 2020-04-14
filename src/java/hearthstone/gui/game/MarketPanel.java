@@ -13,15 +13,14 @@ import java.awt.image.BufferedImage;
 
 public class MarketPanel extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
-    private CardsPanel buyPanel, sellPanel;
-    private JScrollPane buyScroll;
+    private CardsPanel cardPanel;
+    private JScrollPane cardScroll;
 
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int listsDis = DefaultSizes.marketListHeight + 50;
-    private final int startListY = (DefaultSizes.gameFrameHeight - 2 * DefaultSizes.marketListHeight - 50) / 2;
+    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.marketListHeight) / 2;
     private final int startListX = 100;
 
     public MarketPanel() {
@@ -85,14 +84,12 @@ public class MarketPanel extends JPanel {
     }
 
     private void makeLists() {
-        buyPanel = new CardsPanel();
-        buyScroll = new JScrollPane(buyPanel);
-        buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        buyScroll.setOpaque(false);
-        buyScroll.setWheelScrollingEnabled(false);
-
-        sellPanel = new CardsPanel();
+        cardPanel = new CardsPanel();
+        cardScroll = new JScrollPane(cardPanel);
+        cardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        cardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        cardScroll.setOpaque(false);
+        cardScroll.setWheelScrollingEnabled(false);
     }
 
     private void configPanel() {
@@ -123,14 +120,9 @@ public class MarketPanel extends JPanel {
         add(closeButton);
 
         // LISTS
-        buyScroll.setBounds(startListX, startListY,
+        cardScroll.setBounds(startListX, startListY,
                 DefaultSizes.marketListWidth,
                 DefaultSizes.marketListHeight);
-        add(buyScroll);
-
-        sellPanel.setBounds(startListX, startListY + listsDis,
-                DefaultSizes.marketListWidth,
-                DefaultSizes.marketListHeight);
-        add(sellPanel);
+        add(cardScroll);
     }
 }

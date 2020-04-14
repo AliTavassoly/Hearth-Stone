@@ -6,8 +6,10 @@ import hearthstone.logic.models.cards.Card;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {
+    private ArrayList<Card> cards;
 
     public CardsPanel() {
         int dis = 210;
@@ -16,19 +18,22 @@ public class CardsPanel extends JPanel {
             cardButtons[i] = new CardButton(HearthStone.baseCards.get(6).copy(),
                     DefaultSizes.bigCardWidth,
                     DefaultSizes.bigCardHeight);
-            cardButtons[i].setBounds(i * dis, 0, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
+            cardButtons[i].setBounds(i * dis, -30, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
             add(cardButtons[i]);
         }
         configPanel();
     }
 
-    private void addCard(Card card){ }
+    private void addCard(Card card){
+        cards.add(card);
+    }
 
-    private void removeCard(Card card){ }
+    private void removeCard(Card card){
+        cards.remove(card);
+    }
 
     private void configPanel() {
         setLayout(null);
-        setPreferredSize(new Dimension(DefaultSizes.bigScroll, DefaultSizes.marketListHeight));
         setBackground(new Color(0, 0, 0, 150));
         setVisible(true);
     }

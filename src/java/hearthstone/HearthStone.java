@@ -9,6 +9,7 @@ import hearthstone.logic.models.heroes.Hero;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class Market {
     private ArrayList<Card> cards = new ArrayList<>();
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
     public int numberOfCard(Card card) {
         int ans = 0;
         for (Card baseCard : cards) {
