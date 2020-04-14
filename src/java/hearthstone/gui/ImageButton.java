@@ -121,6 +121,8 @@ public class ImageButton extends JButton implements MouseListener {
             currentColor = textColorActive;
         if (activePath != null)
             imagePath = activePath;
+        invalidate();
+        validate();
         repaint();
     }
 
@@ -130,6 +132,8 @@ public class ImageButton extends JButton implements MouseListener {
             currentColor = textColor;
         if (normalPath != null)
             imagePath = normalPath;
+        invalidate();
+        validate();
         repaint();
     }
 }

@@ -1,9 +1,8 @@
 package hearthstone.gui.game;
 
-import hearthstone.HearthStone;
-import hearthstone.gui.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.ImageButton;
+import hearthstone.gui.game.market.MarketPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,7 +15,7 @@ public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playButton, collectionButton, marketButton, statusButton;
     private ImageButton logoButton;
-    private CardButton cardButton;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
@@ -109,8 +108,14 @@ public class MainMenuPanel extends JPanel {
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
 
-        cardButton = new CardButton(HearthStone.baseCards.get(6), DefaultSizes.bigCardWidth,
-                DefaultSizes.bigCardHeight);
+        // listeners
+
+        marketButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().getContentPane().setVisible(false);
+                GameFrame.getInstance().setContentPane(new MarketPanel());
+            }
+        });
     }
 
     private void configPanel() {
@@ -127,15 +132,15 @@ public class MainMenuPanel extends JPanel {
         add(logoButton);
 
         // ICONS
-        logoutButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-        add(logoutButton);
-
-        settingsButton.setBounds(iconX, startIconY + iconsDis,
+        settingsButton.setBounds(iconX, startIconY,
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
         add(settingsButton);
+
+        logoutButton.setBounds(iconX, startIconY + iconsDis,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(logoutButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
                 DefaultSizes.iconWidth,
@@ -148,7 +153,7 @@ public class MainMenuPanel extends JPanel {
         add(closeButton);
 
         // BUTTONS
-        /*playButton.setBounds(buttonX, startButtonY + 0 * buttonDis,
+        playButton.setBounds(buttonX, startButtonY + 0 * buttonDis,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
         add(playButton);
@@ -158,19 +163,14 @@ public class MainMenuPanel extends JPanel {
                 DefaultSizes.longButtonHeight);
         add(collectionButton);
 
-        marketButton.setBounds(buttonX, startButtonY + 2 * buttonDis,
+        statusButton.setBounds(buttonX, startButtonY + 2 * buttonDis,
+                DefaultSizes.longButtonWidth,
+                DefaultSizes.longButtonHeight);
+        add(statusButton);
+
+        marketButton.setBounds(buttonX, startButtonY + 3 * buttonDis,
                 DefaultSizes.longButtonWidth,
                 DefaultSizes.longButtonHeight);
         add(marketButton);
-
-        statusButton.setBounds(buttonX, startButtonY + 3 * buttonDis,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
-        add(statusButton);*/
-        cardButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.bigCardWidth / 2,
-                20,
-                DefaultSizes.bigCardWidth,
-                DefaultSizes.bigCardHeight);
-        add(cardButton);
     }
 }
