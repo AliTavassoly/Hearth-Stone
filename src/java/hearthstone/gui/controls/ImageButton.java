@@ -69,20 +69,39 @@ public class ImageButton extends JButton implements MouseListener {
         addMouseListener(this);
     }
 
+    public ImageButton(String text, String imagePath, int tof, Color textColor,
+                       int textSize, int textStyle, int width, int height) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.tof = tof;
+        this.textColor = textColor;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        currentColor = textColor;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        addMouseListener(this);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage image = null;
+        BufferedImage inputImage = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
+            inputImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/" + imagePath));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
         }
-        g2.drawImage(image, 0, 0, null);
+        g2.drawImage(inputImage, 0, 0, null);
 
         // DRAW TEXT
         if (text != null) {
@@ -117,23 +136,23 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (textColorActive != null)
+        if (textColorActive != null) {
             currentColor = textColorActive;
-        if (activePath != null)
+            repaint();
+        } else if (activePath != null) {
             imagePath = activePath;
-        invalidate();
-        validate();
-        repaint();
+            repaint();
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (textColor != null)
+        if (textColor != null) {
             currentColor = textColor;
-        if (normalPath != null)
+            repaint();
+        } else if (normalPath != null) {
             imagePath = normalPath;
-        invalidate();
-        validate();
-        repaint();
+            repaint();
+        }
     }
 }

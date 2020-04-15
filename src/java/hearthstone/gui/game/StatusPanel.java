@@ -84,11 +84,11 @@ public class StatusPanel extends JPanel {
     }
 
     private void makeList() {
-        buyPanel = new CardsPanel();
+        /*buyPanel = new CardsPanel();
         buyScroll = new JScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        buyScroll.setOpaque(false);
+        buyScroll.setOpaque(false);*/
     }
 
     private void configPanel() {

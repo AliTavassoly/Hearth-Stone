@@ -17,7 +17,7 @@ public class Account {
     private ArrayList<Card> cards = new ArrayList<>();
 
     private Hero currentHero;
-    private int coins;
+    private int gem;
 
     public Account() {
 
@@ -27,7 +27,7 @@ public class Account {
         this.id = id;
         this.name = name;
         this.username = username;
-        coins = HearthStone.initialCoins;
+        gem = HearthStone.initialCoins;
     }
 
     public void setName(String name) {
@@ -84,18 +84,18 @@ public class Account {
         return currentHero;
     }
 
-    public void setCoins(int coins) {
-        this.coins = coins;
+    public void setGem(int gem) {
+        this.gem = gem;
     }
 
-    public int getCoins() {
-        return coins;
+    public int getGem() {
+        return gem;
     }
 
     public boolean canBuy(Card baseCard, int cnt) throws Exception {
         if (currentHero == null)
             return false;
-        return cnt * baseCard.getBuyPrice() <= coins && currentHero.canAddCollection(baseCard, cnt);
+        return cnt * baseCard.getBuyPrice() <= gem && currentHero.canAddCollection(baseCard, cnt);
     }
 
     public boolean canSell(Card baseCard, int cnt) throws Exception {
@@ -108,11 +108,11 @@ public class Account {
         if (currentHero == null) {
             throw new HearthStoneException("You did not choose a hero!");
         }
-        if (baseCard.getBuyPrice() * cnt > coins) {
+        if (baseCard.getBuyPrice() * cnt > gem) {
             throw new HearthStoneException("Not enough coins!");
         }
         currentHero.addCollection(baseCard, cnt);
-        coins -= baseCard.getBuyPrice() * cnt;
+        gem -= baseCard.getBuyPrice() * cnt;
         for (Hero hero : heroes) {
             if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
                 hero.addCollection(baseCard, cnt);
@@ -125,7 +125,7 @@ public class Account {
         }
         currentHero.removeCollection(baseCard, cnt);
         currentHero.removeDeck(baseCard, Math.min(cnt, currentHero.numberInDeck(baseCard)));
-        coins += baseCard.getSellPrice() * cnt;
+        gem += baseCard.getSellPrice() * cnt;
         for (Hero hero : heroes) {
             if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
                 hero.removeCollection(baseCard, cnt);

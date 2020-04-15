@@ -10,31 +10,90 @@ import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {
     private ArrayList<Card> cards;
+    private ArrayList<JPanel> panels;
+    private ArrayList<CardButton> cardButtons;
+    private int cardHeight, cardWidth;
 
-    public CardsPanel() {
-        int dis = 210;
-        CardButton [] cardButtons = new CardButton[10];
-        for(int i = 0; i < 10; i++) {
-            cardButtons[i] = new CardButton(HearthStone.baseCards.get(6).copy(),
-                    DefaultSizes.bigCardWidth,
-                    DefaultSizes.bigCardHeight);
-            cardButtons[i].setBounds(i * dis, -30, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
-            add(cardButtons[i]);
+    private int disX = 10;
+    private int disY = 120;
+    private int rows;
+
+    public CardsPanel(ArrayList<Card> cards, ArrayList<JPanel> panels,
+                      int rows, int cardWidth, int cardHeight) {
+        this.cards = cards;
+        this.panels = panels;
+        this.cardWidth = cardWidth;
+        this.cardHeight = cardHeight;
+        this.rows = rows;
+
+        cardButtons = new ArrayList<>();
+
+        for (Card card : cards) {
+            CardButton cardButton = new CardButton(HearthStone.baseCards.get(6).copy(),
+                    cardWidth,
+                    cardHeight);
+            cardButtons.add(cardButton);
         }
+
+        disY += cardHeight;
+        if (panels.size() > 0) disY += panels.get(0).getHeight();
+        disX += cardWidth;
+
         configPanel();
+
+        layoutComponent();
     }
 
-    private void addCard(Card card){
+    public void addCard(Card card, JPanel panel) {
+        CardButton cardButton = new CardButton(HearthStone.baseCards.get(6).copy(),
+                cardWidth,
+                cardHeight);
+
+        cardButtons.add(cardButton);
         cards.add(card);
+        panels.remove(panel);
+
+        removeAll();
+        layoutComponent();
     }
 
-    private void removeCard(Card card){
-        cards.remove(card);
+    public void removeCard(Card card) {
+        int ind = cards.indexOf(card);
+
+        removeAll();
+        repaint();
+        cardButtons.remove(ind);
+        cards.remove(ind);
+        panels.remove(ind);
+        layoutComponent();
+        repaint();
     }
 
     private void configPanel() {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 150));
+        setPreferredSize(
+                new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
         setVisible(true);
+    }
+
+    private void layoutComponent() {
+        for (int i = 0; i < cards.size(); i++) {
+            CardButton cardButton = cardButtons.get(i);
+            JPanel panel = panels.get(i);
+
+            int col = (i - (i % rows)) / rows;
+            int row = i % rows;
+
+            cardButton.setBounds(col * disX, row * disY,
+                    cardWidth, cardHeight);
+            panel.setBounds(col * disX + cardWidth / 2
+                            - (int)panel.getPreferredSize().getWidth() / 2,
+                    row * disY + cardHeight,
+                    (int)panel.getPreferredSize().getWidth(),
+                    (int)panel.getPreferredSize().getHeight());
+            add(cardButton);
+            add(panel);
+        }
     }
 }

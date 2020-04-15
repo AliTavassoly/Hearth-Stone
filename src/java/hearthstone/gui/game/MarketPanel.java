@@ -1,8 +1,10 @@
 package hearthstone.gui.game;
 
+import hearthstone.HearthStone;
 import hearthstone.gui.controls.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,11 +12,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class MarketPanel extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
-    private CardsPanel cardPanel;
-    private JScrollPane cardScroll;
+    private CardsPanel buyPanel, sellPanel;
+    private JScrollPane buyScroll, sellScroll;
+    private ImageButton sellButton, buyButton;
+    private JPanel informationPanel;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -22,13 +27,30 @@ public class MarketPanel extends JPanel {
     private final int iconsDis = 70;
     private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.marketListHeight) / 2;
     private final int startListX = 100;
+    private final int endListX = startListX + DefaultSizes.marketListWidth;
+
+    private final int disInfo = 70;
+    private final int startInfoX = endListX + disInfo;
+    private final int startInfoY = startListY;
+    private final int infoWidth = (DefaultSizes.gameFrameWidth - endListX) - (2 * disInfo);
+
+    private final int disChoose = 20;
+    private final int startChooseX = endListX + (DefaultSizes.gameFrameWidth - endListX) / 2
+            - DefaultSizes.buttonWidth / 2;
+    private final int startChooseY = DefaultSizes.gameFrameHeight / 2 + (DefaultSizes.marketInfoHeight + startInfoY) / 2
+            - DefaultSizes.buttonHeight - disChoose / 2;
 
     public MarketPanel() {
         configPanel();
 
         makeIcons();
 
-        makeLists();
+        makeChoosePanel();
+
+        makeInformationPanel();
+
+        makeBuyPanel();
+        makeSellPanel();
 
         layoutComponent();
     }
@@ -83,13 +105,79 @@ public class MarketPanel extends JPanel {
         });
     }
 
-    private void makeLists() {
-        cardPanel = new CardsPanel();
-        cardScroll = new JScrollPane(cardPanel);
-        cardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        cardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        cardScroll.setOpaque(false);
-        cardScroll.setWheelScrollingEnabled(false);
+    private void makeChoosePanel(){
+        sellButton = new ImageButton("SELL", "buttons/red_background.png", 0,
+                Color.white, Color.yellow,
+                20, 0, DefaultSizes.buttonWidth, DefaultSizes.buttonHeight);
+        sellButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                buyScroll.setVisible(false);
+                sellScroll.setVisible(true);
+            }
+        });
+
+        buyButton = new ImageButton("BUY", "buttons/green_background.png", 0,
+                Color.white, Color.yellow,
+                20, 0, DefaultSizes.buttonWidth, DefaultSizes.buttonHeight);
+        buyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                sellScroll.setVisible(false);
+                buyScroll.setVisible(true);
+            }
+        });
+    }
+
+    private void makeInformationPanel(){
+        informationPanel = new JPanel();
+        JLabel label = new JLabel("50"); // number of account gems
+        label.setForeground(Color.WHITE);
+        label.setFont(GameFrame.getInstance().getCustomFont(0, 62));
+
+        ImageButton gemButton = new ImageButton("big_gem.png",
+                DefaultSizes.bigGemButtonWidth,
+                DefaultSizes.bigGemButtonHeight);
+
+        informationPanel.setBackground(new Color(0, 0, 0, 150));
+        informationPanel.add(label, BorderLayout.WEST);
+        informationPanel.add(gemButton, BorderLayout.EAST);
+    }
+
+    private void makeBuyPanel() {
+        ArrayList<Card> testCard = new ArrayList<>();
+        ArrayList<JPanel> testPanel = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Card card = HearthStone.baseCards.get(6).copy();
+            testCard.add(card);
+            testPanel.add(getBuyPanel(card));
+        }
+
+        buyPanel = new CardsPanel(testCard, testPanel,
+                2, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
+        buyScroll = new JScrollPane(buyPanel);
+        buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        buyScroll.setOpaque(false);
+    }
+
+    private void makeSellPanel() {
+        ArrayList<Card> testCard = new ArrayList<>();
+        ArrayList<JPanel> testPanel = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Card card = HearthStone.baseCards.get(6).copy();
+            testCard.add(card);
+            testPanel.add(getSellPanel(card));
+        }
+
+        sellPanel = new CardsPanel(testCard, testPanel,
+                2, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
+        sellScroll = new JScrollPane(sellPanel);
+        sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        sellScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        sellScroll.setOpaque(false);
     }
 
     private void configPanel() {
@@ -120,9 +208,107 @@ public class MarketPanel extends JPanel {
         add(closeButton);
 
         // LISTS
-        cardScroll.setBounds(startListX, startListY,
+        buyScroll.setBounds(startListX, startListY,
                 DefaultSizes.marketListWidth,
                 DefaultSizes.marketListHeight);
-        add(cardScroll);
+        add(buyScroll);
+
+        sellScroll.setBounds(startListX, startListY,
+                DefaultSizes.marketListWidth,
+                DefaultSizes.marketListHeight);
+        sellScroll.setVisible(false);
+        add(sellScroll);
+
+        // CHOOSE
+        buyButton.setBounds(startChooseX, startChooseY,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
+        add(buyButton);
+
+        sellButton.setBounds(startChooseX, startChooseY + DefaultSizes.buttonHeight + disChoose,
+                DefaultSizes.buttonWidth,
+                DefaultSizes.buttonHeight);
+        add(sellButton);
+
+        // INFORMATION
+        informationPanel.setBounds(startInfoX, startInfoY,
+                infoWidth,
+                (int)informationPanel.getPreferredSize().getHeight());
+        add(informationPanel);
+    }
+
+    private JPanel getSellPanel(Card card){
+        JPanel panel = new JPanel();
+        ImageButton button = new ImageButton("SELL", "buttons/red_background.png", 0,
+                Color.white, Color.yellow,
+                20, 0,
+                DefaultSizes.buttonWidth, DefaultSizes.buttonHeight);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // SELL CARD
+            }
+        });
+        Price price = new Price(String.valueOf(card.getBuyPrice()));
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints grid = new GridBagConstraints();
+        grid.gridy = 0;
+        grid.gridx = 0;
+        panel.add(price, grid);
+
+        grid.gridy = 1;
+        grid.gridx = 0;
+        panel.add(button, grid);
+
+        panel.setOpaque(false);
+        return panel;
+    }
+
+    private JPanel getBuyPanel(Card card){
+        JPanel panel = new JPanel();
+        ImageButton button = new ImageButton("BUY", "buttons/green_background.png", 0,
+                Color.white, Color.yellow,
+                20, 0,
+                DefaultSizes.buttonWidth, DefaultSizes.buttonHeight);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // BUY CARD
+                buyPanel.removeCard(card);
+            }
+        });
+        Price price = new Price(String.valueOf(card.getBuyPrice()));
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints grid = new GridBagConstraints();
+        grid.gridy = 0;
+        grid.gridx = 0;
+        panel.add(price, grid);
+
+        grid.gridy = 1;
+        grid.gridx = 0;
+        panel.add(button, grid);
+
+        panel.setOpaque(false);
+        return panel;
+    }
+
+    class Price extends JPanel{
+        public Price(String text){
+            JLabel label = new JLabel(text);
+            label.setForeground(Color.WHITE);
+            label.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+
+            ImageButton gemButton = new ImageButton("small_gem.png",
+                    DefaultSizes.smallGemButtonWidth,
+                    DefaultSizes.smallGemButtonHeight);
+
+            add(label, BorderLayout.WEST);
+            add(gemButton, BorderLayout.EAST);
+            setOpaque(false);
+        }
     }
 }

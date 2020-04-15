@@ -31,7 +31,7 @@ public class Market {
     }
 
     public void showWallet() {
-        System.out.println("Your coins : " + HearthStone.currentAccount.getCoins());
+        System.out.println("Your coins : " + HearthStone.currentAccount.getGem());
     }
 
     public void showCardsCanBuy() throws Exception {
