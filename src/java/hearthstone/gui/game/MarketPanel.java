@@ -135,7 +135,7 @@ public class MarketPanel extends JPanel {
         label.setForeground(Color.WHITE);
         label.setFont(GameFrame.getInstance().getCustomFont(0, 62));
 
-        ImageButton gemButton = new ImageButton("big_gem.png",
+        ImageButton gemButton = new ImageButton("gem.png",
                 DefaultSizes.bigGemButtonWidth,
                 DefaultSizes.bigGemButtonHeight);
 
@@ -155,11 +155,13 @@ public class MarketPanel extends JPanel {
         }
 
         buyPanel = new CardsPanel(testCard, testPanel,
-                2, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
+                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         buyScroll = new JScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        buyScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
         buyScroll.setOpaque(false);
+        buyScroll.setBorder(null);
     }
 
     private void makeSellPanel() {
@@ -173,11 +175,13 @@ public class MarketPanel extends JPanel {
         }
 
         sellPanel = new CardsPanel(testCard, testPanel,
-                2, DefaultSizes.bigCardWidth, DefaultSizes.bigCardHeight);
+                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         sellScroll = new JScrollPane(sellPanel);
         sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         sellScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        sellScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
         sellScroll.setOpaque(false);
+        sellScroll.setBorder(null);
     }
 
     private void configPanel() {
@@ -302,7 +306,7 @@ public class MarketPanel extends JPanel {
             label.setForeground(Color.WHITE);
             label.setFont(GameFrame.getInstance().getCustomFont(0, 20));
 
-            ImageButton gemButton = new ImageButton("small_gem.png",
+            ImageButton gemButton = new ImageButton("gem.png",
                     DefaultSizes.smallGemButtonWidth,
                     DefaultSizes.smallGemButtonHeight);
 

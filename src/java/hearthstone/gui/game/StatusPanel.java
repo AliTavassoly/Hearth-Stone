@@ -1,8 +1,9 @@
 package hearthstone.gui.game;
 
-import hearthstone.gui.controls.CardsPanel;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.controls.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,11 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class StatusPanel extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
-    private CardsPanel buyPanel;
-    private JScrollPane buyScroll;
+    private DecksPanel deckPanel;
+    private JScrollPane deckCardScroll;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -28,7 +30,7 @@ public class StatusPanel extends JPanel {
 
         makeIcons();
 
-        makeList();
+        makeDeckList();
 
         layoutComponent();
     }
@@ -83,13 +85,43 @@ public class StatusPanel extends JPanel {
         });
     }
 
-    private void makeList() {
-        /*buyPanel = new CardsPanel();
-        buyScroll = new JScrollPane(buyPanel);
-        buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        buyScroll.setOpaque(false);*/
+    private void makeDeckList() {
+        ArrayList<Deck> testDeck = new ArrayList<>();
+        ArrayList<JPanel> testPanel = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Deck deck = new Deck();
+            testDeck.add(deck);
+            testPanel.add(null);
+        }
+
+        deckPanel = new DecksPanel(testDeck, testPanel,
+                DefaultSizes.deckWidth, DefaultSizes.deckHeight);
+        deckCardScroll = new JScrollPane(deckPanel);
+        deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        deckCardScroll.getVerticalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
+        deckCardScroll.setOpaque(false);
+        deckCardScroll.setBorder(null);
     }
+
+    /*private void makeCardList() {
+        ArrayList<Card> testCard = new ArrayList<>();
+        ArrayList<JPanel> testPanel = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Card card = HearthStone.baseCards.get(6).copy();
+            testCard.add(card);
+            testPanel.add(null);
+        }
+
+        deckCards = new CardsPanel(testCard, testPanel,
+                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
+        deckCardScroll = new JScrollPane(deckCards);
+        deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        deckCardScroll.setOpaque(false);
+    }*/
 
     private void configPanel() {
         setLayout(null);
@@ -119,9 +151,9 @@ public class StatusPanel extends JPanel {
         add(closeButton);
 
         // LISTS
-        buyScroll.setBounds(startListX, startListY,
+        deckCardScroll.setBounds(startListX, startListY,
                 DefaultSizes.statusListWidth,
                 DefaultSizes.statusListHeight);
-        add(buyScroll);
+        add(deckCardScroll);
     }
 }

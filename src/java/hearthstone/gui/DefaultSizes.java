@@ -19,26 +19,20 @@ public class DefaultSizes {
     public static final int mainMenuLogoWidth = 350;
     public static final int mainMenuLogoHeight = 174;
 
-    public static final int smallCardWidth = 30;
-    public static final int smallCardHeight = 100;
+    public static final int smallCardWidth = 70;
+    public static final int smallCardHeight = 95;
 
-    public static final int medCardWidth = 30;
-    public static final int medCardHeight = 100;
+    public static final int medCardWidth = 150;
+    public static final int medCardHeight = 204;
 
-    public static final int bigCardWidth = 150;
-    public static final int bigCardHeight = 204;
-
-    //public static final int bigCardWidth = 200;
-    //public static final int bigCardHeight = 272;
+    public static final int largeCardWidth = 200;
+    public static final int largeCardHeight = 272;
 
     public static final int marketListWidth = 650;
     public static final int marketListHeight = 680;
 
-    public static final int statusListWidth = 450;
-    public static final int statusListHeight = 700;
-
-    public static final int marketButtonWidth = 100;
-    public static final int marketButtonHeight = 200;
+    public static final int statusListWidth = 353 + 42;
+    public static final int statusListHeight = 680;
 
     public static final int smallGemButtonWidth = 20;
     public static final int smallGemButtonHeight = 30;
@@ -46,7 +40,8 @@ public class DefaultSizes {
     public static final int bigGemButtonWidth = 70;
     public static final int bigGemButtonHeight = 105;
 
+    public static final int deckWidth = 353;
+    public static final int deckHeight = 100;
 
     public static final int marketInfoHeight = 160;
-
 }

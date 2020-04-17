@@ -93,15 +93,16 @@ public class ImageButton extends JButton implements MouseListener {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage inputImage = null;
+        BufferedImage image = null;
         try {
-            inputImage = ImageIO.read(this.getClass().getResourceAsStream(
+            image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/" + imagePath));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
         }
-        g2.drawImage(inputImage, 0, 0, null);
+        //g2.drawImage(inputImage, 0, 0, null);
+        g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
 
         // DRAW TEXT
         if (text != null) {

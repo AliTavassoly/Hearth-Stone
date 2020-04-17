@@ -36,7 +36,12 @@ public class CardsPanel extends JPanel {
         }
 
         disY += cardHeight;
-        if (panels.size() > 0) disY += panels.get(0).getHeight();
+        for (JPanel panel : panels) {
+            if (panel != null) {
+                disY += panels.get(0).getHeight();
+                break;
+            }
+        }
         disX += cardWidth;
 
         configPanel();
@@ -87,13 +92,16 @@ public class CardsPanel extends JPanel {
 
             cardButton.setBounds(col * disX, row * disY,
                     cardWidth, cardHeight);
-            panel.setBounds(col * disX + cardWidth / 2
-                            - (int)panel.getPreferredSize().getWidth() / 2,
-                    row * disY + cardHeight,
-                    (int)panel.getPreferredSize().getWidth(),
-                    (int)panel.getPreferredSize().getHeight());
+            if (panel != null) {
+                panel.setBounds(col * disX + cardWidth / 2
+                                - (int) panel.getPreferredSize().getWidth() / 2,
+                        row * disY + cardHeight,
+                        (int) panel.getPreferredSize().getWidth(),
+                        (int) panel.getPreferredSize().getHeight());
+            }
             add(cardButton);
-            add(panel);
+            if (panel != null)
+                add(panel);
         }
     }
 }

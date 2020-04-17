@@ -1,18 +1,20 @@
 package hearthstone.gui.controls;
 
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class CardButton extends ImageButton /*implements MouseListener*/ {
+public class DeckButton extends ImageButton /*implements MouseListener*/ {
     int width, height;
-    private Card card;
+    private Deck deck;
 
-    public CardButton(Card card, int width, int height) {
-        this.card = card;
+    public DeckButton(Card card, int width, int height) {
+        this.deck = deck;
         this.width = width;
         this.height = height;
 
@@ -31,13 +33,13 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
+                    "/images/deck.png"));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = GameFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -73,39 +75,6 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
 
         String text;
         g.setColor(color);
-        switch (card.getCardType()){
-            case SPELL:
-                text = String.valueOf(card.getManaCost());
-                g.drawString(text, spellManaX - fontMetrics.stringWidth(text) / 2, spellManaY);
-                break;
-            case HEROCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-                break;
-            case MINIONCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-                break;
-            case WEAPONCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-                break;
-        }
     }
 
     /*@Override
