@@ -3,6 +3,7 @@ package hearthstone.gui.game;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ScrollPane;
 import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;
@@ -90,14 +91,14 @@ public class StatusPanel extends JPanel {
         ArrayList<JPanel> testPanel = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Deck deck = new Deck();
+            Deck deck = new Deck("ali");
             testDeck.add(deck);
             testPanel.add(null);
         }
 
         deckPanel = new DecksPanel(testDeck, testPanel,
                 DefaultSizes.deckWidth, DefaultSizes.deckHeight);
-        deckCardScroll = new JScrollPane(deckPanel);
+        deckCardScroll = new ScrollPane(deckPanel);
         deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         deckCardScroll.getVerticalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());

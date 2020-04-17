@@ -31,7 +31,7 @@ public class DefaultSizes {
     public static final int marketListWidth = 650;
     public static final int marketListHeight = 680;
 
-    public static final int statusListWidth = 353 + 42;
+    public static final int statusListWidth = 453 + 42;
     public static final int statusListHeight = 680;
 
     public static final int smallGemButtonWidth = 20;
@@ -40,8 +40,8 @@ public class DefaultSizes {
     public static final int bigGemButtonWidth = 70;
     public static final int bigGemButtonHeight = 105;
 
-    public static final int deckWidth = 353;
-    public static final int deckHeight = 100;
+    public static final int deckWidth = 453;
+    public static final int deckHeight = 150;
 
     public static final int marketInfoHeight = 160;
 }

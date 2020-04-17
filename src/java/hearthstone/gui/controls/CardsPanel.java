@@ -4,8 +4,10 @@ import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.logic.models.cards.Card;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {
@@ -76,7 +78,7 @@ public class CardsPanel extends JPanel {
 
     private void configPanel() {
         setLayout(null);
-        setBackground(new Color(0, 0, 0, 150));
+        setBackground(new Color(0, 0, 0, 50));
         setPreferredSize(
                 new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
         setVisible(true);

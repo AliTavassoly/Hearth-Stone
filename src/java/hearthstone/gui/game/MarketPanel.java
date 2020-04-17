@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.gui.controls.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ScrollPane;
 import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class MarketPanel extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private CardsPanel buyPanel, sellPanel;
-    private JScrollPane buyScroll, sellScroll;
+    private ScrollPane buyScroll, sellScroll;
     private ImageButton sellButton, buyButton;
     private JPanel informationPanel;
 
@@ -58,10 +59,12 @@ public class MarketPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g = (Graphics2D)(g);
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/market_background.jpg"));
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -139,7 +142,7 @@ public class MarketPanel extends JPanel {
                 DefaultSizes.bigGemButtonWidth,
                 DefaultSizes.bigGemButtonHeight);
 
-        informationPanel.setBackground(new Color(0, 0, 0, 150));
+        informationPanel.setBackground(new Color(0, 0, 0, 0));
         informationPanel.add(label, BorderLayout.WEST);
         informationPanel.add(gemButton, BorderLayout.EAST);
     }
@@ -156,7 +159,7 @@ public class MarketPanel extends JPanel {
 
         buyPanel = new CardsPanel(testCard, testPanel,
                 2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
-        buyScroll = new JScrollPane(buyPanel);
+        buyScroll = new ScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         buyScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
@@ -176,7 +179,7 @@ public class MarketPanel extends JPanel {
 
         sellPanel = new CardsPanel(testCard, testPanel,
                 2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
-        sellScroll = new JScrollPane(sellPanel);
+        sellScroll = new ScrollPane(sellPanel);
         sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         sellScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         sellScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());

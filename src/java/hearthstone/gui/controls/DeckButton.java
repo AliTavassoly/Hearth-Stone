@@ -1,6 +1,5 @@
 package hearthstone.gui.controls;
 
-import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.cards.Card;
@@ -12,6 +11,9 @@ import java.awt.image.BufferedImage;
 public class DeckButton extends ImageButton /*implements MouseListener*/ {
     int width, height;
     private Deck deck;
+
+    private final int stringDis = 45;
+    private final int stringStartY = 34;
 
     public DeckButton(Card card, int width, int height) {
         this.deck = deck;
@@ -39,42 +41,27 @@ public class DeckButton extends ImageButton /*implements MouseListener*/ {
             e.getStackTrace();
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
-        Font font = GameFrame.getInstance().getCustomFont(0, 30);
+        Font font = GameFrame.getInstance().getCustomFont(0, 12);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
+        g2.setColor(new Color(69, 27, 27));
+        Deck deck = new Deck("safa");
 
-        // DRAW TEXT
-        //drawStringOnCard(g2, Color.WHITE, fontMetrics);
 
-        //resize
-    }
+        g2.drawString("name: " + deck.getName(), 130, stringStartY);
+        g2.drawString("total game: " + String.valueOf(deck.getTotalGame()), 140, stringStartY + stringDis);
 
-    void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics){
-        final int spellManaX = 20;
-        final int spellManaY = 20;
+        if (deck.getBestCard() == null)
+            g2.drawString("useful card: Warglaives of Azzinoth", 130 , stringStartY + 2 * stringDis);
+        else
+            g2.drawString("useful card: " + deck.getBestCard().getName(), 130, stringStartY + 2 * stringDis);
 
-        final int minionManaX = 0;
-        final int minionManaY = 0;
-        final int minionAttackX = 0;
-        final int minionAttackY = 0;
-        final int minionHealthX = 0;
-        final int minionHealthY = 0;
-
-        final int weaponManaX = 0;
-        final int weaponManaY = 0;
-        final int weaponDurabilityX = 0;
-        final int weaponDurabilityY = 0;
-        final int weaponAttackX = 0;
-        final int weaponAttackY = 0;
-
-        final int heroManaX = 0;
-        final int heroManaY = 0;
-
-        String text;
-        g.setColor(color);
+        g2.setFont(font);
+        g2.drawString("win percentage: 10" + String.valueOf(deck.getWinTotal()) + "%", 300, stringStartY);
+        g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 300, stringStartY + stringDis);
     }
 
     /*@Override
