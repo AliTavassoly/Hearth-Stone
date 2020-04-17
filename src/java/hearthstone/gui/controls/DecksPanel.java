@@ -14,6 +14,7 @@ public class DecksPanel extends JPanel {
     private int deckWidth, deckHeight;
 
     private int startX = 10;
+    private int startY = 10;
     private int disY = 10;
 
     public DecksPanel(ArrayList<Deck> decks, ArrayList<JPanel> panels,
@@ -35,7 +36,7 @@ public class DecksPanel extends JPanel {
         disY += deckHeight;
         for (JPanel panel : panels) {
             if (panel != null) {
-                disY += panels.get(0).getHeight();
+                disY += panels.get(0).getPreferredSize().getHeight();
                 break;
             }
         }
@@ -72,9 +73,10 @@ public class DecksPanel extends JPanel {
 
     private void configPanel() {
         setLayout(null);
-        setBackground(new Color(0, 0, 0, 150));
+        setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
                 new Dimension(300, decks.size() * disY));  // ------------------------------
+        setOpaque(false);
         setVisible(true);
     }
 
@@ -83,7 +85,7 @@ public class DecksPanel extends JPanel {
             DeckButton deckButton = deckButtons.get(i);
             JPanel panel = panels.get(i);
 
-            deckButton.setBounds(startX, i * disY,
+            deckButton.setBounds(startX, startY + i * disY,
                     deckWidth, deckHeight);
             /*if (panel != null) {
                 panel.setBounds(startX + deckWidth / 2

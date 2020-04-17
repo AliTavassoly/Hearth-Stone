@@ -26,13 +26,13 @@ public class LogisterPanel extends JPanel {
 
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
 
         registerButton = new ImageButton("register", "buttons/blue_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
 
         closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
@@ -92,17 +92,17 @@ public class LogisterPanel extends JPanel {
 
     private void layoutComponent(){
         //
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
                 startButtonsY,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
         add(loginButton);
 
         //
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
+        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
                 startButtonsY + buttonsDis,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
         add(registerButton);
 
         //

@@ -12,8 +12,8 @@ public class DeckButton extends ImageButton /*implements MouseListener*/ {
     int width, height;
     private Deck deck;
 
-    private final int stringDis = 45;
-    private final int stringStartY = 34;
+    private final int stringDis = 40;
+    private final int stringStartY = 40;
 
     public DeckButton(Card card, int width, int height) {
         this.deck = deck;
@@ -41,26 +41,25 @@ public class DeckButton extends ImageButton /*implements MouseListener*/ {
             e.getStackTrace();
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
-        Font font = GameFrame.getInstance().getCustomFont(0, 12);
+        Font font = GameFrame.getInstance().getCustomFont(0, 15);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
-        Deck deck = new Deck("safa");
+        Deck deck = new Deck("safa");         // SHOULD REMOVE
 
-
-        g2.drawString("name: " + deck.getName(), 130, stringStartY);
+        g2.drawString("name: " + deck.getName(), 132, stringStartY);
         g2.drawString("total game: " + String.valueOf(deck.getTotalGame()), 140, stringStartY + stringDis);
 
         if (deck.getBestCard() == null)
-            g2.drawString("useful card: Warglaives of Azzinoth", 130 , stringStartY + 2 * stringDis);
+            g2.drawString("useful card: no card", 132 , stringStartY + 2 * stringDis);
         else
-            g2.drawString("useful card: " + deck.getBestCard().getName(), 130, stringStartY + 2 * stringDis);
+            g2.drawString("favorite card: " + deck.getBestCard().getName(), 132, stringStartY + 2 * stringDis);
 
         g2.setFont(font);
-        g2.drawString("win percentage: 10" + String.valueOf(deck.getWinTotal()) + "%", 300, stringStartY);
+        g2.drawString("win rate: " + String.valueOf(deck.getWinTotal()) + "%", 300, stringStartY);
         g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 300, stringStartY + stringDis);
     }
 

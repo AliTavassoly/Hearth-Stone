@@ -17,7 +17,7 @@ public class CardsPanel extends JPanel {
     private int cardHeight, cardWidth;
 
     private int disX = 10;
-    private int disY = 120;
+    private int disY = 5;
     private int rows;
 
     public CardsPanel(ArrayList<Card> cards, ArrayList<JPanel> panels,
@@ -40,7 +40,9 @@ public class CardsPanel extends JPanel {
         disY += cardHeight;
         for (JPanel panel : panels) {
             if (panel != null) {
-                disY += panels.get(0).getHeight();
+                System.out.println(disY);
+                disY += panels.get(0).getPreferredSize().getHeight();
+                System.out.println(disY);
                 break;
             }
         }
@@ -68,19 +70,20 @@ public class CardsPanel extends JPanel {
         int ind = cards.indexOf(card);
 
         removeAll();
-        repaint();
+        getParent().repaint();
         cardButtons.remove(ind);
         cards.remove(ind);
         panels.remove(ind);
         layoutComponent();
-        repaint();
+        getParent().repaint();
     }
 
     private void configPanel() {
         setLayout(null);
-        setBackground(new Color(0, 0, 0, 50));
+        setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
                 new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
+        setOpaque(false);
         setVisible(true);
     }
 

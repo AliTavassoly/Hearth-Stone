@@ -42,8 +42,8 @@ public class RegisterPanel extends JPanel {
 
         registerButton = new ImageButton("register", "buttons/blue_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
 
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
@@ -206,10 +206,10 @@ public class RegisterPanel extends JPanel {
         repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 3 * textFiledDis, 100, 20);
         add(repField);
 
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
+        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
                 registerButtonY,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
         add(registerButton);
 
         //

@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.time.chrono.ThaiBuddhistEra;
 
 public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
@@ -20,10 +19,13 @@ public class MainMenuPanel extends JPanel {
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
-    private final int iconsDis = 70;
-    private final int startButtonY = 219;
-    private final int buttonX = 850;
-    private final int buttonDis = 97;
+    private final int iconsDis = 65;
+    private final int startButtonY = 300;
+    private final int halfButtonDisX = 100;
+    private final int firstButtonX = DefaultSizes.gameFrameWidth / 2 - halfButtonDisX
+            - DefaultSizes.largeButtonWidth;
+    private final int secondButtonX = DefaultSizes.gameFrameWidth / 2 + halfButtonDisX;
+    private final int buttonDisY = 97;
 
 
     public MainMenuPanel() {
@@ -44,7 +46,7 @@ public class MainMenuPanel extends JPanel {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/main_menu_background.jpg"));
+                    "/images/main_menu_background.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -91,23 +93,23 @@ public class MainMenuPanel extends JPanel {
     private void makeButtons() {
         playButton = new ImageButton("play", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
 
         collectionButton = new ImageButton("collection", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
 
         statusButton = new ImageButton("status", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
 
         marketButton = new ImageButton("market", "buttons/long_pink_market_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
 
         // listeners
 
@@ -140,8 +142,12 @@ public class MainMenuPanel extends JPanel {
 
     private void layoutComponent() {
         // LOGO
-        logoImage.setBounds(buttonX + DefaultSizes.longButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
+        /*logoImage.setBounds(buttonX + DefaultSizes.largeButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
                 startButtonY - (int) (1.80 * buttonDis),
+                DefaultSizes.mainMenuLogoWidth,
+                DefaultSizes.mainMenuLogoHeight);*/
+        logoImage.setBounds(DefaultSizes.gameFrameWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
+                450,
                 DefaultSizes.mainMenuLogoWidth,
                 DefaultSizes.mainMenuLogoHeight);
         add(logoImage);
@@ -168,24 +174,24 @@ public class MainMenuPanel extends JPanel {
         add(closeButton);
 
         // BUTTONS
-        playButton.setBounds(buttonX, startButtonY + 0 * buttonDis,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+        playButton.setBounds(firstButtonX, startButtonY + 0 * buttonDisY,
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
         add(playButton);
 
-        collectionButton.setBounds(buttonX, startButtonY + 1 * buttonDis,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+        collectionButton.setBounds(firstButtonX, startButtonY + 1 * buttonDisY,
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
         add(collectionButton);
 
-        statusButton.setBounds(buttonX, startButtonY + 2 * buttonDis,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+        statusButton.setBounds(secondButtonX, startButtonY + 0 * buttonDisY,
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
         add(statusButton);
 
-        marketButton.setBounds(buttonX, startButtonY + 3 * buttonDis,
-                DefaultSizes.longButtonWidth,
-                DefaultSizes.longButtonHeight);
+        marketButton.setBounds(secondButtonX, startButtonY + 1 * buttonDisY,
+                DefaultSizes.largeButtonWidth,
+                DefaultSizes.largeButtonHeight);
         add(marketButton);
     }
 }

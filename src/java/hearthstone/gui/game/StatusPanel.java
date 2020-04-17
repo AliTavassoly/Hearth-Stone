@@ -3,7 +3,6 @@ package hearthstone.gui.game;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ScrollPane;
 import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;
@@ -42,7 +41,7 @@ public class StatusPanel extends JPanel {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/status_background.jpg"));
+                    "/images/status_background.png"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -98,31 +97,15 @@ public class StatusPanel extends JPanel {
 
         deckPanel = new DecksPanel(testDeck, testPanel,
                 DefaultSizes.deckWidth, DefaultSizes.deckHeight);
-        deckCardScroll = new ScrollPane(deckPanel);
+        deckCardScroll = new JScrollPane(deckPanel);
         deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         deckCardScroll.getVerticalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
         deckCardScroll.setOpaque(false);
+        deckCardScroll.getViewport().setOpaque(true);
+        deckCardScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
         deckCardScroll.setBorder(null);
     }
-
-    /*private void makeCardList() {
-        ArrayList<Card> testCard = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Card card = HearthStone.baseCards.get(6).copy();
-            testCard.add(card);
-            testPanel.add(null);
-        }
-
-        deckCards = new CardsPanel(testCard, testPanel,
-                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
-        deckCardScroll = new JScrollPane(deckCards);
-        deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        deckCardScroll.setOpaque(false);
-    }*/
 
     private void configPanel() {
         setLayout(null);

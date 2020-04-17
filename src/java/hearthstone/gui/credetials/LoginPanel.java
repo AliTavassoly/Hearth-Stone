@@ -39,8 +39,8 @@ public class LoginPanel extends JPanel {
 
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
 
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
@@ -167,10 +167,10 @@ public class LoginPanel extends JPanel {
                 100, 20);
         add(passField);
 
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.buttonWidth / 2,
+        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
                 loginButtonY,
-                DefaultSizes.buttonWidth,
-                DefaultSizes.buttonHeight);
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
         add(loginButton);
 
         //
