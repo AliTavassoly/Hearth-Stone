@@ -2,6 +2,7 @@ package hearthstone.gui.game;
 
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ImagePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,11 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.time.chrono.ThaiBuddhistEra;
 
 public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playButton, collectionButton, marketButton, statusButton;
-    private ImageButton logoButton;
+    private ImagePanel logoImage;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -81,7 +83,7 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void makeLogo() {
-        logoButton = new ImageButton("logo.png",
+        logoImage = new ImagePanel("logo.png",
                 DefaultSizes.mainMenuLogoWidth,
                 DefaultSizes.mainMenuLogoHeight);
     }
@@ -122,6 +124,13 @@ public class MainMenuPanel extends JPanel {
                 GameFrame.getInstance().setContentPane(new StatusPanel());
             }
         });
+
+        collectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().getContentPane().setVisible(false);
+                GameFrame.getInstance().setContentPane(new HeroSelection());
+            }
+        });
     }
 
     private void configPanel() {
@@ -131,11 +140,11 @@ public class MainMenuPanel extends JPanel {
 
     private void layoutComponent() {
         // LOGO
-        logoButton.setBounds(buttonX + DefaultSizes.longButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
+        logoImage.setBounds(buttonX + DefaultSizes.longButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
                 startButtonY - (int) (1.80 * buttonDis),
                 DefaultSizes.mainMenuLogoWidth,
                 DefaultSizes.mainMenuLogoHeight);
-        add(logoButton);
+        add(logoImage);
 
         // ICONS
         settingsButton.setBounds(iconX, startIconY,

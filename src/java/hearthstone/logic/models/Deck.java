@@ -3,12 +3,14 @@ package hearthstone.logic.models;
 import hearthstone.logic.models.cards.Card;
 import hearthstone.logic.models.cards.CardType;
 import hearthstone.logic.models.cards.MinionCard;
+import hearthstone.logic.models.heroes.Hero;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Deck {
     private String name;
+    private Hero hero;
     private int totalGame;
     private int winGame;
     private HashMap<Integer, Integer> cardGame;
@@ -59,6 +61,14 @@ public class Deck {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 
     public int getWinTotal(){

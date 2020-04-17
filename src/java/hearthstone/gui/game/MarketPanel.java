@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.gui.controls.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.ScrollPane;
 import hearthstone.logic.models.cards.Card;
 
@@ -138,13 +139,13 @@ public class MarketPanel extends JPanel {
         label.setForeground(Color.WHITE);
         label.setFont(GameFrame.getInstance().getCustomFont(0, 62));
 
-        ImageButton gemButton = new ImageButton("gem.png",
+        ImagePanel imagePanel = new ImagePanel("gem.png",
                 DefaultSizes.bigGemButtonWidth,
                 DefaultSizes.bigGemButtonHeight);
 
         informationPanel.setBackground(new Color(0, 0, 0, 0));
         informationPanel.add(label, BorderLayout.WEST);
-        informationPanel.add(gemButton, BorderLayout.EAST);
+        informationPanel.add(imagePanel, BorderLayout.EAST);
     }
 
     private void makeBuyPanel() {
@@ -309,12 +310,12 @@ public class MarketPanel extends JPanel {
             label.setForeground(Color.WHITE);
             label.setFont(GameFrame.getInstance().getCustomFont(0, 20));
 
-            ImageButton gemButton = new ImageButton("gem.png",
+            ImagePanel gemImage = new ImagePanel("gem.png",
                     DefaultSizes.smallGemButtonWidth,
                     DefaultSizes.smallGemButtonHeight);
 
             add(label, BorderLayout.WEST);
-            add(gemButton, BorderLayout.EAST);
+            add(gemImage, BorderLayout.EAST);
             setOpaque(false);
         }
     }
