@@ -1,11 +1,12 @@
-package hearthstone.gui.game;
+package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.DecksPanel;
-import hearthstone.gui.controls.HeroesPanel;
+import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.logic.models.Deck;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.game.MainMenuPanel;
+import hearthstone.gui.game.collection.DeckSelection;
 import hearthstone.logic.models.heroes.Hero;
 
 import javax.imageio.ImageIO;
@@ -127,6 +128,7 @@ public class HeroSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // go to arranging decks
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
             }
         });
 

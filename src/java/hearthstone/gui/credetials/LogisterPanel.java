@@ -1,6 +1,6 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.gui.controls.CardButton;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 

@@ -40,78 +40,11 @@ public class RegisterPanel extends JPanel {
     public RegisterPanel() {
         configPanel();
 
-        registerButton = new ImageButton("register", "buttons/blue_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
-
-        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        nameField = new JTextField(10);
-        nameField.setBorder(null);
-
-        userField = new JTextField(10);
-        userField.setBorder(null);
-
-        passField = new JPasswordField(10);
-        passField.setBorder(null);
-
-        repField = new JPasswordField(10);
-        repField.setBorder(null);
+        makeFields();
 
         configText();
 
-        minimizeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
-                CredentialsFrame.getInstance().setState(Frame.NORMAL);
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
-
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
-            }
-        });
-
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
-                CredentialsFrame.getInstance().setVisible(false);
-                GameFrame.getInstance().setVisible(true);
-                /*try {
-                    hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
-                           new String(passField.getPassword()), new String(repField.getPassword()));
-                    CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                    CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
-                    CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getInstance().setVisible(true);
-                } catch (HearthStoneException e) {
-                    error = e.getMessage();
-                    repaint();
-                    System.out.println(e.getMessage());
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }*/
-            }
-        });
+        makeIcons();
 
         layoutComponent();
     }
@@ -163,13 +96,90 @@ public class RegisterPanel extends JPanel {
         }
     }
 
-    private void configText() {
-        textColor = new Color(255, 255, 68);
+    private void makeFields(){
+        nameField = new JTextField(10);
+        nameField.setBorder(null);
+        nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+
+        userField = new JTextField(10);
+        userField.setBorder(null);
+        userField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+
+        passField = new JPasswordField(10);
+        passField.setBorder(null);
+
+        repField = new JPasswordField(10);
+        repField.setBorder(null);
     }
 
     private void configPanel() {
         setLayout(null);
         setVisible(true);
+    }
+
+    private void configText() {
+        textColor = new Color(255, 255, 68);
+    }
+
+    private void makeIcons(){
+        registerButton = new ImageButton("register", "buttons/blue_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
+
+        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
+                CredentialsFrame.getInstance().setState(Frame.NORMAL);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
+            }
+        });
+
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().getContentPane().setVisible(false);
+                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                CredentialsFrame.getInstance().setVisible(false);
+                GameFrame.getInstance().setVisible(true);
+                /*try {
+                    hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
+                           new String(passField.getPassword()), new String(repField.getPassword()));
+                    CredentialsFrame.getInstance().getContentPane().setVisible(false);
+                    CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+                    CredentialsFrame.getInstance().setVisible(false);
+                    GameFrame.getInstance().setVisible(true);
+                } catch (HearthStoneException e) {
+                    error = e.getMessage();
+                    repaint();
+                    System.out.println(e.getMessage());
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }*/
+            }
+        });
     }
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {

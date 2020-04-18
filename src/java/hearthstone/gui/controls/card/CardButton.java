@@ -1,26 +1,26 @@
-package hearthstone.gui.controls;
+package hearthstone.gui.controls.card;
 
+import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.models.heroes.Hero;
-import jdk.swing.interop.SwingInterOpUtils;
+import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class HeroButton extends ImageButton {
-    private Hero hero;
+public class CardButton extends ImageButton /*implements MouseListener*/ {
     int width, height;
+    private Card card;
 
-    public HeroButton(Hero hero, int width, int height) {
-        this.hero = hero;
-        this.height = height;
+    public CardButton(Card card, int width, int height) {
+        this.card = card;
         this.width = width;
+        this.height = height;
 
         configButton();
     }
 
-    private void configButton() {
+    private void configButton(){
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
@@ -36,7 +36,7 @@ public class HeroButton extends ImageButton {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + hero.getName().toLowerCase().replace(' ', '_') + ".png"));
+                    "/images/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
@@ -55,8 +55,8 @@ public class HeroButton extends ImageButton {
         //resize
     }
 
-    /*void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics){
-       final int spellManaX = 20;
+    void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics){
+        final int spellManaX = 20;
         final int spellManaY = 20;
 
         final int minionManaX = 0;
@@ -111,5 +111,30 @@ public class HeroButton extends ImageButton {
                 //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
                 break;
         }
+    }
+
+    /*@Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        super.mouseClicked(mouseEvent);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        super.mousePressed(mouseEvent);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+        super.mouseReleased(mouseEvent);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        super.mouseEntered(mouseEvent);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        super.mouseExited(mouseEvent);
     }*/
 }

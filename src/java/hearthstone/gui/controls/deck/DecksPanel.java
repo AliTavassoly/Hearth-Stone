@@ -1,7 +1,8 @@
-package hearthstone.gui.controls;
+package hearthstone.gui.controls.deck;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.controls.deck.DeckButton;
 import hearthstone.logic.models.Deck;
 
 import javax.swing.*;
@@ -35,12 +36,6 @@ public class DecksPanel extends JPanel {
         }
 
         disY += deckHeight;
-        for (JPanel panel : panels) {
-            if (panel != null) {
-                disY += panel.getPreferredSize().getHeight();
-                break;
-            }
-        }
 
         configPanel();
 
@@ -88,13 +83,11 @@ public class DecksPanel extends JPanel {
 
             deckButton.setBounds(startX, startY + i * disY,
                     deckWidth, deckHeight);
-            /*if (panel != null) {
-                panel.setBounds(startX + deckWidth / 2
-                                - (int) panel.getPreferredSize().getWidth() / 2,
-                        disY + deckHeight,
+            if (panel != null) {
+                panel.setBounds(startX + deckWidth + 10, startY + i * disY + 7,
                         (int) panel.getPreferredSize().getWidth(),
                         (int) panel.getPreferredSize().getHeight());
-            }*/
+            }
 
             add(deckButton);
             if (panel != null)

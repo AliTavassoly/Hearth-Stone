@@ -1,10 +1,12 @@
-package hearthstone.gui.game;
+package hearthstone.gui.game.market;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.controls.CardsPanel;
+import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;

@@ -3,6 +3,9 @@ package hearthstone.gui.game;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.game.collection.HeroSelection;
+import hearthstone.gui.game.market.MarketPanel;
+import hearthstone.gui.game.status.StatusPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -37,6 +37,9 @@ public class DefaultSizes {
     public static final int statusListWidth = 527 + 42;
     public static final int statusListHeight = 650;
 
+    public static final int heroSelectionListWidth = 527 + 42 + 100;
+    public static final int heroSelectionListHeight = 650;
+
     public static final int bigHeroWidth = 220;        // SHOULD BE SET
     public static final int bigHeroHeight = 320;            // SHOULD BE SET
 
@@ -51,6 +54,12 @@ public class DefaultSizes {
 
     public static final int deckWidth = 527;
     public static final int deckHeight = 150;
+
+    public static final int dialogWidth = 527;
+    public static final int dialogHeight = 200;
+
+    public static final int arrangementListWidth = 650;
+    public static final int arrangementListHeight = 300;
 
     public static final int marketInfoHeight = 160;
 }

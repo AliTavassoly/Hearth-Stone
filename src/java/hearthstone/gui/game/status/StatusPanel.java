@@ -1,8 +1,10 @@
-package hearthstone.gui.game;
+package hearthstone.gui.game.status;
 
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.DecksPanel;
+import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;

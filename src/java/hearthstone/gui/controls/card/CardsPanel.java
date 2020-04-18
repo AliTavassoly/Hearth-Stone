@@ -1,13 +1,11 @@
-package hearthstone.gui.controls;
+package hearthstone.gui.controls.card;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.logic.models.cards.Card;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {

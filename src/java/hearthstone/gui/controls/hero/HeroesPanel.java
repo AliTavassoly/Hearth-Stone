@@ -1,15 +1,13 @@
-package hearthstone.gui.controls;
+package hearthstone.gui.controls.hero;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.logic.models.Deck;
+import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.logic.models.heroes.Hero;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
-import static hearthstone.gui.DefaultSizes.deckWidth;
 
 public class HeroesPanel extends JPanel {
     private ArrayList<Hero> heroes;

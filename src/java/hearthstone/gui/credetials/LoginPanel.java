@@ -37,6 +37,50 @@ public class LoginPanel extends JPanel {
     public LoginPanel() {
         configPanel();
 
+        configText();
+
+        makeIcons();
+
+        makeFields();
+
+        layoutComponent();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/logister_background.jpg"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        g.drawImage(image, 0, 0, null);
+
+        drawString(userText,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                startTextY + 0, 20, Font.PLAIN, textColor, g);
+        drawString(passText,
+                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
+        if (!error.equals("no")) {
+            drawString(error,
+                    DefaultSizes.credentialFrameWidth / 2,
+                    startTextY + 2 * 30, 15, Font.PLAIN, Color.RED, g);
+        }
+    }
+
+    private void configPanel() {
+        setLayout(null);
+        setVisible(true);
+    }
+
+    private void configText(){
+        textColor = new Color(255, 255, 68);
+    }
+
+    private void makeIcons(){
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.medButtonWidth,
@@ -53,12 +97,6 @@ public class LoginPanel extends JPanel {
         minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
-
-        userField = new JTextField(10); userField.setBorder(null);
-
-        passField = new JPasswordField(10); passField.setBorder(null);
-
-        configText();
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -94,42 +132,13 @@ public class LoginPanel extends JPanel {
                 }
             }
         });
-
-        layoutComponent();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/logister_background.jpg"));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        g.drawImage(image, 0, 0, null);
+    private void makeFields(){
+        userField = new JTextField(10); userField.setBorder(null);
+        userField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
 
-        drawString(userText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
-                startTextY + 0, 20, Font.PLAIN, textColor, g);
-        drawString(passText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
-                startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
-        if (!error.equals("no")) {
-            drawString(error,
-                    DefaultSizes.credentialFrameWidth / 2,
-                    startTextY + 2 * 30, 15, Font.PLAIN, Color.RED, g);
-        }
-    }
-
-    private void configText(){
-        textColor = new Color(255, 255, 68);
-    }
-
-    private void configPanel() {
-        setLayout(null);
-        setVisible(true);
+        passField = new JPasswordField(10); passField.setBorder(null);
     }
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {

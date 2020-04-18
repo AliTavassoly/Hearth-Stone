@@ -1,5 +1,6 @@
-package hearthstone.gui.controls;
+package hearthstone.gui.controls.deck;
 
+import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.cards.Card;
