@@ -134,13 +134,13 @@ public class DeckSelection extends JPanel {
         deckCardScroll.setBorder(null);
     }
 
-    private void makeHeroButton(){
+    private void makeHeroButton() {
         heroButton = new HeroButton(HearthStone.baseHeroes.get(0).copy(),   // REAL HERO SHOULD BE
                 DefaultSizes.bigHeroWidth,
                 DefaultSizes.bigHeroHeight);
     }
 
-    private void makeAddButton(){
+    private void makeAddButton() {
         addButton = new ImageButton("New Deck", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
@@ -149,14 +149,17 @@ public class DeckSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // NEW JDialog FOR ENTER NAME
-                Dialog dialog = new Dialog("Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-
-
+                Dialog dialog = new Dialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                String name = dialog.getValue();
+                if (name.length() != 0) {
+                    Deck deck = new Deck(name);
+                    // add deck to decks list
+                }
             }
         });
     }
 
-    private JPanel getDeckPanel(Deck deck){
+    private JPanel getDeckPanel(Deck deck) {
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,
@@ -170,7 +173,7 @@ public class DeckSelection extends JPanel {
         });
 
         ImageButton selectionButton;
-        if(true) {  // IF DECK IS IN USE CREATE SELECTED BUTTON
+        if (true) {  // IF DECK IS IN USE CREATE SELECTED BUTTON
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,

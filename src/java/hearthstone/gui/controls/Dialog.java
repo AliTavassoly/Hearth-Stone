@@ -19,7 +19,8 @@ public class Dialog extends JDialog {
 
     //private MainFrame parent;
 
-    public Dialog(String text, int width, int height/*MainFrame parent*/){
+    public Dialog(JFrame frame, String text, int width, int height/*MainFrame parent*/){
+        super(frame);
         this.width = width;
         this.height = height;
         this.text = text;
@@ -62,6 +63,7 @@ public class Dialog extends JDialog {
         int y = (screenSize.height - this.getHeight()) / 2;
         this.setLocation(x, y);
 
+        setModal(true);
         setResizable(false);
 
         setUndecorated(true);
@@ -70,8 +72,6 @@ public class Dialog extends JDialog {
         ImagePanel backgroundPanel = new ImagePanel("dialog_background.png", width, height);
         backgroundPanel.setOpaque(false);
         setContentPane(backgroundPanel);
-
-        setVisible(true);
     }
 
     public void makeLabels(){
@@ -102,8 +102,6 @@ public class Dialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setVisible(false);
-                // parent.newGame();
-                // DO SOMETHING
                 dispose();
             }
         });
@@ -111,9 +109,8 @@ public class Dialog extends JDialog {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                nameField.setText(null);
                 setVisible(false);
-                // System.exit(0);
-                // NOTHING TO DO
                 dispose();
             }
         });
@@ -142,5 +139,10 @@ public class Dialog extends JDialog {
         grid.gridx = 1;
         grid.insets = new Insets(30, 0, 0, 0);
         add(cancelButton, grid);
+    }
+
+    public String getValue() {
+        setVisible(true);
+        return nameField.getText();
     }
 }
