@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class CollectionManagerPanel extends JPanel {
+public class CollectionPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
 
     private final int iconX = 20;
@@ -18,7 +18,7 @@ public class CollectionManagerPanel extends JPanel {
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
 
-    public CollectionManagerPanel(){
+    public CollectionPanel(){
         configPanel();
 
         logoutButton = new ImageButton("logout.png", "logout_active.png",

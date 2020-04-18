@@ -19,7 +19,7 @@ public class MainMenuPanel extends JPanel {
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
-    private final int iconsDis = 65;
+    private final int iconsDis = 70;
     private final int startButtonY = 300;
     private final int halfButtonDisX = 100;
     private final int firstButtonX = DefaultSizes.gameFrameWidth / 2 - halfButtonDisX

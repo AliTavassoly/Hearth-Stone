@@ -8,12 +8,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class DeckButton extends ImageButton /*implements MouseListener*/ {
+public class DeckButton extends ImageButton {
     int width, height;
     private Deck deck;
 
-    private final int stringDis = 40;
-    private final int stringStartY = 40;
+    private final int stringDis = 36;
+    private final int stringStartY = 45;
 
     public DeckButton(Card card, int width, int height) {
         this.deck = deck;
@@ -42,7 +42,6 @@ public class DeckButton extends ImageButton /*implements MouseListener*/ {
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
         Font font = GameFrame.getInstance().getCustomFont(0, 15);
-        FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
@@ -50,41 +49,17 @@ public class DeckButton extends ImageButton /*implements MouseListener*/ {
         g2.setColor(new Color(69, 27, 27));
         Deck deck = new Deck("safa");         // SHOULD REMOVE
 
-        g2.drawString("name: " + deck.getName(), 132, stringStartY);
-        g2.drawString("total game: " + String.valueOf(deck.getTotalGame()), 140, stringStartY + stringDis);
-
-        if (deck.getBestCard() == null)
-            g2.drawString("useful card: no card", 132 , stringStartY + 2 * stringDis);
-        else
-            g2.drawString("favorite card: " + deck.getBestCard().getName(), 132, stringStartY + 2 * stringDis);
+        g2.drawString("total games: " + String.valueOf(deck.getTotalGame()) , 380, stringStartY);
+        g2.drawString("win rate: " + String.valueOf(deck.getWinTotal()) + "%", 380, stringStartY + stringDis);
+        g2.drawString("wins: " + String.valueOf(deck.getWinGame()), 380, stringStartY + 2 * stringDis);
 
         g2.setFont(font);
-        g2.drawString("win rate: " + String.valueOf(deck.getWinTotal()) + "%", 300, stringStartY);
-        g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 300, stringStartY + stringDis);
-    }
+        g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 155, stringStartY);
+        g2.drawString("name: " + deck.getName(), 163, stringStartY + stringDis);
+        if (deck.getBestCard() == null)
+            g2.drawString("useful card: no card", 155 , stringStartY + 2 * stringDis);
+        else
+            g2.drawString("favorite card: " + deck.getBestCard().getName(), 155, stringStartY + 2 * stringDis);
 
-    /*@Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        super.mouseClicked(mouseEvent);
     }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-        super.mousePressed(mouseEvent);
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-        super.mouseReleased(mouseEvent);
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-        super.mouseEntered(mouseEvent);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-        super.mouseExited(mouseEvent);
-    }*/
 }

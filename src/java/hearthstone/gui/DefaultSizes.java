@@ -32,10 +32,16 @@ public class DefaultSizes {
     public static final int largeCardHeight = 272;
 
     public static final int marketListWidth = 650;
-    public static final int marketListHeight = 640;
+    public static final int marketListHeight = 650;
 
-    public static final int statusListWidth = 453 + 42;
-    public static final int statusListHeight = 640;
+    public static final int statusListWidth = 527 + 42;
+    public static final int statusListHeight = 650;
+
+    public static final int bigHeroWidth = 220;        // SHOULD BE SET
+    public static final int bigHeroHeight = 320;            // SHOULD BE SET
+
+    public static final int heroesListWidth = 700;
+    public static final int heroesListHeight = 500;
 
     public static final int smallGemButtonWidth = 20;
     public static final int smallGemButtonHeight = 30;
@@ -43,7 +49,7 @@ public class DefaultSizes {
     public static final int bigGemButtonWidth = 70;
     public static final int bigGemButtonHeight = 105;
 
-    public static final int deckWidth = 453;
+    public static final int deckWidth = 527;
     public static final int deckHeight = 150;
 
     public static final int marketInfoHeight = 160;

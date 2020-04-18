@@ -40,7 +40,7 @@ public class CardsPanel extends JPanel {
         disY += cardHeight;
         for (JPanel panel : panels) {
             if (panel != null) {
-                disY += panels.get(0).getPreferredSize().getHeight();
+                disY += panel.getPreferredSize().getHeight();
                 break;
             }
         }

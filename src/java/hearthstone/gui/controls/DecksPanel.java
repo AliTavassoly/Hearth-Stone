@@ -1,6 +1,7 @@
 package hearthstone.gui.controls;
 
 import hearthstone.HearthStone;
+import hearthstone.gui.DefaultSizes;
 import hearthstone.logic.models.Deck;
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ public class DecksPanel extends JPanel {
         disY += deckHeight;
         for (JPanel panel : panels) {
             if (panel != null) {
-                disY += panels.get(0).getPreferredSize().getHeight();
+                disY += panel.getPreferredSize().getHeight();
                 break;
             }
         }
@@ -75,7 +76,7 @@ public class DecksPanel extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
-                new Dimension(300, decks.size() * disY));  // ------------------------------
+                new Dimension(DefaultSizes.statusListWidth, decks.size() * disY + 10));  // ------------------------------
         setOpaque(false);
         setVisible(true);
     }
