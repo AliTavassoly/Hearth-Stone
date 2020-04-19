@@ -8,7 +8,6 @@ import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
@@ -43,7 +42,6 @@ public class DeckSelection extends JPanel {
 
     public DeckSelection(Hero hero) {
         this.hero = hero;
-
         configPanel();
 
         makeIcons();
@@ -113,11 +111,11 @@ public class DeckSelection extends JPanel {
     }
 
     private void makeDeckList() {
-        ArrayList<Deck> testDeck = new ArrayList<>();
+        ArrayList<Hero.Deck> testDeck = new ArrayList<>();
         ArrayList<JPanel> testPanel = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Deck deck = new Deck("ali");
+            Hero.Deck deck = hero. new Deck("ali");
             testDeck.add(deck);
             testPanel.add(getDeckPanel(deck));
         }
@@ -152,14 +150,14 @@ public class DeckSelection extends JPanel {
                 Dialog dialog = new Dialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 String name = dialog.getValue();
                 if (name.length() != 0) {
-                    Deck deck = new Deck(name);
+                    Hero.Deck deck = hero.new Deck(name);
                     // add deck to decks list
                 }
             }
         });
     }
 
-    private JPanel getDeckPanel(Deck deck) {
+    private JPanel getDeckPanel(Hero.Deck deck) {
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,

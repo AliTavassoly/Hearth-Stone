@@ -2,8 +2,7 @@ package hearthstone.gui.controls.deck;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,12 +10,12 @@ import java.awt.image.BufferedImage;
 
 public class DeckButton extends ImageButton {
     int width, height;
-    private Deck deck;
+    private Hero.Deck deck;
 
     private final int stringDis = 36;
     private final int stringStartY = 45;
 
-    public DeckButton(Card card, int width, int height) {
+    public DeckButton(Hero.Deck deck, int width, int height) {
         this.deck = deck;
         this.width = width;
         this.height = height;
@@ -48,7 +47,6 @@ public class DeckButton extends ImageButton {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
-        Deck deck = new Deck("safa");         // SHOULD REMOVE
 
         g2.drawString("total games: " + String.valueOf(deck.getTotalGame()) , 380, stringStartY);
         g2.drawString("win rate: " + String.valueOf(deck.getWinTotal()) + "%", 380, stringStartY + stringDis);

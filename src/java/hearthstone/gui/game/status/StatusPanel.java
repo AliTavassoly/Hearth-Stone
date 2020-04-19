@@ -6,7 +6,6 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -35,7 +34,7 @@ public class StatusPanel extends JPanel {
 
         makeDeckList();
 
-        layoutComponent();
+        //layoutComponent();
     }
 
     @Override
@@ -89,7 +88,7 @@ public class StatusPanel extends JPanel {
     }
 
     private void makeDeckList() {
-        ArrayList<Deck> testDeck = new ArrayList<>();
+        /*ArrayList<Deck> testDeck = new ArrayList<>();
         ArrayList<JPanel> testPanel = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -107,7 +106,7 @@ public class StatusPanel extends JPanel {
         deckCardScroll.setOpaque(false);
         deckCardScroll.getViewport().setOpaque(true);
         deckCardScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
-        deckCardScroll.setBorder(null);
+        deckCardScroll.setBorder(null);*/
     }
 
     private void configPanel() {

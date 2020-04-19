@@ -23,12 +23,12 @@ public class MainMenuPanel extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startButtonY = 300;
-    private final int halfButtonDisX = 100;
+    private final int startButtonY = 260;
+    private final int halfButtonDisX = 130;
     private final int firstButtonX = DefaultSizes.gameFrameWidth / 2 - halfButtonDisX
             - DefaultSizes.largeButtonWidth;
     private final int secondButtonX = DefaultSizes.gameFrameWidth / 2 + halfButtonDisX;
-    private final int buttonDisY = 97;
+    private final int buttonDisY = 120;
 
 
     public MainMenuPanel() {
@@ -109,7 +109,7 @@ public class MainMenuPanel extends JPanel {
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
 
-        marketButton = new ImageButton("market", "buttons/long_pink_market_background.png",
+        marketButton = new ImageButton("market", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
