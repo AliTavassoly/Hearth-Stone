@@ -15,6 +15,7 @@ public class ImageButton extends JButton implements MouseListener {
     private int width, height;
     private int textStyle, textSize;
     private Color currentColor, textColor, textColorActive;
+    private boolean isRadio;
     private int tof;
 
     public ImageButton() {
@@ -36,7 +37,7 @@ public class ImageButton extends JButton implements MouseListener {
         addMouseListener(this);
     }
 
-    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+    public ImageButton(String text, String imagePath, int tof,
                        int textSize, int textStyle, int width, int height) {
         this.text = text;
         this.imagePath = imagePath;
@@ -73,6 +74,80 @@ public class ImageButton extends JButton implements MouseListener {
         setFocusPainted(false);
 
         addMouseListener(this);
+    }
+
+    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+                       int textSize, int textStyle, int width, int height) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.tof = tof;
+        this.textColor = textColor;
+        this.textColorActive = textColorActive;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        currentColor = textColor;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        addMouseListener(this);
+    }
+
+    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+                       boolean isRadio,
+                       int textSize, int textStyle, int width, int height) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.tof = tof;
+        this.textColor = textColor;
+        this.textColorActive = textColorActive;
+        this.isRadio = isRadio;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        currentColor = textColor;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        addMouseListener(this);
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public int getTextSize() {
+        return textSize;
+    }
+
+    public void mouseExited(){
+        if (textColor != null) {
+            currentColor = textColor;
+            repaint();
+        } else if (normalPath != null) {
+            imagePath = normalPath;
+            repaint();
+        }
+    }
+
+    public void mouseEntered(){
+        if (textColorActive != null) {
+            currentColor = textColorActive;
+            repaint();
+        } else if (activePath != null) {
+            imagePath = activePath;
+            repaint();
+        }
+    }
+
+    public void setRadio(boolean isRadio){
+        this.isRadio = isRadio;
     }
 
     @Override
@@ -135,6 +210,9 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+        if(isRadio){
+            return;
+        }
         if (textColor != null) {
             currentColor = textColor;
             repaint();

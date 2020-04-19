@@ -1,4 +1,4 @@
-package hearthstone.util;
+package hearthstone.gui.util;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;

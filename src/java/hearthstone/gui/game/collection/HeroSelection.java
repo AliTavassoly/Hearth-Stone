@@ -6,7 +6,7 @@ import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.collection.DeckSelection;
+import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.heroes.Hero;
 
 import javax.imageio.ImageIO;
@@ -111,7 +111,7 @@ public class HeroSelection extends JPanel {
         heroesScroll = new JScrollPane(heroesPanel);
         heroesScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         heroesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        heroesScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
+        heroesScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
         heroesScroll.setOpaque(false);
         heroesScroll.getViewport().setOpaque(true);
         heroesScroll.getViewport().setBackground(new Color(0, 0, 0, 150));

@@ -17,17 +17,13 @@ public class Dialog extends JDialog {
     private int width, height;
     private String text;
 
-    //private MainFrame parent;
-
-    public Dialog(JFrame frame, String text, int width, int height/*MainFrame parent*/){
+    public Dialog(JFrame frame, String text, int width, int height){
         super(frame);
         this.width = width;
         this.height = height;
         this.text = text;
 
         configDialog();
-
-        //this.parent = parent;
 
         makeButtons();
 
@@ -84,7 +80,6 @@ public class Dialog extends JDialog {
         nameField = new JTextField(10);
         nameField.setBorder(null);
         nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
-        nameField.setBackground(new Color(243, 195, 144, 255));
     }
 
     public void makeButtons(){

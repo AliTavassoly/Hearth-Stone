@@ -7,6 +7,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
+import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.cards.Card;
 
 import javax.imageio.ImageIO;
@@ -164,7 +165,7 @@ public class MarketPanel extends JPanel {
         buyScroll = new JScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        buyScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
+        buyScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
         buyScroll.setOpaque(false);
         buyScroll.getViewport().setOpaque(true);
         buyScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
@@ -186,7 +187,7 @@ public class MarketPanel extends JPanel {
         sellScroll = new JScrollPane(sellPanel);
         sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         sellScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        sellScroll.getHorizontalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
+        sellScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
         sellScroll.setOpaque(false);
         sellScroll.getViewport().setOpaque(true);
         sellScroll.getViewport().setBackground(new Color(0, 0, 0, 150));

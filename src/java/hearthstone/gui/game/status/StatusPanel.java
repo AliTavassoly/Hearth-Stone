@@ -5,6 +5,7 @@ import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
+import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
 
 import javax.imageio.ImageIO;
@@ -102,7 +103,7 @@ public class StatusPanel extends JPanel {
         deckCardScroll = new JScrollPane(deckPanel);
         deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        deckCardScroll.getVerticalScrollBar().setUI(new hearthstone.util.CustomScrollBarUI());
+        deckCardScroll.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         deckCardScroll.setOpaque(false);
         deckCardScroll.getViewport().setOpaque(true);
         deckCardScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
