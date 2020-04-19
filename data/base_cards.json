@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
     "data": {
       "id": 0,
       "name": "Polymorph",
@@ -14,7 +14,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
     "data": {
       "id": 1,
       "name": "Freezing Potion",
@@ -28,7 +28,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 4,
@@ -44,7 +44,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
     "data": {
       "id": 3,
       "name": "Soulfire",
@@ -58,7 +58,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
     "data": {
       "id": 4,
       "name": "Friendly Smith",
@@ -72,7 +72,7 @@
     }
   },
   "5": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 3,
@@ -88,9 +88,65 @@
     }
   },
   "6": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
+    "type": "hearthstone.logic.models.card.cards.HeroPower",
     "data": {
       "id": 6,
+      "name": "The Silver Hand",
+      "description": "Hero Power\nSummon two 1/1 Recruits.",
+      "manaCost": 2,
+      "heroType": "PALADIN",
+      "cardType": "HEROPOWER",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "7": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 7,
+      "name": "Gnomish Army Knife",
+      "description": "Give a minion Charge,\nWindfury, Divine Shield,\nLifesteal, Poisonous,\nTaunt, and Stealth.",
+      "manaCost": 5,
+      "heroType": "PALADIN",
+      "rarity": "COMMON",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "8": {
+    "type": "hearthstone.logic.models.card.cards.HeroPower",
+    "data": {
+      "id": 8,
+      "name": "Heal",
+      "description": "Hero Power\nRestore 4 Health.",
+      "manaCost": 2,
+      "heroType": "PRIEST",
+      "cardType": "HEROPOWER",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "9": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 7,
+      "attack": 2,
+      "id": 9,
+      "name": "High Priest Amet",
+      "description": "Whenever you summon a\nminion, set its Health equal\nto this minion\u0027s.",
+      "manaCost": 4,
+      "heroType": "PRIEST",
+      "rarity": "LEGENDARY",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "10": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 10,
       "name": "Blur",
       "description": "Your hero can\u0027t take damage this turn.",
       "manaCost": 0,
@@ -101,26 +157,10 @@
       "sellPrice": 5
     }
   },
-  "7": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "11": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
     "data": {
-      "health": 4,
-      "attack": 4,
-      "id": 7,
-      "name": "Abomination",
-      "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
-      "manaCost": 5,
-      "heroType": "ALL",
-      "rarity": "RARE",
-      "cardType": "MINIONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "8": {
-    "type": "hearthstone.logic.models.cards.SpellCard",
-    "data": {
-      "id": 8,
+      "id": 11,
       "name": "Tracking",
       "description": "Look at the top 3 cards of your deck. Draw one and discard the others.",
       "manaCost": 1,
@@ -131,12 +171,68 @@
       "sellPrice": 5
     }
   },
-  "9": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "12": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 12,
+      "name": "Sprint",
+      "description": "Draw 4 cards.",
+      "manaCost": 7,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "13": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 13,
+      "name": "Swarm of Locusts",
+      "description": "Summon seven 1/1 \n Locusts with Rush.",
+      "manaCost": 6,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "14": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 14,
+      "name": "Pharaoh\u0027s Blessing",
+      "description": "Give a minion +4/+4,\n Divine Shield, and Taunt.",
+      "manaCost": 6,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "15": {
+    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "data": {
+      "id": 15,
+      "name": "Book of Specters",
+      "description": "Draw 3 cards. Discard \n any spells drawn.",
+      "manaCost": 2,
+      "heroType": "ALL",
+      "rarity": "EPIC",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "16": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 5,
       "attack": 10,
-      "id": 9,
+      "id": 16,
       "name": "Hulking Overfiend",
       "description": "Rush. After this attacks and kills a minion, it may attack again.",
       "manaCost": 8,
@@ -147,12 +243,12 @@
       "sellPrice": 5
     }
   },
-  "10": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "17": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 1,
       "attack": 3,
-      "id": 10,
+      "id": 17,
       "name": "Wrathscale Naga",
       "description": "After a friendly minion dies, deal 3 damage to a random enemy.",
       "manaCost": 3,
@@ -163,12 +259,12 @@
       "sellPrice": 5
     }
   },
-  "11": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "18": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 6,
       "attack": 2,
-      "id": 11,
+      "id": 18,
       "name": "Wrathspike Brute",
       "description": "Taunt After this is attacked, deal 1 damage to all enemies.",
       "manaCost": 5,
@@ -179,12 +275,12 @@
       "sellPrice": 5
     }
   },
-  "12": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "19": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 9,
       "attack": 7,
-      "id": 12,
+      "id": 19,
       "name": "Pit Commander",
       "description": "Taunt At the end of your turn, summon a Demon from your deck.",
       "manaCost": 9,
@@ -195,12 +291,12 @@
       "sellPrice": 5
     }
   },
-  "13": {
-    "type": "hearthstone.logic.models.cards.MinionCard",
+  "20": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 1,
-      "id": 13,
+      "id": 20,
       "name": "Goldshire Footman",
       "description": "Taunt",
       "manaCost": 1,
@@ -211,12 +307,92 @@
       "sellPrice": 5
     }
   },
-  "14": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "21": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 4,
+      "attack": 4,
+      "id": 21,
+      "name": "Abomination",
+      "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
+      "manaCost": 5,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "22": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 5,
+      "attack": 5,
+      "id": 22,
+      "name": "Sathrovarr",
+      "description": "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.",
+      "manaCost": 9,
+      "heroType": "ALL",
+      "rarity": "LEGENDARY",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "23": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 6,
+      "attack": 3,
+      "id": 23,
+      "name": "Tomb Warden",
+      "description": "Taunt \n Battlecry: Summon a copy\n of this minion.",
+      "manaCost": 8,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "24": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 6,
+      "attack": 2,
+      "id": 24,
+      "name": "Security Rover",
+      "description": "Whenever this minion\ntakes damage, summon a\n2/3 Mech with [b]Taunt[/b].",
+      "manaCost": 6,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "25": {
+    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "data": {
+      "health": 4,
+      "attack": 4,
+      "id": 25,
+      "name": "Curio Collector",
+      "description": "Whenever you draw a card, gain +1/+1.",
+      "manaCost": 5,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "26": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 4,
       "attack": 3,
-      "id": 14,
+      "id": 26,
       "name": "Warglaives of Azzinoth",
       "description": "After attacking a minion, your hero may attack again.",
       "manaCost": 5,
@@ -227,12 +403,12 @@
       "sellPrice": 5
     }
   },
-  "15": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "27": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 4,
-      "id": 15,
+      "id": 27,
       "name": "Flamereaper",
       "description": "Also damages the minions next to whomever your hero attacks.",
       "manaCost": 7,
@@ -243,12 +419,12 @@
       "sellPrice": 5
     }
   },
-  "16": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "28": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 16,
+      "id": 28,
       "name": "Candleshot",
       "description": "Your hero is Immune while attacking.",
       "manaCost": 1,
@@ -259,12 +435,12 @@
       "sellPrice": 5
     }
   },
-  "17": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "29": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 2,
-      "id": 17,
+      "id": 29,
       "name": "Glaivezooka",
       "description": "Battlecry: Give a random friendly minion +1 Attack.",
       "manaCost": 2,
@@ -275,12 +451,12 @@
       "sellPrice": 5
     }
   },
-  "18": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "30": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 3,
-      "id": 18,
+      "id": 30,
       "name": "Eaglehorn Bow",
       "description": "Whenever a friendly Secret is revealed, gain +1 Durability.",
       "manaCost": 3,
@@ -291,18 +467,94 @@
       "sellPrice": 5
     }
   },
-  "19": {
-    "type": "hearthstone.logic.models.cards.WeaponCard",
+  "31": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 19,
+      "id": 31,
       "name": "Desert Spear",
       "description": "After your hero attacks, summon a 1/1 Locust with Rush.",
       "manaCost": 3,
       "heroType": "ALL",
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "32": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "data": {
+      "durability": 2,
+      "attack": 2,
+      "id": 32,
+      "name": "Battle Axe",
+      "description": "",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "33": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "data": {
+      "durability": 3,
+      "attack": 1,
+      "id": 33,
+      "name": "Heavy Axe",
+      "description": "",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "34": {
+    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "data": {
+      "durability": 2,
+      "attack": 1,
+      "id": 34,
+      "name": "Wicked Knife",
+      "description": "",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "35": {
+    "type": "hearthstone.logic.models.card.cards.RewardCard",
+    "data": {
+      "id": 35,
+      "name": "Learn Draconic",
+      "description": "Sidequest: Spend\n8 Mana on spells.\nReward: Summon a\n6/6 Dragon.",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "REWARDCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "36": {
+    "type": "hearthstone.logic.models.card.cards.RewardCard",
+    "data": {
+      "id": 36,
+      "name": "Strength in Numbers",
+      "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n minion from your deck.",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "REWARDCARD",
       "buyPrice": 5,
       "sellPrice": 5
     }

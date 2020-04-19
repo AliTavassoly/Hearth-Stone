@@ -170,15 +170,15 @@ public class DataBase {
     public static void loadHeroes() throws Exception {
         int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
-                Arrays.asList(0, 1, 6, 9, 9, 10, 13, 16, 19)));
+                Arrays.asList(0, 1, 10, 13, 16, 19)));
         HearthStone.baseHeroes.put(mage.getId(), mage);
 
         Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK, "healthier than other!\nreduce 2 health and do somethings !\n", 35, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 7, 11, 11, 14, 14, 17)));
+                Arrays.asList(2, 3, 11, 11, 14, 14, 17)));
         HearthStone.baseHeroes.put(warlock.getId(), warlock);
 
         Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
-                Arrays.asList(4, 5, 8, 12, 15, 15, 18, 18)));
+                Arrays.asList(4, 5, 12, 15, 15, 18, 18)));
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
 
         Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "is very good and strong", 30, new ArrayList<Integer>(
@@ -328,8 +328,10 @@ public class DataBase {
 
         loadCards();
         loadHeroes();
+
         save1();
         save2();
+
         loadAccounts();
         loadMarket();
     }

@@ -22,7 +22,8 @@ public abstract class Hero {
     public Hero() {
     }
 
-    public Hero(int id, String name, HeroType type, String description, int health, List<Integer> collection) throws Exception {
+    public Hero(int id, String name, HeroType type, String description,
+                int health, List<Integer> collection) throws Exception {
         this.id = id;
         this.name = name;
         this.description = description;
