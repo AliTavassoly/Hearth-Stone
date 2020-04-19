@@ -62,18 +62,11 @@ public class Account {
         return cards;
     }
 
-    public ArrayList<Card> getCurrentCollection() throws Exception {
+    public Hero.Deck getCurrentDeck() throws Exception {
         if (currentHero == null) {
             throw new HearthStoneException("You did not choose a hero!");
         }
-        return currentHero.getCollection();
-    }
-
-    public ArrayList<Card> getCurrentDeck() throws Exception {
-        if (currentHero == null) {
-            throw new HearthStoneException("You did not choose a hero!");
-        }
-        return currentHero.getDeck();
+        return currentHero.getSelectedDeck();
     }
 
     public void setCurrentHero(Hero currentHero) {
@@ -95,13 +88,13 @@ public class Account {
     public boolean canBuy(Card baseCard, int cnt) throws Exception {
         if (currentHero == null)
             return false;
-        return cnt * baseCard.getBuyPrice() <= gem && currentHero.canAddCollection(baseCard, cnt);
+        return cnt * baseCard.getBuyPrice() <= gem && currentHero.getCollection().canAddCollection(baseCard, cnt);
     }
 
     public boolean canSell(Card baseCard, int cnt) throws Exception {
         if (currentHero == null)
             return false;
-        return currentHero.canRemoveCollection(baseCard, cnt);
+        return currentHero.getCollection().canRemoveCollection(baseCard, cnt);
     }
 
     public void buyCards(Card baseCard, int cnt) throws Exception {
@@ -111,11 +104,11 @@ public class Account {
         if (baseCard.getBuyPrice() * cnt > gem) {
             throw new HearthStoneException("Not enough coins!");
         }
-        currentHero.addCollection(baseCard, cnt);
+        currentHero.getCollection().addCollection(baseCard, cnt);
         gem -= baseCard.getBuyPrice() * cnt;
         for (Hero hero : heroes) {
             if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
-                hero.addCollection(baseCard, cnt);
+                hero.getCollection().addCollection(baseCard, cnt);
         }
     }
 
@@ -123,12 +116,12 @@ public class Account {
         if (currentHero == null) {
             throw new HearthStoneException("You did not choose a hero!");
         }
-        currentHero.removeCollection(baseCard, cnt);
-        currentHero.removeDeck(baseCard, Math.min(cnt, currentHero.numberInDeck(baseCard)));
+        currentHero.getCollection().removeCollection(baseCard, cnt);
+        currentHero.getSelectedDeck().removeDeck(baseCard, Math.min(cnt, currentHero.getSelectedDeck().numberInDeck(baseCard)));
         gem += baseCard.getSellPrice() * cnt;
         for (Hero hero : heroes) {
             if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
-                hero.removeCollection(baseCard, cnt);
+                hero.getCollection().removeCollection(baseCard, cnt);
         }
     }
 

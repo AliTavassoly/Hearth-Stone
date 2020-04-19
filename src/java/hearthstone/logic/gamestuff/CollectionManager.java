@@ -27,52 +27,11 @@ public class CollectionManager {
         HearthStone.currentAccount.setCurrentHero(GetByName.getHeroByName(heroName).copy());
     }
 
-    public static void showCollectionCards() throws Exception {
-        if (HearthStone.currentAccount.getCurrentHero() == null)
-            throw new HearthStoneException("You did not choose a hero!");
-        boolean isEmpty =  true;
-        for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getCollection()) {
-            System.out.println(baseCard.getName());
-            isEmpty = false;
-        }
-        if(isEmpty){
-            System.out.println("Your collection is empty!");
-        }
-    }
-
-    public static void showDeckCards() throws Exception {
-        if(HearthStone.currentAccount.getCurrentHero() == null)
-            throw new HearthStoneException("You did not choose a hero!");
-        boolean isEmpty = true;
-        for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getDeck()) {
-            System.out.println(baseCard.getName());
-            isEmpty = false;
-        }
-        if(isEmpty) {
-            System.out.println("Your deck is empty!");
-        }
-    }
-
-    public static void showAddableCards() throws Exception {
-        if(HearthStone.currentAccount.getCurrentHero() == null)
-            throw new HearthStoneException("You did not choose a hero!");
-        boolean isEmpty = true;
-        for (Card baseCard : HearthStone.currentAccount.getCurrentHero().getCollection()) {
-            if (HearthStone.currentAccount.getCurrentHero().numberInDeck(baseCard) < HearthStone.currentAccount.getCurrentHero().numberInCollection(baseCard)) {
-                System.out.println(baseCard.getName());
-                isEmpty = false;
-            }
-        }
-        if(isEmpty){
-            System.out.println("You can not add any card to your deck!");
-        }
-    }
-
     public static void addToDeck(String cardName, int cnt) throws Exception {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         Card baseCard = GetByName.getCardByName(cardName).copy();
-        HearthStone.currentAccount.getCurrentHero().addDeck(baseCard, cnt);
+        HearthStone.currentAccount.getCurrentHero().getSelectedDeck().addDeck(baseCard, cnt);
         Logger.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
@@ -80,7 +39,7 @@ public class CollectionManager {
         if(HearthStone.currentAccount.getCurrentHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         Card baseCard = GetByName.getCardByName(cardName).copy();
-        HearthStone.currentAccount.getCurrentHero().removeDeck(baseCard, cnt);
+        HearthStone.currentAccount.getCurrentHero().getSelectedDeck().removeDeck(baseCard, cnt);
         Logger.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
