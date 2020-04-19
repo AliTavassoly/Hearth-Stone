@@ -1,9 +1,9 @@
-package hearthstone.logic.models.heroes;
+package hearthstone.logic.models.hero;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
-import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.AbstractAdapter;
 

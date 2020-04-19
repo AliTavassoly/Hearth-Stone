@@ -2,8 +2,7 @@ package hearthstone.gui.controls.hero;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.models.heroes.Hero;
-import jdk.swing.interop.SwingInterOpUtils;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

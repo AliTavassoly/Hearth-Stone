@@ -7,7 +7,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

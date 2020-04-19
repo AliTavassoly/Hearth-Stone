@@ -1,9 +1,8 @@
 package hearthstone.logic.models;
 
-import hearthstone.logic.models.cards.Card;
-import hearthstone.logic.models.cards.CardType;
-import hearthstone.logic.models.cards.MinionCard;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.cards.MinionCard;
+import hearthstone.logic.models.hero.Hero;
 
 import java.util.ArrayList;
 import java.util.HashMap;

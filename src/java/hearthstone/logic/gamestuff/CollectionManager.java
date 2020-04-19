@@ -1,8 +1,8 @@
 package hearthstone.logic.gamestuff;
 
 import hearthstone.HearthStone;
-import hearthstone.logic.models.cards.Card;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.GetByName;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Logger;

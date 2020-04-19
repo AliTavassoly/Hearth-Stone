@@ -7,8 +7,8 @@ import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.cards.Card;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DeckArrangement extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton;
-    private CardsPanel allCardsPanel, deckCardsPanel;
+    private CardsPanel cardsPanel, deckCardsPanel;
     private JScrollPane allCardsScroll, deckCardsScroll;
     private HeroButton heroButton;
     private JLabel nameLabel, manaLabel;
@@ -55,7 +55,7 @@ public class DeckArrangement extends JPanel {
 
         makeIcons();
 
-        makeAllCardsPanel();
+        makeCardsPanel();
 
         makeDeckCardsPanel();
 
@@ -126,7 +126,8 @@ public class DeckArrangement extends JPanel {
         });
     }
 
-    private void makeAllCardsPanel() {
+    private void makeCardsPanel() {
+        // MAKE CARDS FILTERING
         ArrayList<Card> testCard = new ArrayList<>();
         ArrayList<JPanel> testPanel = new ArrayList<>();
 
@@ -136,9 +137,9 @@ public class DeckArrangement extends JPanel {
             testPanel.add(getAllCardsPanel(card));
         }
 
-        allCardsPanel = new CardsPanel(testCard, testPanel,
+        cardsPanel = new CardsPanel(testCard, testPanel,
                 1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
-        allCardsScroll = new JScrollPane(allCardsPanel);
+        allCardsScroll = new JScrollPane(cardsPanel);
         allCardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         allCardsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         allCardsScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
@@ -281,7 +282,7 @@ public class DeckArrangement extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 // REMOVE CARD FROM DECK
                 deckCardsPanel.removeCard(card);
-                allCardsPanel.addCard(card, getAllCardsPanel(card));
+                cardsPanel.addCard(card, getAllCardsPanel(card));
             }
         });
 
@@ -301,7 +302,7 @@ public class DeckArrangement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // REMOVE CARD FROM DECK
-                allCardsPanel.removeCard(card);
+                cardsPanel.removeCard(card);
                 deckCardsPanel.addCard(card, getDeckCardsPanel(card));
             }
         });

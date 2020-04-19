@@ -2,8 +2,7 @@ package hearthstone.gui.controls.hero;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.hero.HeroButton;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.swing.*;
 import java.awt.*;

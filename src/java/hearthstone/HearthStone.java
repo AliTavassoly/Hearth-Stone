@@ -4,12 +4,11 @@ import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.Account;
-import hearthstone.logic.models.cards.Card;
-import hearthstone.logic.models.heroes.Hero;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.util.HearthStoneException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

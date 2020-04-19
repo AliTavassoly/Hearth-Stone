@@ -1,8 +1,7 @@
 package hearthstone.gui.controls.card;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.controls.card.CardButton;
-import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.card.Card;
 
 import javax.swing.*;
 import java.awt.*;

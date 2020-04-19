@@ -3,7 +3,7 @@ package hearthstone.gui.controls.deck;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.card.Card;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -2,7 +2,7 @@ package hearthstone.gui.controls.card;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.models.cards.Card;
+import hearthstone.logic.models.card.Card;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

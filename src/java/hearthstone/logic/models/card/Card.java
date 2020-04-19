@@ -1,9 +1,9 @@
-package hearthstone.logic.models.cards;
+package hearthstone.logic.models.card;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import hearthstone.logic.models.heroes.Hero;
-import hearthstone.logic.models.heroes.HeroType;
+import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.AbstractAdapter;
 
 public abstract class Card {
@@ -17,6 +17,17 @@ public abstract class Card {
     private int buyPrice, sellPrice;
 
     public Card(){ }
+
+    public Card(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.manaCost = manaCost;
+        this.heroType = heroType;
+        this.cardType = cardType;
+
+        sellPrice = buyPrice = 5;
+    }
 
     public Card(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
         this.id = id;

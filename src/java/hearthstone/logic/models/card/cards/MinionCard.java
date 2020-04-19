@@ -1,8 +1,11 @@
-package hearthstone.logic.models.cards;
+package hearthstone.logic.models.card.cards;
 
-import hearthstone.logic.models.heroes.HeroType;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.CardType;
+import hearthstone.logic.models.card.Rarity;
+import hearthstone.logic.models.hero.HeroType;
 
-public class MinionCard extends Card implements Cloneable{
+public class MinionCard extends Card {
     private int health, attack;
 
     public MinionCard(){ }
