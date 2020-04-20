@@ -48,6 +48,8 @@ public class RegisterPanel extends JPanel {
 
         makeIcons();
 
+        makeButtons();
+
         layoutComponent();
     }
 
@@ -124,11 +126,6 @@ public class RegisterPanel extends JPanel {
     }
 
     private void makeIcons(){
-        registerButton = new ImageButton("register", "buttons/blue_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
-
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
@@ -159,20 +156,23 @@ public class RegisterPanel extends JPanel {
                 CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
             }
         });
+    }
+
+    private void makeButtons(){
+        registerButton = new ImageButton("register", "buttons/blue_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
-                CredentialsFrame.getInstance().setVisible(false);
-                GameFrame.getInstance().setVisible(true);
                 try {
                     hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
-                           new String(passField.getPassword()), new String(repField.getPassword()));
+                            new String(passField.getPassword()), new String(repField.getPassword()));
                     CredentialsFrame.getInstance().getContentPane().setVisible(false);
                     CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                     CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getInstance().setVisible(true);
+                    GameFrame.getNewInstance().setVisible(true);
                     DataBase.save();
                 } catch (HearthStoneException e) {
                     error = e.getMessage();

@@ -5,10 +5,12 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -93,6 +95,22 @@ public class HeroSelection extends JPanel {
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.exit(0);
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    HearthStone.logout();
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                GameFrame.getInstance().setVisible(false);
+                GameFrame.getInstance().dispose();
+                CredentialsFrame.getNewInstance().setVisible(true);
             }
         });
     }

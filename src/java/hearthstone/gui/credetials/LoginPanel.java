@@ -41,6 +41,8 @@ public class LoginPanel extends JPanel {
 
         makeIcons();
 
+        makeButtons();
+
         makeFields();
 
         layoutComponent();
@@ -80,11 +82,30 @@ public class LoginPanel extends JPanel {
         textColor = new Color(255, 255, 68);
     }
 
-    private void makeIcons(){
+    private void makeButtons(){
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.medButtonWidth,
                 DefaultSizes.medButtonHeight);
+
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                try{
+                    hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
+                    CredentialsFrame.getInstance().setVisible(false);
+                    GameFrame.getNewInstance().setVisible(true);
+                } catch (HearthStoneException e){
+                    error = e.getMessage();
+                    repaint();
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                    ex.getStackTrace();
+                }
+            }
+        });
+    }
+
+    private void makeIcons(){
 
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
@@ -114,22 +135,6 @@ public class LoginPanel extends JPanel {
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.exit(0);
-            }
-        });
-
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                try{
-                    hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
-                    CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getInstance().setVisible(true);
-                } catch (HearthStoneException e){
-                    error = e.getMessage();
-                    repaint();
-                } catch (Exception ex){
-                    System.out.println(ex.getMessage());
-                    ex.getStackTrace();
-                }
             }
         });
     }

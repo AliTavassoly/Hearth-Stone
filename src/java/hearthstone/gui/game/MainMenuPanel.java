@@ -1,11 +1,14 @@
 package hearthstone.gui.game;
 
+import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.status.StatusPanel;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -83,6 +86,22 @@ public class MainMenuPanel extends JPanel {
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.exit(0);
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    HearthStone.logout();
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                GameFrame.getInstance().setVisible(false);
+                GameFrame.getInstance().dispose();
+                CredentialsFrame.getNewInstance().setVisible(true);
             }
         });
     }

@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
+import hearthstone.util.HearthStoneException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +37,14 @@ public class CardsPanel extends JPanel {
             cardButtons.add(cardButton);
         }
 
+        configPanel();
+
+        layoutComponent();
+    }
+
+    private void configPanel() {
+        disX = 10;
+        disY = 5;
         disY += cardHeight;
         for (JPanel panel : panels) {
             if (panel != null) {
@@ -45,19 +54,22 @@ public class CardsPanel extends JPanel {
         }
         disX += cardWidth;
 
-        configPanel();
-
-        layoutComponent();
+        setLayout(null);
+        setBackground(new Color(0, 0, 0, 120));
+        setPreferredSize(
+                new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
+        setOpaque(false);
+        setVisible(true);
     }
 
     public void addCard(Card card, JPanel panel) {
-        CardButton cardButton = new CardButton(HearthStone.baseCards.get(6).copy(),
+        CardButton cardButton = new CardButton(card,
                 cardWidth,
                 cardHeight);
 
         cardButtons.add(cardButton);
         cards.add(card);
-        panels.remove(panel);
+        panels.add(panel);
 
         restart();
     }
@@ -70,15 +82,6 @@ public class CardsPanel extends JPanel {
         panels.remove(ind);
 
         restart();
-    }
-
-    private void configPanel() {
-        setLayout(null);
-        setBackground(new Color(0, 0, 0, 120));
-        setPreferredSize(
-                new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
-        setOpaque(false);
-        setVisible(true);
     }
 
     private void layoutComponent() {
@@ -107,10 +110,13 @@ public class CardsPanel extends JPanel {
     private void restart() {
         try {
             DataBase.save();
-        } catch (Exception e) {
+        } catch (HearthStoneException e) {
             System.out.println(e.getMessage());
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
         removeAll();
+        configPanel();
         layoutComponent();
         getParent().repaint();
     }

@@ -9,21 +9,25 @@ public class GameFrame extends BaseFrame {
     private MainMenuPanel mainMenuPanel;
     private static GameFrame gameFrame;
 
-    private GameFrame(){
+    private GameFrame() {
         mainMenuPanel = new MainMenuPanel();
 
         configFrame();
     }
 
-    public static GameFrame getInstance(){
-        if(gameFrame == null){
+    public static GameFrame getInstance() {
+        if (gameFrame == null) {
             return gameFrame = new GameFrame();
         } else {
             return gameFrame;
         }
     }
 
-    private void configFrame(){
+    public static GameFrame getNewInstance() {
+        return gameFrame = new GameFrame();
+    }
+
+    private void configFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setSize(DefaultSizes.gameFrameWidth, DefaultSizes.gameFrameHeight);

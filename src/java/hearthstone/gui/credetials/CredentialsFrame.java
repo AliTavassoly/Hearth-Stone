@@ -23,6 +23,10 @@ public class CredentialsFrame extends BaseFrame {
         }
     }
 
+    public static CredentialsFrame getNewInstance(){
+            return credentialsFrame = new CredentialsFrame();
+    }
+
     private void configFrame(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 

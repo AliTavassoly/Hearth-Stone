@@ -1,14 +1,17 @@
 package hearthstone.gui.game.market;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.card.Card;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,6 +27,7 @@ public class MarketPanel extends JPanel {
     private JScrollPane buyScroll, sellScroll;
     private ImageButton sellButton, buyButton;
     private JPanel informationPanel;
+    private JLabel gemLabel;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -109,6 +113,22 @@ public class MarketPanel extends JPanel {
                 System.exit(0);
             }
         });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    HearthStone.logout();
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                GameFrame.getInstance().setVisible(false);
+                GameFrame.getInstance().dispose();
+                CredentialsFrame.getNewInstance().setVisible(true);
+            }
+        });
     }
 
     private void makeChoosePanel(){
@@ -137,30 +157,31 @@ public class MarketPanel extends JPanel {
 
     private void makeInformationPanel(){
         informationPanel = new JPanel();
-        JLabel label = new JLabel("50"); // number of account gems
-        label.setForeground(Color.WHITE);
-        label.setFont(GameFrame.getInstance().getCustomFont(0, 62));
+        gemLabel = new JLabel();
+        gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+        gemLabel.setForeground(Color.WHITE);
+        gemLabel.setFont(GameFrame.getInstance().getCustomFont(0, 62));
 
         ImagePanel imagePanel = new ImagePanel("gem.png",
                 DefaultSizes.bigGemButtonWidth,
                 DefaultSizes.bigGemButtonHeight);
 
         informationPanel.setBackground(new Color(0, 0, 0, 0));
-        informationPanel.add(label, BorderLayout.WEST);
+        informationPanel.add(gemLabel, BorderLayout.WEST);
         informationPanel.add(imagePanel, BorderLayout.EAST);
+        informationPanel.setOpaque(false);
     }
 
     private void makeBuyPanel() {
-        ArrayList<Card> testCard = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Card card = HearthStone.baseCards.get(6).copy();
-            testCard.add(card);
-            testPanel.add(getBuyPanel(card));
+        for (Card card : HearthStone.market.getCards()){
+            cards.add(card);
+            panels.add(getBuyPanel(card));
         }
 
-        buyPanel = new CardsPanel(testCard, testPanel,
+        buyPanel = new CardsPanel(cards, panels,
                 2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         buyScroll = new JScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -173,16 +194,15 @@ public class MarketPanel extends JPanel {
     }
 
     private void makeSellPanel() {
-        ArrayList<Card> testCard = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Card card = HearthStone.baseCards.get(6).copy();
-            testCard.add(card);
-            testPanel.add(getSellPanel(card));
+        for(Card card : HearthStone.currentAccount.getCollection().getCards()){
+            cards.add(card);
+            panels.add(getSellPanel(card));
         }
 
-        sellPanel = new CardsPanel(testCard, testPanel,
+        sellPanel = new CardsPanel(cards, panels,
                 2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         sellScroll = new JScrollPane(sellPanel);
         sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -262,7 +282,17 @@ public class MarketPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // SELL CARD
+                try {
+                    HearthStone.currentAccount.sellCards(card, 1);
+                    buyPanel.addCard(card, getBuyPanel(card));
+                    sellPanel.removeCard(card);
+                    HearthStone.market.addCard(card.copy(), 1);
+                    gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         });
         Price price = new Price(String.valueOf(card.getBuyPrice()));
@@ -291,8 +321,16 @@ public class MarketPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // BUY CARD
-                buyPanel.removeCard(card);
+                try {
+                    HearthStone.currentAccount.buyCards(card, 1);
+                    buyPanel.removeCard(card);
+                    HearthStone.market.removeCard(card, 1);
+                    gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         });
         Price price = new Price(String.valueOf(card.getBuyPrice()));

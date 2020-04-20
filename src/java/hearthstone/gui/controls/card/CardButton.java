@@ -135,5 +135,4 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
                 break;
         }
     }
-
 }
