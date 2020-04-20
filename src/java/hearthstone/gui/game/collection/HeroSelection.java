@@ -1,6 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
@@ -97,16 +98,15 @@ public class HeroSelection extends JPanel {
     }
 
     private void makeList() {
-        ArrayList<Hero> testHeroes = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Hero> heroes = new ArrayList<>();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Hero hero = HearthStone.baseHeroes.get(0).copy();
-            testHeroes.add(hero);
-            testPanel.add(getHeroPanel(hero));
+        for(Hero hero : HearthStone.currentAccount.getHeroes()){
+            heroes.add(hero);
+            panels.add(getHeroPanel(hero));
         }
 
-        heroesPanel = new HeroesPanel(testHeroes, testPanel,
+        heroesPanel = new HeroesPanel(heroes, panels,
                 DefaultSizes.bigHeroWidth, DefaultSizes.bigHeroHeight);
         heroesScroll = new JScrollPane(heroesPanel);
         heroesScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -127,13 +127,12 @@ public class HeroSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // go to arranging decks
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
             }
         });
 
         ImageButton selectionButton;
-        if(true) {  // IF HERO IS IN USE CREATE SELECTED BUTTON
+        if(HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {  // IF HERO IS IN USE CREATE SELECTED BUTTON
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
@@ -144,10 +143,11 @@ public class HeroSelection extends JPanel {
                     15, 0,
                     DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
 
-            arrangeButton.addActionListener(new ActionListener() {
+            selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    // select this hero
+                    HearthStone.currentAccount.setSelectedHero(hero);
+                    restart();
                 }
             });
         }
@@ -194,5 +194,14 @@ public class HeroSelection extends JPanel {
                 DefaultSizes.heroesListWidth,
                 DefaultSizes.heroesListHeight);
         add(heroesScroll);
+    }
+
+    private void restart(){
+        try {
+            DataBase.save();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
     }
 }

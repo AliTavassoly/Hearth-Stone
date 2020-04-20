@@ -127,8 +127,8 @@ public abstract class Hero {
 
     public class Deck {
         private String name;
-        private int totalGame;
-        private int winGame;
+        private int totalGames;
+        private int winGames;
         private HashMap<Integer, Integer> cardGame;
         private ArrayList<Card> cards = new ArrayList<>();
 
@@ -154,20 +154,20 @@ public abstract class Hero {
             this.cards = cards;
         }
 
-        public int getTotalGame() {
-            return totalGame;
+        public int getTotalGames() {
+            return totalGames;
         }
 
-        public void setTotalGame(int totalGame) {
-            this.totalGame = totalGame;
+        public void setTotalGames(int totalGames) {
+            this.totalGames = totalGames;
         }
 
-        public int getWinGame() {
-            return winGame;
+        public int getWinGames() {
+            return winGames;
         }
 
-        public void setWinGame(int winGame) {
-            this.winGame = winGame;
+        public void setWinGames(int winGames) {
+            this.winGames = winGames;
         }
 
         public String getName() {
@@ -182,10 +182,10 @@ public abstract class Hero {
             return Hero.this;
         }
 
-        public int getWinTotal(){
-            if (totalGame == 0)
+        public int getTotalWin(){
+            if (totalGames == 0)
                 return 0;
-            return winGame * 100 / totalGame;
+            return winGames * 100 / totalGames;
         }
 
         public int getManaAv(){

@@ -38,6 +38,8 @@ public class Account {
         unlockedCards = new ArrayList<>();
         unlockedHeroes = new ArrayList<>();
         decks = new ArrayList<>();
+
+        heroes.addAll(HearthStone.baseHeroes.values());
     }
 
     public void setId(int id) {

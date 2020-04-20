@@ -40,8 +40,13 @@ public class DefaultSizes {
     public static final int heroSelectionListWidth = 527 + 42 + 100;
     public static final int heroSelectionListHeight = 650;
 
-    public static final int bigHeroWidth = 220;        // SHOULD BE SET
-    public static final int bigHeroHeight = 320;            // SHOULD BE SET
+    public static final int bigHeroWidth = 250;
+    public static final int bigHeroHeight = 350;
+
+    public static final int bigCircleHeroWidth = 110;
+    public static final int bigCircleHeroHeight = 110;
+
+    public static final int bigHeroDetailHeight = 100;
 
     public static final int heroesListWidth = 700;
     public static final int heroesListHeight = 500;

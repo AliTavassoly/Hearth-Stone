@@ -68,12 +68,12 @@ public class  HearthStone {
         if (!password.equals(repeat)) {
             throw new HearthStoneException("Passwords does not match!");
         }
-        if (!userNameIsValid(username)) {
+        /*if (!userNameIsValid(username)) {
             throw new HearthStoneException("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)");
         }
         if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
-        }
+        }*/
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);

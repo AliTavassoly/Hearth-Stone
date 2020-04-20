@@ -1,8 +1,10 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -164,20 +166,21 @@ public class RegisterPanel extends JPanel {
                 CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                 CredentialsFrame.getInstance().setVisible(false);
                 GameFrame.getInstance().setVisible(true);
-                /*try {
+                try {
                     hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
                            new String(passField.getPassword()), new String(repField.getPassword()));
                     CredentialsFrame.getInstance().getContentPane().setVisible(false);
                     CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getInstance().setVisible(true);
+                    DataBase.save();
                 } catch (HearthStoneException e) {
                     error = e.getMessage();
                     repaint();
                     System.out.println(e.getMessage());
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                }*/
+                }
             }
         });
     }

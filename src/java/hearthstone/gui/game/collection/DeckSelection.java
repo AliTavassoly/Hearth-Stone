@@ -1,6 +1,8 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.Dialog;
 import hearthstone.gui.controls.deck.DecksPanel;
@@ -15,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.GlyphMetrics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -111,16 +114,15 @@ public class DeckSelection extends JPanel {
     }
 
     private void makeDeckList() {
-        ArrayList<Hero.Deck> testDeck = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Hero.Deck> decks = new ArrayList<>();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Hero.Deck deck = hero. new Deck("ali");
-            testDeck.add(deck);
-            testPanel.add(getDeckPanel(deck));
+        for(Hero.Deck deck : hero.getDecks()){
+            decks.add(deck);
+            panels.add(getDeckPanel(deck));
         }
 
-        deckPanel = new DecksPanel(testDeck, testPanel,
+        deckPanel = new DecksPanel(decks, panels,
                 DefaultSizes.deckWidth, DefaultSizes.deckHeight);
         deckCardScroll = new JScrollPane(deckPanel);
         deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -133,7 +135,7 @@ public class DeckSelection extends JPanel {
     }
 
     private void makeHeroButton() {
-        heroButton = new HeroButton(HearthStone.baseHeroes.get(0).copy(),   // REAL HERO SHOULD BE
+        heroButton = new HeroButton(hero,  // REAL HERO SHOULD BE
                 DefaultSizes.bigHeroWidth,
                 DefaultSizes.bigHeroHeight);
     }
@@ -151,7 +153,10 @@ public class DeckSelection extends JPanel {
                 String name = dialog.getValue();
                 if (name.length() != 0) {
                     Hero.Deck deck = hero.new Deck(name);
-                    // add deck to decks list
+                    hero.getDecks().add(deck);
+                    HearthStone.currentAccount.getDecks().add(deck);
+
+                    restart();
                 }
             }
         });
@@ -166,7 +171,7 @@ public class DeckSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero));
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
             }
         });
 
@@ -243,5 +248,14 @@ public class DeckSelection extends JPanel {
                 DefaultSizes.medButtonWidth,
                 DefaultSizes.medButtonHeight);
         add(addButton);
+    }
+
+    private void restart() {
+        try {
+            DataBase.save();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
     }
 }

@@ -1,6 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.card.CardsPanel;
@@ -27,6 +28,7 @@ public class DeckArrangement extends JPanel {
     private JLabel nameLabel, manaLabel;
     private JTextField nameField, manaField;
     private int selectedButton;
+    private Hero.Deck deck;
     private Hero hero;
 
     private final int iconX = 20;
@@ -47,8 +49,10 @@ public class DeckArrangement extends JPanel {
     private final int filterDisY = 50;
     private final int filterDisX = 10;
 
-    public DeckArrangement(Hero hero) {
+    public DeckArrangement(Hero hero, Hero.Deck deck) {
         this.hero = hero;
+        this.deck = deck;
+
         selectedButton = 0;
 
         configPanel();
@@ -150,16 +154,15 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeDeckCardsPanel() {
-        ArrayList<Card> testCard = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Card card = HearthStone.baseCards.get(6).copy();
-            testCard.add(card);
-            testPanel.add(getDeckCardsPanel(card));
+        for(Card card : deck.getCards()){
+            cards.add(card.copy());
+            panels.add(getDeckCardsPanel(card));
         }
 
-        deckCardsPanel = new CardsPanel(testCard, testPanel,
+        deckCardsPanel = new CardsPanel(cards, panels,
                 1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         deckCardsScroll = new JScrollPane(deckCardsPanel);
         deckCardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -173,7 +176,7 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeHeroButton(){
-        heroButton = new HeroButton(HearthStone.baseHeroes.get(0).copy(),   // REAL HERO SHOULD BE
+        heroButton = new HeroButton(hero,   // REAL HERO SHOULD BE
                 DefaultSizes.bigHeroWidth,
                 DefaultSizes.bigHeroHeight);
     }
@@ -389,5 +392,14 @@ public class DeckArrangement extends JPanel {
                 filterY + 3 * filterDisY + 20,
                 DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
         add(searchButton);
+    }
+
+    private void restart(){
+        try {
+            DataBase.save();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
     }
 }

@@ -17,7 +17,7 @@ public class HeroesPanel extends JPanel {
     private int startX = 10;
     private int startY = 10;
     private int disX = 10;
-    private int disY = 10;
+    private int disY = -30;
 
     public HeroesPanel(ArrayList<Hero> heroes, ArrayList<JPanel> panels,
                        int heroWidth, int heroHeight) {
@@ -29,7 +29,7 @@ public class HeroesPanel extends JPanel {
         heroButtons = new ArrayList<>();
 
         for (Hero hero : heroes) {
-            HeroButton heroButton = new HeroButton(HearthStone.baseHeroes.get(0).copy(),
+            HeroButton heroButton = new HeroButton(hero,
                     DefaultSizes.bigHeroWidth,
                     DefaultSizes.bigHeroHeight);
             heroButtons.add(heroButton);
