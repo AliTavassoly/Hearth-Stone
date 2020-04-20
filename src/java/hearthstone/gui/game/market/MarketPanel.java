@@ -288,6 +288,7 @@ public class MarketPanel extends JPanel {
                     sellPanel.removeCard(card);
                     HearthStone.market.addCard(card.copy(), 1);
                     gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                    DataBase.save();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){

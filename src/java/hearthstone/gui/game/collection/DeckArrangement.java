@@ -11,6 +11,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -25,7 +26,7 @@ public class DeckArrangement extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton;
     private CardsPanel cardsPanel, deckCardsPanel;
-    private JScrollPane allCardsScroll, deckCardsScroll;
+    private JScrollPane cardsScroll, deckCardsScroll;
     private HeroButton heroButton;
     private JLabel nameLabel, manaLabel;
     private JTextField nameField, manaField;
@@ -61,10 +62,6 @@ public class DeckArrangement extends JPanel {
 
         makeIcons();
 
-        makeCardsPanel();
-
-        makeDeckCardsPanel();
-
         makeHeroButton();
 
         makeLabels();
@@ -73,13 +70,17 @@ public class DeckArrangement extends JPanel {
 
         makeButtons();
 
+        makeCardsPanel();
+
+        makeDeckCardsPanel();
+
         layoutComponent();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g = (Graphics2D)(g);
+        g = (Graphics2D) g;
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
@@ -136,9 +137,9 @@ public class DeckArrangement extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
                 GameFrame.getInstance().setVisible(false);
@@ -150,30 +151,32 @@ public class DeckArrangement extends JPanel {
 
     private void makeCardsPanel() {
         // MAKE CARDS FILTERING
-        ArrayList<Card> cards = HearthStone.currentAccount.getCollection().getCards();
+        ArrayList<Card> cards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Card card : cards){
-            panels.add(getAllCardsPanel(card));
+        for (Card card : cards) {
+            panels.add(getCardsPanel(card));
         }
+
+        System.out.println(cards.size());
 
         cardsPanel = new CardsPanel(cards, panels,
                 1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
-        allCardsScroll = new JScrollPane(cardsPanel);
-        allCardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        allCardsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        allCardsScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
-        allCardsScroll.setOpaque(false);
-        allCardsScroll.getViewport().setOpaque(true);
-        allCardsScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
-        allCardsScroll.setBorder(null);
+        cardsScroll = new JScrollPane(cardsPanel);
+        cardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        cardsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        cardsScroll.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+        cardsScroll.setOpaque(false);
+        cardsScroll.getViewport().setOpaque(true);
+        cardsScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
+        cardsScroll.setBorder(null);
     }
 
     private void makeDeckCardsPanel() {
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Card card : deck.getCards()){
+        for (Card card : deck.getCards()) {
             cards.add(card.copy());
             panels.add(getDeckCardsPanel(card));
         }
@@ -191,13 +194,13 @@ public class DeckArrangement extends JPanel {
         deckCardsScroll.setBorder(null);
     }
 
-    private void makeHeroButton(){
+    private void makeHeroButton() {
         heroButton = new HeroButton(hero,   // REAL HERO SHOULD BE
                 DefaultSizes.bigHeroWidth,
                 DefaultSizes.bigHeroHeight);
     }
 
-    private void makeLabels(){
+    private void makeLabels() {
         nameLabel = new JLabel("name  :  ");
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
@@ -207,7 +210,7 @@ public class DeckArrangement extends JPanel {
         manaLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
     }
 
-    private void makeFields(){
+    private void makeFields() {
         nameField = new JTextField(8);
         nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
 
@@ -216,19 +219,19 @@ public class DeckArrangement extends JPanel {
 
     }
 
-    private void makeButtons(){
+    private void makeButtons() {
         allCardsButton = new ImageButton("All Cards", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, true, 12, 0,
                 DefaultSizes.smallButtonWidth,
                 DefaultSizes.smallButtonHeight);
         allCardsButton.mouseEntered();
 
-        myCardsButton = new ImageButton("My Cards", "buttons/blue_background.png",
+        myCardsButton = new ImageButton("Hero Cards", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, false, 12, 0,
                 DefaultSizes.smallButtonWidth,
                 DefaultSizes.smallButtonHeight);
 
-        lockCardsButton = new ImageButton("Lock Cards", "buttons/blue_background.png",
+        lockCardsButton = new ImageButton("Unlocked", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, false, 12, 0,
                 DefaultSizes.smallButtonWidth,
                 DefaultSizes.smallButtonHeight);
@@ -280,16 +283,36 @@ public class DeckArrangement extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                removeAll();
-                repaint();
-
-                layoutComponent();
-                repaint();
+                restart();
             }
         });
     }
 
-    private JPanel getDeckCardsPanel(Card card){
+    private ArrayList<Card> cardsInFilter(ArrayList<Card> cards) {
+        ArrayList<Card> ans = new ArrayList<>();
+        System.out.println(cards.size());
+        for (Card card : cards) {
+            if (nameField.getText().length() != 0) {
+                if (!card.getName().contains(nameField.getText()))
+                    continue;
+            }
+            if(manaField.getText().length() != 0){
+                if(String.valueOf(card.getManaCost()) != manaField.getText())
+                    continue;
+            }
+            if(selectedButton == 1){
+                if(card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType())
+                    continue;
+            } else if(selectedButton == 2){
+                if(!HearthStone.currentAccount.getUnlockedCards().contains(card.getId()))
+                    continue;
+            }
+            ans.add(card.copy());
+        }
+        return ans;
+    }
+
+    private JPanel getDeckCardsPanel(Card card) {
         JPanel panel = new JPanel();
         ImageButton removeCard = new ImageButton("REMOVE", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
@@ -302,15 +325,13 @@ public class DeckArrangement extends JPanel {
                 // REMOVE CARD FROM DECK
                 try {
                     deck.remove(card, 1);
-
                     deckCardsPanel.removeCard(card);
-                    cardsPanel.addCard(card, getAllCardsPanel(card));
-                } catch (HearthStoneException e){
+                    cardsPanel.addCard(card, getCardsPanel(card));
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-                restart();
             }
         });
 
@@ -319,7 +340,7 @@ public class DeckArrangement extends JPanel {
         return panel;
     }
 
-    private JPanel getAllCardsPanel(Card card){
+    private JPanel getCardsPanel(Card card) {
         JPanel panel = new JPanel();
         ImageButton addCard = new ImageButton("ADD", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
@@ -363,10 +384,10 @@ public class DeckArrangement extends JPanel {
         add(closeButton);
 
         // LISTS
-        allCardsScroll.setBounds(startListX, startListY,
+        cardsScroll.setBounds(startListX, startListY,
                 DefaultSizes.arrangementListWidth,
                 DefaultSizes.arrangementListHeight);
-        add(allCardsScroll);
+        add(cardsScroll);
 
         deckCardsScroll.setBounds(startListX, startListY + DefaultSizes.arrangementListHeight + listDis,
                 DefaultSizes.arrangementListWidth,
@@ -380,25 +401,25 @@ public class DeckArrangement extends JPanel {
         add(heroButton);
 
         // LABELS
-        nameLabel.setBounds(filterX - (int)nameLabel.getPreferredSize().getWidth(), filterY,
-                (int)nameLabel.getPreferredSize().getWidth(), (int)nameLabel.getPreferredSize().getHeight());
+        nameLabel.setBounds(filterX - (int) nameLabel.getPreferredSize().getWidth(), filterY,
+                (int) nameLabel.getPreferredSize().getWidth(), (int) nameLabel.getPreferredSize().getHeight());
         add(nameLabel);
 
-        manaLabel.setBounds(filterX - (int)manaLabel.getPreferredSize().getWidth(), filterY + filterDisY,
-                (int)manaLabel.getPreferredSize().getWidth(), (int)manaLabel.getPreferredSize().getHeight());
+        manaLabel.setBounds(filterX - (int) manaLabel.getPreferredSize().getWidth(), filterY + filterDisY,
+                (int) manaLabel.getPreferredSize().getWidth(), (int) manaLabel.getPreferredSize().getHeight());
         add(manaLabel);
 
         // FIELDS
         nameField.setBounds(filterX, filterY,
-                (int)nameField.getPreferredSize().getWidth(), (int)nameField.getPreferredSize().getHeight());
+                (int) nameField.getPreferredSize().getWidth(), (int) nameField.getPreferredSize().getHeight());
         add(nameField);
 
         manaField.setBounds(filterX, filterY + filterDisY,
-                (int)manaField.getPreferredSize().getWidth(), (int)manaField.getPreferredSize().getHeight());
+                (int) manaField.getPreferredSize().getWidth(), (int) manaField.getPreferredSize().getHeight());
         add(manaField);
 
         // BUTTONS
-        allCardsButton.setBounds(filterX - (int)(DefaultSizes.smallButtonWidth * 1.5) - filterDisX,
+        allCardsButton.setBounds(filterX - (int) (DefaultSizes.smallButtonWidth * 1.5) - filterDisX,
                 filterY + 2 * filterDisY,
                 DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
         add(allCardsButton);
@@ -419,12 +440,19 @@ public class DeckArrangement extends JPanel {
         add(searchButton);
     }
 
-    private void restart(){
+    private void restart() {
         try {
             DataBase.save();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
+        removeAll();
+        repaint();
+
+        makeCardsPanel();
+        makeDeckCardsPanel();
+
+        layoutComponent();
+        repaint();
     }
 }

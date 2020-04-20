@@ -121,11 +121,13 @@ public abstract class Hero {
         private int winGames;
         private HashMap<Integer, Integer> cardGame;
         private ArrayList<Card> cards = new ArrayList<>();
+        private HeroType heroType;
 
         public Deck(){ }
 
-        public Deck(String name){
+        public Deck(String name, HeroType heroType){
             this.name = name;
+            this.heroType = heroType;
         }
 
         public HashMap<Integer, Integer> getCardGame() {
@@ -168,8 +170,12 @@ public abstract class Hero {
             this.name = name;
         }
 
-        public Hero getHero() {
-            return Hero.this;
+        public void setHeroType(HeroType heroType){
+            this.heroType = heroType;
+        }
+
+        public HeroType getHeroType() {
+            return heroType;
         }
 
         public int getTotalWin(){
@@ -230,7 +236,7 @@ public abstract class Hero {
             return ans;
         }
 
-        public boolean canAdd(Card baseCard, int cnt) {
+        /*public boolean canAdd(Card baseCard, int cnt) {
             if (cards.size() + cnt > HearthStone.maxDeckSize) {
                 return false;
             }
@@ -241,14 +247,11 @@ public abstract class Hero {
                 return false;
             }
             return true;
-        }
+        }*/
 
         public void add(Card baseCard, int cnt) throws Exception {
             if (cards.size() + cnt > HearthStone.maxDeckSize) {
                 throw new HearthStoneException("Not enough space in your deck!");
-            }
-            if (baseCard.getHeroType()!= HeroType.ALL && baseCard.getHeroType()!= Hero.this.getType()) {
-                throw new HearthStoneException("Hero does not match!");
             }
             if (numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard) {
                 throw new HearthStoneException("You can not have " + cnt + " number of this card!");

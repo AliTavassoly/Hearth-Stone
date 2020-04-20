@@ -170,7 +170,7 @@ public class DeckSelection extends JPanel {
                 Dialog dialog = new Dialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 String name = dialog.getValue();
                 if (name.length() != 0) {
-                    Hero.Deck deck = hero.new Deck(name);
+                    Hero.Deck deck = hero.new Deck(name, hero.getType());
                     hero.getDecks().add(deck);
                     HearthStone.currentAccount.getDecks().add(deck);
 

@@ -38,7 +38,7 @@ public class DeckButton extends ImageButton {
 
         try {
             heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/circle_heroes/" + deck.getHero().getName().toLowerCase().replace(' ', '_') + ".png"));
+                    "/images/heroes/circle_heroes/" + Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_') + ".png"));
 
             deckImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/deck.png"));
