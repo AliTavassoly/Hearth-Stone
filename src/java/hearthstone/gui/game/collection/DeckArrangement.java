@@ -10,6 +10,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -132,16 +133,14 @@ public class DeckArrangement extends JPanel {
 
     private void makeCardsPanel() {
         // MAKE CARDS FILTERING
-        ArrayList<Card> testCard = new ArrayList<>();
-        ArrayList<JPanel> testPanel = new ArrayList<>();
+        ArrayList<Card> cards = HearthStone.currentAccount.getCollection().getCards();
+        ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            Card card = HearthStone.baseCards.get(6).copy();
-            testCard.add(card);
-            testPanel.add(getAllCardsPanel(card));
+        for(Card card : cards){
+            panels.add(getAllCardsPanel(card));
         }
 
-        cardsPanel = new CardsPanel(testCard, testPanel,
+        cardsPanel = new CardsPanel(cards, panels,
                 1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
         allCardsScroll = new JScrollPane(cardsPanel);
         allCardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -284,8 +283,17 @@ public class DeckArrangement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // REMOVE CARD FROM DECK
-                deckCardsPanel.removeCard(card);
-                cardsPanel.addCard(card, getAllCardsPanel(card));
+                try {
+                    deck.remove(card, 1);
+
+                    deckCardsPanel.removeCard(card);
+                    cardsPanel.addCard(card, getAllCardsPanel(card));
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                restart();
             }
         });
 

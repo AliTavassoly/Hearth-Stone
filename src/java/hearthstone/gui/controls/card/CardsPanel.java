@@ -1,6 +1,8 @@
 package hearthstone.gui.controls.card;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
+import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 
 import javax.swing.*;
@@ -28,7 +30,7 @@ public class CardsPanel extends JPanel {
         cardButtons = new ArrayList<>();
 
         for (Card card : cards) {
-            CardButton cardButton = new CardButton(HearthStone.baseCards.get(6).copy(),
+            CardButton cardButton = new CardButton(card,
                     cardWidth,
                     cardHeight);
             cardButtons.add(cardButton);
@@ -57,20 +59,17 @@ public class CardsPanel extends JPanel {
         cards.add(card);
         panels.remove(panel);
 
-        removeAll();
-        layoutComponent();
+        restart();
     }
 
     public void removeCard(Card card) {
         int ind = cards.indexOf(card);
 
-        removeAll();
-        getParent().repaint();
         cardButtons.remove(ind);
         cards.remove(ind);
         panels.remove(ind);
-        layoutComponent();
-        getParent().repaint();
+
+        restart();
     }
 
     private void configPanel() {
@@ -103,5 +102,16 @@ public class CardsPanel extends JPanel {
             if (panel != null)
                 add(panel);
         }
+    }
+
+    private void restart() {
+        try {
+            DataBase.save();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        removeAll();
+        layoutComponent();
+        getParent().repaint();
     }
 }

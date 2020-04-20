@@ -18,7 +18,6 @@ public abstract class Hero {
     private String description;
     private int health;
     private HeroType type;
-    private Collection collection;
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
 
@@ -40,7 +39,6 @@ public abstract class Hero {
         }
 
         decks = new ArrayList<>();
-        collection = new Collection(initialCard);
     }
 
     public int getId() {
@@ -81,14 +79,6 @@ public abstract class Hero {
 
     public void setType(HeroType type) {
         this.type = type;
-    }
-
-    public Collection getCollection() {
-        return collection;
-    }
-
-    public void setCollection(Collection collection) {
-        this.collection = collection;
     }
 
     public ArrayList<Deck> getDecks() {
@@ -274,74 +264,6 @@ public abstract class Hero {
         public void remove(Card baseCard, int cnt) throws Exception{
             if (numberOfCards(baseCard) - cnt < 0) {
                 throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your deck!");
-            }
-            for(int i = 0; i < cnt; i++){
-                for(int j = 0; j < cards.size(); j++){
-                    if(cards.get(j).getId() == baseCard.getId()){
-                        cards.remove(j);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    public class Collection{
-        private ArrayList<Card> cards;
-
-        public Collection(){ }
-
-        public Collection(ArrayList<Card> cards){
-            this.cards = cards;
-        }
-
-        public ArrayList<Card> getCards(){
-            return cards;
-        }
-
-        public void setCards(ArrayList<Card> cards){
-            this.cards = cards;
-        }
-
-        public int numberOfCards(Card baseCard){
-            int ans = 0;
-            for(Card card : cards){
-                if(card.getId() == baseCard.getId()){
-                    ans++;
-                }
-            }
-            return ans;
-        }
-
-        public boolean canAdd(Card baseCard, int cnt) {
-            if (baseCard.getHeroType()!= HeroType.ALL && baseCard.getHeroType()!= Hero.this.getType()) {
-                return false;
-            }
-            return numberOfCards(baseCard) + cnt <= HearthStone.maxNumberOfCard && cards.size() + cnt <= HearthStone.maxCollectionSize;
-        }
-
-        public void add(Card baseCard, int cnt) throws Exception {
-            if (baseCard.getHeroType()!= HeroType.ALL && baseCard.getHeroType()!= Hero.this.getType()) {
-                throw new HearthStoneException("Hero does not match!");
-            }
-            if(numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard){
-                System.out.println(numberOfCards(baseCard) + " " + HearthStone.maxNumberOfCard);
-                throw new HearthStoneException("Can not have " + numberOfCards(baseCard) + cnt + " number of " + baseCard.getName() + " card!");
-            }
-            if(cards.size() + cnt > HearthStone.maxCollectionSize){
-                throw new HearthStoneException("Not enough space!");
-            }
-            for(int i = 0; i < cnt; i++)
-                cards.add(baseCard.copy());
-        }
-
-        public boolean canRemove(Card baseCard, int cnt){
-            return numberOfCards(baseCard) - cnt >= 0;
-        }
-
-        public void remove(Card baseCard, int cnt) throws Exception {
-            if (numberOfCards(baseCard) - cnt < 0) {
-                throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your collection!");
             }
             for(int i = 0; i < cnt; i++){
                 for(int j = 0; j < cards.size(); j++){

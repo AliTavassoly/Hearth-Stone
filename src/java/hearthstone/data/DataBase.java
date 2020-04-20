@@ -49,7 +49,7 @@ public class DataBase {
         HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
         // Paladin
-        HeroPower theSilverHand = new HeroPower(id++, "The Silver Hand", "Hero Power\n" +
+        HeroPowerCard theSilverHand = new HeroPowerCard(id++, "The Silver Hand", "Hero Power\n" +
                 "Summon two 1/1 Recruits.", 2, HeroType.PALADIN, CardType.HEROPOWER);
         HearthStone.baseCards.put(theSilverHand.getId(), theSilverHand);
 
@@ -60,7 +60,7 @@ public class DataBase {
         HearthStone.baseCards.put(gnomishArmyKnife.getId(), gnomishArmyKnife);
 
         // Priest
-        HeroPower heal = new HeroPower(id++, "Heal", "Hero Power\n" +
+        HeroPowerCard heal = new HeroPowerCard(id++, "Heal", "Hero Power\n" +
                 "Restore 4 Health.", 2, HeroType.PRIEST, CardType.HEROPOWER);
         HearthStone.baseCards.put(heal.getId(), heal);
 

@@ -2,9 +2,14 @@ package hearthstone.gui.controls.card;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.cards.MinionCard;
+import hearthstone.logic.models.card.cards.WeaponCard;
+import org.ietf.jgss.GSSManager;
 
 import javax.imageio.ImageIO;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -36,7 +41,7 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
+                    "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();
@@ -50,91 +55,85 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
         g2.setFont(font);
 
         // DRAW TEXT
-        //drawStringOnCard(g2, Color.WHITE, fontMetrics);
+        drawStringOnCard(g2, Color.WHITE, fontMetrics);
 
         //resize
     }
 
     void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics){
-        final int spellManaX = 20;
-        final int spellManaY = 20;
+        final int spellManaX = 25;
+        final int spellManaY = 37;
 
-        final int minionManaX = 0;
-        final int minionManaY = 0;
-        final int minionAttackX = 0;
-        final int minionAttackY = 0;
-        final int minionHealthX = 0;
-        final int minionHealthY = 0;
+        final int heroPowerManaX = width / 2 + 5;
+        final int heroPowerManaY = 25;
 
-        final int weaponManaX = 0;
-        final int weaponManaY = 0;
-        final int weaponDurabilityX = 0;
-        final int weaponDurabilityY = 0;
-        final int weaponAttackX = 0;
-        final int weaponAttackY = 0;
+        final int minionManaX = 25;
+        final int minionManaY = 37;
+        final int minionAttackX = 25;
+        final int minionAttackY = height - 15;
+        final int minionHealthX = width - 15;
+        final int minionHealthY = height - 15;
 
-        final int heroManaX = 0;
-        final int heroManaY = 0;
+        final int weaponManaX = 25;
+        final int weaponManaY = 37;
+        final int weaponDurabilityX = width - 15;
+        final int weaponDurabilityY = height - 15;
+        final int weaponAttackX = 25;
+        final int weaponAttackY = height - 15;
+
+        g.setColor(color);
+        Font font = GameFrame.getInstance().getCustomFont(0, 20);
+        g.setFont(font);
 
         String text;
-        g.setColor(color);
+        int textWidth;
         switch (card.getCardType()){
             case SPELL:
+            case REWARDCARD:
                 text = String.valueOf(card.getManaCost());
-                g.drawString(text, spellManaX - fontMetrics.stringWidth(text) / 2, spellManaY);
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, spellManaX - textWidth / 2,
+                        spellManaY);
                 break;
-            case HEROCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
-
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+            case HEROPOWER:
+                text = String.valueOf(card.getManaCost());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, heroPowerManaX - textWidth / 2,
+                        heroPowerManaY);
                 break;
             case MINIONCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(card.getManaCost());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, minionManaX - textWidth / 2,
+                       minionManaY);
 
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(((MinionCard)card).getAttack());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, minionAttackX - textWidth / 2,
+                        minionAttackY);
 
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(((MinionCard)card).getHealth());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, minionHealthX - textWidth / 2,
+                        minionHealthY);
                 break;
             case WEAPONCARD:
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(card.getManaCost());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, weaponManaX - textWidth / 2,
+                        weaponManaY);
 
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(((WeaponCard)card).getAttack());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, weaponAttackX - textWidth / 2,
+                        weaponAttackY);
 
-                //g.drawString(text, width / 2 - textWidth / 2,
-                //       (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()));
+                text = String.valueOf(((WeaponCard)card).getDurability());
+                textWidth = fontMetrics.stringWidth(text);
+                g.drawString(text, weaponDurabilityX - textWidth / 2,
+                        weaponDurabilityY);
                 break;
         }
     }
 
-    /*@Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        super.mouseClicked(mouseEvent);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-        super.mousePressed(mouseEvent);
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-        super.mouseReleased(mouseEvent);
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-        super.mouseEntered(mouseEvent);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-        super.mouseExited(mouseEvent);
-    }*/
 }
