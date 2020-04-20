@@ -107,6 +107,22 @@ public class CardsPanel extends JPanel {
         }
     }
 
+    public void update(ArrayList<Card> cards, ArrayList<JPanel> panels){
+        ArrayList<Card> temp = new ArrayList<>();
+        for(Card card : this.cards)
+            temp.add(card);
+
+        for (Card card : temp){
+            removeCard(card);
+        }
+
+        for(int i = 0; i < cards.size(); i++){
+            addCard(cards.get(i), panels.get(i));
+        }
+
+        restart();
+    }
+
     private void restart() {
         try {
             DataBase.save();
@@ -117,7 +133,10 @@ public class CardsPanel extends JPanel {
         }
         removeAll();
         configPanel();
+
         layoutComponent();
+        revalidate();
+        //repaint();
         getParent().repaint();
     }
 }

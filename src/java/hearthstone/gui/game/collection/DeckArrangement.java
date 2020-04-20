@@ -151,14 +151,14 @@ public class DeckArrangement extends JPanel {
 
     private void makeCardsPanel() {
         // MAKE CARDS FILTERING
-        ArrayList<Card> cards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
+        ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (Card card : cards) {
-            panels.add(getCardsPanel(card));
+        for (Card card : HearthStone.currentAccount.getCollection().getCards()) {
+            Card card1 = card.copy();
+            cards.add(card1);
+            panels.add(getCardsPanel(card1));
         }
-
-        System.out.println(cards.size());
 
         cardsPanel = new CardsPanel(cards, panels,
                 1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
@@ -177,8 +177,9 @@ public class DeckArrangement extends JPanel {
         ArrayList<JPanel> panels = new ArrayList<>();
 
         for (Card card : deck.getCards()) {
-            cards.add(card.copy());
-            panels.add(getDeckCardsPanel(card));
+            Card card1 = card.copy();
+            cards.add(card1);
+            panels.add(getDeckCardsPanel(card1));
         }
 
         deckCardsPanel = new CardsPanel(cards, panels,
@@ -244,6 +245,7 @@ public class DeckArrangement extends JPanel {
         allCardsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedButton = 0;
                 allCardsButton.setRadio(true);
 
                 myCardsButton.setRadio(false);
@@ -257,6 +259,7 @@ public class DeckArrangement extends JPanel {
         myCardsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedButton = 1;
                 allCardsButton.mouseExited();
                 allCardsButton.setRadio(false);
 
@@ -270,6 +273,7 @@ public class DeckArrangement extends JPanel {
         lockCardsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedButton = 2;
                 allCardsButton.mouseExited();
                 allCardsButton.setRadio(false);
 
@@ -283,21 +287,20 @@ public class DeckArrangement extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                restart();
+                update();
             }
         });
     }
 
     private ArrayList<Card> cardsInFilter(ArrayList<Card> cards) {
         ArrayList<Card> ans = new ArrayList<>();
-        System.out.println(cards.size());
         for (Card card : cards) {
             if (nameField.getText().length() != 0) {
                 if (!card.getName().contains(nameField.getText()))
                     continue;
             }
             if(manaField.getText().length() != 0){
-                if(String.valueOf(card.getManaCost()) != manaField.getText())
+                if(!String.valueOf(card.getManaCost()).equals(manaField.getText()))
                     continue;
             }
             if(selectedButton == 1){
@@ -350,9 +353,15 @@ public class DeckArrangement extends JPanel {
         addCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // REMOVE CARD FROM DECK
-                cardsPanel.removeCard(card);
-                deckCardsPanel.addCard(card, getDeckCardsPanel(card));
+                try {
+                    deck.add(card, 1);
+                    cardsPanel.removeCard(card);
+                    deckCardsPanel.addCard(card, getDeckCardsPanel(card));
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         });
 
@@ -440,19 +449,14 @@ public class DeckArrangement extends JPanel {
         add(searchButton);
     }
 
-    private void restart() {
-        try {
-            DataBase.save();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    private void update() {
+        ArrayList<Card> cards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
+        ArrayList<JPanel> panels = new ArrayList<>();
+
+        for(Card card : cards){
+            panels.add(getCardsPanel(card));
         }
-        removeAll();
-        repaint();
 
-        makeCardsPanel();
-        makeDeckCardsPanel();
-
-        layoutComponent();
-        repaint();
+        cardsPanel.update(cards, panels);
     }
 }

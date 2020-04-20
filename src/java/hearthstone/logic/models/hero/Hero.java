@@ -119,7 +119,7 @@ public abstract class Hero {
         private String name;
         private int totalGames;
         private int winGames;
-        private HashMap<Integer, Integer> cardGame;
+        private HashMap<Integer, Integer> cardGame = new HashMap<>();
         private ArrayList<Card> cards = new ArrayList<>();
         private HeroType heroType;
 
@@ -195,6 +195,9 @@ public abstract class Hero {
         }
 
         private Card biggerCard(Card card1, Card card2){
+            cardGame.putIfAbsent(card1.getId(), 0);
+            cardGame.putIfAbsent(card2.getId(), 0);
+
             if(cardGame.get(card1.getId()) > cardGame.get(card2.getId())){
                 return card1;
             } else if(cardGame.get(card1.getId()) < cardGame.get(card2.getId())){
