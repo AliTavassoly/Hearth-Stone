@@ -16,30 +16,30 @@ public class CollectionManager {
     }
 
     public static void showMyHero() throws Exception {
-        if (HearthStone.currentAccount.getCurrentHero() == null) {
+        if (HearthStone.currentAccount.getSelectedHero() == null) {
             System.out.println("You did not choose a hero!");
             return;
         }
-        System.out.println(HearthStone.currentAccount.getCurrentHero().getName());
+        System.out.println(HearthStone.currentAccount.getSelectedHero().getName());
     }
 
     public static void selectHero(String heroName) throws Exception {
-        HearthStone.currentAccount.setCurrentHero(GetByName.getHeroByName(heroName).copy());
+        HearthStone.currentAccount.setSelectedHero(GetByName.getHeroByName(heroName).copy());
     }
 
     public static void addToDeck(String cardName, int cnt) throws Exception {
-        if(HearthStone.currentAccount.getCurrentHero() == null)
+        if(HearthStone.currentAccount.getSelectedHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         Card baseCard = GetByName.getCardByName(cardName).copy();
-        HearthStone.currentAccount.getCurrentHero().getSelectedDeck().addDeck(baseCard, cnt);
+        HearthStone.currentAccount.getSelectedHero().getSelectedDeck().add(baseCard, cnt);
         Logger.saveLog("Add Card To Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 
     public static void removeFromDeck(String cardName, int cnt) throws Exception {
-        if(HearthStone.currentAccount.getCurrentHero() == null)
+        if(HearthStone.currentAccount.getSelectedHero() == null)
             throw new HearthStoneException("You did not choose a hero!");
         Card baseCard = GetByName.getCardByName(cardName).copy();
-        HearthStone.currentAccount.getCurrentHero().getSelectedDeck().removeDeck(baseCard, cnt);
+        HearthStone.currentAccount.getSelectedHero().getSelectedDeck().remove(baseCard, cnt);
         Logger.saveLog("Remove Card From Deck", "Card Name : " + cardName + ", Number " + cnt);
     }
 

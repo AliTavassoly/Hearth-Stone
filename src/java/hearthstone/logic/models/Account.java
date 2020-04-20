@@ -6,17 +6,21 @@ import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Account {
     private String username;
     private String name;
     private int id;
+    private ArrayList<Hero> heroes;
+    private ArrayList<Card> cards;
+    private ArrayList<Hero.Deck> decks;
+    private ArrayList<Integer> unlockedCards;
+    private ArrayList<Integer> unlockedHeroes;
 
-    private ArrayList<Hero> heroes = new ArrayList<>();
-    private ArrayList<Card> cards = new ArrayList<>();
-
-    private Hero currentHero;
+    private Hero selectedHero;
     private int gem;
 
     public Account() {
@@ -28,14 +32,12 @@ public class Account {
         this.name = name;
         this.username = username;
         gem = HearthStone.initialCoins;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        heroes = new ArrayList<>();
+        cards = new ArrayList<>();
+        unlockedCards = new ArrayList<>();
+        unlockedHeroes = new ArrayList<>();
+        decks = new ArrayList<>();
     }
 
     public void setId(int id) {
@@ -46,6 +48,46 @@ public class Account {
         return id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
+    public ArrayList<Integer> getUnlockedCards() {
+        return unlockedCards;
+    }
+
+    public void setUnlockedCards(ArrayList<Integer> unlockedCards) {
+        this.unlockedCards = unlockedCards;
+    }
+
+    public ArrayList<Integer> getUnlockedHeroes() {
+        return unlockedHeroes;
+    }
+
+    public void setUnlockedHeroes(ArrayList<Integer> unlockedHeroes) {
+        this.unlockedHeroes = unlockedHeroes;
+    }
+
     public void setHeroes(ArrayList<Hero> heroes) {
         this.heroes = heroes;
     }
@@ -54,27 +96,19 @@ public class Account {
         return heroes;
     }
 
-    public void setBaseCards(ArrayList<Card> cards) {
-        this.cards = cards;
-    }
-
-    public ArrayList<Card> getBaseCards() {
-        return cards;
-    }
-
     public Hero.Deck getCurrentDeck() throws Exception {
-        if (currentHero == null) {
+        if (selectedHero == null) {
             throw new HearthStoneException("You did not choose a hero!");
         }
-        return currentHero.getSelectedDeck();
+        return selectedHero.getSelectedDeck();
     }
 
-    public void setCurrentHero(Hero currentHero) {
-        this.currentHero = currentHero;
+    public void setSelectedHero(Hero selectedHero) {
+        this.selectedHero = selectedHero;
     }
 
-    public Hero getCurrentHero() {
-        return currentHero;
+    public Hero getSelectedHero() {
+        return selectedHero;
     }
 
     public void setGem(int gem) {
@@ -85,51 +119,121 @@ public class Account {
         return gem;
     }
 
+    public ArrayList<Hero.Deck> getDecks() {
+        return decks;
+    }
+
+    public void setDecks(ArrayList<Hero.Deck> decks) {
+        this.decks = decks;
+    }
+
+    // End of setters and getters
+
     public boolean canBuy(Card baseCard, int cnt) throws Exception {
-        if (currentHero == null)
-            return false;
-        return cnt * baseCard.getBuyPrice() <= gem && currentHero.getCollection().canAddCollection(baseCard, cnt);
+        return unlockedHeroes.contains(Hero.getHeroByType(baseCard.getHeroType()).getId());
     }
 
     public boolean canSell(Card baseCard, int cnt) throws Exception {
-        if (currentHero == null)
-            return false;
-        return currentHero.getCollection().canRemoveCollection(baseCard, cnt);
+        for (Hero hero : heroes) {
+            if (baseCard.getHeroType() == HeroType.ALL || hero.getType() == baseCard.getHeroType()) {
+                if (!hero.getCollection().canRemove(baseCard, cnt)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void buyCards(Card baseCard, int cnt) throws Exception {
-        if (currentHero == null) {
-            throw new HearthStoneException("You did not choose a hero!");
+        if (!unlockedCards.contains(baseCard.getId())) {
+            throw new HearthStoneException("This card is lock for you!");
         }
         if (baseCard.getBuyPrice() * cnt > gem) {
-            throw new HearthStoneException("Not enough coins!");
+            throw new HearthStoneException("Not enough gems!");
         }
-        currentHero.getCollection().addCollection(baseCard, cnt);
-        gem -= baseCard.getBuyPrice() * cnt;
-        for (Hero hero : heroes) {
-            if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
-                hero.getCollection().addCollection(baseCard, cnt);
+        if (!unlockedHeroes.contains(Hero.getHeroByType(baseCard.getHeroType()).getId())) {
+            throw new HearthStoneException("This card is for " +
+                    Hero.getHeroByType(baseCard.getHeroType()).getName() + "class and you don't have it!"
+            );
+        }
+
+        if (baseCard.getHeroType() == HeroType.ALL) {
+            for (Hero hero : heroes) {
+                hero.getCollection().add(baseCard, cnt);
+            }
+        } else {
+            Hero heroOfThisCard = null;
+            for (Hero hero : heroes) {
+                if (hero.getType() == baseCard.getHeroType()) {
+                    heroOfThisCard = hero;
+                    break;
+                }
+            }
+            heroOfThisCard.getCollection().add(baseCard, cnt);
+        }
+        gem -= baseCard.getSellPrice() * cnt;
+        for(int i = 0; i < cnt; i++){
+            cards.add(baseCard.copy());
         }
     }
 
     public void sellCards(Card baseCard, int cnt) throws Exception {
-        if (currentHero == null) {
-            throw new HearthStoneException("You did not choose a hero!");
+        if (baseCard.getHeroType() == HeroType.ALL) {
+            for (Hero hero : heroes) {
+                for(Hero.Deck deck : hero.getDecks()){
+                    if(deck.numberOfCards(baseCard) > hero.getCollection().numberOfCards(baseCard)){
+                       deck.remove(baseCard,
+                               deck.numberOfCards(baseCard) - hero.getCollection().numberOfCards(baseCard));
+                    }
+                }
+                hero.getCollection().remove(baseCard, cnt);
+            }
+        } else {
+            Hero heroOfThisCard = null;
+            for (Hero hero : heroes) {
+                if (hero.getType() == baseCard.getHeroType()) {
+                    heroOfThisCard = hero;
+                    break;
+                }
+            }
+            for(Hero.Deck deck : heroOfThisCard.getDecks()) {
+                if (deck.numberOfCards(baseCard) > heroOfThisCard.getCollection().numberOfCards(baseCard)) {
+                    deck.remove(baseCard,
+                            deck.numberOfCards(baseCard) -
+                                    heroOfThisCard.getCollection().numberOfCards(baseCard));
+                }
+            }
+            heroOfThisCard.getCollection().remove(baseCard, cnt);
         }
-        currentHero.getCollection().removeCollection(baseCard, cnt);
-        currentHero.getSelectedDeck().removeDeck(baseCard, Math.min(cnt, currentHero.getSelectedDeck().numberInDeck(baseCard)));
+
+        for(int i = 0; i < cnt; i++){
+            for(int j = 0; j < cards.size(); j++){
+                if(cards.get(j).getId() == baseCard.getId()){
+                    cards.remove(j);
+                    break;
+                }
+            }
+        }
         gem += baseCard.getSellPrice() * cnt;
-        for (Hero hero : heroes) {
-            if (hero.getType() != currentHero.getType() && (baseCard.getHeroType() == HeroType.ALL || baseCard.getHeroType() == hero.getType()))
-                hero.getCollection().removeCollection(baseCard, cnt);
+    }
+
+    public ArrayList<Hero.Deck> getBestDecks(int cnt){
+        ArrayList<Hero.Deck> ans = new ArrayList<>();
+
+        // Sort Decks
+
+        cnt = Math.min(cnt, decks.size());
+        for(int i = decks.size() - 1; i >= decks.size() - cnt; i--){
+            ans.add(decks.get(i));
         }
+        return ans;
     }
 
-    public String getUsername() {
-        return username;
+    public void unlockHero(int id) {
+        unlockedHeroes.add(id);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void unlockCard(int id) {
+        unlockedCards.add(id);
     }
 }
