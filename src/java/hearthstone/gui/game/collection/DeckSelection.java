@@ -2,7 +2,6 @@ package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
-import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.Dialog;
 import hearthstone.gui.controls.deck.DecksPanel;
@@ -20,7 +19,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.GlyphMetrics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -198,7 +196,7 @@ public class DeckSelection extends JPanel {
         });
 
         ImageButton selectionButton;
-        if (true) {  // IF DECK IS IN USE CREATE SELECTED BUTTON
+        if (hero.getSelectedDeck() != null && hero.getSelectedDeck().getName().equals(deck.getName())) {
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
@@ -209,13 +207,15 @@ public class DeckSelection extends JPanel {
                     15, 0,
                     DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
 
-            arrangeButton.addActionListener(new ActionListener() {
+            selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    // select this deck
+                    hero.setSelectedDeck(deck);
+                    restart();
                 }
             });
         }
+
         panel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
         grid.gridy = 0;

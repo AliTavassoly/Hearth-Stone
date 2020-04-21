@@ -322,9 +322,11 @@ public class DeckArrangement extends JPanel {
                 if(card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType())
                     continue;
             } else if(selectedButton == 1){
+                System.out.println(card.getName() + " " + hero.getName() + " " + card.getHeroType() + " " + hero.getType());
                 if(card.getHeroType() != hero.getType())
                     continue;
             } else if(selectedButton == 2){
+                System.out.println(card.getName() + " " + hero.getName() + " " + card.getHeroType() + " " + hero.getType());
                 if(!deck.canAdd(card, 1))
                     continue;
             }

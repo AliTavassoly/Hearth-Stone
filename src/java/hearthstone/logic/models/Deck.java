@@ -3,7 +3,6 @@ package hearthstone.logic.models;
 import hearthstone.HearthStone;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
@@ -136,6 +135,9 @@ public class Deck {
     }
 
     public boolean canAdd(Card baseCard, int cnt) {
+        if(numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)){
+            return false;
+        }
         if (cards.size() + cnt > HearthStone.maxDeckSize) {
             return false;
         }
@@ -145,10 +147,16 @@ public class Deck {
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())){
             return false;
         }
+        if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType){
+            return false;
+        }
         return true;
     }
 
     public void add(Card baseCard, int cnt) throws Exception {
+        if(numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)){
+            throw new HearthStoneException("You have not " + cnt + " number of this card!");
+        }
         if (cards.size() + cnt > HearthStone.maxDeckSize) {
             throw new HearthStoneException("Not enough space in your deck!");
         }
@@ -157,6 +165,9 @@ public class Deck {
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
             throw new HearthStoneException("This card is lock for you!");
+        }
+        if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
+            throw new HearthStoneException("This card is not for this hero!");
         }
         for (int i = 0; i < cnt; i++)
             cards.add(baseCard.copy());

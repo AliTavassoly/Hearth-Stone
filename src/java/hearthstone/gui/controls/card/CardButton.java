@@ -1,15 +1,14 @@
 package hearthstone.gui.controls.card;
 
+import hearthstone.HearthStone;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.WeaponCard;
-import org.ietf.jgss.GSSManager;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -40,8 +39,14 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
 
         BufferedImage image = null;
         try {
+            String path;
+            if(HearthStone.currentAccount.getUnlockedCards().contains(card.getId())){
+                path = "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png";
+            } else {
+                path = "/images/cards/bw_" + card.getName().toLowerCase().replace(' ', '_') + ".png";
+            }
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png"));
+                    path));
         } catch (Exception e) {
             System.out.println(e);
             e.getStackTrace();

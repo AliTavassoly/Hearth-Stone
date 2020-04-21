@@ -150,7 +150,7 @@ public class HeroSelection extends JPanel {
         });
 
         ImageButton selectionButton;
-        if(HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {  // IF HERO IS IN USE CREATE SELECTED BUTTON
+        if(HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
