@@ -103,6 +103,7 @@ public class HeroSelection extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
+                    GameFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){

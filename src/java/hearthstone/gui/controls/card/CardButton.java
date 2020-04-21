@@ -9,10 +9,16 @@ import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.WeaponCard;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
-public class CardButton extends ImageButton /*implements MouseListener*/ {
+public class CardButton extends ImageButton implements MouseListener {
     int width, height;
     private Card card;
 
@@ -138,6 +144,24 @@ public class CardButton extends ImageButton /*implements MouseListener*/ {
                 g.drawString(text, weaponDurabilityX - textWidth / 2,
                         weaponDurabilityY);
                 break;
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        super.mouseClicked(mouseEvent);
+        if(card instanceof MinionCard){
+            try {
+                File file = new File(this.getClass().getResource(
+                        "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav").getFile());
+                AudioInputStream audioInputStream =
+                        AudioSystem.getAudioInputStream(file.getAbsoluteFile());
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

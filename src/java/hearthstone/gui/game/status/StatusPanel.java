@@ -9,7 +9,6 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -96,6 +95,7 @@ public class StatusPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
+                    GameFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){

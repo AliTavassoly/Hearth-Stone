@@ -94,6 +94,7 @@ public class LoginPanel extends JPanel {
                     hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
+                    CredentialsFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     error = e.getMessage();
                     repaint();
@@ -141,7 +142,7 @@ public class LoginPanel extends JPanel {
 
     private void makeFields(){
         userField = new JTextField(10); userField.setBorder(null);
-        userField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        userField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
 
         passField = new JPasswordField(10); passField.setBorder(null);
     }

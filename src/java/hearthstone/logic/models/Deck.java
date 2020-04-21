@@ -158,13 +158,13 @@ public class Deck {
             throw new HearthStoneException("You have not " + cnt + " number of this card!");
         }
         if (cards.size() + cnt > HearthStone.maxDeckSize) {
-            throw new HearthStoneException("Not enough space in your deck!");
+            throw new HearthStoneException("Not enough space!");
         }
         if (numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard) {
             throw new HearthStoneException("You can not have " + cnt + " number of this card!");
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
-            throw new HearthStoneException("This card is lock for you!");
+            throw new HearthStoneException("This card is locked for you!");
         }
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
             throw new HearthStoneException("This card is not for this hero!");

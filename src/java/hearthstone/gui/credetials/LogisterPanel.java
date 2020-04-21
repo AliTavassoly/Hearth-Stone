@@ -3,6 +3,7 @@ package hearthstone.gui.credetials;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,50 +25,9 @@ public class LogisterPanel extends JPanel {
     public LogisterPanel() {
         configPanel();
 
-        loginButton = new ImageButton("login", "buttons/green_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+        makeIcons();
 
-        registerButton = new ImageButton("register", "buttons/blue_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
-
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        minimizeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
-                CredentialsFrame.getInstance().setState(Frame.NORMAL);
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
-
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new LoginPanel());
-            }
-        });
-
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                CredentialsFrame.getInstance().setContentPane(new RegisterPanel());
-            }
-        });
+        makeButtons();
 
         layoutComponent();
     }
@@ -88,6 +48,55 @@ public class LogisterPanel extends JPanel {
     private void configPanel(){
         setLayout(null);
         setVisible(true);
+    }
+
+    private void makeIcons(){
+        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        minimizeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
+                CredentialsFrame.getInstance().setState(Frame.NORMAL);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+    }
+
+    private void makeButtons(){
+        loginButton = new ImageButton("login", "buttons/green_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
+
+        registerButton = new ImageButton("register", "buttons/blue_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
+
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().switchPanelTo(
+                        CredentialsFrame.getInstance(), new LoginPanel());
+            }
+        });
+
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                CredentialsFrame.getInstance().switchPanelTo(
+                        CredentialsFrame.getInstance(), new RegisterPanel());
+            }
+        });
     }
 
     private void layoutComponent(){

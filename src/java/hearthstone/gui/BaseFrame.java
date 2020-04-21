@@ -1,5 +1,8 @@
 package hearthstone.gui;
 
+import hearthstone.gui.controls.ErrorDialog;
+import hearthstone.gui.game.GameFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -27,5 +30,10 @@ public class BaseFrame extends JFrame {
     public void switchPanelTo(JFrame frame, JPanel panel) {
         frame.getContentPane().setVisible(false);
         frame.setContentPane(panel);
+    }
+
+    public static void error(String text) {
+        ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), text,
+                DefaultSizes.errorWidth, DefaultSizes.errorHeight);
     }
 }

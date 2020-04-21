@@ -2,6 +2,8 @@ package hearthstone.gui.game.market;
 
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
+import hearthstone.gui.BaseFrame;
+import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
@@ -119,6 +121,7 @@ public class MarketPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
+                    GameFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){
@@ -291,6 +294,7 @@ public class MarketPanel extends JPanel {
                     DataBase.save();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
+                    BaseFrame.error(e.getMessage());
                 } catch (Exception ex){
                     System.out.println(ex.getMessage());
                 }
@@ -329,6 +333,7 @@ public class MarketPanel extends JPanel {
                     gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
+                    BaseFrame.error(e.getMessage());
                 } catch (Exception ex){
                     System.out.println(ex.getMessage());
                 }

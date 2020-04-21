@@ -1,8 +1,9 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.controls.hero.HeroButton;
@@ -20,10 +21,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class DeckArrangement extends JPanel {
+public class DeckArrangement extends JPanel implements MouseListener {
+    //private JLayeredPane layeredPane = new JLayeredPane();
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton, deleteButton;
     private CardsPanel cardsPanel, deckCardsPanel;
@@ -93,6 +97,8 @@ public class DeckArrangement extends JPanel {
     }
 
     private void configPanel() {
+        //setLayout(new BorderLayout());
+        //add(layeredPane, BorderLayout.CENTER);
         setLayout(null);
         setVisible(true);
     }
@@ -138,6 +144,7 @@ public class DeckArrangement extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
+                    GameFrame.getInstance().stopSound();
                 } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
                 } catch (Exception ex) {
@@ -314,20 +321,18 @@ public class DeckArrangement extends JPanel {
                 if (!card.getName().contains(nameField.getText()))
                     continue;
             }
-            if(manaField.getText().length() != 0){
-                if(!String.valueOf(card.getManaCost()).equals(manaField.getText()))
+            if (manaField.getText().length() != 0) {
+                if (!String.valueOf(card.getManaCost()).equals(manaField.getText()))
                     continue;
             }
-            if(selectedButton == 0){
-                if(card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType())
+            if (selectedButton == 0) {
+                if (card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType())
                     continue;
-            } else if(selectedButton == 1){
-                System.out.println(card.getName() + " " + hero.getName() + " " + card.getHeroType() + " " + hero.getType());
-                if(card.getHeroType() != hero.getType())
+            } else if (selectedButton == 1) {
+                if (card.getHeroType() != hero.getType())
                     continue;
-            } else if(selectedButton == 2){
-                System.out.println(card.getName() + " " + hero.getName() + " " + card.getHeroType() + " " + hero.getType());
-                if(!deck.canAdd(card, 1))
+            } else if (selectedButton == 2) {
+                if (!deck.canAdd(card, 1))
                     continue;
             }
             ans.add(card.copy());
@@ -352,6 +357,7 @@ public class DeckArrangement extends JPanel {
                     cardsPanel.addCard(card, getCardsPanel(card));
                 } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
+                    BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -377,9 +383,10 @@ public class DeckArrangement extends JPanel {
                     deck.add(card, 1);
                     cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                    BaseFrame.error(e.getMessage());
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
             }
@@ -427,7 +434,7 @@ public class DeckArrangement extends JPanel {
         heroButton.setBounds(startHeroX, startHeroY,
                 DefaultSizes.bigHeroWidth,
                 DefaultSizes.bigHeroHeight);
-        add(heroButton);
+        add(heroButton, JLayeredPane.DEFAULT_LAYER);
 
         // LABELS
         nameLabel.setBounds(filterX - (int) nameLabel.getPreferredSize().getWidth(), filterY,
@@ -470,19 +477,50 @@ public class DeckArrangement extends JPanel {
         add(searchButton);
 
         deleteButton.setBounds(filterX - DefaultSizes.medButtonWidth / 2,
-                startListY +  2 * DefaultSizes.arrangementListHeight + listDis - DefaultSizes.medButtonHeight,
+                startListY + 2 * DefaultSizes.arrangementListHeight + listDis - DefaultSizes.medButtonHeight,
                 DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
         add(deleteButton);
+
+        // TEST
+        /*ShowException showException = new ShowException("salam");
+        showException.setBounds(0, 0, 500, 500);
+        DeckArrangement.this.add(showException);*/
+
     }
 
     private void update() {
         ArrayList<Card> cards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Card card : cards){
+        for (Card card : cards) {
             panels.add(getCardsPanel(card));
         }
 
         cardsPanel.update(cards, panels);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
     }
 }

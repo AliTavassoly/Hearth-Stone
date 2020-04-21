@@ -103,11 +103,11 @@ public class RegisterPanel extends JPanel {
     private void makeFields(){
         nameField = new JTextField(10);
         nameField.setBorder(null);
-        nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        nameField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
 
         userField = new JTextField(10);
         userField.setBorder(null);
-        userField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        userField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
 
         passField = new JPasswordField(10);
         passField.setBorder(null);
@@ -174,6 +174,7 @@ public class RegisterPanel extends JPanel {
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
                     DataBase.save();
+                    CredentialsFrame.getInstance().stopSound();
                 } catch (HearthStoneException e) {
                     error = e.getMessage();
                     repaint();

@@ -28,9 +28,6 @@ public class DefaultSizes {
     public static final int medCardWidth = 150;
     public static final int medCardHeight = 204;
 
-    public static final int largeCardWidth = 200;
-    public static final int largeCardHeight = 272;
-
     public static final int marketListWidth = 650;
     public static final int marketListHeight = 650;
 
@@ -65,6 +62,9 @@ public class DefaultSizes {
 
     public static final int arrangementListWidth = 650;
     public static final int arrangementListHeight = 300;
+
+    public static final int errorWidth = 527;
+    public static final int errorHeight = 200;
 
     public static final int marketInfoHeight = 160;
 }

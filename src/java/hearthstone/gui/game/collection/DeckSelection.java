@@ -2,8 +2,9 @@ package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.Dialog;
+import hearthstone.gui.controls.NameDialog;
 import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.ImageButton;
@@ -118,6 +119,7 @@ public class DeckSelection extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
+                    GameFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){
@@ -165,11 +167,14 @@ public class DeckSelection extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent){
-                // NEW JDialog FOR ENTER NAME
-                Dialog dialog = new Dialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                String name = dialog.getValue();
+                NameDialog nameDialog = new NameDialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                String name = nameDialog.getValue();
                 Deck beforeDeck = hero.getDecks().stream().
                         filter(deck -> name.equals(deck.getName())).findAny().orElse(null);
+
+                if(beforeDeck != null){
+                    BaseFrame.error("this name is already token!");
+                }
 
                 if (beforeDeck == null && name.length() != 0) {
                     Deck deck = new Deck(name, hero.getType());

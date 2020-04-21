@@ -39,6 +39,10 @@ public class Account {
         unlockedHeroes = new ArrayList<>();
         decks = new ArrayList<>();
 
+        accountConfigs();
+    }
+
+    private void accountConfigs(){
         heroes.addAll(HearthStone.baseHeroes.values());
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -48,6 +52,10 @@ public class Account {
             }
             cards.add(card);
         }
+        for(int i = 0; i < HearthStone.baseHeroes.size(); i++){
+            unlockedHeroes.add(i);
+        }
+
         collection = new Collection(cards);
     }
 
@@ -115,13 +123,6 @@ public class Account {
         return heroes;
     }
 
-    public Deck getCurrentDeck() throws Exception {
-        if (selectedHero == null) {
-            throw new HearthStoneException("You did not choose a hero!");
-        }
-        return selectedHero.getSelectedDeck();
-    }
-
     public void setSelectedHero(Hero selectedHero) {
         this.selectedHero = selectedHero;
     }
@@ -158,7 +159,7 @@ public class Account {
 
     public void buyCards(Card baseCard, int cnt) throws Exception {
         if (!unlockedCards.contains(baseCard.getId())) {
-            throw new HearthStoneException("This card is lock for you!");
+            throw new HearthStoneException("This card is locked for you!");
         }
         if (baseCard.getBuyPrice() * cnt > gem) {
             throw new HearthStoneException("Not enough gems!");
