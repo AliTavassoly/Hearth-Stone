@@ -17,7 +17,7 @@ public class Account {
     private int id;
     private ArrayList<Hero> heroes;
     private Collection collection;
-    private ArrayList<Hero.Deck> decks;
+    private ArrayList<Deck> decks;
     private ArrayList<Integer> unlockedCards;
     private ArrayList<Integer> unlockedHeroes;
 
@@ -112,7 +112,7 @@ public class Account {
         return heroes;
     }
 
-    public Hero.Deck getCurrentDeck() throws Exception {
+    public Deck getCurrentDeck() throws Exception {
         if (selectedHero == null) {
             throw new HearthStoneException("You did not choose a hero!");
         }
@@ -135,11 +135,11 @@ public class Account {
         return gem;
     }
 
-    public ArrayList<Hero.Deck> getDecks() {
+    public ArrayList<Deck> getDecks() {
         return decks;
     }
 
-    public void setDecks(ArrayList<Hero.Deck> decks) {
+    public void setDecks(ArrayList<Deck> decks) {
         this.decks = decks;
     }
 
@@ -175,8 +175,8 @@ public class Account {
         collection.remove(baseCard, cnt);
     }
 
-    public ArrayList<Hero.Deck> getBestDecks(int cnt){
-        ArrayList<Hero.Deck> ans = new ArrayList<>();
+    public ArrayList<Deck> getBestDecks(int cnt){
+        ArrayList<Deck> ans = new ArrayList<>();
 
         // Sort Decks
 

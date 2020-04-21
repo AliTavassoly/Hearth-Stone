@@ -2,6 +2,7 @@ package hearthstone.gui.controls.deck;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class DecksPanel extends JPanel {
-    private ArrayList<Hero.Deck> decks;
+    private ArrayList<Deck> decks;
     private ArrayList<JPanel> panels;
     private ArrayList<DeckButton> deckButtons;
     private int deckWidth, deckHeight;
@@ -18,7 +19,7 @@ public class DecksPanel extends JPanel {
     private int startY = 10;
     private int disY = 10;
 
-    public DecksPanel(ArrayList<Hero.Deck> decks, ArrayList<JPanel> panels,
+    public DecksPanel(ArrayList<Deck> decks, ArrayList<JPanel> panels,
                       int deckWidth, int deckHeight) {
         this.decks = decks;
         this.panels = panels;
@@ -27,7 +28,7 @@ public class DecksPanel extends JPanel {
 
         deckButtons = new ArrayList<>();
 
-        for (Hero.Deck deck : decks) {
+        for (Deck deck : decks) {
             DeckButton deckButton = new DeckButton(deck,
                     deckWidth,
                     deckHeight);
@@ -41,7 +42,7 @@ public class DecksPanel extends JPanel {
         layoutComponent();
     }
 
-    public void addDeck(Hero.Deck deck, JPanel panel) {
+    public void addDeck(Deck deck, JPanel panel) {
         DeckButton deckButton = new DeckButton(deck,
                 deckWidth,
                 deckHeight);
@@ -54,7 +55,7 @@ public class DecksPanel extends JPanel {
         layoutComponent();
     }
 
-    public void removeDeck(Hero.Deck deck) {
+    public void removeDeck(Deck deck) {
         int ind = decks.indexOf(deck);
 
         removeAll();

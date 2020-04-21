@@ -8,6 +8,7 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 
@@ -108,10 +109,10 @@ public class StatusPanel extends JPanel {
     }
 
     private void makeDeckList() {
-        ArrayList<Hero.Deck> decks = new ArrayList<>();
+        ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Hero.Deck deck : HearthStone.currentAccount.getBestDecks(10)){
+        for(Deck deck : HearthStone.currentAccount.getBestDecks(10)){
             decks.add(deck);
             panels.add(null);
         }

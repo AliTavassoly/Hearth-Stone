@@ -11,6 +11,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 
@@ -132,10 +133,10 @@ public class DeckSelection extends JPanel {
     }
 
     private void makeDeckList() {
-        ArrayList<Hero.Deck> decks = new ArrayList<>();
+        ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Hero.Deck deck : hero.getDecks()){
+        for(Deck deck : hero.getDecks()){
             decks.add(deck);
             panels.add(getDeckPanel(deck));
         }
@@ -158,19 +159,22 @@ public class DeckSelection extends JPanel {
                 DefaultSizes.bigHeroHeight);
     }
 
-    private void makeAddButton() {
+    private void makeAddButton(){
         addButton = new ImageButton("New Deck", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
                 DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
         addButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(ActionEvent actionEvent){
                 // NEW JDialog FOR ENTER NAME
                 Dialog dialog = new Dialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 String name = dialog.getValue();
-                if (name.length() != 0) {
-                    Hero.Deck deck = hero.new Deck(name, hero.getType());
+                Deck beforeDeck = hero.getDecks().stream().
+                        filter(deck -> name.equals(deck.getName())).findAny().orElse(null);
+
+                if (beforeDeck == null && name.length() != 0) {
+                    Deck deck = new Deck(name, hero.getType());
                     hero.getDecks().add(deck);
                     HearthStone.currentAccount.getDecks().add(deck);
 
@@ -180,7 +184,7 @@ public class DeckSelection extends JPanel {
         });
     }
 
-    private JPanel getDeckPanel(Hero.Deck deck) {
+    private JPanel getDeckPanel(Deck deck) {
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,

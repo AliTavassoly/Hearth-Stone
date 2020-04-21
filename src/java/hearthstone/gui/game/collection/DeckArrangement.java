@@ -9,6 +9,7 @@ import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
@@ -24,14 +25,14 @@ import java.util.ArrayList;
 
 public class DeckArrangement extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
-    private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton;
+    private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton, deleteButton;
     private CardsPanel cardsPanel, deckCardsPanel;
     private JScrollPane cardsScroll, deckCardsScroll;
     private HeroButton heroButton;
     private JLabel nameLabel, manaLabel;
     private JTextField nameField, manaField;
     private int selectedButton;
-    private Hero.Deck deck;
+    private Deck deck;
     private Hero hero;
 
     private final int iconX = 20;
@@ -52,7 +53,7 @@ public class DeckArrangement extends JPanel {
     private final int filterDisY = 50;
     private final int filterDisX = 10;
 
-    public DeckArrangement(Hero hero, Hero.Deck deck) {
+    public DeckArrangement(Hero hero, Deck deck) {
         this.hero = hero;
         this.deck = deck;
 
@@ -232,12 +233,17 @@ public class DeckArrangement extends JPanel {
                 DefaultSizes.smallButtonWidth,
                 DefaultSizes.smallButtonHeight);
 
-        lockCardsButton = new ImageButton("Unlocked", "buttons/blue_background.png",
+        lockCardsButton = new ImageButton("Addable", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, false, 12, 0,
                 DefaultSizes.smallButtonWidth,
                 DefaultSizes.smallButtonHeight);
 
         searchButton = new ImageButton("search", "buttons/green_background.png",
+                0, Color.white, Color.yellow, 14, 0,
+                DefaultSizes.medButtonWidth,
+                DefaultSizes.medButtonHeight);
+
+        deleteButton = new ImageButton("delete", "buttons/red_background.png",
                 0, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.medButtonWidth,
                 DefaultSizes.medButtonHeight);
@@ -290,6 +296,15 @@ public class DeckArrangement extends JPanel {
                 update();
             }
         });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                HearthStone.currentAccount.getDecks().remove(deck);
+                hero.getDecks().remove(deck);
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+            }
+        });
     }
 
     private ArrayList<Card> cardsInFilter(ArrayList<Card> cards) {
@@ -303,11 +318,14 @@ public class DeckArrangement extends JPanel {
                 if(!String.valueOf(card.getManaCost()).equals(manaField.getText()))
                     continue;
             }
-            if(selectedButton == 1){
+            if(selectedButton == 0){
                 if(card.getHeroType() != HeroType.ALL && card.getHeroType() != hero.getType())
                     continue;
+            } else if(selectedButton == 1){
+                if(card.getHeroType() != hero.getType())
+                    continue;
             } else if(selectedButton == 2){
-                if(!HearthStone.currentAccount.getUnlockedCards().contains(card.getId()))
+                if(!deck.canAdd(card, 1))
                     continue;
             }
             ans.add(card.copy());
@@ -443,10 +461,16 @@ public class DeckArrangement extends JPanel {
                 DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
         add(lockCardsButton);
 
+
         searchButton.setBounds(filterX - DefaultSizes.medButtonWidth / 2,
                 filterY + 3 * filterDisY + 20,
                 DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
         add(searchButton);
+
+        deleteButton.setBounds(filterX - DefaultSizes.medButtonWidth / 2,
+                startListY +  2 * DefaultSizes.arrangementListHeight + listDis - DefaultSizes.medButtonHeight,
+                DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+        add(deleteButton);
     }
 
     private void update() {

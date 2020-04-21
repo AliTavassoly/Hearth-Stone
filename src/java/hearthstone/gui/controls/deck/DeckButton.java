@@ -3,6 +3,7 @@ package hearthstone.gui.controls.deck;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
@@ -11,12 +12,13 @@ import java.awt.image.BufferedImage;
 
 public class DeckButton extends ImageButton {
     int width, height;
-    private Hero.Deck deck;
+    private Deck deck;
 
     private final int stringDis = 36;
     private final int stringStartY = 45;
+    private final int maxCardNameWidth = 200;
 
-    public DeckButton(Hero.Deck deck, int width, int height) {
+    public DeckButton(Deck deck, int width, int height) {
         this.deck = deck;
         this.width = width;
         this.height = height;
@@ -52,8 +54,22 @@ public class DeckButton extends ImageButton {
 
         g2.drawImage(deckImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0,
                 width, height, null);
-        Font font = GameFrame.getInstance().getCustomFont(0, 15);
 
+        drawStringOnDeck(g2);
+    }
+
+    private int getSize(String text, int maxWidth){
+        int size = 20;
+        Font font = GameFrame.getInstance().getCustomFont(0, size);
+        while(getFontMetrics(font).stringWidth(text) > maxWidth){
+            size--;
+            font = GameFrame.getInstance().getCustomFont(0, size);
+        }
+        return size;
+    }
+
+    private void drawStringOnDeck(Graphics2D g2){
+        Font font = GameFrame.getInstance().getCustomFont(0, 15);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
@@ -67,9 +83,13 @@ public class DeckButton extends ImageButton {
         g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 155, stringStartY);
         g2.drawString("name: " + deck.getName(), 163, stringStartY + stringDis);
         if (deck.getBestCard() == null)
-            g2.drawString("useful card: no card", 155 , stringStartY + 2 * stringDis);
-        else
-            g2.drawString("favorite card: " + deck.getBestCard().getName(), 155, stringStartY + 2 * stringDis);
+            g2.drawString("favorite card: no card", 155 , stringStartY + 2 * stringDis);
+        else {
+            String text = "favorite card: " + deck.getBestCard().getName();
+            font = GameFrame.getInstance().getCustomFont(0, getSize(text, maxCardNameWidth));
+            g2.setFont(font);
 
+            g2.drawString("favorite card: " + deck.getBestCard().getName(), 155, stringStartY + 2 * stringDis);
+        }
     }
 }
