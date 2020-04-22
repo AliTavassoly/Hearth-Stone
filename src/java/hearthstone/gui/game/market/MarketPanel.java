@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.controls.ErrorDialog;
+import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
@@ -112,7 +113,12 @@ public class MarketPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                boolean sure = sureDialog.getValue();
+                if (sure) {
+                    System.exit(0);
+                }
             }
         });
 
@@ -120,15 +126,20 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.logout();
+                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                    boolean sure = sureDialog.getValue();
+                    if (sure) {
+                        HearthStone.logout();
+                        GameFrame.getInstance().setVisible(false);
+                        GameFrame.getInstance().dispose();
+                        CredentialsFrame.getNewInstance().setVisible(true);
+                    }
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                 } catch (Exception ex){
                     System.out.println(ex.getMessage());
                 }
-                GameFrame.getInstance().setVisible(false);
-                GameFrame.getInstance().dispose();
-                CredentialsFrame.getNewInstance().setVisible(true);
             }
         });
     }

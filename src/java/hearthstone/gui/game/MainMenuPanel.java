@@ -5,6 +5,7 @@ import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
@@ -88,7 +89,12 @@ public class MainMenuPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                boolean sure = sureDialog.getValue();
+                if (sure) {
+                    System.exit(0);
+                }
             }
         });
 
@@ -96,15 +102,20 @@ public class MainMenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.logout();
-                } catch (HearthStoneException e){
+                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                    boolean sure = sureDialog.getValue();
+                    if (sure) {
+                        HearthStone.logout();
+                        GameFrame.getInstance().setVisible(false);
+                        GameFrame.getInstance().dispose();
+                        CredentialsFrame.getNewInstance().setVisible(true);
+                    }
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-                GameFrame.getInstance().setVisible(false);
-                GameFrame.getInstance().dispose();
-                CredentialsFrame.getNewInstance().setVisible(true);
             }
         });
     }
@@ -159,9 +170,9 @@ public class MainMenuPanel extends JPanel {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                if(HearthStone.currentAccount.getSelectedHero() == null){
+                if (HearthStone.currentAccount.getSelectedHero() == null) {
                     BaseFrame.error("You should choose your hero first!");
-                } else if(HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null){
+                } else if (HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null) {
                     BaseFrame.error("You should choose a deck for your hero!");
                 } else {
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new PlaySelectionPanel());

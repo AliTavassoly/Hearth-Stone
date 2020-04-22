@@ -1,5 +1,6 @@
 package hearthstone.gui.credetials;
 
+import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
@@ -68,7 +69,7 @@ public class LogisterPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                    System.exit(0);
             }
         });
     }

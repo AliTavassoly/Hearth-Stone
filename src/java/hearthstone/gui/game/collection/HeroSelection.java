@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
@@ -95,7 +96,12 @@ public class HeroSelection extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                boolean sure = sureDialog.getValue();
+                if (sure) {
+                    System.exit(0);
+                }
             }
         });
 
@@ -103,15 +109,20 @@ public class HeroSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.logout();
+                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                    boolean sure = sureDialog.getValue();
+                    if (sure) {
+                        HearthStone.logout();
+                        GameFrame.getInstance().setVisible(false);
+                        GameFrame.getInstance().dispose();
+                        CredentialsFrame.getNewInstance().setVisible(true);
+                    }
                 } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-                GameFrame.getInstance().setVisible(false);
-                GameFrame.getInstance().dispose();
-                CredentialsFrame.getNewInstance().setVisible(true);
             }
         });
     }
@@ -169,10 +180,10 @@ public class HeroSelection extends JPanel {
                     try {
                         HearthStone.currentAccount.setSelectedHero(hero);
                         DataBase.save();
-                    } catch (HearthStoneException e){
+                    } catch (HearthStoneException e) {
                         System.out.println(e.getMessage());
                         BaseFrame.error(e.getMessage());
-                    } catch (Exception ex){
+                    } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
                     restart();

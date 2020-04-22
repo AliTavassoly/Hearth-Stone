@@ -9,15 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class NameDialog extends JDialog {
+public class SureDialog extends JDialog {
     private JLabel message;
-    private JTextField nameField;
     private ImageButton okButton, cancelButton;
+    private String clicked;
 
     private int width, height;
     private String text;
 
-    public NameDialog(JFrame frame, String text, int width, int height){
+    public SureDialog(JFrame frame, String text, int width, int height){
         super(frame);
         this.width = width;
         this.height = height;
@@ -26,8 +26,6 @@ public class NameDialog extends JDialog {
         configDialog();
 
         makeButtons();
-
-        makeFields();
 
         makeLabels();
 
@@ -75,12 +73,6 @@ public class NameDialog extends JDialog {
         message.setFont(GameFrame.getInstance().getCustomFont(0, 20));
     }
 
-    public void makeFields(){
-        nameField = new JTextField(10);
-        nameField.setBorder(null);
-        nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
-    }
-
     public void makeButtons(){
         okButton = new ImageButton("ok", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
@@ -95,6 +87,7 @@ public class NameDialog extends JDialog {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                clicked = "ok";
                 setVisible(false);
                 dispose();
             }
@@ -103,7 +96,7 @@ public class NameDialog extends JDialog {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                nameField.setText(null);
+                clicked = "cancel";
                 setVisible(false);
                 dispose();
             }
@@ -116,27 +109,32 @@ public class NameDialog extends JDialog {
 
         // first row
         grid.gridy = 0;
+        grid.gridwidth = 2;
+
+        grid.weighty = 1;
+        grid.weightx = 5;
 
         grid.gridx = 0;
         add(message, grid);
-
-        grid.gridx = 1;
-        add(nameField, grid);
 
         // second row
         grid.gridy = 1;
 
         grid.gridx = 0;
-        grid.insets = new Insets(30, 0, 0, 0);
+        grid.gridwidth = 1;
+        grid.anchor = GridBagConstraints.FIRST_LINE_END;
+        grid.insets = new Insets(0, 0, 0, 20);
         add(okButton, grid);
 
         grid.gridx = 1;
-        grid.insets = new Insets(30, 0, 0, 0);
+        grid.gridwidth = 1;
+        grid.anchor = GridBagConstraints.FIRST_LINE_START;
+        grid.insets = new Insets(0, 20, 0, 0);
         add(cancelButton, grid);
     }
 
-    public String getValue() {
+    public boolean getValue() {
         setVisible(true);
-        return nameField.getText();
+        return clicked.equals("ok");
     }
 }

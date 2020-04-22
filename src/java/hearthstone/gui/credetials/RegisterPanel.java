@@ -3,6 +3,7 @@ package hearthstone.gui.credetials;
 import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
 
@@ -147,7 +148,7 @@ public class RegisterPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                    System.exit(0);
             }
         });
 

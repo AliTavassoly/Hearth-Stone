@@ -30,11 +30,7 @@ public class ImageButton extends JButton implements MouseListener {
         this.height = height;
         imagePath = normalPath;
 
-        setPreferredSize(new Dimension(width, height));
-        setBorderPainted(false);
-        setFocusPainted(false);
-
-        addMouseListener(this);
+        configButton();
     }
 
     public ImageButton(String text, String imagePath, int tof,
@@ -50,11 +46,7 @@ public class ImageButton extends JButton implements MouseListener {
         this.height = height;
         currentColor = textColor;
 
-        setPreferredSize(new Dimension(width, height));
-        setBorderPainted(false);
-        setFocusPainted(false);
-
-        addMouseListener(this);
+        configButton();
     }
 
     public ImageButton(String text, String imagePath, int tof, Color textColor,
@@ -69,11 +61,7 @@ public class ImageButton extends JButton implements MouseListener {
         this.height = height;
         currentColor = textColor;
 
-        setPreferredSize(new Dimension(width, height));
-        setBorderPainted(false);
-        setFocusPainted(false);
-
-        addMouseListener(this);
+        configButton();
     }
 
     public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
@@ -89,11 +77,7 @@ public class ImageButton extends JButton implements MouseListener {
         this.height = height;
         currentColor = textColor;
 
-        setPreferredSize(new Dimension(width, height));
-        setBorderPainted(false);
-        setFocusPainted(false);
-
-        addMouseListener(this);
+        configButton();
     }
 
     public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
@@ -111,9 +95,14 @@ public class ImageButton extends JButton implements MouseListener {
         this.height = height;
         currentColor = textColor;
 
+        configButton();
+    }
+
+    private void configButton() {
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
+        setContentAreaFilled(false);
 
         addMouseListener(this);
     }
@@ -126,7 +115,7 @@ public class ImageButton extends JButton implements MouseListener {
         return textSize;
     }
 
-    public void mouseExited(){
+    public void mouseExited() {
         if (textColor != null) {
             currentColor = textColor;
             repaint();
@@ -136,7 +125,7 @@ public class ImageButton extends JButton implements MouseListener {
         }
     }
 
-    public void mouseEntered(){
+    public void mouseEntered() {
         if (textColorActive != null) {
             currentColor = textColorActive;
             repaint();
@@ -146,7 +135,7 @@ public class ImageButton extends JButton implements MouseListener {
         }
     }
 
-    public void setRadio(boolean isRadio){
+    public void setRadio(boolean isRadio) {
         this.isRadio = isRadio;
     }
 
@@ -201,23 +190,27 @@ public class ImageButton extends JButton implements MouseListener {
     public void mouseEntered(MouseEvent mouseEvent) {
         if (textColorActive != null) {
             currentColor = textColorActive;
+            revalidate();
             repaint();
         } else if (activePath != null) {
             imagePath = activePath;
+            revalidate();
             repaint();
         }
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if(isRadio){
+        if (isRadio) {
             return;
         }
         if (textColor != null) {
             currentColor = textColor;
+            revalidate();
             repaint();
         } else if (normalPath != null) {
             imagePath = normalPath;
+            revalidate();
             repaint();
         }
     }
