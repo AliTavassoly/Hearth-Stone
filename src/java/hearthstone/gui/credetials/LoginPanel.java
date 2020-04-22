@@ -94,7 +94,6 @@ public class LoginPanel extends JPanel {
                     hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
-                    CredentialsFrame.getInstance().stopSound();
                 } catch (HearthStoneException e){
                     error = e.getMessage();
                     repaint();

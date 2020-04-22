@@ -155,19 +155,19 @@ public class Deck {
 
     public void add(Card baseCard, int cnt) throws Exception {
         if(numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)){
-            throw new HearthStoneException("You have not " + cnt + " number of this card!");
+            throw new HearthStoneException("You don't have " + cnt + " numbers of this card!");
         }
         if (cards.size() + cnt > HearthStone.maxDeckSize) {
-            throw new HearthStoneException("Not enough space!");
+            throw new HearthStoneException("Deck is full!");
         }
         if (numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard) {
-            throw new HearthStoneException("You can not have " + cnt + " number of this card!");
+            throw new HearthStoneException("You can not have " + cnt + " numbers of this card!");
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
             throw new HearthStoneException("This card is locked for you!");
         }
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
-            throw new HearthStoneException("This card is not for this hero!");
+            throw new HearthStoneException("This card isn't for this hero!");
         }
         for (int i = 0; i < cnt; i++)
             cards.add(baseCard.copy());
@@ -179,7 +179,7 @@ public class Deck {
 
     public void remove(Card baseCard, int cnt) throws Exception {
         if (numberOfCards(baseCard) - cnt < 0) {
-            throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your deck!");
+            throw new HearthStoneException("There is not " + cnt + " numbers of " + baseCard.getName() + " in your deck!");
         }
         for (int i = 0; i < cnt; i++) {
             for (int j = 0; j < cards.size(); j++) {

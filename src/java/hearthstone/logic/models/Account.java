@@ -233,10 +233,10 @@ public class Account {
         public void add(Card baseCard, int cnt) throws Exception {
             if(numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard){
                 System.out.println(numberOfCards(baseCard) + " " + HearthStone.maxNumberOfCard);
-                throw new HearthStoneException("Can not have " + numberOfCards(baseCard) + cnt + " number of " + baseCard.getName() + " card!");
+                throw new HearthStoneException("Can not have " + numberOfCards(baseCard) + cnt + " numbers of " + baseCard.getName() + " card!");
             }
             if(cards.size() + cnt > HearthStone.maxCollectionSize){
-                throw new HearthStoneException("Not enough space!");
+                throw new HearthStoneException("Collection is full!");
             }
             for(int i = 0; i < cnt; i++)
                 cards.add(baseCard.copy());
@@ -248,7 +248,7 @@ public class Account {
 
         public void remove(Card baseCard, int cnt) throws Exception {
             if (numberOfCards(baseCard) - cnt < 0) {
-                throw new HearthStoneException("There is not " + cnt + " number of " + baseCard.getName() + " in your collection!");
+                throw new HearthStoneException("You don't have " + cnt + " numbers of " + baseCard.getName() + " in your collection!");
             }
             for(int i = 0; i < cnt; i++){
                 for(int j = 0; j < cards.size(); j++){

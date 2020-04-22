@@ -17,8 +17,6 @@ public class GameFrame extends BaseFrame {
     private GameFrame() {
         mainMenuPanel = new MainMenuPanel();
 
-        playSound();
-
         configFrame();
     }
 
@@ -32,24 +30,6 @@ public class GameFrame extends BaseFrame {
 
     public static GameFrame getNewInstance() {
         return gameFrame = new GameFrame();
-    }
-
-    public void playSound(){
-        try {
-            File file = new File(this.getClass().getResource(
-                    "/sounds/menu.wav").getFile());
-            AudioInputStream audioInputStream =
-                    AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void stopSound(){
-        clip.stop();
     }
 
     private void configFrame() {

@@ -174,7 +174,6 @@ public class RegisterPanel extends JPanel {
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
                     DataBase.save();
-                    CredentialsFrame.getInstance().stopSound();
                 } catch (HearthStoneException e) {
                     error = e.getMessage();
                     repaint();

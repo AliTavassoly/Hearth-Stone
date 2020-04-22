@@ -6,6 +6,7 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
+import hearthstone.logic.models.card.cards.SpellCard;
 import hearthstone.logic.models.card.cards.WeaponCard;
 
 import javax.imageio.ImageIO;
@@ -30,7 +31,7 @@ public class CardButton extends ImageButton implements MouseListener {
         configButton();
     }
 
-    private void configButton(){
+    private void configButton() {
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
@@ -46,7 +47,7 @@ public class CardButton extends ImageButton implements MouseListener {
         BufferedImage image = null;
         try {
             String path;
-            if(HearthStone.currentAccount.getUnlockedCards().contains(card.getId())){
+            if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
                 path = "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png";
             } else {
                 path = "/images/cards/bw_" + card.getName().toLowerCase().replace(' ', '_') + ".png";
@@ -71,7 +72,7 @@ public class CardButton extends ImageButton implements MouseListener {
         //resize
     }
 
-    void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics){
+    void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics) {
         final int spellManaX = 25;
         final int spellManaY = 37;
 
@@ -98,7 +99,7 @@ public class CardButton extends ImageButton implements MouseListener {
 
         String text;
         int textWidth;
-        switch (card.getCardType()){
+        switch (card.getCardType()) {
             case SPELL:
             case REWARDCARD:
                 text = String.valueOf(card.getManaCost());
@@ -116,14 +117,14 @@ public class CardButton extends ImageButton implements MouseListener {
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, minionManaX - textWidth / 2,
-                       minionManaY);
+                        minionManaY);
 
-                text = String.valueOf(((MinionCard)card).getAttack());
+                text = String.valueOf(((MinionCard) card).getAttack());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, minionAttackX - textWidth / 2,
                         minionAttackY);
 
-                text = String.valueOf(((MinionCard)card).getHealth());
+                text = String.valueOf(((MinionCard) card).getHealth());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, minionHealthX - textWidth / 2,
                         minionHealthY);
@@ -134,12 +135,12 @@ public class CardButton extends ImageButton implements MouseListener {
                 g.drawString(text, weaponManaX - textWidth / 2,
                         weaponManaY);
 
-                text = String.valueOf(((WeaponCard)card).getAttack());
+                text = String.valueOf(((WeaponCard) card).getAttack());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, weaponAttackX - textWidth / 2,
                         weaponAttackY);
 
-                text = String.valueOf(((WeaponCard)card).getDurability());
+                text = String.valueOf(((WeaponCard) card).getDurability());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, weaponDurabilityX - textWidth / 2,
                         weaponDurabilityY);
@@ -150,18 +151,30 @@ public class CardButton extends ImageButton implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         super.mouseClicked(mouseEvent);
-        if(card instanceof MinionCard){
-            try {
-                File file = new File(this.getClass().getResource(
+        File file = null;
+        AudioInputStream audioInputStream = null;
+
+        try {
+            if (card instanceof MinionCard) {
+                file = new File(this.getClass().getResource(
                         "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav").getFile());
-                AudioInputStream audioInputStream =
-                        AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-            } catch (Exception e){
-                System.out.println(e.getMessage());
+            } else if (card instanceof SpellCard) {
+                file = new File(this.getClass().getResource(
+                        "/sounds/spells/" + "spell" + ".wav").getFile());
+            } else if (card instanceof WeaponCard) {
+                file = new File(this.getClass().getResource(
+                        "/sounds/weapons/" + "weapon" + ".wav").getFile());
+            } else {
+                return;
             }
+            audioInputStream =
+                    AudioSystem.getAudioInputStream(file.getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (
+                Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
