@@ -44,8 +44,7 @@ public class HeroButton extends ImageButton {
             detailsImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/heroes/normal_heroes/" + "hero_details" + ".png"));
         } catch (Exception e) {
-            System.out.println(e);
-            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
         g2.drawImage(heroImage.getScaledInstance(width - 20, height - DefaultSizes.bigHeroDetailHeight,
                 Image.SCALE_SMOOTH), 0, 0,

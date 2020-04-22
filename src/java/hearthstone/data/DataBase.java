@@ -283,8 +283,9 @@ public class DataBase {
     public static void save() throws Exception {
         saveCredentials();
         saveMarket();
-        if (currentAccount != null)
-             saveCurrentAccount();
+        if (currentAccount != null) {
+            saveCurrentAccount();
+        }
     }
 
     public static void loadConfigs() throws Exception {

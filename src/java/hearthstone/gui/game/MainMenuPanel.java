@@ -10,6 +10,7 @@ import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
+import hearthstone.logic.models.Deck;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -56,7 +57,7 @@ public class MainMenuPanel extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/main_menu_background.png"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -153,7 +154,6 @@ public class MainMenuPanel extends JPanel {
         collectionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
-
             }
         });
 

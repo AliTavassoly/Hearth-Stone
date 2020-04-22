@@ -40,7 +40,7 @@ public class LogisterPanel extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/logister_background.jpg"));
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }

@@ -2,6 +2,7 @@ package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
+import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
@@ -52,7 +53,7 @@ public class HeroSelection extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -103,9 +104,9 @@ public class HeroSelection extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     HearthStone.logout();
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
                 GameFrame.getInstance().setVisible(false);
@@ -119,7 +120,7 @@ public class HeroSelection extends JPanel {
         ArrayList<Hero> heroes = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Hero hero : HearthStone.currentAccount.getHeroes()){
+        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
             heroes.add(hero);
             panels.add(getHeroPanel(hero));
         }
@@ -136,7 +137,7 @@ public class HeroSelection extends JPanel {
         heroesScroll.setBorder(null);
     }
 
-    private JPanel getHeroPanel(Hero hero){
+    private JPanel getHeroPanel(Hero hero) {
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,
@@ -145,12 +146,13 @@ public class HeroSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
             }
         });
 
         ImageButton selectionButton;
-        if(HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {
+        if (HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
@@ -164,7 +166,15 @@ public class HeroSelection extends JPanel {
             selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    HearthStone.currentAccount.setSelectedHero(hero);
+                    try {
+                        HearthStone.currentAccount.setSelectedHero(hero);
+                        DataBase.save();
+                    } catch (HearthStoneException e){
+                        System.out.println(e.getMessage());
+                        BaseFrame.error(e.getMessage());
+                    } catch (Exception ex){
+                        System.out.println(ex.getMessage());
+                    }
                     restart();
                 }
             });
@@ -214,10 +224,10 @@ public class HeroSelection extends JPanel {
         add(heroesScroll);
     }
 
-    private void restart(){
+    private void restart() {
         try {
             DataBase.save();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());

@@ -75,7 +75,7 @@ public class MarketPanel extends JPanel {
                     "/images/market_background.png"));
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -330,6 +330,7 @@ public class MarketPanel extends JPanel {
                     buyPanel.removeCard(card);
                     HearthStone.market.removeCard(card, 1);
                     gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                    DataBase.save();
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());

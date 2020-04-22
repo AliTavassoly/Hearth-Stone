@@ -127,7 +127,15 @@ public class Account {
     }
 
     public Hero getSelectedHero() {
-        return selectedHero;
+        if(selectedHero == null){
+            return null;
+        }
+        for(Hero hero : heroes){
+            if(selectedHero.getName().equals(hero.getName())){
+                return hero;
+            }
+        }
+        return null;
     }
 
     public void setGem(int gem) {

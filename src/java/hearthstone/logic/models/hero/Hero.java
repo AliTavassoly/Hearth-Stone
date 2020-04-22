@@ -90,8 +90,15 @@ public abstract class Hero {
         this.decks = decks;
     }
 
-    public Deck getSelectedDeck(){
-        return selectedDeck;
+    public Deck getSelectedDeck() {
+        if(selectedDeck == null)
+            return null;
+        for(Deck deck : decks){
+            if(deck.getName().equals(selectedDeck.getName())){
+                return deck;
+            }
+        }
+        return null;
     }
 
     public void setSelectedDeck(Deck selectedDeck){

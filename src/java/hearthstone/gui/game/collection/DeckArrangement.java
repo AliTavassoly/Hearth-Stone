@@ -1,6 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
+import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ErrorDialog;
@@ -27,7 +28,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class DeckArrangement extends JPanel implements MouseListener {
-    //private JLayeredPane layeredPane = new JLayeredPane();
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton, deleteButton;
     private CardsPanel cardsPanel, deckCardsPanel;
@@ -44,7 +44,7 @@ public class DeckArrangement extends JPanel implements MouseListener {
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
 
-    private final int listDis = 70;
+    private final int listDis = 50;
     private final int startListY = (DefaultSizes.gameFrameHeight - 2 * DefaultSizes.arrangementListHeight - listDis) / 2;
     private final int startListX = 100;
     private final int endListX = startListX + DefaultSizes.arrangementListWidth;
@@ -67,11 +67,11 @@ public class DeckArrangement extends JPanel implements MouseListener {
 
         makeIcons();
 
-        makeHeroButton();
-
         makeLabels();
 
         makeFields();
+
+        makeHeroButton();
 
         makeButtons();
 
@@ -91,7 +91,7 @@ public class DeckArrangement extends JPanel implements MouseListener {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -306,9 +306,16 @@ public class DeckArrangement extends JPanel implements MouseListener {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                HearthStone.currentAccount.getDecks().remove(deck);
-                hero.getDecks().remove(deck);
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+                try {
+                    HearthStone.currentAccount.getDecks().remove(deck);
+                    hero.getDecks().remove(deck);
+                    DataBase.save();
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+                } catch (HearthStoneException e){
+                    System.out.println(e.getMessage());
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         });
     }
@@ -349,11 +356,11 @@ public class DeckArrangement extends JPanel implements MouseListener {
         removeCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // REMOVE CARD FROM DECK
                 try {
                     deck.remove(card, 1);
                     deckCardsPanel.removeCard(card);
                     cardsPanel.addCard(card, getCardsPanel(card));
+                    DataBase.save();
                 } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
@@ -382,6 +389,7 @@ public class DeckArrangement extends JPanel implements MouseListener {
                     deck.add(card, 1);
                     cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
+                    DataBase.save();
                 } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
@@ -429,12 +437,6 @@ public class DeckArrangement extends JPanel implements MouseListener {
                 DefaultSizes.arrangementListHeight);
         add(deckCardsScroll);
 
-        // HERO
-        heroButton.setBounds(startHeroX, startHeroY,
-                DefaultSizes.bigHeroWidth,
-                DefaultSizes.bigHeroHeight);
-        add(heroButton, JLayeredPane.DEFAULT_LAYER);
-
         // LABELS
         nameLabel.setBounds(filterX - (int) nameLabel.getPreferredSize().getWidth(), filterY,
                 (int) nameLabel.getPreferredSize().getWidth(), (int) nameLabel.getPreferredSize().getHeight());
@@ -452,6 +454,12 @@ public class DeckArrangement extends JPanel implements MouseListener {
         manaField.setBounds(filterX, filterY + filterDisY,
                 (int) manaField.getPreferredSize().getWidth(), (int) manaField.getPreferredSize().getHeight());
         add(manaField);
+
+        // HERO
+        heroButton.setBounds(startHeroX, startHeroY,
+                DefaultSizes.bigHeroWidth,
+                DefaultSizes.bigHeroHeight);
+        add(heroButton, JLayeredPane.DEFAULT_LAYER);
 
         // BUTTONS
         allCardsButton.setBounds(filterX - (int) (DefaultSizes.smallButtonWidth * 1.5) - filterDisX,

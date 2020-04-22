@@ -35,9 +35,9 @@ public class DeckSelection extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.heroSelectionListHeight) / 2;
+    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.deckSelectionListHeight) / 2;
     private final int startListX = 100;
-    private final int endListX = startListX + DefaultSizes.heroSelectionListWidth;
+    private final int endListX = startListX + DefaultSizes.deckSelectionListWidth;
 
     private final int startHeroX = (DefaultSizes.gameFrameWidth + endListX) / 2 - DefaultSizes.bigHeroWidth / 2;
     private final int startHeroY = startListY;
@@ -47,6 +47,7 @@ public class DeckSelection extends JPanel {
 
     public DeckSelection(Hero hero) {
         this.hero = hero;
+
         configPanel();
 
         makeIcons();
@@ -68,7 +69,7 @@ public class DeckSelection extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -176,11 +177,17 @@ public class DeckSelection extends JPanel {
                 }
 
                 if (beforeDeck == null && name.length() != 0) {
-                    Deck deck = new Deck(name, hero.getType());
-                    hero.getDecks().add(deck);
-                    HearthStone.currentAccount.getDecks().add(deck);
-
-                    restart();
+                    try {
+                        Deck deck = new Deck(name, hero.getType());
+                        hero.getDecks().add(deck);
+                        HearthStone.currentAccount.getDecks().add(deck);
+                        DataBase.save();
+                        restart();
+                    } catch (HearthStoneException e){
+                        System.out.println(e.getMessage());
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
         });
@@ -214,8 +221,16 @@ public class DeckSelection extends JPanel {
             selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    hero.setSelectedDeck(deck);
-                    restart();
+                    try {
+                        hero.setSelectedDeck(deck);
+                        DataBase.save();
+                        restart();
+                    } catch (HearthStoneException e){
+                        System.out.println(e.getMessage());
+                        BaseFrame.error(e.getMessage());
+                    } catch (Exception ex){
+                        System.out.println(ex.getMessage());
+                    }
                 }
             });
         }
@@ -259,8 +274,8 @@ public class DeckSelection extends JPanel {
 
         // LISTS
         deckCardScroll.setBounds(startListX, startListY,
-                DefaultSizes.heroSelectionListWidth,
-                DefaultSizes.heroSelectionListHeight);
+                DefaultSizes.deckSelectionListWidth,
+                DefaultSizes.deckSelectionListHeight);
         add(deckCardScroll);
 
         // HERO

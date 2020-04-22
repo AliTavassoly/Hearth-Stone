@@ -43,10 +43,9 @@ public class NameDialog extends JDialog {
                     "/images/dialog_background.png"));
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         Graphics2D g2 = (Graphics2D)g;
-        System.out.println(width + " " + height);
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
     }
 

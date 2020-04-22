@@ -34,8 +34,11 @@ public class DefaultSizes {
     public static final int statusListWidth = 527 + 42;
     public static final int statusListHeight = 650;
 
-    public static final int heroSelectionListWidth = 527 + 42 + 100;
+    public static final int heroSelectionListWidth = 670;
     public static final int heroSelectionListHeight = 650;
+
+    public static final int deckSelectionListWidth = 670;
+    public static final int deckSelectionListHeight = 650;
 
     public static final int bigHeroWidth = 250;
     public static final int bigHeroHeight = 350;
@@ -60,7 +63,7 @@ public class DefaultSizes {
     public static final int dialogWidth = 527;
     public static final int dialogHeight = 200;
 
-    public static final int arrangementListWidth = 650;
+    public static final int arrangementListWidth = 670;
     public static final int arrangementListHeight = 300;
 
     public static final int errorWidth = 527;

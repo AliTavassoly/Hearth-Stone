@@ -55,8 +55,7 @@ public class CardButton extends ImageButton implements MouseListener {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
-            System.out.println(e);
-            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
