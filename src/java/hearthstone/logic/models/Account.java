@@ -20,7 +20,6 @@ public class Account {
     private ArrayList<Deck> decks;
     private ArrayList<Integer> unlockedCards;
     private ArrayList<Integer> unlockedHeroes;
-
     private Hero selectedHero;
     private int gem;
 

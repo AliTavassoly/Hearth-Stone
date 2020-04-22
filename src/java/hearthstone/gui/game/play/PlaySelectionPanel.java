@@ -1,14 +1,14 @@
-package hearthstone.gui.game;
+package hearthstone.gui.game.play;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
-import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
 import hearthstone.util.HearthStoneException;
 
@@ -19,29 +19,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class MainMenuPanel extends JPanel {
-    private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
-    private ImageButton playButton, collectionButton, marketButton, statusButton;
-    private ImagePanel logoImage;
+public class PlaySelectionPanel extends JPanel {
+    private ImageButton backButton, logoutButton, minimizeButton, closeButton;
+    private ImageButton playOnline, playOffline;
 
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startButtonY = 260;
-    private final int halfButtonDisX = 130;
-    private final int firstButtonX = DefaultSizes.gameFrameWidth / 2 - halfButtonDisX
-            - DefaultSizes.largeButtonWidth;
-    private final int secondButtonX = DefaultSizes.gameFrameWidth / 2 + halfButtonDisX;
-    private final int buttonDisY = 120;
+    private final int halfButtonDisY = 30;
+    private final int startButtonY = DefaultSizes.gameFrameHeight / 2 + 100;
 
 
-    public MainMenuPanel() {
+    public PlaySelectionPanel() {
         configPanel();
 
         makeIcons();
-
-        makeLogo();
 
         makeButtons();
 
@@ -54,7 +47,7 @@ public class MainMenuPanel extends JPanel {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/main_menu_background.png"));
+                    "/images/play_selection_background.jpg"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -62,11 +55,11 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void makeIcons() {
-        logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
+        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        settingsButton = new ImageButton("icons/settings.png", "icons/settings_active.png",
+        logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
@@ -77,6 +70,12 @@ public class MainMenuPanel extends JPanel {
         closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+            }
+        });
 
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -108,64 +107,29 @@ public class MainMenuPanel extends JPanel {
         });
     }
 
-    private void makeLogo() {
-        logoImage = new ImagePanel("logo.png",
-                DefaultSizes.mainMenuLogoWidth,
-                DefaultSizes.mainMenuLogoHeight);
-    }
-
     private void makeButtons() {
-        playButton = new ImageButton("play", "buttons/long_pink_background.png",
+        playOffline = new ImageButton("Play Offline", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
 
-        collectionButton = new ImageButton("collection", "buttons/long_pink_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.largeButtonWidth,
-                DefaultSizes.largeButtonHeight);
-
-        statusButton = new ImageButton("status", "buttons/long_pink_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.largeButtonWidth,
-                DefaultSizes.largeButtonHeight);
-
-        marketButton = new ImageButton("market", "buttons/long_pink_background.png",
+        playOnline = new ImageButton("Play Online", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
 
         // listeners
 
-        marketButton.addActionListener(new ActionListener() {
+        playOffline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MarketPanel());
+                // SHOW BOARD
+                //GameFrame.getInstance(GameFrame.getInstance(), new PlayBoard());
             }
         });
 
-        statusButton.addActionListener(new ActionListener() {
+        playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new StatusPanel());
-
-            }
-        });
-
-        collectionButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
-
-            }
-        });
-
-        playButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(HearthStone.currentAccount.getSelectedHero() == null){
-                    BaseFrame.error("You should choose your hero first!");
-                } else if(HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null){
-                    BaseFrame.error("You should choose a deck for your hero!");
-                } else {
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new PlaySelectionPanel());
-                }
+                // Nothing in this faze
             }
         });
     }
@@ -176,22 +140,11 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        // LOGO
-        /*logoImage.setBounds(buttonX + DefaultSizes.largeButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
-                startButtonY - (int) (1.80 * buttonDis),
-                DefaultSizes.mainMenuLogoWidth,
-                DefaultSizes.mainMenuLogoHeight);*/
-        logoImage.setBounds(DefaultSizes.gameFrameWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
-                450,
-                DefaultSizes.mainMenuLogoWidth,
-                DefaultSizes.mainMenuLogoHeight);
-        add(logoImage);
-
         // ICONS
-        settingsButton.setBounds(iconX, startIconY,
+        backButton.setBounds(iconX, startIconY,
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
-        add(settingsButton);
+        add(backButton);
 
         logoutButton.setBounds(iconX, startIconY + iconsDis,
                 DefaultSizes.iconWidth,
@@ -209,24 +162,16 @@ public class MainMenuPanel extends JPanel {
         add(closeButton);
 
         // BUTTONS
-        playButton.setBounds(firstButtonX, startButtonY + 0 * buttonDisY,
+        playOnline.setBounds(DefaultSizes.gameFrameWidth / 2 - DefaultSizes.largeButtonWidth / 2,
+                startButtonY - DefaultSizes.largeButtonHeight,
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
-        add(playButton);
+        add(playOnline);
 
-        collectionButton.setBounds(firstButtonX, startButtonY + 1 * buttonDisY,
+        playOffline.setBounds(DefaultSizes.gameFrameWidth / 2 - DefaultSizes.largeButtonWidth / 2,
+                startButtonY + halfButtonDisY,
                 DefaultSizes.largeButtonWidth,
                 DefaultSizes.largeButtonHeight);
-        add(collectionButton);
-
-        statusButton.setBounds(secondButtonX, startButtonY + 0 * buttonDisY,
-                DefaultSizes.largeButtonWidth,
-                DefaultSizes.largeButtonHeight);
-        add(statusButton);
-
-        marketButton.setBounds(secondButtonX, startButtonY + 1 * buttonDisY,
-                DefaultSizes.largeButtonWidth,
-                DefaultSizes.largeButtonHeight);
-        add(marketButton);
+        add(playOffline);
     }
 }

@@ -15,7 +15,7 @@ public class CredentialsFrame extends BaseFrame {
     private static CredentialsFrame credentialsFrame;
     private Clip clip;
 
-    private CredentialsFrame(){
+    private CredentialsFrame() {
         logisterPanel = new LogisterPanel();
 
         playSound();
@@ -23,19 +23,22 @@ public class CredentialsFrame extends BaseFrame {
         configFrame();
     }
 
-    public static CredentialsFrame getInstance(){
-        if(credentialsFrame == null){
+    public static CredentialsFrame getInstance() {
+        if (credentialsFrame == null) {
             return credentialsFrame = new CredentialsFrame();
         } else {
             return credentialsFrame;
         }
     }
 
-    public static CredentialsFrame getNewInstance(){
+    public static CredentialsFrame getNewInstance() {
+        if(credentialsFrame != null){
+            credentialsFrame.stopSound();
+        }
         return credentialsFrame = new CredentialsFrame();
     }
 
-    public void playSound(){
+    public void playSound() {
         try {
             File file = new File(this.getClass().getResource(
                     "/sounds/credentials.wav").getFile());
@@ -49,11 +52,12 @@ public class CredentialsFrame extends BaseFrame {
         }
     }
 
-    public void stopSound(){
-        clip.stop();
+    public void stopSound() {
+        if (clip != null)
+            clip.stop();
     }
 
-    private void configFrame(){
+    private void configFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setSize(DefaultSizes.credentialFrameWidth, DefaultSizes.credentialFrameHeight);
