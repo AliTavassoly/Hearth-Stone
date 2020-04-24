@@ -72,5 +72,8 @@ public class DefaultSizes {
     public static final int errorWidth = 527;
     public static final int errorHeight = 200;
 
+    public static final int settingsWidth = 500;
+    public static final int settingsHeight = 500;
+
     public static final int marketInfoHeight = 160;
 }

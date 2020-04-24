@@ -7,6 +7,7 @@ import hearthstone.gui.game.GameFrame;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.io.File;
 
@@ -36,6 +37,12 @@ public class CredentialsFrame extends BaseFrame {
             credentialsFrame.stopSound();
         }
         return credentialsFrame = new CredentialsFrame();
+    }
+
+    public void volumeChange(int x){
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(x);
     }
 
     public void playSound() {

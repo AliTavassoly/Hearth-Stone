@@ -11,6 +11,7 @@ import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
+import hearthstone.gui.settings.SettingsDialog;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.Player;
 import hearthstone.util.HearthStoneException;
@@ -80,6 +81,13 @@ public class MainMenuPanel extends JPanel {
         closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
+
+        settingsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
+                        DefaultSizes.settingsWidth, DefaultSizes.settingsHeight);
+            }
+        });
 
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
