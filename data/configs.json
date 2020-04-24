@@ -1,6 +1,9 @@
 {
-  "maxCollectionSize": 30,
-  "maxNumberOfCard": 2,
+  "maxCardInCollection": 100,
   "initialCoins": 50,
-  "maxDeckSize": 15
+  "maxCardInDeck": 15,
+  "maxManaInGame": 10,
+  "maxCardInHand": 12, 
+  "maxCardInLand": 7,
+  "maxCardOfOneType": 2
 }

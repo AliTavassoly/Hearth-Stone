@@ -3,14 +3,12 @@ package hearthstone.gui.game.play;
 import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.collection.HeroSelection;
-import hearthstone.gui.game.market.MarketPanel;
-import hearthstone.gui.game.status.StatusPanel;
+import hearthstone.logic.gamestuff.Game;
+import hearthstone.logic.models.Player;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -23,6 +21,7 @@ import java.awt.image.BufferedImage;
 public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playOnline, playOffline;
+    private Player player;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -32,7 +31,9 @@ public class PlaySelectionPanel extends JPanel {
     private final int startButtonY = DefaultSizes.gameFrameHeight / 2 + 100;
 
 
-    public PlaySelectionPanel() {
+    public PlaySelectionPanel(Player player) {
+        this.player = player;
+
         configPanel();
 
         makeIcons();
@@ -87,7 +88,7 @@ public class PlaySelectionPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
                         DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 boolean sure = sureDialog.getValue();
                 if (sure) {
@@ -133,7 +134,9 @@ public class PlaySelectionPanel extends JPanel {
 
         playOffline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new PlayBoard());
+                Game game = new Game(player, player);
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
+                        new GameBoard(player, player, game));
             }
         });
 

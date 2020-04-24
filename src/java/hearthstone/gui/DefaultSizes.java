@@ -22,8 +22,8 @@ public class DefaultSizes {
     public static final int mainMenuLogoWidth = 500;
     public static final int mainMenuLogoHeight = 248;
 
-    public static final int smallCardWidth = 70;
-    public static final int smallCardHeight = 95;
+    public static final int smallCardWidth = 80;
+    public static final int smallCardHeight = 130;
 
     public static final int medCardWidth = 150;
     public static final int medCardHeight = 204;

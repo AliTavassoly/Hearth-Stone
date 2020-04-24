@@ -1,9 +1,13 @@
 package hearthstone.logic.models;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -93,33 +97,34 @@ public class Deck {
         cardGame.putIfAbsent(card1.getId(), 0);
         cardGame.putIfAbsent(card2.getId(), 0);
 
-        if (cardGame.get(card1.getId()) > cardGame.get(card2.getId())) {
-            return card1;
-        } else if (cardGame.get(card1.getId()) < cardGame.get(card2.getId())) {
-            return card2;
-        } else {
-            // ENUM
-            if (card1.getManaCost() > card2.getManaCost()) {
-                return card1;
-            } else if (card1.getManaCost() < card2.getManaCost()) {
-                return card2;
-            } else {
-                if (card1 instanceof MinionCard)
-                    return card1;
-                return card2;
-            }
-        }
+        if(!cardGame.get(card1.getId()).equals(cardGame.get(card2.getId())))
+            return cardGame.get(card1.getId()) > cardGame.get(card2.getId()) ? card1 : card2;
+        if(card1.getRarity().getValue() != card2.getRarity().getValue())
+            return card1.getRarity().getValue() > card2.getRarity().getValue() ? card1 : card2;
+        if(card1.getManaCost() != card2.getManaCost())
+            return card1.getManaCost() > card2.getManaCost() ? card1 : card2;
+        if(card1 instanceof MinionCard || card2 instanceof MinionCard)
+            return card1 instanceof MinionCard ? card1 : card2;
+        return card1;
     }
 
     public Card getBestCard() {
         if (cards.size() == 0)
             return null;
-        Card mxCard = cards.get(0);
+        Card mxCard = cards.get(0).copy();
         for (int i = 1; i < cards.size(); i++) {
-            Card card = cards.get(i);
+            Card card = cards.get(i).copy();
             mxCard = biggerCard(mxCard, card);
         }
         return mxCard;
+    }
+
+    public Deck copy() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(gson.toJson(this, Deck.class), Deck.class);
     }
 
     //End of getter setter !
@@ -135,32 +140,32 @@ public class Deck {
     }
 
     public boolean canAdd(Card baseCard, int cnt) {
-        if(numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)){
+        if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
             return false;
         }
-        if (cards.size() + cnt > HearthStone.maxDeckSize) {
+        if (cards.size() + cnt > HearthStone.maxCardInDeck) {
             return false;
         }
-        if (numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard) {
+        if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
             return false;
         }
-        if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())){
+        if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
             return false;
         }
-        if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType){
+        if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
             return false;
         }
         return true;
     }
 
     public void add(Card baseCard, int cnt) throws Exception {
-        if(numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)){
-            throw new HearthStoneException("You don't have " + cnt + " numbers of this card!");
+        if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
+            throw new HearthStoneException("You don't have " + numberOfCards(baseCard) + cnt + " numbers of this card!");
         }
-        if (cards.size() + cnt > HearthStone.maxDeckSize) {
+        if (cards.size() + cnt > HearthStone.maxCardInDeck) {
             throw new HearthStoneException("Deck is full!");
         }
-        if (numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard) {
+        if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
             throw new HearthStoneException("You can not have " + cnt + " numbers of this card!");
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
@@ -189,5 +194,14 @@ public class Deck {
                 }
             }
         }
+    }
+
+    public boolean isFull() {
+        return cards.size() == HearthStone.maxCardInDeck;
+    }
+
+    public void cardPlay(Card baseCard) {
+        cardGame.putIfAbsent(baseCard.getId(), 0);
+        cardGame.put(baseCard.getId(), cardGame.get(baseCard.getId()) + 1);
     }
 }

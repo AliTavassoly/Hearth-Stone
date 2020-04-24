@@ -213,9 +213,8 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (isRadio) {
+        if (isRadio)
             return;
-        }
         if (textColor != null) {
             currentColor = textColor;
             revalidate();

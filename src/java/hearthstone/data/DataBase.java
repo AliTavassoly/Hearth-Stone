@@ -290,10 +290,13 @@ public class DataBase {
 
     public static void loadConfigs() throws Exception {
         var configs = getConfigs();
-        maxCollectionSize = ((Double) configs.get("maxCollectionSize")).intValue();
-        maxDeckSize = ((Double) configs.get("maxDeckSize")).intValue();
+        maxCardInCollection = ((Double) configs.get("maxCardInCollection")).intValue();
+        maxCardInDeck = ((Double) configs.get("maxCardInDeck")).intValue();
         initialCoins = ((Double) configs.get("initialCoins")).intValue();
-        maxNumberOfCard = ((Double) configs.get("maxNumberOfCard")).intValue();
+        maxCardInHand = ((Double) configs.get("maxCardInHand")).intValue();
+        maxCardInLand = ((Double) configs.get("maxCardInLand")).intValue();
+        maxManaInGame = ((Double) configs.get("maxManaInGame")).intValue();
+        maxCardOfOneType = ((Double) configs.get("maxCardOfOneType")).intValue();
     }
 
     public static void loadMarket() throws Exception {

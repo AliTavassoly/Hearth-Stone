@@ -3,13 +3,9 @@ package hearthstone.logic.models;
 import hearthstone.HearthStone;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-import javax.swing.plaf.basic.BasicScrollPaneUI;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Account {
     private String username;
@@ -41,17 +37,17 @@ public class Account {
         accountConfigs();
     }
 
-    private void accountConfigs(){
+    private void accountConfigs() {
         heroes.addAll(HearthStone.baseHeroes.values());
 
         ArrayList<Card> cards = new ArrayList<>();
-        for(Card card : HearthStone.baseCards.values()){
-            if(card.getId() % 2 == 0){
+        for (Card card : HearthStone.baseCards.values()) {
+            if (card.getId() % 2 == 0) {
                 unlockedCards.add(card.getId());
             }
             cards.add(card);
         }
-        for(int i = 0; i < HearthStone.baseHeroes.size(); i++){
+        for (int i = 0; i < HearthStone.baseHeroes.size(); i++) {
             unlockedHeroes.add(i);
         }
 
@@ -127,11 +123,11 @@ public class Account {
     }
 
     public Hero getSelectedHero() {
-        if(selectedHero == null){
+        if (selectedHero == null) {
             return null;
         }
-        for(Hero hero : heroes){
-            if(selectedHero.getName().equals(hero.getName())){
+        for (Hero hero : heroes) {
+            if (selectedHero.getName().equals(hero.getName())) {
                 return hero;
             }
         }
@@ -147,6 +143,17 @@ public class Account {
     }
 
     public ArrayList<Deck> getDecks() {
+        for (int i = 0; i < decks.size(); i++) {
+            for (Hero hero : heroes) {
+                for (int j = 0; j < hero.getDecks().size(); j++) {
+                    Deck deck = decks.get(i);
+                    Deck deck1 = hero.getDecks().get(j);
+                    if (deck.getName().equals(deck1.getName()) && deck1.getHeroType() == deck.getHeroType()) {
+                        decks.set(i, deck1);
+                    }
+                }
+            }
+        }
         return decks;
     }
 
@@ -156,7 +163,7 @@ public class Account {
 
     // End of setters and getters
 
-    public boolean canBuy(Card baseCard, int cnt){
+    public boolean canBuy(Card baseCard, int cnt) {
         return unlockedHeroes.contains(Hero.getHeroByType(baseCard.getHeroType()).getId());
     }
 
@@ -176,7 +183,7 @@ public class Account {
                     Hero.getHeroByType(baseCard.getHeroType()).getName() + "class and you don't have it!"
             );
         }
-        for(int i = 0; i < cnt; i++)
+        for (int i = 0; i < cnt; i++)
             collection.add(baseCard, cnt);
         gem -= baseCard.getSellPrice() * cnt;
     }
@@ -186,13 +193,13 @@ public class Account {
         collection.remove(baseCard, cnt);
     }
 
-    public ArrayList<Deck> getBestDecks(int cnt){
+    public ArrayList<Deck> getBestDecks(int cnt) {
         ArrayList<Deck> ans = new ArrayList<>();
-
+        ArrayList<Deck> decks = getDecks();
         // Sort Decks
 
         cnt = Math.min(cnt, decks.size());
-        for(int i = decks.size() - 1; i >= decks.size() - cnt; i--){
+        for (int i = decks.size() - 1; i >= decks.size() - cnt; i--) {
             ans.add(decks.get(i));
         }
         return ans;
@@ -206,27 +213,43 @@ public class Account {
         unlockedCards.add(id);
     }
 
-    public class Collection{
+    public void readyForPlay() throws Exception {
+        if (HearthStone.currentAccount.getSelectedHero() == null) {
+            throw new HearthStoneException("You should choose your hero first!");
+        } else if (HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null) {
+            throw new HearthStoneException("You should choose a deck for your hero!");
+        } else {
+            Player player = getPlayer();
+            player.readyForPlay();
+        }
+    }
+
+    public Player getPlayer() {
+        return new Player(selectedHero, getSelectedHero().getSelectedDeck());
+    }
+
+    public class Collection {
         private ArrayList<Card> cards;
 
-        public Collection(){ }
+        public Collection() {
+        }
 
-        public Collection(ArrayList<Card> cards){
+        public Collection(ArrayList<Card> cards) {
             this.cards = cards;
         }
 
-        public ArrayList<Card> getCards(){
+        public ArrayList<Card> getCards() {
             return cards;
         }
 
-        public void setCards(ArrayList<Card> cards){
+        public void setCards(ArrayList<Card> cards) {
             this.cards = cards;
         }
 
-        public int numberOfCards(Card baseCard){
+        public int numberOfCards(Card baseCard) {
             int ans = 0;
-            for(Card card : cards){
-                if(card.getId() == baseCard.getId()){
+            for (Card card : cards) {
+                if (card.getId() == baseCard.getId()) {
                     ans++;
                 }
             }
@@ -234,22 +257,21 @@ public class Account {
         }
 
         public boolean canAdd(Card baseCard, int cnt) {
-            return numberOfCards(baseCard) + cnt <= HearthStone.maxNumberOfCard && cards.size() + cnt <= HearthStone.maxCollectionSize;
+            return numberOfCards(baseCard) + cnt <= HearthStone.maxCardOfOneType && cards.size() + cnt <= HearthStone.maxCardInCollection;
         }
 
         public void add(Card baseCard, int cnt) throws Exception {
-            if(numberOfCards(baseCard) + cnt > HearthStone.maxNumberOfCard){
-                System.out.println(numberOfCards(baseCard) + " " + HearthStone.maxNumberOfCard);
+            if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
                 throw new HearthStoneException("Can not have " + numberOfCards(baseCard) + cnt + " numbers of " + baseCard.getName() + " card!");
             }
-            if(cards.size() + cnt > HearthStone.maxCollectionSize){
+            if (cards.size() + cnt > HearthStone.maxCardInCollection) {
                 throw new HearthStoneException("Collection is full!");
             }
-            for(int i = 0; i < cnt; i++)
+            for (int i = 0; i < cnt; i++)
                 cards.add(baseCard.copy());
         }
 
-        public boolean canRemove(Card baseCard, int cnt){
+        public boolean canRemove(Card baseCard, int cnt) {
             return numberOfCards(baseCard) - cnt >= 0;
         }
 
@@ -257,9 +279,9 @@ public class Account {
             if (numberOfCards(baseCard) - cnt < 0) {
                 throw new HearthStoneException("You don't have " + cnt + " numbers of " + baseCard.getName() + " in your collection!");
             }
-            for(int i = 0; i < cnt; i++){
-                for(int j = 0; j < cards.size(); j++){
-                    if(cards.get(j).getId() == baseCard.getId()){
+            for (int i = 0; i < cnt; i++) {
+                for (int j = 0; j < cards.size(); j++) {
+                    if (cards.get(j).getId() == baseCard.getId()) {
                         cards.remove(j);
                         break;
                     }

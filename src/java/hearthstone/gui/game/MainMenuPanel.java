@@ -12,6 +12,7 @@ import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
 import hearthstone.logic.models.Deck;
+import hearthstone.logic.models.Player;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -89,7 +90,7 @@ public class MainMenuPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
                         DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 boolean sure = sureDialog.getValue();
                 if (sure) {
@@ -170,12 +171,15 @@ public class MainMenuPanel extends JPanel {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                if (HearthStone.currentAccount.getSelectedHero() == null) {
-                    BaseFrame.error("You should choose your hero first!");
-                } else if (HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null) {
-                    BaseFrame.error("You should choose a deck for your hero!");
-                } else {
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new PlaySelectionPanel());
+                try {
+                    HearthStone.currentAccount.readyForPlay();
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
+                            new PlaySelectionPanel(HearthStone.currentAccount.getPlayer()));
+                } catch (HearthStoneException e) {
+                    System.out.println(e.getMessage());
+                    BaseFrame.error(e.getMessage());
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
                 }
             }
         });

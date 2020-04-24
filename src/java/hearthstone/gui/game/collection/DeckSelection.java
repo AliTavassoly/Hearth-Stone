@@ -112,7 +112,7 @@ public class DeckSelection extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
                         DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 boolean sure = sureDialog.getValue();
                 if (sure) {

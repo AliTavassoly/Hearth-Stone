@@ -141,10 +141,12 @@ public class LoginPanel extends JPanel {
     }
 
     private void makeFields(){
-        userField = new JTextField(10); userField.setBorder(null);
+        userField = new JTextField(10);
+        userField.setBorder(null);
         userField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
 
-        passField = new JPasswordField(10); passField.setBorder(null);
+        passField = new JPasswordField(10);
+        passField.setBorder(null);
     }
 
     private void drawString(String text, int x, int y, int size, int style,
