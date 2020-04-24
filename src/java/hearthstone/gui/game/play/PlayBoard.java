@@ -29,7 +29,7 @@ public class PlayBoard extends JPanel {
     private final int midY = DefaultSizes.gameFrameHeight / 2 - 43;
 
     private final int endTurnButtonX = 880;
-    private final int endTurnButtonY = 303;
+    private final int endTurnButtonY = 300;
 
     private final int manaX = 770;
     private final int manaY = 640;
@@ -145,7 +145,7 @@ public class PlayBoard extends JPanel {
 
     private void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
-                0, Color.black, Color.pink, 15, 0,
+                "end_turn_active.png", 15, 0,
                 BoardDefault.endTurnButtonWidth, BoardDefault.endTurnButtonHeight);
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero

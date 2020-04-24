@@ -33,13 +33,25 @@ public class ImageButton extends JButton implements MouseListener {
         configButton();
     }
 
+    public ImageButton(String text, String normalPath, String activePath,
+                       int textSize, int textStyle, int width, int height) {
+        this.text = text;
+        this.normalPath = normalPath;
+        this.activePath = activePath;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        imagePath = normalPath;
+
+        configButton();
+    }
+
     public ImageButton(String text, String imagePath, int tof,
                        int textSize, int textStyle, int width, int height) {
         this.text = text;
         this.imagePath = imagePath;
         this.tof = tof;
-        this.textColor = textColor;
-        this.textColorActive = textColorActive;
         this.textSize = textSize;
         this.textStyle = textStyle;
         this.width = width;
