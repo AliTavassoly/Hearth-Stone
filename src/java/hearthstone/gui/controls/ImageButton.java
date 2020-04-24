@@ -100,9 +100,9 @@ public class ImageButton extends JButton implements MouseListener {
 
     private void configButton() {
         setPreferredSize(new Dimension(width, height));
+        //setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
-        setContentAreaFilled(false);
 
         addMouseListener(this);
     }

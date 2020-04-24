@@ -147,7 +147,8 @@ public class LoginPanel extends JPanel {
         passField = new JPasswordField(10); passField.setBorder(null);
     }
 
-    private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {
+    private void drawString(String text, int x, int y, int size, int style,
+                            Color color, Graphics graphic) {
         Graphics2D graphics2D = (Graphics2D) graphic;
         Font font = CredentialsFrame.getInstance().getCustomFont(style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);

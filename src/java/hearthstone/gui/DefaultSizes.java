@@ -43,6 +43,9 @@ public class DefaultSizes {
     public static final int bigHeroWidth = 250;
     public static final int bigHeroHeight = 350;
 
+    public static final int medHeroWidth = 140;
+    public static final int medHeroHeight = 240;
+
     public static final int bigCircleHeroWidth = 110;
     public static final int bigCircleHeroHeight = 110;
 
