@@ -103,7 +103,7 @@ public class SettingsDialog extends JDialog {
     }
 
     public void layoutComponent() {
-        setLayout(new GridBagLayout());
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
 
         // first row
