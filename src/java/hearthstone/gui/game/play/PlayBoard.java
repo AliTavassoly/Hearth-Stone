@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.time.format.TextStyle;
 
 public class PlayBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
@@ -145,7 +146,7 @@ public class PlayBoard extends JPanel {
 
     private void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
-                "end_turn_active.png", 15, 0,
+                "end_turn_active.png", 15, 1,
                 BoardDefault.endTurnButtonWidth, BoardDefault.endTurnButtonHeight);
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero
