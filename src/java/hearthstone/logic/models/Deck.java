@@ -160,7 +160,7 @@ public class Deck {
 
     public void add(Card baseCard, int cnt) throws Exception {
         if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
-            throw new HearthStoneException("You don't have " + numberOfCards(baseCard) + cnt + " numbers of this card!");
+            throw new HearthStoneException("You don't have " + (numberOfCards(baseCard) + cnt) + " numbers of this card!");
         }
         if (cards.size() + cnt > HearthStone.maxCardInDeck) {
             throw new HearthStoneException("Deck is full!");

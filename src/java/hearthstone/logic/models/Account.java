@@ -262,7 +262,7 @@ public class Account {
 
         public void add(Card baseCard, int cnt) throws Exception {
             if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
-                throw new HearthStoneException("Can not have " + numberOfCards(baseCard) + cnt + " numbers of " + baseCard.getName() + " card!");
+                throw new HearthStoneException("Can not have " + (numberOfCards(baseCard) + cnt) + " numbers of " + baseCard.getName() + " card!");
             }
             if (cards.size() + cnt > HearthStone.maxCardInCollection) {
                 throw new HearthStoneException("Collection is full!");

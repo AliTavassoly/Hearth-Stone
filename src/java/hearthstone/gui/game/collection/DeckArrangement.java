@@ -150,7 +150,7 @@ public class DeckArrangement extends JPanel implements MouseListener {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                     boolean sure = sureDialog.getValue();
                     if (sure) {
                         HearthStone.logout();
@@ -322,9 +322,9 @@ public class DeckArrangement extends JPanel implements MouseListener {
                     hero.getDecks().remove(deck);
                     DataBase.save();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
             }
@@ -398,7 +398,8 @@ public class DeckArrangement extends JPanel implements MouseListener {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     deck.add(card, 1);
-                    cardsPanel.removeCard(card);
+                    if (selectedButton != 0)
+                        cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
                     DataBase.save();
                 } catch (HearthStoneException e) {
