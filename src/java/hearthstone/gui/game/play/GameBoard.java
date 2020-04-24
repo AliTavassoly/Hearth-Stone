@@ -172,7 +172,8 @@ public class GameBoard extends JPanel {
             BoardCardButton cardButton = new BoardCardButton(card,
                     DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
 
-            makeMouseListener(cardButton, card, cardButton, startX + dis * (i - cards.size() / 2),
+            makeMouseListener(cardButton, card, cardButton,
+                    startX + dis * (i - cards.size() / 2),
                     startY,
                     DefaultSizes.smallCardWidth,
                     DefaultSizes.smallCardHeight);
@@ -199,7 +200,7 @@ public class GameBoard extends JPanel {
                     DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
 
             makeMouseListener(cardButton, card, cardButton,
-                    startX + dis * (i - (cards.size() - 1) / 2)
+                    startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? DefaultSizes.smallCardWidth / 2 : 0),
                     startY,
                     DefaultSizes.smallCardWidth,
@@ -230,6 +231,7 @@ public class GameBoard extends JPanel {
             public void mouseReleased(MouseEvent E) {
                 if (!isInLand(startX, startY) &&
                         isInLand(E.getX() + button.getX(), E.getY() + button.getY())) {
+                    System.out.println(startX + " " + startY);
                     try {
                         myPlayer.playCard(card);
                         cardButton.makePlaySound();
