@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class NameDialog extends JDialog {
     private JLabel message;
-    private JTextField nameField;
+    private TextField nameField;
     private ImageButton okButton, cancelButton;
 
     private int width, height;
@@ -76,9 +76,7 @@ public class NameDialog extends JDialog {
     }
 
     public void makeFields(){
-        nameField = new JTextField(10);
-        nameField.setBorder(null);
-        nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        nameField = new TextField(10);
     }
 
     public void makeButtons(){

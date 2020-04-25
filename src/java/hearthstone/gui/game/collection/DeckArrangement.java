@@ -7,6 +7,7 @@ import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.TextField;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.credetials.CredentialsFrame;
@@ -35,7 +36,7 @@ public class DeckArrangement extends JPanel implements MouseListener {
     private JScrollPane cardsScroll, deckCardsScroll;
     private HeroButton heroButton;
     private JLabel nameLabel, manaLabel;
-    private JTextField nameField, manaField;
+    private TextField nameField, manaField;
     private int selectedButton;
     private Deck deck;
     private Hero hero;
@@ -221,21 +222,18 @@ public class DeckArrangement extends JPanel implements MouseListener {
 
     private void makeLabels() {
         nameLabel = new JLabel("name  :  ");
-        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setForeground(new Color(255, 255, 68));
         nameLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
 
         manaLabel = new JLabel("mana cost  :  ");
-        manaLabel.setForeground(Color.WHITE);
+        manaLabel.setForeground(new Color(255, 255, 68));
         manaLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
     }
 
     private void makeFields() {
-        nameField = new JTextField(8);
-        nameField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        nameField = new TextField(8);
 
-        manaField = new JTextField(8);
-        manaField.setFont(GameFrame.getInstance().getCustomFont(0, 15));
-
+        manaField = new TextField(8);
     }
 
     private void makeButtons() {

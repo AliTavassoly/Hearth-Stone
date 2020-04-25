@@ -3,7 +3,9 @@ package hearthstone.gui.credetials;
 import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.PasswordField;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
 
@@ -16,8 +18,8 @@ import java.awt.image.BufferedImage;
 
 public class RegisterPanel extends JPanel {
     private ImageButton backButton, registerButton, closeButton, minimizeButton;
-    private JTextField nameField, userField;
-    private JPasswordField passField, repField;
+    private TextField nameField, userField;
+    private PasswordField passField, repField;
 
     private final String nameText = "Name : ";
     private final String userText = "Username : ";
@@ -102,19 +104,13 @@ public class RegisterPanel extends JPanel {
     }
 
     private void makeFields(){
-        nameField = new JTextField(10);
-        nameField.setBorder(null);
-        nameField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
+        nameField = new TextField(10);
 
-        userField = new JTextField(10);
-        userField.setBorder(null);
-        userField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
+        userField = new TextField(10);
 
-        passField = new JPasswordField(10);
-        passField.setBorder(null);
+        passField = new PasswordField(10);
 
-        repField = new JPasswordField(10);
-        repField.setBorder(null);
+        repField = new PasswordField(10);
     }
 
     private void configPanel() {

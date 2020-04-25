@@ -2,7 +2,9 @@ package hearthstone.gui.credetials;
 
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.PasswordField;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
 
@@ -15,8 +17,8 @@ import java.awt.image.BufferedImage;
 
 public class LoginPanel extends JPanel {
     private ImageButton backButton, loginButton, closeButton, minimizeButton;
-    private JTextField userField;
-    private JPasswordField passField;
+    private TextField userField;
+    private PasswordField passField;
 
     private final String userText = "Username : ";
     private final String passText = "Password : ";
@@ -141,11 +143,10 @@ public class LoginPanel extends JPanel {
     }
 
     private void makeFields(){
-        userField = new JTextField(10);
+        userField = new TextField(10);
         userField.setBorder(null);
-        userField.setFont(CredentialsFrame.getInstance().getCustomFont(0, 15));
 
-        passField = new JPasswordField(10);
+        passField = new PasswordField(10);
         passField.setBorder(null);
     }
 
