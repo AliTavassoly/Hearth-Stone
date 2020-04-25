@@ -103,7 +103,7 @@ public class GameBoard extends JPanel {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/game_board_background.png"));
+                    "/images/game_board_background.jpg"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -116,6 +116,8 @@ public class GameBoard extends JPanel {
 
     private void drawMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
+        maxNumber = Math.min(maxNumber, HearthStone.maxManaInGame);
+
         for (int i = 0; i < number; i++) {
             try {
                 BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(
@@ -231,7 +233,6 @@ public class GameBoard extends JPanel {
             public void mouseReleased(MouseEvent E) {
                 if (!isInLand(startX, startY) &&
                         isInLand(E.getX() + button.getX(), E.getY() + button.getY())) {
-                    System.out.println(startX + " " + startY);
                     try {
                         myPlayer.playCard(card);
                         cardButton.makePlaySound();
@@ -265,7 +266,6 @@ public class GameBoard extends JPanel {
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
                 button.setBounds(newX, newY, width, height);
-                updateUI();
             }
         });
     }

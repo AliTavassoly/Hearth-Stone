@@ -3,7 +3,7 @@
   "initialCoins": 50,
   "maxCardInDeck": 15,
   "maxManaInGame": 10,
-  "maxCardInHand": 12, 
-  "maxCardInLand": 7,
+  "maxCardInHand": 10,
+  "maxCardInLand": 5,
   "maxCardOfOneType": 2
 }

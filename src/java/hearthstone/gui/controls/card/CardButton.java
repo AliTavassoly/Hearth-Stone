@@ -54,9 +54,11 @@ public class CardButton extends ImageButton implements MouseListener {
         try {
             String path;
             if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
-                path = "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png";
+                path = "/images/cards/" + card.getName().
+                        toLowerCase().replace(' ', '_').replace("'", "") + ".png";
             } else {
-                path = "/images/cards/bw_" + card.getName().toLowerCase().replace(' ', '_') + ".png";
+                path = "/images/cards/bw_" + card.getName().
+                        toLowerCase().replace(' ', '_').replace("'", "") + ".png";
             }
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));

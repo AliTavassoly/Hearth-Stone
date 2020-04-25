@@ -78,7 +78,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         BufferedImage image = null;
         try {
             String path;
-            path = "/images/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".png";
+            path = "/images/cards/" + card.getName().toLowerCase().
+                    replace(' ', '_').replace("'", "") + ".png";
 
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));

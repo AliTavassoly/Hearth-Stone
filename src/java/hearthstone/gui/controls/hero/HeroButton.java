@@ -39,7 +39,8 @@ public class HeroButton extends ImageButton {
 
         try {
             heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/normal_heroes/" + hero.getName().toLowerCase().replace(' ', '_') + ".png"));
+                    "/images/heroes/normal_heroes/" + hero.getName().
+                            toLowerCase().replace(' ', '_').replace("'", "") + ".png"));
 
             detailsImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/heroes/normal_heroes/" + "hero_details" + ".png"));
