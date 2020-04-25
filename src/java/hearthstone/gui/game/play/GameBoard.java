@@ -7,6 +7,8 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
+import hearthstone.gui.game.play.boardstuff.BoardCardButton;
+import hearthstone.gui.game.play.boardstuff.BoardHeroButton;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
@@ -56,8 +58,8 @@ public class GameBoard extends JPanel {
     private final int myHeroX = midX - 60;
     private final int myHeroY = DefaultSizes.gameFrameHeight - 236;
 
-    private final int heroWidth = DefaultSizes.medHeroWidth;
-    private final int heroHeight = DefaultSizes.medHeroHeight;
+    private final int heroWidth = BoardDefault.medHeroWidth;
+    private final int heroHeight = BoardDefault.medHeroHeight;
 
     private final int opponentHeroX = midX - 60;
     private final int opponentHeroY = 60;
@@ -266,6 +268,7 @@ public class GameBoard extends JPanel {
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
                 button.setBounds(newX, newY, width, height);
+                updateUI();
             }
         });
     }

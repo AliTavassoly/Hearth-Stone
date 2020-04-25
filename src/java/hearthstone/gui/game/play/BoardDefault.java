@@ -7,9 +7,9 @@ public class BoardDefault {
     public static final int manaWidth = 20;
     public static final int manaHeight = 25;
 
-    public static final int manaBarWidth = 200;
-    public static final int manaBarHeight = 30;
+    public static final int medHeroWidth = 115;
+    public static final int medHeroHeight = 135;
 
-    public static final int healthWidth = 45;
-    public static final int healthHeight = 55;
+    public static final int healthWidth = 35;
+    public static final int healthHeight = 45;
 }

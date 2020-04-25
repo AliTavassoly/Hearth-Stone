@@ -26,7 +26,7 @@ public class DefaultSizes {
     public static final int smallCardHeight = 130;
 
     public static final int medCardWidth = 150;
-    public static final int medCardHeight = 204;
+    public static final int medCardHeight = 215;
 
     public static final int marketListWidth = 650;
     public static final int marketListHeight = 650;
@@ -40,8 +40,8 @@ public class DefaultSizes {
     public static final int deckSelectionListWidth = 670;
     public static final int deckSelectionListHeight = 650;
 
-    public static final int bigHeroWidth = 250;
-    public static final int bigHeroHeight = 350;
+    public static final int bigHeroWidth = 220;
+    public static final int bigHeroHeight = 330;
 
     public static final int medHeroWidth = 140;
     public static final int medHeroHeight = 240;
@@ -49,7 +49,8 @@ public class DefaultSizes {
     public static final int bigCircleHeroWidth = 110;
     public static final int bigCircleHeroHeight = 110;
 
-    public static final int bigHeroDetailHeight = 100;
+    public static final int bigHeroDetailWidth = 205;
+    public static final int bigHeroDetailHeight = 130;
 
     public static final int heroesListWidth = 700;
     public static final int heroesListHeight = 500;
