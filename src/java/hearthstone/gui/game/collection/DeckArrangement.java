@@ -23,12 +23,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class DeckArrangement extends JPanel implements MouseListener {
+public class DeckArrangement extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton, deleteButton;
     private CardsPanel cardsPanel, deckCardsPanel;
@@ -348,6 +346,16 @@ public class DeckArrangement extends JPanel implements MouseListener {
             } else if (selectedButton == 2) {
                 if (!deck.canAdd(card, 1))
                     continue;
+
+                int cardNumber = 1;
+                for (Card card1 : ans) {
+                    if (card1.getId() == card.getId()) {
+                        cardNumber++;
+                    }
+                }
+
+                if (!deck.canAdd(card, cardNumber))
+                    continue;
             }
             ans.add(card.copy());
         }
@@ -513,30 +521,5 @@ public class DeckArrangement extends JPanel implements MouseListener {
         }
 
         cardsPanel.update(cards, panels);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
     }
 }

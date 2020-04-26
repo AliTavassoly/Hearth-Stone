@@ -81,7 +81,7 @@ public class CardButton extends ImageButton implements MouseListener {
                 DefaultSizes.numberOfCardFlagWidth,
                 DefaultSizes.numberOfCardFlagHeight,
                 Image.SCALE_SMOOTH),
-                width / 2 - DefaultSizes.numberOfCardFlagWidth / 2, height - 45,
+                width / 2 - DefaultSizes.numberOfCardFlagWidth / 2, height - 38,
                 DefaultSizes.numberOfCardFlagWidth,
                 DefaultSizes.numberOfCardFlagHeight,
                 null);
@@ -98,7 +98,7 @@ public class CardButton extends ImageButton implements MouseListener {
 
         drawStringOnCard(g2, String.valueOf(number),
                 width / 2 - fontMetrics.stringWidth(String.valueOf(number)) / 2,
-                height - 12, Color.WHITE);
+                height - 10, Color.WHITE);
         //resize
     }
 
