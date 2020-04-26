@@ -76,5 +76,8 @@ public class DefaultSizes {
     public static final int settingsWidth = 500;
     public static final int settingsHeight = 500;
 
+    public static final int numberOfCardFlagWidth = 35;
+    public static final int numberOfCardFlagHeight = 45;
+
     public static final int marketInfoHeight = 160;
 }

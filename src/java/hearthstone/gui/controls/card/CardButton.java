@@ -1,6 +1,7 @@
 package hearthstone.gui.controls.card;
 
 import hearthstone.HearthStone;
+import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
@@ -24,13 +25,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class CardButton extends ImageButton implements MouseListener {
-    int width, height;
+    int width, height, number;
     private Card card;
 
-    public CardButton(Card card, int width, int height) {
+    public CardButton(Card card, int width, int height, int number) {
         this.card = card;
         this.width = width;
         this.height = height;
+        this.number = number;
 
         configButton();
     }
@@ -48,11 +50,9 @@ public class CardButton extends ImageButton implements MouseListener {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        /*AffineTransform at = new AffineTransform();
-        at.scale(1, 1);
-        g2.setTransform(at);*/
-
         BufferedImage image = null;
+        BufferedImage numberImage = null;
+
         try {
             String path;
             if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
@@ -64,10 +64,28 @@ public class CardButton extends ImageButton implements MouseListener {
             }
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
+
+            numberImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/flag.png"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        g2.drawImage(image, 0, 0, null);
+        g2.drawImage(image.getScaledInstance(
+                width, height - 20,
+                Image.SCALE_SMOOTH),
+                0, 0,
+                width, height - 20,
+                null);
+
+        g2.drawImage(numberImage.getScaledInstance(
+                DefaultSizes.numberOfCardFlagWidth,
+                DefaultSizes.numberOfCardFlagHeight,
+                Image.SCALE_SMOOTH),
+                width / 2 - DefaultSizes.numberOfCardFlagWidth / 2, height - 45,
+                DefaultSizes.numberOfCardFlagWidth,
+                DefaultSizes.numberOfCardFlagHeight,
+                null);
+
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
@@ -77,6 +95,10 @@ public class CardButton extends ImageButton implements MouseListener {
 
         // DRAW TEXT
         drawCardInfo(g2, Color.WHITE, fontMetrics);
+
+        drawStringOnCard(g2, String.valueOf(number),
+                width / 2 - fontMetrics.stringWidth(String.valueOf(number)) / 2,
+                height - 12, Color.WHITE);
         //resize
     }
 
@@ -90,16 +112,16 @@ public class CardButton extends ImageButton implements MouseListener {
         final int minionManaX = 24;
         final int minionManaY = 39;
         final int minionAttackX = 25;
-        final int minionAttackY = height - 15;
+        final int minionAttackY = height - 27;
         final int minionHealthX = width - 17;
-        final int minionHealthY = height - 14;
+        final int minionHealthY = height - 27;
 
         final int weaponManaX = 24;
         final int weaponManaY = 39;
         final int weaponDurabilityX = width - 17;
-        final int weaponDurabilityY = height - 13;
+        final int weaponDurabilityY = height - 25;
         final int weaponAttackX = 25;
-        final int weaponAttackY = height - 13;
+        final int weaponAttackY = height - 25;
 
         String text;
         int textWidth;
@@ -156,7 +178,6 @@ public class CardButton extends ImageButton implements MouseListener {
     private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color){
         g.setColor(color);
         g.drawString(text, x, y);
-        return;
         /*AffineTransform transform = g.getTransform();
         transform.translate(x, y);
         g.transform(transform);

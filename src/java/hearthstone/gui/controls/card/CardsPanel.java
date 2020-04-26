@@ -1,8 +1,6 @@
 package hearthstone.gui.controls.card;
 
-import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
-import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
@@ -11,42 +9,77 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {
-    private ArrayList<Card> cards;
-    private ArrayList<JPanel> panels;
-    private ArrayList<CardButton> cardButtons;
+    private ArrayList<Card> originalCards, cards;
+    private ArrayList<JPanel> originalPanels, panels;
+    private ArrayList<CardButton> originalButtons, buttons;
     private int cardHeight, cardWidth;
 
     private int disX = 10;
     private int disY = 5;
     private int rows;
 
-    public CardsPanel(ArrayList<Card> cards, ArrayList<JPanel> panels,
+    public CardsPanel(ArrayList<Card> originalCards, ArrayList<JPanel> originalPanels,
                       int rows, int cardWidth, int cardHeight) {
-        this.cards = cards;
-        this.panels = panels;
+        this.originalCards = originalCards;
+        this.originalPanels = originalPanels;
         this.cardWidth = cardWidth;
         this.cardHeight = cardHeight;
         this.rows = rows;
 
-        cardButtons = new ArrayList<>();
+        originalButtons = new ArrayList<>();
 
-        for (Card card : cards) {
-            CardButton cardButton = new CardButton(card,
-                    cardWidth,
-                    cardHeight);
-            cardButtons.add(cardButton);
-        }
+        makeCompressedCards();
 
         configPanel();
 
         layoutComponent();
     }
 
+    private int numberOfCards(int id) {
+        int ans = 0;
+        for (Card card : originalCards) {
+            if (card.getId() == id)
+                ans++;
+        }
+        return ans;
+    }
+
+    private void makeCompressedCards() {
+        cards = new ArrayList<>();
+        panels = new ArrayList<>();
+        buttons = new ArrayList<>();
+
+        originalButtons = new ArrayList<>();
+
+        for(int i = 0; i < originalCards.size(); i++){
+            Card card = originalCards.get(i);
+
+            CardButton cardButton = new CardButton(card,
+                    cardWidth,
+                    cardHeight, numberOfCards(card.getId()));
+            originalButtons.add(cardButton);
+        }
+
+        for (int i = 0; i < originalCards.size(); i++) {
+            boolean shouldAdd = true;
+            for (int j = 0; j < i; j++) {
+                if (originalCards.get(i).getId() == originalCards.get(j).getId()) {
+                    shouldAdd = false;
+                }
+            }
+            if (shouldAdd) {
+                cards.add(originalCards.get(i));
+                panels.add(originalPanels.get(i));
+                buttons.add(originalButtons.get(i));
+            }
+        }
+    }
+
     private void configPanel() {
         disX = 10;
         disY = 5;
         disY += cardHeight;
-        for (JPanel panel : panels) {
+        for (JPanel panel : originalPanels) {
             if (panel != null) {
                 disY += panel.getPreferredSize().getHeight();
                 break;
@@ -57,36 +90,36 @@ public class CardsPanel extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
-                new Dimension((cards.size() + rows - 1) / rows * disX, rows * disY));
+                new Dimension((cards.size() + rows - 1) / rows * disX,
+                        rows * disY));
         setOpaque(false);
         setVisible(true);
     }
 
     public void addCard(Card card, JPanel panel) {
+        int number = numberOfCards(card.getId());
         CardButton cardButton = new CardButton(card,
                 cardWidth,
-                cardHeight);
-
-        cardButtons.add(cardButton);
-        cards.add(card);
-        panels.add(panel);
-
+                cardHeight, number + 1);
+        originalButtons.add(cardButton);
+        originalCards.add(card);
+        originalPanels.add(panel);
         restart();
     }
 
     public void removeCard(Card card) {
-        int ind = cards.indexOf(card);
+        int ind = originalCards.indexOf(card);
 
-        cardButtons.remove(ind);
-        cards.remove(ind);
-        panels.remove(ind);
+        originalButtons.remove(ind);
+        originalCards.remove(ind);
+        originalPanels.remove(ind);
 
         restart();
     }
 
     private void layoutComponent() {
         for (int i = 0; i < cards.size(); i++) {
-            CardButton cardButton = cardButtons.get(i);
+            CardButton cardButton = buttons.get(i);
             JPanel panel = panels.get(i);
 
             int col = (i - (i % rows)) / rows;
@@ -107,16 +140,16 @@ public class CardsPanel extends JPanel {
         }
     }
 
-    public void update(ArrayList<Card> cards, ArrayList<JPanel> panels){
+    public void update(ArrayList<Card> cards, ArrayList<JPanel> panels) {
         ArrayList<Card> temp = new ArrayList<>();
-        for(Card card : this.cards)
+        for (Card card : this.originalCards)
             temp.add(card);
 
-        for (Card card : temp){
+        for (Card card : temp) {
             removeCard(card);
         }
 
-        for(int i = 0; i < cards.size(); i++){
+        for (int i = 0; i < cards.size(); i++) {
             addCard(cards.get(i), panels.get(i));
         }
 
@@ -128,15 +161,16 @@ public class CardsPanel extends JPanel {
             DataBase.save();
         } catch (HearthStoneException e) {
             System.out.println(e.getMessage());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         removeAll();
-        configPanel();
 
+        makeCompressedCards();
+        configPanel();
         layoutComponent();
+
         revalidate();
-        //repaint();
         getParent().repaint();
     }
 }

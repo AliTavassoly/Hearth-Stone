@@ -4,7 +4,6 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.TextField;

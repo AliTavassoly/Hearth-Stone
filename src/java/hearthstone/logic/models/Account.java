@@ -46,6 +46,7 @@ public class Account {
                 unlockedCards.add(card.getId());
             }
             cards.add(card);
+            cards.add(card);
         }
         for (int i = 0; i < HearthStone.baseHeroes.size(); i++) {
             unlockedHeroes.add(i);
