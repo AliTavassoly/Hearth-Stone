@@ -15,6 +15,7 @@ public class CredentialsFrame extends BaseFrame {
     private LogisterPanel logisterPanel;
     private static CredentialsFrame credentialsFrame;
     private Clip clip;
+    private float soundValue;
 
     private CredentialsFrame() {
         logisterPanel = new LogisterPanel();
@@ -33,16 +34,21 @@ public class CredentialsFrame extends BaseFrame {
     }
 
     public static CredentialsFrame getNewInstance() {
-        if(credentialsFrame != null){
+        if (credentialsFrame != null) {
             credentialsFrame.stopSound();
         }
         return credentialsFrame = new CredentialsFrame();
     }
 
-    public void volumeChange(int x){
+    public float getSoundValue() {
+        return soundValue;
+    }
+
+    public void volumeChange(int x) {
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(x);
+        soundValue = gainControl.getValue() + x;
+        gainControl.setValue(soundValue);
     }
 
     public void playSound() {
@@ -53,6 +59,12 @@ public class CredentialsFrame extends BaseFrame {
                     AudioSystem.getAudioInputStream(file.getAbsoluteFile());
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+            soundValue = gainControl.getValue();
+
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.out.println(e.getMessage());

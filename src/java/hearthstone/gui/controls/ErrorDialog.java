@@ -39,21 +39,6 @@ public class ErrorDialog extends JDialog {
         setVisible(true);
     }
 
-    @Override
-    public void paintComponents(Graphics g) {
-        super.paintComponents(g);
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/dialog_background.png"));
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        Graphics2D g2 = (Graphics2D)g;
-        g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
-    }
-
     public void configDialog(){
         setSize(new Dimension(width, height));
 

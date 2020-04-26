@@ -5,10 +5,12 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.boardstuff.BoardCardButton;
 import hearthstone.gui.game.play.boardstuff.BoardHeroButton;
+import hearthstone.gui.settings.SettingsDialog;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
@@ -18,6 +20,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,7 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
-    private ImageButton backButton, minimizeButton, closeButton;
+    private ImageButton backButton, minimizeButton, closeButton, settingsButton;
     private ImageButton endTurnButton;
     private BoardHeroButton myHero, opponentHero;
     private Player myPlayer, opponentPlayer;
@@ -274,15 +277,23 @@ public class GameBoard extends JPanel {
     }
 
     private void makeIcons() {
-        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
+        backButton = new ImageButton("icons/back.png",
+                "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+        settingsButton = new ImageButton("icons/settings.png",
+                "icons/settings_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png",
+                "icons/minimize_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+
+        closeButton = new ImageButton("icons/close.png",
+                "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
@@ -301,6 +312,13 @@ public class GameBoard extends JPanel {
                     }
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
                 }
+            }
+        });
+
+        settingsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
+                        DefaultSizes.settingsWidth, DefaultSizes.settingsHeight);
             }
         });
 
@@ -344,6 +362,11 @@ public class GameBoard extends JPanel {
                             AudioSystem.getAudioInputStream(file.getAbsoluteFile());
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioInputStream);
+
+                    FloatControl gainControl =
+                            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    gainControl.setValue(CredentialsFrame.getInstance().getSoundValue());
+
                     clip.start();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -371,6 +394,11 @@ public class GameBoard extends JPanel {
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
         add(backButton);
+
+        settingsButton.setBounds(iconX, startIconY + iconsDis,
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight);
+        add(settingsButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
                 DefaultSizes.iconWidth,

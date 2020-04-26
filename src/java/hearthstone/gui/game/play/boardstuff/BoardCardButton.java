@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -63,6 +64,11 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                     AudioSystem.getAudioInputStream(file.getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(CredentialsFrame.getInstance().getSoundValue());
+
             clip.start();
         } catch (
                 Exception e) {

@@ -26,7 +26,6 @@ public class AccountCredential {
         return id;
     }
 
-
     public boolean isDeleted() {
         return deleted;
     }
