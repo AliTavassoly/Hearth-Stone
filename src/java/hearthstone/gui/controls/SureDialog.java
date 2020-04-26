@@ -70,7 +70,7 @@ public class SureDialog extends JDialog {
     public void makeLabels(){
         message = new JLabel(text);
         message.setForeground(new Color(69, 28, 28));
-        message.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        message.setFont(GameFrame.getInstance().getCustomFont(0, 15));
     }
 
     public void makeButtons(){

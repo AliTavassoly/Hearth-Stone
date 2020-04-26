@@ -64,7 +64,7 @@ public class DefaultSizes {
     public static final int deckWidth = 527;
     public static final int deckHeight = 150;
 
-    public static final int dialogWidth = 527;
+    public static final int dialogWidth = 627;
     public static final int dialogHeight = 200;
 
     public static final int arrangementListWidth = 670;

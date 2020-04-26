@@ -296,12 +296,19 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.currentAccount.sellCards(card, 1);
-                    buyPanel.addCard(card, getBuyPanel(card));
-                    sellPanel.removeCard(card);
-                    HearthStone.market.addCard(card.copy(), 1);
-                    gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
-                    DataBase.save();
+                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
+                            "Are you sure you want to sell " + card.getName()
+                                    + " for " + card.getSellPrice() + "gems" + " ?",
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                    boolean sure = sureDialog.getValue();
+                    if (sure) {
+                        HearthStone.currentAccount.sellCards(card, 1);
+                        buyPanel.addCard(card, getBuyPanel(card));
+                        sellPanel.removeCard(card);
+                        HearthStone.market.addCard(card.copy(), 1);
+                        gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                        DataBase.save();
+                    }
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
@@ -337,11 +344,18 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.currentAccount.buyCards(card, 1);
-                    buyPanel.removeCard(card);
-                    HearthStone.market.removeCard(card, 1);
-                    gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
-                    DataBase.save();
+                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
+                            "Are you sure you want to buy " + card.getName()
+                                    + " for  " + card.getBuyPrice() + "  gems " + " ?",
+                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                    boolean sure = sureDialog.getValue();
+                    if(sure) {
+                        HearthStone.currentAccount.buyCards(card, 1);
+                        buyPanel.removeCard(card);
+                        HearthStone.market.removeCard(card, 1);
+                        gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                        DataBase.save();
+                    }
                 } catch (HearthStoneException e){
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
