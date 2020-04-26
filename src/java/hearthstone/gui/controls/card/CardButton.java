@@ -4,7 +4,6 @@ import hearthstone.HearthStone;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.SpellCard;
@@ -17,10 +16,6 @@ import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 

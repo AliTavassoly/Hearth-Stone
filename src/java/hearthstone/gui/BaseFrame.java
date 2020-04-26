@@ -3,7 +3,9 @@ package hearthstone.gui;
 import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.game.GameFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -21,6 +23,17 @@ public class BaseFrame extends JFrame {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+
+        Image cursorImage = null;
+        try{
+            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/cursor.png"));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
+                new Point(0, 0), "customCursor");
+        setCursor(customCursor);
     }
 
     public Font getCustomFont(int style, int size) {

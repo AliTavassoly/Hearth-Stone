@@ -50,7 +50,7 @@ public class GameBoard extends JPanel {
     private final int endTurnButtonY = 300;
 
     private final int manaX = 770;
-    private final int manaY = 640;
+    private final int manaY = 638;
     private final int manaDis = 0;
     private final int manaStringX = 742;
     private final int manaStringY = 658;
@@ -105,7 +105,7 @@ public class GameBoard extends JPanel {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/game_board_background.jpg"));
+                    "/images/game_board_background.png"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -361,6 +361,7 @@ public class GameBoard extends JPanel {
 
     private void configPanel() {
         setLayout(null);
+        setDoubleBuffered(true);
         setVisible(true);
     }
 

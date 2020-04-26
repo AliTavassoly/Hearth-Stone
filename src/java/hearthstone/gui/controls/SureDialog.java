@@ -65,6 +65,17 @@ public class SureDialog extends JDialog {
         ImagePanel backgroundPanel = new ImagePanel("dialog_background.png", width, height);
         backgroundPanel.setOpaque(false);
         setContentPane(backgroundPanel);
+
+        Image cursorImage = null;
+        try{
+            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/cursor.png"));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
+                new Point(0, 0), "customCursor");
+        setCursor(customCursor);
     }
 
     public void makeLabels(){

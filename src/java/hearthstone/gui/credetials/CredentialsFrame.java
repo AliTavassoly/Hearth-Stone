@@ -21,8 +21,6 @@ public class CredentialsFrame extends BaseFrame {
 
         playSound();
 
-        stopSound();
-
         configFrame();
     }
 

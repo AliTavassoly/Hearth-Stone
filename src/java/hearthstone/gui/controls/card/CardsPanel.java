@@ -9,9 +9,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CardsPanel extends JPanel {
-    private ArrayList<Card> originalCards, cards;
-    private ArrayList<JPanel> originalPanels, panels;
-    private ArrayList<CardButton> originalButtons, buttons;
+    private ArrayList<Card> originalCards, compressedCards;
+    private ArrayList<JPanel> originalPanels, compressedPanels;
+    private ArrayList<CardButton> originalButtons, compressedButtons;
     private int cardHeight, cardWidth;
 
     private int disX = 10;
@@ -45,9 +45,9 @@ public class CardsPanel extends JPanel {
     }
 
     private void makeCompressedCards() {
-        cards = new ArrayList<>();
-        panels = new ArrayList<>();
-        buttons = new ArrayList<>();
+        compressedCards = new ArrayList<>();
+        compressedPanels = new ArrayList<>();
+        compressedButtons = new ArrayList<>();
 
         originalButtons = new ArrayList<>();
 
@@ -68,9 +68,9 @@ public class CardsPanel extends JPanel {
                 }
             }
             if (shouldAdd) {
-                cards.add(originalCards.get(i));
-                panels.add(originalPanels.get(i));
-                buttons.add(originalButtons.get(i));
+                compressedCards.add(originalCards.get(i));
+                compressedPanels.add(originalPanels.get(i));
+                compressedButtons.add(originalButtons.get(i));
             }
         }
     }
@@ -90,7 +90,7 @@ public class CardsPanel extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
-                new Dimension((cards.size() + rows - 1) / rows * disX,
+                new Dimension((compressedCards.size() + rows - 1) / rows * disX,
                         rows * disY));
         setOpaque(false);
         setVisible(true);
@@ -118,9 +118,9 @@ public class CardsPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        for (int i = 0; i < cards.size(); i++) {
-            CardButton cardButton = buttons.get(i);
-            JPanel panel = panels.get(i);
+        for (int i = 0; i < compressedCards.size(); i++) {
+            CardButton cardButton = compressedButtons.get(i);
+            JPanel panel = compressedPanels.get(i);
 
             int col = (i - (i % rows)) / rows;
             int row = i % rows;
