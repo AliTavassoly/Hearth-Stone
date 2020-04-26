@@ -112,8 +112,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         final int spellManaX = 14;
         final int spellManaY = 25;
 
-        final int heroPowerManaX = width / 2 + 5;
-        final int heroPowerManaY = 25;
+        final int heroPowerManaX = width / 2 + 3;
+        final int heroPowerManaY = 20;
 
         final int minionManaX = 14;
         final int minionManaY = 25;

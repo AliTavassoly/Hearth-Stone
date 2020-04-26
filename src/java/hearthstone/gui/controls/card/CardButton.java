@@ -103,8 +103,8 @@ public class CardButton extends ImageButton implements MouseListener {
         final int spellManaX = 24;
         final int spellManaY = 39;
 
-        final int heroPowerManaX = width / 2 + 5;
-        final int heroPowerManaY = 25;
+        final int heroPowerManaX = width / 2 + 1;
+        final int heroPowerManaY = 28;
 
         final int minionManaX = 24;
         final int minionManaY = 39;
@@ -175,25 +175,6 @@ public class CardButton extends ImageButton implements MouseListener {
     private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color){
         g.setColor(color);
         g.drawString(text, x, y);
-        /*AffineTransform transform = g.getTransform();
-        transform.translate(x, y);
-        g.transform(transform);
-
-        Color outlineColor = Color.black;
-        Color fillColor = color;
-        g.setColor(outlineColor);
-        FontRenderContext frc = g.getFontRenderContext();
-        TextLayout tl = new TextLayout(text, g.getFont().deriveFont(20f), frc);
-        Shape shape = tl.getOutline(null);
-        g.setStroke(new BasicStroke(2f));
-        g.draw(shape);
-        g.setColor(fillColor);
-        g.fill(shape);
-
-        transform.translate(-x, -y);
-        g.transform(transform);
-
-        updateUI();*/
     }
 
     @Override

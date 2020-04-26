@@ -10,6 +10,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.boardstuff.BoardCardButton;
 import hearthstone.gui.game.play.boardstuff.BoardHeroButton;
+import hearthstone.gui.game.play.boardstuff.HeroPowerButton;
 import hearthstone.gui.settings.SettingsDialog;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
@@ -60,6 +61,9 @@ public class GameBoard extends JPanel {
 
     private final int myHeroX = midX - 60;
     private final int myHeroY = DefaultSizes.gameFrameHeight - 236;
+
+    private final int myHeroPowerX = midX - 160;
+    private final int myHeroPowerY = DefaultSizes.gameFrameHeight - 190;
 
     private final int heroWidth = BoardDefault.medHeroWidth;
     private final int heroHeight = BoardDefault.medHeroHeight;
@@ -117,6 +121,8 @@ public class GameBoard extends JPanel {
         drawMana(g2, myPlayer.getMana(), myPlayer.getTurnNumber());
 
         drawDeckNumberOfCards(g2, myPlayer.getDeck().getCards().size());
+
+        drawHeroPower();
     }
 
     private void drawMana(Graphics2D g, int number, int maxNumber) {
@@ -164,6 +170,16 @@ public class GameBoard extends JPanel {
         g.drawString(String.valueOf(number),
                 deckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
                 deckCardsNumberY);
+    }
+
+    private void drawHeroPower(){
+        if(myPlayer.getHeroPower() == null)
+            return;
+        HeroPowerButton heroPowerButton = new HeroPowerButton(myPlayer.getHeroPower(),
+                BoardDefault.heroPowerWidth, BoardDefault.heroPowerHeight);
+        heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
+                BoardDefault.heroPowerWidth, BoardDefault.heroPowerHeight);
+        add(heroPowerButton);
     }
 
     private void drawCardsOnHand() {

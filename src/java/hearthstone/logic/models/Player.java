@@ -2,10 +2,7 @@ package hearthstone.logic.models;
 
 import hearthstone.HearthStone;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.cards.HeroPowerCard;
-import hearthstone.logic.models.card.cards.MinionCard;
-import hearthstone.logic.models.card.cards.SpellCard;
-import hearthstone.logic.models.card.cards.WeaponCard;
+import hearthstone.logic.models.card.cards.*;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 
@@ -23,6 +20,8 @@ public class Player {
     private ArrayList<Card> hand;
     private ArrayList<Card> land;
     private Random random;
+
+    private HeroPowerCard heroPower;
 
     public Player(Hero hero, Deck deck) {
         this.hero = hero.copy();
@@ -75,6 +74,14 @@ public class Player {
         this.turnNumber = turnNumber;
     }
 
+    public HeroPowerCard getHeroPower() {
+        return heroPower;
+    }
+
+    public void setHeroPower(HeroPowerCard heroPower) {
+        this.heroPower = heroPower;
+    }
+
     // End pf getter setter
 
     public void readyForPlay() throws Exception{
@@ -104,30 +111,38 @@ public class Player {
     }
 
     public void playCard(Card baseCard) throws Exception{
-        if(land.size() == HearthStone.maxCardInLand)
-            throw new HearthStoneException("your land is full!");
         if(baseCard.getManaCost() > mana)
             throw new HearthStoneException("you don't have enough mana!");
+        Card cardInHand = null;
+
         for(int i = 0; i < hand.size(); i++){
             Card card = hand.get(i);
             if(card.getName().equals(baseCard.getName())){
-                hand.remove(card);
-                if (card instanceof HeroPowerCard){
-                    land.add(card);
-                } else if (card instanceof SpellCard) {
-
-                } else if (card instanceof MinionCard ) {
-                    land.add(card);
-                } else if (card instanceof WeaponCard){
-                    land.add(card);
-                }
-                mana -= card.getManaCost();
-                break;
+                cardInHand = card;
             }
         }
+
+        if(cardInHand instanceof HeroPowerCard){
+            if(heroPower != null){
+                throw new HearthStoneException("you are using hero power!");
+            }
+            heroPower = (HeroPowerCard) cardInHand;
+        } else if(cardInHand instanceof SpellCard){
+
+        } else if(cardInHand instanceof RewardCard){
+
+        } else if(cardInHand instanceof WeaponCard || cardInHand instanceof MinionCard){
+            if(land.size() == HearthStone.maxCardInLand)
+                throw new HearthStoneException("your land is full!");
+            land.add(cardInHand);
+        }
+
+        hand.remove(cardInHand);
+        mana -= cardInHand.getManaCost();
+
         for(Card card : originalDeck.getCards()){
-            if(card.getName().equals(baseCard.getName())){
-                originalDeck.cardPlay(card);
+            if(card.getName().equals(cardInHand.getName())){
+                originalDeck.cardPlay(cardInHand);
             }
         }
     }
