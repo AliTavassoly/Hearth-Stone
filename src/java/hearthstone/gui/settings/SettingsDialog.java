@@ -131,9 +131,11 @@ public class SettingsDialog extends JDialog {
     public void makeLabels(){
         volumeDownLabel = new JLabel("Volume Down");
         volumeDownLabel.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        volumeDownLabel.setForeground(new Color(69, 28, 28));
 
         volumeUpLabel = new JLabel("Volume Up");
         volumeUpLabel.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        volumeUpLabel.setForeground(new Color(69, 28, 28));
     }
 
     public void layoutComponent() {
