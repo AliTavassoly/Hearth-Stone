@@ -264,6 +264,12 @@ public class DeckArrangement extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "search");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 update();
             }
         });
@@ -276,6 +282,12 @@ public class DeckArrangement extends JPanel {
                     hero.getDecks().remove(deck);
                     DataBase.save();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "delete");
+                    hearthstone.util.Logger.saveLog("Delete deck",
+                            deck.getName() + " removed from decks!");
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
@@ -341,6 +353,11 @@ public class DeckArrangement extends JPanel {
                     deckCardsPanel.removeCard(card);
                     cardsPanel.addCard(card, getCardsPanel(card));
                     DataBase.save();
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "remove");
+                    hearthstone.util.Logger.saveLog("Remove From Deck",
+                            card.getName() + " removed from deck!");
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
@@ -376,6 +393,11 @@ public class DeckArrangement extends JPanel {
                         cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
                     DataBase.save();
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "add");
+                    hearthstone.util.Logger.saveLog("Add To Deck",
+                            card.getName() + " added to deck!");
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",

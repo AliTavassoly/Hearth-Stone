@@ -5,6 +5,7 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
@@ -175,8 +176,8 @@ public class GameBoard extends JPanel {
                 deckCardsNumberY);
     }
 
-    private void drawHeroPower(){
-        if(myPlayer.getHeroPower() == null)
+    private void drawHeroPower() {
+        if (myPlayer.getHeroPower() == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(myPlayer.getHeroPower(),
                 BoardDefault.heroPowerWidth, BoardDefault.heroPowerHeight);
@@ -240,6 +241,28 @@ public class GameBoard extends JPanel {
         }
     }
 
+    private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
+                          int startX, int startY, int width, int height) {
+        try {
+            myPlayer.playCard(card);
+            cardButton.makePlaySound();
+            hearthstone.util.Logger.saveLog("Play card",
+                    card.getName() + " played");
+            restart();
+        } catch (HearthStoneException e) {
+            try {
+                hearthstone.util.Logger.saveLog("ERROR",
+                        e.getClass().getName() + ": " + e.getMessage()
+                                + "\nStack Trace: " + e.getStackTrace());
+            } catch (Exception f) { }
+
+            System.out.println(e.getMessage());
+            button.setBounds(startX, startY, width, height);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     private void makeMouseListener(BoardCardButton button, Card card, BoardCardButton cardButton,
                                    int startX, int startY, int width, int height) {
         button.addMouseListener(new MouseListener() {
@@ -257,7 +280,9 @@ public class GameBoard extends JPanel {
             public void mouseReleased(MouseEvent E) {
                 if (!isInLand(startX, startY) &&
                         isInLand(E.getX() + button.getX(), E.getY() + button.getY())) {
-                    try {
+                    playCard(button, card, cardButton,
+                            startX, startY, width, height);
+                    /*try {
                         myPlayer.playCard(card);
                         cardButton.makePlaySound();
                         restart();
@@ -271,7 +296,7 @@ public class GameBoard extends JPanel {
                         button.setBounds(startX, startY, width, height);
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
-                    }
+                    }*/
                 } else {
                     button.setBounds(startX, startY, width, height);
                 }
@@ -342,6 +367,9 @@ public class GameBoard extends JPanel {
                     gainControl.setValue(CredentialsFrame.getInstance().getSoundValue());
 
                     clip.start();
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "End turn_button");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

@@ -119,19 +119,33 @@ public class MainMenuPanel extends JPanel {
 
         marketButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "market_button");
+                } catch (Exception e) { System.out.println(e.getMessage()); }
+
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MarketPanel());
             }
         });
 
         statusButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new StatusPanel());
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "status_button");
+                } catch (Exception e) { System.out.println(e.getMessage()); }
 
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new StatusPanel());
             }
         });
 
         collectionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "collection_button");
+                } catch (Exception e) { System.out.println(e.getMessage()); }
+
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
             }
         });
@@ -139,6 +153,11 @@ public class MainMenuPanel extends JPanel {
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
+                    try {
+                        hearthstone.util.Logger.saveLog("Click_button",
+                                "play_button");
+                    } catch (Exception e) { System.out.println(e.getMessage()); }
+
                     HearthStone.currentAccount.readyForPlay();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                             new PlaySelectionPanel(HearthStone.currentAccount.getPlayer()));

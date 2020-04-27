@@ -116,7 +116,12 @@ public class HeroSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "arrange");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
             }
         });
@@ -139,6 +144,11 @@ public class HeroSelection extends JPanel {
                     try {
                         HearthStone.currentAccount.setSelectedHero(hero);
                         DataBase.save();
+
+                        hearthstone.util.Logger.saveLog("Click_button",
+                                "select");
+                        hearthstone.util.Logger.saveLog("Select hero",
+                                hero.getName() + " selected for battle!");
                     } catch (HearthStoneException e) {
                         try {
                             hearthstone.util.Logger.saveLog("ERROR",

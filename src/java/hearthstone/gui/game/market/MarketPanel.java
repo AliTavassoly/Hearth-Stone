@@ -112,8 +112,8 @@ public class MarketPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 buyScroll.setVisible(false);
                 try {
-                    hearthstone.util.Logger.saveLog("panel chang",
-                            "panel changed to sell panel");
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "sell panel_button");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -129,8 +129,8 @@ public class MarketPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 sellScroll.setVisible(false);
                 try {
-                    hearthstone.util.Logger.saveLog("panel chang",
-                            "panel changed to buy panel");
+                    hearthstone.util.Logger.saveLog("Button_click",
+                            "buy panel_button");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -271,6 +271,9 @@ public class MarketPanel extends JPanel {
                             "Are you sure you want to sell " + card.getName()
                                     + " for " + card.getSellPrice() + "gems" + " ?",
                             DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "sell_button");
                     boolean sure = sureDialog.getValue();
                     if (sure) {
                         HearthStone.currentAccount.sellCards(card, 1);
@@ -327,6 +330,9 @@ public class MarketPanel extends JPanel {
                             "Are you sure you want to buy " + card.getName()
                                     + " for  " + card.getBuyPrice() + "  gems " + " ?",
                             DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "buy_button");
                     boolean sure = sureDialog.getValue();
                     if(sure) {
                         HearthStone.currentAccount.buyCards(card, 1);

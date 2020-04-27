@@ -137,10 +137,16 @@ public class DeckSelection extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent){
-                NameDialog nameDialog = new NameDialog(GameFrame.getInstance(), "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                NameDialog nameDialog = new NameDialog(GameFrame.getInstance(),
+                        "Deck Name : ", DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
                 String name = nameDialog.getValue();
                 Deck beforeDeck = hero.getDecks().stream().
                         filter(deck -> name.equals(deck.getName())).findAny().orElse(null);
+
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "new_deck_button");
+                } catch (Exception e) { System.out.println(e.getMessage()); }
 
                 if(beforeDeck != null){
                     BaseFrame.error("this name is already token!");
@@ -152,6 +158,8 @@ public class DeckSelection extends JPanel {
                         hero.getDecks().add(deck);
                         HearthStone.currentAccount.getDecks().add(deck);
                         DataBase.save();
+                        hearthstone.util.Logger.saveLog("New Deck",
+                                deck.getName() + " deck created!");
                         restart();
                     } catch (HearthStoneException e){
                         try {
@@ -177,6 +185,13 @@ public class DeckSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    hearthstone.util.Logger.saveLog("Click_button",
+                            "arrange");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
             }
         });
@@ -200,6 +215,12 @@ public class DeckSelection extends JPanel {
                         hero.setSelectedDeck(deck);
                         DataBase.save();
                         restart();
+
+                        hearthstone.util.Logger.saveLog("Click_button",
+                                "select");
+
+                        hearthstone.util.Logger.saveLog("Select deck",
+                                deck.getName() + " deck, selected for " + hero.getName() + "!");
                     } catch (HearthStoneException e){
                         try {
                             hearthstone.util.Logger.saveLog("ERROR",
