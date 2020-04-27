@@ -13,6 +13,6 @@ public class BoardDefault {
     public static final int healthWidth = 35;
     public static final int healthHeight = 45;
 
-    public static final int heroPowerWidth = 90;
-    public static final int heroPowerHeight = 90;
+    public static final int heroPowerWidth = 110;
+    public static final int heroPowerHeight = 110;
 }

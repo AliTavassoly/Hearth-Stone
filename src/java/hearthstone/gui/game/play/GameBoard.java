@@ -8,9 +8,9 @@ import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.play.boardstuff.BoardCardButton;
-import hearthstone.gui.game.play.boardstuff.BoardHeroButton;
-import hearthstone.gui.game.play.boardstuff.HeroPowerButton;
+import hearthstone.gui.game.play.controls.BoardCardButton;
+import hearthstone.gui.game.play.controls.BoardHeroButton;
+import hearthstone.gui.game.play.controls.HeroPowerButton;
 import hearthstone.gui.settings.SettingsDialog;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
@@ -62,7 +62,7 @@ public class GameBoard extends JPanel {
     private final int myHeroX = midX - 60;
     private final int myHeroY = DefaultSizes.gameFrameHeight - 236;
 
-    private final int myHeroPowerX = midX - 160;
+    private final int myHeroPowerX = midX + 55;
     private final int myHeroPowerY = DefaultSizes.gameFrameHeight - 190;
 
     private final int heroWidth = BoardDefault.medHeroWidth;
@@ -86,7 +86,6 @@ public class GameBoard extends JPanel {
     private final int deckCardsNumberY = midY + 100;
 
     // Finals END
-
 
     public GameBoard(Player myPlayer, Player opponentPlayer, Game game) {
         this.myPlayer = myPlayer;
@@ -207,6 +206,7 @@ public class GameBoard extends JPanel {
             add(cardButton);
         }
     }
+
 
     private void drawCardsOnLand() {
         ArrayList<Card> cards = myPlayer.getLand();

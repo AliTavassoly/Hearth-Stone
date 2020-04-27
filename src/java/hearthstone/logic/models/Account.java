@@ -42,9 +42,7 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
-            if (card.getId() % 2 == 0) {
-                unlockedCards.add(card.getId());
-            }
+            unlockedCards.add(card.getId());
             cards.add(card);
             cards.add(card);
         }

@@ -1,6 +1,5 @@
-package hearthstone.gui.game.play.boardstuff;
+package hearthstone.gui.game.play.controls;
 
-import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.play.BoardDefault;
