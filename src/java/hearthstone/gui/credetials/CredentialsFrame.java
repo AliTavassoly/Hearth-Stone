@@ -1,8 +1,7 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.SizeConfigs;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -79,7 +78,7 @@ public class CredentialsFrame extends BaseFrame {
     private void configFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        this.setSize(DefaultSizes.credentialFrameWidth, DefaultSizes.credentialFrameHeight);
+        this.setSize(SizeConfigs.credentialFrameWidth, SizeConfigs.credentialFrameHeight);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setContentPane(logisterPanel);

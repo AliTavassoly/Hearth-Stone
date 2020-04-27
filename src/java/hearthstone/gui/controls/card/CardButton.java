@@ -1,10 +1,9 @@
 package hearthstone.gui.controls.card;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.SpellCard;
@@ -75,12 +74,12 @@ public class CardButton extends ImageButton implements MouseListener {
                 null);
 
         g2.drawImage(numberImage.getScaledInstance(
-                DefaultSizes.numberOfCardFlagWidth,
-                DefaultSizes.numberOfCardFlagHeight,
+                SizeConfigs.numberOfCardFlagWidth,
+                SizeConfigs.numberOfCardFlagHeight,
                 Image.SCALE_SMOOTH),
-                width / 2 - DefaultSizes.numberOfCardFlagWidth / 2, height - 38,
-                DefaultSizes.numberOfCardFlagWidth,
-                DefaultSizes.numberOfCardFlagHeight,
+                width / 2 - SizeConfigs.numberOfCardFlagWidth / 2, height - 38,
+                SizeConfigs.numberOfCardFlagWidth,
+                SizeConfigs.numberOfCardFlagHeight,
                 null);
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);

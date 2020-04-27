@@ -5,7 +5,6 @@ import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -47,6 +46,6 @@ public class BaseFrame extends JFrame {
 
     public static void error(String text) {
         ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), text,
-                DefaultSizes.errorWidth, DefaultSizes.errorHeight);
+                SizeConfigs.errorWidth, SizeConfigs.errorHeight);
     }
 }

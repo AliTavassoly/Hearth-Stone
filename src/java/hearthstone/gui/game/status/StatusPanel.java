@@ -1,26 +1,20 @@
 package hearthstone.gui.game.status;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
-import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -31,9 +25,9 @@ public class StatusPanel extends JPanel {
 
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.statusListHeight) / 2;
+    private final int startListY = (SizeConfigs.gameFrameHeight - SizeConfigs.statusListHeight) / 2;
     private final int startListX = 100;
 
     public StatusPanel() {
@@ -61,20 +55,20 @@ public class StatusPanel extends JPanel {
 
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight, new MainMenuPanel());
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight, new MainMenuPanel());
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
     }
 
     private void makeDeckList() {
@@ -87,7 +81,7 @@ public class StatusPanel extends JPanel {
         }
 
         deckPanel = new DecksPanel(decks, panels,
-                DefaultSizes.deckWidth, DefaultSizes.deckHeight);
+                SizeConfigs.deckWidth, SizeConfigs.deckHeight);
         deckCardScroll = new JScrollPane(deckPanel);
         deckCardScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deckCardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -106,29 +100,29 @@ public class StatusPanel extends JPanel {
     private void layoutComponent() {
         // ICONS
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         logoutButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(logoutButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
 
         // LISTS
         deckCardScroll.setBounds(startListX, startListY,
-                DefaultSizes.statusListWidth,
-                DefaultSizes.statusListHeight);
+                SizeConfigs.statusListWidth,
+                SizeConfigs.statusListHeight);
         add(deckCardScroll);
     }
 }

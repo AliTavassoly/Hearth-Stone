@@ -1,6 +1,7 @@
 package hearthstone.logic.models;
 
 import hearthstone.HearthStone;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -27,7 +28,7 @@ public class Account {
         this.id = id;
         this.name = name;
         this.username = username;
-        gem = HearthStone.initialCoins;
+        gem = GameConfigs.initialCoins;
 
         heroes = new ArrayList<>();
         unlockedCards = new ArrayList<>();
@@ -256,14 +257,16 @@ public class Account {
         }
 
         public boolean canAdd(Card baseCard, int cnt) {
-            return numberOfCards(baseCard) + cnt <= HearthStone.maxCardOfOneType && cards.size() + cnt <= HearthStone.maxCardInCollection;
+            return numberOfCards(baseCard) + cnt <= GameConfigs.maxCardOfOneType &&
+                    cards.size() + cnt <= GameConfigs.maxCardInCollection;
         }
 
         public void add(Card baseCard, int cnt) throws Exception {
-            if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
-                throw new HearthStoneException("Can not have " + (numberOfCards(baseCard) + cnt) + " numbers of " + baseCard.getName() + " card!");
+            if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
+                throw new HearthStoneException("Can not have " +
+                        (numberOfCards(baseCard) + cnt) + " numbers of " + baseCard.getName() + " card!");
             }
-            if (cards.size() + cnt > HearthStone.maxCardInCollection) {
+            if (cards.size() + cnt > GameConfigs.maxCardInCollection) {
                 throw new HearthStoneException("Collection is full!");
             }
             for (int i = 0; i < cnt; i++)
@@ -276,7 +279,8 @@ public class Account {
 
         public void remove(Card baseCard, int cnt) throws Exception {
             if (numberOfCards(baseCard) - cnt < 0) {
-                throw new HearthStoneException("You don't have " + cnt + " numbers of " + baseCard.getName() + " in your collection!");
+                throw new HearthStoneException("You don't have " + cnt + " numbers of " +
+                        baseCard.getName() + " in your collection!");
             }
             for (int i = 0; i < cnt; i++) {
                 for (int j = 0; j < cards.size(); j++) {

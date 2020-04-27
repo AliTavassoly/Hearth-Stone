@@ -1,6 +1,6 @@
 package hearthstone.gui.controls.hero;
 
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.hero.Hero;
@@ -48,15 +48,15 @@ public class HeroButton extends ImageButton {
             System.out.println(e.getMessage());
         }
         g2.drawImage(heroImage.getScaledInstance(width - 20,
-                height - DefaultSizes.bigHeroDetailHeight,
+                height - SizeConfigs.bigHeroDetailHeight,
                 Image.SCALE_SMOOTH), 0, 0,
-                width - 20, height - DefaultSizes.bigHeroDetailHeight,
+                width - 20, height - SizeConfigs.bigHeroDetailHeight,
                 null);
 
-        g2.drawImage(detailsImage.getScaledInstance(DefaultSizes.bigHeroDetailWidth - 4,
-                DefaultSizes.bigHeroDetailHeight, Image.SCALE_SMOOTH),
-                15, height - DefaultSizes.bigHeroDetailHeight - 50,
-                DefaultSizes.bigHeroDetailWidth - 4, DefaultSizes.bigHeroDetailHeight,
+        g2.drawImage(detailsImage.getScaledInstance(SizeConfigs.bigHeroDetailWidth - 4,
+                SizeConfigs.bigHeroDetailHeight, Image.SCALE_SMOOTH),
+                15, height - SizeConfigs.bigHeroDetailHeight - 50,
+                SizeConfigs.bigHeroDetailWidth - 4, SizeConfigs.bigHeroDetailHeight,
                 null);
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 15);

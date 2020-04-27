@@ -3,17 +3,15 @@ package hearthstone.gui.game.market;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.card.CardsPanel;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
@@ -38,22 +36,22 @@ public class MarketPanel extends JPanel {
 
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startListY = (DefaultSizes.gameFrameHeight - DefaultSizes.marketListHeight) / 2;
+    private final int startListY = (SizeConfigs.gameFrameHeight - SizeConfigs.marketListHeight) / 2;
     private final int startListX = 100;
-    private final int endListX = startListX + DefaultSizes.marketListWidth;
+    private final int endListX = startListX + SizeConfigs.marketListWidth;
 
     private final int disInfo = 70;
     private final int startInfoX = endListX + disInfo;
     private final int startInfoY = startListY;
-    private final int infoWidth = (DefaultSizes.gameFrameWidth - endListX) - (2 * disInfo);
+    private final int infoWidth = (SizeConfigs.gameFrameWidth - endListX) - (2 * disInfo);
 
     private final int disChoose = 20;
-    private final int startChooseX = endListX + (DefaultSizes.gameFrameWidth - endListX) / 2
-            - DefaultSizes.medButtonWidth / 2;
-    private final int startChooseY = DefaultSizes.gameFrameHeight / 2 + (DefaultSizes.marketInfoHeight + startInfoY) / 2
-            - DefaultSizes.medButtonHeight - disChoose / 2;
+    private final int startChooseX = endListX + (SizeConfigs.gameFrameWidth - endListX) / 2
+            - SizeConfigs.medButtonWidth / 2;
+    private final int startChooseY = SizeConfigs.gameFrameHeight / 2 + (SizeConfigs.marketInfoHeight + startInfoY) / 2
+            - SizeConfigs.medButtonHeight - disChoose / 2;
 
     public MarketPanel() {
         configPanel();
@@ -87,26 +85,26 @@ public class MarketPanel extends JPanel {
 
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight, new MainMenuPanel());
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight, new MainMenuPanel());
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
     }
 
     private void makeChoosePanel(){
         sellButton = new ImageButton("SELL", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
-                20, 0, DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+                20, 0, SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -123,7 +121,7 @@ public class MarketPanel extends JPanel {
 
         buyButton = new ImageButton("BUY", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
-                20, 0, DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+                20, 0, SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -147,8 +145,8 @@ public class MarketPanel extends JPanel {
         gemLabel.setFont(GameFrame.getInstance().getCustomFont(0, 62));
 
         ImagePanel imagePanel = new ImagePanel("gem.png",
-                DefaultSizes.bigGemButtonWidth,
-                DefaultSizes.bigGemButtonHeight);
+                SizeConfigs.bigGemButtonWidth,
+                SizeConfigs.bigGemButtonHeight);
 
         informationPanel.setBackground(new Color(0, 0, 0, 0));
         informationPanel.add(gemLabel, BorderLayout.WEST);
@@ -166,7 +164,7 @@ public class MarketPanel extends JPanel {
         }
 
         buyPanel = new CardsPanel(cards, panels,
-                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
+                2, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight);
         buyScroll = new JScrollPane(buyPanel);
         buyScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         buyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -187,7 +185,7 @@ public class MarketPanel extends JPanel {
         }
 
         sellPanel = new CardsPanel(cards, panels,
-                2, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
+                2, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight);
         sellScroll = new JScrollPane(sellPanel);
         sellScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         sellScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -207,46 +205,46 @@ public class MarketPanel extends JPanel {
     private void layoutComponent() {
         // ICONS
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         logoutButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(logoutButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
 
         // LISTS
         buyScroll.setBounds(startListX, startListY,
-                DefaultSizes.marketListWidth,
-                DefaultSizes.marketListHeight);
+                SizeConfigs.marketListWidth,
+                SizeConfigs.marketListHeight);
         add(buyScroll);
 
         sellScroll.setBounds(startListX, startListY,
-                DefaultSizes.marketListWidth,
-                DefaultSizes.marketListHeight);
+                SizeConfigs.marketListWidth,
+                SizeConfigs.marketListHeight);
         sellScroll.setVisible(false);
         add(sellScroll);
 
         // CHOOSE
         buyButton.setBounds(startChooseX, startChooseY,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(buyButton);
 
-        sellButton.setBounds(startChooseX, startChooseY + DefaultSizes.medButtonHeight + disChoose,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+        sellButton.setBounds(startChooseX, startChooseY + SizeConfigs.medButtonHeight + disChoose,
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(sellButton);
 
         // INFORMATION
@@ -261,7 +259,7 @@ public class MarketPanel extends JPanel {
         ImageButton button = new ImageButton("SELL", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
                 20, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -270,7 +268,7 @@ public class MarketPanel extends JPanel {
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
                             "Are you sure you want to sell " + card.getName()
                                     + " for " + card.getSellPrice() + "gems" + " ?",
-                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                            SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "sell_button");
@@ -320,7 +318,7 @@ public class MarketPanel extends JPanel {
         ImageButton button = new ImageButton("BUY", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 20, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -329,7 +327,7 @@ public class MarketPanel extends JPanel {
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
                             "Are you sure you want to buy " + card.getName()
                                     + " for  " + card.getBuyPrice() + "  gems " + " ?",
-                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                            SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "buy_button");
@@ -380,8 +378,8 @@ public class MarketPanel extends JPanel {
             label.setFont(GameFrame.getInstance().getCustomFont(0, 20));
 
             ImagePanel gemImage = new ImagePanel("gem.png",
-                    DefaultSizes.smallGemButtonWidth,
-                    DefaultSizes.smallGemButtonHeight);
+                    SizeConfigs.smallGemButtonWidth,
+                    SizeConfigs.smallGemButtonHeight);
 
             add(label, BorderLayout.WEST);
             add(gemImage, BorderLayout.EAST);

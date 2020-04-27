@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.icons;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.credetials.CredentialsFrame;
@@ -31,7 +31,7 @@ public class LogoutIcon extends ImageButton {
                         System.out.println(e.getMessage());
                     }
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
-                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                            SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
                     boolean sure = sureDialog.getValue();
                     if (sure) {
                         HearthStone.logout();

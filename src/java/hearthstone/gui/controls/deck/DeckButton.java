@@ -1,6 +1,6 @@
 package hearthstone.gui.controls.deck;
 
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.Deck;
@@ -47,9 +47,9 @@ public class DeckButton extends ImageButton {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        g2.drawImage(heroImage.getScaledInstance(DefaultSizes.bigCircleHeroWidth, DefaultSizes.bigCircleHeroHeight,
+        g2.drawImage(heroImage.getScaledInstance(SizeConfigs.bigCircleHeroWidth, SizeConfigs.bigCircleHeroHeight,
                 Image.SCALE_SMOOTH), 20, 20,
-                DefaultSizes.bigCircleHeroWidth, DefaultSizes.bigCircleHeroHeight, null);
+                SizeConfigs.bigCircleHeroWidth, SizeConfigs.bigCircleHeroHeight, null);
 
         g2.drawImage(deckImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0,
                 width, height, null);

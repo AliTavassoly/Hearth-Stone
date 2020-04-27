@@ -1,12 +1,11 @@
 package hearthstone.gui.controls.icons;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.game.GameFrame;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,7 +28,7 @@ public class CloseIcon extends ImageButton {
                     System.out.println(e.getMessage());
                 }
                 SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
+                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
                 boolean sure = sureDialog.getValue();
                 if (sure) {
                     System.exit(0);

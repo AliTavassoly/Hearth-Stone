@@ -3,9 +3,8 @@ package hearthstone.gui.game.collection;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.TextField;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.controls.hero.HeroButton;
@@ -13,7 +12,6 @@ import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
@@ -44,18 +42,18 @@ public class DeckArrangement extends JPanel {
 
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
 
     private final int listDis = 50;
-    private final int startListY = (DefaultSizes.gameFrameHeight - 2 * DefaultSizes.arrangementListHeight - listDis) / 2;
+    private final int startListY = (SizeConfigs.gameFrameHeight - 2 * SizeConfigs.arrangementListHeight - listDis) / 2;
     private final int startListX = 100;
-    private final int endListX = startListX + DefaultSizes.arrangementListWidth;
+    private final int endListX = startListX + SizeConfigs.arrangementListWidth;
 
-    private final int startHeroX = (DefaultSizes.gameFrameWidth + endListX) / 2 - DefaultSizes.bigHeroWidth / 2;
+    private final int startHeroX = (SizeConfigs.gameFrameWidth + endListX) / 2 - SizeConfigs.bigHeroWidth / 2;
     private final int startHeroY = startListY;
 
-    private final int filterX = (DefaultSizes.gameFrameWidth + endListX) / 2;
+    private final int filterX = (SizeConfigs.gameFrameWidth + endListX) / 2;
     private final int filterY = 350;
     private final int filterDisY = 50;
     private final int filterDisX = 10;
@@ -108,20 +106,20 @@ public class DeckArrangement extends JPanel {
 
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight, new DeckSelection(hero));
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight, new DeckSelection(hero));
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
     }
 
     private void makeCardsPanel() {
@@ -136,7 +134,7 @@ public class DeckArrangement extends JPanel {
         }
 
         cardsPanel = new CardsPanel(cards, panels,
-                1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
+                1, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight);
         cardsScroll = new JScrollPane(cardsPanel);
         cardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         cardsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -158,7 +156,7 @@ public class DeckArrangement extends JPanel {
         }
 
         deckCardsPanel = new CardsPanel(cards, panels,
-                1, DefaultSizes.medCardWidth, DefaultSizes.medCardHeight);
+                1, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight);
         deckCardsScroll = new JScrollPane(deckCardsPanel);
         deckCardsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         deckCardsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -172,8 +170,8 @@ public class DeckArrangement extends JPanel {
 
     private void makeHeroButton() {
         heroButton = new HeroButton(hero,   // REAL HERO SHOULD BE
-                DefaultSizes.bigHeroWidth,
-                DefaultSizes.bigHeroHeight);
+                SizeConfigs.bigHeroWidth,
+                SizeConfigs.bigHeroHeight);
     }
 
     private void makeLabels() {
@@ -195,29 +193,29 @@ public class DeckArrangement extends JPanel {
     private void makeButtons() {
         allCardsButton = new ImageButton("All Cards", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, true, 12, 0,
-                DefaultSizes.smallButtonWidth,
-                DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth,
+                SizeConfigs.smallButtonHeight);
         allCardsButton.mouseEntered();
 
         myCardsButton = new ImageButton("Hero Cards", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, false, 12, 0,
-                DefaultSizes.smallButtonWidth,
-                DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth,
+                SizeConfigs.smallButtonHeight);
 
         lockCardsButton = new ImageButton("Addable", "buttons/blue_background.png",
                 0, Color.white, Color.yellow, false, 12, 0,
-                DefaultSizes.smallButtonWidth,
-                DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth,
+                SizeConfigs.smallButtonHeight);
 
         searchButton = new ImageButton("search", "buttons/green_background.png",
                 0, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         deleteButton = new ImageButton("delete", "buttons/red_background.png",
                 0, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         allCardsButton.addActionListener(new ActionListener() {
             @Override
@@ -343,7 +341,7 @@ public class DeckArrangement extends JPanel {
         ImageButton removeCard = new ImageButton("REMOVE", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
         removeCard.addActionListener(new ActionListener() {
             @Override
@@ -382,7 +380,7 @@ public class DeckArrangement extends JPanel {
         ImageButton addCard = new ImageButton("ADD", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
         addCard.addActionListener(new ActionListener() {
             @Override
@@ -420,34 +418,34 @@ public class DeckArrangement extends JPanel {
     private void layoutComponent() {
         // ICONS
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         logoutButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(logoutButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
 
         // LISTS
         cardsScroll.setBounds(startListX, startListY,
-                DefaultSizes.arrangementListWidth,
-                DefaultSizes.arrangementListHeight);
+                SizeConfigs.arrangementListWidth,
+                SizeConfigs.arrangementListHeight);
         add(cardsScroll);
 
-        deckCardsScroll.setBounds(startListX, startListY + DefaultSizes.arrangementListHeight + listDis,
-                DefaultSizes.arrangementListWidth,
-                DefaultSizes.arrangementListHeight);
+        deckCardsScroll.setBounds(startListX, startListY + SizeConfigs.arrangementListHeight + listDis,
+                SizeConfigs.arrangementListWidth,
+                SizeConfigs.arrangementListHeight);
         add(deckCardsScroll);
 
         // LABELS
@@ -470,35 +468,35 @@ public class DeckArrangement extends JPanel {
 
         // HERO
         heroButton.setBounds(startHeroX, startHeroY,
-                DefaultSizes.bigHeroWidth,
-                DefaultSizes.bigHeroHeight);
+                SizeConfigs.bigHeroWidth,
+                SizeConfigs.bigHeroHeight);
         add(heroButton, JLayeredPane.DEFAULT_LAYER);
 
         // BUTTONS
-        allCardsButton.setBounds(filterX - (int) (DefaultSizes.smallButtonWidth * 1.5) - filterDisX,
+        allCardsButton.setBounds(filterX - (int) (SizeConfigs.smallButtonWidth * 1.5) - filterDisX,
                 filterY + 2 * filterDisY,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
         add(allCardsButton);
 
-        myCardsButton.setBounds(filterX - DefaultSizes.smallButtonWidth / 2,
+        myCardsButton.setBounds(filterX - SizeConfigs.smallButtonWidth / 2,
                 filterY + 2 * filterDisY,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
         add(myCardsButton);
 
-        lockCardsButton.setBounds(filterX + DefaultSizes.smallButtonWidth / 2 + filterDisX,
+        lockCardsButton.setBounds(filterX + SizeConfigs.smallButtonWidth / 2 + filterDisX,
                 filterY + 2 * filterDisY,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
         add(lockCardsButton);
 
 
-        searchButton.setBounds(filterX - DefaultSizes.medButtonWidth / 2,
+        searchButton.setBounds(filterX - SizeConfigs.medButtonWidth / 2,
                 filterY + 3 * filterDisY + 20,
-                DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
         add(searchButton);
 
-        deleteButton.setBounds(filterX - DefaultSizes.medButtonWidth / 2,
-                startListY + 2 * DefaultSizes.arrangementListHeight + listDis - DefaultSizes.medButtonHeight,
-                DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+        deleteButton.setBounds(filterX - SizeConfigs.medButtonWidth / 2,
+                startListY + 2 * SizeConfigs.arrangementListHeight + listDis - SizeConfigs.medButtonHeight,
+                SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
         add(deleteButton);
 
         // TEST

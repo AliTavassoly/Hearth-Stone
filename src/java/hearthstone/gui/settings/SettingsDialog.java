@@ -1,6 +1,6 @@
 package hearthstone.gui.settings;
 
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.credetials.CredentialsFrame;
@@ -78,12 +78,12 @@ public class SettingsDialog extends JDialog {
         saveButton = new ImageButton("save", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
 
         cancelButton = new ImageButton("cancel", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.medButtonWidth, DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
 
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -107,7 +107,7 @@ public class SettingsDialog extends JDialog {
     public void makeVolumesButtons(){
         volumeDown = new ImageButton("/icons/volume_down.png",
                 "/icons/volume_down_active.png",
-                DefaultSizes.iconHeight, DefaultSizes.iconWidth);
+                SizeConfigs.iconHeight, SizeConfigs.iconWidth);
         volumeDown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -118,7 +118,7 @@ public class SettingsDialog extends JDialog {
 
         volumeUp = new ImageButton("/icons/volume_up.png",
                 "/icons/volume_up_active.png",
-                DefaultSizes.iconHeight, DefaultSizes.iconWidth);
+                SizeConfigs.iconHeight, SizeConfigs.iconWidth);
         volumeUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

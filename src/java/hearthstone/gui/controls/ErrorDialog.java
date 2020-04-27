@@ -1,5 +1,5 @@
 package hearthstone.gui.controls;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class ErrorDialog extends JDialog {
@@ -80,7 +79,7 @@ public class ErrorDialog extends JDialog {
         okButton = new ImageButton("OK", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
         okButton.addActionListener(new ActionListener() {
             @Override

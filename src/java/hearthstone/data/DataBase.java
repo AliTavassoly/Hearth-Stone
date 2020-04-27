@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import hearthstone.HearthStone;
+import hearthstone.gui.SizeConfigs;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.AccountCredential;
 import hearthstone.logic.models.card.Card;
@@ -212,11 +214,20 @@ public class DataBase {
         return gson.fromJson(fileReader, Account.class);
     }
 
-    public static Map<String, Object> getConfigs() throws Exception {
-        File json = new File(dataPath + "/configs.json");
+    public static Map<String, Object> getGameConfigs() throws Exception {
+        File json = new File(dataPath + "/game_configs.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/configs.json");
+        FileReader fileReader = new FileReader(dataPath + "/game_configs.json");
+        return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
+        }.getType());
+    }
+
+    public static Map<String, Object> getSizeConfigs() throws Exception {
+        File json = new File(dataPath + "/size_configs.json");
+        json.getParentFile().mkdirs();
+        json.createNewFile();
+        FileReader fileReader = new FileReader(dataPath + "/size_configs.json");
         return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
         }.getType());
     }
@@ -289,14 +300,11 @@ public class DataBase {
     }
 
     public static void loadConfigs() throws Exception {
-        var configs = getConfigs();
-        maxCardInCollection = ((Double) configs.get("maxCardInCollection")).intValue();
-        maxCardInDeck = ((Double) configs.get("maxCardInDeck")).intValue();
-        initialCoins = ((Double) configs.get("initialCoins")).intValue();
-        maxCardInHand = ((Double) configs.get("maxCardInHand")).intValue();
-        maxCardInLand = ((Double) configs.get("maxCardInLand")).intValue();
-        maxManaInGame = ((Double) configs.get("maxManaInGame")).intValue();
-        maxCardOfOneType = ((Double) configs.get("maxCardOfOneType")).intValue();
+        var gameConfigs = getGameConfigs();
+        GameConfigs.setConfigs(gameConfigs);
+
+        var sizeConfigs = getSizeConfigs();
+        SizeConfigs.setConfigs(sizeConfigs);
     }
 
     public static void loadMarket() throws Exception {

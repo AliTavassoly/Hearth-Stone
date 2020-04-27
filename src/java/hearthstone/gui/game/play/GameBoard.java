@@ -1,11 +1,8 @@
 package hearthstone.gui.game.play;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
-import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
@@ -16,7 +13,7 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.gui.game.play.controls.BoardHeroButton;
 import hearthstone.gui.game.play.controls.HeroPowerButton;
-import hearthstone.gui.settings.SettingsDialog;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
@@ -42,16 +39,16 @@ public class GameBoard extends JPanel {
     private Game game;
 
     // Finals START
-    private final int boardStartX = DefaultSizes.gameFrameWidth / 2 - 360;
-    private final int boardEndX = DefaultSizes.gameFrameWidth / 2 + 360;
+    private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
+    private final int boardEndX = SizeConfigs.gameFrameWidth / 2 + 360;
 
-    private final int midX = DefaultSizes.gameFrameWidth / 2;
-    private final int midY = DefaultSizes.gameFrameHeight / 2 - 23;
+    private final int midX = SizeConfigs.gameFrameWidth / 2;
+    private final int midY = SizeConfigs.gameFrameHeight / 2 - 23;
 
 
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
 
 
@@ -65,19 +62,19 @@ public class GameBoard extends JPanel {
     private final int manaStringY = 658;
 
     private final int myHeroX = midX - 60;
-    private final int myHeroY = DefaultSizes.gameFrameHeight - 236;
+    private final int myHeroY = SizeConfigs.gameFrameHeight - 236;
 
     private final int myHeroPowerX = midX + 55;
-    private final int myHeroPowerY = DefaultSizes.gameFrameHeight - 190;
+    private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 190;
 
-    private final int heroWidth = BoardDefault.medHeroWidth;
-    private final int heroHeight = BoardDefault.medHeroHeight;
+    private final int heroWidth = SizeConfigs.medHeroWidth;
+    private final int heroHeight = SizeConfigs.medHeroHeight;
 
     private final int opponentHeroX = midX - 60;
     private final int opponentHeroY = 60;
 
-    private final int myHandX = DefaultSizes.gameFrameWidth / 2 - 40;
-    private final int myHandY = DefaultSizes.gameFrameHeight - 80;
+    private final int myHandX = SizeConfigs.gameFrameWidth / 2 - 40;
+    private final int myHandY = SizeConfigs.gameFrameHeight - 80;
     private final int myHandDisCard = 220;
 
     private final int myLandStartY = midY;
@@ -131,16 +128,16 @@ public class GameBoard extends JPanel {
 
     private void drawMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
-        maxNumber = Math.min(maxNumber, HearthStone.maxManaInGame);
+        maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
         for (int i = 0; i < number; i++) {
             try {
                 BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(
                         "/images/mana.png"));
-                g.drawImage(image.getScaledInstance(BoardDefault.manaWidth, BoardDefault.manaHeight,
+                g.drawImage(image.getScaledInstance(SizeConfigs.manaWidth, SizeConfigs.manaHeight,
                         Image.SCALE_SMOOTH),
-                        manaX + (BoardDefault.manaWidth + manaDis) * i, manaY,
-                        BoardDefault.manaWidth, BoardDefault.manaHeight, null);
+                        manaX + (SizeConfigs.manaWidth + manaDis) * i, manaY,
+                        SizeConfigs.manaWidth, SizeConfigs.manaHeight, null);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -180,9 +177,9 @@ public class GameBoard extends JPanel {
         if (myPlayer.getHeroPower() == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(myPlayer.getHeroPower(),
-                BoardDefault.heroPowerWidth, BoardDefault.heroPowerHeight);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
-                BoardDefault.heroPowerWidth, BoardDefault.heroPowerHeight);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
     }
 
@@ -197,17 +194,17 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
-                    DefaultSizes.smallCardWidth,
-                    DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth,
+                    SizeConfigs.smallCardHeight);
 
             cardButton.setBounds(startX + dis * (i - cards.size() / 2),
                     startY,
-                    DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
             add(cardButton);
         }
     }
@@ -224,19 +221,19 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? DefaultSizes.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
                     startY,
-                    DefaultSizes.smallCardWidth,
-                    DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth,
+                    SizeConfigs.smallCardHeight);
 
             cardButton.setBounds(startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? DefaultSizes.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
                     startY,
-                    DefaultSizes.smallCardWidth, DefaultSizes.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
             add(cardButton);
         }
     }
@@ -328,29 +325,29 @@ public class GameBoard extends JPanel {
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png",
                 "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight, new MainMenuPanel());
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight, new MainMenuPanel());
 
         settingsButton = new SettingIcon("icons/settings.png",
                 "icons/settings_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png",
                 "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png",
                 "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
     }
 
     private void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
                 "end_turn_active.png", 15, 1,
-                BoardDefault.endTurnButtonWidth, BoardDefault.endTurnButtonHeight);
+                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -393,23 +390,23 @@ public class GameBoard extends JPanel {
     private void iconLayout() {
         // ICONS
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         settingsButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(settingsButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
     }
 
@@ -419,7 +416,7 @@ public class GameBoard extends JPanel {
         drawCardsOnLand();
 
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
-                BoardDefault.endTurnButtonWidth, BoardDefault.endTurnButtonHeight);
+                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);
         add(endTurnButton);
 
         myHero.setBounds(myHeroX, myHeroY,
@@ -429,11 +426,6 @@ public class GameBoard extends JPanel {
         opponentHero.setBounds(opponentHeroX, opponentHeroY,
                 heroWidth, heroHeight);
         add(opponentHero);
-
-        /*JPanel panel = new JPanel();
-        panel.setBackground(Color.black);
-        panel.setBounds(midX, myLandStartY, boardEndX - boardStartX, 180);
-        add(panel);*/
     }
 
     private boolean isInLand(int x, int y) {

@@ -13,13 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class  HearthStone {
-    public static int maxCardInCollection;
-    public static int initialCoins;
-    public static int maxCardInDeck;
-    public static int maxManaInGame;
-    public static int maxCardInHand;
-    public static int maxCardInLand;
-    public static int maxCardOfOneType;
 
 
     public static Map<Integer, Card> baseCards = new HashMap<>();

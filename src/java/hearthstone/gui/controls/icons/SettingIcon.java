@@ -1,9 +1,8 @@
 package hearthstone.gui.controls.icons;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.settings.SettingsDialog;
 
@@ -29,7 +28,7 @@ public class SettingIcon extends ImageButton {
                     System.out.println(e.getMessage());
                 }
                 SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
-                        DefaultSizes.settingsWidth, DefaultSizes.settingsHeight);
+                        SizeConfigs.settingsWidth, SizeConfigs.settingsHeight);
             }
         });
     }

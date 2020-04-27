@@ -1,9 +1,7 @@
 package hearthstone.gui.controls.deck;
 
-import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.Hero;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +69,7 @@ public class DecksPanel extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
-                new Dimension(DefaultSizes.statusListWidth, decks.size() * disY + 10));  // ------------------------------
+                new Dimension(SizeConfigs.statusListWidth, decks.size() * disY + 10));  // ------------------------------
         setOpaque(false);
         setVisible(true);
     }

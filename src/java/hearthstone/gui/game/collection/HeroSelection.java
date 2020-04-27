@@ -3,15 +3,13 @@ package hearthstone.gui.game.collection;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.DefaultSizes;
-import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.hero.HeroesPanel;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
@@ -33,11 +31,11 @@ public class HeroSelection extends JPanel {
 
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.gameFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
 
-    private final int startListX = DefaultSizes.gameFrameWidth / 2 - DefaultSizes.heroesListWidth / 2;
-    private final int startListY = DefaultSizes.gameFrameHeight / 2 - DefaultSizes.heroesListHeight / 2;
+    private final int startListX = SizeConfigs.gameFrameWidth / 2 - SizeConfigs.heroesListWidth / 2;
+    private final int startListY = SizeConfigs.gameFrameHeight / 2 - SizeConfigs.heroesListHeight / 2;
 
 
     public HeroSelection() {
@@ -70,20 +68,20 @@ public class HeroSelection extends JPanel {
 
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight, new MainMenuPanel());
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight, new MainMenuPanel());
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
     }
 
     private void makeList() {
@@ -96,7 +94,7 @@ public class HeroSelection extends JPanel {
         }
 
         heroesPanel = new HeroesPanel(heroes, panels,
-                DefaultSizes.bigHeroWidth, DefaultSizes.bigHeroHeight);
+                SizeConfigs.bigHeroWidth, SizeConfigs.bigHeroHeight);
         heroesScroll = new JScrollPane(heroesPanel);
         heroesScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         heroesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -112,7 +110,7 @@ public class HeroSelection extends JPanel {
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-                DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -131,12 +129,12 @@ public class HeroSelection extends JPanel {
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
-                    DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                    SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
         } else {
             selectionButton = new ImageButton("select", "buttons/blue_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
-                    DefaultSizes.smallButtonWidth, DefaultSizes.smallButtonHeight);
+                    SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
 
             selectionButton.addActionListener(new ActionListener() {
                 @Override
@@ -182,30 +180,30 @@ public class HeroSelection extends JPanel {
     private void layoutComponent() {
         //
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         logoutButton.setBounds(iconX, startIconY + iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(logoutButton);
 
         //
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
 
         // LISTS
         heroesScroll.setBounds(startListX, startListY,
-                DefaultSizes.heroesListWidth,
-                DefaultSizes.heroesListHeight);
+                SizeConfigs.heroesListWidth,
+                SizeConfigs.heroesListHeight);
         add(heroesScroll);
     }
 

@@ -2,7 +2,7 @@ package hearthstone.gui.game.play.controls;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.game.play.BoardDefault;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;
@@ -68,10 +68,10 @@ public class BoardHeroButton extends ImageButton {
         g2.setColor(Color.WHITE);
         int midWidth = width - 25;
         g2.drawImage(healthBackground.getScaledInstance(
-                BoardDefault.healthWidth, BoardDefault.healthHeight,
+                SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 Image.SCALE_SMOOTH),
-                midWidth - BoardDefault.healthWidth / 2 + 5, height - 50,
-                BoardDefault.healthWidth, BoardDefault.healthHeight,
+                midWidth - SizeConfigs.healthWidth / 2 + 5, height - 50,
+                SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 null);
 
         g2.drawString(health, midWidth - fontMetrics.stringWidth(health) / 2 + 5, height - 17);

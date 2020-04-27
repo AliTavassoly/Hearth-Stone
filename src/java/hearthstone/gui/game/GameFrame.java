@@ -1,13 +1,10 @@
 package hearthstone.gui.game;
 
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.io.File;
 
 public class GameFrame extends BaseFrame {
     private MainMenuPanel mainMenuPanel;
@@ -35,7 +32,7 @@ public class GameFrame extends BaseFrame {
     private void configFrame() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        this.setSize(DefaultSizes.gameFrameWidth, DefaultSizes.gameFrameHeight);
+        this.setSize(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setContentPane(mainMenuPanel);

@@ -1,12 +1,10 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.card.CardButton;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,7 +20,7 @@ public class LogisterPanel extends JPanel {
     private static final int iconX = 20;
     private static final int startButtonsY = 200;
     private static final int buttonsDis = 100;
-    private static final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private static final int endIconY = SizeConfigs.credentialFrameHeight - SizeConfigs.iconHeight - 20;
     private static final int iconsDis = 70;
 
     public LogisterPanel() {
@@ -55,12 +53,12 @@ public class LogisterPanel extends JPanel {
 
     private void makeIcons(){
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -79,13 +77,13 @@ public class LogisterPanel extends JPanel {
     private void makeButtons(){
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         registerButton = new ImageButton("register", "buttons/blue_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -104,28 +102,28 @@ public class LogisterPanel extends JPanel {
 
     private void layoutComponent(){
         //
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
+        loginButton.setBounds(SizeConfigs.credentialFrameWidth / 2 - SizeConfigs.medButtonWidth / 2,
                 startButtonsY,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(loginButton);
 
         //
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
+        registerButton.setBounds(SizeConfigs.credentialFrameWidth / 2 - SizeConfigs.medButtonWidth / 2,
                 startButtonsY + buttonsDis,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(registerButton);
 
         //
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
     }
 }

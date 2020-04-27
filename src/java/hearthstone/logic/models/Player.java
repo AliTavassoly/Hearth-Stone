@@ -1,6 +1,6 @@
 package hearthstone.logic.models;
 
-import hearthstone.HearthStone;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.*;
 import hearthstone.logic.models.hero.Hero;
@@ -82,7 +82,7 @@ public class Player {
         this.heroPower = heroPower;
     }
 
-    // End pf getter setter
+    // End of getter setter
 
     public void readyForPlay() throws Exception{
         if(!deck.isFull())
@@ -104,7 +104,7 @@ public class Player {
         int cardInd = random.nextInt(deck.getCards().size());
         Card card = deck.getCards().get(cardInd);
         deck.getCards().remove(cardInd);
-        if(hand.size() == HearthStone.maxCardInHand)
+        if(hand.size() == GameConfigs.maxCardInHand)
             return;
         hand.add(card);
 
@@ -132,7 +132,7 @@ public class Player {
         } else if(cardInHand instanceof RewardCard){
 
         } else if(cardInHand instanceof WeaponCard || cardInHand instanceof MinionCard){
-            if(land.size() == HearthStone.maxCardInLand)
+            if(land.size() == GameConfigs.maxCardInLand)
                 throw new HearthStoneException("your land is full!");
             land.add(cardInHand);
         }
@@ -149,7 +149,7 @@ public class Player {
 
     public void startTurn() throws Exception{
         mana = ++turnNumber;
-        mana = Math.min(mana, HearthStone.maxManaInGame);
+        mana = Math.min(mana, GameConfigs.maxManaInGame);
         pickCard();
     }
 }

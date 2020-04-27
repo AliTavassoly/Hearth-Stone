@@ -3,6 +3,7 @@ package hearthstone.logic.models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.HeroPowerCard;
@@ -146,10 +147,10 @@ public class Deck {
         if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
             return false;
         }
-        if (cards.size() + cnt > HearthStone.maxCardInDeck) {
+        if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
             return false;
         }
-        if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
+        if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             return false;
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
@@ -165,10 +166,10 @@ public class Deck {
         if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
             throw new HearthStoneException("You don't have " + (numberOfCards(baseCard) + cnt) + " numbers of this card!");
         }
-        if (cards.size() + cnt > HearthStone.maxCardInDeck) {
+        if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
             throw new HearthStoneException("Deck is full!");
         }
-        if (numberOfCards(baseCard) + cnt > HearthStone.maxCardOfOneType) {
+        if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             throw new HearthStoneException("You can not have " + cnt + " numbers of this card!");
         }
         if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
@@ -200,7 +201,7 @@ public class Deck {
     }
 
     public boolean isFull() {
-        return cards.size() == HearthStone.maxCardInDeck;
+        return cards.size() == GameConfigs.maxCardInDeck;
     }
 
     public void cardPlay(Card baseCard) {

@@ -1,10 +1,9 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.data.DataBase;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.PasswordField;
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
@@ -28,11 +27,11 @@ public class RegisterPanel extends JPanel {
 
     private Color textColor;
 
-    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 44;
-    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 49;
+    private final int startTextY = SizeConfigs.credentialFrameHeight / 2 - 10 - 44;
+    private final int startFieldY = SizeConfigs.credentialFrameHeight / 2 - 22 - 49;
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.credentialFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
     private final int textFiledDis = 30;
     private final int stringsDis = 30;
@@ -68,36 +67,36 @@ public class RegisterPanel extends JPanel {
         g.drawImage(image, 0, 0, null);
 
         drawString(nameText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY, 20, Font.PLAIN, textColor, g);
         drawString(userText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + stringsDis, 20, Font.PLAIN, textColor, g);
         drawString(passText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 2 * stringsDis, 20, Font.PLAIN, textColor, g);
         drawString(repText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 3 * stringsDis, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
             if(error.equals("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)")){
                 drawString("Username is invalid",
-                        DefaultSizes.credentialFrameWidth / 2,
+                        SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
                 drawString("at least 4 character, only contains 1-9, '-', '_' and letters!",
-                        DefaultSizes.credentialFrameWidth / 2,
+                        SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis + 14, 15, Font.PLAIN, Color.RED, g);
 
             } else if (error.equals("Password is invalid(at least 4 character and contains at least a capital letter!)")){
                 drawString("Password is invalid",
-                        DefaultSizes.credentialFrameWidth / 2,
+                        SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
                 drawString("at least 4 character and contains at least a capital letter!",
-                        DefaultSizes.credentialFrameWidth / 2,
+                        SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis + 14, 15, Font.PLAIN, Color.RED, g);
             } else {
                 drawString(error,
-                        DefaultSizes.credentialFrameWidth / 2,
+                        SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
             }
         }
@@ -124,16 +123,16 @@ public class RegisterPanel extends JPanel {
 
     private void makeIcons(){
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -158,8 +157,8 @@ public class RegisterPanel extends JPanel {
     private void makeButtons(){
         registerButton = new ImageButton("register", "buttons/blue_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -209,33 +208,33 @@ public class RegisterPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        nameField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 0 * textFiledDis, 100, 20);
+        nameField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 0 * textFiledDis, 100, 20);
         add(nameField);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 1 * textFiledDis, 100, 20);
+        userField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 1 * textFiledDis, 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 2 * textFiledDis, 100, 20);
+        passField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 2 * textFiledDis, 100, 20);
         add(passField);
 
-        repField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 3 * textFiledDis, 100, 20);
+        repField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12, startFieldY + 3 * textFiledDis, 100, 20);
         add(repField);
 
-        registerButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
+        registerButton.setBounds(SizeConfigs.credentialFrameWidth / 2 - SizeConfigs.medButtonWidth / 2,
                 registerButtonY,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(registerButton);
 
         //
-        backButton.setBounds(iconX, startIconY, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
+        backButton.setBounds(iconX, startIconY, SizeConfigs.iconWidth, SizeConfigs.iconHeight);
         add(backButton);
 
         //
-        minimizeButton.setBounds(iconX, endIconY - iconsDis, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
+        minimizeButton.setBounds(iconX, endIconY - iconsDis, SizeConfigs.iconWidth, SizeConfigs.iconHeight);
         add(minimizeButton);
 
-        closeButton.setBounds(iconX, endIconY, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
+        closeButton.setBounds(iconX, endIconY, SizeConfigs.iconWidth, SizeConfigs.iconHeight);
         add(closeButton);
     }
 }

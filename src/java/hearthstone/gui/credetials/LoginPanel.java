@@ -1,9 +1,8 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.PasswordField;
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
@@ -26,11 +25,11 @@ public class LoginPanel extends JPanel {
 
     private Color textColor;
 
-    private final int startTextY = DefaultSizes.credentialFrameHeight / 2 - 10 - 45 + 30 + 1;
-    private final int startFieldY = DefaultSizes.credentialFrameHeight / 2 - 22 - 50 + 30 + 1;
+    private final int startTextY = SizeConfigs.credentialFrameHeight / 2 - 10 - 45 + 30 + 1;
+    private final int startFieldY = SizeConfigs.credentialFrameHeight / 2 - 22 - 50 + 30 + 1;
     private final int iconX = 20;
     private final int startIconY = 20;
-    private final int endIconY = DefaultSizes.credentialFrameHeight - DefaultSizes.iconHeight - 20;
+    private final int endIconY = SizeConfigs.credentialFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
     private final int textFieldDis = 30;
     private final int constAddX = 20;
@@ -64,14 +63,14 @@ public class LoginPanel extends JPanel {
         g.drawImage(image, 0, 0, null);
 
         drawString(userText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 0, 20, Font.PLAIN, textColor, g);
         drawString(passText,
-                DefaultSizes.credentialFrameWidth / 2 - stringFieldDis,
+                SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
             drawString(error,
-                    DefaultSizes.credentialFrameWidth / 2,
+                    SizeConfigs.credentialFrameWidth / 2,
                     startTextY + 2 * 30, 15, Font.PLAIN, Color.RED, g);
         }
     }
@@ -88,8 +87,8 @@ public class LoginPanel extends JPanel {
     private void makeButtons(){
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -115,16 +114,16 @@ public class LoginPanel extends JPanel {
 
     private void makeIcons(){
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -177,40 +176,40 @@ public class LoginPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        backButton.setBounds(iconX, iconX, DefaultSizes.iconWidth, DefaultSizes.iconHeight);
+        backButton.setBounds(iconX, iconX, SizeConfigs.iconWidth, SizeConfigs.iconHeight);
         add(backButton);
 
-        userField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12,
+        userField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12,
                 startFieldY + 0 * textFieldDis,
                 100, 20);
         add(userField);
 
-        passField.setBounds(DefaultSizes.credentialFrameWidth / 2 + constAddX - 12,
+        passField.setBounds(SizeConfigs.credentialFrameWidth / 2 + constAddX - 12,
                 startFieldY + 1 * textFieldDis,
                 100, 20);
         add(passField);
 
-        loginButton.setBounds(DefaultSizes.credentialFrameWidth / 2 - DefaultSizes.medButtonWidth / 2,
+        loginButton.setBounds(SizeConfigs.credentialFrameWidth / 2 - SizeConfigs.medButtonWidth / 2,
                 loginButtonY,
-                DefaultSizes.medButtonWidth,
-                DefaultSizes.medButtonHeight);
+                SizeConfigs.medButtonWidth,
+                SizeConfigs.medButtonHeight);
         add(loginButton);
 
         //
         backButton.setBounds(iconX, startIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(backButton);
 
         //
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(minimizeButton);
 
         closeButton.setBounds(iconX, endIconY,
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                SizeConfigs.iconWidth,
+                SizeConfigs.iconHeight);
         add(closeButton);
     }
 }

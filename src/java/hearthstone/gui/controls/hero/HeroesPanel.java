@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.hero;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
+import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.swing.*;
@@ -30,8 +30,8 @@ public class HeroesPanel extends JPanel {
 
         for (Hero hero : heroes) {
             HeroButton heroButton = new HeroButton(hero,
-                    DefaultSizes.bigHeroWidth,
-                    DefaultSizes.bigHeroHeight);
+                    SizeConfigs.bigHeroWidth,
+                    SizeConfigs.bigHeroHeight);
             heroButtons.add(heroButton);
         }
 
@@ -71,7 +71,7 @@ public class HeroesPanel extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));
         setPreferredSize(
-                new Dimension(heroes.size() * disX, DefaultSizes.heroesListHeight + disY));  // ------------------------------
+                new Dimension(heroes.size() * disX, SizeConfigs.heroesListHeight + disY));  // ------------------------------
         setOpaque(false);
         setVisible(true);
     }

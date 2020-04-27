@@ -1,11 +1,8 @@
 package hearthstone.gui.controls.icons;
 
 import hearthstone.HearthStone;
-import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.gui.game.collection.DeckSelection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
