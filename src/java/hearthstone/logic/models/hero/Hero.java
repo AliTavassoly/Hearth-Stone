@@ -3,6 +3,7 @@ package hearthstone.logic.models.hero;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
@@ -106,6 +107,13 @@ public abstract class Hero {
     }
 
     // End of getter setter
+    public void makeNewDeck(Deck deck) throws Exception{
+        if(GameConfigs.maxNumberOfDeck == decks.size()){
+            throw new HearthStoneException("You can't have " + GameConfigs.maxNumberOfDeck +
+                    " number of decks for one hero!");
+        }
+        decks.add(deck);
+    }
 
     public static Hero getHeroByType(HeroType heroType){
         for(Hero hero : HearthStone.baseHeroes.values()){

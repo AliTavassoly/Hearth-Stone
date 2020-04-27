@@ -10,6 +10,7 @@ public class GameConfigs {
     public static int maxCardInHand;
     public static int maxCardInLand;
     public static int maxCardOfOneType;
+    public static int maxNumberOfDeck;
 
     public static void setConfigs(Map<String, Object> configs){
         maxCardInCollection = ((Double) configs.get("maxCardInCollection")).intValue();
@@ -19,5 +20,6 @@ public class GameConfigs {
         maxCardInLand = ((Double) configs.get("maxCardInLand")).intValue();
         maxManaInGame = ((Double) configs.get("maxManaInGame")).intValue();
         maxCardOfOneType = ((Double) configs.get("maxCardOfOneType")).intValue();
+        maxNumberOfDeck= ((Double) configs.get("maxNumberOfDeck")).intValue();
     }
 }

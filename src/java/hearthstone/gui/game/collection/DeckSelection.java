@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
+import hearthstone.gui.controls.ErrorDialog;
 import hearthstone.gui.controls.NameDialog;
 import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.hero.HeroButton;
@@ -14,6 +15,7 @@ import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
+import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -153,7 +155,7 @@ public class DeckSelection extends JPanel {
                 if (beforeDeck == null && name.length() != 0) {
                     try {
                         Deck deck = new Deck(name, hero.getType());
-                        hero.getDecks().add(deck);
+                        hero.makeNewDeck(deck);
                         HearthStone.currentAccount.getDecks().add(deck);
                         DataBase.save();
                         hearthstone.util.Logger.saveLog("New Deck",
@@ -164,6 +166,10 @@ public class DeckSelection extends JPanel {
                             hearthstone.util.Logger.saveLog("ERROR",
                                     e.getClass().getName() + ": " + e.getMessage()
                                             + "\nStack Trace: " + e.getStackTrace());
+
+                            ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(),
+                                    e.getMessage(),
+                                    SizeConfigs.errorWidth, SizeConfigs.errorHeight);
                         } catch (Exception f) { }
                         System.out.println(e.getMessage());
                     } catch (Exception e){
