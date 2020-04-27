@@ -22,6 +22,11 @@ public class Game {
         try {
             player0.startGame();
         } catch (HearthStoneException e){
+            try {
+                hearthstone.util.Logger.saveLog("ERROR",
+                        e.getClass().getName() + ": " + e.getMessage()
+                                + "\nStack Trace: " + e.getStackTrace());
+            } catch (Exception f) { }
             System.out.println(e.getMessage());
         } catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -33,6 +38,11 @@ public class Game {
             try {
                 player0.startTurn();
             } catch (HearthStoneException e){
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR",
+                            e.getClass().getName() + ": " + e.getMessage()
+                                    + "\nStack Trace: " + e.getStackTrace());
+                } catch (Exception f) { }
                 System.out.println(e.getMessage());
             } catch (Exception e){
                 System.out.println(e.getMessage());
@@ -42,6 +52,11 @@ public class Game {
             try {
                 player1.startTurn();
             } catch (HearthStoneException e){
+                try {
+                    hearthstone.util.Logger.saveLog("ERROR",
+                            e.getClass().getName() + ": " + e.getMessage()
+                                    + "\nStack Trace: " + e.getStackTrace());
+                } catch (Exception f) { }
                 System.out.println(e.getMessage());
             } catch (Exception e){
                 System.out.println(e.getMessage());

@@ -6,6 +6,10 @@ import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.icons.CloseIcon;
+import hearthstone.gui.controls.icons.LogoutIcon;
+import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.gui.controls.icons.SettingIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
@@ -22,6 +26,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
@@ -66,67 +71,21 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void makeIcons() {
-        logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
+        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        settingsButton = new ImageButton("icons/settings.png", "icons/settings_active.png",
+        settingsButton = new SettingIcon("icons/settings.png", "icons/settings_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
-
-        settingsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
-                        DefaultSizes.settingsWidth, DefaultSizes.settingsHeight);
-            }
-        });
-
-        minimizeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().setState(Frame.ICONIFIED);
-                GameFrame.getInstance().setState(Frame.NORMAL);
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                boolean sure = sureDialog.getValue();
-                if (sure) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
-                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                    boolean sure = sureDialog.getValue();
-                    if (sure) {
-                        HearthStone.logout();
-                        GameFrame.getInstance().setVisible(false);
-                        GameFrame.getInstance().dispose();
-                        CredentialsFrame.getNewInstance().setVisible(true);
-                    }
-                } catch (HearthStoneException e) {
-                    System.out.println(e.getMessage());
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-        });
     }
 
     private void makeLogo() {
@@ -184,8 +143,13 @@ public class MainMenuPanel extends JPanel {
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                             new PlaySelectionPanel(HearthStone.currentAccount.getPlayer()));
                 } catch (HearthStoneException e) {
-                    System.out.println(e.getMessage());
+                    try {
+                        hearthstone.util.Logger.saveLog("ERROR",
+                                e.getClass().getName() + ": " + e.getMessage()
+                                        + "\nStack Trace: " + e.getStackTrace());
+                    } catch (Exception f) { }
                     BaseFrame.error(e.getMessage());
+                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }

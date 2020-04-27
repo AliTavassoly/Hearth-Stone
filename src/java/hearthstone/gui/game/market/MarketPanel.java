@@ -9,6 +9,10 @@ import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.icons.BackIcon;
+import hearthstone.gui.controls.icons.CloseIcon;
+import hearthstone.gui.controls.icons.LogoutIcon;
+import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
@@ -82,66 +86,21 @@ public class MarketPanel extends JPanel {
     }
 
     private void makeIcons() {
-        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
+        backButton = new BackIcon("icons/back.png", "icons/back_active.png",
+                DefaultSizes.iconWidth,
+                DefaultSizes.iconHeight, new MainMenuPanel());
+
+        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        logoutButton = new ImageButton("icons/logout.png", "icons/logout_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
-
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
-                DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
-
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
-            }
-        });
-
-        minimizeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().setState(Frame.ICONIFIED);
-                GameFrame.getInstance().setState(Frame.NORMAL);
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                boolean sure = sureDialog.getValue();
-                if (sure) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
-                            DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                    boolean sure = sureDialog.getValue();
-                    if (sure) {
-                        HearthStone.logout();
-                        GameFrame.getInstance().setVisible(false);
-                        GameFrame.getInstance().dispose();
-                        CredentialsFrame.getNewInstance().setVisible(true);
-                    }
-                } catch (HearthStoneException e){
-                    System.out.println(e.getMessage());
-                } catch (Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-        });
     }
 
     private void makeChoosePanel(){
@@ -152,6 +111,12 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 buyScroll.setVisible(false);
+                try {
+                    hearthstone.util.Logger.saveLog("panel chang",
+                            "panel changed to sell panel");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 sellScroll.setVisible(true);
             }
         });
@@ -163,6 +128,12 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 sellScroll.setVisible(false);
+                try {
+                    hearthstone.util.Logger.saveLog("panel chang",
+                            "panel changed to buy panel");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 buyScroll.setVisible(true);
             }
         });
@@ -307,11 +278,19 @@ public class MarketPanel extends JPanel {
                         sellPanel.removeCard(card);
                         HearthStone.market.addCard(card.copy(), 1);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                        hearthstone.util.Logger.saveLog("sell",
+                                "in market, sold " + 1 + " of " +
+                                        card.getName() + "!");
                         DataBase.save();
                     }
                 } catch (HearthStoneException e){
-                    System.out.println(e.getMessage());
+                    try {
+                        hearthstone.util.Logger.saveLog("ERROR",
+                                e.getClass().getName() + ": " + e.getMessage() +
+                                        "\nStack Trace: " + e.getStackTrace());
+                    } catch (Exception f) { }
                     BaseFrame.error(e.getMessage());
+                    System.out.println(e.getMessage());
                 } catch (Exception ex){
                     System.out.println(ex.getMessage());
                 }
@@ -354,9 +333,17 @@ public class MarketPanel extends JPanel {
                         buyPanel.removeCard(card);
                         HearthStone.market.removeCard(card, 1);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
+                        hearthstone.util.Logger.saveLog("buy",
+                                "in market, bought " + 1 + " of " +
+                                        card.getName() + "!");
                         DataBase.save();
                     }
                 } catch (HearthStoneException e){
+                    try {
+                        hearthstone.util.Logger.saveLog("ERROR",
+                                e.getClass().getName() + ": " + e.getMessage()
+                                        + "\nStack Trace: " + e.getStackTrace());
+                    } catch (Exception f) { }
                     System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
                 } catch (Exception ex){

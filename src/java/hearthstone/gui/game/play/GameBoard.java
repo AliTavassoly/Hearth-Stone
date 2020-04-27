@@ -5,6 +5,10 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.icons.BackIcon;
+import hearthstone.gui.controls.icons.CloseIcon;
+import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.gui.controls.icons.SettingIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
@@ -207,7 +211,6 @@ public class GameBoard extends JPanel {
         }
     }
 
-
     private void drawCardsOnLand() {
         ArrayList<Card> cards = myPlayer.getLand();
         if (cards.size() == 0)
@@ -259,6 +262,11 @@ public class GameBoard extends JPanel {
                         cardButton.makePlaySound();
                         restart();
                     } catch (HearthStoneException e) {
+                        try {
+                            hearthstone.util.Logger.saveLog("ERROR",
+                                    e.getClass().getName() + ": " + e.getMessage()
+                                            + "\nStack Trace: " + e.getStackTrace());
+                        } catch (Exception f) { }
                         System.out.println(e.getMessage());
                         button.setBounds(startX, startY, width, height);
                     } catch (Exception ex) {
@@ -293,75 +301,25 @@ public class GameBoard extends JPanel {
     }
 
     private void makeIcons() {
-        backButton = new ImageButton("icons/back.png",
+        backButton = new BackIcon("icons/back.png",
                 "icons/back_active.png",
                 DefaultSizes.iconWidth,
-                DefaultSizes.iconHeight);
+                DefaultSizes.iconHeight, new MainMenuPanel());
 
-        settingsButton = new ImageButton("icons/settings.png",
+        settingsButton = new SettingIcon("icons/settings.png",
                 "icons/settings_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png",
                 "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        closeButton = new ImageButton("icons/close.png",
+        closeButton = new CloseIcon("icons/close.png",
                 "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
-
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to exit game?!",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                boolean sure = sureDialog.getValue();
-                if (sure) {
-                    try {
-                        DataBase.save();
-                    } catch (HearthStoneException e){
-                        System.out.println(e.getMessage());
-                    } catch (Exception ex){
-                        System.out.println(ex.getMessage());
-                    }
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
-                }
-            }
-        });
-
-        settingsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
-                        DefaultSizes.settingsWidth, DefaultSizes.settingsHeight);
-            }
-        });
-
-        minimizeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                GameFrame.getInstance().setState(Frame.ICONIFIED);
-                GameFrame.getInstance().setState(Frame.NORMAL);
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
-                        DefaultSizes.dialogWidth, DefaultSizes.dialogHeight);
-                boolean sure = sureDialog.getValue();
-                if (sure) {
-                    try {
-                        DataBase.save();
-                    } catch (HearthStoneException e){
-                        System.out.println(e.getMessage());
-                    } catch (Exception ex){
-                        System.out.println(ex.getMessage());
-                    }
-                    System.exit(0);
-                }
-            }
-        });
     }
 
     private void makeGameStuff() {

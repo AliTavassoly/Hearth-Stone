@@ -5,5 +5,5 @@
   "maxManaInGame": 10,
   "maxCardInHand": 10,
   "maxCardInLand": 5,
-  "maxCardOfOneType": 2
+  "maxCardOfOneType": 5
 }

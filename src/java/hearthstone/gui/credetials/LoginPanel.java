@@ -98,7 +98,12 @@ public class LoginPanel extends JPanel {
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
                 } catch (HearthStoneException e){
-                    error = e.getMessage();
+                    try {
+                        hearthstone.util.Logger.saveLog("ERROR",
+                                e.getClass().getName() + ": " + e.getMessage() +
+                                        "\nStack Trace: " + e.getStackTrace());
+                    } catch (Exception f) { }
+                    System.out.println(e.getMessage());
                     repaint();
                 } catch (Exception ex){
                     System.out.println(ex.getMessage());
@@ -109,7 +114,6 @@ public class LoginPanel extends JPanel {
     }
 
     private void makeIcons(){
-
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);

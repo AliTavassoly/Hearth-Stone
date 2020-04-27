@@ -13,12 +13,14 @@ import static hearthstone.HearthStone.currentAccount;
 import static hearthstone.HearthStone.dataPath;
 
 public class Logger {
-    public static void saveLog(String title, String description, String username) throws Exception {
+    public static void saveLog(String title, String description, String username)
+            throws Exception {
         Date date = new Date();
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
-        FileWriter fileWriter = new FileWriter(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".log", true);
+        FileWriter fileWriter = new FileWriter(dataPath + "/logs" +
+                "/account_" + Data.getAccountId(username) + ".log", true);
         String newLog;
         if (title.equals("ERROR"))
             newLog = title + " @ " + ts + "\n" + description + "\n" + "\n";

@@ -160,7 +160,11 @@ public class CardsPanel extends JPanel {
         try {
             DataBase.save();
         } catch (HearthStoneException e) {
-            System.out.println(e.getMessage());
+            try {
+                hearthstone.util.Logger.saveLog("ERROR",
+                        e.getClass().getName() + ": " + e.getMessage()
+                                + "\nStack Trace: " + e.getStackTrace());
+            } catch (Exception f) { }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

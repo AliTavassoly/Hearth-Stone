@@ -4,6 +4,8 @@ import hearthstone.gui.controls.SureDialog;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.DefaultSizes;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.icons.CloseIcon;
+import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
@@ -52,11 +54,11 @@ public class LogisterPanel extends JPanel {
     }
 
     private void makeIcons(){
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
                 DefaultSizes.iconWidth,
                 DefaultSizes.iconHeight);
 

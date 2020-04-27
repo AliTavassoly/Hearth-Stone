@@ -172,6 +172,11 @@ public class RegisterPanel extends JPanel {
                     GameFrame.getNewInstance().setVisible(true);
                     DataBase.save();
                 } catch (HearthStoneException e) {
+                    try {
+                        hearthstone.util.Logger.saveLog("ERROR",
+                                e.getClass().getName() + ": " + e.getMessage()
+                                        + "\nStack Trace: " + e.getStackTrace());
+                    } catch (Exception f) { }
                     error = e.getMessage();
                     repaint();
                     System.out.println(e.getMessage());
