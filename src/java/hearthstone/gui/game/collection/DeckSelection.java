@@ -106,6 +106,20 @@ public class DeckSelection extends JPanel {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
+        for(int i = 0; i < hero.getDecks().size(); i++){
+            if(hero.getSelectedDeck() == null)
+                break;
+            Deck deck = hero.getDecks().get(i);
+            if(deck.getName().equals(hero.getSelectedDeck().getName())){
+                Deck selected = deck;
+                Deck zero = hero.getDecks().get(0);
+
+                hero.getDecks().set(i, zero);
+                hero.getDecks().set(0, selected);
+                break;
+            }
+        }
+
         for(Deck deck : hero.getDecks()){
             decks.add(deck);
             panels.add(getDeckPanel(deck));

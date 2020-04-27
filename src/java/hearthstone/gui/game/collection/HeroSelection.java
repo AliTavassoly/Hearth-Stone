@@ -88,6 +88,18 @@ public class HeroSelection extends JPanel {
         ArrayList<Hero> heroes = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
+        for(int i = 0; i < HearthStone.currentAccount.getHeroes().size(); i++){
+            if(HearthStone.currentAccount.getSelectedHero() == null)
+                break;
+            Hero hero = HearthStone.currentAccount.getHeroes().get(i);
+            Hero zero = HearthStone.currentAccount.getHeroes().get(0);
+
+            if(HearthStone.currentAccount.getSelectedHero().getName().equals(hero.getName())){
+                HearthStone.currentAccount.getHeroes().set(0, hero);
+                HearthStone.currentAccount.getHeroes().set(i, zero);
+            }
+        }
+
         for (Hero hero : HearthStone.currentAccount.getHeroes()) {
             heroes.add(hero);
             panels.add(getHeroPanel(hero));

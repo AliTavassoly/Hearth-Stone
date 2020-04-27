@@ -498,12 +498,6 @@ public class DeckArrangement extends JPanel {
                 startListY + 2 * SizeConfigs.arrangementListHeight + listDis - SizeConfigs.medButtonHeight,
                 SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
         add(deleteButton);
-
-        // TEST
-        /*ShowException showException = new ShowException("salam");
-        showException.setBounds(0, 0, 500, 500);
-        DeckArrangement.this.add(showException);*/
-
     }
 
     private void update() {
