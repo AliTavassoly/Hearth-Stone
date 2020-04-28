@@ -27,7 +27,7 @@ import static hearthstone.HearthStone.*;
 public class DataBase {
     public static Gson gson;
 
-    public static void loadCards() throws Exception{
+    private static void loadCards() throws Exception{
         int id = 0;
         // Mage
         SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
@@ -169,7 +169,7 @@ public class DataBase {
         //baseCards = getBaseCards();
     }
 
-    public static void loadHeroes() throws Exception {
+    private static void loadHeroes() throws Exception {
         int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
                 Arrays.asList(0, 1, 10, 13, 16, 19)));
@@ -194,7 +194,7 @@ public class DataBase {
         //baseHeroes = getBaseHeroes();
     }
 
-    public static Map<String, AccountCredential> getCredentials() throws Exception {
+    private static Map<String, AccountCredential> getCredentials() throws Exception {
         File json = new File(dataPath + "/credentials.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -214,7 +214,7 @@ public class DataBase {
         return gson.fromJson(fileReader, Account.class);
     }
 
-    public static Map<String, Object> getGameConfigs() throws Exception {
+    private static Map<String, Object> getGameConfigs() throws Exception {
         File json = new File(dataPath + "/game_configs.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -223,7 +223,7 @@ public class DataBase {
         }.getType());
     }
 
-    public static Map<String, Object> getSizeConfigs() throws Exception {
+    private static Map<String, Object> getSizeConfigs() throws Exception {
         File json = new File(dataPath + "/size_configs.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -232,7 +232,7 @@ public class DataBase {
         }.getType());
     }
 
-    public static Market getMarket() throws Exception {
+    private static Market getMarket() throws Exception {
         File json = new File(dataPath + "/market.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -243,7 +243,7 @@ public class DataBase {
         return ans;
     }
 
-    public static Map<Integer, Card> getBaseCards() throws Exception {
+    private static Map<Integer, Card> getBaseCards() throws Exception {
         File json = new File(dataPath + "/base_cards.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -255,7 +255,7 @@ public class DataBase {
         return ans;
     }
 
-    public static Map<Integer, Hero> getBaseHeroes() throws Exception {
+    private static Map<Integer, Hero> getBaseHeroes() throws Exception {
         File json = new File(dataPath + "/base_heroes.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -267,7 +267,7 @@ public class DataBase {
         return ans;
     }
 
-    public static void saveCurrentAccount() throws Exception {
+    private static void saveCurrentAccount() throws Exception {
         File json = new File(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -277,14 +277,14 @@ public class DataBase {
         fileWriter.close();
     }
 
-    public static void saveCredentials() throws Exception {
+    private static void saveCredentials() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/credentials.json");
         gson.toJson(Data.getAccounts(), new TypeToken<Map<Integer, AccountCredential>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
-    public static void saveMarket() throws Exception {
+    private static void saveMarket() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/market.json");
         gson.toJson(market, Market.class, fileWriter);
         fileWriter.flush();
@@ -299,7 +299,7 @@ public class DataBase {
         }
     }
 
-    public static void loadConfigs() throws Exception {
+    private static void loadConfigs() throws Exception {
         var gameConfigs = getGameConfigs();
         GameConfigs.setConfigs(gameConfigs);
 
@@ -307,22 +307,22 @@ public class DataBase {
         SizeConfigs.setConfigs(sizeConfigs);
     }
 
-    public static void loadMarket() throws Exception {
+    private static void loadMarket() throws Exception {
         market = getMarket();
     }
 
-    public static void loadAccounts() throws Exception {
+    private static void loadAccounts() throws Exception {
         Data.setAccounts(getCredentials());
     }
 
-    public static void save1() throws Exception {
+    private static void save1() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_cards.json");
         gson.toJson(baseCards, new TypeToken<Map<Integer, Card>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
-    public static void save2() throws Exception {
+    private static void save2() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_heroes.json");
         gson.toJson(baseHeroes, new TypeToken<Map<Integer, Hero>>() {}.getType(), fileWriter);
         fileWriter.flush();

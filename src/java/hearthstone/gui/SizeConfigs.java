@@ -94,6 +94,9 @@ public class SizeConfigs {
     public static int heroPowerWidth;
     public static int heroPowerHeight;
 
+    public static int weaponWidth;
+    public static int weaponHeight;
+
     static public void setConfigs(Map<String, Object> configs){
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
         credentialFrameHeight = ((Double) configs.get("credentialFrameHeight")).intValue();
@@ -183,5 +186,8 @@ public class SizeConfigs {
 
         heroPowerWidth = ((Double) configs.get("heroPowerWidth")).intValue();
         heroPowerHeight = ((Double) configs.get("heroPowerHeight")).intValue();
+
+        weaponWidth = ((Double) configs.get("weaponWidth")).intValue();
+        weaponHeight = ((Double) configs.get("weaponHeight")).intValue();
     }
 }

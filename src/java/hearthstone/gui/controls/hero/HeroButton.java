@@ -67,16 +67,23 @@ public class HeroButton extends ImageButton {
         g2.setFont(font);
 
         // DRAW NAME
-        String name = hero.getName();
-        g2.setColor(Color.WHITE);
-        g2.drawString(name, width / 2 - fontMetrics.stringWidth(name) / 2 - 5, height - 105);
+        drawName(g2, fontMetrics);
 
         // DRAW HEALTH
-        font = CredentialsFrame.getInstance().getCustomFont(0, 25);
-        g2.setFont(font);
+        drawHealth(g2, fontMetrics);
+    }
+
+    private void drawName(Graphics2D g, FontMetrics fontMetrics){
+        g.setColor(Color.WHITE);
+        g.drawString(hero.getName(), width / 2 - fontMetrics.stringWidth(hero.getName()) / 2 - 5, height - 105);
+    }
+
+    private void drawHealth(Graphics2D g, FontMetrics fontMetrics){
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 25);
+        g.setFont(font);
         String health = String.valueOf(hero.getHealth());
-        g2.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         int midWidth = width - 37;
-        g2.drawString(health, midWidth - fontMetrics.stringWidth(health) / 2, height - 125);
+        g.drawString(health, midWidth - fontMetrics.stringWidth(health) / 2, height - 125);
     }
 }

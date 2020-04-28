@@ -23,6 +23,8 @@ public class Player {
 
     private HeroPowerCard heroPower;
 
+    private WeaponCard weapon;
+
     public Player(Hero hero, Deck deck) {
         this.hero = hero.copy();
         originalDeck = deck;
@@ -82,6 +84,14 @@ public class Player {
         this.heroPower = heroPower;
     }
 
+    public WeaponCard getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(WeaponCard weapon) {
+        this.weapon = weapon;
+    }
+
     // End of getter setter
 
     public void readyForPlay() throws Exception{
@@ -131,7 +141,12 @@ public class Player {
 
         } else if(cardInHand instanceof RewardCard){
 
-        } else if(cardInHand instanceof WeaponCard || cardInHand instanceof MinionCard){
+        } else if(cardInHand instanceof WeaponCard){
+            if(weapon != null){
+                throw new HearthStoneException("you are using weapon!");
+            }
+            weapon = (WeaponCard) cardInHand;
+        } else if(cardInHand instanceof MinionCard){
             if(land.size() == GameConfigs.maxCardInLand)
                 throw new HearthStoneException("your land is full!");
             land.add(cardInHand);

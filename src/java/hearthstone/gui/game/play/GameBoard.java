@@ -14,10 +14,12 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.gui.game.play.controls.BoardHeroButton;
 import hearthstone.gui.game.play.controls.HeroPowerButton;
+import hearthstone.gui.game.play.controls.WeaponButton;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.cards.WeaponCard;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;
@@ -67,6 +69,9 @@ public class GameBoard extends JPanel {
 
     private final int myHeroPowerX = midX + 55;
     private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 190;
+
+    private final int myWeaponX = midX - 165;
+    private final int myWeaponY = SizeConfigs.gameFrameHeight - 190;
 
     private final int heroWidth = SizeConfigs.medHeroWidth;
     private final int heroHeight = SizeConfigs.medHeroHeight;
@@ -125,6 +130,8 @@ public class GameBoard extends JPanel {
         drawDeckNumberOfCards(g2, myPlayer.getDeck().getCards().size());
 
         drawHeroPower();
+
+        drawWeapon();
     }
 
     private void drawMana(Graphics2D g, int number, int maxNumber) {
@@ -182,6 +189,16 @@ public class GameBoard extends JPanel {
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
+    }
+
+    private void drawWeapon() {
+        if (myPlayer.getWeapon() == null)
+            return;
+        WeaponButton weaponButton = new WeaponButton(myPlayer.getWeapon(),
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+        weaponButton.setBounds(myWeaponX, myWeaponY,
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+        add(weaponButton);
     }
 
     private void drawCardsOnHand() {
