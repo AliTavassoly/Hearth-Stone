@@ -3,6 +3,7 @@ package hearthstone.gui;
 import java.util.Map;
 
 public class SizeConfigs {
+    // General
     public static int credentialFrameWidth;
     public static int credentialFrameHeight;
 
@@ -77,7 +78,7 @@ public class SizeConfigs {
 
     public static int marketInfoHeight;
 
-    // Game Board sizes
+    // Game Board
 
     public static int endTurnButtonWidth;
     public static int endTurnButtonHeight;
@@ -97,7 +98,11 @@ public class SizeConfigs {
     public static int weaponWidth;
     public static int weaponHeight;
 
+    public static int weaponDetailWidth;
+    public static int weaponDetailHeight;
+
     static public void setConfigs(Map<String, Object> configs){
+        // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
         credentialFrameHeight = ((Double) configs.get("credentialFrameHeight")).intValue();
 
@@ -172,6 +177,8 @@ public class SizeConfigs {
 
         marketInfoHeight = ((Double) configs.get("marketInfoHeight")).intValue();
 
+        // GameBoard
+
         endTurnButtonWidth = ((Double) configs.get("endTurnButtonWidth")).intValue();
         endTurnButtonHeight = ((Double) configs.get("endTurnButtonHeight")).intValue();
 
@@ -189,5 +196,8 @@ public class SizeConfigs {
 
         weaponWidth = ((Double) configs.get("weaponWidth")).intValue();
         weaponHeight = ((Double) configs.get("weaponHeight")).intValue();
+
+        weaponDetailWidth = ((Double) configs.get("weaponDetailWidth")).intValue();
+        weaponDetailHeight = ((Double) configs.get("weaponDetailHeight")).intValue();
     }
 }

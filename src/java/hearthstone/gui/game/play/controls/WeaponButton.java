@@ -1,5 +1,6 @@
 package hearthstone.gui.game.play.controls;
 
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.cards.WeaponCard;
@@ -36,7 +37,7 @@ public class WeaponButton extends ImageButton {
         BufferedImage circleImage = null;
 
         try {
-            String path = "/images/cards/weapon/" + card.getName().    // Hero Power card should replace
+            String path = "/images/cards/weapon/" + card.getName().
                     toLowerCase().replace(' ', '_').replace("'", "") + ".png";
             cardImage = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
@@ -83,10 +84,56 @@ public class WeaponButton extends ImageButton {
     }
 
     private void drawAttack(Graphics2D g, String text){
+        int x = 0;
+        int y = width - SizeConfigs.weaponDetailHeight;
+        BufferedImage image = null;
+        try {
+            String path = "/images/sword.png";
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    path));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
+        g.drawImage(image.getScaledInstance(
+                SizeConfigs.weaponDetailWidth, SizeConfigs.weaponDetailHeight,
+                Image.SCALE_SMOOTH),
+                x, y,
+                SizeConfigs.weaponDetailWidth, SizeConfigs.weaponDetailHeight,
+                null);
+
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        FontMetrics fontMetrics = g.getFontMetrics(font);
+
+        g.drawString(text,
+                x + SizeConfigs.weaponDetailWidth / 2 - fontMetrics.stringWidth(text) + 7,
+                y + SizeConfigs.weaponDetailHeight - 7);
     }
 
     private void drawDurability(Graphics2D g, String text){
+        int x = height - SizeConfigs.weaponDetailWidth;
+        int y = width - SizeConfigs.weaponDetailHeight;
+        BufferedImage image = null;
+        try {
+            String path = "/images/shield.png";
+            image = ImageIO.read(this.getClass().getResourceAsStream(
+                    path));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
+        g.drawImage(image.getScaledInstance(
+                SizeConfigs.weaponDetailWidth, SizeConfigs.weaponDetailHeight,
+                Image.SCALE_SMOOTH),
+                x, y,
+                SizeConfigs.weaponDetailWidth, SizeConfigs.weaponDetailHeight,
+                null);
+
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        FontMetrics fontMetrics = g.getFontMetrics(font);
+
+        g.drawString(text,
+                x + SizeConfigs.weaponDetailWidth / 2 - fontMetrics.stringWidth(text) + 7,
+                y + SizeConfigs.weaponDetailHeight - 7);
     }
 }

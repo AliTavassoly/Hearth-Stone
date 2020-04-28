@@ -58,7 +58,7 @@ public class SettingsDialog extends JDialog {
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        backgroundPanel = new ImagePanel("dialog_background.png", width, height);
+        backgroundPanel = new ImagePanel("settings_background.png", width, height);
         backgroundPanel.setOpaque(false);
         setContentPane(backgroundPanel);
 
