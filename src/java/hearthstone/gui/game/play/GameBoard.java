@@ -275,6 +275,7 @@ public class GameBoard extends JPanel {
                         e.getClass().getName() + ": " + e.getMessage()
                                 + "\nStack Trace: " + e.getStackTrace());
             } catch (Exception f) {
+                e.getStackTrace();
             }
 
             System.out.println(e.getMessage());
@@ -345,30 +346,29 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "back_button");
-                } catch (Exception e) {
-                }
+        backButton.addActionListener(actionEvent -> {
+            try {
+                hearthstone.util.Logger.saveLog("Click_button",
+                        "back_button");
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
 
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
-                        "Are you sure you want to exit game?! (you will lose current game)",
-                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
-                boolean sure = sureDialog.getValue();
-                if (sure) {
-                    try {
-                        DataBase.save();
-                        hearthstone.util.Logger.saveLog("Exit",
-                                "Exited from game board");
-                    } catch (HearthStoneException e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+            SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
+                    "Are you sure you want to exit game?! (you will lose current game)",
+                    SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+            boolean sure = sureDialog.getValue();
+            if (sure) {
+                try {
+                    DataBase.save();
+                    hearthstone.util.Logger.saveLog("Exit",
+                            "Exited from game board");
+                } catch (HearthStoneException e) {
+                    System.out.println(e.getMessage());
+                } catch (Exception ex) {
+                    ex.getStackTrace();
                 }
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
         });
     }
