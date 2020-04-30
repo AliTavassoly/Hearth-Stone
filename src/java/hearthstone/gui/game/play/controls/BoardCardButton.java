@@ -22,6 +22,7 @@ import java.io.File;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
     int width, height, initX, initY;
+    private boolean showBig;
     private Card card;
 
     public BoardCardButton(Card card, int width, int height) {
@@ -33,6 +34,22 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         this.height = height;
 
         configButton();
+    }
+
+    public BoardCardButton(Card card, int width, int height, boolean showBig) {
+        this.card = card;
+        this.initX = initX;
+        this.initY = initY;
+        this.showBig = showBig;
+
+        this.width = width;
+        this.height = height;
+
+        configButton();
+    }
+
+    public boolean isShowBig() {
+        return showBig;
     }
 
     private void configButton() {
@@ -126,7 +143,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         final int minionManaY = 25;
         final int minionAttackX = 25 - 10;
         final int minionAttackY = height - 15 + 10;
-        final int minionHealthX = width - 15 + 10;
+        final int minionHealthX = width - 15 + 10 - 3;
         final int minionHealthY = height - 15 + 10;
 
         final int weaponManaX = 14;

@@ -5,6 +5,7 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.controls.icons.SettingIcon;
@@ -66,7 +67,7 @@ public class GameBoard extends JPanel {
     private final int myHeroX = midX - 60;
     private final int myHeroY = SizeConfigs.gameFrameHeight - 236;
 
-    private final int myHeroPowerX = midX + 55;
+    private final int myHeroPowerX = midX + 52;
     private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 190;
 
     private final int myWeaponX = midX - 165;
@@ -217,7 +218,7 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
@@ -285,20 +286,42 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void makeMouseListener(BoardCardButton button, Card card, BoardCardButton cardButton,
+    private void makeMouseListener(BoardCardButton button, Card card,
+                                   BoardCardButton cardButton,
                                    int startX, int startY, int width, int height) {
+        CardButton bigCardButton = new CardButton(
+                card,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                -1);
+
+        bigCardButton.setBounds(
+                SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight);
+
         button.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-
             }
+
             public void mousePressed(MouseEvent e) {
-
             }
+
+            @Override
             public void mouseEntered(MouseEvent e) {
-
+                if (cardButton.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
             }
-            public void mouseExited(MouseEvent e) {
 
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (cardButton.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
+                }
             }
 
             @Override

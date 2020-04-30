@@ -73,14 +73,16 @@ public class CardButton extends ImageButton implements MouseListener {
                 width, height - 20,
                 null);
 
-        g2.drawImage(numberImage.getScaledInstance(
-                SizeConfigs.numberOfCardFlagWidth,
-                SizeConfigs.numberOfCardFlagHeight,
-                Image.SCALE_SMOOTH),
-                width / 2 - SizeConfigs.numberOfCardFlagWidth / 2, height - 38,
-                SizeConfigs.numberOfCardFlagWidth,
-                SizeConfigs.numberOfCardFlagHeight,
-                null);
+        if (number != -1) {
+            g2.drawImage(numberImage.getScaledInstance(
+                    SizeConfigs.numberOfCardFlagWidth,
+                    SizeConfigs.numberOfCardFlagHeight,
+                    Image.SCALE_SMOOTH),
+                    width / 2 - SizeConfigs.numberOfCardFlagWidth / 2, height - 38,
+                    SizeConfigs.numberOfCardFlagWidth,
+                    SizeConfigs.numberOfCardFlagHeight,
+                    null);
+        }
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
@@ -92,7 +94,8 @@ public class CardButton extends ImageButton implements MouseListener {
         // DRAW TEXT
         drawCardInfo(g2, Color.WHITE, fontMetrics);
 
-        drawCardNumber(g2, fontMetrics);
+        if (number != -1)
+            drawCardNumber(g2, fontMetrics);
     }
 
     private void drawCardInfo(Graphics2D g, Color color, FontMetrics fontMetrics) {
@@ -168,13 +171,13 @@ public class CardButton extends ImageButton implements MouseListener {
         }
     }
 
-    private void drawCardNumber(Graphics2D g, FontMetrics fontMetrics){
+    private void drawCardNumber(Graphics2D g, FontMetrics fontMetrics) {
         drawStringOnCard(g, String.valueOf(number),
                 width / 2 - fontMetrics.stringWidth(String.valueOf(number)) / 2,
                 height - 10, Color.WHITE);
     }
 
-    private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color){
+    private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color) {
         g.setColor(color);
         g.drawString(text, x, y);
     }
