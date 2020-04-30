@@ -134,6 +134,12 @@ public class GameBoard extends JPanel {
         drawWeapon();
     }
 
+    private void configPanel() {
+        setLayout(null);
+        setDoubleBuffered(true);
+        setVisible(true);
+    }
+
     private void drawMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
@@ -282,13 +288,16 @@ public class GameBoard extends JPanel {
     private void makeMouseListener(BoardCardButton button, Card card, BoardCardButton cardButton,
                                    int startX, int startY, int width, int height) {
         button.addMouseListener(new MouseListener() {
-            @Override
             public void mouseClicked(MouseEvent e) {
 
             }
-
-            @Override
             public void mousePressed(MouseEvent e) {
+
+            }
+            public void mouseEntered(MouseEvent e) {
+
+            }
+            public void mouseExited(MouseEvent e) {
 
             }
 
@@ -298,34 +307,9 @@ public class GameBoard extends JPanel {
                         isInLand(E.getX() + button.getX(), E.getY() + button.getY())) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
-                    /*try {
-                        myPlayer.playCard(card);
-                        cardButton.makePlaySound();
-                        restart();
-                    } catch (HearthStoneException e) {
-                        try {
-                            hearthstone.util.Logger.saveLog("ERROR",
-                                    e.getClass().getName() + ": " + e.getMessage()
-                                            + "\nStack Trace: " + e.getStackTrace());
-                        } catch (Exception f) { }
-                        System.out.println(e.getMessage());
-                        button.setBounds(startX, startY, width, height);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }*/
                 } else {
                     button.setBounds(startX, startY, width, height);
                 }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
 
@@ -336,7 +320,7 @@ public class GameBoard extends JPanel {
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
                 button.setBounds(newX, newY, width, height);
-                updateUI();
+                //updateUI();
             }
         });
     }
@@ -425,12 +409,6 @@ public class GameBoard extends JPanel {
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero
 
         opponentHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // opponent hero
-    }
-
-    private void configPanel() {
-        setLayout(null);
-        setDoubleBuffered(true);
-        setVisible(true);
     }
 
     private void iconLayout() {

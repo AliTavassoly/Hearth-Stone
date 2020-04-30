@@ -1,6 +1,7 @@
 package hearthstone.gui.game.play.controls;
 
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
@@ -196,7 +197,5 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     }
 
     @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-
-    }
+    public void mouseMoved(MouseEvent mouseEvent) { }
 }

@@ -26,8 +26,6 @@ public class HeroPowerButton extends ImageButton {
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
-
-        addMouseListener(this);
     }
 
     @Override
@@ -50,19 +48,9 @@ public class HeroPowerButton extends ImageButton {
             System.out.println(e.getMessage());
         }
 
-        g2.drawImage(cardImage.getScaledInstance(
-                width - 40, height - 40,
-                Image.SCALE_SMOOTH),
-                20, 20 + 5,
-                width - 40, height - 40,
-                null);
+        g2.drawImage(cardImage, 20, 25, null);
 
-        g2.drawImage(circleImage.getScaledInstance(
-                width, height,
-                Image.SCALE_SMOOTH),
-                0, 0,
-                width, height,
-                null);
+        g2.drawImage(circleImage, 0, 0, null);
 
         drawMana(g2, String.valueOf(card.getManaCost()));
     }

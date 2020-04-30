@@ -50,7 +50,7 @@ public class BoardHeroButton extends ImageButton {
         g2.drawImage(heroImage.getScaledInstance(width,
                 height,
                 Image.SCALE_SMOOTH), 0, 0,
-                width ,
+                width,
                 height,
                 null);
 
@@ -62,19 +62,23 @@ public class BoardHeroButton extends ImageButton {
         g2.setFont(font);
 
         // DRAW HEALTH
-        font = CredentialsFrame.getInstance().getCustomFont(0, 20);
-        g2.setFont(font);
-        String health = String.valueOf(hero.getHealth());
-        g2.setColor(Color.WHITE);
         int midWidth = width - 25;
-        g2.drawImage(healthBackground.getScaledInstance(
+        g.drawImage(healthBackground.getScaledInstance(
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 Image.SCALE_SMOOTH),
                 midWidth - SizeConfigs.healthWidth / 2 + 5, height - 50,
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 null);
 
-        g2.drawString(health, midWidth - fontMetrics.stringWidth(health) / 2 + 5, height - 17);
+        drawHealth(g2, String.valueOf(hero.getHealth()), fontMetrics);
+    }
 
+    private void drawHealth(Graphics2D g, String text, FontMetrics fontMetrics) {
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 20);
+        g.setFont(font);
+        String health = String.valueOf(hero.getHealth());
+        g.setColor(Color.WHITE);
+        int midWidth = width - 25;
+        g.drawString(health, midWidth - fontMetrics.stringWidth(health) / 2 + 5, height - 17);
     }
 }
