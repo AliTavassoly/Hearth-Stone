@@ -37,6 +37,12 @@ public class BoardHeroButton extends ImageButton {
         BufferedImage heroImage = null;
         BufferedImage healthBackground = null;
 
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        GraphicsConfiguration config = device.getDefaultConfiguration();
+        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        Graphics buffyG = buffy.getGraphics();
+
         try {
             heroImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/heroes/normal_heroes/" +
@@ -44,10 +50,11 @@ public class BoardHeroButton extends ImageButton {
 
             healthBackground = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/health_background.png"));
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        g2.drawImage(heroImage.getScaledInstance(width,
+        buffyG.drawImage(heroImage.getScaledInstance(width,
                 height,
                 Image.SCALE_SMOOTH), 0, 0,
                 width,
@@ -63,12 +70,14 @@ public class BoardHeroButton extends ImageButton {
 
         // DRAW HEALTH
         int midWidth = width - 25;
-        g.drawImage(healthBackground.getScaledInstance(
+        buffyG.drawImage(healthBackground.getScaledInstance(
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 Image.SCALE_SMOOTH),
                 midWidth - SizeConfigs.healthWidth / 2 + 5, height - 50,
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 null);
+
+        g2.drawImage(buffy, 0, 0, null);
 
         drawHealth(g2, String.valueOf(hero.getHealth()), fontMetrics);
     }

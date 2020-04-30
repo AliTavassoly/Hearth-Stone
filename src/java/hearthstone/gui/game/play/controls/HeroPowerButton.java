@@ -34,6 +34,12 @@ public class HeroPowerButton extends ImageButton {
         BufferedImage cardImage = null;
         BufferedImage circleImage = null;
 
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        GraphicsConfiguration config = device.getDefaultConfiguration();
+        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        Graphics buffyG = buffy.getGraphics();
+
         try {
             String path = "/images/cards/hero_power/" + card.getName().    // Hero Power card should replace
                         toLowerCase().replace(' ', '_').replace("'", "") + ".png";
@@ -46,10 +52,14 @@ public class HeroPowerButton extends ImageButton {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        buffyG.drawImage(cardImage, 20, 25, null);
 
-        g2.drawImage(cardImage, 20, 25, null);
+        buffyG.drawImage(circleImage, 0, 0, null);
 
-        g2.drawImage(circleImage, 0, 0, null);
+        g2.drawImage(buffy, 0, 0, null);
+
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         drawMana(g2, String.valueOf(card.getManaCost()));
     }

@@ -36,22 +36,31 @@ public class WeaponButton extends ImageButton {
         BufferedImage cardImage = null;
         BufferedImage circleImage = null;
 
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        GraphicsConfiguration config = device.getDefaultConfiguration();
+        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        Graphics buffyG = buffy.getGraphics();
+
         try {
             String path = "/images/cards/weapon/" + card.getName().
                     toLowerCase().replace(' ', '_').replace("'", "") + ".png";
             cardImage = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
+            buffyG.drawImage(cardImage, 20, 25, null);
 
             path = "/images/cards/weapon/" + "circle_frame.png";
             circleImage = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
+            buffyG.drawImage(circleImage, 0, 0, null);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        g2.drawImage(cardImage, 20, 25, null);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        g2.drawImage(circleImage, 0, 0, null);
+        g2.drawImage(buffy, 0, 0, null);
 
         drawMana(g2, String.valueOf(card.getManaCost()));
 

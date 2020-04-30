@@ -82,6 +82,12 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         Graphics2D g2 = (Graphics2D) g;
 
         BufferedImage image = null;
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        GraphicsConfiguration config = device.getDefaultConfiguration();
+        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        Graphics buffyG = buffy.getGraphics();
+
         try {
             String path;
             path = "/images/cards/" + card.getName().toLowerCase().
@@ -93,9 +99,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             System.out.println(e.getMessage());
         }
 
-        g2.drawImage(image.getScaledInstance(width, height,
+        buffyG.drawImage(image.getScaledInstance(width, height,
                 Image.SCALE_SMOOTH),
                 0, 0, width, height, null);
+        g2.drawImage(buffy, 0, 0, null);
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
@@ -183,7 +190,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 break;
         }
     }
-
 
     public void mouseClicked(MouseEvent mouseEvent) { }
     public void mouseReleased(MouseEvent mouseEvent) { }
