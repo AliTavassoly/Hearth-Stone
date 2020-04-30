@@ -31,7 +31,7 @@ public class SureDialog extends JDialog {
         layoutComponent();
     }
 
-    public void configDialog(){
+    private void configDialog(){
         setSize(new Dimension(width, height));
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -62,13 +62,13 @@ public class SureDialog extends JDialog {
         setCursor(customCursor);
     }
 
-    public void makeLabels(){
+    private void makeLabels(){
         message = new JLabel(text);
         message.setForeground(new Color(69, 28, 28));
         message.setFont(GameFrame.getInstance().getCustomFont(0, 15));
     }
 
-    public void makeButtons(){
+    private void makeButtons(){
         okButton = new ImageButton("ok", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
@@ -98,7 +98,7 @@ public class SureDialog extends JDialog {
         });
     }
 
-    public void layoutComponent(){
+    private void layoutComponent(){
         setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
 

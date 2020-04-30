@@ -92,13 +92,10 @@ public class CardButton extends ImageButton implements MouseListener {
         // DRAW TEXT
         drawCardInfo(g2, Color.WHITE, fontMetrics);
 
-        drawStringOnCard(g2, String.valueOf(number),
-                width / 2 - fontMetrics.stringWidth(String.valueOf(number)) / 2,
-                height - 10, Color.WHITE);
-        //resize
+        drawCardNumber(g2, fontMetrics);
     }
 
-    void drawCardInfo(Graphics2D g, Color color, FontMetrics fontMetrics) {
+    private void drawCardInfo(Graphics2D g, Color color, FontMetrics fontMetrics) {
         final int spellManaX = 24;
         final int spellManaY = 39;
 
@@ -169,6 +166,12 @@ public class CardButton extends ImageButton implements MouseListener {
                         weaponDurabilityY, color);
                 break;
         }
+    }
+
+    private void drawCardNumber(Graphics2D g, FontMetrics fontMetrics){
+        drawStringOnCard(g, String.valueOf(number),
+                width / 2 - fontMetrics.stringWidth(String.valueOf(number)) / 2,
+                height - 10, Color.WHITE);
     }
 
     private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color){

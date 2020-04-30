@@ -164,38 +164,26 @@ public class ImageButton extends JButton implements MouseListener {
             System.out.println(e.getMessage());
             e.getStackTrace();
         }
-        //g2.drawImage(inputImage, 0, 0, null);
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
 
         // DRAW TEXT
+        drawText(g2);
+    }
+
+    private void drawText(Graphics2D g){
         if (text != null) {
             Font font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
-            FontMetrics fontMetrics = g2.getFontMetrics(font);
+            FontMetrics fontMetrics = g.getFontMetrics(font);
             int textWidth = fontMetrics.stringWidth(text);
 
-            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-            g2.setFont(font);
-            g2.setColor(currentColor);
+            g.setFont(font);
+            g.setColor(currentColor);
 
-            g2.drawString(text, width / 2 - textWidth / 2,
+            g.drawString(text, width / 2 - textWidth / 2,
                     (height / 2 - fontMetrics.getHeight() / 2 + fontMetrics.getAscent()) + tof);
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
     }
 
     @Override
@@ -224,5 +212,17 @@ public class ImageButton extends JButton implements MouseListener {
             revalidate();
             repaint();
         }
+    }
+
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    public void mouseReleased(MouseEvent mouseEvent) {
+
     }
 }

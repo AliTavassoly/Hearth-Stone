@@ -6,7 +6,6 @@ import hearthstone.logic.models.card.cards.HeroPowerCard;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
 import java.awt.image.BufferedImage;
 
 public class HeroPowerButton extends ImageButton {

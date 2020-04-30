@@ -19,7 +19,6 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.cards.WeaponCard;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;

@@ -1,7 +1,6 @@
 package hearthstone.gui.game.play.controls;
 
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
@@ -93,9 +92,11 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         g2.drawImage(image.getScaledInstance(width, height,
                 Image.SCALE_SMOOTH),
                 0, 0, width, height, null);
+
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
@@ -105,8 +106,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         // DRAW TEXT
         drawStringOnCard(g2, Color.WHITE, fontMetrics);
-        //resize
-        //updateUI();
     }
 
     void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics) {
@@ -185,17 +184,11 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         }
     }
 
-    @Override
+
     public void mouseClicked(MouseEvent mouseEvent) { }
-
-    @Override
     public void mouseReleased(MouseEvent mouseEvent) { }
-
-    @Override
     public void mouseDragged(MouseEvent mouseEvent) {
 
     }
-
-    @Override
     public void mouseMoved(MouseEvent mouseEvent) { }
 }

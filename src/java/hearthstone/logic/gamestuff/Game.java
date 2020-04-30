@@ -16,7 +16,7 @@ public class Game {
         startGame();
     }
 
-    public void startGame(){
+    private void startGame(){
         try {
             player0.startGame();
         } catch (HearthStoneException e){

@@ -42,31 +42,6 @@ public class HeroesPanel extends JPanel {
         layoutComponent();
     }
 
-    public void addDeck(Hero hero, JPanel panel) {
-        HeroButton heroButton = new HeroButton(HearthStone.baseHeroes.get(0).copy(),
-                heroWidth,
-                heroHeight);
-
-        heroButtons.add(heroButton);
-        heroes.add(hero);
-        panels.remove(panel);
-
-        removeAll();
-        layoutComponent();
-    }
-
-    public void removeDeck(Hero hero) {
-        int ind = heroes.indexOf(hero);
-
-        removeAll();
-        repaint();
-        heroButtons.remove(ind);
-        heroes.remove(ind);
-        panels.remove(ind);
-        layoutComponent();
-        repaint();
-    }
-
     private void configPanel() {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));

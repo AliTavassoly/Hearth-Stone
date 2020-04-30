@@ -40,31 +40,6 @@ public class DecksPanel extends JPanel {
         layoutComponent();
     }
 
-    public void addDeck(Deck deck, JPanel panel) {
-        DeckButton deckButton = new DeckButton(deck,
-                deckWidth,
-                deckHeight);
-
-        deckButtons.add(deckButton);
-        decks.add(deck);
-        panels.remove(panel);
-
-        removeAll();
-        layoutComponent();
-    }
-
-    public void removeDeck(Deck deck) {
-        int ind = decks.indexOf(deck);
-
-        removeAll();
-        repaint();
-        deckButtons.remove(ind);
-        decks.remove(ind);
-        panels.remove(ind);
-        layoutComponent();
-        repaint();
-    }
-
     private void configPanel() {
         setLayout(null);
         setBackground(new Color(0, 0, 0, 120));

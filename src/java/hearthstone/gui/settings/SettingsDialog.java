@@ -43,7 +43,7 @@ public class SettingsDialog extends JDialog {
         setVisible(true);
     }
 
-    public void configDialog() {
+    private void configDialog() {
         setSize(new Dimension(width, height));
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -74,7 +74,7 @@ public class SettingsDialog extends JDialog {
         setCursor(customCursor);
     }
 
-    public void makeButtons() {
+    private void makeButtons() {
         saveButton = new ImageButton("save", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
@@ -104,7 +104,7 @@ public class SettingsDialog extends JDialog {
         });
     }
 
-    public void makeVolumesButtons(){
+    private void makeVolumesButtons(){
         volumeDown = new ImageButton("/icons/volume_down.png",
                 "/icons/volume_down_active.png",
                 SizeConfigs.iconHeight, SizeConfigs.iconWidth);
@@ -128,7 +128,7 @@ public class SettingsDialog extends JDialog {
         });
     }
 
-    public void makeLabels(){
+    private void makeLabels(){
         volumeDownLabel = new JLabel("Volume Down");
         volumeDownLabel.setFont(GameFrame.getInstance().getCustomFont(0, 20));
         volumeDownLabel.setForeground(new Color(69, 28, 28));
@@ -138,7 +138,7 @@ public class SettingsDialog extends JDialog {
         volumeUpLabel.setForeground(new Color(69, 28, 28));
     }
 
-    public void layoutComponent() {
+    private void layoutComponent() {
         setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
 
