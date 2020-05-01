@@ -19,7 +19,7 @@ public class Rand {
         }
     }
 
-    public boolean probability(int a, int b){
+    public boolean getProbability(int a, int b){
         int ap = random.nextInt(b);
         return ap < a;
     }

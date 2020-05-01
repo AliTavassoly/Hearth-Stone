@@ -5,6 +5,7 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Rand;
 
 import java.util.ArrayList;
 
@@ -43,9 +44,14 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
-            unlockedCards.add(card.getId());
-            cards.add(card);
-            cards.add(card);
+            int number = 1 + Rand.getInstance().getRandomNumber(2);
+            for(int i = 0; i < number; i++) {
+                cards.add(card);
+            }
+
+            if(Rand.getInstance().getProbability(1, 2)) {
+                unlockedCards.add(card.getId());
+            }
         }
         for (int i = 0; i < HearthStone.baseHeroes.size(); i++) {
             unlockedHeroes.add(i);
