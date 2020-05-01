@@ -21,6 +21,7 @@ import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -32,6 +33,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
@@ -266,7 +268,7 @@ public class GameBoard extends JPanel {
                           int startX, int startY, int width, int height) {
         try {
             myPlayer.playCard(card);
-            cardButton.makePlaySound();
+            cardButton.playSound();
             hearthstone.util.Logger.saveLog("Play card",
                     card.getName() + " played");
             restart();
@@ -403,25 +405,8 @@ public class GameBoard extends JPanel {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    File file = new File(this.getClass().getResource(
-                            "/sounds/ding.wav").getFile());
-                    AudioInputStream audioInputStream =
-                            AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioInputStream);
-
-                    FloatControl gainControl =
-                            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(CredentialsFrame.getInstance().getSoundValue());
-
-                    clip.start();
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "End turn_button");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
+                soundPlayer.playOnce();
 
                 game.endTurn();
                 restart();

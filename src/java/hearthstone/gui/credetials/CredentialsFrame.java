@@ -2,28 +2,27 @@ package hearthstone.gui.credetials;
 
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
+import hearthstone.util.SoundPlayer;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
-import java.io.File;
 
 public class CredentialsFrame extends BaseFrame {
     private LogisterPanel logisterPanel;
     private static CredentialsFrame credentialsFrame;
-    private Clip clip;
-    private float soundValue;
+    private static SoundPlayer soundPlayer;
 
     private CredentialsFrame() {
         logisterPanel = new LogisterPanel();
 
-        playSound();
+        soundPlayer = new SoundPlayer("/sounds/background.wav");
 
-        stopSound();
+        soundPlayer.loopPlay();
 
         configFrame();
+    }
+
+    public static SoundPlayer getSoundPlayer() {
+        return soundPlayer;
     }
 
     public static CredentialsFrame getInstance() {
@@ -35,46 +34,7 @@ public class CredentialsFrame extends BaseFrame {
     }
 
     public static CredentialsFrame getNewInstance() {
-        if (credentialsFrame != null) {
-            credentialsFrame.stopSound();
-        }
         return credentialsFrame = new CredentialsFrame();
-    }
-
-    public float getSoundValue() {
-        return soundValue;
-    }
-
-    public void volumeChange(int x) {
-        FloatControl gainControl =
-                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        soundValue = gainControl.getValue() + x;
-        gainControl.setValue(soundValue);
-    }
-
-    public void playSound() {
-        try {
-            File file = new File(this.getClass().getResource(
-                    "/sounds/credentials.wav").getFile());
-            AudioInputStream audioInputStream =
-                    AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            FloatControl gainControl =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
-            soundValue = gainControl.getValue();
-
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void stopSound() {
-        if (clip != null)
-            clip.stop();
     }
 
     private void configFrame() {

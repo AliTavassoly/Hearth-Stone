@@ -8,6 +8,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.MinionCard;
 import hearthstone.logic.models.card.cards.SpellCard;
 import hearthstone.logic.models.card.cards.WeaponCard;
+import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -184,36 +185,17 @@ public class CardButton extends ImageButton implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        super.mouseClicked(mouseEvent);
-        File file = null;
-        AudioInputStream audioInputStream = null;
-
-        try {
-            if (card instanceof MinionCard) {
-                file = new File(this.getClass().getResource(
-                        "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav").getFile());
-            } else if (card instanceof SpellCard) {
-                file = new File(this.getClass().getResource(
-                        "/sounds/spells/" + "spell" + ".wav").getFile());
-            } else if (card instanceof WeaponCard) {
-                file = new File(this.getClass().getResource(
-                        "/sounds/weapons/" + "weapon" + ".wav").getFile());
-            } else {
-                return;
-            }
-            audioInputStream =
-                    AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            FloatControl gainControl =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(CredentialsFrame.getInstance().getSoundValue());
-
-            clip.start();
-        } catch (
-                Exception e) {
-            System.out.println(e.getMessage());
+        String path;
+        if (card instanceof MinionCard) {
+            path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
+        } else if (card instanceof SpellCard) {
+            path = "/sounds/spells/" + "spell" + ".wav";
+        } else if (card instanceof WeaponCard) {
+            path = "/sounds/weapons/" + "weapon" + ".wav";
+        } else {
+            return;
         }
+        SoundPlayer soundPlayer = new SoundPlayer(path);
+        soundPlayer.playOnce();
     }
 }

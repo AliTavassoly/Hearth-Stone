@@ -3,8 +3,8 @@ package hearthstone.gui.settings;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
-import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -89,7 +89,6 @@ public class SettingsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setVisible(false);
-                CredentialsFrame.getInstance().volumeChange(volumeChange);
                 dispose();
             }
         });
@@ -98,7 +97,7 @@ public class SettingsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setVisible(false);
-                CredentialsFrame.getInstance().volumeChange(-volumeChange);
+                SoundPlayer.changeVolume(-volumeChange);
                 dispose();
             }
         });
@@ -112,7 +111,7 @@ public class SettingsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 volumeChange -= 3;
-                CredentialsFrame.getInstance().volumeChange(-3);
+                SoundPlayer.changeVolume(-3);
             }
         });
 
@@ -123,7 +122,7 @@ public class SettingsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 volumeChange += 3;
-                CredentialsFrame.getInstance().volumeChange(+3);
+                SoundPlayer.changeVolume(+3);
             }
         });
     }
