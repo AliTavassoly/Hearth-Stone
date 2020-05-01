@@ -6,12 +6,10 @@ import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.cards.MinionCard;
-import hearthstone.util.HearthStoneException;
 import hearthstone.util.AbstractAdapter;
+import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public abstract class Hero {

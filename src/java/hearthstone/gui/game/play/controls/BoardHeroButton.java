@@ -1,8 +1,8 @@
 package hearthstone.gui.game.play.controls;
 
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.models.hero.Hero;
 
 import javax.imageio.ImageIO;

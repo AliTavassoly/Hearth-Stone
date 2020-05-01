@@ -11,15 +11,10 @@ import hearthstone.logic.models.card.cards.WeaponCard;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class CardButton extends ImageButton implements MouseListener {
     int width, height, number;

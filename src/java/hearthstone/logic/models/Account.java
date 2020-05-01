@@ -214,13 +214,12 @@ public class Account {
     }
 
     public void readyForPlay() throws Exception {
-        if (HearthStone.currentAccount.getSelectedHero() == null) {
+        if (getSelectedHero() == null) {
             throw new HearthStoneException("You should choose your hero first!");
-        } else if (HearthStone.currentAccount.getSelectedHero().getSelectedDeck() == null) {
+        } else if (getSelectedHero().getSelectedDeck() == null) {
             throw new HearthStoneException("You should choose a deck for your hero!");
-        } else {
-            Player player = getPlayer();
-            player.readyForPlay();
+        } else if (!getSelectedHero().getSelectedDeck().isFull()) {
+            throw new HearthStoneException("You should complete your deck first!");
         }
     }
 

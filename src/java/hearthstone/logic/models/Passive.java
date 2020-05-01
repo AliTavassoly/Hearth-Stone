@@ -1,4 +1,4 @@
-package hearthstone.logic.models.passive;
+package hearthstone.logic.models;
 
 public class Passive {
     private int id;

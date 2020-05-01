@@ -4,11 +4,10 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.*;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Rand;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Player {
     private Hero hero;
@@ -21,7 +20,6 @@ public class Player {
 
     private ArrayList<Card> hand;
     private ArrayList<Card> land;
-    private final Random random;
 
     private HeroPowerCard heroPower;
 
@@ -34,7 +32,6 @@ public class Player {
 
         hand = new ArrayList<>();
         land = new ArrayList<>();
-        random = new Random(System.currentTimeMillis());
         mana = 0;
     }
 
@@ -104,12 +101,25 @@ public class Player {
 
     // End of getter setter
 
-    public void readyForPlay() throws Exception{
-        if(!deck.isFull())
+    public void doPassives() {
+        if (passive.getName().equals("Off Cards")) {
+            for (Card card : deck.getCards()) {
+                card.setManaCost(Math.max(0, card.getManaCost() - 1));
+            }
+        } else if (passive.getName().equals("Free Power")) {
+            for (Card card : deck.getCards()) {
+                if (card instanceof HeroPowerCard)
+                    card.setManaCost(Math.max(0, card.getManaCost() - 1));
+            }
+        }
+    }
+
+    public void readyForPlay() throws Exception {
+        if (!deck.isFull())
             throw new HearthStoneException("You should complete your deck first!");
     }
 
-    public void startGame() throws Exception{
+    public void startGame() throws Exception {
         turnNumber = 1;
         mana = 1;
 
@@ -118,20 +128,20 @@ public class Player {
         pickCard();
     }
 
-    public void pickCard() throws Exception{
-        if(deck.getCards().size() == 0)
+    public void pickCard() throws Exception {
+        if (deck.getCards().size() == 0)
             throw new HearthStoneException("Game ended!");
-        int cardInd = random.nextInt(deck.getCards().size());
+        int cardInd = Rand.getInstance().getRandomNumber(deck.getCards().size());
         Card card = deck.getCards().get(cardInd);
         deck.getCards().remove(cardInd);
-        if(hand.size() == GameConfigs.maxCardInHand)
+        if (hand.size() == GameConfigs.maxCardInHand)
             return;
         hand.add(card);
 
     }
 
-    public void playCard(Card baseCard) throws Exception{
-        if(baseCard.getManaCost() > mana)
+    public void playCard(Card baseCard) throws Exception {
+        if (baseCard.getManaCost() > mana)
             throw new HearthStoneException("you don't have enough mana!");
         Card cardInHand = null;
 
@@ -141,22 +151,22 @@ public class Player {
             }
         }
 
-        if(cardInHand instanceof HeroPowerCard){
-            if(heroPower != null){
+        if (cardInHand instanceof HeroPowerCard) {
+            if (heroPower != null) {
                 throw new HearthStoneException("you are using hero power!");
             }
             heroPower = (HeroPowerCard) cardInHand;
-        } else if(cardInHand instanceof SpellCard){
+        } else if (cardInHand instanceof SpellCard) {
 
-        } else if(cardInHand instanceof RewardCard){
+        } else if (cardInHand instanceof RewardCard) {
 
-        } else if(cardInHand instanceof WeaponCard){
-            if(weapon != null){
+        } else if (cardInHand instanceof WeaponCard) {
+            if (weapon != null) {
                 throw new HearthStoneException("you are using weapon!");
             }
             weapon = (WeaponCard) cardInHand;
-        } else if(cardInHand instanceof MinionCard){
-            if(land.size() == GameConfigs.maxCardInLand)
+        } else if (cardInHand instanceof MinionCard) {
+            if (land.size() == GameConfigs.maxCardInLand)
                 throw new HearthStoneException("your land is full!");
             land.add(cardInHand);
         }
@@ -164,16 +174,19 @@ public class Player {
         hand.remove(cardInHand);
         mana -= cardInHand.getManaCost();
 
-        for(Card card : originalDeck.getCards()){
-            if(card.getName().equals(cardInHand.getName())){
+        for (Card card : originalDeck.getCards()) {
+            if (card.getName().equals(cardInHand.getName())) {
                 originalDeck.cardPlay(cardInHand);
             }
         }
     }
 
-    public void startTurn() throws Exception{
+    public void startTurn() throws Exception {
         mana = ++turnNumber;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
         pickCard();
+        if(passive.getName().equals("Twice Draw")){
+            pickCard();
+        }
     }
 }

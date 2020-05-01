@@ -1,6 +1,5 @@
 package hearthstone.gui.controls.hero;
 
-import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.models.hero.Hero;
 

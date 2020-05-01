@@ -1,7 +1,5 @@
 package hearthstone.gui.controls.fields;
 
-import hearthstone.gui.credetials.CredentialsFrame;
-
 import javax.swing.*;
 import java.awt.*;
 

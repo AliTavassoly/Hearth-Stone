@@ -1,7 +1,5 @@
 package hearthstone.logic.models.card;
 
-import java.util.logging.Level;
-
 public enum Rarity {
     COMMON(0),
     RARE(1),

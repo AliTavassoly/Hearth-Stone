@@ -5,9 +5,9 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.PassiveButton;
+import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.controls.dialogs.SureDialog;
-import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.controls.icons.SettingIcon;
@@ -22,8 +22,8 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
@@ -32,7 +32,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, settingsButton;
@@ -110,6 +109,8 @@ public class GameBoard extends JPanel {
 
         showPassiveDialog();
 
+        game.startGame();
+
         iconLayout();
 
         makeGameStuff();
@@ -151,10 +152,10 @@ public class GameBoard extends JPanel {
                 GameFrame.getInstance(),
                 3 * SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
-                new ArrayList<>(
-                        Arrays.asList(0, 1, 2))
+                Rand.getInstance().getRandomArray(3, 5)
                 );                                 //       random passives
         myPlayer.setPassive(passiveDialog.getPassive());
+        myPlayer.doPassives();
     }
 
     private void drawMana(Graphics2D g, int number, int maxNumber) {

@@ -12,11 +12,9 @@ public class Game {
         this.player1  = player1;
 
         whoseTurn = 0;
-
-        startGame();
     }
 
-    private void startGame(){
+    public void startGame(){
         try {
             player0.startGame();
         } catch (HearthStoneException e){

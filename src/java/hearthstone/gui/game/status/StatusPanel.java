@@ -2,8 +2,8 @@ package hearthstone.gui.game.status;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;

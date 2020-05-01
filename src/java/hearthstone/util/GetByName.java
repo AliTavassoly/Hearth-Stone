@@ -2,7 +2,6 @@ package hearthstone.util;
 
 
 import hearthstone.HearthStone;
-
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 
