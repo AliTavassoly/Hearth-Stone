@@ -92,6 +92,9 @@ public class GameBoard extends JPanel {
     private final int deckCardsNumberX = midX + 450;
     private final int deckCardsNumberY = midY + 100;
 
+    private final int extraPassiveX = 60;
+    private final int extraPassiveY = 50;
+
     // Finals END
 
     public GameBoard(Player myPlayer, Player opponentPlayer, Game game) {
@@ -150,10 +153,12 @@ public class GameBoard extends JPanel {
     private void showPassiveDialog(){
         PassiveDialog passiveDialog = new PassiveDialog(
                 GameFrame.getInstance(),
-                3 * SizeConfigs.medCardWidth,
-                SizeConfigs.medCardHeight,
-                Rand.getInstance().getRandomArray(3, 5)
-                );                                 //       random passives
+                GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
+                SizeConfigs.medCardHeight + extraPassiveY,
+                Rand.getInstance().getRandomArray(
+                        GameConfigs.initialPassives,
+                        HearthStone.basePassives.size())
+                );
         myPlayer.setPassive(passiveDialog.getPassive());
         myPlayer.doPassives();
     }
