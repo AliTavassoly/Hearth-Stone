@@ -7,6 +7,7 @@ import hearthstone.logic.models.Account;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.gamestuff.Market;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class  HearthStone {
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
+    public static Map<Integer, Passive> basePassives = new HashMap<>();
     public static Account currentAccount;
     public static String dataPath;
     public static Market market = new Market();
@@ -83,7 +85,7 @@ public class  HearthStone {
         try {
             DataBase.load();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.println("Failed to load DataBase!");
         }
         CredentialsFrame.getInstance();

@@ -50,7 +50,7 @@ public class HeroPowerButton extends ImageButton {
             circleImage = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         buffyG.drawImage(cardImage, 20, 25, null);
 

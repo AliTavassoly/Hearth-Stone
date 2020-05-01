@@ -24,7 +24,7 @@ public class MinimizeIcon extends ImageButton {
                         hearthstone.util.Logger.saveLog("Click_icon",
                                 "Minimize_button");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 GameFrame.getInstance().setState(Frame.ICONIFIED);
                 GameFrame.getInstance().setState(Frame.NORMAL);

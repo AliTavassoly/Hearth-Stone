@@ -48,7 +48,7 @@ public class SoundPlayer {
             gainControl.setValue(soundValue);
             clip.start();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -57,7 +57,7 @@ public class SoundPlayer {
             gainControl.setValue(soundValue);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

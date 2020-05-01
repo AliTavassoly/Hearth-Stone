@@ -25,9 +25,8 @@ public class Game {
                         e.getClass().getName() + ": " + e.getMessage()
                                 + "\nStack Trace: " + e.getStackTrace());
             } catch (Exception f) { }
-            System.out.println(e.getMessage());
         } catch (Exception ex){
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -41,9 +40,8 @@ public class Game {
                             e.getClass().getName() + ": " + e.getMessage()
                                     + "\nStack Trace: " + e.getStackTrace());
                 } catch (Exception f) { }
-                System.out.println(e.getMessage());
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         } else {
             try {
@@ -54,9 +52,8 @@ public class Game {
                             e.getClass().getName() + ": " + e.getMessage()
                                     + "\nStack Trace: " + e.getStackTrace());
                 } catch (Exception f) { }
-                System.out.println(e.getMessage());
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
     }

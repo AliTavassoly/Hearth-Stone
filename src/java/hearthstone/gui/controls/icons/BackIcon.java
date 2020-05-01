@@ -27,7 +27,7 @@ public class BackIcon extends ImageButton {
                         hearthstone.util.Logger.saveLog("Click_icon",
                                 "Back_button");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                         panel);

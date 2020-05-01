@@ -5,7 +5,7 @@ import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.TextField;
+import hearthstone.gui.controls.fields.TextField;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.icons.BackIcon;
@@ -92,7 +92,7 @@ public class DeckArrangement extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -266,7 +266,7 @@ public class DeckArrangement extends JPanel {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "search");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 update();
             }
@@ -292,9 +292,8 @@ public class DeckArrangement extends JPanel {
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
-                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });
@@ -362,10 +361,9 @@ public class DeckArrangement extends JPanel {
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
-                    System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });
@@ -402,10 +400,9 @@ public class DeckArrangement extends JPanel {
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
-                    System.out.println(e.getMessage());
                     BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });

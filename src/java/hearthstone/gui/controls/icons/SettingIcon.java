@@ -25,7 +25,7 @@ public class SettingIcon extends ImageButton {
                         hearthstone.util.Logger.saveLog("Click_icon",
                                 "Setting_button");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 SettingsDialog settingsDialog = new SettingsDialog(GameFrame.getInstance(),
                         SizeConfigs.settingsWidth, SizeConfigs.settingsHeight);

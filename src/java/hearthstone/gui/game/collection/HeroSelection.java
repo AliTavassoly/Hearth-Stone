@@ -56,7 +56,7 @@ public class HeroSelection extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -165,10 +165,9 @@ public class HeroSelection extends JPanel {
                                     e.getClass().getName() + ": " + e.getMessage()
                                             + "\nStack Trace: " + e.getStackTrace());
                         } catch (Exception f) { }
-                        System.out.println(e.getMessage());
                         BaseFrame.error(e.getMessage());
                     } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
+                        ex.printStackTrace();
                     }
                     restart();
                 }
@@ -223,7 +222,7 @@ public class HeroSelection extends JPanel {
         try {
             DataBase.save();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
     }

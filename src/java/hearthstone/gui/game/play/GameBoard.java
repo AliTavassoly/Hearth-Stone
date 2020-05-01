@@ -4,7 +4,9 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.PassiveButton;
+import hearthstone.gui.controls.dialogs.PassiveDialog;
+import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
@@ -20,28 +22,26 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Player;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, settingsButton;
     private ImageButton endTurnButton;
     private BoardHeroButton myHero, opponentHero;
-    private Player myPlayer, opponentPlayer;
-    private Game game;
+    private final Player myPlayer, opponentPlayer;
+    private final SoundPlayer soundPlayer;
+    private final Game game;
+    private PassiveButton myPassive;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -50,12 +50,10 @@ public class GameBoard extends JPanel {
     private final int midX = SizeConfigs.gameFrameWidth / 2;
     private final int midY = SizeConfigs.gameFrameHeight / 2 - 23;
 
-
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-
 
     private final int endTurnButtonX = 882;
     private final int endTurnButtonY = 300;
@@ -102,9 +100,15 @@ public class GameBoard extends JPanel {
         this.opponentPlayer = opponentPlayer;
         this.game = game;
 
+        soundPlayer = new SoundPlayer("/sounds/play_background.wav");
+        CredentialsFrame.getSoundPlayer().stop();
+        soundPlayer.loopPlay();
+
         configPanel();
 
         makeIcons();
+
+        showPassiveDialog();
 
         iconLayout();
 
@@ -123,7 +127,7 @@ public class GameBoard extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/game_board_background.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
 
@@ -142,6 +146,17 @@ public class GameBoard extends JPanel {
         setVisible(true);
     }
 
+    private void showPassiveDialog(){
+        PassiveDialog passiveDialog = new PassiveDialog(
+                GameFrame.getInstance(),
+                3 * SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                new ArrayList<>(
+                        Arrays.asList(0, 1, 2))
+                );                                 //       random passives
+        myPlayer.setPassive(passiveDialog.getPassive());
+    }
+
     private void drawMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
@@ -155,7 +170,7 @@ public class GameBoard extends JPanel {
                         manaX + (SizeConfigs.manaWidth + manaDis) * i, manaY,
                         SizeConfigs.manaWidth, SizeConfigs.manaHeight, null);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
 
@@ -281,10 +296,9 @@ public class GameBoard extends JPanel {
                 e.getStackTrace();
             }
 
-            System.out.println(e.getMessage());
             button.setBounds(startX, startY, width, height);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -388,11 +402,11 @@ public class GameBoard extends JPanel {
                     DataBase.save();
                     hearthstone.util.Logger.saveLog("Exit",
                             "Exited from game board");
-                } catch (HearthStoneException e) {
-                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
-                    ex.getStackTrace();
+                    ex.printStackTrace();
                 }
+                CredentialsFrame.getSoundPlayer().loopPlay();
+                soundPlayer.stop();
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
         });
@@ -416,6 +430,10 @@ public class GameBoard extends JPanel {
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero
 
         opponentHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // opponent hero
+
+        myPassive = new PassiveButton(myPlayer.getPassive(),
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight);
     }
 
     private void iconLayout() {
@@ -457,6 +475,12 @@ public class GameBoard extends JPanel {
         opponentHero.setBounds(opponentHeroX, opponentHeroY,
                 heroWidth, heroHeight);
         add(opponentHero);
+
+        myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                0,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight);
+        add(myPassive);
     }
 
     private boolean isInLand(int x, int y) {

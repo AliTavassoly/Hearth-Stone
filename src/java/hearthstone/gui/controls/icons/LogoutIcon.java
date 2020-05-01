@@ -3,7 +3,7 @@ package hearthstone.gui.controls.icons;
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
@@ -28,7 +28,7 @@ public class LogoutIcon extends ImageButton {
                             hearthstone.util.Logger.saveLog("Click_icon",
                                     "Logout_button");
                     } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
                     }
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to logout ?",
                             SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
@@ -46,9 +46,8 @@ public class LogoutIcon extends ImageButton {
                                         + "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) {
                     }
-                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });

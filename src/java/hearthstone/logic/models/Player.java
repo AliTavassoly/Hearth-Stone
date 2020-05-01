@@ -4,6 +4,7 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.cards.*;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
@@ -11,15 +12,16 @@ import java.util.Random;
 
 public class Player {
     private Hero hero;
-    private Deck originalDeck;
+    private final Deck originalDeck;
     private Deck deck;
+    private Passive passive;
 
     private int mana;
     private int turnNumber;
 
     private ArrayList<Card> hand;
     private ArrayList<Card> land;
-    private Random random;
+    private final Random random;
 
     private HeroPowerCard heroPower;
 
@@ -92,6 +94,14 @@ public class Player {
         this.weapon = weapon;
     }
 
+    public Passive getPassive() {
+        return passive;
+    }
+
+    public void setPassive(Passive passive) {
+        this.passive = passive;
+    }
+
     // End of getter setter
 
     public void readyForPlay() throws Exception{
@@ -125,9 +135,8 @@ public class Player {
             throw new HearthStoneException("you don't have enough mana!");
         Card cardInHand = null;
 
-        for(int i = 0; i < hand.size(); i++){
-            Card card = hand.get(i);
-            if(card.getName().equals(baseCard.getName())){
+        for (Card card : hand) {
+            if (card.getName().equals(baseCard.getName())) {
                 cardInHand = card;
             }
         }

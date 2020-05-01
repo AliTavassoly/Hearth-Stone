@@ -3,7 +3,7 @@ package hearthstone.gui.game.market;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
-import hearthstone.gui.controls.SureDialog;
+import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.controls.card.CardsPanel;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -71,14 +71,14 @@ public class MarketPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g = (Graphics2D)(g);
+        g = (Graphics2D) (g);
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/market_background.png"));
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -101,7 +101,7 @@ public class MarketPanel extends JPanel {
                 SizeConfigs.iconHeight);
     }
 
-    private void makeChoosePanel(){
+    private void makeChoosePanel() {
         sellButton = new ImageButton("SELL", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
                 20, 0, SizeConfigs.medButtonWidth, SizeConfigs.medButtonHeight);
@@ -113,7 +113,7 @@ public class MarketPanel extends JPanel {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "sell panel_button");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 sellScroll.setVisible(true);
             }
@@ -130,14 +130,14 @@ public class MarketPanel extends JPanel {
                     hearthstone.util.Logger.saveLog("Button_click",
                             "buy panel_button");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 buyScroll.setVisible(true);
             }
         });
     }
 
-    private void makeInformationPanel(){
+    private void makeInformationPanel() {
         informationPanel = new JPanel();
         gemLabel = new JLabel();
         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
@@ -158,7 +158,7 @@ public class MarketPanel extends JPanel {
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (Card card : HearthStone.market.getCards()){
+        for (Card card : HearthStone.market.getCards()) {
             cards.add(card);
             panels.add(getBuyPanel(card));
         }
@@ -179,7 +179,7 @@ public class MarketPanel extends JPanel {
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(Card card : HearthStone.currentAccount.getCollection().getCards()){
+        for (Card card : HearthStone.currentAccount.getCollection().getCards()) {
             cards.add(card);
             panels.add(getSellPanel(card));
         }
@@ -250,11 +250,11 @@ public class MarketPanel extends JPanel {
         // INFORMATION
         informationPanel.setBounds(startInfoX, startInfoY,
                 infoWidth,
-                (int)informationPanel.getPreferredSize().getHeight());
+                (int) informationPanel.getPreferredSize().getHeight());
         add(informationPanel);
     }
 
-    private JPanel getSellPanel(Card card){
+    private JPanel getSellPanel(Card card) {
         JPanel panel = new JPanel();
         ImageButton button = new ImageButton("SELL", "buttons/red_background.png", 0,
                 Color.white, Color.yellow,
@@ -284,16 +284,16 @@ public class MarketPanel extends JPanel {
                                         card.getName() + "!");
                         DataBase.save();
                     }
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage() +
                                         "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
+                    } catch (Exception f) {
+                    }
                     BaseFrame.error(e.getMessage());
-                    System.out.println(e.getMessage());
-                } catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -313,7 +313,7 @@ public class MarketPanel extends JPanel {
         return panel;
     }
 
-    private JPanel getBuyPanel(Card card){
+    private JPanel getBuyPanel(Card card) {
         JPanel panel = new JPanel();
         ImageButton button = new ImageButton("BUY", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
@@ -332,7 +332,7 @@ public class MarketPanel extends JPanel {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "buy_button");
                     boolean sure = sureDialog.getValue();
-                    if(sure) {
+                    if (sure) {
                         HearthStone.currentAccount.buyCards(card, 1);
                         buyPanel.removeCard(card);
                         HearthStone.market.removeCard(card, 1);
@@ -342,16 +342,16 @@ public class MarketPanel extends JPanel {
                                         card.getName() + "!");
                         DataBase.save();
                     }
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
-                    System.out.println(e.getMessage());
+                    } catch (Exception f) {
+                    }
                     BaseFrame.error(e.getMessage());
-                } catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -371,8 +371,8 @@ public class MarketPanel extends JPanel {
         return panel;
     }
 
-    class Price extends JPanel{
-        public Price(String text){
+    class Price extends JPanel {
+        public Price(String text) {
             JLabel label = new JLabel(text);
             label.setForeground(Color.WHITE);
             label.setFont(GameFrame.getInstance().getCustomFont(0, 20));

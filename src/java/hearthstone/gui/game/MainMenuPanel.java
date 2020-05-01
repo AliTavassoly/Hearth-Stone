@@ -59,7 +59,7 @@ public class MainMenuPanel extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/main_menu_background.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -116,7 +116,9 @@ public class MainMenuPanel extends JPanel {
                 try {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "market_button");
-                } catch (Exception e) { System.out.println(e.getMessage()); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MarketPanel());
             }
@@ -127,7 +129,9 @@ public class MainMenuPanel extends JPanel {
                 try {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "status_button");
-                } catch (Exception e) { System.out.println(e.getMessage()); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new StatusPanel());
             }
@@ -138,7 +142,9 @@ public class MainMenuPanel extends JPanel {
                 try {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "collection_button");
-                } catch (Exception e) { System.out.println(e.getMessage()); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
             }
@@ -150,7 +156,9 @@ public class MainMenuPanel extends JPanel {
                     try {
                         hearthstone.util.Logger.saveLog("Click_button",
                                 "play_button");
-                    } catch (Exception e) { System.out.println(e.getMessage()); }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     HearthStone.currentAccount.readyForPlay();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
@@ -162,9 +170,8 @@ public class MainMenuPanel extends JPanel {
                                         + "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
                     BaseFrame.error(e.getMessage());
-                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });

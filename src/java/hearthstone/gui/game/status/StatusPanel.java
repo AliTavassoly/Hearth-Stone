@@ -47,9 +47,7 @@ public class StatusPanel extends JPanel {
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/status_background.png"));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        } catch (Exception e) { }
         g.drawImage(image, 0, 0, null);
     }
 

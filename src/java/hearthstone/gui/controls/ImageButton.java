@@ -112,7 +112,6 @@ public class ImageButton extends JButton implements MouseListener {
 
     private void configButton() {
         setPreferredSize(new Dimension(width, height));
-        //setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
 
@@ -161,8 +160,7 @@ public class ImageButton extends JButton implements MouseListener {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/" + imagePath));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.getStackTrace();
+            e.printStackTrace();
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
 

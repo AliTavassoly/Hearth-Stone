@@ -166,7 +166,7 @@ public class CardsPanel extends JPanel {
                                 + "\nStack Trace: " + e.getStackTrace());
             } catch (Exception f) { }
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
         removeAll();
 

@@ -2,8 +2,8 @@ package hearthstone.gui.credetials;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.PasswordField;
-import hearthstone.gui.controls.TextField;
+import hearthstone.gui.controls.fields.PasswordField;
+import hearthstone.gui.controls.fields.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
 
@@ -58,7 +58,7 @@ public class LoginPanel extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/logister_background.jpg"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
 
@@ -102,11 +102,9 @@ public class LoginPanel extends JPanel {
                                 e.getClass().getName() + ": " + e.getMessage() +
                                         "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
-                    System.out.println(e.getMessage());
                     repaint();
                 } catch (Exception ex){
-                    System.out.println(ex.getMessage());
-                    ex.getStackTrace();
+                    ex.printStackTrace();
                 }
             }
         });

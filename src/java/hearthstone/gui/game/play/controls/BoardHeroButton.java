@@ -52,7 +52,7 @@ public class BoardHeroButton extends ImageButton {
                     "/images/health_background.png"));
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         buffyG.drawImage(heroImage.getScaledInstance(width,
                 height,

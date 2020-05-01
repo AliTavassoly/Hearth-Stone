@@ -79,7 +79,6 @@ public class SizeConfigs {
     public static int marketInfoHeight;
 
     // Game Board
-
     public static int endTurnButtonWidth;
     public static int endTurnButtonHeight;
 
@@ -178,7 +177,6 @@ public class SizeConfigs {
         marketInfoHeight = ((Double) configs.get("marketInfoHeight")).intValue();
 
         // GameBoard
-
         endTurnButtonWidth = ((Double) configs.get("endTurnButtonWidth")).intValue();
         endTurnButtonHeight = ((Double) configs.get("endTurnButtonHeight")).intValue();
 

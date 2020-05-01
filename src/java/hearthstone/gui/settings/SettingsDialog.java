@@ -67,7 +67,7 @@ public class SettingsDialog extends JDialog {
             cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/cursor.png"));
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
                 new Point(0, 0), "customCursor");

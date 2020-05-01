@@ -28,7 +28,7 @@ public class ImagePanel extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/" + imagePath));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
     }

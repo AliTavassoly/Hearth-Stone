@@ -1,6 +1,6 @@
 package hearthstone.gui;
 
-import hearthstone.gui.controls.ErrorDialog;
+import hearthstone.gui.controls.dialogs.ErrorDialog;
 import hearthstone.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
@@ -18,17 +18,17 @@ public class BaseFrame extends JFrame {
                 this.getClass().getResourceAsStream("/fonts/text_font.ttf"))) {
             hearthStoneFont = Font.createFont(Font.TRUETYPE_FONT, in);
         } catch (FontFormatException | IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
 
         Image cursorImage = null;
-        try{
+        try {
             cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/cursor.png"));
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
                 new Point(0, 0), "customCursor");

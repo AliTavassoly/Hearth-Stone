@@ -4,8 +4,8 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ErrorDialog;
-import hearthstone.gui.controls.NameDialog;
+import hearthstone.gui.controls.dialogs.ErrorDialog;
+import hearthstone.gui.controls.dialogs.NameDialog;
 import hearthstone.gui.controls.deck.DecksPanel;
 import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.ImageButton;
@@ -73,7 +73,7 @@ public class DeckSelection extends JPanel {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/hero_selection_background.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g.drawImage(image, 0, 0, null);
     }
@@ -159,7 +159,9 @@ public class DeckSelection extends JPanel {
                 try {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "new_deck_button");
-                } catch (Exception e) { System.out.println(e.getMessage()); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 if(beforeDeck != null){
                     BaseFrame.error("this name is already token!");
@@ -184,9 +186,8 @@ public class DeckSelection extends JPanel {
                                     e.getMessage(),
                                     SizeConfigs.errorWidth, SizeConfigs.errorHeight);
                         } catch (Exception f) { }
-                        System.out.println(e.getMessage());
                     } catch (Exception e){
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
                     }
                 }
             }
@@ -206,7 +207,7 @@ public class DeckSelection extends JPanel {
                     hearthstone.util.Logger.saveLog("Click_button",
                             "arrange");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
 
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
@@ -244,10 +245,9 @@ public class DeckSelection extends JPanel {
                                     e.getClass().getName() + ": " + e.getMessage()
                                             + "\nStack Trace: " + e.getStackTrace());
                         } catch (Exception f) { }
-                        System.out.println(e.getMessage());
                         BaseFrame.error(e.getMessage());
                     } catch (Exception ex){
-                        System.out.println(ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -313,7 +313,7 @@ public class DeckSelection extends JPanel {
         try {
             DataBase.save();
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
     }

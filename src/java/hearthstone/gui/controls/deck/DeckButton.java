@@ -45,7 +45,7 @@ public class DeckButton extends ImageButton {
             deckImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/deck.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g2.drawImage(heroImage.getScaledInstance(SizeConfigs.bigCircleHeroWidth, SizeConfigs.bigCircleHeroHeight,
                 Image.SCALE_SMOOTH), 20, 20,

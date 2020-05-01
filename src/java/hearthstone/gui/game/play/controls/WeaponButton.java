@@ -54,7 +54,7 @@ public class WeaponButton extends ImageButton {
                     path));
             buffyG.drawImage(circleImage, 0, 0, null);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -91,7 +91,7 @@ public class WeaponButton extends ImageButton {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         g.drawImage(image.getScaledInstance(
@@ -118,7 +118,7 @@ public class WeaponButton extends ImageButton {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         g.drawImage(image.getScaledInstance(

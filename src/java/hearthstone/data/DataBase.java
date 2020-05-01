@@ -15,6 +15,7 @@ import hearthstone.logic.models.card.cards.*;
 import hearthstone.logic.models.hero.*;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.hero.heroes.*;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.*;
@@ -194,6 +195,26 @@ public class DataBase {
         //baseHeroes = getBaseHeroes();
     }
 
+    private static void loadPassives() throws Exception {
+        int id = 0;
+        Passive twiceDraw = new Passive(id++, "Twice Draw");
+        basePassives.put(twiceDraw.getId(), twiceDraw);
+
+        Passive offCards = new Passive(id++, "Off Cards");
+        basePassives.put(offCards.getId(), offCards);
+
+        Passive freePower = new Passive(id++, "Free Power");
+        basePassives.put(freePower.getId(), freePower);
+
+        Passive manaJump = new Passive(id++, "Mana Jump");
+        basePassives.put(manaJump.getId(), manaJump);
+
+        Passive warriors = new Passive(id++, "Warriors");
+        basePassives.put(warriors.getId(), warriors);
+
+        //basePassives = getBasePassives();
+    }
+
     private static Map<String, AccountCredential> getCredentials() throws Exception {
         File json = new File(dataPath + "/credentials.json");
         json.getParentFile().mkdirs();
@@ -267,6 +288,18 @@ public class DataBase {
         return ans;
     }
 
+    private static Map<Integer, Passive> getBasePassives() throws Exception {
+        File json = new File(dataPath + "/base_passives.json");
+        json.getParentFile().mkdirs();
+        json.createNewFile();
+        FileReader fileReader = new FileReader(dataPath + "/base_passives.json");
+        Map<Integer, Passive> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Passive>>() {
+        }.getType());
+        if (ans == null)
+            return basePassives;
+        return ans;
+    }
+
     private static void saveCurrentAccount() throws Exception {
         File json = new File(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
         json.getParentFile().mkdirs();
@@ -315,16 +348,23 @@ public class DataBase {
         Data.setAccounts(getCredentials());
     }
 
-    private static void save1() throws Exception {
+    private static void saveCards() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_cards.json");
         gson.toJson(baseCards, new TypeToken<Map<Integer, Card>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
-    private static void save2() throws Exception {
+    private static void saveHeroes() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_heroes.json");
         gson.toJson(baseHeroes, new TypeToken<Map<Integer, Hero>>() {}.getType(), fileWriter);
+        fileWriter.flush();
+        fileWriter.close();
+    }
+
+    private static void savePassives() throws Exception {
+        FileWriter fileWriter = new FileWriter(dataPath + "/base_passives.json");
+        gson.toJson(basePassives, new TypeToken<Map<Integer, Passive>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
@@ -340,9 +380,11 @@ public class DataBase {
 
         loadCards();
         loadHeroes();
+        loadPassives();
 
-        save1();
-        save2();
+        saveCards();
+        saveHeroes();
+        savePassives();
 
         loadAccounts();
         loadMarket();

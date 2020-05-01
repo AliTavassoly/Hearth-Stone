@@ -3,8 +3,8 @@ package hearthstone.gui.credetials;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.PasswordField;
-import hearthstone.gui.controls.TextField;
+import hearthstone.gui.controls.fields.PasswordField;
+import hearthstone.gui.controls.fields.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
 
@@ -178,9 +178,8 @@ public class RegisterPanel extends JPanel {
                     } catch (Exception f) { }
                     error = e.getMessage();
                     repaint();
-                    System.out.println(e.getMessage());
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         });

@@ -65,7 +65,7 @@ public class CardButton extends ImageButton implements MouseListener {
             numberImage = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/flag.png"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         g2.drawImage(image.getScaledInstance(
                 width, height - 20,

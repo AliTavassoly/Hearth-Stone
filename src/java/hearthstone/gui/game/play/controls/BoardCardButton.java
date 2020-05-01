@@ -92,7 +92,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         buffyG.drawImage(image.getScaledInstance(width, height,
