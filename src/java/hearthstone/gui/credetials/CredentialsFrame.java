@@ -14,9 +14,11 @@ public class CredentialsFrame extends BaseFrame {
     private CredentialsFrame() {
         logisterPanel = new LogisterPanel();
 
-        soundPlayer = new SoundPlayer("/sounds/background.wav");
+        if(soundPlayer == null) {
+            soundPlayer = new SoundPlayer("/sounds/background.wav");
 
-        soundPlayer.loopPlay();
+            soundPlayer.loopPlay();
+        }
 
         configFrame();
     }

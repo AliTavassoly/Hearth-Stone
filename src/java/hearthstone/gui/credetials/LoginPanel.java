@@ -102,6 +102,7 @@ public class LoginPanel extends JPanel {
                                 e.getClass().getName() + ": " + e.getMessage() +
                                         "\nStack Trace: " + e.getStackTrace());
                     } catch (Exception f) { }
+                    error = e.getMessage();
                     repaint();
                 } catch (Exception ex){
                     ex.printStackTrace();

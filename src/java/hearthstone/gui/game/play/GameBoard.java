@@ -34,7 +34,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
-    private ImageButton backButton, minimizeButton, closeButton, settingsButton;
+    private ImageButton backButton, minimizeButton, closeButton;
     private ImageButton endTurnButton;
     private BoardHeroButton myHero, opponentHero;
     private final Player myPlayer, opponentPlayer;
@@ -376,11 +376,6 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        settingsButton = new SettingIcon("icons/settings.png",
-                "icons/settings_active.png",
-                SizeConfigs.iconWidth,
-                SizeConfigs.iconHeight);
-
         minimizeButton = new MinimizeIcon("icons/minimize.png",
                 "icons/minimize_active.png",
                 SizeConfigs.iconWidth,
@@ -448,11 +443,6 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
         add(backButton);
-
-        settingsButton.setBounds(iconX, startIconY + iconsDis,
-                SizeConfigs.iconWidth,
-                SizeConfigs.iconHeight);
-        add(settingsButton);
 
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
                 SizeConfigs.iconWidth,
