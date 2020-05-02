@@ -1,0 +1,96 @@
+{
+  "credentialFrameWidth": 600,
+  "credentialFrameHeight": 400,
+
+  "smallButtonWidth": 100,
+  "smallButtonHeight": 63,
+
+  "medButtonWidth": 130,
+  "medButtonHeight": 82,
+
+  "largeButtonWidth": 171,
+  "largeButtonHeight": 82,
+
+  "gameFrameWidth": 1120,
+  "gameFrameHeight": 700,
+
+  "iconWidth": 56,
+  "iconHeight": 61,
+
+  "mainMenuLogoWidth": 500,
+  "mainMenuLogoHeight": 248,
+
+  "smallCardWidth": 80,
+  "smallCardHeight": 130,
+
+  "medCardWidth": 150,
+  "medCardHeight": 215,
+
+  "marketListWidth": 650,
+  "marketListHeight": 650,
+
+  "statusListWidth": 569,
+  "statusListHeight": 650,
+
+  "deckSelectionListWidth": 670,
+  "deckSelectionListHeight": 650,
+
+  "bigHeroWidth": 220,
+  "bigHeroHeight": 330,
+
+  "bigCircleHeroWidth": 110,
+  "bigCircleHeroHeight": 110,
+
+  "bigHeroDetailWidth": 205,
+  "bigHeroDetailHeight": 130,
+
+  "heroesListWidth": 700,
+  "heroesListHeight": 500,
+
+  "smallGemButtonWidth": 20,
+  "smallGemButtonHeight": 30,
+
+  "bigGemButtonWidth": 70,
+  "bigGemButtonHeight": 105,
+
+  "deckWidth": 527,
+  "deckHeight": 150,
+
+  "dialogWidth": 627,
+  "dialogHeight": 200,
+
+  "arrangementListWidth": 670,
+  "arrangementListHeight": 300,
+
+  "errorWidth": 527,
+  "errorHeight": 200,
+
+  "settingsWidth": 500,
+  "settingsHeight": 500,
+
+  "numberOfCardFlagWidth": 35,
+  "numberOfCardFlagHeight": 38,
+
+  "marketInfoHeight": 160,
+
+  "endTurnButtonWidth": 82,
+  "endTurnButtonHeight": 43,
+
+  "manaWidth": 20,
+  "manaHeight": 25,
+
+  "medHeroWidth": 115,
+  "medHeroHeight": 135,
+
+  "healthWidth": 35,
+  "healthHeight": 45,
+
+  "heroPowerWidth": 110,
+  "heroPowerHeight": 110,
+
+  "weaponWidth": 110,
+  "weaponHeight": 110,
+
+  "weaponDetailWidth": 35,
+  "weaponDetailHeight": 35
+}

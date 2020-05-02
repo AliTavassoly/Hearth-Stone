@@ -1,0 +1,22 @@
+{
+  "0": {
+    "id": 0,
+    "name": "Twice Draw"
+  },
+  "1": {
+    "id": 1,
+    "name": "Off Cards"
+  },
+  "2": {
+    "id": 2,
+    "name": "Free Power"
+  },
+  "3": {
+    "id": 3,
+    "name": "Mana Jump"
+  },
+  "4": {
+    "id": 4,
+    "name": "Warriors"
+  }
+}

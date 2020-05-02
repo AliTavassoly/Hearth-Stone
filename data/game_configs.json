@@ -1,0 +1,11 @@
+{
+  "maxCardInCollection": 100,
+  "initialCoins": 50,
+  "maxCardInDeck": 15,
+  "maxManaInGame": 10,
+  "maxCardInHand": 10,
+  "maxCardInLand": 5,
+  "maxCardOfOneType": 5,
+  "maxNumberOfDeck": 7,
+  "initialPassives": 3
+}
