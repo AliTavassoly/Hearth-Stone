@@ -33,7 +33,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class GameBoard extends JPanel {
+public class GameBoardSelfPlay extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
     private ImageButton endTurnButton;
     private BoardHeroButton myHero, opponentHero;
@@ -97,7 +97,7 @@ public class GameBoard extends JPanel {
 
     // Finals END
 
-    public GameBoard(Player myPlayer, Player opponentPlayer, Game game) {
+    public GameBoardSelfPlay(Player myPlayer, Player opponentPlayer, Game game) {
         this.myPlayer = myPlayer;
         this.opponentPlayer = opponentPlayer;
         this.game = game;

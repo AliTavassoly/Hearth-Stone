@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 
 public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
-    private ImageButton playOnline, playOffline;
+    private ImageButton playOnline, playMySelf, playComputer;
     private Player player;
 
     private final int iconX = 20;
@@ -75,23 +75,35 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeButtons() {
-        playOffline = new ImageButton("Play Offline", "buttons/long_pink_background.png",
-                -1, Color.white, Color.yellow, 14, 0,
-                SizeConfigs.largeButtonWidth,
-                SizeConfigs.largeButtonHeight);
-
         playOnline = new ImageButton("Play Online", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
 
+        playMySelf = new ImageButton("Play Yourself", "buttons/long_pink_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                SizeConfigs.largeButtonWidth,
+                SizeConfigs.largeButtonHeight);
+
+        playComputer = new ImageButton("Play Computer", "buttons/long_pink_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                SizeConfigs.largeButtonWidth,
+                SizeConfigs.largeButtonHeight);
         // listeners
 
-        playOffline.addActionListener(new ActionListener() {
+        playMySelf.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 Game game = new Game(player, player);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoard(player, player, game));
+                        new GameBoardSelfPlay(player, player, game));
+            }
+        });
+
+        playComputer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                Game game = new Game(player, player);
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
+                        new GameBoardComputerPlay(player, player, game));
             }
         });
 
@@ -136,10 +148,16 @@ public class PlaySelectionPanel extends JPanel {
                 SizeConfigs.largeButtonHeight);
         add(playOnline);
 
-        playOffline.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        playMySelf.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
                 startButtonY + halfButtonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
-        add(playOffline);
+        add(playMySelf);
+
+        playComputer.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+                startButtonY + 2 * halfButtonDisY,
+                SizeConfigs.largeButtonWidth,
+                SizeConfigs.largeButtonHeight);
+        add(playComputer);
     }
 }

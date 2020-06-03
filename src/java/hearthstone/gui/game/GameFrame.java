@@ -9,7 +9,6 @@ import javax.swing.*;
 public class GameFrame extends BaseFrame {
     private MainMenuPanel mainMenuPanel;
     private static GameFrame gameFrame;
-    private Clip clip;
 
     private GameFrame() {
         mainMenuPanel = new MainMenuPanel();

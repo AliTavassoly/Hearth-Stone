@@ -56,7 +56,7 @@ public class  HearthStone {
 
     public static void register(String name, String username,
                                 String password, String repeat) throws Exception {
-        if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
+        /*if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
             throw new HearthStoneException("please fill all the fields!");
         }
         if (!password.equals(repeat)) {
@@ -67,7 +67,7 @@ public class  HearthStone {
         }
         if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
-        }
+        }*/
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);
