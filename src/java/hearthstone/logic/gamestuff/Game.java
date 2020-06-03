@@ -17,6 +17,7 @@ public class Game {
     public void startGame(){
         try {
             player0.startGame();
+            player1.startGame();
         } catch (HearthStoneException e){
             try {
                 hearthstone.util.Logger.saveLog("ERROR",

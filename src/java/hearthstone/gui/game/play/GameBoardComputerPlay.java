@@ -158,7 +158,7 @@ public class GameBoardComputerPlay extends JPanel {
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
-        );
+                );
         myPlayer.setPassive(passiveDialog.getPassive());
         myPlayer.doPassives();
     }

@@ -18,6 +18,8 @@ public class Player {
     private int mana;
     private int turnNumber;
 
+    private boolean isStarted;
+
     private ArrayList<Card> hand;
     private ArrayList<Card> land;
 
@@ -97,6 +99,14 @@ public class Player {
 
     public void setPassive(Passive passive) {
         this.passive = passive;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
     }
 
     // End of getter setter

@@ -21,18 +21,19 @@ import java.awt.image.BufferedImage;
 public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playOnline, playMySelf, playComputer;
-    private Player player;
+    private Player myPlayer, enemyPlayer;
 
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int halfButtonDisY = 30;
-    private final int startButtonY = SizeConfigs.gameFrameHeight / 2 + 100;
+    private final int buttonDisY = 100;
+    private final int startButtonY = SizeConfigs.gameFrameHeight / 2;
 
 
-    public PlaySelectionPanel(Player player) {
-        this.player = player;
+    public PlaySelectionPanel(Player myPlayer, Player enemyPlayer) {
+        this.myPlayer = myPlayer;
+        this.enemyPlayer = enemyPlayer;
 
         configPanel();
 
@@ -90,26 +91,25 @@ public class PlaySelectionPanel extends JPanel {
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         // listeners
+        playOnline.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                // Nothing in this faze
+            }
+        });
 
         playMySelf.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                Game game = new Game(player, player);
+                Game game = new Game(myPlayer, enemyPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoardSelfPlay(player, player, game));
+                        new GameBoardSelfPlay(myPlayer, enemyPlayer, game));
             }
         });
 
         playComputer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                Game game = new Game(player, player);
+                Game game = new Game(myPlayer, enemyPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoardComputerPlay(player, player, game));
-            }
-        });
-
-        playOnline.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                // Nothing in this faze
+                        new GameBoardComputerPlay(myPlayer, enemyPlayer, game));
             }
         });
     }
@@ -143,19 +143,19 @@ public class PlaySelectionPanel extends JPanel {
 
         // BUTTONS
         playOnline.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
-                startButtonY - SizeConfigs.largeButtonHeight,
+                startButtonY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(playOnline);
 
         playMySelf.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
-                startButtonY + halfButtonDisY,
+                startButtonY + buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(playMySelf);
 
         playComputer.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
-                startButtonY + 2 * halfButtonDisY,
+                startButtonY + 2 * buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(playComputer);

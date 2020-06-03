@@ -10,7 +10,6 @@ import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.controls.icons.SettingIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
@@ -36,8 +35,8 @@ import java.util.ArrayList;
 public class GameBoardSelfPlay extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
     private ImageButton endTurnButton;
-    private BoardHeroButton myHero, opponentHero;
-    private final Player myPlayer, opponentPlayer;
+    private BoardHeroButton myHero, enemyHero;
+    private final Player myPlayer, enemyPlayer;
     private final SoundPlayer soundPlayer;
     private final Game game;
     private PassiveButton myPassive;
@@ -60,8 +59,11 @@ public class GameBoardSelfPlay extends JPanel {
     private final int manaX = 770;
     private final int manaY = 638;
     private final int manaDis = 0;
-    private final int manaStringX = 742;
-    private final int manaStringY = 658;
+    private final int myManaStringX = 742;
+    private final int myManaStringY = 658;
+
+    private final int enemyManaStringX = 713;
+    private final int enemyManaStringY = 53;
 
     private final int myHeroX = midX - 60;
     private final int myHeroY = SizeConfigs.gameFrameHeight - 236;
@@ -75,31 +77,45 @@ public class GameBoardSelfPlay extends JPanel {
     private final int heroWidth = SizeConfigs.medHeroWidth;
     private final int heroHeight = SizeConfigs.medHeroHeight;
 
-    private final int opponentHeroX = midX - 60;
-    private final int opponentHeroY = 60;
+    private final int enemyHeroX = midX - 60;
+    private final int enemyHeroY = 60;
 
     private final int myHandX = SizeConfigs.gameFrameWidth / 2 - 40;
     private final int myHandY = SizeConfigs.gameFrameHeight - 80;
     private final int myHandDisCard = 220;
 
+    private final int enemyHandX = SizeConfigs.gameFrameWidth / 2 - 40;
+    private final int enemyHandY = -65;
+    private final int enemyHandDisCard = 220;
+
     private final int myLandStartY = midY;
     private final int myLandEndY = midY + 180;
+
+    private final int enemyLandStartY = midY - 180;
+    private final int enemyLandEndY = midY;
 
     private final int myLandX = midX;
     private final int myLandY = myLandStartY;
     private final int myLandDisCard = 85;
 
-    private final int deckCardsNumberX = midX + 450;
-    private final int deckCardsNumberY = midY + 100;
+    private final int enemyLandX = midX;
+    private final int enemyLandY = enemyLandStartY;
+    private final int enemyLandDisCard = 85;
+
+    private final int myDeckCardsNumberX = midX + 450;
+    private final int myDeckCardsNumberY = midY + 105;
+
+    private final int enemyDeckCardsNumberX = midX + 450;
+    private final int enemyDeckCardsNumberY = midY - 95;
 
     private final int extraPassiveX = 60;
     private final int extraPassiveY = 50;
 
     // Finals END
 
-    public GameBoardSelfPlay(Player myPlayer, Player opponentPlayer, Game game) {
+    public GameBoardSelfPlay(Player myPlayer, Player enemyPlayer, Game game) {
         this.myPlayer = myPlayer;
-        this.opponentPlayer = opponentPlayer;
+        this.enemyPlayer = enemyPlayer;
         this.game = game;
 
         soundPlayer = new SoundPlayer("/sounds/play_background.wav");
@@ -135,13 +151,12 @@ public class GameBoardSelfPlay extends JPanel {
         }
         g.drawImage(image, 0, 0, null);
 
-        drawMana(g2, myPlayer.getMana(), myPlayer.getTurnNumber());
+        drawMyMana(g2, myPlayer.getMana(), myPlayer.getTurnNumber());
 
-        drawDeckNumberOfCards(g2, myPlayer.getDeck().getCards().size());
+        drawEnemyMana(g2, enemyPlayer.getMana(), enemyPlayer.getTurnNumber());
 
-        drawHeroPower();
-
-        drawWeapon();
+        drawMyDeckNumberOfCards(g2, myPlayer.getDeck().getCards().size());
+        drawEnemyDeckNumberOfCards(g2, enemyPlayer.getDeck().getCards().size());
     }
 
     private void configPanel() {
@@ -150,7 +165,7 @@ public class GameBoardSelfPlay extends JPanel {
         setVisible(true);
     }
 
-    private void showPassiveDialog(){
+    private void showPassiveDialog() {
         PassiveDialog passiveDialog = new PassiveDialog(
                 GameFrame.getInstance(),
                 GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
@@ -158,12 +173,12 @@ public class GameBoardSelfPlay extends JPanel {
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
-                );
+        );
         myPlayer.setPassive(passiveDialog.getPassive());
         myPlayer.doPassives();
     }
 
-    private void drawMana(Graphics2D g, int number, int maxNumber) {
+    private void drawMyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
@@ -192,10 +207,29 @@ public class GameBoardSelfPlay extends JPanel {
         FontMetrics fontMetrics = g.getFontMetrics
                 (GameFrame.getInstance().getCustomFont(0, fontSize));
         g.drawString(text,
-                manaStringX - fontMetrics.stringWidth(text) / 2, manaStringY);
+                myManaStringX - fontMetrics.stringWidth(text) / 2, myManaStringY);
     }
 
-    private void drawDeckNumberOfCards(Graphics2D g, int number) {
+    private void drawEnemyMana(Graphics2D g, int number, int maxNumber) {
+        int fontSize = 25;
+        maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
+
+        String text = number + "/" + maxNumber;
+
+        if (maxNumber == 10)
+            fontSize = 19;
+
+        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.setColor(Color.WHITE);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        FontMetrics fontMetrics = g.getFontMetrics
+                (GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.drawString(text,
+                enemyManaStringX - fontMetrics.stringWidth(text) / 2, enemyManaStringY);
+    }
+
+    private void drawMyDeckNumberOfCards(Graphics2D g, int number) {
         int fontSize = 50;
 
         g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
@@ -206,8 +240,23 @@ public class GameBoardSelfPlay extends JPanel {
                 (GameFrame.getInstance().getCustomFont(0, fontSize));
 
         g.drawString(String.valueOf(number),
-                deckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
-                deckCardsNumberY);
+                myDeckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
+                myDeckCardsNumberY);
+    }
+
+    private void drawEnemyDeckNumberOfCards(Graphics2D g, int number) {
+        int fontSize = 50;
+
+        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.setColor(Color.WHITE);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        FontMetrics fontMetrics = g.getFontMetrics
+                (GameFrame.getInstance().getCustomFont(0, fontSize));
+
+        g.drawString(String.valueOf(number),
+                enemyDeckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
+                enemyDeckCardsNumberY);
     }
 
     private void drawHeroPower() {
@@ -230,7 +279,7 @@ public class GameBoardSelfPlay extends JPanel {
         add(weaponButton);
     }
 
-    private void drawCardsOnHand() {
+    private void drawMyCardsOnHand() {
         ArrayList<Card> cards = myPlayer.getHand();
         if (cards.size() == 0)
             return;
@@ -256,8 +305,63 @@ public class GameBoardSelfPlay extends JPanel {
         }
     }
 
-    private void drawCardsOnLand() {
+    private void drawEnemyCardsOnHand() {
+        ArrayList<Card> cards = enemyPlayer.getHand();
+        if (cards.size() == 0)
+            return;
+        int dis = enemyHandDisCard / cards.size();
+        int startX = enemyHandX;
+        int startY = enemyHandY;
+
+        for (int i = 0; i < cards.size(); i++) {
+            Card card = cards.get(i);
+            BoardCardButton cardButton = new BoardCardButton(card,
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true);
+
+            makeMouseListener(cardButton, card, cardButton,
+                    startX + dis * (i - cards.size() / 2),
+                    startY,
+                    SizeConfigs.smallCardWidth,
+                    SizeConfigs.smallCardHeight);
+
+            cardButton.setBounds(startX + dis * (i - cards.size() / 2),
+                    startY,
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+            add(cardButton);
+        }
+    }
+
+    private void drawMyCardsOnLand() {
         ArrayList<Card> cards = myPlayer.getLand();
+        if (cards.size() == 0)
+            return;
+        int dis = myLandDisCard;
+        int startX = myLandX;
+        int startY = myLandY;
+
+        for (int i = 0; i < cards.size(); i++) {
+            Card card = cards.get(i);
+
+            BoardCardButton cardButton = new BoardCardButton(card,
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+
+            makeMouseListener(cardButton, card, cardButton,
+                    startX + dis * (i - cards.size() / 2)
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                    startY,
+                    SizeConfigs.smallCardWidth,
+                    SizeConfigs.smallCardHeight);
+
+            cardButton.setBounds(startX + dis * (i - cards.size() / 2)
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                    startY,
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+            add(cardButton);
+        }
+    }
+
+    private void drawEnemyCardsOnLand() {
+        ArrayList<Card> cards = enemyPlayer.getLand();
         if (cards.size() == 0)
             return;
         int dis = myLandDisCard;
@@ -353,6 +457,9 @@ public class GameBoardSelfPlay extends JPanel {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
                 } else {
+                    if (button.isShouldRotate()) {
+                        button.setRotate(button.getInitialRotate());
+                    }
                     button.setBounds(startX, startY, width, height);
                 }
             }
@@ -364,6 +471,8 @@ public class GameBoardSelfPlay extends JPanel {
                     return;
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
+
+                button.setRotate(0);
                 button.setBounds(newX, newY, width, height);
                 //updateUI();
             }
@@ -430,7 +539,7 @@ public class GameBoardSelfPlay extends JPanel {
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero
 
-        opponentHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // opponent hero
+        enemyHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // enemy hero
 
         myPassive = new PassiveButton(myPlayer.getPassive(),
                 SizeConfigs.medCardWidth,
@@ -456,9 +565,15 @@ public class GameBoardSelfPlay extends JPanel {
     }
 
     private void gameStuffLayout() {
-        drawCardsOnHand();
+        drawMyCardsOnHand();
+        drawEnemyCardsOnHand();
 
-        drawCardsOnLand();
+        drawMyCardsOnLand();
+        drawEnemyCardsOnLand();
+
+        drawHeroPower();
+
+        drawWeapon();
 
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);
@@ -468,9 +583,9 @@ public class GameBoardSelfPlay extends JPanel {
                 heroWidth, heroHeight);
         add(myHero);
 
-        opponentHero.setBounds(opponentHeroX, opponentHeroY,
+        enemyHero.setBounds(enemyHeroX, enemyHeroY,
                 heroWidth, heroHeight);
-        add(opponentHero);
+        add(enemyHero);
 
         myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                 0,

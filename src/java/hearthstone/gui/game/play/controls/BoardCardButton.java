@@ -14,12 +14,16 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
-    int width, height, initX, initY;
+    private int width, height, initX, initY;
+    private double initialRotate, rotate;
     private boolean showBig;
     private Card card;
+    private boolean shouldRotate;
 
     public BoardCardButton(Card card, int width, int height) {
         this.card = card;
@@ -32,11 +36,38 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
+    public BoardCardButton(Card card, int width, int height, int initialRotate) {
+        this.card = card;
+        this.initialRotate = initialRotate;
+        rotate = initialRotate;
+        shouldRotate = true;
+
+        this.width = width;
+        this.height = height;
+
+        configButton();
+    }
+
     public BoardCardButton(Card card, int width, int height, boolean showBig) {
         this.card = card;
         this.initX = initX;
         this.initY = initY;
         this.showBig = showBig;
+
+        this.width = width;
+        this.height = height;
+
+        configButton();
+    }
+
+    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig) {
+        this.card = card;
+
+        this.initialRotate = initialRotate;
+        rotate = initialRotate;
+
+        this.showBig = showBig;
+        shouldRotate = true;
 
         this.width = width;
         this.height = height;
@@ -72,6 +103,18 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         soundPlayer.playOnce();
     }
 
+    public void setRotate(double rotate) {
+        this.rotate = rotate;
+    }
+
+    public double getInitialRotate() {
+        return initialRotate;
+    }
+
+    public boolean isShouldRotate() {
+        return shouldRotate;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
@@ -95,9 +138,14 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             e.printStackTrace();
         }
 
+        if(rotate > 0) {
+            g2.rotate(Math.toRadians(rotate), width / 2, height / 2);
+        }
+
         buffyG.drawImage(image.getScaledInstance(width, height,
                 Image.SCALE_SMOOTH),
                 0, 0, width, height, null);
+
         g2.drawImage(buffy, 0, 0, null);
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);

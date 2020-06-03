@@ -162,7 +162,7 @@ public class MainMenuPanel extends JPanel {
 
                     HearthStone.currentAccount.readyForPlay();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                            new PlaySelectionPanel(HearthStone.currentAccount.getPlayer()));
+                            new PlaySelectionPanel(HearthStone.currentAccount.getPlayer(), HearthStone.currentAccount.getPlayer()));
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
