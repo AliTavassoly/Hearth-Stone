@@ -1,7 +1,7 @@
-package hearthstone.logic.models.hero.heroes;
+package hearthstone.models.hero.heroes;
 
-import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.hero.HeroType;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
 
 import java.util.List;
 

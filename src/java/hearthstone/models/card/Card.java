@@ -1,9 +1,9 @@
-package hearthstone.logic.models.card;
+package hearthstone.models.card;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.hero.HeroType;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
 import hearthstone.util.AbstractAdapter;
 
 public abstract class Card {

@@ -1,4 +1,4 @@
-package hearthstone.logic.models.card;
+package hearthstone.models.card;
 
 public enum Rarity {
     COMMON(0),

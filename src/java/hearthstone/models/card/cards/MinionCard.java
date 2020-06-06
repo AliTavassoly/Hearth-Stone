@@ -1,9 +1,9 @@
-package hearthstone.logic.models.card.cards;
+package hearthstone.models.card.cards;
 
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.hero.HeroType;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.card.Rarity;
+import hearthstone.models.hero.HeroType;
 
 public class MinionCard extends Card {
     private int health, attack;

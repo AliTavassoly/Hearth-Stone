@@ -1,6 +1,6 @@
 package hearthstone.data;
 
-import hearthstone.logic.models.AccountCredential;
+import hearthstone.models.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 

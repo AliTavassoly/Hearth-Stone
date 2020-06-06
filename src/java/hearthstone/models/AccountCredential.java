@@ -1,4 +1,4 @@
-package hearthstone.logic.models;
+package hearthstone.models;
 
 public class AccountCredential {
     private int id;

@@ -10,7 +10,7 @@ import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.Deck;
+import hearthstone.models.Deck;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -3,10 +3,10 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.cards.MinionCard;
-import hearthstone.logic.models.card.cards.SpellCard;
-import hearthstone.logic.models.card.cards.WeaponCard;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.cards.MinionCard;
+import hearthstone.models.card.cards.SpellCard;
+import hearthstone.models.card.cards.WeaponCard;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
@@ -14,8 +14,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {

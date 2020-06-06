@@ -14,10 +14,10 @@ import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.hero.HeroType;
+import hearthstone.models.Deck;
+import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import javax.imageio.ImageIO;

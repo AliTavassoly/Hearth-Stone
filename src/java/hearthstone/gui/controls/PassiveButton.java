@@ -1,6 +1,6 @@
 package hearthstone.gui.controls;
 
-import hearthstone.logic.models.Passive;
+import hearthstone.models.Passive;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

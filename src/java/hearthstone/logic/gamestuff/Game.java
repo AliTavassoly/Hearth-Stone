@@ -1,6 +1,6 @@
 package hearthstone.logic.gamestuff;
 
-import hearthstone.logic.models.Player;
+import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 
 public class Game {

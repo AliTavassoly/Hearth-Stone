@@ -10,8 +10,8 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.logic.models.ComputerPlayer;
-import hearthstone.logic.models.Player;
+import hearthstone.models.player.ComputerPlayer;
+import hearthstone.models.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

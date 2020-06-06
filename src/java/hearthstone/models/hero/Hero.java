@@ -1,11 +1,11 @@
-package hearthstone.logic.models.hero;
+package hearthstone.models.hero;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.card.Card;
+import hearthstone.models.Deck;
+import hearthstone.models.card.Card;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 

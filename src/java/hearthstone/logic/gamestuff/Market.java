@@ -1,6 +1,6 @@
 package hearthstone.logic.gamestuff;
 
-import hearthstone.logic.models.card.Card;
+import hearthstone.models.card.Card;
 
 import java.util.ArrayList;
 
@@ -28,4 +28,3 @@ public class Market {
         }
     }
 }
-

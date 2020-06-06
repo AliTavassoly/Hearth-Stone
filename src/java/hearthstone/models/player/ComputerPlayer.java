@@ -1,7 +1,7 @@
-package hearthstone.logic.models;
+package hearthstone.models.player;
 
-import hearthstone.logic.GameConfigs;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.models.Deck;
+import hearthstone.models.hero.Hero;
 
 public class ComputerPlayer extends Player {
     public ComputerPlayer(Hero hero, Deck deck) {

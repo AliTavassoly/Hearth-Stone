@@ -1,9 +1,10 @@
-package hearthstone.logic.models;
+package hearthstone.models;
 
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
