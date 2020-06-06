@@ -125,7 +125,7 @@ public class GameBoardSelfPlay extends JPanel {
 
         makeIcons();
 
-        showPassiveDialog();
+        showPassiveDialogs();
 
         game.startGame();
 
@@ -164,8 +164,8 @@ public class GameBoardSelfPlay extends JPanel {
         setVisible(true);
     }
 
-    private void showPassiveDialog() {
-        PassiveDialog passiveDialog = new PassiveDialog(
+    private void showPassiveDialogs() {
+        PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
                 GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
                 SizeConfigs.medCardHeight + extraPassiveY,
@@ -173,8 +173,19 @@ public class GameBoardSelfPlay extends JPanel {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        myPlayer.setPassive(passiveDialog.getPassive());
+        myPlayer.setPassive(passiveDialog0.getPassive());
         myPlayer.doPassives();
+
+        PassiveDialog passiveDialog1 = new PassiveDialog(
+                GameFrame.getInstance(),
+                GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
+                SizeConfigs.medCardHeight + extraPassiveY,
+                Rand.getInstance().getRandomArray(
+                        GameConfigs.initialPassives,
+                        HearthStone.basePassives.size())
+        );
+        enemyPlayer.setPassive(passiveDialog1.getPassive());
+        enemyPlayer.doPassives();
     }
 
     private void drawMyMana(Graphics2D g, int number, int maxNumber) {

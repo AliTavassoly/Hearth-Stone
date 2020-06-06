@@ -10,22 +10,22 @@ import hearthstone.util.Rand;
 import java.util.ArrayList;
 
 public class Player {
-    private Hero hero;
-    private final Deck originalDeck;
-    private Deck deck;
-    private Passive passive;
+    protected Hero hero;
+    protected final Deck originalDeck;
+    protected Deck deck;
+    protected Passive passive;
 
-    private int mana;
-    private int turnNumber;
+    protected int mana;
+    protected int turnNumber;
 
-    private boolean isStarted;
+    protected boolean isStarted;
 
-    private ArrayList<Card> hand;
-    private ArrayList<Card> land;
+    protected ArrayList<Card> hand;
+    protected ArrayList<Card> land;
 
-    private HeroPowerCard heroPower;
+    protected HeroPowerCard heroPower;
 
-    private WeaponCard weapon;
+    protected WeaponCard weapon;
 
     public Player(Hero hero, Deck deck) {
         this.hero = hero.copy();
@@ -139,10 +139,10 @@ public class Player {
         int cardInd = Rand.getInstance().getRandomNumber(deck.getCards().size());
         Card card = deck.getCards().get(cardInd);
         deck.getCards().remove(cardInd);
+
         if (hand.size() == GameConfigs.maxCardInHand)
             return;
         hand.add(card);
-
     }
 
     public void playCard(Card baseCard) throws Exception {

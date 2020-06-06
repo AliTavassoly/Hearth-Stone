@@ -1,5 +1,6 @@
 package hearthstone.gui.game.play;
 
+import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.icons.BackIcon;
@@ -9,6 +10,7 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.logic.gamestuff.Game;
+import hearthstone.logic.models.ComputerPlayer;
 import hearthstone.logic.models.Player;
 
 import javax.imageio.ImageIO;
@@ -21,7 +23,6 @@ import java.awt.image.BufferedImage;
 public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playOnline, playMySelf, playComputer;
-    private Player myPlayer, enemyPlayer;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -31,10 +32,7 @@ public class PlaySelectionPanel extends JPanel {
     private final int startButtonY = SizeConfigs.gameFrameHeight / 2;
 
 
-    public PlaySelectionPanel(Player myPlayer, Player enemyPlayer) {
-        this.myPlayer = myPlayer;
-        this.enemyPlayer = enemyPlayer;
-
+    public PlaySelectionPanel() {
         configPanel();
 
         makeIcons();
@@ -99,6 +97,9 @@ public class PlaySelectionPanel extends JPanel {
 
         playMySelf.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
+                Player myPlayer = HearthStone.currentAccount.getPlayer();
+                Player enemyPlayer = HearthStone.currentAccount.getPlayer();
+
                 Game game = new Game(myPlayer, enemyPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                         new GameBoardSelfPlay(myPlayer, enemyPlayer, game));
@@ -107,9 +108,13 @@ public class PlaySelectionPanel extends JPanel {
 
         playComputer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                Game game = new Game(myPlayer, enemyPlayer);
+                Player myPlayer = HearthStone.currentAccount.getPlayer();
+                Player computerPlayer = new ComputerPlayer(HearthStone.currentAccount.getSelectedHero(),
+                        HearthStone.currentAccount.getSelectedHero().getSelectedDeck());
+
+                Game game = new Game(myPlayer, computerPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoardComputerPlay(myPlayer, enemyPlayer, game));
+                        new GameBoardComputerPlay(myPlayer, computerPlayer, game));
             }
         });
     }

@@ -24,7 +24,15 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private boolean showBig;
     private Card card;
     private boolean shouldRotate;
-    private boolean isEnemy;
+    private boolean isEnemy, isBack;
+
+    public BoardCardButton(int width, int height) {
+        this.width = width;
+        this.height = height;
+        isBack = true;
+
+        configButton();
+    }
 
     public BoardCardButton(Card card, int width, int height, boolean isEnemy) {
         this.card = card;
@@ -135,9 +143,12 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         try {
             String path;
-            path = "/images/cards/" + card.getName().toLowerCase().
-                    replace(' ', '_').replace("'", "") + ".png";
-
+            if(!isBack) {
+                path = "/images/cards/" + card.getName().toLowerCase().
+                        replace(' ', '_').replace("'", "") + ".png";
+            } else {
+                path = "/images/cards/cards_back/" + "card_back2" + ".png";
+            }
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     path));
         } catch (Exception e) {
@@ -153,6 +164,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 0, 0, width, height, null);
 
         g2.drawImage(buffy, 0, 0, null);
+
+        if(isBack)
+            return;
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
