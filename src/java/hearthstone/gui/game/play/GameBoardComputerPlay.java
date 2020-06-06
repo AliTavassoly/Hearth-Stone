@@ -268,7 +268,7 @@ public class GameBoardComputerPlay extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, false);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)

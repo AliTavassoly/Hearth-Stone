@@ -17,6 +17,8 @@ public class Game {
     public void startGame(){
         try {
             player0.startGame();
+            player0.startTurn();
+
             player1.startGame();
         } catch (HearthStoneException e){
             try {
@@ -32,7 +34,8 @@ public class Game {
     public void endTurn(){
         if(whoseTurn == 0) {
             try {
-                player0.startTurn();
+                whoseTurn = 1;
+                player1.startTurn();
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",
@@ -44,7 +47,8 @@ public class Game {
             }
         } else {
             try {
-                player1.startTurn();
+                whoseTurn = 0;
+                player0.startTurn();
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",
@@ -55,5 +59,9 @@ public class Game {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getWhoseTurn(){
+        return whoseTurn;
     }
 }

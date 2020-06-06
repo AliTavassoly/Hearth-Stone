@@ -90,14 +90,13 @@ public class GameBoardSelfPlay extends JPanel {
 
     private final int myLandStartY = midY;
     private final int myLandEndY = midY + 180;
-
-    private final int enemyLandStartY = midY - 180;
-    private final int enemyLandEndY = midY;
-
     private final int myLandX = midX;
     private final int myLandY = myLandStartY;
     private final int myLandDisCard = 85;
 
+
+    private final int enemyLandStartY = midY - 130;
+    private final int enemyLandEndY = midY;
     private final int enemyLandX = midX;
     private final int enemyLandY = enemyLandStartY;
     private final int enemyLandDisCard = 85;
@@ -290,7 +289,7 @@ public class GameBoardSelfPlay extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, false);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
@@ -316,7 +315,7 @@ public class GameBoardSelfPlay extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true,true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
@@ -335,6 +334,7 @@ public class GameBoardSelfPlay extends JPanel {
         ArrayList<Card> cards = myPlayer.getLand();
         if (cards.size() == 0)
             return;
+
         int dis = myLandDisCard;
         int startX = myLandX;
         int startY = myLandY;
@@ -343,7 +343,7 @@ public class GameBoardSelfPlay extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, false);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
@@ -364,15 +364,16 @@ public class GameBoardSelfPlay extends JPanel {
         ArrayList<Card> cards = enemyPlayer.getLand();
         if (cards.size() == 0)
             return;
-        int dis = myLandDisCard;
-        int startX = myLandX;
-        int startY = myLandY;
+
+        int dis = enemyLandDisCard;
+        int startX = enemyLandX;
+        int startY = enemyLandY;
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
@@ -392,7 +393,11 @@ public class GameBoardSelfPlay extends JPanel {
     private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
                           int startX, int startY, int width, int height) {
         try {
-            myPlayer.playCard(card);
+            if(!button.isEnemy()) {
+                myPlayer.playCard(card);
+            } else{
+                enemyPlayer.playCard(card);
+            }
             cardButton.playSound();
             hearthstone.util.Logger.saveLog("Play card",
                     card.getName() + " played");
@@ -407,6 +412,7 @@ public class GameBoardSelfPlay extends JPanel {
             }
 
             button.setBounds(startX, startY, width, height);
+            button.setRotate(button.getInitialRotate());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -421,11 +427,19 @@ public class GameBoardSelfPlay extends JPanel {
                 SizeConfigs.medCardHeight,
                 -1);
 
-        bigCardButton.setBounds(
-                SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
-                SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
-                SizeConfigs.medCardWidth,
-                SizeConfigs.medCardHeight);
+        if(!button.isEnemy()) {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    0,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        }
 
         button.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
@@ -452,11 +466,17 @@ public class GameBoardSelfPlay extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent E) {
-                if (!isInLand(startX, startY) &&
-                        isInLand(E.getX() + button.getX(), E.getY() + button.getY())) {
+                if (!isInMyLand(startX, startY) &&
+                        isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        game.getWhoseTurn() == 0) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
-                } else {
+                } else if(!isInEnemyLand(startX, startY) &&
+                        isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        game.getWhoseTurn() == 1){
+                    playCard(button, card, cardButton,
+                            startX, startY, width, height);
+                } else  {
                     if (button.isShouldRotate()) {
                         button.setRotate(button.getInitialRotate());
                     }
@@ -467,14 +487,18 @@ public class GameBoardSelfPlay extends JPanel {
 
         button.addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if (isInLand(startX, startY))
+                if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
                     return;
+                if((game.getWhoseTurn() == 0 && button.isEnemy()))
+                    return;
+                if((game.getWhoseTurn() == 1 && !button.isEnemy()))
+                    return;
+
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
 
                 button.setRotate(0);
                 button.setBounds(newX, newY, width, height);
-                //updateUI();
             }
         });
     }
@@ -587,15 +611,18 @@ public class GameBoardSelfPlay extends JPanel {
                 heroWidth, heroHeight);
         add(enemyHero);
 
-        myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+        /*myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                 0,
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
-        add(myPassive);
+        add(myPassive);*/
     }
 
-    private boolean isInLand(int x, int y) {
+    private boolean isInMyLand(int x, int y) {
         return x >= boardStartX && x <= boardEndX && y >= myLandStartY && y <= myLandEndY;
+    }
+    private boolean isInEnemyLand(int x, int y){
+        return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
     private void restart() {

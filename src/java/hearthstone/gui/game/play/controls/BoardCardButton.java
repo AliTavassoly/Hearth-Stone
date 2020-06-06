@@ -19,16 +19,16 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
-    private int width, height, initX, initY;
+    private int width, height;
     private double initialRotate, rotate;
     private boolean showBig;
     private Card card;
     private boolean shouldRotate;
+    private boolean isEnemy;
 
-    public BoardCardButton(Card card, int width, int height) {
+    public BoardCardButton(Card card, int width, int height, boolean isEnemy) {
         this.card = card;
-        this.initX = initX;
-        this.initY = initY;
+        this.isEnemy = isEnemy;
 
         this.width = width;
         this.height = height;
@@ -36,9 +36,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int initialRotate) {
+    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean isEnemy) {
         this.card = card;
         this.initialRotate = initialRotate;
+        this.isEnemy = isEnemy;
         rotate = initialRotate;
         shouldRotate = true;
 
@@ -48,10 +49,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, boolean showBig) {
+    public BoardCardButton(Card card, int width, int height, boolean showBig, boolean isEnemy) {
         this.card = card;
-        this.initX = initX;
-        this.initY = initY;
+        this.isEnemy = isEnemy;
         this.showBig = showBig;
 
         this.width = width;
@@ -60,8 +60,11 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig) {
+    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig, boolean isEnemy) {
         this.card = card;
+
+        this.width = width;
+        this.height = height;
 
         this.initialRotate = initialRotate;
         rotate = initialRotate;
@@ -69,8 +72,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         this.showBig = showBig;
         shouldRotate = true;
 
-        this.width = width;
-        this.height = height;
+        this.isEnemy = isEnemy;
 
         configButton();
     }
@@ -115,6 +117,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return shouldRotate;
     }
 
+    public boolean isEnemy(){
+        return isEnemy;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
@@ -138,7 +144,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             e.printStackTrace();
         }
 
-        if(rotate > 0) {
+        if (rotate > 0) {
             g2.rotate(Math.toRadians(rotate), width / 2, height / 2);
         }
 

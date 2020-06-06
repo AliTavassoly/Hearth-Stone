@@ -124,14 +124,9 @@ public class Player {
         }
     }
 
-    public void readyForPlay() throws Exception {
-        if (!deck.isFull())
-            throw new HearthStoneException("You should complete your deck first!");
-    }
-
     public void startGame() throws Exception {
-        turnNumber = 1;
-        mana = 1;
+        turnNumber = 0;
+        mana = 0;
 
         pickCard();
         pickCard();
@@ -195,8 +190,8 @@ public class Player {
         mana = ++turnNumber;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
         pickCard();
-        if(passive.getName().equals("Twice Draw")){
+        /*if(passive.getName().equals("Twice Draw")){
             pickCard();
-        }
+        }*/
     }
 }
