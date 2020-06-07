@@ -1,4 +1,4 @@
-package hearthstone.gui.game.play;
+package hearthstone.gui.game.play.boards;
 
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
@@ -32,11 +32,11 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class GameBoardSelfPlay extends JPanel {
+public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
     private ImageButton endTurnButton;
     private BoardHeroButton myHero, enemyHero;
-    private final Player myPlayer, enemyPlayer;
+    protected final Player myPlayer, enemyPlayer;
     private final SoundPlayer soundPlayer;
     private final Game game;
     private PassiveButton myPassive;
@@ -71,8 +71,14 @@ public class GameBoardSelfPlay extends JPanel {
     private final int myHeroPowerX = midX + 52;
     private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 190;
 
+    private final int enemyHeroPowerX = midX + 52;
+    private final int enemyHeroPowerY = 60;
+
     private final int myWeaponX = midX - 165;
     private final int myWeaponY = SizeConfigs.gameFrameHeight - 190;
+
+    private final int enemyWeaponX = midX - 165;
+    private final int enemyWeaponY = 60;
 
     private final int heroWidth = SizeConfigs.medHeroWidth;
     private final int heroHeight = SizeConfigs.medHeroHeight;
@@ -84,9 +90,9 @@ public class GameBoardSelfPlay extends JPanel {
     private final int myHandY = SizeConfigs.gameFrameHeight - 80;
     private final int myHandDisCard = 220;
 
-    private final int enemyHandX = SizeConfigs.gameFrameWidth / 2 - 40;
-    private final int enemyHandY = -65;
-    private final int enemyHandDisCard = 220;
+    protected final int enemyHandX = SizeConfigs.gameFrameWidth / 2 - 40;
+    protected final int enemyHandY = -65;
+    protected final int enemyHandDisCard = 220;
 
     private final int myLandStartY = midY;
     private final int myLandEndY = midY + 180;
@@ -107,12 +113,12 @@ public class GameBoardSelfPlay extends JPanel {
     private final int enemyDeckCardsNumberX = midX + 450;
     private final int enemyDeckCardsNumberY = midY - 95;
 
-    private final int extraPassiveX = 60;
-    private final int extraPassiveY = 50;
+    protected final int extraPassiveX = 60;
+    protected final int extraPassiveY = 50;
 
     // Finals END
 
-    public GameBoardSelfPlay(Player myPlayer, Player enemyPlayer, Game game) {
+    public GameBoard(Player myPlayer, Player enemyPlayer, Game game) {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
         this.game = game;
@@ -164,7 +170,7 @@ public class GameBoardSelfPlay extends JPanel {
         setVisible(true);
     }
 
-    private void showPassiveDialogs() {
+    protected void showPassiveDialogs() {
         PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
                 GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
@@ -269,22 +275,42 @@ public class GameBoardSelfPlay extends JPanel {
                 enemyDeckCardsNumberY);
     }
 
-    private void drawHeroPower() {
+    private void drawMyHeroPower() {
         if (myPlayer.getHeroPower() == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(myPlayer.getHeroPower(),
-                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, false);
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
     }
 
-    private void drawWeapon() {
+    private void drawEnemyHeroPower() {
+        if (enemyPlayer.getHeroPower() == null)
+            return;
+        HeroPowerButton heroPowerButton = new HeroPowerButton(enemyPlayer.getHeroPower(),
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true);
+        heroPowerButton.setBounds(enemyHeroPowerX, enemyHeroPowerY,
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
+        add(heroPowerButton);
+    }
+
+    private void drawMyWeapon() {
         if (myPlayer.getWeapon() == null)
             return;
         WeaponButton weaponButton = new WeaponButton(myPlayer.getWeapon(),
-                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, false);
         weaponButton.setBounds(myWeaponX, myWeaponY,
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+        add(weaponButton);
+    }
+
+    private void drawEnemyWeapon() {
+        if (enemyPlayer.getWeapon() == null)
+            return;
+        WeaponButton weaponButton = new WeaponButton(enemyPlayer.getWeapon(),
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true);
+        weaponButton.setBounds(enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
         add(weaponButton);
     }
@@ -315,7 +341,7 @@ public class GameBoardSelfPlay extends JPanel {
         }
     }
 
-    private void drawEnemyCardsOnHand() {
+    protected void drawEnemyCardsOnHand() {
         ArrayList<Card> cards = enemyPlayer.getHand();
         if (cards.size() == 0)
             return;
@@ -572,9 +598,9 @@ public class GameBoardSelfPlay extends JPanel {
             }
         });
 
-        myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // player hero
+        myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, false); // player hero
 
-        enemyHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight); // enemy hero
+        enemyHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, true); // enemy hero
 
         myPassive = new PassiveButton(myPlayer.getPassive(),
                 SizeConfigs.medCardWidth,
@@ -606,9 +632,11 @@ public class GameBoardSelfPlay extends JPanel {
         drawMyCardsOnLand();
         drawEnemyCardsOnLand();
 
-        drawHeroPower();
+        drawMyHeroPower();
+        drawEnemyHeroPower();
 
-        drawWeapon();
+        drawMyWeapon();
+        drawEnemyWeapon();
 
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);

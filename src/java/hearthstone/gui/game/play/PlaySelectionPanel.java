@@ -9,6 +9,8 @@ import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
+import hearthstone.gui.game.play.boards.GameBoardComputerPlay;
+import hearthstone.gui.game.play.boards.GameBoardSelfPlay;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.player.ComputerPlayer;
 import hearthstone.models.player.Player;

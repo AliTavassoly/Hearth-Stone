@@ -12,11 +12,13 @@ import java.awt.image.BufferedImage;
 public class WeaponButton extends ImageButton {
     private int width, height;
     private WeaponCard card;
+    private boolean isEnemy;
 
-    public WeaponButton(WeaponCard card, int width, int height){
+    public WeaponButton(WeaponCard card, int width, int height, boolean isEnemy){
         this.width = width;
         this.height = height;
         this.card = card;
+        this.isEnemy = isEnemy;
 
         configButton();
     }
@@ -27,6 +29,13 @@ public class WeaponButton extends ImageButton {
         setFocusPainted(false);
 
         addMouseListener(this);
+    }
+
+    public boolean isEnemy() {
+        return isEnemy;
+    }
+    public void setEnemy(boolean enemy) {
+        isEnemy = enemy;
     }
 
     @Override

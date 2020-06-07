@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.logic.models.hero.heroes.Mage",
+    "type": "hearthstone.models.hero.heroes.Mage",
     "data": {
       "id": 0,
       "name": "Mage",
@@ -11,7 +11,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.logic.models.hero.heroes.Warlock",
+    "type": "hearthstone.models.hero.heroes.Warlock",
     "data": {
       "id": 1,
       "name": "Warlock",
@@ -22,7 +22,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.logic.models.hero.heroes.Rogue",
+    "type": "hearthstone.models.hero.heroes.Rogue",
     "data": {
       "id": 2,
       "name": "Rogue",
@@ -33,7 +33,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.logic.models.hero.heroes.Paladin",
+    "type": "hearthstone.models.hero.heroes.Paladin",
     "data": {
       "id": 3,
       "name": "Paladin",
@@ -44,7 +44,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.logic.models.hero.heroes.Priest",
+    "type": "hearthstone.models.hero.heroes.Priest",
     "data": {
       "id": 4,
       "name": "Priest",

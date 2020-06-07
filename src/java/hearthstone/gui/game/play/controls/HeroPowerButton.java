@@ -13,10 +13,13 @@ public class HeroPowerButton extends ImageButton {
     private int width, height;
     private HeroPowerCard card;
 
-    public HeroPowerButton(HeroPowerCard card, int width, int height){
+    private boolean isEnemy;
+
+    public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isEnemy){
         this.width = width;
         this.height = height;
         this.card = card;
+        this.isEnemy = isEnemy;
 
         configButton();
     }
@@ -25,6 +28,13 @@ public class HeroPowerButton extends ImageButton {
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
+    }
+
+    public boolean isEnemy() {
+        return isEnemy;
+    }
+    public void setEnemy(boolean enemy) {
+        isEnemy = enemy;
     }
 
     @Override

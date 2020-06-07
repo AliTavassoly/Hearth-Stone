@@ -11,12 +11,15 @@ import java.awt.image.BufferedImage;
 
 public class BoardHeroButton extends ImageButton {
     private Hero hero;
-    int width, height;
+    private int width, height;
 
-    public BoardHeroButton(Hero hero, int width, int height) {
+    private boolean isEnemy;
+
+    public BoardHeroButton(Hero hero, int width, int height, boolean isEnemy) {
         this.hero = hero;
         this.height = height;
         this.width = width;
+        this.isEnemy = isEnemy;
 
         configButton();
     }
@@ -27,6 +30,14 @@ public class BoardHeroButton extends ImageButton {
         setFocusPainted(false);
 
         addMouseListener(this);
+    }
+
+    public boolean isEnemy() {
+        return isEnemy;
+    }
+
+    public void setEnemy(boolean enemy) {
+        isEnemy = enemy;
     }
 
     @Override

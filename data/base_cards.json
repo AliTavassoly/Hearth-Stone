@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 0,
       "name": "Polymorph",
@@ -14,7 +14,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 1,
       "name": "Freezing Potion",
@@ -28,7 +28,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 4,
@@ -44,7 +44,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 3,
       "name": "Soulfire",
@@ -58,7 +58,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 4,
       "name": "Friendly Smith",
@@ -72,7 +72,7 @@
     }
   },
   "5": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 3,
@@ -88,7 +88,7 @@
     }
   },
   "6": {
-    "type": "hearthstone.logic.models.card.cards.HeroPowerCard",
+    "type": "hearthstone.models.card.cards.HeroPowerCard",
     "data": {
       "id": 6,
       "name": "The Silver Hand",
@@ -101,7 +101,7 @@
     }
   },
   "7": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 7,
       "name": "Gnomish Army Knife",
@@ -115,7 +115,7 @@
     }
   },
   "8": {
-    "type": "hearthstone.logic.models.card.cards.HeroPowerCard",
+    "type": "hearthstone.models.card.cards.HeroPowerCard",
     "data": {
       "id": 8,
       "name": "Heal",
@@ -128,7 +128,7 @@
     }
   },
   "9": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 7,
       "attack": 2,
@@ -144,7 +144,7 @@
     }
   },
   "10": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 10,
       "name": "Blur",
@@ -158,7 +158,7 @@
     }
   },
   "11": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 11,
       "name": "Tracking",
@@ -172,7 +172,7 @@
     }
   },
   "12": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 12,
       "name": "Sprint",
@@ -186,7 +186,7 @@
     }
   },
   "13": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 13,
       "name": "Swarm of Locusts",
@@ -200,7 +200,7 @@
     }
   },
   "14": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 14,
       "name": "Pharaoh\u0027s Blessing",
@@ -214,7 +214,7 @@
     }
   },
   "15": {
-    "type": "hearthstone.logic.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.cards.SpellCard",
     "data": {
       "id": 15,
       "name": "Book of Specters",
@@ -228,7 +228,7 @@
     }
   },
   "16": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 5,
       "attack": 10,
@@ -244,7 +244,7 @@
     }
   },
   "17": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 1,
       "attack": 3,
@@ -260,7 +260,7 @@
     }
   },
   "18": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 6,
       "attack": 2,
@@ -276,7 +276,7 @@
     }
   },
   "19": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 9,
       "attack": 7,
@@ -292,7 +292,7 @@
     }
   },
   "20": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 2,
       "attack": 1,
@@ -308,7 +308,7 @@
     }
   },
   "21": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 4,
       "attack": 4,
@@ -324,7 +324,7 @@
     }
   },
   "22": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 5,
       "attack": 5,
@@ -340,7 +340,7 @@
     }
   },
   "23": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 6,
       "attack": 3,
@@ -356,7 +356,7 @@
     }
   },
   "24": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 6,
       "attack": 2,
@@ -372,7 +372,7 @@
     }
   },
   "25": {
-    "type": "hearthstone.logic.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.cards.MinionCard",
     "data": {
       "health": 4,
       "attack": 4,
@@ -388,7 +388,7 @@
     }
   },
   "26": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 4,
       "attack": 3,
@@ -404,7 +404,7 @@
     }
   },
   "27": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 4,
@@ -420,7 +420,7 @@
     }
   },
   "28": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -436,7 +436,7 @@
     }
   },
   "29": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -452,7 +452,7 @@
     }
   },
   "30": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 3,
@@ -468,7 +468,7 @@
     }
   },
   "31": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -484,7 +484,7 @@
     }
   },
   "32": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -500,7 +500,7 @@
     }
   },
   "33": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -516,7 +516,7 @@
     }
   },
   "34": {
-    "type": "hearthstone.logic.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.cards.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 1,
@@ -532,7 +532,7 @@
     }
   },
   "35": {
-    "type": "hearthstone.logic.models.card.cards.RewardCard",
+    "type": "hearthstone.models.card.cards.RewardCard",
     "data": {
       "id": 35,
       "name": "Learn Draconic",
@@ -546,7 +546,7 @@
     }
   },
   "36": {
-    "type": "hearthstone.logic.models.card.cards.RewardCard",
+    "type": "hearthstone.models.card.cards.RewardCard",
     "data": {
       "id": 36,
       "name": "Strength in Numbers",
