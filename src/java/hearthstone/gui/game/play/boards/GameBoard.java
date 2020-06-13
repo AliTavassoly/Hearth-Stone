@@ -27,8 +27,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
@@ -40,6 +38,8 @@ public class GameBoard extends JPanel {
     private PassiveButton myPassive;
     private EndTurnTimeLine endTurnTimeLine;
     private MyTimerTask endTurnLineTimerTask;
+    private ArrayList<Card> animatedCardsInMyHand;
+    protected ArrayList<Card> animatedCardsInEnemyHand;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -113,6 +113,12 @@ public class GameBoard extends JPanel {
     private final int enemyDeckCardsNumberX = midX + 450;
     private final int enemyDeckCardsNumberY = midY - 95;
 
+    private int myPickedCardX = myDeckCardsNumberX;
+    private int myPickedCardY = myDeckCardsNumberY;
+
+    protected int enemyPickedCardX = enemyDeckCardsNumberX;
+    protected int enemyPickedCardY = enemyDeckCardsNumberY;
+
     protected final int extraPassiveX = 60;
     protected final int extraPassiveY = 50;
 
@@ -125,6 +131,9 @@ public class GameBoard extends JPanel {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
         this.game = game;
+
+        animatedCardsInMyHand = new ArrayList<>();
+        animatedCardsInEnemyHand = new ArrayList<>();
 
         soundPlayer = new SoundPlayer("/sounds/play_background.wav");
         CredentialsFrame.getSoundPlayer().stop();
@@ -320,6 +329,42 @@ public class GameBoard extends JPanel {
         add(weaponButton);
     }
 
+    protected void animatePickedCard(int startX, int startY,
+                                     int destinationX, int destinationY, BoardCardButton cardButton) {
+        long period = 50;
+        long length = 4000;
+        cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
+
+        MyTimerTask task = new MyTimerTask(period, length, new MyTask() {
+            @Override
+            public void startFunction() {
+            }
+
+            @Override
+            public void periodFunction() {
+                cardButton.setBounds(
+                        cardButton.getX() + (destinationX - startX) / (int) (length / period),
+                        cardButton.getY() + (destinationY - startY) / (int) (length / period),
+                        cardButton.getWidth(), cardButton.getHeight());
+            }
+
+            @Override
+            public void warningFunction() {
+            }
+
+            @Override
+            public void finishedFunction() {
+            }
+
+            @Override
+            public void closeFunction() {
+                cardButton.setBounds(
+                        destinationX, destinationY,
+                        cardButton.getWidth(), cardButton.getHeight());
+            }
+        });
+    }
+
     private void drawMyCardsOnHand() {
         ArrayList<Card> cards = myPlayer.getHand();
         if (cards.size() == 0)
@@ -342,6 +387,12 @@ public class GameBoard extends JPanel {
             cardButton.setBounds(startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+
+            if (!animatedCardsInMyHand.contains(card)) {
+                animatePickedCard(myPickedCardX, myPickedCardY,
+                        startX + dis * (i - cards.size() / 2), startY, cardButton);
+                animatedCardsInMyHand.add(card);
+            }
             add(cardButton);
         }
     }
@@ -368,6 +419,12 @@ public class GameBoard extends JPanel {
             cardButton.setBounds(startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+
+            if (!animatedCardsInEnemyHand.contains(card)) {
+                animatePickedCard(enemyPickedCardX, enemyPickedCardY,
+                        startX + dis * (i - cards.size() / 2), startY, cardButton);
+                animatedCardsInEnemyHand.add(card);
+            }
             add(cardButton);
         }
     }
@@ -445,7 +502,8 @@ public class GameBoard extends JPanel {
 
         endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyTask() {
             @Override
-            public void startFunction() { }
+            public void startFunction() {
+            }
 
             @Override
             public void periodFunction() {
@@ -676,7 +734,7 @@ public class GameBoard extends JPanel {
         add(closeButton);
     }
 
-    private void justOnceLayout(){
+    private void justOnceLayout() {
         endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
                 SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
         add(endTurnTimeLine);
@@ -723,14 +781,14 @@ public class GameBoard extends JPanel {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    private void closeBoard(){
+    private void closeBoard() {
         soundPlayer.stop();
         endTurnLineTimerTask.myStop();
     }
 
-    private void removeComponents(){
-        for(Component component : this.getComponents()){
-            if(component instanceof EndTurnTimeLine)
+    private void removeComponents() {
+        for (Component component : this.getComponents()) {
+            if (component instanceof EndTurnTimeLine)
                 continue;
             this.remove(component);
         }

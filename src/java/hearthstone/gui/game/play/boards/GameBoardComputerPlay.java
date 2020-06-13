@@ -27,12 +27,19 @@ public class GameBoardComputerPlay extends GameBoard {
         int dis = enemyHandDisCard / cards.size();
 
         for (int i = 0; i < cards.size(); i++) {
+            Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(SizeConfigs.smallCardWidth,
                     SizeConfigs.smallCardHeight);
 
             cardButton.setBounds(enemyHandX + dis * (i - cards.size() / 2),
                     enemyHandY,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+
+            if (!animatedCardsInEnemyHand.contains(card)) {
+                animatePickedCard(enemyPickedCardX, enemyPickedCardY,
+                        enemyHandX + dis * (i - cards.size() / 2), enemyHandY, cardButton);
+                animatedCardsInEnemyHand.add(card);
+            }
             add(cardButton);
         }
     }
