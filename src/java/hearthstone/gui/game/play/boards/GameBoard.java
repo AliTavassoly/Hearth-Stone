@@ -436,7 +436,7 @@ public class GameBoard extends JPanel {
         int totalX = endTurnButtonX - endTurnTimeLine.getWidth() - endTurnTimeLineX;
         long length = 60000;
         long period = length / totalX;
-        long warningTime = 10000;
+        long warningTime = 9000;
 
         endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
                 SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
