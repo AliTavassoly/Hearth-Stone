@@ -100,6 +100,9 @@ public class SizeConfigs {
     public static int weaponDetailWidth;
     public static int weaponDetailHeight;
 
+    public static int endTurnTimeLineWidth;
+    public static int endTurnTimeLineHeight;
+
     static public void setConfigs(Map<String, Object> configs){
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
@@ -197,5 +200,8 @@ public class SizeConfigs {
 
         weaponDetailWidth = ((Double) configs.get("weaponDetailWidth")).intValue();
         weaponDetailHeight = ((Double) configs.get("weaponDetailHeight")).intValue();
+
+        endTurnTimeLineWidth = ((Double) configs.get("endTurnTimeLineWidth")).intValue();
+        endTurnTimeLineHeight = ((Double) configs.get("endTurnTimeLineHeight")).intValue();
     }
 }

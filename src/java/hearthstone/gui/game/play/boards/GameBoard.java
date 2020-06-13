@@ -1,5 +1,6 @@
 package hearthstone.gui.game.play.boards;
 
+import hearthstone.GuiLogicMapper;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
@@ -13,17 +14,12 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.play.controls.BoardCardButton;
-import hearthstone.gui.game.play.controls.BoardHeroButton;
-import hearthstone.gui.game.play.controls.HeroPowerButton;
-import hearthstone.gui.game.play.controls.WeaponButton;
+import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.player.Player;
 import hearthstone.models.card.Card;
-import hearthstone.util.HearthStoneException;
-import hearthstone.util.Rand;
-import hearthstone.util.SoundPlayer;
+import hearthstone.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,6 +27,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
@@ -40,6 +38,8 @@ public class GameBoard extends JPanel {
     private final SoundPlayer soundPlayer;
     private final Game game;
     private PassiveButton myPassive;
+    private EndTurnTimeLine endTurnTimeLine;
+    private MyTimerTask endTurnLineTimerTask;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -116,6 +116,9 @@ public class GameBoard extends JPanel {
     protected final int extraPassiveX = 60;
     protected final int extraPassiveY = 50;
 
+    protected final int endTurnTimeLineX = boardStartX;
+    protected final int endTurnTimeLineY = midY;
+
     // Finals END
 
     public GameBoard(Player myPlayer, Player enemyPlayer, Game game) {
@@ -140,6 +143,8 @@ public class GameBoard extends JPanel {
         makeGameStuff();
 
         gameStuffLayout();
+
+        justOnceLayout();
     }
 
     @Override
@@ -352,7 +357,7 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true,true);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
@@ -427,13 +432,54 @@ public class GameBoard extends JPanel {
         }
     }
 
+    private void drawEndTurnTimeLine() {
+        int totalX = endTurnButtonX - endTurnTimeLine.getWidth() - endTurnTimeLineX;
+        long length = 60000;
+        long period = length / totalX;
+        long warningTime = 10000;
+
+        endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
+                SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
+
+        SoundPlayer countdown = new SoundPlayer("/sounds/countdown.wav");
+
+        endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyTask() {
+            @Override
+            public void startFunction() { }
+
+            @Override
+            public void periodFunction() {
+                endTurnTimeLine.setBounds(
+                        endTurnTimeLine.getX() + 1,
+                        endTurnTimeLine.getY(),
+                        SizeConfigs.endTurnTimeLineWidth,
+                        SizeConfigs.endTurnTimeLineHeight);
+            }
+
+            @Override
+            public void warningFunction() {
+                countdown.playOnce();
+            }
+
+            @Override
+            public void finishedFunction() {
+                endTurnButton.doClick();
+            }
+
+            @Override
+            public void closeFunction() {
+                countdown.stop();
+            }
+        });
+    }
+
     private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
                           int startX, int startY, int width, int height) {
         try {
-            if(!button.isEnemy()) {
-                myPlayer.playCard(card);
-            } else{
-                enemyPlayer.playCard(card);
+            if (!button.isEnemy()) {
+                GuiLogicMapper.getInstance().playCard(myPlayer, card);
+            } else {
+                GuiLogicMapper.getInstance().playCard(enemyPlayer, card);
             }
             cardButton.playSound();
             hearthstone.util.Logger.saveLog("Play card",
@@ -464,7 +510,7 @@ public class GameBoard extends JPanel {
                 SizeConfigs.medCardHeight,
                 -1);
 
-        if(!button.isEnemy()) {
+        if (!button.isEnemy()) {
             bigCardButton.setBounds(
                     SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                     SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
@@ -508,12 +554,12 @@ public class GameBoard extends JPanel {
                         game.getWhoseTurn() == 0) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
-                } else if(!isInEnemyLand(startX, startY) &&
+                } else if (!isInEnemyLand(startX, startY) &&
                         isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        game.getWhoseTurn() == 1){
+                        game.getWhoseTurn() == 1) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
-                } else  {
+                } else {
                     if (button.isShouldRotate()) {
                         button.setRotate(button.getInitialRotate());
                     }
@@ -526,9 +572,9 @@ public class GameBoard extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
                     return;
-                if((game.getWhoseTurn() == 0 && button.isEnemy()))
+                if ((game.getWhoseTurn() == 0 && button.isEnemy()))
                     return;
-                if((game.getWhoseTurn() == 1 && !button.isEnemy()))
+                if ((game.getWhoseTurn() == 1 && !button.isEnemy()))
                     return;
 
                 int newX = e.getX() + button.getX();
@@ -577,7 +623,7 @@ public class GameBoard extends JPanel {
                     ex.printStackTrace();
                 }
                 CredentialsFrame.getSoundPlayer().loopPlay();
-                soundPlayer.stop();
+                closeBoard();
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
         });
@@ -593,10 +639,15 @@ public class GameBoard extends JPanel {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                game.endTurn();
+                GuiLogicMapper.getInstance().endTurn(game);
+                endTurnLineTimerTask.myStop();
+                drawEndTurnTimeLine();
                 restart();
             }
         });
+
+        endTurnTimeLine = new EndTurnTimeLine(SizeConfigs.endTurnTimeLineWidth,
+                SizeConfigs.endTurnTimeLineHeight);
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, false); // player hero
 
@@ -623,6 +674,13 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
         add(closeButton);
+    }
+
+    private void justOnceLayout(){
+        endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
+                SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
+        add(endTurnTimeLine);
+        drawEndTurnTimeLine();
     }
 
     private void gameStuffLayout() {
@@ -660,12 +718,26 @@ public class GameBoard extends JPanel {
     private boolean isInMyLand(int x, int y) {
         return x >= boardStartX && x <= boardEndX && y >= myLandStartY && y <= myLandEndY;
     }
-    private boolean isInEnemyLand(int x, int y){
+
+    private boolean isInEnemyLand(int x, int y) {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
+    private void closeBoard(){
+        soundPlayer.stop();
+        endTurnLineTimerTask.myStop();
+    }
+
+    private void removeComponents(){
+        for(Component component : this.getComponents()){
+            if(component instanceof EndTurnTimeLine)
+                continue;
+            this.remove(component);
+        }
+    }
+
     private void restart() {
-        removeAll();
+        removeComponents();
         iconLayout();
         gameStuffLayout();
         revalidate();

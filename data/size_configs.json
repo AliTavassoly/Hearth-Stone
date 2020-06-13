@@ -92,5 +92,8 @@
   "weaponHeight": 110,
 
   "weaponDetailWidth": 35,
-  "weaponDetailHeight": 35
+  "weaponDetailHeight": 35,
+
+  "endTurnTimeLineWidth": 50,
+  "endTurnTimeLineHeight": 55
 }
