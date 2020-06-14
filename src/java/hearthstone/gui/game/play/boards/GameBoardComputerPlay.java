@@ -4,7 +4,6 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
@@ -36,8 +35,10 @@ public class GameBoardComputerPlay extends GameBoard {
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
 
             if (!animatedCardsInEnemyHand.contains(card)) {
-                animatePickedCard(enemyPickedCardX, enemyPickedCardY,
-                        enemyHandX + dis * (i - cards.size() / 2), enemyHandY, cardButton);
+                animateCard(enemyPickedCardX, enemyPickedCardY,
+                        enemyHandX + dis * (i - cards.size() / 2), enemyHandY,
+                        4000,
+                        cardButton);
                 animatedCardsInEnemyHand.add(card);
             }
             add(cardButton);
