@@ -6,4 +6,5 @@ public interface MyTask {
     void warningFunction();
     void finishedFunction();
     void closeFunction();
+    boolean finishCondition();
 }

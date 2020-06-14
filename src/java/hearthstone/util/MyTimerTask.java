@@ -2,7 +2,7 @@ package hearthstone.util;
 
 public class MyTimerTask extends Thread {
     private MyTask task;
-    private final long period, length;
+    private long period, length;
     private long warningTime;
     private final long startTime;
     private boolean shouldStop;
@@ -28,12 +28,21 @@ public class MyTimerTask extends Thread {
         this.start();
     }
 
+    public MyTimerTask(long period, MyTask task) {
+        this.period = period;
+        this.task = task;
+
+        startTime = System.currentTimeMillis();
+
+        this.start();
+    }
+
     @Override
     public void run() {
         boolean flag = false;
 
         task.startFunction();
-        while (!shouldStop && System.currentTimeMillis() - startTime < length) {
+        while (!shouldStop && (length == 0 || System.currentTimeMillis() - startTime < length) && !task.finishCondition()) {
             try {
                 Thread.sleep(period);
             } catch (InterruptedException ignore) {

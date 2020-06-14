@@ -37,7 +37,6 @@ public class GameBoardComputerPlay extends GameBoard {
             if (!animatedCardsInEnemyHand.contains(card)) {
                 animateCard(enemyPickedCardX, enemyPickedCardY,
                         enemyHandX + dis * (i - cards.size() / 2), enemyHandY,
-                        4000,
                         cardButton);
                 animatedCardsInEnemyHand.add(card);
             }

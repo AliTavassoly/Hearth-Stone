@@ -7,6 +7,7 @@ import hearthstone.models.hero.HeroType;
 
 public class MinionCard extends Card {
     private int health, attack;
+    private boolean isTaunt;
 
     public MinionCard(){ }
 
@@ -14,6 +15,13 @@ public class MinionCard extends Card {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
         this.attack = attack;
+    }
+
+    public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack, boolean isTaunt) {
+        super(id, name, description, manaCost, heroType, rarity, cardType);
+        this.health = health;
+        this.attack = attack;
+        this.isTaunt = isTaunt;
     }
 
     public void setHealth(int health) {
@@ -30,5 +38,13 @@ public class MinionCard extends Card {
 
     public int getAttack() {
         return attack;
+    }
+
+    public boolean isTaunt() {
+        return isTaunt;
+    }
+
+    public void setTaunt(boolean taunt) {
+        isTaunt = taunt;
     }
 }

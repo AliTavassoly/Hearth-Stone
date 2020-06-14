@@ -32,6 +32,7 @@
     "data": {
       "health": 2,
       "attack": 4,
+      "isTaunt": false,
       "id": 2,
       "name": "Dreadscale",
       "description": "At the end of your turn, deal 1 damage to all other minions.",
@@ -76,6 +77,7 @@
     "data": {
       "health": 2,
       "attack": 3,
+      "isTaunt": false,
       "id": 5,
       "name": "Lab Recruiter",
       "description": "Battlecry: Shuffle 3 copies of a friendly minion into your deck.",
@@ -132,6 +134,7 @@
     "data": {
       "health": 7,
       "attack": 2,
+      "isTaunt": false,
       "id": 9,
       "name": "High Priest Amet",
       "description": "Whenever you summon a\nminion, set its Health equal\nto this minion\u0027s.",
@@ -232,6 +235,7 @@
     "data": {
       "health": 5,
       "attack": 10,
+      "isTaunt": false,
       "id": 16,
       "name": "Hulking Overfiend",
       "description": "Rush. After this attacks and kills a minion, it may attack again.",
@@ -248,6 +252,7 @@
     "data": {
       "health": 1,
       "attack": 3,
+      "isTaunt": false,
       "id": 17,
       "name": "Wrathscale Naga",
       "description": "After a friendly minion dies, deal 3 damage to a random enemy.",
@@ -264,6 +269,7 @@
     "data": {
       "health": 6,
       "attack": 2,
+      "isTaunt": true,
       "id": 18,
       "name": "Wrathspike Brute",
       "description": "Taunt After this is attacked, deal 1 damage to all enemies.",
@@ -280,6 +286,7 @@
     "data": {
       "health": 9,
       "attack": 7,
+      "isTaunt": true,
       "id": 19,
       "name": "Pit Commander",
       "description": "Taunt At the end of your turn, summon a Demon from your deck.",
@@ -296,6 +303,7 @@
     "data": {
       "health": 2,
       "attack": 1,
+      "isTaunt": true,
       "id": 20,
       "name": "Goldshire Footman",
       "description": "Taunt",
@@ -312,6 +320,7 @@
     "data": {
       "health": 4,
       "attack": 4,
+      "isTaunt": true,
       "id": 21,
       "name": "Abomination",
       "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
@@ -328,6 +337,7 @@
     "data": {
       "health": 5,
       "attack": 5,
+      "isTaunt": false,
       "id": 22,
       "name": "Sathrovarr",
       "description": "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.",
@@ -344,6 +354,7 @@
     "data": {
       "health": 6,
       "attack": 3,
+      "isTaunt": true,
       "id": 23,
       "name": "Tomb Warden",
       "description": "Taunt \n Battlecry: Summon a copy\n of this minion.",
@@ -360,6 +371,7 @@
     "data": {
       "health": 6,
       "attack": 2,
+      "isTaunt": false,
       "id": 24,
       "name": "Security Rover",
       "description": "Whenever this minion\ntakes damage, summon a\n2/3 Mech with [b]Taunt[/b].",
@@ -376,6 +388,7 @@
     "data": {
       "health": 4,
       "attack": 4,
+      "isTaunt": false,
       "id": 25,
       "name": "Curio Collector",
       "description": "Whenever you draw a card, gain +1/+1.",

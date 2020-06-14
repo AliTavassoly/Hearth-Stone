@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
     private int width, height;
@@ -22,7 +23,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private boolean showBig;
     private Card card;
     private boolean shouldRotate;
-    private boolean isEnemy, isBack;
+    private boolean isEnemy, isBack, isInLand;
 
     public BoardCardButton(int width, int height) {
         this.width = width;
@@ -59,6 +60,18 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         this.card = card;
         this.isEnemy = isEnemy;
         this.showBig = showBig;
+
+        this.width = width;
+        this.height = height;
+
+        configButton();
+    }
+
+    public BoardCardButton(Card card, int width, int height, boolean showBig, boolean isEnemy, boolean isInLand) {
+        this.card = card;
+        this.isEnemy = isEnemy;
+        this.showBig = showBig;
+        this.isInLand = true;
 
         this.width = width;
         this.height = height;
@@ -123,7 +136,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return shouldRotate;
     }
 
-    public boolean isEnemy(){
+    public boolean isEnemy() {
         return isEnemy;
     }
 
@@ -131,6 +144,11 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
+
+        if (card instanceof MinionCard && isInLand) {
+            drawMinionInLand(g2);
+            return;
+        }
 
         BufferedImage image = null;
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -141,7 +159,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         try {
             String path;
-            if(!isBack) {
+            if (!isBack) {
                 path = "/images/cards/" + card.getName().toLowerCase().
                         replace(' ', '_').replace("'", "") + ".png";
             } else {
@@ -163,7 +181,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         g2.drawImage(buffy, 0, 0, null);
 
-        if(isBack)
+        if (isBack)
             return;
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
@@ -175,6 +193,79 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         // DRAW TEXT
         drawStringOnCard(g2, Color.WHITE, fontMetrics);
+    }
+
+    void drawMinionInLand(Graphics2D g) {
+        String minionPath = "/images/cards/oval_minions/" + card.getName().
+                toLowerCase().replace(' ', '_').replace("'", "") + ".png";
+        String shieldPath = "/images/minion_shield.png";
+
+        if (((MinionCard) card).isTaunt()) {
+            shieldPath = "/images/minion_shield.png";
+        } else {
+            shieldPath = "/images/minion_played.png";
+        }
+
+        BufferedImage minionImage = null;
+        BufferedImage shieldImage = null;
+
+        try {
+            minionImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    minionPath));
+            shieldImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    shieldPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        g.drawImage(minionImage.getScaledInstance(
+                width - 18, height - 28,
+                Image.SCALE_SMOOTH),
+                9, 5,
+                width - 18, height - 28,
+                null);
+
+        g.drawImage(shieldImage.getScaledInstance(
+                width, height,
+                Image.SCALE_SMOOTH),
+                0, 0,
+                width, height,
+                null);
+
+        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        FontMetrics fontMetrics = g.getFontMetrics(font);
+
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        g.setFont(font);
+
+        // DRAW TEXT
+
+        drawStringOnMinionOnLand(g, Color.WHITE, fontMetrics);
+    }
+
+    void drawStringOnMinionOnLand(Graphics2D g, Color color, FontMetrics fontMetrics) {
+        String text;
+        int textWidth;
+
+        final int minionAttackX = 25 - 5;
+        final int minionAttackY = height - 27;
+        final int minionHealthX = width - 22;
+        final int minionHealthY = height - 27;
+
+        g.setColor(color);
+        Font font = GameFrame.getInstance().getCustomFont(0, 30);
+        g.setFont(font);
+
+        text = String.valueOf(((MinionCard) card).getAttack());
+        textWidth = fontMetrics.stringWidth(text);
+        g.drawString(text, minionAttackX - textWidth / 2,
+                minionAttackY);
+
+        text = String.valueOf(((MinionCard) card).getHealth());
+        textWidth = fontMetrics.stringWidth(text);
+        g.drawString(text, minionHealthX - textWidth / 2,
+                minionHealthY);
     }
 
     void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics) {

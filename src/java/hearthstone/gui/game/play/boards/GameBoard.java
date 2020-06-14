@@ -99,14 +99,14 @@ public class GameBoard extends JPanel {
     private final int myLandEndY = midY + 180;
     private final int myLandX = midX;
     private final int myLandY = myLandStartY;
-    private final int myLandDisCard = 85;
+    private final int myLandDisCard = 115;
 
 
     private final int enemyLandStartY = midY - 130;
     private final int enemyLandEndY = midY;
     private final int enemyLandX = midX;
     private final int enemyLandY = enemyLandStartY;
-    private final int enemyLandDisCard = 85;
+    private final int enemyLandDisCard = 115;
 
     private final int myDeckCardsNumberX = midX + 450;
     private final int myDeckCardsNumberY = midY + 105;
@@ -334,23 +334,28 @@ public class GameBoard extends JPanel {
     }
 
     protected void animateCard(int startX, int startY,
-                               int destinationX, int destinationY, long timeLength, BoardCardButton cardButton) {
+                               int destinationX, int destinationY, BoardCardButton cardButton) {
         long period = 50;
-        long length = timeLength;
         cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
 
-        MyTimerTask task = new MyTimerTask(period, length, new MyTask() {
+        MyTimerTask task = new MyTimerTask(period, new MyTask() {
             @Override
             public void startFunction() {
             }
 
             @Override
             public void periodFunction() {
-                int xPlus = (destinationX - startX) / (int) (length / period);
-                int yPlus = (destinationY - startY) / (int) (length / period);
+                int plusX = 5;
+                int plusY = 5;
+
+                if(Math.abs(destinationX - cardButton.getX()) <= 5)
+                    plusX = 1;
+                if(Math.abs(destinationY - cardButton.getY()) <= 5)
+                    plusY = 1;
+
                 cardButton.setBounds(
-                        cardButton.getX() + (xPlus == 0 && destinationX - startX != 0 ? (destinationX - startX) / Math.abs((destinationX - startX)) : xPlus),
-                        cardButton.getY() + (yPlus == 0 && destinationY - startY != 0 ? (destinationY - startY) / Math.abs((destinationY - startY)) : yPlus),
+                        cardButton.getX() + (destinationX - cardButton.getX() != 0 ? plusX * (destinationX - cardButton.getX()) / Math.abs(destinationX - cardButton.getX()) : 0),
+                        cardButton.getY() + (destinationY - cardButton.getY() != 0 ? plusY * (destinationY - cardButton.getY()) / Math.abs(destinationY - cardButton.getY()) : 0),
                         cardButton.getWidth(), cardButton.getHeight());
             }
 
@@ -367,6 +372,13 @@ public class GameBoard extends JPanel {
                 cardButton.setBounds(
                         destinationX, destinationY,
                         cardButton.getWidth(), cardButton.getHeight());
+            }
+
+            @Override
+            public boolean finishCondition() {
+                if(cardButton.getX() == destinationX && cardButton.getY() == destinationY)
+                    return true;
+                return false;
             }
         });
     }
@@ -397,7 +409,6 @@ public class GameBoard extends JPanel {
             if (!animatedCardsInMyHand.contains(card)) {
                 animateCard(myPickedCardX, myPickedCardY,
                         startX + dis * (i - cards.size() / 2), startY,
-                        4000,
                         cardButton);
                 animatedCardsInMyHand.add(card);
             }
@@ -431,7 +442,6 @@ public class GameBoard extends JPanel {
             if (!animatedCardsInEnemyHand.contains(card)) {
                 animateCard(enemyPickedCardX, enemyPickedCardY,
                         startX + dis * (i - cards.size() / 2), startY,
-                        4000,
                         cardButton);
                 animatedCardsInEnemyHand.add(card);
             }
@@ -452,25 +462,24 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, false);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true,false,true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
-                    SizeConfigs.smallCardWidth,
-                    SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidthOnLand,
+                    SizeConfigs.smallCardHeightOnLand);
 
             cardButton.setBounds(startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand);
             if (!animatedCardsInMyLand.contains(card)) {
                 animateCard(myHandX, myHandY,
                         startX + dis * (i - cards.size() / 2)
-                                - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                                - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                         startY,
-                        4000,
                         cardButton);
                 animatedCardsInMyLand.add(card);
             }
@@ -491,25 +500,24 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true,true, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
-                    SizeConfigs.smallCardWidth,
-                    SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidthOnLand,
+                    SizeConfigs.smallCardHeightOnLand);
 
             cardButton.setBounds(startX + dis * (i - cards.size() / 2)
-                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                            - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand);
             if (!animatedCardsInEnemyLand.contains(card)) {
                 animateCard(enemyHandX, enemyHandY,
                         startX + dis * (i - cards.size() / 2)
-                                - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidth / 2 : 0),
+                                - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                         startY,
-                        4000,
                         cardButton);
                 animatedCardsInEnemyLand.add(card);
             }
@@ -555,6 +563,11 @@ public class GameBoard extends JPanel {
             @Override
             public void closeFunction() {
                 countdown.stop();
+            }
+
+            @Override
+            public boolean finishCondition() {
+                return false;
             }
         });
     }

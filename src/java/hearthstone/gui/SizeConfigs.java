@@ -28,6 +28,9 @@ public class SizeConfigs {
     public static int smallCardWidth;
     public static int smallCardHeight;
 
+    public static int smallCardWidthOnLand;
+    public static int smallCardHeightOnLand;
+
     public static int medCardWidth;
     public static int medCardHeight;
 
@@ -128,6 +131,9 @@ public class SizeConfigs {
 
         smallCardWidth = ((Double) configs.get("smallCardWidth")).intValue();
         smallCardHeight = ((Double) configs.get("smallCardHeight")).intValue();
+
+        smallCardWidthOnLand = ((Double) configs.get("smallCardWidthOnLand")).intValue();
+        smallCardHeightOnLand = ((Double) configs.get("smallCardHeightOnLand")).intValue();
 
         medCardWidth = ((Double) configs.get("medCardWidth")).intValue();
         medCardHeight = ((Double) configs.get("medCardHeight")).intValue();

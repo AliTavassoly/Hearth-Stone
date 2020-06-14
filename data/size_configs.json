@@ -23,6 +23,9 @@
   "smallCardWidth": 80,
   "smallCardHeight": 130,
 
+  "smallCardWidthOnLand": 95,
+  "smallCardHeightOnLand": 130,
+
   "medCardWidth": 150,
   "medCardHeight": 215,
 
