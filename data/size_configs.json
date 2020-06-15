@@ -97,6 +97,9 @@
   "weaponDetailWidth": 35,
   "weaponDetailHeight": 35,
 
-  "endTurnTimeLineWidth": 50,
-  "endTurnTimeLineHeight": 55
+  "endTurnFireWidth": 47,
+  "endTurnFireHeight": 57,
+
+  "endTurnRopeWidth": 800,
+  "endTurnRopeHeight": 15
 }

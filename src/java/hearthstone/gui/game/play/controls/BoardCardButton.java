@@ -24,6 +24,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private Card card;
     private boolean shouldRotate;
     private boolean isEnemy, isBack, isInLand;
+    private String minionFramePath;
 
     public BoardCardButton(int width, int height) {
         this.width = width;
@@ -101,7 +102,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     }
 
     private void configButton() {
-        setPreferredSize(new Dimension(width, height));
+        setSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
 
@@ -198,12 +199,13 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     void drawMinionInLand(Graphics2D g) {
         String minionPath = "/images/cards/oval_minions/" + card.getName().
                 toLowerCase().replace(' ', '_').replace("'", "") + ".png";
-        String shieldPath = "/images/minion_shield.png";
 
-        if (((MinionCard) card).isTaunt()) {
-            shieldPath = "/images/minion_shield.png";
-        } else {
-            shieldPath = "/images/minion_played.png";
+        if(minionFramePath == null) {
+            if (((MinionCard) card).isTaunt()) {
+                minionFramePath = "/images/minion_shield.png";
+            } else {
+                minionFramePath = "/images/minion_played.png";
+            }
         }
 
         BufferedImage minionImage = null;
@@ -213,7 +215,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             minionImage = ImageIO.read(this.getClass().getResourceAsStream(
                     minionPath));
             shieldImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    shieldPath));
+                    minionFramePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -355,5 +357,31 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     }
 
     public void mouseMoved(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        if(card instanceof MinionCard && isInLand){
+            if (((MinionCard) card).isTaunt()){
+                minionFramePath = "/images/minion_shield_active.png";
+            } else{
+                minionFramePath = "/images/minion_played_active.png";
+            }
+        }
+        this.repaint();
+        this.revalidate();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        if(card instanceof MinionCard && isInLand){
+            if (((MinionCard) card).isTaunt()){
+                minionFramePath = "/images/minion_shield.png";
+            } else{
+                minionFramePath = "/images/minion_played.png";
+            }
+        }
+        this.repaint();
+        this.revalidate();
     }
 }

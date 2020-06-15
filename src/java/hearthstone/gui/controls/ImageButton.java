@@ -150,6 +150,10 @@ public class ImageButton extends JButton implements MouseListener {
         this.isRadio = isRadio;
     }
 
+    public String getImagePath(){
+        return imagePath;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE

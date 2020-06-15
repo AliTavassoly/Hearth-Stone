@@ -5,6 +5,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
@@ -17,7 +18,6 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.card.cards.MinionCard;
 import hearthstone.models.player.Player;
 import hearthstone.models.card.Card;
 import hearthstone.util.*;
@@ -37,8 +37,8 @@ public class GameBoard extends JPanel {
     private final SoundPlayer soundPlayer;
     private final Game game;
     private PassiveButton myPassive;
-    private EndTurnTimeLine endTurnTimeLine;
     private MyTimerTask endTurnLineTimerTask;
+    private ImagePanel rope, spark;
     protected ArrayList<Card> animatedCardsInMyHand, animatedCardsInEnemyHand;
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
 
@@ -123,7 +123,8 @@ public class GameBoard extends JPanel {
     protected final int extraPassiveX = 60;
     protected final int extraPassiveY = 50;
 
-    protected final int endTurnTimeLineX = boardStartX;
+    protected final int endTurnTimeLineStartX = boardStartX + 10;
+    protected final int endTurnTimeLineEndX = endTurnButtonX - 15;
     protected final int endTurnTimeLineY = midY;
 
     // Finals END
@@ -345,12 +346,12 @@ public class GameBoard extends JPanel {
 
             @Override
             public void periodFunction() {
-                int plusX = 5;
-                int plusY = 5;
+                int plusX = 7;
+                int plusY = 7;
 
-                if(Math.abs(destinationX - cardButton.getX()) <= 5)
+                if (Math.abs(destinationX - cardButton.getX()) < 7)
                     plusX = 1;
-                if(Math.abs(destinationY - cardButton.getY()) <= 5)
+                if (Math.abs(destinationY - cardButton.getY()) < 7)
                     plusY = 1;
 
                 cardButton.setBounds(
@@ -376,7 +377,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
-                if(cardButton.getX() == destinationX && cardButton.getY() == destinationY)
+                if (cardButton.getX() == destinationX && cardButton.getY() == destinationY)
                     return true;
                 return false;
             }
@@ -462,7 +463,7 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true,false,true);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, false, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
@@ -500,7 +501,7 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true,true, true);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, true, true);
 
             makeMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
@@ -526,13 +527,15 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEndTurnTimeLine() {
-        int totalX = endTurnButtonX - endTurnTimeLine.getWidth() - endTurnTimeLineX;
+        int totalX = endTurnTimeLineEndX - (endTurnTimeLineStartX - SizeConfigs.endTurnFireWidth + 5);
         long length = 60000;
         long period = length / totalX;
         long warningTime = 9000;
 
-        endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
-                SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
+        spark.setBounds(endTurnTimeLineStartX - SizeConfigs.endTurnFireWidth + 5, endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
+                SizeConfigs.endTurnFireWidth, SizeConfigs.endTurnFireHeight);
+        rope.setBounds(endTurnTimeLineStartX, endTurnTimeLineY - SizeConfigs.endTurnRopeHeight / 2,
+                (endTurnTimeLineEndX - endTurnTimeLineStartX), SizeConfigs.endTurnRopeHeight);
 
         SoundPlayer countdown = new SoundPlayer("/sounds/countdown.wav");
 
@@ -543,11 +546,16 @@ public class GameBoard extends JPanel {
 
             @Override
             public void periodFunction() {
-                endTurnTimeLine.setBounds(
-                        endTurnTimeLine.getX() + 1,
-                        endTurnTimeLine.getY(),
-                        SizeConfigs.endTurnTimeLineWidth,
-                        SizeConfigs.endTurnTimeLineHeight);
+                spark.setImagePath("spark_" + (Rand.getInstance().getRandomNumber(10) % 10) + ".png");
+                spark.setBounds(
+                        spark.getX() + 1, spark.getY(),
+                        SizeConfigs.endTurnFireWidth,
+                        SizeConfigs.endTurnFireHeight);
+
+
+                rope.setBounds(rope.getX() + 1, rope.getY(),
+                        (endTurnTimeLineEndX - (rope.getX() + 1)),
+                        SizeConfigs.endTurnRopeHeight);
             }
 
             @Override
@@ -745,8 +753,11 @@ public class GameBoard extends JPanel {
             }
         });
 
-        endTurnTimeLine = new EndTurnTimeLine(SizeConfigs.endTurnTimeLineWidth,
-                SizeConfigs.endTurnTimeLineHeight);
+        spark = new ImagePanel("spark_0.png", SizeConfigs.endTurnFireWidth,
+                SizeConfigs.endTurnFireHeight);
+
+        rope = new ImagePanel("rope.png", SizeConfigs.endTurnRopeWidth,
+                SizeConfigs.endTurnRopeHeight, endTurnTimeLineStartX, endTurnTimeLineY, true);
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, false); // player hero
 
@@ -776,9 +787,14 @@ public class GameBoard extends JPanel {
     }
 
     private void justOnceLayout() {
-        endTurnTimeLine.setBounds(endTurnTimeLineX, endTurnTimeLineY - SizeConfigs.endTurnTimeLineHeight / 2,
-                SizeConfigs.endTurnTimeLineWidth, SizeConfigs.endTurnTimeLineHeight);
-        add(endTurnTimeLine);
+        spark.setBounds(endTurnTimeLineStartX, endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
+                SizeConfigs.endTurnFireWidth, SizeConfigs.endTurnFireHeight);
+        add(spark);
+
+        rope.setBounds(endTurnTimeLineStartX, endTurnTimeLineY,
+                (endTurnTimeLineEndX - endTurnTimeLineStartX), SizeConfigs.endTurnRopeHeight);
+        add(rope);
+
         drawEndTurnTimeLine();
     }
 
@@ -829,7 +845,10 @@ public class GameBoard extends JPanel {
 
     private void removeComponents() {
         for (Component component : this.getComponents()) {
-            if (component instanceof EndTurnTimeLine)
+            if (component instanceof ImagePanel &&
+                    ((ImagePanel) component).getImagePath().contains("spark"))
+                continue;
+            if (component instanceof ImagePanel && ((ImagePanel) component).getImagePath().contains("rope.png"))
                 continue;
             this.remove(component);
         }

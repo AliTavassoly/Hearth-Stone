@@ -103,10 +103,13 @@ public class SizeConfigs {
     public static int weaponDetailWidth;
     public static int weaponDetailHeight;
 
-    public static int endTurnTimeLineWidth;
-    public static int endTurnTimeLineHeight;
+    public static int endTurnFireWidth;
+    public static int endTurnFireHeight;
 
-    static public void setConfigs(Map<String, Object> configs){
+    public static int endTurnRopeWidth;
+    public static int endTurnRopeHeight;
+
+    static public void setConfigs(Map<String, Object> configs) {
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
         credentialFrameHeight = ((Double) configs.get("credentialFrameHeight")).intValue();
@@ -207,7 +210,10 @@ public class SizeConfigs {
         weaponDetailWidth = ((Double) configs.get("weaponDetailWidth")).intValue();
         weaponDetailHeight = ((Double) configs.get("weaponDetailHeight")).intValue();
 
-        endTurnTimeLineWidth = ((Double) configs.get("endTurnTimeLineWidth")).intValue();
-        endTurnTimeLineHeight = ((Double) configs.get("endTurnTimeLineHeight")).intValue();
+        endTurnFireWidth = ((Double) configs.get("endTurnFireWidth")).intValue();
+        endTurnFireHeight = ((Double) configs.get("endTurnFireHeight")).intValue();
+
+        endTurnRopeWidth = ((Double) configs.get("endTurnRopeWidth")).intValue();
+        endTurnRopeHeight = ((Double) configs.get("endTurnRopeHeight")).intValue();
     }
 }
