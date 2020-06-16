@@ -9,8 +9,8 @@ import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.play.boards.GameBoardComputerPlay;
-import hearthstone.gui.game.play.boards.GameBoardSelfPlay;
+import hearthstone.gui.game.play.boards.PracticeGameBoard;
+import hearthstone.gui.game.play.boards.SoloGameBoard;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.player.ComputerPlayer;
 import hearthstone.models.player.Player;
@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
 
 public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
-    private ImageButton playOnline, playMySelf, playComputer;
+    private ImageButton playOnline, practicePlay, soloPlay;
 
     private final int iconX = 20;
     private final int startIconY = 20;
@@ -81,12 +81,12 @@ public class PlaySelectionPanel extends JPanel {
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
 
-        playMySelf = new ImageButton("Play Yourself", "buttons/long_pink_background.png",
+        practicePlay = new ImageButton("Practice", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
 
-        playComputer = new ImageButton("Play Computer", "buttons/long_pink_background.png",
+        soloPlay = new ImageButton("Solo play", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
@@ -97,18 +97,18 @@ public class PlaySelectionPanel extends JPanel {
             }
         });
 
-        playMySelf.addActionListener(new ActionListener() {
+        practicePlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player enemyPlayer = HearthStone.currentAccount.getPlayer();
 
                 Game game = new Game(myPlayer, enemyPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoardSelfPlay(myPlayer, enemyPlayer, game));
+                        new PracticeGameBoard(myPlayer, enemyPlayer, game));
             }
         });
 
-        playComputer.addActionListener(new ActionListener() {
+        soloPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player computerPlayer = new ComputerPlayer(HearthStone.currentAccount.getSelectedHero(),
@@ -116,7 +116,7 @@ public class PlaySelectionPanel extends JPanel {
 
                 Game game = new Game(myPlayer, computerPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new GameBoardComputerPlay(myPlayer, computerPlayer, game));
+                        new SoloGameBoard(myPlayer, computerPlayer, game));
             }
         });
     }
@@ -155,16 +155,16 @@ public class PlaySelectionPanel extends JPanel {
                 SizeConfigs.largeButtonHeight);
         add(playOnline);
 
-        playMySelf.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        practicePlay.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
                 startButtonY + buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
-        add(playMySelf);
+        add(practicePlay);
 
-        playComputer.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        soloPlay.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
                 startButtonY + 2 * buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
-        add(playComputer);
+        add(soloPlay);
     }
 }

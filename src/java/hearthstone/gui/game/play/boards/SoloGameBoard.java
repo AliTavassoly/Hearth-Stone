@@ -7,14 +7,14 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.player.Player;
 import hearthstone.models.card.Card;
+import hearthstone.models.player.Player;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
 
-public class GameBoardComputerPlay extends GameBoard {
-    public GameBoardComputerPlay(Player myPlayer, Player enemyPlayer, Game game) {
+public class SoloGameBoard extends GameBoard {
+    public SoloGameBoard(Player myPlayer, Player enemyPlayer, Game game) {
         super(myPlayer, enemyPlayer, game);
     }
 
@@ -27,7 +27,7 @@ public class GameBoardComputerPlay extends GameBoard {
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            BoardCardButton cardButton = new BoardCardButton(SizeConfigs.smallCardWidth,
+            BoardCardButton cardButton = new BoardCardButton(card, SizeConfigs.smallCardWidth,
                     SizeConfigs.smallCardHeight);
 
             cardButton.setBounds(enemyHandX + dis * (i - cards.size() / 2),

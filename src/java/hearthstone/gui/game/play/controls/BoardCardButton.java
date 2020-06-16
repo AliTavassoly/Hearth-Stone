@@ -27,7 +27,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private boolean isEnemy, isBack, isInLand;
     private String minionFramePath;
 
-    public BoardCardButton(int width, int height) {
+    public BoardCardButton(Card card, int width, int height) {
+        this.card = card;
         this.width = width;
         this.height = height;
         isBack = true;

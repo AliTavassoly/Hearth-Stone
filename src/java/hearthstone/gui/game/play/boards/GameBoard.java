@@ -43,7 +43,7 @@ public class GameBoard extends JPanel {
     protected ArrayList<Card> animatedCardsInMyHand, animatedCardsInEnemyHand;
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
 
-    private ArrayList<CardImage> drawCards;
+    protected ArrayList<CardImage> drawCards;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -175,8 +175,7 @@ public class GameBoard extends JPanel {
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream(
                     "/images/game_board_background.png"));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignore) {
         }
         g.drawImage(image, 0, 0, null);
 
@@ -200,7 +199,7 @@ public class GameBoard extends JPanel {
             }
         }
 
-        synchronized (sparkImage){
+        synchronized (sparkImage) {
             g2.drawImage(sparkImage.getImage().getScaledInstance(
                     sparkImage.getWidth(), sparkImage.getHeight(),
                     Image.SCALE_SMOOTH),
@@ -365,7 +364,7 @@ public class GameBoard extends JPanel {
 
     protected void animateCard(int startX, int startY,
                                int destinationX, int destinationY, BoardCardButton cardButton) {
-        long period = 50;
+        long period = 75;
 
         cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
 
@@ -591,7 +590,7 @@ public class GameBoard extends JPanel {
 
     private void drawEndTurnTimeLine() {
         int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
-        long length = 60000;
+        long length = 90000;
         long period = length / totalX * 4;
         long warningTime = 9000;
 
