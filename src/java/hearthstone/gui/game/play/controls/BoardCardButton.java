@@ -5,6 +5,7 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.cards.MinionCard;
+import hearthstone.models.card.cards.RewardCard;
 import hearthstone.models.card.cards.SpellCard;
 import hearthstone.models.card.cards.WeaponCard;
 import hearthstone.util.SoundPlayer;
@@ -118,6 +119,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             path = "/sounds/spells/" + "spell" + ".wav";
         } else if (card instanceof WeaponCard) {
             path = "/sounds/weapons/" + "weapon" + ".wav";
+        } else if (card instanceof RewardCard) {
+            path = "/sounds/rewards/" + "reward" + ".wav";
         } else {
             return;
         }
@@ -200,7 +203,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         String minionPath = "/images/cards/oval_minions/" + card.getName().
                 toLowerCase().replace(' ', '_').replace("'", "") + ".png";
 
-        if(minionFramePath == null) {
+        if (minionFramePath == null) {
             if (((MinionCard) card).isTaunt()) {
                 minionFramePath = "/images/minion_shield.png";
             } else {
@@ -361,10 +364,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if(card instanceof MinionCard && isInLand){
-            if (((MinionCard) card).isTaunt()){
+        if (card instanceof MinionCard && isInLand) {
+            if (((MinionCard) card).isTaunt()) {
                 minionFramePath = "/images/minion_shield_active.png";
-            } else{
+            } else {
                 minionFramePath = "/images/minion_played_active.png";
             }
         }
@@ -374,10 +377,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if(card instanceof MinionCard && isInLand){
-            if (((MinionCard) card).isTaunt()){
+        if (card instanceof MinionCard && isInLand) {
+            if (((MinionCard) card).isTaunt()) {
                 minionFramePath = "/images/minion_shield.png";
-            } else{
+            } else {
                 minionFramePath = "/images/minion_played.png";
             }
         }
