@@ -15,11 +15,14 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.play.controls.*;
+import hearthstone.gui.game.play.controls.BoardCardButton;
+import hearthstone.gui.game.play.controls.BoardHeroButton;
+import hearthstone.gui.game.play.controls.HeroPowerButton;
+import hearthstone.gui.game.play.controls.WeaponButton;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.player.Player;
 import hearthstone.models.card.Card;
+import hearthstone.models.player.Player;
 import hearthstone.util.*;
 
 import javax.imageio.ImageIO;
@@ -95,14 +98,14 @@ public class GameBoard extends JPanel {
     protected final int enemyHandY = -65;
     protected final int enemyHandDisCard = 220;
 
-    private final int myLandStartY = midY;
+    private final int myLandStartY = midY + 10;
     private final int myLandEndY = midY + 180;
     private final int myLandX = midX;
     private final int myLandY = myLandStartY;
     private final int myLandDisCard = 115;
 
 
-    private final int enemyLandStartY = midY - 130;
+    private final int enemyLandStartY = midY - 120;
     private final int enemyLandEndY = midY;
     private final int enemyLandX = midX;
     private final int enemyLandY = enemyLandStartY;

@@ -102,7 +102,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     }
 
     private void configButton() {
-        setSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
 
@@ -221,17 +221,17 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         }
 
         g.drawImage(minionImage.getScaledInstance(
-                width - 18, height - 28,
+                width - 18 - 10, height - 28 - 15,
                 Image.SCALE_SMOOTH),
                 9, 5,
-                width - 18, height - 28,
+                width - 18 - 10, height - 28 - 15,
                 null);
 
         g.drawImage(shieldImage.getScaledInstance(
-                width, height,
+                width - 10, height - 15,
                 Image.SCALE_SMOOTH),
                 0, 0,
-                width, height,
+                width - 10, height - 15,
                 null);
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
@@ -251,9 +251,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         int textWidth;
 
         final int minionAttackX = 25 - 5;
-        final int minionAttackY = height - 27;
-        final int minionHealthX = width - 22;
-        final int minionHealthY = height - 27;
+        final int minionAttackY = height - 37;
+        final int minionHealthX = width - 30;
+        final int minionHealthY = height - 37;
 
         g.setColor(color);
         Font font = GameFrame.getInstance().getCustomFont(0, 30);
