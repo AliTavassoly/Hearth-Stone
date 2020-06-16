@@ -144,8 +144,16 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return isEnemy;
     }
 
+    public Card getCard(){
+        return card;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
+        drawCard(g);
+    }
+
+    public void drawCard(Graphics g){
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 

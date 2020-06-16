@@ -9,9 +9,7 @@ public class ImagePanel extends JPanel {
     private int startX, startY, width, height;
     private String imagePath;
 
-    private boolean rtl;
-
-    public ImagePanel(String imagePath, int width, int height){
+    public ImagePanel(String imagePath, int width, int height) {
         this.imagePath = imagePath;
         this.width = width;
         this.height = height;
@@ -19,31 +17,8 @@ public class ImagePanel extends JPanel {
         setPreferredSize(new Dimension(width, height));
     }
 
-    public ImagePanel(String imagePath, int width, int height, int startX, int startY, boolean rtl){
-        this.imagePath = imagePath;
-        this.width = width;
-        this.height = height;
-        this.rtl = rtl;
-        this.startX = startX;
-        this.startY = startY;
-
-        setPreferredSize(new Dimension(width, height));
-    }
-
-    public String getImagePath(){
+    public String getImagePath() {
         return imagePath;
-    }
-    public void setImagePath(String imagePath){
-        this.imagePath = imagePath;
-        this.repaint();
-        this.revalidate();
-    }
-
-    public boolean isRtl() {
-        return rtl;
-    }
-    public void setRtl(boolean rtl) {
-        this.rtl = rtl;
     }
 
     protected void paintComponent(Graphics g) {
@@ -57,16 +32,9 @@ public class ImagePanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(rtl) {
-            g2.drawImage(image.getScaledInstance(width, height,
-                    Image.SCALE_SMOOTH),
-                    startX - (int)getBounds().getX(), 0, width, height,
-                    null);
-        } else {
-            g2.drawImage(image.getScaledInstance(width, height,
-                    Image.SCALE_SMOOTH),
-                    0, 0, width, height,
-                    null);
-        }
+        g2.drawImage(image.getScaledInstance(width, height,
+                Image.SCALE_SMOOTH),
+                0, 0, width, height,
+                null);
     }
 }

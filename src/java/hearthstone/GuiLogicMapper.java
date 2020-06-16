@@ -1,8 +1,6 @@
 package hearthstone;
 
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.card.Card;
-import hearthstone.models.player.Player;
 
 public class GuiLogicMapper {
     private static GuiLogicMapper instance;
@@ -20,9 +18,5 @@ public class GuiLogicMapper {
 
     public void endTurn(Game game){
         game.endTurn();
-    }
-
-    public void playCard(Player player, Card card) throws Exception{
-        player.playCard(card);
     }
 }

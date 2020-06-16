@@ -1,6 +1,7 @@
 package hearthstone.gui.game.play.boards;
 
 import hearthstone.GuiLogicMapper;
+import hearthstone.GuiPlayerMapper;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
@@ -15,10 +16,7 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
-import hearthstone.gui.game.play.controls.BoardCardButton;
-import hearthstone.gui.game.play.controls.BoardHeroButton;
-import hearthstone.gui.game.play.controls.HeroPowerButton;
-import hearthstone.gui.game.play.controls.WeaponButton;
+import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
@@ -41,9 +39,11 @@ public class GameBoard extends JPanel {
     private final Game game;
     private PassiveButton myPassive;
     private MyTimerTask endTurnLineTimerTask;
-    private ImagePanel rope, spark;
+    private SparkImage sparkImage;
     protected ArrayList<Card> animatedCardsInMyHand, animatedCardsInEnemyHand;
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
+
+    private ArrayList<CardImage> drawCards;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -121,7 +121,7 @@ public class GameBoard extends JPanel {
     private int myPickedCardY = myDeckCardsNumberY;
 
     protected int enemyPickedCardX = enemyDeckCardsNumberX;
-    protected int enemyPickedCardY = enemyDeckCardsNumberY;
+    protected int enemyPickedCardY = enemyDeckCardsNumberY - SizeConfigs.smallCardHeight - 27;
 
     protected final int extraPassiveX = 60;
     protected final int extraPassiveY = 50;
@@ -143,6 +143,8 @@ public class GameBoard extends JPanel {
         animatedCardsInMyLand = new ArrayList<>();
         animatedCardsInEnemyLand = new ArrayList<>();
 
+        drawCards = new ArrayList<>();
+
         soundPlayer = new SoundPlayer("/sounds/play_background.wav");
         CredentialsFrame.getSoundPlayer().stop();
         soundPlayer.loopPlay();
@@ -161,7 +163,7 @@ public class GameBoard extends JPanel {
 
         gameStuffLayout();
 
-        justOnceLayout();
+        drawEndTurnTimeLine();
     }
 
     @Override
@@ -178,12 +180,34 @@ public class GameBoard extends JPanel {
         }
         g.drawImage(image, 0, 0, null);
 
-        drawMyMana(g2, myPlayer.getMana(), myPlayer.getTurnNumber());
+        drawMyMana(g2, GuiPlayerMapper.getInstance().getMana(myPlayer),
+                GuiPlayerMapper.getInstance().getTurnNumber(myPlayer));
 
-        drawEnemyMana(g2, enemyPlayer.getMana(), enemyPlayer.getTurnNumber());
+        drawEnemyMana(g2, GuiPlayerMapper.getInstance().getMana(enemyPlayer),
+                GuiPlayerMapper.getInstance().getTurnNumber(enemyPlayer));
 
-        drawMyDeckNumberOfCards(g2, myPlayer.getDeck().getCards().size());
-        drawEnemyDeckNumberOfCards(g2, enemyPlayer.getDeck().getCards().size());
+        drawMyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(myPlayer).getCards().size());
+        drawEnemyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(enemyPlayer).getCards().size());
+
+        synchronized (drawCards) {
+            for (CardImage cardImage : drawCards) {
+                g2.drawImage(cardImage.getImage().getScaledInstance(
+                        cardImage.getWidth(), cardImage.getHeight(),
+                        Image.SCALE_SMOOTH),
+                        cardImage.getX(), cardImage.getY(),
+                        cardImage.getWidth(), cardImage.getHeight(),
+                        null);
+            }
+        }
+
+        synchronized (sparkImage){
+            g2.drawImage(sparkImage.getImage().getScaledInstance(
+                    sparkImage.getWidth(), sparkImage.getHeight(),
+                    Image.SCALE_SMOOTH),
+                    sparkImage.getX(), sparkImage.getY(),
+                    sparkImage.getWidth(), sparkImage.getHeight(),
+                    null);
+        }
     }
 
     private void configPanel() {
@@ -201,8 +225,9 @@ public class GameBoard extends JPanel {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        myPlayer.setPassive(passiveDialog0.getPassive());
-        myPlayer.doPassives();
+        GuiPlayerMapper.getInstance().setPassive(myPlayer, passiveDialog0.getPassive());
+        GuiPlayerMapper.getInstance().doPassive(myPlayer);
+
 
         PassiveDialog passiveDialog1 = new PassiveDialog(
                 GameFrame.getInstance(),
@@ -212,8 +237,9 @@ public class GameBoard extends JPanel {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        enemyPlayer.setPassive(passiveDialog1.getPassive());
-        enemyPlayer.doPassives();
+        GuiPlayerMapper.getInstance().setPassive(enemyPlayer, passiveDialog1.getPassive());
+        GuiPlayerMapper.getInstance().doPassive(enemyPlayer);
+
     }
 
     private void drawMyMana(Graphics2D g, int number, int maxNumber) {
@@ -298,9 +324,9 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyHeroPower() {
-        if (myPlayer.getHeroPower() == null)
+        if (GuiPlayerMapper.getInstance().getHeroPower(myPlayer) == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(myPlayer.getHeroPower(),
+        HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(myPlayer),
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, false);
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
@@ -308,9 +334,9 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEnemyHeroPower() {
-        if (enemyPlayer.getHeroPower() == null)
+        if (GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer) == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(enemyPlayer.getHeroPower(),
+        HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer),
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true);
         heroPowerButton.setBounds(enemyHeroPowerX, enemyHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
@@ -318,9 +344,9 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyWeapon() {
-        if (myPlayer.getWeapon() == null)
+        if (GuiPlayerMapper.getInstance().getWeapon(myPlayer) == null)
             return;
-        WeaponButton weaponButton = new WeaponButton(myPlayer.getWeapon(),
+        WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(myPlayer),
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, false);
         weaponButton.setBounds(myWeaponX, myWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
@@ -328,9 +354,9 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEnemyWeapon() {
-        if (enemyPlayer.getWeapon() == null)
+        if (GuiPlayerMapper.getInstance().getWeapon(enemyPlayer) == null)
             return;
-        WeaponButton weaponButton = new WeaponButton(enemyPlayer.getWeapon(),
+        WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true);
         weaponButton.setBounds(enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
@@ -340,27 +366,43 @@ public class GameBoard extends JPanel {
     protected void animateCard(int startX, int startY,
                                int destinationX, int destinationY, BoardCardButton cardButton) {
         long period = 50;
+
         cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
+
+        final int[] x = {cardButton.getX()};
+        final int[] y = {cardButton.getY()};
+
+        x[0] = startX;
+        y[0] = startY;
 
         MyTimerTask task = new MyTimerTask(period, new MyTask() {
             @Override
             public void startFunction() {
+                CardImage cardImage = new CardImage(x[0], y[0], cardButton.getWidth(), cardButton.getHeight(), cardButton);
+                synchronized (drawCards) {
+                    drawCards.add(cardImage);
+                }
             }
 
             @Override
             public void periodFunction() {
-                int plusX = 7;
-                int plusY = 7;
+                int plusX = 5;
+                int plusY = 5;
 
-                if (Math.abs(destinationX - cardButton.getX()) < 7)
+                if (Math.abs(destinationX - x[0]) < 5)
                     plusX = 1;
-                if (Math.abs(destinationY - cardButton.getY()) < 7)
+                if (Math.abs(destinationY - y[0]) < 5)
                     plusY = 1;
 
-                cardButton.setBounds(
-                        cardButton.getX() + (destinationX - cardButton.getX() != 0 ? plusX * (destinationX - cardButton.getX()) / Math.abs(destinationX - cardButton.getX()) : 0),
-                        cardButton.getY() + (destinationY - cardButton.getY() != 0 ? plusY * (destinationY - cardButton.getY()) / Math.abs(destinationY - cardButton.getY()) : 0),
-                        cardButton.getWidth(), cardButton.getHeight());
+                x[0] += (destinationX - x[0] != 0 ? plusX * (destinationX - x[0]) / Math.abs(destinationX - x[0]) : 0);
+                y[0] += (destinationY - y[0] != 0 ? plusY * (destinationY - y[0]) / Math.abs(destinationY - y[0]) : 0);
+
+                synchronized (drawCards) {
+                    getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
+                    getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
+                }
+                repaint();
+                revalidate();
             }
 
             @Override
@@ -376,19 +418,37 @@ public class GameBoard extends JPanel {
                 cardButton.setBounds(
                         destinationX, destinationY,
                         cardButton.getWidth(), cardButton.getHeight());
+                synchronized (drawCards) {
+                    removeCardImageFromDrawCards(cardButton.getCard());
+                }
+                repaint();
+                revalidate();
             }
 
             @Override
             public boolean finishCondition() {
-                if (cardButton.getX() == destinationX && cardButton.getY() == destinationY)
+                if (x[0] == destinationX && y[0] == destinationY)
                     return true;
                 return false;
             }
         });
     }
 
+    private CardImage getCardImageFromDrawCards(Card card) {
+        for (CardImage cardImage : drawCards) {
+            if (cardImage.getCardButton().getCard() == card) {
+                return cardImage;
+            }
+        }
+        return null;
+    }
+
+    private void removeCardImageFromDrawCards(Card card) {
+        drawCards.removeIf(cardImage -> cardImage.getCardButton().getCard() == card);
+    }
+
     private void drawMyCardsOnHand() {
-        ArrayList<Card> cards = myPlayer.getHand();
+        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getHand(myPlayer);
         if (cards.size() == 0)
             return;
         int dis = myHandDisCard / cards.size();
@@ -421,7 +481,7 @@ public class GameBoard extends JPanel {
     }
 
     protected void drawEnemyCardsOnHand() {
-        ArrayList<Card> cards = enemyPlayer.getHand();
+        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getHand(enemyPlayer);
         if (cards.size() == 0)
             return;
         int dis = enemyHandDisCard / cards.size();
@@ -454,7 +514,7 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyCardsOnLand() {
-        ArrayList<Card> cards = myPlayer.getLand();
+        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getLand(myPlayer);
         if (cards.size() == 0)
             return;
 
@@ -492,7 +552,7 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEnemyCardsOnLand() {
-        ArrayList<Card> cards = enemyPlayer.getLand();
+        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getLand(enemyPlayer);
         if (cards.size() == 0)
             return;
 
@@ -530,15 +590,13 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEndTurnTimeLine() {
-        int totalX = endTurnTimeLineEndX - (endTurnTimeLineStartX - SizeConfigs.endTurnFireWidth + 5);
+        int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
         long length = 60000;
-        long period = length / totalX;
+        long period = length / totalX * 4;
         long warningTime = 9000;
 
-        spark.setBounds(endTurnTimeLineStartX - SizeConfigs.endTurnFireWidth + 5, endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
-                SizeConfigs.endTurnFireWidth, SizeConfigs.endTurnFireHeight);
-        rope.setBounds(endTurnTimeLineStartX, endTurnTimeLineY - SizeConfigs.endTurnRopeHeight / 2,
-                (endTurnTimeLineEndX - endTurnTimeLineStartX), SizeConfigs.endTurnRopeHeight);
+        final int[] xSpark = {endTurnTimeLineStartX};
+        final int[] ySpark = {endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2};
 
         SoundPlayer countdown = new SoundPlayer("/sounds/countdown.wav");
 
@@ -549,16 +607,14 @@ public class GameBoard extends JPanel {
 
             @Override
             public void periodFunction() {
-                spark.setImagePath("spark_" + (Rand.getInstance().getRandomNumber(10) % 10) + ".png");
-                spark.setBounds(
-                        spark.getX() + 1, spark.getY(),
-                        SizeConfigs.endTurnFireWidth,
-                        SizeConfigs.endTurnFireHeight);
+                sparkImage.setImagePath("/images/spark_" + (Rand.getInstance().getRandomNumber(10) % 10) + ".png");
 
+                xSpark[0] += 4;
+                sparkImage.setX(xSpark[0]);
+                sparkImage.setY(ySpark[0]);
 
-                rope.setBounds(rope.getX() + 1, rope.getY(),
-                        (endTurnTimeLineEndX - (rope.getX() + 1)),
-                        SizeConfigs.endTurnRopeHeight);
+                repaint();
+                revalidate();
             }
 
             @Override
@@ -587,9 +643,9 @@ public class GameBoard extends JPanel {
                           int startX, int startY, int width, int height) {
         try {
             if (!button.isEnemy()) {
-                GuiLogicMapper.getInstance().playCard(myPlayer, card);
+                GuiPlayerMapper.getInstance().playCard(myPlayer, card);
             } else {
-                GuiLogicMapper.getInstance().playCard(enemyPlayer, card);
+                GuiPlayerMapper.getInstance().playCard(enemyPlayer, card);
             }
             cardButton.playSound();
             hearthstone.util.Logger.saveLog("Play card",
@@ -636,9 +692,14 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
+
             }
 
             public void mousePressed(MouseEvent e) {
+                CardImage cardImage = new CardImage(startX, startY, width, height, button);
+                synchronized (drawCards) {
+                    drawCards.add(cardImage);
+                }
             }
 
             @Override
@@ -659,6 +720,12 @@ public class GameBoard extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent E) {
+                synchronized (drawCards) {
+                    removeCardImageFromDrawCards(card);
+                }
+                repaint();
+                revalidate();
+
                 if (!isInMyLand(startX, startY) &&
                         isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         game.getWhoseTurn() == 0) {
@@ -687,11 +754,14 @@ public class GameBoard extends JPanel {
                 if ((game.getWhoseTurn() == 1 && !button.isEnemy()))
                     return;
 
-                int newX = e.getX() + button.getX();
-                int newY = e.getY() + button.getY();
-
-                button.setRotate(0);
-                button.setBounds(newX, newY, width, height);
+                synchronized (drawCards) {
+                    int newX = e.getX() + startX;
+                    int newY = e.getY() + startY;
+                    getCardImageFromDrawCards(card).setX(newX);
+                    getCardImageFromDrawCards(card).setY(newY);
+                }
+                repaint();
+                revalidate();
             }
         });
     }
@@ -756,17 +826,18 @@ public class GameBoard extends JPanel {
             }
         });
 
-        spark = new ImagePanel("spark_0.png", SizeConfigs.endTurnFireWidth,
-                SizeConfigs.endTurnFireHeight);
-
-        rope = new ImagePanel("rope.png", SizeConfigs.endTurnRopeWidth,
-                SizeConfigs.endTurnRopeHeight, endTurnTimeLineStartX, endTurnTimeLineY, true);
+        sparkImage = new SparkImage(
+                endTurnTimeLineStartX,
+                endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
+                SizeConfigs.endTurnFireWidth,
+                SizeConfigs.endTurnFireHeight,
+                "/images/spark_0.png");
 
         myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, false); // player hero
 
         enemyHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, true); // enemy hero
 
-        myPassive = new PassiveButton(myPlayer.getPassive(),
+        myPassive = new PassiveButton(GuiPlayerMapper.getInstance().getPassive(myPlayer),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
     }
@@ -787,18 +858,6 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
         add(closeButton);
-    }
-
-    private void justOnceLayout() {
-        spark.setBounds(endTurnTimeLineStartX, endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
-                SizeConfigs.endTurnFireWidth, SizeConfigs.endTurnFireHeight);
-        add(spark);
-
-        rope.setBounds(endTurnTimeLineStartX, endTurnTimeLineY,
-                (endTurnTimeLineEndX - endTurnTimeLineStartX), SizeConfigs.endTurnRopeHeight);
-        add(rope);
-
-        drawEndTurnTimeLine();
     }
 
     private void gameStuffLayout() {
