@@ -109,6 +109,9 @@ public class SizeConfigs {
     public static int endTurnRopeWidth;
     public static int endTurnRopeHeight;
 
+    public static int minionTypeWidth;
+    public static int minionTypeHeight;
+
     static public void setConfigs(Map<String, Object> configs) {
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
@@ -215,5 +218,8 @@ public class SizeConfigs {
 
         endTurnRopeWidth = ((Double) configs.get("endTurnRopeWidth")).intValue();
         endTurnRopeHeight = ((Double) configs.get("endTurnRopeHeight")).intValue();
+
+        minionTypeWidth = ((Double) configs.get("minionTypeWidth")).intValue();
+        minionTypeHeight = ((Double) configs.get("minionTypeHeight")).intValue();
     }
 }

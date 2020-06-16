@@ -101,5 +101,8 @@
   "endTurnFireHeight": 57,
 
   "endTurnRopeWidth": 800,
-  "endTurnRopeHeight": 15
+  "endTurnRopeHeight": 15,
+
+  "minionTypeWidth": 33,
+  "minionTypeHeight": 28
 }

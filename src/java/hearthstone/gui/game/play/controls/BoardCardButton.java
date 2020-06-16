@@ -1,5 +1,6 @@
 package hearthstone.gui.game.play.controls;
 
+import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
@@ -145,7 +146,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return isEnemy;
     }
 
-    public Card getCard(){
+    public Card getCard() {
         return card;
     }
 
@@ -154,7 +155,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         drawCard(g);
     }
 
-    public void drawCard(Graphics g){
+    public void drawCard(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
@@ -211,6 +212,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     void drawMinionInLand(Graphics2D g) {
         String minionPath = "/images/cards/oval_minions/" + card.getName().
                 toLowerCase().replace(' ', '_').replace("'", "") + ".png";
+        String typePath = null;
 
         if (minionFramePath == null) {
             if (((MinionCard) card).isTaunt()) {
@@ -220,14 +222,25 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             }
         }
 
+        if (((MinionCard) card).isDeathRattle()) {
+            typePath = "/images/death_rattle.png";
+        } else if (((MinionCard) card).isDivineShield()) {
+            typePath = "/images/divine_shield.png";
+        } else if (((MinionCard) card).isTriggeredEffect()) {
+            typePath = "/images/triggered_effect.png";
+        }
+
         BufferedImage minionImage = null;
         BufferedImage shieldImage = null;
+        BufferedImage minionType = null;
 
         try {
             minionImage = ImageIO.read(this.getClass().getResourceAsStream(
                     minionPath));
             shieldImage = ImageIO.read(this.getClass().getResourceAsStream(
                     minionFramePath));
+            minionType = ImageIO.read(this.getClass().getResourceAsStream(
+                    typePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -245,6 +258,29 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 0, 0,
                 width - 10, height - 15,
                 null);
+
+        if (((MinionCard) card).isDeathRattle()) {
+            g.drawImage(minionType.getScaledInstance(
+                    SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
+                    Image.SCALE_SMOOTH),
+                    (width - 10) / 2 - SizeConfigs.minionTypeWidth / 2, height - 42,
+                    SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
+                    null);
+        } else if (((MinionCard) card).isDivineShield()) {
+            g.drawImage(minionType.getScaledInstance(
+                    width - 10, height - 5,
+                    Image.SCALE_SMOOTH),
+                    0, 0,
+                    width - 10, height - 5,
+                    null);
+        } else if (((MinionCard) card).isTriggeredEffect()) {
+            g.drawImage(minionType.getScaledInstance(
+                    SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
+                    Image.SCALE_SMOOTH),
+                    (width - 10) / 2 - SizeConfigs.minionTypeWidth / 2, height - 42,
+                    SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
+                    null);
+        }
 
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
