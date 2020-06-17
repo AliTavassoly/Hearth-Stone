@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 0,
       "name": "Polymorph",
@@ -14,7 +14,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 1,
       "name": "Freezing Potion",
@@ -28,15 +28,19 @@
     }
   },
   "2": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 2,
       "attack": 4,
+      "initialHealth": 2,
+      "initialAttack": 4,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 2,
       "name": "Dreadscale",
       "description": "At the end of your turn, deal 1 damage to all other minions.",
@@ -49,7 +53,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 3,
       "name": "Soulfire",
@@ -63,7 +67,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 4,
       "name": "Friendly Smith",
@@ -77,15 +81,19 @@
     }
   },
   "5": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 2,
       "attack": 3,
+      "initialHealth": 2,
+      "initialAttack": 3,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 5,
       "name": "Lab Recruiter",
       "description": "Battlecry: Shuffle 3 copies of a friendly minion into your deck.",
@@ -98,7 +106,7 @@
     }
   },
   "6": {
-    "type": "hearthstone.models.card.cards.HeroPowerCard",
+    "type": "hearthstone.models.card.heropower.HeroPowerCard",
     "data": {
       "id": 6,
       "name": "The Silver Hand",
@@ -111,7 +119,7 @@
     }
   },
   "7": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 7,
       "name": "Gnomish Army Knife",
@@ -125,7 +133,7 @@
     }
   },
   "8": {
-    "type": "hearthstone.models.card.cards.HeroPowerCard",
+    "type": "hearthstone.models.card.heropower.HeroPowerCard",
     "data": {
       "id": 8,
       "name": "Heal",
@@ -138,15 +146,19 @@
     }
   },
   "9": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 7,
       "attack": 2,
+      "initialHealth": 7,
+      "initialAttack": 2,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 9,
       "name": "High Priest Amet",
       "description": "Whenever you summon a\nminion, set its Health equal\nto this minion\u0027s.",
@@ -159,7 +171,7 @@
     }
   },
   "10": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 10,
       "name": "Blur",
@@ -173,7 +185,7 @@
     }
   },
   "11": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 11,
       "name": "Tracking",
@@ -187,7 +199,7 @@
     }
   },
   "12": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 12,
       "name": "Sprint",
@@ -201,7 +213,7 @@
     }
   },
   "13": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 13,
       "name": "Swarm of Locusts",
@@ -215,7 +227,7 @@
     }
   },
   "14": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 14,
       "name": "Pharaoh\u0027s Blessing",
@@ -229,7 +241,7 @@
     }
   },
   "15": {
-    "type": "hearthstone.models.card.cards.SpellCard",
+    "type": "hearthstone.models.card.spells.SpellCard",
     "data": {
       "id": 15,
       "name": "Book of Specters",
@@ -243,15 +255,19 @@
     }
   },
   "16": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 5,
       "attack": 10,
+      "initialHealth": 5,
+      "initialAttack": 10,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 16,
       "name": "Hulking Overfiend",
       "description": "Rush. After this attacks and kills a minion, it may attack again.",
@@ -264,15 +280,19 @@
     }
   },
   "17": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 1,
       "attack": 3,
+      "initialHealth": 1,
+      "initialAttack": 3,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 17,
       "name": "Wrathscale Naga",
       "description": "After a friendly minion dies, deal 3 damage to a random enemy.",
@@ -285,15 +305,19 @@
     }
   },
   "18": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 6,
       "attack": 2,
-      "isTaunt": true,
+      "initialHealth": 6,
+      "initialAttack": 2,
+      "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 18,
       "name": "Wrathspike Brute",
       "description": "Taunt After this is attacked, deal 1 damage to all enemies.",
@@ -306,15 +330,19 @@
     }
   },
   "19": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 9,
       "attack": 7,
-      "isTaunt": true,
+      "initialHealth": 9,
+      "initialAttack": 7,
+      "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 19,
       "name": "Pit Commander",
       "description": "Taunt At the end of your turn, summon a Demon from your deck.",
@@ -327,15 +355,19 @@
     }
   },
   "20": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.GoldshireFootman",
     "data": {
       "health": 2,
       "attack": 1,
+      "initialHealth": 2,
+      "initialAttack": 1,
       "isTaunt": true,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 20,
       "name": "Goldshire Footman",
       "description": "Taunt",
@@ -348,15 +380,19 @@
     }
   },
   "21": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 4,
       "attack": 4,
-      "isTaunt": true,
+      "initialHealth": 4,
+      "initialAttack": 4,
+      "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 21,
       "name": "Abomination",
       "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
@@ -369,15 +405,19 @@
     }
   },
   "22": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 5,
       "attack": 5,
+      "initialHealth": 5,
+      "initialAttack": 5,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 22,
       "name": "Sathrovarr",
       "description": "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.",
@@ -390,15 +430,19 @@
     }
   },
   "23": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 6,
       "attack": 3,
-      "isTaunt": true,
+      "initialHealth": 6,
+      "initialAttack": 3,
+      "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 23,
       "name": "Tomb Warden",
       "description": "Taunt \n Battlecry: Summon a copy\n of this minion.",
@@ -411,15 +455,19 @@
     }
   },
   "24": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 6,
       "attack": 2,
+      "initialHealth": 6,
+      "initialAttack": 2,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 24,
       "name": "Security Rover",
       "description": "Whenever this minion\ntakes damage, summon a\n2/3 Mech with [b]Taunt[/b].",
@@ -432,15 +480,19 @@
     }
   },
   "25": {
-    "type": "hearthstone.models.card.cards.MinionCard",
+    "type": "hearthstone.models.card.minions.MinionCard",
     "data": {
       "health": 4,
       "attack": 4,
+      "initialHealth": 4,
+      "initialAttack": 4,
       "isTaunt": false,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
       "id": 25,
       "name": "Curio Collector",
       "description": "Whenever you draw a card, gain +1/+1.",
@@ -453,7 +505,7 @@
     }
   },
   "26": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 4,
       "attack": 3,
@@ -469,7 +521,7 @@
     }
   },
   "27": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 4,
@@ -485,7 +537,7 @@
     }
   },
   "28": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -501,7 +553,7 @@
     }
   },
   "29": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -517,7 +569,7 @@
     }
   },
   "30": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 3,
@@ -533,7 +585,7 @@
     }
   },
   "31": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -549,7 +601,7 @@
     }
   },
   "32": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -565,7 +617,7 @@
     }
   },
   "33": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -581,7 +633,7 @@
     }
   },
   "34": {
-    "type": "hearthstone.models.card.cards.WeaponCard",
+    "type": "hearthstone.models.card.weapons.WeaponCard",
     "data": {
       "durability": 2,
       "attack": 1,
@@ -597,7 +649,7 @@
     }
   },
   "35": {
-    "type": "hearthstone.models.card.cards.RewardCard",
+    "type": "hearthstone.models.card.rewards.RewardCard",
     "data": {
       "id": 35,
       "name": "Learn Draconic",
@@ -611,7 +663,7 @@
     }
   },
   "36": {
-    "type": "hearthstone.models.card.cards.RewardCard",
+    "type": "hearthstone.models.card.rewards.RewardCard",
     "data": {
       "id": 36,
       "name": "Strength in Numbers",

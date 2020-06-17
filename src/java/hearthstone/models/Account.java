@@ -45,12 +45,12 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
-            int number = 1 + Rand.getInstance().getRandomNumber(2);
+            int number = 2 + Rand.getInstance().getRandomNumber(2);
             for(int i = 0; i < number; i++) {
                 cards.add(card);
             }
 
-            if(Rand.getInstance().getProbability(1, 2)) {
+            if(Rand.getInstance().getProbability(1, 1)) {
                 unlockedCards.add(card.getId());
             }
         }

@@ -5,9 +5,9 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.cards.MinionCard;
-import hearthstone.models.card.cards.SpellCard;
-import hearthstone.models.card.cards.WeaponCard;
+import hearthstone.models.card.minions.MinionCard;
+import hearthstone.models.card.spells.SpellCard;
+import hearthstone.models.card.weapons.WeaponCard;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;

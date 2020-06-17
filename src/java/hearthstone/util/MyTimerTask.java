@@ -38,7 +38,7 @@ public class MyTimerTask extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() throws NullPointerException {
         boolean flag = false;
 
         task.startFunction();

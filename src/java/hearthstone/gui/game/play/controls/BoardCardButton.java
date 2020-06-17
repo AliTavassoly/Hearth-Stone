@@ -5,10 +5,10 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.cards.MinionCard;
-import hearthstone.models.card.cards.RewardCard;
-import hearthstone.models.card.cards.SpellCard;
-import hearthstone.models.card.cards.WeaponCard;
+import hearthstone.models.card.minions.MinionCard;
+import hearthstone.models.card.rewards.RewardCard;
+import hearthstone.models.card.spells.SpellCard;
+import hearthstone.models.card.weapons.WeaponCard;
 import hearthstone.util.SoundPlayer;
 
 import javax.imageio.ImageIO;
@@ -239,8 +239,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                     minionPath));
             shieldImage = ImageIO.read(this.getClass().getResourceAsStream(
                     minionFramePath));
-            minionType = ImageIO.read(this.getClass().getResourceAsStream(
-                    typePath));
+            if (typePath != null)
+                minionType = ImageIO.read(this.getClass().getResourceAsStream(
+                        typePath));
         } catch (IOException e) {
             e.printStackTrace();
         }

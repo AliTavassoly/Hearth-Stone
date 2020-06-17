@@ -12,7 +12,7 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.gui.game.play.boards.SoloGameBoard;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.player.ComputerPlayer;
+import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
 
 import javax.imageio.ImageIO;
@@ -111,7 +111,7 @@ public class PlaySelectionPanel extends JPanel {
         soloPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
-                Player computerPlayer = new ComputerPlayer(HearthStone.currentAccount.getSelectedHero(),
+                Player computerPlayer = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
                         HearthStone.currentAccount.getSelectedHero().getSelectedDeck());
 
                 Game game = new Game(myPlayer, computerPlayer);

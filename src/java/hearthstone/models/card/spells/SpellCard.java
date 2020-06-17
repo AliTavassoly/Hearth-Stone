@@ -1,4 +1,4 @@
-package hearthstone.models.card.cards;
+package hearthstone.models.card.spells;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;

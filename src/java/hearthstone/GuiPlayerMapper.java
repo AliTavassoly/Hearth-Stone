@@ -3,8 +3,8 @@ package hearthstone;
 import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.cards.HeroPowerCard;
-import hearthstone.models.card.cards.WeaponCard;
+import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.models.card.weapons.WeaponCard;
 import hearthstone.models.player.Player;
 
 import java.util.ArrayList;

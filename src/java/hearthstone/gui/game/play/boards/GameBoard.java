@@ -26,7 +26,10 @@ import hearthstone.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -397,8 +400,10 @@ public class GameBoard extends JPanel {
                 y[0] += (destinationY - y[0] != 0 ? plusY * (destinationY - y[0]) / Math.abs(destinationY - y[0]) : 0);
 
                 synchronized (drawCards) {
-                    getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
-                    getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
+                    try {
+                        getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
+                        getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
+                    } catch (NullPointerException ignore){ }
                 }
                 repaint();
                 revalidate();
@@ -426,7 +431,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
-                if (x[0] == destinationX && y[0] == destinationY)
+                if ((x[0] == destinationX && y[0] == destinationY) || (cardButton.getX() == destinationX && cardButton.getY() == destinationY))
                     return true;
                 return false;
             }
@@ -689,11 +694,7 @@ public class GameBoard extends JPanel {
                     SizeConfigs.medCardHeight);
         }
 
-        button.addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
+        button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 CardImage cardImage = new CardImage(startX, startY, width, height, button);
                 synchronized (drawCards) {
@@ -701,7 +702,6 @@ public class GameBoard extends JPanel {
                 }
             }
 
-            @Override
             public void mouseEntered(MouseEvent e) {
                 if (cardButton.isShowBig()) {
                     add(bigCardButton);
@@ -709,7 +709,6 @@ public class GameBoard extends JPanel {
                 }
             }
 
-            @Override
             public void mouseExited(MouseEvent e) {
                 if (cardButton.isShowBig()) {
                     remove(bigCardButton);
@@ -717,7 +716,6 @@ public class GameBoard extends JPanel {
                 }
             }
 
-            @Override
             public void mouseReleased(MouseEvent E) {
                 synchronized (drawCards) {
                     removeCardImageFromDrawCards(card);
@@ -726,19 +724,16 @@ public class GameBoard extends JPanel {
                 revalidate();
 
                 if (!isInMyLand(startX, startY) &&
-                        isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        isInMyLand(E.getX() + startX, E.getY() + startY) &&
                         game.getWhoseTurn() == 0) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
                 } else if (!isInEnemyLand(startX, startY) &&
-                        isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        isInEnemyLand(E.getX() + startX, E.getY() + startY) &&
                         game.getWhoseTurn() == 1) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
                 } else {
-                    if (button.isShouldRotate()) {
-                        button.setRotate(button.getInitialRotate());
-                    }
                     button.setBounds(startX, startY, width, height);
                 }
             }
@@ -756,6 +751,7 @@ public class GameBoard extends JPanel {
                 synchronized (drawCards) {
                     int newX = e.getX() + startX;
                     int newY = e.getY() + startY;
+                    // card.setBounds(newX, newY)
                     getCardImageFromDrawCards(card).setX(newX);
                     getCardImageFromDrawCards(card).setY(newY);
                 }

@@ -1,4 +1,4 @@
-package hearthstone.models.card.cards;
+package hearthstone.models.card.minions;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -6,7 +6,10 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.HeroType;
 
 public class MinionCard extends Card {
-    protected int health, attack;
+    protected int health;
+    protected int attack;
+    protected int initialHealth;
+    protected int initialAttack;
     protected boolean isTaunt;
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
@@ -17,11 +20,13 @@ public class MinionCard extends Card {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
         this.attack = attack;
+
+        configMinion();
     }
 
     public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
-                      boolean isTaunt, boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
-                      boolean isCharge, boolean isRush) {
+                      boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
+                      boolean isTaunt, boolean isCharge, boolean isRush) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
         this.attack = attack;
@@ -34,54 +39,74 @@ public class MinionCard extends Card {
 
         this.isCharge = isCharge;
         this.isRush = isRush;
+        configMinion();
     }
 
-    protected void setHealth(int health) {
+    private void configMinion(){
+        initialAttack = attack;
+        initialHealth = health;
+    }
+
+    public int getInitialHealth() {
+        return initialHealth;
+    }
+    public void setInitialHealth(int initialHealth) {
+        this.initialHealth = initialHealth;
+    }
+
+    public int getInitialAttack() {
+        return initialAttack;
+    }
+    public void setInitialAttack(int initialAttack) {
+        this.initialAttack = initialAttack;
+    }
+
+    public void setHealth(int health) {
         this.health = health;
     }
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    protected void setAttack(int attack) {
+    public void setAttack(int attack) {
         this.attack = attack;
     }
-    protected int getAttack() {
+    public int getAttack() {
         return attack;
     }
 
-    protected boolean isTaunt() {
+    public boolean isTaunt() {
         return isTaunt;
     }
-    protected void setTaunt(boolean taunt) {
+    public void setTaunt(boolean taunt) {
         isTaunt = taunt;
     }
 
-    protected boolean isDeathRattle() {
+    public boolean isDeathRattle() {
         return isDeathRattle;
     }
-    protected void setDeathRattle(boolean deathRattle) {
+    public void setDeathRattle(boolean deathRattle) {
         isDeathRattle = deathRattle;
     }
 
-    protected boolean isTriggeredEffect() {
+    public boolean isTriggeredEffect() {
         return isTriggeredEffect;
     }
-    protected void setTriggeredEffect(boolean triggeredEffect) {
+    public void setTriggeredEffect(boolean triggeredEffect) {
         isTriggeredEffect = triggeredEffect;
     }
 
-    protected boolean isSpellDamage() {
+    public boolean isSpellDamage() {
         return isSpellDamage;
     }
-    protected void setSpellDamage(boolean spellDamage) {
+    public void setSpellDamage(boolean spellDamage) {
         isSpellDamage = spellDamage;
     }
 
-    protected boolean isDivineShield() {
+    public boolean isDivineShield() {
         return isDivineShield;
     }
-    protected void setDivineShield(boolean divineShield) {
+    public void setDivineShield(boolean divineShield) {
         isDivineShield = divineShield;
     }
 }

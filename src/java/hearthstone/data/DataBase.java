@@ -13,7 +13,12 @@ import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
-import hearthstone.models.card.cards.*;
+import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.models.card.minions.GoldshireFootman;
+import hearthstone.models.card.minions.MinionCard;
+import hearthstone.models.card.rewards.RewardCard;
+import hearthstone.models.card.spells.SpellCard;
+import hearthstone.models.card.weapons.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
@@ -103,22 +108,24 @@ public class DataBase {
         MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
         HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
 
-        MinionCard wrathspikeBrute = new MinionCard(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2, true);
+        MinionCard wrathspikeBrute = new MinionCard(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2);
         HearthStone.baseCards.put(wrathspikeBrute.getId(), wrathspikeBrute);
 
-        MinionCard pitCommander = new MinionCard(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 9, 7, true);
+        MinionCard pitCommander = new MinionCard(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 9, 7);
         HearthStone.baseCards.put(pitCommander.getId(), pitCommander);
 
-        MinionCard goldshireFootman = new MinionCard(id++, "Goldshire Footman", "Taunt", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 2, 1, true);
+        GoldshireFootman goldshireFootman = new GoldshireFootman(id++, "Goldshire Footman", "Taunt", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 2, 1,
+                false, false, false, false,
+                true, false, false);
         HearthStone.baseCards.put(goldshireFootman.getId(), goldshireFootman);
 
-        MinionCard abomination = new MinionCard(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4, true);
+        MinionCard abomination = new MinionCard(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4);
         HearthStone.baseCards.put(abomination.getId(), abomination);
 
         MinionCard sathrovarr = new MinionCard(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINIONCARD, 5, 5);
         HearthStone.baseCards.put(sathrovarr.getId(), sathrovarr);
 
-        MinionCard tombWarden = new MinionCard(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 3, true);
+        MinionCard tombWarden = new MinionCard(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 3);
         HearthStone.baseCards.put(tombWarden.getId(), tombWarden);
 
         MinionCard securityRover = new MinionCard(id++, "Security Rover", "Whenever this minion\n" +
@@ -374,6 +381,7 @@ public class DataBase {
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
+        //gsonBuilder.registerTypeAdapter(MinionCard.class, new AbstractAdapter<MinionCard>());
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.setPrettyPrinting();

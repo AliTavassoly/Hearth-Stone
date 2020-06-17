@@ -1,4 +1,4 @@
-package hearthstone.models.card.cards;
+package hearthstone.models.card.heropower;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;

@@ -3,8 +3,8 @@ package hearthstone.models.player;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.Hero;
 
-public class ComputerPlayer extends Player {
-    public ComputerPlayer(Hero hero, Deck deck) {
+public class AIPlayer extends Player {
+    public AIPlayer(Hero hero, Deck deck) {
         super(hero, deck);
     }
 
