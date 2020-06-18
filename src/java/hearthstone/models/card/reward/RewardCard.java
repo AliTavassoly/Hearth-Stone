@@ -1,4 +1,4 @@
-package hearthstone.models.card.rewards;
+package hearthstone.models.card.reward;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;

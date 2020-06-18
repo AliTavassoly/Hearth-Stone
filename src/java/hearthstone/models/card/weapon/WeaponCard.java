@@ -1,4 +1,4 @@
-package hearthstone.models.card.weapons;
+package hearthstone.models.card.weapon;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;

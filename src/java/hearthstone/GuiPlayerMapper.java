@@ -4,7 +4,7 @@ import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.weapons.WeaponCard;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.player.Player;
 
 import java.util.ArrayList;
@@ -68,6 +68,6 @@ public class GuiPlayerMapper {
     }
 
     public void updatePlayer(Player player){
-        player.updateCards();
+        player.updateCardsOnLand();
     }
 }

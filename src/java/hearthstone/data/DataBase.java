@@ -14,11 +14,11 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.minions.GoldshireFootman;
-import hearthstone.models.card.minions.MinionCard;
-import hearthstone.models.card.rewards.RewardCard;
-import hearthstone.models.card.spells.SpellCard;
-import hearthstone.models.card.weapons.WeaponCard;
+import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.minions.*;
+import hearthstone.models.card.reward.RewardCard;
+import hearthstone.models.card.spell.SpellCard;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
@@ -46,7 +46,8 @@ public class DataBase {
         HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
 
         // Warlock
-        MinionCard dreadscale = new MinionCard(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4);
+        Dreadscale dreadscale = new Dreadscale(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4,
+                false, false, false, false, false, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
 
         SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
@@ -56,7 +57,8 @@ public class DataBase {
         SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
 
-        MinionCard labRecruiter = new MinionCard(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3);
+        LabRecruiter labRecruiter = new LabRecruiter(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3,
+        false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
         // Paladin
@@ -75,9 +77,10 @@ public class DataBase {
                 "Restore 4 Health.", 2, HeroType.PRIEST, CardType.HEROPOWER);
         HearthStone.baseCards.put(heal.getId(), heal);
 
-        MinionCard highPriestAmet = new MinionCard(id++, "High Priest Amet", "Whenever you summon a\n" +
+        HighPriestAmet highPriestAmet = new HighPriestAmet(id++, "High Priest Amet", "Whenever you summon a\n" +
                 "minion, set its Health equal\n" +
-                "to this minion's.", 4, HeroType.PRIEST, Rarity.LEGENDARY, CardType.MINIONCARD, 7, 2);
+                "to this minion's.", 4, HeroType.PRIEST, Rarity.LEGENDARY, CardType.MINIONCARD, 7, 2,
+                false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(highPriestAmet.getId(), highPriestAmet);
 
         // All
@@ -102,38 +105,47 @@ public class DataBase {
         HearthStone.baseCards.put(bookOfSpecters.getId(), bookOfSpecters);
 
         // Minion
-        MinionCard hulkingOverfiend = new MinionCard(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10);
+        HulkingOverfiend hulkingOverfiend = new HulkingOverfiend(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10,
+                false, false, false, false, false, false, true, MinionType.DEMON);
         HearthStone.baseCards.put(hulkingOverfiend.getId(), hulkingOverfiend);
 
-        MinionCard wrathscaleNaga = new MinionCard(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3);
+        WrathscaleNaga wrathscaleNaga = new WrathscaleNaga(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3,
+                false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
 
-        MinionCard wrathspikeBrute = new MinionCard(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2);
+        WrathspikeBrute wrathspikeBrute = new WrathspikeBrute(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2,
+                false, false, false, false, true, false,  false, MinionType.DEMON);
         HearthStone.baseCards.put(wrathspikeBrute.getId(), wrathspikeBrute);
 
-        MinionCard pitCommander = new MinionCard(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 9, 7);
+        PitCommander pitCommander = new PitCommander(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 9, 7,
+                false, false, false, false, true, false, false, MinionType.DEMON);
         HearthStone.baseCards.put(pitCommander.getId(), pitCommander);
 
         GoldshireFootman goldshireFootman = new GoldshireFootman(id++, "Goldshire Footman", "Taunt", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 2, 1,
                 false, false, false, false,
-                true, false, false);
+                true, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(goldshireFootman.getId(), goldshireFootman);
 
-        MinionCard abomination = new MinionCard(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4);
+        Abomination abomination = new Abomination(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4,
+                false, false, false, false, true, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(abomination.getId(), abomination);
 
-        MinionCard sathrovarr = new MinionCard(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINIONCARD, 5, 5);
+        Sathrovarr sathrovarr = new Sathrovarr(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINIONCARD, 5, 5,
+                false, false, false, false, false, false, false, MinionType.DEMON);
         HearthStone.baseCards.put(sathrovarr.getId(), sathrovarr);
 
-        MinionCard tombWarden = new MinionCard(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 3);
+        TombWarden tombWarden = new TombWarden(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 3,
+                false, false, false, false, true, false, false, MinionType.MECH);
         HearthStone.baseCards.put(tombWarden.getId(), tombWarden);
 
-        MinionCard securityRover = new MinionCard(id++, "Security Rover", "Whenever this minion\n" +
+        SecurityRover securityRover = new SecurityRover(id++, "Security Rover", "Whenever this minion\n" +
                 "takes damage, summon a\n" +
-                "2/3 Mech with [b]Taunt[/b].", 6, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 2);
+                "2/3 Mech with Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 2,
+                false, false, false, false, false, false, false, MinionType.MECH);
         HearthStone.baseCards.put(securityRover.getId(), securityRover);
 
-        MinionCard curioCollector = new MinionCard(id++, "Curio Collector", "Whenever you draw a card, gain +1/+1.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4);
+        CurioCollector curioCollector = new CurioCollector(id++, "Curio Collector", "Whenever you draw a card, gain +1/+1.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4,
+                false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(curioCollector.getId(), curioCollector);
 
         // Weapon

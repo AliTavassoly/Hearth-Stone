@@ -1,12 +1,13 @@
-package hearthstone.models.card.minions;
+package hearthstone.models.card.minion;
 
 import hearthstone.models.card.Card;
+import hearthstone.models.card.CardBehaviour;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 
-public class MinionCard extends Card implements MinionBehaviour{
+public abstract class MinionCard extends Card implements MinionBehaviour, CardBehaviour {
     protected int health;
     protected int attack;
     protected int initialHealth;
@@ -14,6 +15,8 @@ public class MinionCard extends Card implements MinionBehaviour{
     protected boolean isTaunt;
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
+
+    private MinionType minionType;
 
     public MinionCard(){ }
 
@@ -27,7 +30,7 @@ public class MinionCard extends Card implements MinionBehaviour{
 
     public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
                       boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
-                      boolean isTaunt, boolean isCharge, boolean isRush) {
+                      boolean isTaunt, boolean isCharge, boolean isRush, MinionType minionType) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
         this.attack = attack;
@@ -40,6 +43,8 @@ public class MinionCard extends Card implements MinionBehaviour{
 
         this.isCharge = isCharge;
         this.isRush = isRush;
+        this.minionType = minionType;
+
         configMinion();
     }
 
@@ -111,6 +116,13 @@ public class MinionCard extends Card implements MinionBehaviour{
         isDivineShield = divineShield;
     }
 
+    public MinionType getMinionType() {
+        return minionType;
+    }
+    public void setMinionType(MinionType minionType) {
+        this.minionType = minionType;
+    }
+
     @Override
     public void drawBehave() {
 
@@ -143,16 +155,16 @@ public class MinionCard extends Card implements MinionBehaviour{
 
     @Override
     public boolean attack(MinionCard minionCard) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean attack(Hero hero) {
-        return true;
+        return false;
     }
 
     @Override
-    public boolean found(Object minion) {
+    public boolean found(Object object) {
         return false;
     }
 

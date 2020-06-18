@@ -20,7 +20,7 @@ import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.minions.GoldshireFootman;
+import hearthstone.models.card.minion.minions.GoldshireFootman;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.util.*;
@@ -369,80 +369,6 @@ public class GameBoard extends JPanel {
         add(weaponButton);
     }
 
-    protected void animateCard(int startX, int startY,
-                               int destinationX, int destinationY, BoardCardButton cardButton) {
-        long period = 75;
-
-        cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
-
-        final int[] x = {cardButton.getX()};
-        final int[] y = {cardButton.getY()};
-
-        x[0] = startX;
-        y[0] = startY;
-
-        MyTimerTask task = new MyTimerTask(period, new MyTask() {
-            @Override
-            public void startFunction() {
-                CardImage cardImage = new CardImage(x[0], y[0], cardButton.getWidth(), cardButton.getHeight(), cardButton);
-                synchronized (drawCards) {
-                    drawCards.add(cardImage);
-                }
-            }
-
-            @Override
-            public void periodFunction() {
-                int plusX = 5;
-                int plusY = 5;
-
-                if (Math.abs(destinationX - x[0]) < 5)
-                    plusX = 1;
-                if (Math.abs(destinationY - y[0]) < 5)
-                    plusY = 1;
-
-                x[0] += (destinationX - x[0] != 0 ? plusX * (destinationX - x[0]) / Math.abs(destinationX - x[0]) : 0);
-                y[0] += (destinationY - y[0] != 0 ? plusY * (destinationY - y[0]) / Math.abs(destinationY - y[0]) : 0);
-
-                synchronized (drawCards) {
-                    try {
-                        getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
-                        getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
-                    } catch (NullPointerException ignore) {
-                    }
-                }
-                repaint();
-                revalidate();
-            }
-
-            @Override
-            public void warningFunction() {
-            }
-
-            @Override
-            public void finishedFunction() {
-            }
-
-            @Override
-            public void closeFunction() {
-                cardButton.setBounds(
-                        destinationX, destinationY,
-                        cardButton.getWidth(), cardButton.getHeight());
-                synchronized (drawCards) {
-                    removeCardImageFromDrawCards(cardButton.getCard());
-                }
-                repaint();
-                revalidate();
-            }
-
-            @Override
-            public boolean finishCondition() {
-                if ((x[0] == destinationX && y[0] == destinationY) || (cardButton.getX() == destinationX && cardButton.getY() == destinationY))
-                    return true;
-                return false;
-            }
-        });
-    }
-
     private CardImage getCardImageFromDrawCards(Card card) {
         for (CardImage cardImage : drawCards) {
             if (cardImage.getCardButton().getCard() == card) {
@@ -643,6 +569,80 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
+                return false;
+            }
+        });
+    }
+
+    protected void animateCard(int startX, int startY,
+                               int destinationX, int destinationY, BoardCardButton cardButton) {
+        long period = 25; // 75
+
+        cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
+
+        final int[] x = {cardButton.getX()};
+        final int[] y = {cardButton.getY()};
+
+        x[0] = startX;
+        y[0] = startY;
+
+        MyTimerTask task = new MyTimerTask(period, new MyTask() {
+            @Override
+            public void startFunction() {
+                CardImage cardImage = new CardImage(x[0], y[0], cardButton.getWidth(), cardButton.getHeight(), cardButton);
+                synchronized (drawCards) {
+                    drawCards.add(cardImage);
+                }
+            }
+
+            @Override
+            public void periodFunction() {
+                int plusX = 2; // 5
+                int plusY = 2; // 5
+
+                if (Math.abs(destinationX - x[0]) < 2)
+                    plusX = 1;
+                if (Math.abs(destinationY - y[0]) < 2)
+                    plusY = 1;
+
+                x[0] += (destinationX - x[0] != 0 ? plusX * (destinationX - x[0]) / Math.abs(destinationX - x[0]) : 0);
+                y[0] += (destinationY - y[0] != 0 ? plusY * (destinationY - y[0]) / Math.abs(destinationY - y[0]) : 0);
+
+                synchronized (drawCards) {
+                    try {
+                        getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
+                        getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
+                    } catch (NullPointerException ignore) {
+                    }
+                }
+                repaint();
+                revalidate();
+            }
+
+            @Override
+            public void warningFunction() {
+            }
+
+            @Override
+            public void finishedFunction() {
+            }
+
+            @Override
+            public void closeFunction() {
+                cardButton.setBounds(
+                        destinationX, destinationY,
+                        cardButton.getWidth(), cardButton.getHeight());
+                synchronized (drawCards) {
+                    removeCardImageFromDrawCards(cardButton.getCard());
+                }
+                repaint();
+                revalidate();
+            }
+
+            @Override
+            public boolean finishCondition() {
+                if ((x[0] == destinationX && y[0] == destinationY) || (cardButton.getX() == destinationX && cardButton.getY() == destinationY))
+                    return true;
                 return false;
             }
         });

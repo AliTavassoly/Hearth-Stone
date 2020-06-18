@@ -1,51 +1,23 @@
-package hearthstone.models.card.minions;
+package hearthstone.models.card.minion.minions;
 
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
+import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 
-public class GoldshireFootman extends MinionCard implements MinionBehaviour{
+public class GoldshireFootman extends MinionCard {
 
     public GoldshireFootman(){ }
 
     public GoldshireFootman(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
-                      boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
-                      boolean isTaunt, boolean isCharge, boolean isRush) {
+                            boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
+                            boolean isTaunt, boolean isCharge, boolean isRush, MinionType minionType) {
         super(id, name, description, manaCost, heroType, rarity, cardType, health, attack,
                 isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield,
-                isTaunt, isCharge, isRush);
-    }
-
-    @Override
-    public void drawBehave() {
-
-    }
-
-    @Override
-    public void endTurnBehave() {
-
-    }
-
-    @Override
-    public void startTurnBehave() {
-
-    }
-
-    @Override
-    public void gotAttackedBehave() {
-
-    }
-
-    @Override
-    public void deathBehave() {
-
-    }
-
-    @Override
-    public void friendlyMinionDied() {
-
+                isTaunt, isCharge, isRush, minionType);
     }
 
     @Override
@@ -53,7 +25,7 @@ public class GoldshireFootman extends MinionCard implements MinionBehaviour{
         minionCard.setHealth(minionCard.getHealth() - this.attack);
         this.health -= minionCard.getAttack();
 
-        this.getPlayer().updateCards();
+        this.getPlayer().updateCardsOnLand();
 
         return true;
     }

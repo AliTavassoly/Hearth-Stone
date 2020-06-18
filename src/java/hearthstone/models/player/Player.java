@@ -5,10 +5,10 @@ import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.minions.MinionCard;
-import hearthstone.models.card.rewards.RewardCard;
-import hearthstone.models.card.spells.SpellCard;
-import hearthstone.models.card.weapons.WeaponCard;
+import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.reward.RewardCard;
+import hearthstone.models.card.spell.SpellCard;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
@@ -210,7 +210,7 @@ public class Player {
         }*/
     }
 
-    public void updateCards(){
+    public void updateCardsOnLand(){
         for(int i = 0; i < land.size(); i++){
             Card card = land.get(i);
             if(((MinionCard)card).getHealth() <= 0){

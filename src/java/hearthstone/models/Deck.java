@@ -6,7 +6,7 @@ import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.minions.MinionCard;
+import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.AbstractAdapter;
