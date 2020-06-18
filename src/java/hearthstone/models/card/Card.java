@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.models.player.Player;
 import hearthstone.util.AbstractAdapter;
 
 public abstract class Card {
@@ -16,9 +17,10 @@ public abstract class Card {
     private CardType cardType;
     private int buyPrice, sellPrice;
 
-    public Card(){ }
+    public Card() {
+    }
 
-    public Card(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType){
+    public Card(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,7 +31,7 @@ public abstract class Card {
         sellPrice = buyPrice = 5;
     }
 
-    public Card(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
+    public Card(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -41,10 +43,13 @@ public abstract class Card {
         sellPrice = buyPrice = 5;
     }
 
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -52,7 +57,6 @@ public abstract class Card {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -60,7 +64,6 @@ public abstract class Card {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -68,7 +71,6 @@ public abstract class Card {
     public int getManaCost() {
         return manaCost;
     }
-
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
     }
@@ -76,7 +78,6 @@ public abstract class Card {
     public HeroType getHeroType() {
         return heroType;
     }
-
     public void setHeroType(HeroType heroType) {
         this.heroType = heroType;
     }
@@ -84,7 +85,6 @@ public abstract class Card {
     public Rarity getRarity() {
         return rarity;
     }
-
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
     }
@@ -92,7 +92,6 @@ public abstract class Card {
     public CardType getCardType() {
         return cardType;
     }
-
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
@@ -100,7 +99,6 @@ public abstract class Card {
     public int getBuyPrice() {
         return buyPrice;
     }
-
     public void setBuyPrice(int buyPrice) {
         this.buyPrice = buyPrice;
     }
@@ -108,10 +106,14 @@ public abstract class Card {
     public int getSellPrice() {
         return sellPrice;
     }
-
     public void setSellPrice(int sellPrice) {
         this.sellPrice = sellPrice;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+    private Player player;
 
     public Card copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();

@@ -9,6 +9,8 @@ public interface MinionBehaviour {
     public void gotAttackedBehave();
     public void deathBehave();
     public void friendlyMinionDied();
-    public void attack(MinionCard minionCard);
-    public void attack(Hero hero);
+    public boolean attack(MinionCard minionCard);
+    public boolean attack(Hero hero);
+    public boolean found(Object minion);
+    public boolean pressed();
 }

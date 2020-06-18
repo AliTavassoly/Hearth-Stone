@@ -1,5 +1,6 @@
 package hearthstone.logic.gamestuff;
 
+import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 
@@ -12,6 +13,20 @@ public class Game {
         this.player1  = player1;
 
         whoseTurn = 0;
+
+        configGame();
+    }
+
+    private void configGame() {
+        for(Card card: player0.getDeck().getCards()){
+            card.setPlayer(player0);
+        }
+        player0.getHero().setPlayer(player0);
+
+        for(Card card: player1.getDeck().getCards()){
+            card.setPlayer(player1);
+        }
+        player1.getHero().setPlayer(player1);
     }
 
     public void startGame(){

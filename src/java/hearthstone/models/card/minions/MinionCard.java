@@ -3,9 +3,10 @@ package hearthstone.models.card.minions;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
+import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 
-public class MinionCard extends Card {
+public class MinionCard extends Card implements MinionBehaviour{
     protected int health;
     protected int attack;
     protected int initialHealth;
@@ -108,5 +109,55 @@ public class MinionCard extends Card {
     }
     public void setDivineShield(boolean divineShield) {
         isDivineShield = divineShield;
+    }
+
+    @Override
+    public void drawBehave() {
+
+    }
+
+    @Override
+    public void endTurnBehave() {
+
+    }
+
+    @Override
+    public void startTurnBehave() {
+
+    }
+
+    @Override
+    public void gotAttackedBehave() {
+
+    }
+
+    @Override
+    public void deathBehave() {
+
+    }
+
+    @Override
+    public void friendlyMinionDied() {
+
+    }
+
+    @Override
+    public boolean attack(MinionCard minionCard) {
+        return true;
+    }
+
+    @Override
+    public boolean attack(Hero hero) {
+        return true;
+    }
+
+    @Override
+    public boolean found(Object minion) {
+        return false;
+    }
+
+    @Override
+    public boolean pressed() {
+        return false;
     }
 }

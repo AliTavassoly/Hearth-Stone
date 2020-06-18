@@ -115,6 +115,15 @@ public class Player {
         isStarted = started;
     }
 
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
+    }
+
     // End of getter setter
 
     public void doPassives() {
@@ -199,5 +208,22 @@ public class Player {
         /*if(passive.getName().equals("Twice Draw")){
             pickCard();
         }*/
+    }
+
+    public void updateCards(){
+        for(int i = 0; i < land.size(); i++){
+            Card card = land.get(i);
+            if(((MinionCard)card).getHealth() <= 0){
+                land.remove(card);
+            }
+        }
+    }
+
+    public boolean haveTaunt(){
+        for(Card card: land){
+            if(((MinionCard)card).isTaunt())
+                return true;
+        }
+        return false;
     }
 }

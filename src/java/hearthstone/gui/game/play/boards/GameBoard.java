@@ -20,6 +20,8 @@ import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.minions.GoldshireFootman;
+import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.util.*;
 
@@ -47,6 +49,9 @@ public class GameBoard extends JPanel {
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
 
     protected ArrayList<CardImage> drawCards;
+
+    private boolean isLookingFor;
+    private Object waitingObject;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -106,7 +111,6 @@ public class GameBoard extends JPanel {
     private final int myLandX = midX;
     private final int myLandY = myLandStartY;
     private final int myLandDisCard = 115;
-
 
     private final int enemyLandStartY = midY - 120;
     private final int enemyLandEndY = midY;
@@ -403,7 +407,8 @@ public class GameBoard extends JPanel {
                     try {
                         getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
                         getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
-                    } catch (NullPointerException ignore){ }
+                    } catch (NullPointerException ignore) {
+                    }
                 }
                 repaint();
                 revalidate();
@@ -462,9 +467,9 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, false);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
 
-            makeMouseListener(cardButton, card, cardButton,
+            makeCardMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth,
@@ -495,9 +500,9 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, true);
+                    SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, 1);
 
-            makeMouseListener(cardButton, card, cardButton,
+            makeCardMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth,
@@ -530,9 +535,9 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, false, true);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 0, true);
 
-            makeMouseListener(cardButton, card, cardButton,
+            makeCardMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
@@ -568,9 +573,9 @@ public class GameBoard extends JPanel {
             Card card = cards.get(i);
 
             BoardCardButton cardButton = new BoardCardButton(card,
-                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, true, true);
+                    SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 1, true);
 
-            makeMouseListener(cardButton, card, cardButton,
+            makeCardMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
@@ -646,7 +651,7 @@ public class GameBoard extends JPanel {
     private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
                           int startX, int startY, int width, int height) {
         try {
-            if (!button.isEnemy()) {
+            if (button.getId() == 0) {
                 GuiPlayerMapper.getInstance().playCard(myPlayer, card);
             } else {
                 GuiPlayerMapper.getInstance().playCard(enemyPlayer, card);
@@ -671,16 +676,16 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void makeMouseListener(BoardCardButton button, Card card,
-                                   BoardCardButton cardButton,
-                                   int startX, int startY, int width, int height) {
+    private void makeCardMouseListener(BoardCardButton button, Card card,
+                                       BoardCardButton cardButton,
+                                       int startX, int startY, int width, int height) {
         CardButton bigCardButton = new CardButton(
                 card,
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
                 -1);
 
-        if (!button.isEnemy()) {
+        if (button.getId() == 0) {
             bigCardButton.setBounds(
                     SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                     SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
@@ -696,6 +701,21 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY)) {
+                    if (isLookingFor) {
+                        if (((GoldshireFootman) waitingObject).found(card)) {
+                            isLookingFor = false;
+                            waitingObject = null;
+                            updatePlayers();
+                        }
+                    } else {
+                        if (button.getId() == game.getWhoseTurn() && ((GoldshireFootman) card).pressed()) {
+                            isLookingFor = true;
+                            waitingObject = card;
+                        }
+                    }
+                }
+
                 CardImage cardImage = new CardImage(startX, startY, width, height, button);
                 synchronized (drawCards) {
                     drawCards.add(cardImage);
@@ -743,9 +763,7 @@ public class GameBoard extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
                     return;
-                if ((game.getWhoseTurn() == 0 && button.isEnemy()))
-                    return;
-                if ((game.getWhoseTurn() == 1 && !button.isEnemy()))
+                if ((game.getWhoseTurn() != button.getId()))
                     return;
 
                 synchronized (drawCards) {
@@ -760,6 +778,20 @@ public class GameBoard extends JPanel {
             }
         });
     }
+
+    private void makeHeroMouseListener(BoardHeroButton button, Hero hero) {
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if(isLookingFor){
+                    if(((GoldshireFootman) waitingObject).found(hero)){
+                        isLookingFor = false;
+                        waitingObject = null;
+                    }
+                }
+            }
+        });
+    }
+
 
     private void makeIcons() {
         backButton = new ImageButton("icons/back.png",
@@ -828,9 +860,11 @@ public class GameBoard extends JPanel {
                 SizeConfigs.endTurnFireHeight,
                 "/images/spark_0.png");
 
-        myHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, false); // player hero
+        myHero = new BoardHeroButton(myPlayer.getHero(), heroWidth, heroHeight, 0); // player hero
+        makeHeroMouseListener(myHero, myHero.getHero());
 
-        enemyHero = new BoardHeroButton(HearthStone.currentAccount.getSelectedHero(), heroWidth, heroHeight, true); // enemy hero
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, 1); // enemy hero
+        makeHeroMouseListener(enemyHero, enemyHero.getHero());
 
         myPassive = new PassiveButton(GuiPlayerMapper.getInstance().getPassive(myPlayer),
                 SizeConfigs.medCardWidth,
@@ -909,6 +943,12 @@ public class GameBoard extends JPanel {
                 continue;
             this.remove(component);
         }
+    }
+
+    private void updatePlayers() {
+        GuiPlayerMapper.getInstance().updatePlayer(myPlayer);
+        GuiPlayerMapper.getInstance().updatePlayer(enemyPlayer);
+        restart();
     }
 
     private void restart() {

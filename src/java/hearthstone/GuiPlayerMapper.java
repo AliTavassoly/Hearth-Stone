@@ -66,4 +66,8 @@ public class GuiPlayerMapper {
     public WeaponCard getWeapon(Player player){
         return player.getWeapon();
     }
+
+    public void updatePlayer(Player player){
+        player.updateCards();
+    }
 }

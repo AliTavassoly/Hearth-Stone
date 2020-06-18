@@ -13,13 +13,13 @@ public class BoardHeroButton extends ImageButton {
     private Hero hero;
     private int width, height;
 
-    private boolean isEnemy;
+    private int id;
 
-    public BoardHeroButton(Hero hero, int width, int height, boolean isEnemy) {
+    public BoardHeroButton(Hero hero, int width, int height, int id) {
         this.hero = hero;
         this.height = height;
         this.width = width;
-        this.isEnemy = isEnemy;
+        this.id = id;
 
         configButton();
     }
@@ -32,12 +32,12 @@ public class BoardHeroButton extends ImageButton {
         addMouseListener(this);
     }
 
-    public boolean isEnemy() {
-        return isEnemy;
+    public int getId() {
+        return id;
     }
 
-    public void setEnemy(boolean enemy) {
-        isEnemy = enemy;
+    public Hero getHero(){
+        return hero;
     }
 
     @Override

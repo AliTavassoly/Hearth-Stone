@@ -6,6 +6,7 @@ import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
+import hearthstone.models.player.Player;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -20,6 +21,8 @@ public abstract class Hero {
     private HeroType type;
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
+
+    private Player player;
 
     public Hero() {
     }
@@ -102,6 +105,15 @@ public abstract class Hero {
 
     public void setSelectedDeck(Deck selectedDeck){
         this.selectedDeck = selectedDeck;
+    }
+
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     // End of getter setter
