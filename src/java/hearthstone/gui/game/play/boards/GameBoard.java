@@ -20,6 +20,7 @@ import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.minions.GoldshireFootman;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
@@ -48,10 +49,13 @@ public class GameBoard extends JPanel {
     protected ArrayList<Card> animatedCardsInMyHand, animatedCardsInEnemyHand;
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
 
-    protected ArrayList<CardImage> drawCards;
-
+    private int runningAnimations;
     private boolean isLookingFor;
     private Object waitingObject;
+
+    private static BufferedImage backgroundImage;
+    private static BufferedImage manaImage;
+    private static BufferedImage endTurnImage;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -150,8 +154,6 @@ public class GameBoard extends JPanel {
         animatedCardsInMyLand = new ArrayList<>();
         animatedCardsInEnemyLand = new ArrayList<>();
 
-        drawCards = new ArrayList<>();
-
         soundPlayer = new SoundPlayer("/sounds/play_background.wav");
         CredentialsFrame.getSoundPlayer().stop();
         soundPlayer.loopPlay();
@@ -171,20 +173,70 @@ public class GameBoard extends JPanel {
         gameStuffLayout();
 
         drawEndTurnTimeLine();
+
+        /*MyTimerTask myTimerTask = new MyTimerTask(500, new MyTask() {
+            @Override
+            public void startFunction() {
+
+            }
+
+            @Override
+            public void periodFunction() {
+                restart();
+            }
+
+            @Override
+            public void warningFunction() {
+
+            }
+
+            @Override
+            public void finishedFunction() {
+
+            }
+
+            @Override
+            public void closeFunction() {
+
+            }
+
+            @Override
+            public boolean finishCondition() {
+                return false;
+            }
+        });*/
+    }
+
+    private void addAnimation() {
+        synchronized (this) {
+            runningAnimations++;
+        }
+    }
+
+    private void removeAnimation() {
+        synchronized (this) {
+            runningAnimations--;
+        }
+    }
+
+    private int getAnimation() {
+        synchronized (this) {
+            return runningAnimations;
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/game_board_background.png"));
+            if (backgroundImage == null) {
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/game_board_background.png"));
+            }
         } catch (Exception ignore) {
         }
-        g.drawImage(image, 0, 0, null);
+        g2.drawImage(backgroundImage, 0, 0, null);
 
         drawMyMana(g2, GuiPlayerMapper.getInstance().getMana(myPlayer),
                 GuiPlayerMapper.getInstance().getTurnNumber(myPlayer));
@@ -194,17 +246,6 @@ public class GameBoard extends JPanel {
 
         drawMyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(myPlayer).getCards().size());
         drawEnemyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(enemyPlayer).getCards().size());
-
-        synchronized (drawCards) {
-            for (CardImage cardImage : drawCards) {
-                g2.drawImage(cardImage.getImage().getScaledInstance(
-                        cardImage.getWidth(), cardImage.getHeight(),
-                        Image.SCALE_SMOOTH),
-                        cardImage.getX(), cardImage.getY(),
-                        cardImage.getWidth(), cardImage.getHeight(),
-                        null);
-            }
-        }
 
         synchronized (sparkImage) {
             g2.drawImage(sparkImage.getImage().getScaledInstance(
@@ -254,9 +295,10 @@ public class GameBoard extends JPanel {
 
         for (int i = 0; i < number; i++) {
             try {
-                BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/mana.png"));
-                g.drawImage(image.getScaledInstance(SizeConfigs.manaWidth, SizeConfigs.manaHeight,
+                if (manaImage == null)
+                    manaImage = ImageIO.read(this.getClass().getResourceAsStream(
+                            "/images/mana.png"));
+                g.drawImage(manaImage.getScaledInstance(SizeConfigs.manaWidth, SizeConfigs.manaHeight,
                         Image.SCALE_SMOOTH),
                         manaX + (SizeConfigs.manaWidth + manaDis) * i, manaY,
                         SizeConfigs.manaWidth, SizeConfigs.manaHeight, null);
@@ -369,23 +411,11 @@ public class GameBoard extends JPanel {
         add(weaponButton);
     }
 
-    private CardImage getCardImageFromDrawCards(Card card) {
-        for (CardImage cardImage : drawCards) {
-            if (cardImage.getCardButton().getCard() == card) {
-                return cardImage;
-            }
-        }
-        return null;
-    }
-
-    private void removeCardImageFromDrawCards(Card card) {
-        drawCards.removeIf(cardImage -> cardImage.getCardButton().getCard() == card);
-    }
-
     private void drawMyCardsOnHand() {
         ArrayList<Card> cards = GuiPlayerMapper.getInstance().getHand(myPlayer);
         if (cards.size() == 0)
             return;
+
         int dis = myHandDisCard / cards.size();
         int startX = myHandX;
         int startY = myHandY;
@@ -576,12 +606,16 @@ public class GameBoard extends JPanel {
 
     protected void animateCard(int startX, int startY,
                                int destinationX, int destinationY, BoardCardButton cardButton) {
-        long period = 25; // 75
+        long period = 25;
 
         cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
 
         final int[] x = {cardButton.getX()};
         final int[] y = {cardButton.getY()};
+
+        final int width = cardButton.getWidth();
+        final int height = cardButton.getHeight();
+
 
         x[0] = startX;
         y[0] = startY;
@@ -589,34 +623,23 @@ public class GameBoard extends JPanel {
         MyTimerTask task = new MyTimerTask(period, new MyTask() {
             @Override
             public void startFunction() {
-                CardImage cardImage = new CardImage(x[0], y[0], cardButton.getWidth(), cardButton.getHeight(), cardButton);
-                synchronized (drawCards) {
-                    drawCards.add(cardImage);
-                }
             }
 
             @Override
             public void periodFunction() {
-                int plusX = 2; // 5
-                int plusY = 2; // 5
+                int jump = 3;
+                int plusX = jump;
+                int plusY = jump;
 
-                if (Math.abs(destinationX - x[0]) < 2)
+                if (Math.abs(destinationX - x[0]) < jump)
                     plusX = 1;
-                if (Math.abs(destinationY - y[0]) < 2)
+                if (Math.abs(destinationY - y[0]) < jump)
                     plusY = 1;
 
                 x[0] += (destinationX - x[0] != 0 ? plusX * (destinationX - x[0]) / Math.abs(destinationX - x[0]) : 0);
                 y[0] += (destinationY - y[0] != 0 ? plusY * (destinationY - y[0]) / Math.abs(destinationY - y[0]) : 0);
 
-                synchronized (drawCards) {
-                    try {
-                        getCardImageFromDrawCards(cardButton.getCard()).setX(x[0]);
-                        getCardImageFromDrawCards(cardButton.getCard()).setY(y[0]);
-                    } catch (NullPointerException ignore) {
-                    }
-                }
-                repaint();
-                revalidate();
+                cardButton.setBounds(x[0], y[0], width, height);
             }
 
             @Override
@@ -629,19 +652,11 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                cardButton.setBounds(
-                        destinationX, destinationY,
-                        cardButton.getWidth(), cardButton.getHeight());
-                synchronized (drawCards) {
-                    removeCardImageFromDrawCards(cardButton.getCard());
-                }
-                repaint();
-                revalidate();
             }
 
             @Override
             public boolean finishCondition() {
-                if ((x[0] == destinationX && y[0] == destinationY) || (cardButton.getX() == destinationX && cardButton.getY() == destinationY))
+                if (x[0] == destinationX && y[0] == destinationY)
                     return true;
                 return false;
             }
@@ -701,7 +716,8 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY)) {
+                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
+                        && getAnimation() == 0) {
                     if (isLookingFor) {
                         if (((GoldshireFootman) waitingObject).found(card)) {
                             isLookingFor = false;
@@ -714,11 +730,6 @@ public class GameBoard extends JPanel {
                             waitingObject = card;
                         }
                     }
-                }
-
-                CardImage cardImage = new CardImage(startX, startY, width, height, button);
-                synchronized (drawCards) {
-                    drawCards.add(cardImage);
                 }
             }
 
@@ -737,19 +748,13 @@ public class GameBoard extends JPanel {
             }
 
             public void mouseReleased(MouseEvent E) {
-                synchronized (drawCards) {
-                    removeCardImageFromDrawCards(card);
-                }
-                repaint();
-                revalidate();
-
                 if (!isInMyLand(startX, startY) &&
-                        isInMyLand(E.getX() + startX, E.getY() + startY) &&
+                        isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         game.getWhoseTurn() == 0) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
                 } else if (!isInEnemyLand(startX, startY) &&
-                        isInEnemyLand(E.getX() + startX, E.getY() + startY) &&
+                        isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         game.getWhoseTurn() == 1) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
@@ -766,15 +771,9 @@ public class GameBoard extends JPanel {
                 if ((game.getWhoseTurn() != button.getId()))
                     return;
 
-                synchronized (drawCards) {
-                    int newX = e.getX() + startX;
-                    int newY = e.getY() + startY;
-                    // card.setBounds(newX, newY)
-                    getCardImageFromDrawCards(card).setX(newX);
-                    getCardImageFromDrawCards(card).setY(newY);
-                }
-                repaint();
-                revalidate();
+                int newX = e.getX() + button.getX();
+                int newY = e.getY() + button.getY();
+                button.setBounds(newX, newY, width, height);
             }
         });
     }
@@ -782,8 +781,8 @@ public class GameBoard extends JPanel {
     private void makeHeroMouseListener(BoardHeroButton button, Hero hero) {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if(isLookingFor){
-                    if(((GoldshireFootman) waitingObject).found(hero)){
+                if (isLookingFor) {
+                    if (((MinionCard) waitingObject).found(hero)) {
                         isLookingFor = false;
                         waitingObject = null;
                     }
@@ -791,7 +790,6 @@ public class GameBoard extends JPanel {
             }
         });
     }
-
 
     private void makeIcons() {
         backButton = new ImageButton("icons/back.png",
@@ -848,6 +846,10 @@ public class GameBoard extends JPanel {
 
                 GuiLogicMapper.getInstance().endTurn(game);
                 endTurnLineTimerTask.myStop();
+
+                isLookingFor = false;
+                waitingObject = null;
+
                 drawEndTurnTimeLine();
                 restart();
             }
@@ -938,8 +940,6 @@ public class GameBoard extends JPanel {
         for (Component component : this.getComponents()) {
             if (component instanceof ImagePanel &&
                     ((ImagePanel) component).getImagePath().contains("spark"))
-                continue;
-            if (component instanceof ImagePanel && ((ImagePanel) component).getImagePath().contains("rope.png"))
                 continue;
             this.remove(component);
         }

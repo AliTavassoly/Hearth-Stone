@@ -23,6 +23,8 @@ public class LoginPanel extends JPanel {
     private final String passText = "Password : ";
     private String error = "no";
 
+    private BufferedImage backgroundImage;
+
     private Color textColor;
 
     private final int startTextY = SizeConfigs.credentialFrameHeight / 2 - 10 - 45 + 30 + 1;
@@ -52,15 +54,14 @@ public class LoginPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/logister_background.jpg"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/logister_background.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
 
         drawString(userText,
                 SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
@@ -80,11 +81,11 @@ public class LoginPanel extends JPanel {
         setVisible(true);
     }
 
-    private void configText(){
+    private void configText() {
         textColor = new Color(255, 255, 68);
     }
 
-    private void makeButtons(){
+    private void makeButtons() {
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.medButtonWidth,
@@ -92,26 +93,27 @@ public class LoginPanel extends JPanel {
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try{
+                try {
                     hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
-                } catch (HearthStoneException e){
+                } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage() +
                                         "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
+                    } catch (Exception f) {
+                    }
                     error = e.getMessage();
                     repaint();
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
     }
 
-    private void makeIcons(){
+    private void makeIcons() {
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
@@ -139,12 +141,12 @@ public class LoginPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                    System.exit(0);
+                System.exit(0);
             }
         });
     }
 
-    private void makeFields(){
+    private void makeFields() {
         userField = new TextField(10);
         userField.setBorder(null);
 

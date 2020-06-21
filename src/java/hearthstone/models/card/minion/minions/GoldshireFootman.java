@@ -22,10 +22,12 @@ public class GoldshireFootman extends MinionCard {
 
     @Override
     public boolean attack(MinionCard minionCard) {
+        if(numberOfAttack == 0)
+            return false;
+
         minionCard.setHealth(minionCard.getHealth() - this.attack);
         this.health -= minionCard.getAttack();
-
-        this.getPlayer().updateCardsOnLand();
+        numberOfAttack--;
 
         return true;
     }
@@ -34,7 +36,10 @@ public class GoldshireFootman extends MinionCard {
     public boolean attack(Hero hero) {
         if(hero.getPlayer().haveTaunt())
             return false;
+        if(numberOfAttack == 0)
+            return false;
         hero.setHealth(hero.getHealth() - this.attack);
+        numberOfAttack--;
         return true;
     }
 

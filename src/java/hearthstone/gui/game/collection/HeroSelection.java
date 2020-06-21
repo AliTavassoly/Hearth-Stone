@@ -29,6 +29,8 @@ public class HeroSelection extends JPanel {
     private HeroesPanel heroesPanel;
     private JScrollPane heroesScroll;
 
+    private static BufferedImage backgroundImage;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
@@ -50,15 +52,14 @@ public class HeroSelection extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/hero_selection_background.png"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/hero_selection_background.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
     private void configPanel() {
@@ -88,13 +89,13 @@ public class HeroSelection extends JPanel {
         ArrayList<Hero> heroes = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(int i = 0; i < HearthStone.currentAccount.getHeroes().size(); i++){
-            if(HearthStone.currentAccount.getSelectedHero() == null)
+        for (int i = 0; i < HearthStone.currentAccount.getHeroes().size(); i++) {
+            if (HearthStone.currentAccount.getSelectedHero() == null)
                 break;
             Hero hero = HearthStone.currentAccount.getHeroes().get(i);
             Hero zero = HearthStone.currentAccount.getHeroes().get(0);
 
-            if(HearthStone.currentAccount.getSelectedHero().getName().equals(hero.getName())){
+            if (HearthStone.currentAccount.getSelectedHero().getName().equals(hero.getName())) {
                 HearthStone.currentAccount.getHeroes().set(0, hero);
                 HearthStone.currentAccount.getHeroes().set(i, zero);
             }
@@ -164,7 +165,8 @@ public class HeroSelection extends JPanel {
                             hearthstone.util.Logger.saveLog("ERROR",
                                     e.getClass().getName() + ": " + e.getMessage()
                                             + "\nStack Trace: " + e.getStackTrace());
-                        } catch (Exception f) { }
+                        } catch (Exception f) {
+                        }
                         BaseFrame.error(e.getMessage());
                     } catch (Exception ex) {
                         ex.printStackTrace();

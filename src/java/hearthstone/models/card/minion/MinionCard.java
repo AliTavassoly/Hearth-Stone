@@ -16,6 +16,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
 
+    protected int numberOfAttack;
+
     private MinionType minionType;
 
     public MinionCard(){ }
@@ -123,18 +125,27 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
         this.minionType = minionType;
     }
 
+
+    public int getNumberOfAttack() {
+        return numberOfAttack;
+    }
+    public void setNumberOfAttack(int numberOfAttack) {
+        this.numberOfAttack = numberOfAttack;
+    }
+
+
     @Override
-    public void drawBehave() {
+    public void startTurnBehave() {
+        numberOfAttack = 1;
+    }
+
+    @Override
+    public void battlecry() {
 
     }
 
     @Override
     public void endTurnBehave() {
-
-    }
-
-    @Override
-    public void startTurnBehave() {
 
     }
 
@@ -152,6 +163,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
     public void friendlyMinionDied() {
 
     }
+
+    @Override
+    public void killedEnemyMinion() { }
 
     @Override
     public boolean attack(MinionCard minionCard) {

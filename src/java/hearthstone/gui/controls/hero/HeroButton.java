@@ -13,6 +13,10 @@ public class HeroButton extends ImageButton {
     private Hero hero;
     int width, height;
 
+    private BufferedImage heroImage;
+    private static BufferedImage detailsImage;
+
+
     public HeroButton(Hero hero, int width, int height) {
         this.hero = hero;
         this.height = height;
@@ -33,17 +37,15 @@ public class HeroButton extends ImageButton {
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
-
-        BufferedImage heroImage = null;
-        BufferedImage detailsImage = null;
-
         try {
-            heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/normal_heroes/" + hero.getName().
-                            toLowerCase().replace(' ', '_').replace("'", "") + ".png"));
+            if (heroImage == null)
+                heroImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/heroes/normal_heroes/" + hero.getName().
+                                toLowerCase().replace(' ', '_').replace("'", "") + ".png"));
 
-            detailsImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/normal_heroes/" + "hero_details" + ".png"));
+            if (detailsImage == null)
+                detailsImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/heroes/normal_heroes/" + "hero_details" + ".png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,12 +75,12 @@ public class HeroButton extends ImageButton {
         drawHealth(g2, fontMetrics);
     }
 
-    private void drawName(Graphics2D g, FontMetrics fontMetrics){
+    private void drawName(Graphics2D g, FontMetrics fontMetrics) {
         g.setColor(Color.WHITE);
         g.drawString(hero.getName(), width / 2 - fontMetrics.stringWidth(hero.getName()) / 2 - 5, height - 105);
     }
 
-    private void drawHealth(Graphics2D g, FontMetrics fontMetrics){
+    private void drawHealth(Graphics2D g, FontMetrics fontMetrics) {
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 25);
         g.setFont(font);
         String health = String.valueOf(hero.getHealth());

@@ -23,6 +23,8 @@ public class StatusPanel extends JPanel {
     private DecksPanel deckPanel;
     private JScrollPane deckCardScroll;
 
+    private static BufferedImage backgroundImage;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
@@ -42,13 +44,13 @@ public class StatusPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/status_background.png"));
-        } catch (Exception e) { }
-        g.drawImage(image, 0, 0, null);
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/status_background.png"));
+        } catch (Exception e) {
+        }
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
     private void makeIcons() {

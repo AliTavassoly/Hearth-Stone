@@ -20,6 +20,8 @@ public class RegisterPanel extends JPanel {
     private TextField nameField, userField;
     private PasswordField passField, repField;
 
+    private BufferedImage backgroundImage;
+
     private final String nameText = "Name : ";
     private final String userText = "Username : ";
     private final String passText = "Password : ";
@@ -60,11 +62,12 @@ public class RegisterPanel extends JPanel {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/logister_background.jpg"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/logister_background.jpg"));
         } catch (Exception e) {
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
 
         drawString(nameText,
                 SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
@@ -79,7 +82,7 @@ public class RegisterPanel extends JPanel {
                 SizeConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 3 * stringsDis, 20, Font.PLAIN, textColor, g);
         if (!error.equals("no")) {
-            if(error.equals("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)")){
+            if (error.equals("Username is invalid(at least 4 character, only contains 1-9, '-', '_' and letters!)")) {
                 drawString("Username is invalid",
                         SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
@@ -87,7 +90,7 @@ public class RegisterPanel extends JPanel {
                         SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis + 14, 15, Font.PLAIN, Color.RED, g);
 
-            } else if (error.equals("Password is invalid(at least 4 character and contains at least a capital letter!)")){
+            } else if (error.equals("Password is invalid(at least 4 character and contains at least a capital letter!)")) {
                 drawString("Password is invalid",
                         SizeConfigs.credentialFrameWidth / 2,
                         startTextY + 4 * stringsDis, 15, Font.PLAIN, Color.RED, g);
@@ -102,7 +105,7 @@ public class RegisterPanel extends JPanel {
         }
     }
 
-    private void makeFields(){
+    private void makeFields() {
         nameField = new TextField(10);
 
         userField = new TextField(10);
@@ -121,7 +124,7 @@ public class RegisterPanel extends JPanel {
         textColor = new Color(255, 255, 68);
     }
 
-    private void makeIcons(){
+    private void makeIcons() {
         backButton = new ImageButton("icons/back.png", "icons/back_active.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
@@ -143,7 +146,7 @@ public class RegisterPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                    System.exit(0);
+                System.exit(0);
             }
         });
 
@@ -154,7 +157,7 @@ public class RegisterPanel extends JPanel {
         });
     }
 
-    private void makeButtons(){
+    private void makeButtons() {
         registerButton = new ImageButton("register", "buttons/blue_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.medButtonWidth,
@@ -175,7 +178,8 @@ public class RegisterPanel extends JPanel {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
+                    } catch (Exception f) {
+                    }
                     error = e.getMessage();
                     repaint();
                 } catch (Exception ex) {

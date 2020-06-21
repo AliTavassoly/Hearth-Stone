@@ -13,12 +13,14 @@ import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
-import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.models.card.heropower.heropowers.Heal;
+import hearthstone.models.card.heropower.heropowers.TheSilverHand;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.card.minion.minions.*;
-import hearthstone.models.card.reward.RewardCard;
-import hearthstone.models.card.spell.SpellCard;
-import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.models.card.reward.rewards.LearnDraconic;
+import hearthstone.models.card.reward.rewards.StrengthInNumbers;
+import hearthstone.models.card.spell.spells.*;
+import hearthstone.models.card.weapon.weapons.*;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
@@ -39,10 +41,10 @@ public class DataBase {
     private static void loadCards() throws Exception{
         int id = 0;
         // Mage
-        SpellCard polymorph = new SpellCard(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(polymorph.getId(), polymorph);
 
-        SpellCard freezingPotion = new SpellCard(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
+        FreezingPotion freezingPotion = new FreezingPotion(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
 
         // Warlock
@@ -50,11 +52,11 @@ public class DataBase {
                 false, false, false, false, false, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
 
-        SpellCard soulfire = new SpellCard(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
+        Soulfire soulfire = new Soulfire(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(soulfire.getId(), soulfire);
 
         // Rogue
-        SpellCard friendlySmith = new SpellCard(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
+        FriendlySmith friendlySmith = new FriendlySmith(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
 
         LabRecruiter labRecruiter = new LabRecruiter(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3,
@@ -62,18 +64,18 @@ public class DataBase {
         HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
         // Paladin
-        HeroPowerCard theSilverHand = new HeroPowerCard(id++, "The Silver Hand", "Hero Power\n" +
+        TheSilverHand theSilverHand = new TheSilverHand(id++, "The Silver Hand", "Hero Power\n" +
                 "Summon two 1/1 Recruits.", 2, HeroType.PALADIN, CardType.HEROPOWER);
         HearthStone.baseCards.put(theSilverHand.getId(), theSilverHand);
 
-        SpellCard gnomishArmyKnife = new SpellCard(id++, "Gnomish Army Knife", "Give a minion Charge,\n" +
+        GnomishArmyKnife gnomishArmyKnife = new GnomishArmyKnife(id++, "Gnomish Army Knife", "Give a minion Charge,\n" +
                 "Windfury, Divine Shield,\n" +
                 "Lifesteal, Poisonous,\n" +
                 "Taunt, and Stealth.", 5, HeroType.PALADIN, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(gnomishArmyKnife.getId(), gnomishArmyKnife);
 
         // Priest
-        HeroPowerCard heal = new HeroPowerCard(id++, "Heal", "Hero Power\n" +
+        Heal heal = new Heal(id++, "Heal", "Hero Power\n" +
                 "Restore 4 Health.", 2, HeroType.PRIEST, CardType.HEROPOWER);
         HearthStone.baseCards.put(heal.getId(), heal);
 
@@ -86,22 +88,22 @@ public class DataBase {
         // All
 
         // Spell
-        SpellCard blur = new SpellCard(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        Blur blur = new Blur(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(blur.getId(), blur);
 
-        SpellCard tracking = new SpellCard(id++, "Tracking", "Look at the top 3 cards of your deck. Draw one and discard the others.", 1, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        Tracking tracking = new Tracking(id++, "Tracking", "Look at the top 3 cards of your deck. Draw one and discard the others.", 1, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(tracking.getId(), tracking);
 
-        SpellCard sprint = new SpellCard(id++, "Sprint", "Draw 4 cards.", 7, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        Sprint sprint = new Sprint(id++, "Sprint", "Draw 4 cards.", 7, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(sprint.getId(), sprint);
 
-        SpellCard swarmOfLocusts = new SpellCard(id++, "Swarm of Locusts", "Summon seven 1/1 \n Locusts with Rush.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
+        SwarmOfLocusts swarmOfLocusts = new SwarmOfLocusts(id++, "Swarm of Locusts", "Summon seven 1/1 \n Locusts with Rush.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
         HearthStone.baseCards.put(swarmOfLocusts.getId(), swarmOfLocusts);
 
-        SpellCard pharaohsBlessing = new SpellCard(id++, "Pharaoh's Blessing", "Give a minion +4/+4,\n Divine Shield, and Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
+        PharaohsBlessing pharaohsBlessing = new PharaohsBlessing(id++, "Pharaoh's Blessing", "Give a minion +4/+4,\n Divine Shield, and Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
         HearthStone.baseCards.put(pharaohsBlessing.getId(), pharaohsBlessing);
 
-        SpellCard bookOfSpecters = new SpellCard(id++, "Book of Specters", "Draw 3 cards. Discard \n any spells drawn.", 2, HeroType.ALL, Rarity.EPIC, CardType.SPELL);
+        BookOfSpecters bookOfSpecters = new BookOfSpecters(id++, "Book of Specters", "Draw 3 cards. Discard \n any spells drawn.", 2, HeroType.ALL, Rarity.EPIC, CardType.SPELL);
         HearthStone.baseCards.put(bookOfSpecters.getId(), bookOfSpecters);
 
         // Minion
@@ -149,41 +151,41 @@ public class DataBase {
         HearthStone.baseCards.put(curioCollector.getId(), curioCollector);
 
         // Weapon
-        WeaponCard warglaivesOfAzzinoth = new WeaponCard(id++, "Warglaives of Azzinoth", "After attacking a minion, your hero may attack again.", 5, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 4, 3);
+        WarglaivesOfAzzinoth warglaivesOfAzzinoth = new WarglaivesOfAzzinoth(id++, "Warglaives of Azzinoth", "After attacking a minion, your hero may attack again.", 5, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 4, 3);
         HearthStone.baseCards.put(warglaivesOfAzzinoth.getId(), warglaivesOfAzzinoth);
 
-        WeaponCard flamereaper = new WeaponCard(id++, "Flamereaper", "Also damages the minions next to whomever your hero attacks.", 7, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 3, 4);
+        Flamereaper flamereaper = new Flamereaper(id++, "Flamereaper", "Also damages the minions next to whomever your hero attacks.", 7, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 3, 4);
         HearthStone.baseCards.put(flamereaper.getId(), flamereaper);
 
-        WeaponCard candleshot = new WeaponCard(id++, "Candleshot", "Your hero is Immune while attacking.", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
+        Candleshot candleshot = new Candleshot(id++, "Candleshot", "Your hero is Immune while attacking.", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
         HearthStone.baseCards.put(candleshot.getId(), candleshot);
 
-        WeaponCard glaivezooka = new WeaponCard(id++, "Glaivezooka", "Battlecry: Give a random friendly minion +1 Attack.", 2, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
+        Glaivezooka glaivezooka = new Glaivezooka(id++, "Glaivezooka", "Battlecry: Give a random friendly minion +1 Attack.", 2, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(glaivezooka.getId(), glaivezooka);
 
-        WeaponCard eaglehornBow = new WeaponCard(id++, "Eaglehorn Bow", "Whenever a friendly Secret is revealed, gain +1 Durability.", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPONCARD, 2, 3);
+        EaglehornBow eaglehornBow = new EaglehornBow(id++, "Eaglehorn Bow", "Whenever a friendly Secret is revealed, gain +1 Durability.", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPONCARD, 2, 3);
         HearthStone.baseCards.put(eaglehornBow.getId(), eaglehornBow);
 
-        WeaponCard desertSpear = new WeaponCard(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
+        DesertSpear desertSpear = new DesertSpear(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
         HearthStone.baseCards.put(desertSpear.getId(), desertSpear);
 
-        WeaponCard battleAxe = new WeaponCard(id++, "Battle Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
+        BattleAxe battleAxe = new BattleAxe(id++, "Battle Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(battleAxe.getId(), battleAxe);
 
-        WeaponCard heavyAxe = new WeaponCard(id++, "Heavy Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
+        HeavyAxe heavyAxe = new HeavyAxe(id++, "Heavy Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
         HearthStone.baseCards.put(heavyAxe.getId(), heavyAxe);
 
-        WeaponCard wickedKnife = new WeaponCard(id++, "Wicked Knife", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 1);
+        WickedKnife wickedKnife = new WickedKnife(id++, "Wicked Knife", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 1);
         HearthStone.baseCards.put(wickedKnife.getId(), wickedKnife);
 
         // Reward
-        RewardCard learnDraconic = new RewardCard(id++, "Learn Draconic", "Sidequest: Spend\n" +
+        LearnDraconic learnDraconic = new LearnDraconic(id++, "Learn Draconic", "Sidequest: Spend\n" +
                 "8 Mana on spells.\n" +
                 "Reward: Summon a\n" +
                 "6/6 Dragon.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
         HearthStone.baseCards.put(learnDraconic.getId(), learnDraconic);
 
-        RewardCard strengthInNumbers = new RewardCard(id++, "Strength in Numbers", "Sidequest: Spend 10 Mana\n +" +
+        StrengthInNumbers strengthInNumbers = new StrengthInNumbers(id++, "Strength in Numbers", "Sidequest: Spend 10 Mana\n +" +
                 " on minions.\n" +
                 "Reward: Summon a\n" +
                 " minion from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
@@ -393,7 +395,6 @@ public class DataBase {
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        //gsonBuilder.registerTypeAdapter(MinionCard.class, new AbstractAdapter<MinionCard>());
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.setPrettyPrinting();

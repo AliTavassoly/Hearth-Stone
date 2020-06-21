@@ -14,6 +14,9 @@ public class DeckButton extends ImageButton {
     int width, height;
     private Deck deck;
 
+    private BufferedImage heroImage;
+    private static BufferedImage deckImage;
+
     private final int stringDis = 36;
     private final int stringStartY = 45;
     private final int maxCardNameWidth = 200;
@@ -35,15 +38,14 @@ public class DeckButton extends ImageButton {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage deckImage = null;
-        BufferedImage heroImage = null;
-
         try {
-            heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/circle_heroes/" + Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_') + ".png"));
+            if (heroImage == null)
+                heroImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/heroes/circle_heroes/" + Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_') + ".png"));
 
-            deckImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/deck.png"));
+            if (deckImage == null)
+                deckImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/deck.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,24 +59,24 @@ public class DeckButton extends ImageButton {
         drawStringOnDeck(g2);
     }
 
-    private int getSize(String text, int maxWidth){
+    private int getSize(String text, int maxWidth) {
         int size = 20;
         Font font = GameFrame.getInstance().getCustomFont(0, size);
-        while(getFontMetrics(font).stringWidth(text) > maxWidth){
+        while (getFontMetrics(font).stringWidth(text) > maxWidth) {
             size--;
             font = GameFrame.getInstance().getCustomFont(0, size);
         }
         return size;
     }
 
-    private void drawStringOnDeck(Graphics2D g2){
+    private void drawStringOnDeck(Graphics2D g2) {
         Font font = GameFrame.getInstance().getCustomFont(0, 15);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
 
-        g2.drawString("total games: " + deck.getTotalGames() , 380, stringStartY);
+        g2.drawString("total games: " + deck.getTotalGames(), 380, stringStartY);
         g2.drawString("win rate: " + deck.getTotalWin() + "%", 380, stringStartY + stringDis);
         g2.drawString("wins: " + deck.getWinGames(), 380, stringStartY + 2 * stringDis);
 
@@ -88,8 +90,7 @@ public class DeckButton extends ImageButton {
             g2.setFont(font);
 
             g2.drawString("favorite card: no card", 155, stringStartY + 2 * stringDis);
-        }
-        else {
+        } else {
             String text = "favorite card: " + deck.getBestCard().getName();
             font = GameFrame.getInstance().getCustomFont(0, getSize(text, maxCardNameWidth));
             g2.setFont(font);

@@ -17,16 +17,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
     private int width, height;
     private double initialRotate, rotate;
     private boolean showBig;
     private Card card;
-    private boolean shouldRotate;
     private boolean isBack, isInLand;
-    private String minionFramePath;
+
+    private BufferedImage minionImage;
+    private BufferedImage cardImage;
+    private BufferedImage frameImage;
+
+    private static BufferedImage cardBackImage;
+    private static BufferedImage deathRattleImage;
+    private static BufferedImage divineShieldImage;
+    private static BufferedImage triggeredEffectImage;
+    private static BufferedImage shieldFrameImage;
+    private static BufferedImage ovalFrameImage;
+    private static BufferedImage shieldFrameImageActive;
+    private static BufferedImage ovalFrameImageActive;
 
     private int id;
 
@@ -54,7 +64,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         this.initialRotate = initialRotate;
         this.id = id;
         rotate = initialRotate;
-        shouldRotate = true;
 
         this.width = width;
         this.height = height;
@@ -95,7 +104,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         rotate = initialRotate;
 
         this.showBig = showBig;
-        shouldRotate = true;
 
         this.id = id;
 
@@ -112,6 +120,39 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         setFocusPainted(false);
 
         addMouseListener(this);
+
+        try {
+            if (cardBackImage == null)
+                cardBackImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/cards/cards_back/" + "card_back2" + ".png"));
+            if (deathRattleImage == null)
+                deathRattleImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/death_rattle.png"));
+            if (divineShieldImage == null)
+                divineShieldImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/divine_shield.png"));
+            if (triggeredEffectImage == null)
+                triggeredEffectImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/triggered_effect.png"));
+
+            if (minionImage == null && card instanceof MinionCard)
+                minionImage = ImageIO.read(this.getClass().getResourceAsStream("/images/cards/oval_minions/" + card.getName().
+                        toLowerCase().replace(' ', '_').replace("'", "") + ".png"));
+            if (cardImage == null)
+                cardImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/cards/" + card.getName().toLowerCase().
+                                replace(' ', '_').replace("'", "") + ".png"));
+            if(shieldFrameImage == null)
+                shieldFrameImage = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_shield.png"));
+            if(shieldFrameImageActive == null)
+                shieldFrameImageActive = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_shield_active.png"));
+            if(ovalFrameImage == null)
+                ovalFrameImage = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_played.png"));
+            if(ovalFrameImageActive == null)
+                ovalFrameImageActive = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_played_active.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void playSound() {
@@ -140,10 +181,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return initialRotate;
     }
 
-    public boolean isShouldRotate() {
-        return shouldRotate;
-    }
-
     public int getId() {
         return id;
     }
@@ -167,22 +204,13 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         }
 
         BufferedImage image = null;
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-        Graphics buffyG = buffy.getGraphics();
 
         try {
-            String path;
             if (!isBack) {
-                path = "/images/cards/" + card.getName().toLowerCase().
-                        replace(' ', '_').replace("'", "") + ".png";
+                image = cardImage;
             } else {
-                path = "/images/cards/cards_back/" + "card_back2" + ".png";
+                image = cardBackImage;
             }
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    path));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,11 +219,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             g2.rotate(Math.toRadians(rotate), width / 2, height / 2);
         }
 
-        buffyG.drawImage(image.getScaledInstance(width, height,
+        g2.drawImage(image.getScaledInstance(width, height,
                 Image.SCALE_SMOOTH),
                 0, 0, width, height, null);
-
-        g2.drawImage(buffy, 0, 0, null);
 
         if (isBack)
             return;
@@ -212,27 +238,13 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     }
 
     void drawMinionInLand(Graphics2D g) {
-        String minionPath = "/images/cards/oval_minions/" + card.getName().
-                toLowerCase().replace(' ', '_').replace("'", "") + ".png";
-
-        if (minionFramePath == null) {
-            if (((MinionCard) card).isTaunt()) {
-                minionFramePath = "/images/minion_shield.png";
-            } else {
-                minionFramePath = "/images/minion_played.png";
-            }
-        }
-
-        BufferedImage minionImage = null;
-        BufferedImage shieldImage = null;
-        BufferedImage minionType;
-
         try {
-            minionImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    minionPath));
-            shieldImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    minionFramePath));
-        } catch (IOException e) {
+            if (frameImage == null && ((MinionCard) card).isTaunt()) {
+                frameImage = shieldFrameImage;
+            } else if (frameImage == null && !((MinionCard) card).isTaunt()){
+                frameImage = ovalFrameImage;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -243,7 +255,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 width - 18 - 10, height - 28 - 15,
                 null);
 
-        g.drawImage(shieldImage.getScaledInstance(
+        g.drawImage(frameImage.getScaledInstance(
                 width - 10, height - 15,
                 Image.SCALE_SMOOTH),
                 0, 0,
@@ -252,9 +264,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         try {
             if (((MinionCard) card).isDeathRattle()) {
-                minionType = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/death_rattle.png"));
-                g.drawImage(minionType.getScaledInstance(
+                g.drawImage(deathRattleImage.getScaledInstance(
                         SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
                         Image.SCALE_SMOOTH),
                         (width - 10) / 2 - SizeConfigs.minionTypeWidth / 2, height - 42,
@@ -262,9 +272,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                         null);
             }
             if (((MinionCard) card).isDivineShield()) {
-                minionType = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/divine_shield.png"));
-                g.drawImage(minionType.getScaledInstance(
+                g.drawImage(divineShieldImage.getScaledInstance(
                         width - 10, height - 5,
                         Image.SCALE_SMOOTH),
                         0, 0,
@@ -272,16 +280,14 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                         null);
             }
             if (((MinionCard) card).isTriggeredEffect()) {
-                minionType = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/triggered_effect.png"));
-                g.drawImage(minionType.getScaledInstance(
+                g.drawImage(triggeredEffectImage.getScaledInstance(
                         SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
                         Image.SCALE_SMOOTH),
                         (width - 10) / 2 - SizeConfigs.minionTypeWidth / 2, height - 42,
                         SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
                         null);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -414,9 +420,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     public void mouseEntered(MouseEvent mouseEvent) {
         if (card instanceof MinionCard && isInLand) {
             if (((MinionCard) card).isTaunt()) {
-                minionFramePath = "/images/minion_shield_active.png";
+                frameImage = shieldFrameImageActive;
             } else {
-                minionFramePath = "/images/minion_played_active.png";
+                frameImage = ovalFrameImageActive;
             }
         }
         this.repaint();
@@ -427,9 +433,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     public void mouseExited(MouseEvent mouseEvent) {
         if (card instanceof MinionCard && isInLand) {
             if (((MinionCard) card).isTaunt()) {
-                minionFramePath = "/images/minion_shield.png";
+                frameImage = shieldFrameImage;
             } else {
-                minionFramePath = "/images/minion_played.png";
+                frameImage = ovalFrameImage;
             }
         }
         this.repaint();

@@ -5,7 +5,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.HeroType;
 
-public class WeaponCard extends Card {
+public abstract class WeaponCard extends Card implements WeaponBehaviour{
     private int durability;
     private int attack;
 

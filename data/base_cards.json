@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.Polymorph",
     "data": {
       "id": 0,
       "name": "Polymorph",
@@ -14,7 +14,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.FreezingPotion",
     "data": {
       "id": 1,
       "name": "Freezing Potion",
@@ -41,6 +41,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "BEAST",
       "id": 2,
       "name": "Dreadscale",
@@ -54,7 +55,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.Soulfire",
     "data": {
       "id": 3,
       "name": "Soulfire",
@@ -68,7 +69,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.FriendlySmith",
     "data": {
       "id": 4,
       "name": "Friendly Smith",
@@ -95,6 +96,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 5,
       "name": "Lab Recruiter",
@@ -108,7 +110,7 @@
     }
   },
   "6": {
-    "type": "hearthstone.models.card.heropower.HeroPowerCard",
+    "type": "hearthstone.models.card.heropower.heropowers.TheSilverHand",
     "data": {
       "id": 6,
       "name": "The Silver Hand",
@@ -121,7 +123,7 @@
     }
   },
   "7": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.GnomishArmyKnife",
     "data": {
       "id": 7,
       "name": "Gnomish Army Knife",
@@ -135,7 +137,7 @@
     }
   },
   "8": {
-    "type": "hearthstone.models.card.heropower.HeroPowerCard",
+    "type": "hearthstone.models.card.heropower.heropowers.Heal",
     "data": {
       "id": 8,
       "name": "Heal",
@@ -161,6 +163,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 9,
       "name": "High Priest Amet",
@@ -174,7 +177,7 @@
     }
   },
   "10": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.Blur",
     "data": {
       "id": 10,
       "name": "Blur",
@@ -188,7 +191,7 @@
     }
   },
   "11": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.Tracking",
     "data": {
       "id": 11,
       "name": "Tracking",
@@ -202,7 +205,7 @@
     }
   },
   "12": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.Sprint",
     "data": {
       "id": 12,
       "name": "Sprint",
@@ -216,7 +219,7 @@
     }
   },
   "13": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.SwarmOfLocusts",
     "data": {
       "id": 13,
       "name": "Swarm of Locusts",
@@ -230,7 +233,7 @@
     }
   },
   "14": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.PharaohsBlessing",
     "data": {
       "id": 14,
       "name": "Pharaoh\u0027s Blessing",
@@ -244,7 +247,7 @@
     }
   },
   "15": {
-    "type": "hearthstone.models.card.spell.SpellCard",
+    "type": "hearthstone.models.card.spell.spells.BookOfSpecters",
     "data": {
       "id": 15,
       "name": "Book of Specters",
@@ -271,6 +274,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": true,
+      "numberOfAttack": 0,
       "minionType": "DEMON",
       "id": 16,
       "name": "Hulking Overfiend",
@@ -297,6 +301,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 17,
       "name": "Wrathscale Naga",
@@ -323,6 +328,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "DEMON",
       "id": 18,
       "name": "Wrathspike Brute",
@@ -349,6 +355,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "DEMON",
       "id": 19,
       "name": "Pit Commander",
@@ -375,6 +382,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 20,
       "name": "Goldshire Footman",
@@ -401,6 +409,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 21,
       "name": "Abomination",
@@ -427,6 +436,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "DEMON",
       "id": 22,
       "name": "Sathrovarr",
@@ -453,6 +463,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "MECH",
       "id": 23,
       "name": "Tomb Warden",
@@ -479,6 +490,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "MECH",
       "id": 24,
       "name": "Security Rover",
@@ -505,6 +517,7 @@
       "isDivineShield": false,
       "isCharge": false,
       "isRush": false,
+      "numberOfAttack": 0,
       "minionType": "NORMAL",
       "id": 25,
       "name": "Curio Collector",
@@ -518,7 +531,7 @@
     }
   },
   "26": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.WarglaivesOfAzzinoth",
     "data": {
       "durability": 4,
       "attack": 3,
@@ -534,7 +547,7 @@
     }
   },
   "27": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.Flamereaper",
     "data": {
       "durability": 3,
       "attack": 4,
@@ -550,7 +563,7 @@
     }
   },
   "28": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.Candleshot",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -566,7 +579,7 @@
     }
   },
   "29": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.Glaivezooka",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -582,7 +595,7 @@
     }
   },
   "30": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.EaglehornBow",
     "data": {
       "durability": 2,
       "attack": 3,
@@ -598,7 +611,7 @@
     }
   },
   "31": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.DesertSpear",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -614,7 +627,7 @@
     }
   },
   "32": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.BattleAxe",
     "data": {
       "durability": 2,
       "attack": 2,
@@ -630,7 +643,7 @@
     }
   },
   "33": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.HeavyAxe",
     "data": {
       "durability": 3,
       "attack": 1,
@@ -646,7 +659,7 @@
     }
   },
   "34": {
-    "type": "hearthstone.models.card.weapon.WeaponCard",
+    "type": "hearthstone.models.card.weapon.weapons.WickedKnife",
     "data": {
       "durability": 2,
       "attack": 1,
@@ -662,7 +675,7 @@
     }
   },
   "35": {
-    "type": "hearthstone.models.card.reward.RewardCard",
+    "type": "hearthstone.models.card.reward.rewards.LearnDraconic",
     "data": {
       "id": 35,
       "name": "Learn Draconic",
@@ -676,7 +689,7 @@
     }
   },
   "36": {
-    "type": "hearthstone.models.card.reward.RewardCard",
+    "type": "hearthstone.models.card.reward.rewards.StrengthInNumbers",
     "data": {
       "id": 36,
       "name": "Strength in Numbers",

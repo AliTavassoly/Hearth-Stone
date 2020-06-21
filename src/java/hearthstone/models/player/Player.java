@@ -208,6 +208,10 @@ public class Player {
         /*if(passive.getName().equals("Twice Draw")){
             pickCard();
         }*/
+
+        for(Card card: land){
+            ((MinionCard)card).startTurnBehave();
+        }
     }
 
     public void updateCardsOnLand(){

@@ -13,6 +13,9 @@ public class BoardHeroButton extends ImageButton {
     private Hero hero;
     private int width, height;
 
+    private BufferedImage heroImage;
+    private BufferedImage healthBackground;
+
     private int id;
 
     public BoardHeroButton(Hero hero, int width, int height, int id) {
@@ -36,7 +39,7 @@ public class BoardHeroButton extends ImageButton {
         return id;
     }
 
-    public Hero getHero(){
+    public Hero getHero() {
         return hero;
     }
 
@@ -45,27 +48,20 @@ public class BoardHeroButton extends ImageButton {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage heroImage = null;
-        BufferedImage healthBackground = null;
-
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-        Graphics buffyG = buffy.getGraphics();
-
         try {
-            heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/heroes/normal_heroes/" +
-                            hero.getName().toLowerCase().replace(' ', '_') + ".png"));
-
-            healthBackground = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/health_background.png"));
+            if (heroImage == null)
+                heroImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/heroes/normal_heroes/" +
+                                hero.getName().toLowerCase().replace(' ', '_') + ".png"));
+            if (healthBackground == null)
+                healthBackground = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/health_background.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        buffyG.drawImage(heroImage.getScaledInstance(width,
+
+        g2.drawImage(heroImage.getScaledInstance(width,
                 height,
                 Image.SCALE_SMOOTH), 0, 0,
                 width,
@@ -81,14 +77,12 @@ public class BoardHeroButton extends ImageButton {
 
         // DRAW HEALTH
         int midWidth = width - 25;
-        buffyG.drawImage(healthBackground.getScaledInstance(
+        g2.drawImage(healthBackground.getScaledInstance(
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 Image.SCALE_SMOOTH),
                 midWidth - SizeConfigs.healthWidth / 2 + 5, height - 50,
                 SizeConfigs.healthWidth, SizeConfigs.healthHeight,
                 null);
-
-        g2.drawImage(buffy, 0, 0, null);
 
         drawHealth(g2, String.valueOf(hero.getHealth()), fontMetrics);
     }

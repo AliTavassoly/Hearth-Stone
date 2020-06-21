@@ -26,6 +26,8 @@ public class PlaySelectionPanel extends JPanel {
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playOnline, practicePlay, soloPlay;
 
+    private static BufferedImage backgroundImage;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
@@ -46,15 +48,14 @@ public class PlaySelectionPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/play_selection_background.jpg"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/play_selection_background.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
     private void makeIcons() {

@@ -34,6 +34,8 @@ public class MarketPanel extends JPanel {
     private JPanel informationPanel;
     private JLabel gemLabel;
 
+    private static BufferedImage backgroundImage;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
@@ -70,17 +72,16 @@ public class MarketPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g = (Graphics2D) (g);
         BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/market_background.png"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/market_background.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
     private void makeIcons() {

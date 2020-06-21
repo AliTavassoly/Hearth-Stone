@@ -4,7 +4,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
 
-public class HeroPowerCard extends Card {
+public abstract class HeroPowerCard extends Card {
     public HeroPowerCard() { }
 
     public HeroPowerCard(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType){

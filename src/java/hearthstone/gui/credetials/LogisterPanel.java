@@ -2,7 +2,6 @@ package hearthstone.gui.credetials;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 
@@ -15,7 +14,8 @@ import java.awt.image.BufferedImage;
 
 public class LogisterPanel extends JPanel {
     private ImageButton registerButton, loginButton, minimizeButton, closeButton;
-    private CardButton cardButton;
+
+    private BufferedImage backgroundImage;
 
     private static final int iconX = 20;
     private static final int startButtonsY = 200;
@@ -34,24 +34,23 @@ public class LogisterPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        BufferedImage image = null;
+    protected void paintComponent(Graphics g) {
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/logister_background.jpg"));
-        } catch (Exception e){
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/logister_background.jpg"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
-    private void configPanel(){
+    private void configPanel() {
         setLayout(null);
         setVisible(true);
     }
 
-    private void makeIcons(){
+    private void makeIcons() {
         closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
@@ -69,12 +68,12 @@ public class LogisterPanel extends JPanel {
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                    System.exit(0);
+                System.exit(0);
             }
         });
     }
 
-    private void makeButtons(){
+    private void makeButtons() {
         loginButton = new ImageButton("login", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.medButtonWidth,
@@ -100,7 +99,7 @@ public class LogisterPanel extends JPanel {
         });
     }
 
-    private void layoutComponent(){
+    private void layoutComponent() {
         //
         loginButton.setBounds(SizeConfigs.credentialFrameWidth / 2 - SizeConfigs.medButtonWidth / 2,
                 startButtonsY,

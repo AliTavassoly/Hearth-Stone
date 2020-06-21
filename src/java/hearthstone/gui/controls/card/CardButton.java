@@ -20,6 +20,9 @@ public class CardButton extends ImageButton implements MouseListener {
     int width, height, number;
     private Card card;
 
+    private BufferedImage cardImage;
+    private static BufferedImage numberImage;
+
     public CardButton(Card card, int width, int height, int number) {
         this.card = card;
         this.width = width;
@@ -42,27 +45,28 @@ public class CardButton extends ImageButton implements MouseListener {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage image = null;
-        BufferedImage numberImage = null;
-
         try {
             String path;
-            if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
-                path = "/images/cards/" + card.getName().
-                        toLowerCase().replace(' ', '_').replace("'", "") + ".png";
-            } else {
-                path = "/images/cards/" + card.getName().
-                        toLowerCase().replace(' ', '_').replace("'", "") + "_bw" + ".png";
+            if (cardImage == null) {
+                if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
+                    path = "/images/cards/" + card.getName().
+                            toLowerCase().replace(' ', '_').replace("'", "") + ".png";
+                } else {
+                    path = "/images/cards/" + card.getName().
+                            toLowerCase().replace(' ', '_').replace("'", "") + "_bw" + ".png";
+                }
+                cardImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        path));
             }
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    path));
 
-            numberImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/flag.png"));
+            if (numberImage == null)
+                numberImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/flag.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g2.drawImage(image.getScaledInstance(
+
+        g2.drawImage(cardImage.getScaledInstance(
                 width, height - 20,
                 Image.SCALE_SMOOTH),
                 0, 0,

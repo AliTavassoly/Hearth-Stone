@@ -27,6 +27,8 @@ public class MainMenuPanel extends JPanel {
     private ImageButton playButton, collectionButton, marketButton, statusButton;
     private ImagePanel logoImage;
 
+    private static BufferedImage backgroundImage;
+
     private final int iconX = 20;
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
@@ -53,15 +55,14 @@ public class MainMenuPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/main_menu_background.png"));
+            if (backgroundImage == null)
+                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
+                        "/images/main_menu_background.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
     }
 
     private void makeIcons() {
@@ -168,7 +169,8 @@ public class MainMenuPanel extends JPanel {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage()
                                         + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
+                    } catch (Exception f) {
+                    }
                     BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
                     ex.printStackTrace();

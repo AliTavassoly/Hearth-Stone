@@ -9,6 +9,7 @@ public class SparkImage {
     private int width;
     private int height;
     private String imagePath;
+    private static BufferedImage[] sparks = new BufferedImage[10];
 
     public SparkImage(int x, int y, int width, int height, String imagePath) {
         this.x = x;
@@ -60,7 +61,10 @@ public class SparkImage {
 
     public BufferedImage getImage(){
         try {
-            return ImageIO.read(this.getClass().getResourceAsStream(imagePath));
+            int id = (imagePath.charAt(imagePath.length() - 5) - '0');
+            if(sparks[id] == null)
+                sparks[id] = ImageIO.read(this.getClass().getResourceAsStream(imagePath));
+            return sparks[id];
         } catch (Exception e){
             e.printStackTrace();
             return null;
