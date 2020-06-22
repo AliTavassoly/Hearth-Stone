@@ -146,11 +146,11 @@ public class GameBoard extends JPanel {
     protected final int endTurnTimeLineEndX = endTurnButtonX - 15;
     protected final int endTurnTimeLineY = midY;
 
-    protected final int myErrorX = 600;
-    protected final int myErrorY = 400;
+    protected final int myErrorX = 615;
+    protected final int myErrorY = 530;
 
-    protected final int enemyErrorX = 600;
-    protected final int enemyErrorY = 100;
+    protected final int enemyErrorX = 200;
+    protected final int enemyErrorY = 70;
 
     // Finals END
 
@@ -646,6 +646,7 @@ public class GameBoard extends JPanel {
 
             button.setBounds(startX, startY, width, height);
             button.setRotate(button.getInitialRotate());
+            showError(e.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -831,8 +832,8 @@ public class GameBoard extends JPanel {
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 
-        messageDialog = new MessageDialog("Not enough mana!", Color.BLUE,
-                15, 0 , SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+                15, 0 , -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
     }
 
     private void iconLayout() {
@@ -878,10 +879,6 @@ public class GameBoard extends JPanel {
                 heroWidth, heroHeight);
         add(enemyHero);
 
-        /*messageDialog.setBounds(enemyErrorX, enemyErrorY,
-                SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
-        add(messageDialog);*/
-
         /*myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                 0,
                 SizeConfigs.medCardWidth,
@@ -897,18 +894,22 @@ public class GameBoard extends JPanel {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    private void showError(String text){
+    private synchronized void showError(String text){
         messageDialog.setText(text);
+        this.remove(messageDialog);
 
         if(game.getWhoseTurn() == 0){
+            messageDialog.setImagePath("/images/my_think_dialog.png");
             messageDialog.setBounds(myErrorX, myErrorY,
                     SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
         } else {
+            messageDialog.setImagePath("/images/enemy_think_dialog.png");
             messageDialog.setBounds(enemyErrorX, enemyErrorY,
                     SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
         }
 
-        messageDialog.setVisible(true);
+        this.add(messageDialog);
+        messageDialog.setVisibility(true);
     }
 
     private void closeBoard() {

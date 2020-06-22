@@ -10,7 +10,8 @@ import hearthstone.models.hero.HeroType;
 
 public class GoldshireFootman extends MinionCard {
 
-    public GoldshireFootman(){ }
+    public GoldshireFootman() {
+    }
 
     public GoldshireFootman(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
                             boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
@@ -22,7 +23,7 @@ public class GoldshireFootman extends MinionCard {
 
     @Override
     public boolean attack(MinionCard minionCard) {
-        if(numberOfAttack == 0)
+        if (numberOfAttack == 0)
             return false;
 
         minionCard.setHealth(minionCard.getHealth() - this.attack);
@@ -34,9 +35,9 @@ public class GoldshireFootman extends MinionCard {
 
     @Override
     public boolean attack(Hero hero) {
-        if(hero.getPlayer().haveTaunt())
+        if (hero.getPlayer().haveTaunt())
             return false;
-        if(numberOfAttack == 0)
+        if (numberOfAttack == 0)
             return false;
         hero.setHealth(hero.getHealth() - this.attack);
         numberOfAttack--;
@@ -45,17 +46,17 @@ public class GoldshireFootman extends MinionCard {
 
     @Override
     public boolean found(Object object) {
-        if(object instanceof MinionCard){
-            if(((Card)object).getPlayer() == this.getPlayer()){
+        if (object instanceof MinionCard) {
+            if (((Card) object).getPlayer() == this.getPlayer()) {
                 return false;
             } else {
                 return this.attack((MinionCard) object);
             }
-        } else if(object instanceof Hero){
-            if(((Hero) object).getPlayer() == this.getPlayer()){
+        } else if (object instanceof Hero) {
+            if (((Hero) object).getPlayer() == this.getPlayer()) {
                 return false;
             } else {
-                return this.attack((Hero)object);
+                return this.attack((Hero) object);
             }
         } else {
             return false;
@@ -64,6 +65,6 @@ public class GoldshireFootman extends MinionCard {
 
     @Override
     public boolean pressed() {
-        return true;
+        return numberOfAttack > 0;
     }
 }

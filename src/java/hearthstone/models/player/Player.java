@@ -115,7 +115,6 @@ public class Player {
         isStarted = started;
     }
 
-
     public Hero getHero() {
         return hero;
     }
