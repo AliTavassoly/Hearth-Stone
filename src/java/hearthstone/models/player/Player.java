@@ -4,10 +4,9 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.reward.RewardCard;
-import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -25,6 +24,9 @@ public class Player {
     protected int turnNumber;
 
     protected boolean isStarted;
+    protected Player enemyPlayer;
+
+    private ArrayList<Card> waitingForDraw;
 
     protected ArrayList<Card> hand;
     protected ArrayList<Card> land;
@@ -40,6 +42,7 @@ public class Player {
 
         hand = new ArrayList<>();
         land = new ArrayList<>();
+        waitingForDraw = new ArrayList<>();
         mana = 0;
     }
 
@@ -123,6 +126,14 @@ public class Player {
         this.hero = hero;
     }
 
+    public Player getEnemyPlayer() {
+        return enemyPlayer;
+    }
+
+    public void setEnemyPlayer(Player enemyPlayer) {
+        this.enemyPlayer = enemyPlayer;
+    }
+
     // End of getter setter
 
     public void doPassives() {
@@ -132,7 +143,7 @@ public class Player {
             }
         } else if (passive.getName().equals("Free Power")) {
             for (Card card : deck.getCards()) {
-                if (card instanceof HeroPowerCard)
+                if (card.getCardType() == CardType.HEROPOWER)
                     card.setManaCost(Math.max(0, card.getManaCost() - 1));
             }
         }
@@ -156,6 +167,15 @@ public class Player {
 
         if (hand.size() == GameConfigs.maxCardInHand)
             return;
+
+        for (int i = 0; i < waitingForDraw.size(); i++) {
+            Card card1 = waitingForDraw.get(i);
+            if (((MinionCard) card1).drawCard(card)) {
+                waitingForDraw.remove(i);
+                i--;
+            }
+        }
+
         hand.add(card);
     }
 
@@ -170,24 +190,18 @@ public class Player {
             }
         }
 
-        if (cardInHand instanceof HeroPowerCard) {
-            if (heroPower != null) {
-                throw new HearthStoneException("you are using hero power!");
-            }
-            heroPower = (HeroPowerCard) cardInHand;
-        } else if (cardInHand instanceof SpellCard) {
-
-        } else if (cardInHand instanceof RewardCard) {
-
-        } else if (cardInHand instanceof WeaponCard) {
-            if (weapon != null) {
-                throw new HearthStoneException("you are using weapon!");
-            }
-            weapon = (WeaponCard) cardInHand;
-        } else if (cardInHand instanceof MinionCard) {
-            if (land.size() == GameConfigs.maxCardInLand)
-                throw new HearthStoneException("your land is full!");
-            land.add(cardInHand);
+        switch (cardInHand.getCardType()){
+            case HEROPOWER:
+                heroPower = (HeroPowerCard) cardInHand;
+            case WEAPONCARD:
+                weapon = (WeaponCard) cardInHand;
+            case MINIONCARD:
+                if (land.size() == GameConfigs.maxCardInLand)
+                    throw new HearthStoneException("your land is full!");
+                land.add(cardInHand);
+            case HEROCARD:
+            case SPELL:
+            case REWARDCARD:
         }
 
         hand.remove(cardInHand);
@@ -197,6 +211,10 @@ public class Player {
             if (card.getName().equals(cardInHand.getName())) {
                 originalDeck.cardPlay(cardInHand);
             }
+        }
+
+        if(cardInHand.isWaitForDraw()){
+            waitingForDraw.add(cardInHand);
         }
     }
 
@@ -208,23 +226,37 @@ public class Player {
             pickCard();
         }*/
 
-        for(Card card: land){
-            ((MinionCard)card).startTurnBehave();
+        for (Card card : land) {
+            ((MinionCard) card).startTurnBehave();
         }
     }
 
-    public void updateCardsOnLand(){
-        for(int i = 0; i < land.size(); i++){
+    public void updateCardsOnLand() {
+        ArrayList<Card> deathRattles = new ArrayList<>();
+        for (int i = 0; i < land.size(); i++) {
             Card card = land.get(i);
-            if(((MinionCard)card).getHealth() <= 0){
+            if (((MinionCard) card).getHealth() <= 0) {
+                if (((MinionCard) card).isDeathRattle()) {
+                    deathRattles.add(card);
+                }
                 land.remove(card);
+                i--;
             }
         }
+
+        for (Card card : deathRattles) {
+            ((MinionCard) card).deathRattle();
+        }
+
+        if (deathRattles.size() > 0) {
+            enemyPlayer.updateCardsOnLand();
+            this.updateCardsOnLand();
+        }
     }
 
-    public boolean haveTaunt(){
-        for(Card card: land){
-            if(((MinionCard)card).isTaunt())
+    public boolean haveTaunt() {
+        for (Card card : land) {
+            if (((MinionCard) card).isTaunt())
                 return true;
         }
         return false;

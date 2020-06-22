@@ -6,8 +6,9 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.Player;
 import hearthstone.util.AbstractAdapter;
+import hearthstone.util.HearthStoneException;
 
-public abstract class Card {
+public abstract class Card implements CardBehaviour{
     private int id;
     private String name;
     private String description;
@@ -16,6 +17,10 @@ public abstract class Card {
     private Rarity rarity;
     private CardType cardType;
     private int buyPrice, sellPrice;
+
+    protected boolean waitForDraw;
+
+    private Player player;
 
     public Card() {
     }
@@ -110,10 +115,16 @@ public abstract class Card {
         this.sellPrice = sellPrice;
     }
 
+    public boolean isWaitForDraw() {
+        return waitForDraw;
+    }
+    public void setWaitForDraw(boolean waitForDraw) {
+        this.waitForDraw = waitForDraw;
+    }
+
     public Player getPlayer() {
         return player;
     }
-    private Player player;
 
     public Card copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -121,5 +132,13 @@ public abstract class Card {
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(gson.toJson(this, Card.class), Card.class);
+    }
+
+    @Override
+    public void found(Object object) throws HearthStoneException { }
+
+    @Override
+    public boolean drawCard(Card card) throws HearthStoneException {
+        return false;
     }
 }

@@ -5,9 +5,8 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
 import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.reward.RewardCard;
-import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
@@ -137,7 +136,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 triggeredEffectImage = ImageResource.getInstance().getImage(
                         "/images/triggered_effect.png");
 
-            if (minionImage == null && card instanceof MinionCard)
+            if (minionImage == null && card.getCardType() == CardType.MINIONCARD)
                 minionImage = ImageResource.getInstance().getImage("/images/cards/oval_minions/" + card.getName().
                         toLowerCase().replace(' ', '_').replace("'", "") + ".png");
             if (cardImage == null)
@@ -160,16 +159,21 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     public void playSound() {
         String path;
 
-        if (card instanceof MinionCard) {
-            path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
-        } else if (card instanceof SpellCard) {
-            path = "/sounds/spells/" + "spell" + ".wav";
-        } else if (card instanceof WeaponCard) {
-            path = "/sounds/weapons/" + "weapon" + ".wav";
-        } else if (card instanceof RewardCard) {
-            path = "/sounds/rewards/" + "reward" + ".wav";
-        } else {
-            return;
+        switch (card.getCardType()) {
+            case MINIONCARD:
+                path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
+                break;
+            case REWARDCARD:
+                path = "/sounds/rewards/" + "reward" + ".wav";
+                break;
+            case SPELL:
+                path = "/sounds/spells/" + "spell" + ".wav";
+                break;
+            case WEAPONCARD:
+                path = "/sounds/weapons/" + "weapon" + ".wav";
+                break;
+            default:
+                return;
         }
         if (soundPlayer == null)
             soundPlayer = new SoundPlayer(path);
@@ -201,7 +205,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        if (card instanceof MinionCard && isInLand) {
+        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
             drawMinionInLand(g2);
             return;
         }
@@ -421,7 +425,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (card instanceof MinionCard && isInLand) {
+        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
             if (((MinionCard) card).isTaunt()) {
                 frameImage = shieldFrameImageActive;
             } else {
@@ -434,7 +438,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (card instanceof MinionCard && isInLand) {
+        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
             if (((MinionCard) card).isTaunt()) {
                 frameImage = shieldFrameImage;
             } else {

@@ -5,8 +5,8 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
 import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
@@ -183,11 +183,11 @@ public class CardButton extends ImageButton implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         String path;
-        if (card instanceof MinionCard) {
+        if (card.getCardType() == CardType.MINIONCARD) {
             path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
-        } else if (card instanceof SpellCard) {
+        } else if (card.getCardType() == CardType.SPELL) {
             path = "/sounds/spells/" + "spell" + ".wav";
-        } else if (card instanceof WeaponCard) {
+        } else if (card.getCardType() == CardType.WEAPONCARD) {
             path = "/sounds/weapons/" + "weapon" + ".wav";
         } else {
             return;

@@ -5,8 +5,7 @@ import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.AbstractAdapter;
@@ -101,14 +100,14 @@ public class Deck {
 
         if(!cardGame.get(card1.getId()).equals(cardGame.get(card2.getId())))
             return cardGame.get(card1.getId()) > cardGame.get(card2.getId()) ? card1 : card2;
-        if(!(card1 instanceof HeroPowerCard) && !(card2 instanceof HeroPowerCard)) {
+        if(card1.getCardType() != CardType.HEROPOWER && card2.getCardType() != CardType.HEROPOWER) {
             if (card1.getRarity().getValue() != card2.getRarity().getValue())
                 return card1.getRarity().getValue() > card2.getRarity().getValue() ? card1 : card2;
         }
         if(card1.getManaCost() != card2.getManaCost())
             return card1.getManaCost() > card2.getManaCost() ? card1 : card2;
-        if(card1 instanceof MinionCard || card2 instanceof MinionCard)
-            return card1 instanceof MinionCard ? card1 : card2;
+        if(card1.getCardType() == CardType.MINIONCARD || card2.getCardType() == CardType.MINIONCARD)
+            return card1.getCardType() == CardType.MINIONCARD ? card1 : card2;
         return card1;
     }
 

@@ -1,13 +1,13 @@
 package hearthstone.models.card.minion;
 
 import hearthstone.models.card.Card;
-import hearthstone.models.card.CardBehaviour;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 
-public abstract class MinionCard extends Card implements MinionBehaviour, CardBehaviour {
+public abstract class MinionCard extends Card implements MinionBehaviour {
     protected int health;
     protected int attack;
     protected int initialHealth;
@@ -133,7 +133,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
         this.numberOfAttack = numberOfAttack;
     }
 
-
     @Override
     public void startTurnBehave() {
         numberOfAttack = 1;
@@ -155,7 +154,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
     }
 
     @Override
-    public void deathBehave() {
+    public void deathRattle() {
 
     }
 
@@ -168,19 +167,20 @@ public abstract class MinionCard extends Card implements MinionBehaviour, CardBe
     public void killedEnemyMinion() { }
 
     @Override
-    public boolean attack(MinionCard minionCard) {
+    public boolean drawCard(Card card) throws HearthStoneException {
         return false;
     }
 
     @Override
-    public boolean attack(Hero hero) {
-        return false;
+    public void attack(MinionCard minionCard) {
+
     }
 
     @Override
-    public boolean found(Object object) {
-        return false;
-    }
+    public void attack(Hero hero) throws HearthStoneException { }
+
+    @Override
+    public void found(Object object) throws HearthStoneException{}
 
     @Override
     public boolean pressed() {

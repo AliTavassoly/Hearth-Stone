@@ -7,6 +7,7 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 
 public class GoldshireFootman extends MinionCard {
 
@@ -22,44 +23,35 @@ public class GoldshireFootman extends MinionCard {
     }
 
     @Override
-    public boolean attack(MinionCard minionCard) {
-        if (numberOfAttack == 0)
-            return false;
-
+    public void attack(MinionCard minionCard) {
         minionCard.setHealth(minionCard.getHealth() - this.attack);
         this.health -= minionCard.getAttack();
         numberOfAttack--;
-
-        return true;
     }
 
     @Override
-    public boolean attack(Hero hero) {
-        if (hero.getPlayer().haveTaunt())
-            return false;
-        if (numberOfAttack == 0)
-            return false;
+    public void attack(Hero hero) throws HearthStoneException {
+        if (hero.getPlayer().haveTaunt()) {
+            throw new HearthStoneException("There is taunt in front of you!");
+        }
         hero.setHealth(hero.getHealth() - this.attack);
         numberOfAttack--;
-        return true;
     }
 
     @Override
-    public boolean found(Object object) {
+    public void found(Object object) throws HearthStoneException{
         if (object instanceof MinionCard) {
             if (((Card) object).getPlayer() == this.getPlayer()) {
-                return false;
+                throw new HearthStoneException("Choose enemy!");
             } else {
-                return this.attack((MinionCard) object);
+                this.attack((MinionCard) object);
             }
         } else if (object instanceof Hero) {
             if (((Hero) object).getPlayer() == this.getPlayer()) {
-                return false;
+                throw new HearthStoneException("Choose enemy!");
             } else {
-                return this.attack((Hero) object);
+                this.attack((Hero) object);
             }
-        } else {
-            return false;
         }
     }
 

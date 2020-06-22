@@ -10,7 +10,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "1": {
@@ -24,7 +25,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "2": {
@@ -51,7 +53,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "3": {
@@ -65,7 +68,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "4": {
@@ -79,7 +83,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "5": {
@@ -106,7 +111,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "6": {
@@ -119,7 +125,8 @@
       "heroType": "PALADIN",
       "cardType": "HEROPOWER",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "7": {
@@ -133,7 +140,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "8": {
@@ -146,7 +154,8 @@
       "heroType": "PRIEST",
       "cardType": "HEROPOWER",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "9": {
@@ -173,7 +182,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "10": {
@@ -187,7 +197,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "11": {
@@ -201,7 +212,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "12": {
@@ -215,7 +227,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "13": {
@@ -229,7 +242,8 @@
       "rarity": "RARE",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "14": {
@@ -243,7 +257,8 @@
       "rarity": "RARE",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "15": {
@@ -257,7 +272,8 @@
       "rarity": "EPIC",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "16": {
@@ -284,7 +300,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "17": {
@@ -311,7 +328,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "18": {
@@ -338,7 +356,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "19": {
@@ -365,7 +384,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "20": {
@@ -392,7 +412,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "21": {
@@ -403,7 +424,7 @@
       "initialHealth": 4,
       "initialAttack": 4,
       "isTaunt": true,
-      "isDeathRattle": false,
+      "isDeathRattle": true,
       "isTriggeredEffect": false,
       "isSpellDamage": false,
       "isDivineShield": false,
@@ -419,7 +440,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "22": {
@@ -446,7 +468,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "23": {
@@ -473,7 +496,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "24": {
@@ -500,7 +524,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "25": {
@@ -527,7 +552,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": true
     }
   },
   "26": {
@@ -543,7 +569,8 @@
       "rarity": "EPIC",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "27": {
@@ -559,7 +586,8 @@
       "rarity": "EPIC",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "28": {
@@ -575,7 +603,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "29": {
@@ -591,7 +620,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "30": {
@@ -607,7 +637,8 @@
       "rarity": "RARE",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "31": {
@@ -623,15 +654,44 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
   "32": {
+    "type": "hearthstone.models.card.minion.minions.Sheep",
+    "data": {
+      "health": 1,
+      "attack": 1,
+      "initialHealth": 1,
+      "initialAttack": 1,
+      "isTaunt": false,
+      "isDeathRattle": false,
+      "isTriggeredEffect": false,
+      "isSpellDamage": false,
+      "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
+      "numberOfAttack": 0,
+      "minionType": "BEAST",
+      "id": 32,
+      "name": "Sheep",
+      "description": "Just Sheep!",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5,
+      "waitForDraw": false
+    }
+  },
+  "33": {
     "type": "hearthstone.models.card.weapon.weapons.BattleAxe",
     "data": {
       "durability": 2,
       "attack": 2,
-      "id": 32,
+      "id": 33,
       "name": "Battle Axe",
       "description": "",
       "manaCost": 1,
@@ -639,15 +699,16 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
-  "33": {
+  "34": {
     "type": "hearthstone.models.card.weapon.weapons.HeavyAxe",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 33,
+      "id": 34,
       "name": "Heavy Axe",
       "description": "",
       "manaCost": 1,
@@ -655,15 +716,16 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
-  "34": {
+  "35": {
     "type": "hearthstone.models.card.weapon.weapons.WickedKnife",
     "data": {
       "durability": 2,
       "attack": 1,
-      "id": 34,
+      "id": 35,
       "name": "Wicked Knife",
       "description": "",
       "manaCost": 1,
@@ -671,13 +733,14 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
-  "35": {
+  "36": {
     "type": "hearthstone.models.card.reward.rewards.LearnDraconic",
     "data": {
-      "id": 35,
+      "id": 36,
       "name": "Learn Draconic",
       "description": "Sidequest: Spend\n8 Mana on spells.\nReward: Summon a\n6/6 Dragon.",
       "manaCost": 1,
@@ -685,13 +748,14 @@
       "rarity": "COMMON",
       "cardType": "REWARDCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   },
-  "36": {
+  "37": {
     "type": "hearthstone.models.card.reward.rewards.StrengthInNumbers",
     "data": {
-      "id": 36,
+      "id": 37,
       "name": "Strength in Numbers",
       "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n minion from your deck.",
       "manaCost": 1,
@@ -699,7 +763,8 @@
       "rarity": "COMMON",
       "cardType": "REWARDCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "waitForDraw": false
     }
   }
 }

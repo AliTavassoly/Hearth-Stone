@@ -103,6 +103,9 @@ public class PlaySelectionPanel extends JPanel {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player enemyPlayer = HearthStone.currentAccount.getPlayer();
 
+                myPlayer.setEnemyPlayer(enemyPlayer);
+                enemyPlayer.setEnemyPlayer(myPlayer);
+
                 Game game = new Game(myPlayer, enemyPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                         new PracticeGameBoard(myPlayer, enemyPlayer, game));
@@ -114,6 +117,9 @@ public class PlaySelectionPanel extends JPanel {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player computerPlayer = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
                         HearthStone.currentAccount.getSelectedHero().getSelectedDeck());
+
+                myPlayer.setEnemyPlayer(computerPlayer);
+                computerPlayer.setEnemyPlayer(myPlayer);
 
                 Game game = new Game(myPlayer, computerPlayer);
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),

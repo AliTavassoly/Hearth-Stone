@@ -20,7 +20,6 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.minion.minions.GoldshireFootman;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
@@ -679,13 +678,16 @@ public class GameBoard extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
                     if (isLookingFor) {
-                        if (((GoldshireFootman) waitingObject).found(card)) {
+                        try {
+                            ((MinionCard) waitingObject).found(card);
                             isLookingFor = false;
                             waitingObject = null;
                             updatePlayers();
+                        } catch (HearthStoneException hse) {
+                            showError(hse.getMessage());
                         }
                     } else {
-                        if (button.getId() == game.getWhoseTurn() && ((GoldshireFootman) card).pressed()) {
+                        if (button.getId() == game.getWhoseTurn() && ((MinionCard) card).pressed()) {
                             isLookingFor = true;
                             waitingObject = card;
                         }
@@ -742,9 +744,12 @@ public class GameBoard extends JPanel {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    if (((MinionCard) waitingObject).found(hero)) {
+                    try{
+                        ((MinionCard) waitingObject).found(hero);
                         isLookingFor = false;
                         waitingObject = null;
+                    } catch (HearthStoneException hse){
+                        showError(hse.getMessage());
                     }
                 }
             }
@@ -833,7 +838,7 @@ public class GameBoard extends JPanel {
                 SizeConfigs.medCardHeight);
 
         messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
-                15, 0 , -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+                15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
     }
 
     private void iconLayout() {
@@ -894,11 +899,11 @@ public class GameBoard extends JPanel {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    private synchronized void showError(String text){
+    private synchronized void showError(String text) {
         messageDialog.setText(text);
         this.remove(messageDialog);
 
-        if(game.getWhoseTurn() == 0){
+        if (game.getWhoseTurn() == 0) {
             messageDialog.setImagePath("/images/my_think_dialog.png");
             messageDialog.setBounds(myErrorX, myErrorY,
                     SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
@@ -922,7 +927,7 @@ public class GameBoard extends JPanel {
             if (component instanceof ImagePanel &&
                     ((ImagePanel) component).getImagePath().contains("spark"))
                 continue;
-            if(component instanceof MessageDialog)
+            if (component instanceof MessageDialog)
                 continue;
             this.remove(component);
         }

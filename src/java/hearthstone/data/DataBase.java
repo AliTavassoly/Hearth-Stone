@@ -129,7 +129,7 @@ public class DataBase {
         HearthStone.baseCards.put(goldshireFootman.getId(), goldshireFootman);
 
         Abomination abomination = new Abomination(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4,
-                false, false, false, false, true, false, false, MinionType.NORMAL);
+                true, false, false, false, true, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(abomination.getId(), abomination);
 
         Sathrovarr sathrovarr = new Sathrovarr(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINIONCARD, 5, 5,
@@ -168,6 +168,11 @@ public class DataBase {
 
         DesertSpear desertSpear = new DesertSpear(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
         HearthStone.baseCards.put(desertSpear.getId(), desertSpear);
+
+        Sheep sheep = new Sheep(id++, "Sheep", "Just Sheep!", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 1, 1,
+                false, false, false, false,
+                false, false, false, MinionType.BEAST);
+        HearthStone.baseCards.put(sheep.getId(), sheep);
 
         BattleAxe battleAxe = new BattleAxe(id++, "Battle Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(battleAxe.getId(), battleAxe);
