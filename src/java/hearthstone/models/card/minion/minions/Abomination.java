@@ -52,6 +52,7 @@ public class Abomination extends MinionCard {
             } else {
                 this.attack((MinionCard) object);
                 numberOfAttack--;
+                numberOfAttackedMinion++;
             }
         } else if (object instanceof Hero) {
             if (((Hero) object).getPlayer() == this.getPlayer()) {
@@ -59,6 +60,7 @@ public class Abomination extends MinionCard {
             } else {
                 this.attack((Hero) object);
                 numberOfAttack--;
+                numberOfAttackedHero++;
             }
         }
     }

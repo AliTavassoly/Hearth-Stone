@@ -17,8 +17,12 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     protected boolean isCharge, isRush;
 
     protected int numberOfAttack;
+    protected boolean isFirstTurn;
+    protected int numberOfAttackedMinion;
+    protected int numberOfAttackedHero;
 
     private MinionType minionType;
+
 
     public MinionCard(){ }
 
@@ -46,6 +50,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
         this.isCharge = isCharge;
         this.isRush = isRush;
         this.minionType = minionType;
+
+        isFirstTurn = true;
 
         configMinion();
     }
@@ -136,6 +142,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     @Override
     public void startTurnBehave() {
         numberOfAttack = 1;
+        isFirstTurn = false;
     }
 
     @Override

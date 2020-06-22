@@ -218,6 +218,13 @@ public class Player {
         }
     }
 
+    public void endTurn(){
+        for(Card card: land){
+            MinionCard minionCard = (MinionCard)card;
+            minionCard.endTurnBehave();
+        }
+    }
+
     public void startTurn() throws Exception {
         mana = ++turnNumber;
         mana = Math.min(mana, GameConfigs.maxManaInGame);

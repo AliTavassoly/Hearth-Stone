@@ -37,7 +37,6 @@ public class CurioCollector extends MinionCard {
     public void attack(MinionCard minionCard) {
         minionCard.setHealth(minionCard.getHealth() - this.attack);
         this.health -= minionCard.getAttack();
-        numberOfAttack--;
     }
 
     @Override
@@ -46,7 +45,6 @@ public class CurioCollector extends MinionCard {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         hero.setHealth(hero.getHealth() - this.attack);
-        numberOfAttack--;
     }
 
     @Override
@@ -56,12 +54,16 @@ public class CurioCollector extends MinionCard {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((MinionCard) object);
+                numberOfAttack--;
+                numberOfAttackedMinion++;
             }
         } else if (object instanceof Hero) {
             if (((Hero) object).getPlayer() == this.getPlayer()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((Hero) object);
+                numberOfAttack--;
+                numberOfAttackedHero++;
             }
         }
     }

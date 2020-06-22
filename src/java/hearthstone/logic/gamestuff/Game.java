@@ -49,6 +49,7 @@ public class Game {
     public void endTurn(){
         if(whoseTurn == 0) {
             try {
+                player0.endTurn();
                 whoseTurn = 1;
                 player1.startTurn();
             } catch (HearthStoneException e){
@@ -62,6 +63,7 @@ public class Game {
             }
         } else {
             try {
+                player1.endTurn();
                 whoseTurn = 0;
                 player0.startTurn();
             } catch (HearthStoneException e){
