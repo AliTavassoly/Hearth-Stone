@@ -557,7 +557,7 @@ public class GameBoard extends JPanel {
     private void drawEndTurnTimeLine() {
         int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
         long length = 90000;
-        long period = length / totalX * 4;
+        long period = length / totalX;
         long warningTime = 9000;
 
         final int[] xSpark = {endTurnTimeLineStartX};
@@ -574,7 +574,7 @@ public class GameBoard extends JPanel {
             public void periodFunction() {
                 sparkImage.setImagePath("/images/spark_" + (Rand.getInstance().getRandomNumber(10) % 10) + ".png");
 
-                xSpark[0] += 4;
+                xSpark[0]++;
                 sparkImage.setX(xSpark[0]);
                 sparkImage.setY(ySpark[0]);
 
