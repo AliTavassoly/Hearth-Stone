@@ -1,4 +1,4 @@
-package hearthstone.util;
+package hearthstone.util.timer;
 
 public interface MyTask {
     void startFunction();

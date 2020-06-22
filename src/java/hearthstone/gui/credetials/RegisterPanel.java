@@ -7,8 +7,8 @@ import hearthstone.gui.controls.fields.PasswordField;
 import hearthstone.gui.controls.fields.TextField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -63,8 +63,7 @@ public class RegisterPanel extends JPanel {
         BufferedImage image = null;
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/logister_background.jpg"));
+                backgroundImage = ImageResource.getInstance().getImage("/images/logister_background.jpg");
         } catch (Exception e) {
         }
         g.drawImage(backgroundImage, 0, 0, null);

@@ -1,6 +1,7 @@
 package hearthstone.util;
 
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.util.getresource.SoundResource;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -9,18 +10,14 @@ import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 public class SoundPlayer {
-    private String path;
     private Clip clip;
     private static float soundValue;
     private AudioInputStream audioInputStream;
     private FloatControl gainControl;
 
     public SoundPlayer(String path) {
-        this.path = path;
-
         try {
-            File file = new File(this.getClass().getResource(
-                    path).getFile());
+            File file = SoundResource.getInstance().getSound(path);
             audioInputStream =
                     AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 

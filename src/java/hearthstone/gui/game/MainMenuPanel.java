@@ -14,8 +14,8 @@ import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -57,8 +57,8 @@ public class MainMenuPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/main_menu_background.png"));
+                backgroundImage = ImageResource.getInstance().getImage(
+                        "/images/main_menu_background.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

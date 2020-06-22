@@ -14,8 +14,8 @@ import hearthstone.gui.game.play.boards.SoloGameBoard;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -50,8 +50,8 @@ public class PlaySelectionPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/play_selection_background.jpg"));
+                backgroundImage = ImageResource.getInstance().getImage(
+                        "/images/play_selection_background.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }

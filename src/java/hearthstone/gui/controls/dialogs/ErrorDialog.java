@@ -4,15 +4,12 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.SoundPlayer;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class ErrorDialog extends MyDialog {
     private JLabel message;
@@ -69,13 +66,8 @@ public class ErrorDialog extends MyDialog {
 
     private void playError() {
         try {
-            File file = new File(this.getClass().getResource(
-                    "/sounds/error.wav").getFile());
-            AudioInputStream audioInputStream =
-                    AudioSystem.getAudioInputStream(file.getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
+            SoundPlayer soundPlayer = new SoundPlayer("/sounds/error.wav");
+            soundPlayer.playOnce();
         } catch (Exception e) {
             e.printStackTrace();
         }

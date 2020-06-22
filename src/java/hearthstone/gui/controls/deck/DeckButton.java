@@ -5,8 +5,8 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.Hero;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -40,12 +40,13 @@ public class DeckButton extends ImageButton {
 
         try {
             if (heroImage == null)
-                heroImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/heroes/circle_heroes/" + Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_') + ".png"));
+                heroImage = ImageResource.getInstance().getImage(
+                        "/images/heroes/circle_heroes/" +
+                                Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_')
+                                + ".png");
 
             if (deckImage == null)
-                deckImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/deck.png"));
+                deckImage = ImageResource.getInstance().getImage("/images/deck.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

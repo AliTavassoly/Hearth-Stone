@@ -3,8 +3,8 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -15,7 +15,9 @@ public class HeroPowerButton extends ImageButton {
 
     private boolean isEnemy;
 
-    public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isEnemy){
+    private static BufferedImage circleImage, cardImage;
+
+    public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isEnemy) {
         this.width = width;
         this.height = height;
         this.card = card;
@@ -33,6 +35,7 @@ public class HeroPowerButton extends ImageButton {
     public boolean isEnemy() {
         return isEnemy;
     }
+
     public void setEnemy(boolean enemy) {
         isEnemy = enemy;
     }
@@ -41,32 +44,21 @@ public class HeroPowerButton extends ImageButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage cardImage = null;
-        BufferedImage circleImage = null;
-
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice device = env.getDefaultScreenDevice();
-        GraphicsConfiguration config = device.getDefaultConfiguration();
-        BufferedImage buffy = config.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-        Graphics buffyG = buffy.getGraphics();
-
         try {
             String path = "/images/cards/hero_power/" + card.getName().    // Hero Power card should replace
-                        toLowerCase().replace(' ', '_').replace("'", "") + ".png";
-            cardImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    path));
+                    toLowerCase().replace(' ', '_').replace("'", "") + ".png";
+            if (cardImage != null)
+                cardImage = ImageResource.getInstance().getImage(path);
 
             path = "/images/cards/hero_power/" + "circle_frame.png";
-            circleImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    path));
+            if (circleImage == null)
+                circleImage = ImageResource.getInstance().getImage(path);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        buffyG.drawImage(cardImage, 20, 25, null);
+        g2.drawImage(cardImage, 20, 25, null);
 
-        buffyG.drawImage(circleImage, 0, 0, null);
-
-        g2.drawImage(buffy, 0, 0, null);
+        g2.drawImage(circleImage, 0, 0, null);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
@@ -74,7 +66,7 @@ public class HeroPowerButton extends ImageButton {
         drawMana(g2, String.valueOf(card.getManaCost()));
     }
 
-    private void drawMana(Graphics2D g, String text){
+    private void drawMana(Graphics2D g, String text) {
         Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);

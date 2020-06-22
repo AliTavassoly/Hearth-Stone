@@ -1,13 +1,16 @@
 package hearthstone.gui.controls;
 
-import javax.imageio.ImageIO;
+import hearthstone.util.getresource.ImageResource;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel {
-    private int startX, startY, width, height;
+    private int width, height;
     private String imagePath;
+
+    private BufferedImage image;
 
     public ImagePanel(String imagePath, int width, int height) {
         this.imagePath = imagePath;
@@ -24,11 +27,9 @@ public class ImagePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
-
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + imagePath));
+            if (image == null)
+                image = ImageResource.getInstance().getImage("/images/" + imagePath);
         } catch (Exception e) {
             e.printStackTrace();
         }

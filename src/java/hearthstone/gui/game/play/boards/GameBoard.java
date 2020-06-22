@@ -1,7 +1,5 @@
 package hearthstone.gui.game.play.boards;
 
-import hearthstone.GuiLogicMapper;
-import hearthstone.GuiPlayerMapper;
 import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
@@ -17,6 +15,7 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.controls.*;
+import hearthstone.gui.game.play.dialogs.MessageDialog;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
@@ -24,9 +23,15 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.minions.GoldshireFootman;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
-import hearthstone.util.*;
+import hearthstone.util.HearthStoneException;
+import hearthstone.util.Rand;
+import hearthstone.util.SoundPlayer;
+import hearthstone.util.getresource.ImageResource;
+import hearthstone.util.mappers.GuiLogicMapper;
+import hearthstone.util.mappers.GuiPlayerMapper;
+import hearthstone.util.timer.MyTask;
+import hearthstone.util.timer.MyTimerTask;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -49,13 +54,13 @@ public class GameBoard extends JPanel {
     protected ArrayList<Card> animatedCardsInMyHand, animatedCardsInEnemyHand;
     protected ArrayList<Card> animatedCardsInMyLand, animatedCardsInEnemyLand;
 
-    private int runningAnimations;
     private boolean isLookingFor;
     private Object waitingObject;
 
     private static BufferedImage backgroundImage;
     private static BufferedImage manaImage;
-    private static BufferedImage endTurnImage;
+
+    private MessageDialog messageDialog;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -141,6 +146,12 @@ public class GameBoard extends JPanel {
     protected final int endTurnTimeLineEndX = endTurnButtonX - 15;
     protected final int endTurnTimeLineY = midY;
 
+    protected final int myErrorX = 600;
+    protected final int myErrorY = 400;
+
+    protected final int enemyErrorX = 600;
+    protected final int enemyErrorY = 100;
+
     // Finals END
 
     public GameBoard(Player myPlayer, Player enemyPlayer, Game game) {
@@ -173,56 +184,6 @@ public class GameBoard extends JPanel {
         gameStuffLayout();
 
         drawEndTurnTimeLine();
-
-        /*MyTimerTask myTimerTask = new MyTimerTask(500, new MyTask() {
-            @Override
-            public void startFunction() {
-
-            }
-
-            @Override
-            public void periodFunction() {
-                restart();
-            }
-
-            @Override
-            public void warningFunction() {
-
-            }
-
-            @Override
-            public void finishedFunction() {
-
-            }
-
-            @Override
-            public void closeFunction() {
-
-            }
-
-            @Override
-            public boolean finishCondition() {
-                return false;
-            }
-        });*/
-    }
-
-    private void addAnimation() {
-        synchronized (this) {
-            runningAnimations++;
-        }
-    }
-
-    private void removeAnimation() {
-        synchronized (this) {
-            runningAnimations--;
-        }
-    }
-
-    private int getAnimation() {
-        synchronized (this) {
-            return runningAnimations;
-        }
     }
 
     @Override
@@ -231,8 +192,8 @@ public class GameBoard extends JPanel {
 
         try {
             if (backgroundImage == null) {
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/game_board_background.png"));
+                backgroundImage = ImageResource.getInstance().getImage(
+                        "/images/game_board_background.png");
             }
         } catch (Exception ignore) {
         }
@@ -247,14 +208,12 @@ public class GameBoard extends JPanel {
         drawMyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(myPlayer).getCards().size());
         drawEnemyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(enemyPlayer).getCards().size());
 
-        synchronized (sparkImage) {
-            g2.drawImage(sparkImage.getImage().getScaledInstance(
-                    sparkImage.getWidth(), sparkImage.getHeight(),
-                    Image.SCALE_SMOOTH),
-                    sparkImage.getX(), sparkImage.getY(),
-                    sparkImage.getWidth(), sparkImage.getHeight(),
-                    null);
-        }
+        g2.drawImage(sparkImage.getImage().getScaledInstance(
+                sparkImage.getWidth(), sparkImage.getHeight(),
+                Image.SCALE_SMOOTH),
+                sparkImage.getX(), sparkImage.getY(),
+                sparkImage.getWidth(), sparkImage.getHeight(),
+                null);
     }
 
     private void configPanel() {
@@ -296,8 +255,8 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < number; i++) {
             try {
                 if (manaImage == null)
-                    manaImage = ImageIO.read(this.getClass().getResourceAsStream(
-                            "/images/mana.png"));
+                    manaImage = ImageResource.getInstance().getImage(
+                            "/images/mana.png");
                 g.drawImage(manaImage.getScaledInstance(SizeConfigs.manaWidth, SizeConfigs.manaHeight,
                         Image.SCALE_SMOOTH),
                         manaX + (SizeConfigs.manaWidth + manaDis) * i, manaY,
@@ -557,7 +516,7 @@ public class GameBoard extends JPanel {
     private void drawEndTurnTimeLine() {
         int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
         long length = 90000;
-        long period = length / totalX;
+        long period = length / totalX * 2;
         long warningTime = 9000;
 
         final int[] xSpark = {endTurnTimeLineStartX};
@@ -574,7 +533,8 @@ public class GameBoard extends JPanel {
             public void periodFunction() {
                 sparkImage.setImagePath("/images/spark_" + (Rand.getInstance().getRandomNumber(10) % 10) + ".png");
 
-                xSpark[0]++;
+                xSpark[0] += 2;
+
                 sparkImage.setX(xSpark[0]);
                 sparkImage.setY(ySpark[0]);
 
@@ -606,7 +566,7 @@ public class GameBoard extends JPanel {
 
     protected void animateCard(int startX, int startY,
                                int destinationX, int destinationY, BoardCardButton cardButton) {
-        long period = 25;
+        long period = 20;
 
         cardButton.setBounds(startX, startY, cardButton.getWidth(), cardButton.getHeight());
 
@@ -716,8 +676,7 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
-                        && getAnimation() == 0) {
+                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
                     if (isLookingFor) {
                         if (((GoldshireFootman) waitingObject).found(card)) {
                             isLookingFor = false;
@@ -871,6 +830,9 @@ public class GameBoard extends JPanel {
         myPassive = new PassiveButton(GuiPlayerMapper.getInstance().getPassive(myPlayer),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
+
+        messageDialog = new MessageDialog("Not enough mana!", Color.BLUE,
+                15, 0 , SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
     }
 
     private void iconLayout() {
@@ -916,6 +878,10 @@ public class GameBoard extends JPanel {
                 heroWidth, heroHeight);
         add(enemyHero);
 
+        /*messageDialog.setBounds(enemyErrorX, enemyErrorY,
+                SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        add(messageDialog);*/
+
         /*myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                 0,
                 SizeConfigs.medCardWidth,
@@ -931,6 +897,20 @@ public class GameBoard extends JPanel {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
+    private void showError(String text){
+        messageDialog.setText(text);
+
+        if(game.getWhoseTurn() == 0){
+            messageDialog.setBounds(myErrorX, myErrorY,
+                    SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        } else {
+            messageDialog.setBounds(enemyErrorX, enemyErrorY,
+                    SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        }
+
+        messageDialog.setVisible(true);
+    }
+
     private void closeBoard() {
         soundPlayer.stop();
         endTurnLineTimerTask.myStop();
@@ -940,6 +920,8 @@ public class GameBoard extends JPanel {
         for (Component component : this.getComponents()) {
             if (component instanceof ImagePanel &&
                     ((ImagePanel) component).getImagePath().contains("spark"))
+                continue;
+            if(component instanceof MessageDialog)
                 continue;
             this.remove(component);
         }

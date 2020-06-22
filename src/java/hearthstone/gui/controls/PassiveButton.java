@@ -1,8 +1,8 @@
 package hearthstone.gui.controls;
 
 import hearthstone.models.Passive;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 public class PassiveButton extends JButton {
     private final int width, height;
     private final Passive passive;
+
+    private BufferedImage image;
 
     public PassiveButton(Passive passive, int width, int height) {
         this.passive = passive;
@@ -23,15 +25,15 @@ public class PassiveButton extends JButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/passives/" +
-                            passive.getName().toLowerCase().
-                                    replace(' ', '_').
-                                    replace("'", "")
-                            + ".png"));
-
+            if(image == null) {
+                image = ImageResource.getInstance().getImage(
+                        "/images/passives/" +
+                                passive.getName().toLowerCase().
+                                        replace(' ', '_').
+                                        replace("'", "")
+                                + ".png");
+            }
         } catch (Exception e) {
             e.getStackTrace();
         }

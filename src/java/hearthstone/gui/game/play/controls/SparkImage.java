@@ -1,6 +1,7 @@
 package hearthstone.gui.game.play.controls;
 
-import javax.imageio.ImageIO;
+import hearthstone.util.getresource.ImageResource;
+
 import java.awt.image.BufferedImage;
 
 public class SparkImage {
@@ -63,7 +64,7 @@ public class SparkImage {
         try {
             int id = (imagePath.charAt(imagePath.length() - 5) - '0');
             if(sparks[id] == null)
-                sparks[id] = ImageIO.read(this.getClass().getResourceAsStream(imagePath));
+                sparks[id] = ImageResource.getInstance().getImage(imagePath);
             return sparks[id];
         } catch (Exception e){
             e.printStackTrace();

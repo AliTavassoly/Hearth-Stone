@@ -1,4 +1,4 @@
-package hearthstone.util;
+package hearthstone.util.timer;
 
 public class MyTimerTask extends Thread {
     private MyTask task;

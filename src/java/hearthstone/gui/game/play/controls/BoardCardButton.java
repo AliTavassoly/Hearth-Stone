@@ -10,8 +10,8 @@ import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.SoundPlayer;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,6 +24,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private boolean showBig;
     private Card card;
     private boolean isBack, isInLand;
+
+    private SoundPlayer soundPlayer;
 
     private BufferedImage minionImage;
     private BufferedImage cardImage;
@@ -123,33 +125,33 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         try {
             if (cardBackImage == null)
-                cardBackImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/cards/cards_back/" + "card_back2" + ".png"));
+                cardBackImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" + "card_back2" + ".png");
+
             if (deathRattleImage == null)
-                deathRattleImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/death_rattle.png"));
+                deathRattleImage = ImageResource.getInstance().getImage(
+                        "/images/death_rattle.png");
             if (divineShieldImage == null)
-                divineShieldImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/divine_shield.png"));
+                divineShieldImage = ImageResource.getInstance().getImage(
+                        "/images/divine_shield.png");
             if (triggeredEffectImage == null)
-                triggeredEffectImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/triggered_effect.png"));
+                triggeredEffectImage = ImageResource.getInstance().getImage(
+                        "/images/triggered_effect.png");
 
             if (minionImage == null && card instanceof MinionCard)
-                minionImage = ImageIO.read(this.getClass().getResourceAsStream("/images/cards/oval_minions/" + card.getName().
-                        toLowerCase().replace(' ', '_').replace("'", "") + ".png"));
+                minionImage = ImageResource.getInstance().getImage("/images/cards/oval_minions/" + card.getName().
+                        toLowerCase().replace(' ', '_').replace("'", "") + ".png");
             if (cardImage == null)
-                cardImage = ImageIO.read(this.getClass().getResourceAsStream(
+                cardImage = ImageResource.getInstance().getImage(
                         "/images/cards/" + card.getName().toLowerCase().
-                                replace(' ', '_').replace("'", "") + ".png"));
-            if(shieldFrameImage == null)
-                shieldFrameImage = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_shield.png"));
-            if(shieldFrameImageActive == null)
-                shieldFrameImageActive = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_shield_active.png"));
-            if(ovalFrameImage == null)
-                ovalFrameImage = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_played.png"));
-            if(ovalFrameImageActive == null)
-                ovalFrameImageActive = ImageIO.read(this.getClass().getResourceAsStream("/images/minion_played_active.png"));
+                                replace(' ', '_').replace("'", "") + ".png");
+            if (shieldFrameImage == null)
+                shieldFrameImage = ImageResource.getInstance().getImage("/images/minion_shield.png");
+            if (shieldFrameImageActive == null)
+                shieldFrameImageActive = ImageResource.getInstance().getImage("/images/minion_shield_active.png");
+            if (ovalFrameImage == null)
+                ovalFrameImage = ImageResource.getInstance().getImage("/images/minion_played.png");
+            if (ovalFrameImageActive == null)
+                ovalFrameImageActive = ImageResource.getInstance().getImage("/images/minion_played_active.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,7 +171,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         } else {
             return;
         }
-        SoundPlayer soundPlayer = new SoundPlayer(path);
+        if (soundPlayer == null)
+            soundPlayer = new SoundPlayer(path);
         soundPlayer.playOnce();
     }
 
@@ -241,7 +244,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         try {
             if (frameImage == null && ((MinionCard) card).isTaunt()) {
                 frameImage = shieldFrameImage;
-            } else if (frameImage == null && !((MinionCard) card).isTaunt()){
+            } else if (frameImage == null && !((MinionCard) card).isTaunt()) {
                 frameImage = ovalFrameImage;
             }
         } catch (Exception e) {

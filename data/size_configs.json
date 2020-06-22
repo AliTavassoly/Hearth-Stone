@@ -104,5 +104,8 @@
   "endTurnRopeHeight": 15,
 
   "minionTypeWidth": 33,
-  "minionTypeHeight": 28
+  "minionTypeHeight": 28,
+
+  "inGameErrorWidth": 300,
+  "inGameErrorHeight": 100
 }

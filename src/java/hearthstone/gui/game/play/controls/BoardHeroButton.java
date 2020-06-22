@@ -4,8 +4,8 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.models.hero.Hero;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -50,12 +50,12 @@ public class BoardHeroButton extends ImageButton {
 
         try {
             if (heroImage == null)
-                heroImage = ImageIO.read(this.getClass().getResourceAsStream(
+                heroImage = ImageResource.getInstance().getImage(
                         "/images/heroes/normal_heroes/" +
-                                hero.getName().toLowerCase().replace(' ', '_') + ".png"));
+                                hero.getName().toLowerCase().replace(' ', '_') + ".png");
             if (healthBackground == null)
-                healthBackground = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/health_background.png"));
+                healthBackground = ImageResource.getInstance().getImage(
+                        "/images/health_background.png");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,8 +17,8 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -75,8 +75,8 @@ public class MarketPanel extends JPanel {
         BufferedImage image = null;
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/market_background.png"));
+                backgroundImage = ImageResource.getInstance().getImage(
+                        "/images/market_background.png");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,8 +5,8 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.SoundPlayer;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,8 +64,8 @@ public class SettingsDialog extends JDialog {
 
         Image cursorImage = null;
         try{
-            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/cursor.png"));
+            cursorImage = ImageResource.getInstance().getImage(
+                    "/images/cursor.png");
         } catch (Exception e){
             e.printStackTrace();
         }

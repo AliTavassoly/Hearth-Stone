@@ -1,4 +1,4 @@
-package hearthstone;
+package hearthstone.util.mappers;
 
 import hearthstone.logic.gamestuff.Game;
 

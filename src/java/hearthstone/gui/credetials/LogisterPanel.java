@@ -4,8 +4,8 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,8 +37,7 @@ public class LogisterPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/logister_background.jpg"));
+                backgroundImage = ImageResource.getInstance().getImage("/images/logister_background.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }

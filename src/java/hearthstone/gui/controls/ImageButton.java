@@ -1,8 +1,8 @@
 package hearthstone.gui.controls;
 
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,6 +17,8 @@ public class ImageButton extends JButton implements MouseListener {
     private Color currentColor, textColor, textColorActive;
     private boolean isRadio;
     private int tof;
+
+    private BufferedImage image, normalImage, activeImage;
 
     public ImageButton() {
 
@@ -116,14 +118,24 @@ public class ImageButton extends JButton implements MouseListener {
         setFocusPainted(false);
 
         addMouseListener(this);
+
+        try {
+            if (normalPath != null) {
+                normalImage = ImageResource.getInstance().getImage("/images/" + normalPath);
+                image = normalImage;
+            }
+            if (activePath != null)
+                activeImage = ImageResource.getInstance().getImage("/images/" + activePath);
+
+            if (normalPath == null)
+                image = ImageResource.getInstance().getImage("/images/" + imagePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getText() {
         return text;
-    }
-
-    public int getTextSize() {
-        return textSize;
     }
 
     public void mouseExited() {
@@ -150,29 +162,17 @@ public class ImageButton extends JButton implements MouseListener {
         this.isRadio = isRadio;
     }
 
-    public String getImagePath(){
-        return imagePath;
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
-
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/" + imagePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         g2.drawImage(image.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, width, height, null);
 
         // DRAW TEXT
         drawText(g2);
     }
 
-    private void drawText(Graphics2D g){
+    private void drawText(Graphics2D g) {
         if (text != null) {
             Font font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
             FontMetrics fontMetrics = g.getFontMetrics(font);
@@ -195,7 +195,8 @@ public class ImageButton extends JButton implements MouseListener {
             revalidate();
             repaint();
         } else if (activePath != null) {
-            imagePath = activePath;
+            //imagePath = activePath;
+            image = activeImage;
             revalidate();
             repaint();
         }
@@ -210,7 +211,8 @@ public class ImageButton extends JButton implements MouseListener {
             revalidate();
             repaint();
         } else if (normalPath != null) {
-            imagePath = normalPath;
+//            imagePath = normalPath;
+            image = normalImage;
             revalidate();
             repaint();
         }

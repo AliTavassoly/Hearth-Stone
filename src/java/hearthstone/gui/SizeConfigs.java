@@ -112,6 +112,9 @@ public class SizeConfigs {
     public static int minionTypeWidth;
     public static int minionTypeHeight;
 
+    public static int inGameErrorWidth;
+    public static int inGameErrorHeight;
+
     static public void setConfigs(Map<String, Object> configs) {
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
@@ -221,5 +224,8 @@ public class SizeConfigs {
 
         minionTypeWidth = ((Double) configs.get("minionTypeWidth")).intValue();
         minionTypeHeight = ((Double) configs.get("minionTypeHeight")).intValue();
+
+        inGameErrorWidth = ((Double) configs.get("inGameErrorWidth")).intValue();
+        inGameErrorHeight = ((Double) configs.get("inGameErrorHeight")).intValue();
     }
 }

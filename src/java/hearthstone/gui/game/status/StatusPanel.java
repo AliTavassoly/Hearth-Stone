@@ -11,8 +11,8 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.models.Deck;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -46,8 +46,7 @@ public class StatusPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/status_background.png"));
+                backgroundImage = ImageResource.getInstance().getImage("/images/status_background.png");
         } catch (Exception e) {
         }
         g.drawImage(backgroundImage, 0, 0, null);

@@ -15,8 +15,8 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,8 +54,8 @@ public class HeroSelection extends JPanel {
     protected void paintComponent(Graphics g) {
         try {
             if (backgroundImage == null)
-                backgroundImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/hero_selection_background.png"));
+                backgroundImage = ImageResource.getInstance().getImage(
+                        "/images/hero_selection_background.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

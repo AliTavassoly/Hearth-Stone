@@ -1,16 +1,15 @@
 package hearthstone.gui.controls.dialogs;
 
-import javax.imageio.ImageIO;
+import hearthstone.util.getresource.ImageResource;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MyDialog extends JDialog {
     private int width, height;
-    private JFrame frame;
 
     public MyDialog(JFrame frame, int width, int height){
         super(frame);
-        this.frame = frame;
         this.width = width;
         this.height = height;
 
@@ -34,8 +33,8 @@ public class MyDialog extends JDialog {
 
         Image cursorImage = null;
         try{
-            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/cursor.png"));
+            cursorImage = ImageResource.getInstance().getImage(
+                    "/images/cursor.png");
         } catch (Exception e){
             e.printStackTrace();
         }

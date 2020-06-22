@@ -1,4 +1,4 @@
-package hearthstone;
+package hearthstone.util.mappers;
 
 import hearthstone.models.Deck;
 import hearthstone.models.Passive;

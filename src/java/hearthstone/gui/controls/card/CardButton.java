@@ -9,8 +9,8 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.SoundPlayer;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -55,13 +55,11 @@ public class CardButton extends ImageButton implements MouseListener {
                     path = "/images/cards/" + card.getName().
                             toLowerCase().replace(' ', '_').replace("'", "") + "_bw" + ".png";
                 }
-                cardImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        path));
+                cardImage = ImageResource.getInstance().getImage(path);
             }
 
             if (numberImage == null)
-                numberImage = ImageIO.read(this.getClass().getResourceAsStream(
-                        "/images/flag.png"));
+                numberImage = ImageResource.getInstance().getImage("/images/flag.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

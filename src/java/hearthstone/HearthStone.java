@@ -16,6 +16,7 @@ public class  HearthStone {
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Map<Integer, Passive> basePassives = new HashMap<>();
+
     public static Account currentAccount;
     public static String dataPath;
     public static Market market = new Market();
