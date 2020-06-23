@@ -5,11 +5,12 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.interfaces.EndTurnBehave;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-public class Dreadscale extends MinionCard {
+public class Dreadscale extends MinionCard implements EndTurnBehave {
     public Dreadscale(){ }
 
     public Dreadscale(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
@@ -18,6 +19,8 @@ public class Dreadscale extends MinionCard {
         super(id, name, description, manaCost, heroType, rarity, cardType, health, attack,
                 isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield,
                 isTaunt, isCharge, isRush, minionType);
+
+        hasEndTurnBehave = true;
     }
 
     @Override

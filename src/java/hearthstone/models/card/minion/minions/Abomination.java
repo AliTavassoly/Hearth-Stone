@@ -5,12 +5,13 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.interfaces.DeathRattle;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 
-public class Abomination extends MinionCard {
+public class Abomination extends MinionCard implements DeathRattle {
     public Abomination(){ }
 
     public Abomination(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,

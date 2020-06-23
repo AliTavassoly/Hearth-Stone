@@ -5,11 +5,12 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.interfaces.WaitDrawingCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-public class CurioCollector extends MinionCard {
+public class CurioCollector extends MinionCard implements WaitDrawingCard {
     public CurioCollector() {
     }
 
@@ -20,11 +21,11 @@ public class CurioCollector extends MinionCard {
                 isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield,
                 isTaunt, isCharge, isRush, minionType);
 
-        waitForDraw = true;
+        hasWaitingForDraw = true;
     }
 
     @Override
-    public boolean drawCard(Card card) throws HearthStoneException {
+    public boolean waitDrawingCard(Card card) throws HearthStoneException {
         if (card.getCardType() != CardType.MINIONCARD)
             return false;
         MinionCard minionCard = (MinionCard) card;

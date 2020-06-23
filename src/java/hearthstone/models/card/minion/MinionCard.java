@@ -3,9 +3,7 @@ package hearthstone.models.card.minion;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
-import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
-import hearthstone.util.HearthStoneException;
 
 public abstract class MinionCard extends Card implements MinionBehaviour {
     protected int health;
@@ -15,6 +13,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     protected boolean isTaunt;
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
+    protected boolean hasWaitingForDraw, hasEndTurnBehave;
 
     protected int numberOfAttack;
     protected boolean isFirstTurn;
@@ -143,54 +142,5 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public void startTurnBehave() {
         numberOfAttack = 1;
         isFirstTurn = false;
-    }
-
-    @Override
-    public void battlecry() {
-
-    }
-
-    @Override
-    public void endTurnBehave() {
-
-    }
-
-    @Override
-    public void gotAttackedBehave() {
-
-    }
-
-    @Override
-    public void deathRattle() {
-
-    }
-
-    @Override
-    public void friendlyMinionDied() {
-
-    }
-
-    @Override
-    public void killedEnemyMinion() { }
-
-    @Override
-    public boolean drawCard(Card card) throws HearthStoneException {
-        return false;
-    }
-
-    @Override
-    public void attack(MinionCard minionCard) {
-
-    }
-
-    @Override
-    public void attack(Hero hero) throws HearthStoneException { }
-
-    @Override
-    public void found(Object object) throws HearthStoneException{}
-
-    @Override
-    public boolean pressed() {
-        return false;
     }
 }

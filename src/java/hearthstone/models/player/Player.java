@@ -9,6 +9,10 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.interfaces.Battlecry;
+import hearthstone.models.card.minion.interfaces.DeathRattle;
+import hearthstone.models.card.minion.interfaces.EndTurnBehave;
+import hearthstone.models.card.minion.interfaces.WaitDrawingCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -161,7 +165,7 @@ public class Player {
     }
 
     public void pickCard() throws HearthStoneException {
-        if(deck.getCards().size() == 0)
+        if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
         int cardInd = Rand.getInstance().getRandomNumber(deck.getCards().size());
         Card card = deck.getCards().get(cardInd);
@@ -172,7 +176,7 @@ public class Player {
 
         for (int i = 0; i < waitingForDraw.size(); i++) {
             Card card1 = waitingForDraw.get(i);
-            if (card1.drawCard(card)) {
+            if (card1 instanceof WaitDrawingCard && ((WaitDrawingCard) card1).waitDrawingCard(card)) {
                 waitingForDraw.remove(i);
                 i--;
             }
@@ -229,15 +233,15 @@ public class Player {
     }
 
     private void handleBattleCry(Card card) {
-        if (card.getCardType() == CardType.MINIONCARD) {
-            ((MinionCard) card).battlecry();
+        if (card.getCardType() == CardType.MINIONCARD && card instanceof Battlecry) {
+            ((Battlecry) card).battlecry();
         } else if (card.getCardType() == CardType.WEAPONCARD) {
             ((WeaponCard) card).battlecry();
         }
     }
 
     private void handleWaitingCards(Card cardInHand) {
-        if (cardInHand.isWaitForDraw()) {
+        if (cardInHand instanceof WaitDrawingCard) {
             waitingForDraw.add(cardInHand);
         }
     }
@@ -257,7 +261,7 @@ public class Player {
         for (int i = 0; i < deck.getCards().size(); i++) {
             Card card = deck.getCards().get(start);
             if (card.getCardType() == CardType.MINIONCARD &&
-                    ((MinionCard)card).getMinionType() == minionType) {
+                    ((MinionCard) card).getMinionType() == minionType) {
                 if (land.size() < GameConfigs.maxCardInLand) {
                     land.add(card);
                 }
@@ -333,13 +337,14 @@ public class Player {
 
     public void endTurn() {
         ArrayList<Card> cards = new ArrayList<>();
-        for(Card card: land){
+        for (Card card : land) {
             cards.add(card);
         }
 
         for (Card card : cards) {
             MinionCard minionCard = (MinionCard) card;
-            minionCard.endTurnBehave();
+            if (card instanceof EndTurnBehave)
+                ((EndTurnBehave) minionCard).endTurnBehave();
         }
     }
 
@@ -378,7 +383,9 @@ public class Player {
         }
 
         for (Card card : deathRattles) {
-            ((MinionCard) card).deathRattle();
+            if (card instanceof DeathRattle) {
+                ((DeathRattle) (card)).deathRattle();
+            }
         }
 
         if (deathRattles.size() > 0) {

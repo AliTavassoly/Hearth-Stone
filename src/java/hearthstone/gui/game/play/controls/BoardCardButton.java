@@ -161,7 +161,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         switch (card.getCardType()) {
             case MINIONCARD:
-                path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
+                path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
                 break;
             case REWARDCARD:
                 path = "/sounds/rewards/" + "reward" + ".wav";

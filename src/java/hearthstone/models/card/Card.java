@@ -18,8 +18,6 @@ public abstract class Card implements CardBehaviour{
     private CardType cardType;
     private int buyPrice, sellPrice;
 
-    protected boolean waitForDraw;
-
     private Player player;
 
     public Card() {
@@ -115,13 +113,6 @@ public abstract class Card implements CardBehaviour{
         this.sellPrice = sellPrice;
     }
 
-    public boolean isWaitForDraw() {
-        return waitForDraw;
-    }
-    public void setWaitForDraw(boolean waitForDraw) {
-        this.waitForDraw = waitForDraw;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -136,9 +127,4 @@ public abstract class Card implements CardBehaviour{
 
     @Override
     public void found(Object object) throws HearthStoneException { }
-
-    @Override
-    public boolean drawCard(Card card) throws HearthStoneException {
-        return false;
-    }
 }

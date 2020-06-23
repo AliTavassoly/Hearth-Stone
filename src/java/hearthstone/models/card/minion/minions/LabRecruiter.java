@@ -5,11 +5,12 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
+import hearthstone.models.card.minion.interfaces.Battlecry;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-public class LabRecruiter extends MinionCard {
+public class LabRecruiter extends MinionCard implements Battlecry {
     public LabRecruiter(){ }
 
     public LabRecruiter(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,

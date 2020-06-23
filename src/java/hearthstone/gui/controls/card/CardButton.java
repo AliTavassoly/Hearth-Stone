@@ -184,11 +184,13 @@ public class CardButton extends ImageButton implements MouseListener {
     public void mouseClicked(MouseEvent mouseEvent) {
         String path;
         if (card.getCardType() == CardType.MINIONCARD) {
-            path = "/sounds/cards/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
+            path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
         } else if (card.getCardType() == CardType.SPELL) {
             path = "/sounds/spells/" + "spell" + ".wav";
         } else if (card.getCardType() == CardType.WEAPONCARD) {
             path = "/sounds/weapons/" + "weapon" + ".wav";
+        } else if(card.getCardType() == CardType.REWARDCARD) {
+            path = "/sounds/rewards/" + "reward" + ".wav";
         } else {
             return;
         }
