@@ -728,7 +728,7 @@ public class GameBoard extends JPanel {
 
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
-                button.setBounds(newX, newY, width, height);
+                button.setBounds(newX - width / 2, newY - height / 2, width, height);
             }
         });
     }

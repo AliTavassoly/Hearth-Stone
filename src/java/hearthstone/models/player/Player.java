@@ -254,12 +254,12 @@ public class Player {
         int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
         for (int i = 0; i < deck.getCards().size(); i++) {
             Card card = deck.getCards().get(start);
-            MinionCard minionCard = (MinionCard) card;
-            if (minionCard.getMinionType() == minionType) {
+            if (card.getCardType() == CardType.MINIONCARD &&
+                    ((MinionCard)card).getMinionType() == minionType) {
                 if (land.size() < GameConfigs.maxCardInLand) {
                     land.add(card);
-                    return;
                 }
+                return;
             }
             start++;
         }
@@ -330,7 +330,12 @@ public class Player {
     }
 
     public void endTurn() {
-        for (Card card : land) {
+        ArrayList<Card> cards = new ArrayList<>();
+        for(Card card: land){
+            cards.add(card);
+        }
+
+        for (Card card : cards) {
             MinionCard minionCard = (MinionCard) card;
             minionCard.endTurnBehave();
         }
