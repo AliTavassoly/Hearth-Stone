@@ -392,6 +392,10 @@ public class GameBoard extends JPanel {
         int startX = myHandX;
         int startY = myHandY;
 
+        if(cards.size() % 2 == 0){
+            startX += 25;
+        }
+
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton = new BoardCardButton(card,
@@ -424,6 +428,10 @@ public class GameBoard extends JPanel {
         int dis = enemyHandDisCard / cards.size();
         int startX = enemyHandX;
         int startY = enemyHandY;
+
+        if(cards.size() % 2 == 0){
+            startX += 25;
+        }
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
