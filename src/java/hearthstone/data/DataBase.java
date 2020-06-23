@@ -150,6 +150,10 @@ public class DataBase {
                 false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(curioCollector.getId(), curioCollector);
 
+        FaerieDragon faerieDragon = new FaerieDragon(id++, "Faerie Dragon", "Nothing", 5, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 6, 6,
+                false, false, false, false, false, false, false, MinionType.DRAGON);
+        HearthStone.baseCards.put(faerieDragon.getId(), faerieDragon);
+
         // Weapon
         WarglaivesOfAzzinoth warglaivesOfAzzinoth = new WarglaivesOfAzzinoth(id++, "Warglaives of Azzinoth", "After attacking a minion, your hero may attack again.", 5, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 4, 3);
         HearthStone.baseCards.put(warglaivesOfAzzinoth.getId(), warglaivesOfAzzinoth);

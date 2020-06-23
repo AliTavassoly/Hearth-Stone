@@ -16,13 +16,13 @@ public class BoardHeroButton extends ImageButton {
     private BufferedImage heroImage;
     private BufferedImage healthBackground;
 
-    private int id;
+    private int playerId;
 
-    public BoardHeroButton(Hero hero, int width, int height, int id) {
+    public BoardHeroButton(Hero hero, int width, int height, int playerId) {
         this.hero = hero;
         this.height = height;
         this.width = width;
-        this.id = id;
+        this.playerId = playerId;
 
         configButton();
     }
@@ -35,8 +35,8 @@ public class BoardHeroButton extends ImageButton {
         addMouseListener(this);
     }
 
-    public int getId() {
-        return id;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public Hero getHero() {

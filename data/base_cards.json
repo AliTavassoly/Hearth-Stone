@@ -596,11 +596,42 @@
     }
   },
   "26": {
+    "type": "hearthstone.models.card.minion.minions.FaerieDragon",
+    "data": {
+      "health": 6,
+      "attack": 6,
+      "initialHealth": 6,
+      "initialAttack": 6,
+      "isTaunt": false,
+      "isDeathRattle": false,
+      "isTriggeredEffect": false,
+      "isSpellDamage": false,
+      "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
+      "numberOfAttack": 0,
+      "isFirstTurn": true,
+      "numberOfAttackedMinion": 0,
+      "numberOfAttackedHero": 0,
+      "minionType": "DRAGON",
+      "id": 26,
+      "name": "Faerie Dragon",
+      "description": "Nothing",
+      "manaCost": 5,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5,
+      "waitForDraw": false
+    }
+  },
+  "27": {
     "type": "hearthstone.models.card.weapon.weapons.WarglaivesOfAzzinoth",
     "data": {
       "durability": 4,
       "attack": 3,
-      "id": 26,
+      "id": 27,
       "name": "Warglaives of Azzinoth",
       "description": "After attacking a minion, your hero may attack again.",
       "manaCost": 5,
@@ -612,12 +643,12 @@
       "waitForDraw": false
     }
   },
-  "27": {
+  "28": {
     "type": "hearthstone.models.card.weapon.weapons.Flamereaper",
     "data": {
       "durability": 3,
       "attack": 4,
-      "id": 27,
+      "id": 28,
       "name": "Flamereaper",
       "description": "Also damages the minions next to whomever your hero attacks.",
       "manaCost": 7,
@@ -629,12 +660,12 @@
       "waitForDraw": false
     }
   },
-  "28": {
+  "29": {
     "type": "hearthstone.models.card.weapon.weapons.Candleshot",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 28,
+      "id": 29,
       "name": "Candleshot",
       "description": "Your hero is Immune while attacking.",
       "manaCost": 1,
@@ -646,12 +677,12 @@
       "waitForDraw": false
     }
   },
-  "29": {
+  "30": {
     "type": "hearthstone.models.card.weapon.weapons.Glaivezooka",
     "data": {
       "durability": 2,
       "attack": 2,
-      "id": 29,
+      "id": 30,
       "name": "Glaivezooka",
       "description": "Battlecry: Give a random friendly minion +1 Attack.",
       "manaCost": 2,
@@ -663,12 +694,12 @@
       "waitForDraw": false
     }
   },
-  "30": {
+  "31": {
     "type": "hearthstone.models.card.weapon.weapons.EaglehornBow",
     "data": {
       "durability": 2,
       "attack": 3,
-      "id": 30,
+      "id": 31,
       "name": "Eaglehorn Bow",
       "description": "Whenever a friendly Secret is revealed, gain +1 Durability.",
       "manaCost": 3,
@@ -680,12 +711,12 @@
       "waitForDraw": false
     }
   },
-  "31": {
+  "32": {
     "type": "hearthstone.models.card.weapon.weapons.DesertSpear",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 31,
+      "id": 32,
       "name": "Desert Spear",
       "description": "After your hero attacks, summon a 1/1 Locust with Rush.",
       "manaCost": 3,
@@ -697,7 +728,7 @@
       "waitForDraw": false
     }
   },
-  "32": {
+  "33": {
     "type": "hearthstone.models.card.minion.minions.Sheep",
     "data": {
       "health": 1,
@@ -716,7 +747,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "BEAST",
-      "id": 32,
+      "id": 33,
       "name": "Sheep",
       "description": "Just Sheep!",
       "manaCost": 1,
@@ -728,12 +759,12 @@
       "waitForDraw": false
     }
   },
-  "33": {
+  "34": {
     "type": "hearthstone.models.card.weapon.weapons.BattleAxe",
     "data": {
       "durability": 2,
       "attack": 2,
-      "id": 33,
+      "id": 34,
       "name": "Battle Axe",
       "description": "",
       "manaCost": 1,
@@ -745,12 +776,12 @@
       "waitForDraw": false
     }
   },
-  "34": {
+  "35": {
     "type": "hearthstone.models.card.weapon.weapons.HeavyAxe",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 34,
+      "id": 35,
       "name": "Heavy Axe",
       "description": "",
       "manaCost": 1,
@@ -762,12 +793,12 @@
       "waitForDraw": false
     }
   },
-  "35": {
+  "36": {
     "type": "hearthstone.models.card.weapon.weapons.WickedKnife",
     "data": {
       "durability": 2,
       "attack": 1,
-      "id": 35,
+      "id": 36,
       "name": "Wicked Knife",
       "description": "",
       "manaCost": 1,
@@ -779,10 +810,10 @@
       "waitForDraw": false
     }
   },
-  "36": {
+  "37": {
     "type": "hearthstone.models.card.reward.rewards.LearnDraconic",
     "data": {
-      "id": 36,
+      "id": 37,
       "name": "Learn Draconic",
       "description": "Sidequest: Spend\n8 Mana on spells.\nReward: Summon a\n6/6 Dragon.",
       "manaCost": 1,
@@ -794,10 +825,10 @@
       "waitForDraw": false
     }
   },
-  "37": {
+  "38": {
     "type": "hearthstone.models.card.reward.rewards.StrengthInNumbers",
     "data": {
-      "id": 37,
+      "id": 38,
       "name": "Strength in Numbers",
       "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n minion from your deck.",
       "manaCost": 1,

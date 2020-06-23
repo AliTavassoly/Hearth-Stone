@@ -39,7 +39,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private static BufferedImage shieldFrameImageActive;
     private static BufferedImage ovalFrameImageActive;
 
-    private int id;
+    private int playerId;
 
     public BoardCardButton(Card card, int width, int height) {
         this.card = card;
@@ -50,9 +50,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int id) {
+    public BoardCardButton(Card card, int width, int height, int playerId) {
         this.card = card;
-        this.id = id;
+        this.playerId = playerId;
 
         this.width = width;
         this.height = height;
@@ -60,10 +60,10 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int initialRotate, int id) {
+    public BoardCardButton(Card card, int width, int height, int initialRotate, int playerId) {
         this.card = card;
         this.initialRotate = initialRotate;
-        this.id = id;
+        this.playerId = playerId;
         rotate = initialRotate;
 
         this.width = width;
@@ -72,9 +72,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, boolean showBig, int id) {
+    public BoardCardButton(Card card, int width, int height, boolean showBig, int playerId) {
         this.card = card;
-        this.id = id;
+        this.playerId = playerId;
         this.showBig = showBig;
 
         this.width = width;
@@ -83,9 +83,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, boolean showBig, int id, boolean isInLand) {
+    public BoardCardButton(Card card, int width, int height, boolean showBig, int playerId, boolean isInLand) {
         this.card = card;
-        this.id = id;
+        this.playerId = playerId;
         this.showBig = showBig;
         this.isInLand = true;
 
@@ -95,7 +95,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig, int id) {
+    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig, int playerId) {
         this.card = card;
 
         this.width = width;
@@ -106,7 +106,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         this.showBig = showBig;
 
-        this.id = id;
+        this.playerId = playerId;
 
         configButton();
     }
@@ -188,8 +188,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         return initialRotate;
     }
 
-    public int getId() {
-        return id;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public Card getCard() {

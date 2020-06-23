@@ -179,26 +179,22 @@ public class Player {
         hand.add(card);
     }
 
-    public void playCard(Card baseCard) throws Exception {
-        if (baseCard.getManaCost() > mana)
+    public void playCard(Card cardInHand) throws Exception {
+        if (cardInHand.getManaCost() > mana)
             throw new HearthStoneException("you don't have enough mana!");
-        Card cardInHand = null;
-
-        for (Card card : hand) {
-            if (card.getName().equals(baseCard.getName())) {
-                cardInHand = card;
-            }
-        }
 
         switch (cardInHand.getCardType()){
             case HEROPOWER:
                 heroPower = (HeroPowerCard) cardInHand;
+                break;
             case WEAPONCARD:
                 weapon = (WeaponCard) cardInHand;
+                break;
             case MINIONCARD:
                 if (land.size() == GameConfigs.maxCardInLand)
                     throw new HearthStoneException("your land is full!");
                 land.add(cardInHand);
+                break;
             case HEROCARD:
             case SPELL:
             case REWARDCARD:

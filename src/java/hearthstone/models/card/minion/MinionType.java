@@ -4,5 +4,6 @@ public enum MinionType {
     BEAST,
     DEMON,
     MECH,
+    DRAGON,
     NORMAL
 }

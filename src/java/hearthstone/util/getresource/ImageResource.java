@@ -20,7 +20,7 @@ public class ImageResource {
         }
     }
 
-    public BufferedImage getImage(String path) {
+    public BufferedImage getImage(String path){
         if (!imageMap.containsKey(path)) {
             try {
                 imageMap.put(path, ImageIO.read(this.getClass().getResourceAsStream(path)));

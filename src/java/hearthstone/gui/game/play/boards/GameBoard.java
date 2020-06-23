@@ -333,8 +333,12 @@ public class GameBoard extends JPanel {
         if (GuiPlayerMapper.getInstance().getHeroPower(myPlayer) == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(myPlayer),
-                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, false);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true,0);
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
+
+        makeHeroPowerMouseListener(heroPowerButton, GuiPlayerMapper.getInstance().getHeroPower(myPlayer),
+                heroPowerButton, myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
     }
@@ -343,7 +347,7 @@ public class GameBoard extends JPanel {
         if (GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer) == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer),
-                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true, 1);
         heroPowerButton.setBounds(enemyHeroPowerX, enemyHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
@@ -353,8 +357,12 @@ public class GameBoard extends JPanel {
         if (GuiPlayerMapper.getInstance().getWeapon(myPlayer) == null)
             return;
         WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(myPlayer),
-                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, false);
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, 0);
         weaponButton.setBounds(myWeaponX, myWeaponY,
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+
+        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(myPlayer),
+                weaponButton, myWeaponX, myWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
         add(weaponButton);
     }
@@ -363,8 +371,16 @@ public class GameBoard extends JPanel {
         if (GuiPlayerMapper.getInstance().getWeapon(enemyPlayer) == null)
             return;
         WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
-                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true);
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, 1);
         weaponButton.setBounds(enemyWeaponX, enemyWeaponY,
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+
+        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
+                weaponButton, enemyWeaponX, enemyWeaponY,
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+
+        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
+                weaponButton, enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
         add(weaponButton);
     }
@@ -383,7 +399,7 @@ public class GameBoard extends JPanel {
             BoardCardButton cardButton = new BoardCardButton(card,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
 
-            makeCardMouseListener(cardButton, card, cardButton,
+            makeCardOnHandMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth,
@@ -416,7 +432,7 @@ public class GameBoard extends JPanel {
             BoardCardButton cardButton = new BoardCardButton(card,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, 1);
 
-            makeCardMouseListener(cardButton, card, cardButton,
+            makeCardOnHandMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth,
@@ -451,7 +467,7 @@ public class GameBoard extends JPanel {
             BoardCardButton cardButton = new BoardCardButton(card,
                     SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 0, true);
 
-            makeCardMouseListener(cardButton, card, cardButton,
+            makeCardOnLandMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
@@ -489,7 +505,7 @@ public class GameBoard extends JPanel {
             BoardCardButton cardButton = new BoardCardButton(card,
                     SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 1, true);
 
-            makeCardMouseListener(cardButton, card, cardButton,
+            makeCardOnLandMouseListener(cardButton, card, cardButton,
                     startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY,
@@ -625,7 +641,7 @@ public class GameBoard extends JPanel {
     private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
                           int startX, int startY, int width, int height) {
         try {
-            if (button.getId() == 0) {
+            if (button.getPlayerId() == 0) {
                 GuiPlayerMapper.getInstance().playCard(myPlayer, card);
             } else {
                 GuiPlayerMapper.getInstance().playCard(enemyPlayer, card);
@@ -651,7 +667,7 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void makeCardMouseListener(BoardCardButton button, Card card,
+    private void makeCardOnHandMouseListener(BoardCardButton button, Card card,
                                        BoardCardButton cardButton,
                                        int startX, int startY, int width, int height) {
         CardButton bigCardButton = new CardButton(
@@ -660,7 +676,7 @@ public class GameBoard extends JPanel {
                 SizeConfigs.medCardHeight,
                 -1);
 
-        if (button.getId() == 0) {
+        if (button.getPlayerId() == 0) {
             bigCardButton.setBounds(
                     SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                     SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
@@ -675,26 +691,6 @@ public class GameBoard extends JPanel {
         }
 
         button.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
-                    if (isLookingFor) {
-                        try {
-                            ((MinionCard) waitingObject).found(card);
-                            isLookingFor = false;
-                            waitingObject = null;
-                            updatePlayers();
-                        } catch (HearthStoneException hse) {
-                            showError(hse.getMessage());
-                        }
-                    } else {
-                        if (button.getId() == game.getWhoseTurn() && ((MinionCard) card).pressed()) {
-                            isLookingFor = true;
-                            waitingObject = card;
-                        }
-                    }
-                }
-            }
-
             public void mouseEntered(MouseEvent e) {
                 if (cardButton.isShowBig()) {
                     add(bigCardButton);
@@ -728,14 +724,152 @@ public class GameBoard extends JPanel {
 
         button.addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if (isInMyLand(startX, startY) || isInEnemyLand(startX, startY))
-                    return;
-                if ((game.getWhoseTurn() != button.getId()))
+                if ((game.getWhoseTurn() != button.getPlayerId()))
                     return;
 
                 int newX = e.getX() + button.getX();
                 int newY = e.getY() + button.getY();
                 button.setBounds(newX, newY, width, height);
+            }
+        });
+    }
+
+    private void makeCardOnLandMouseListener(BoardCardButton button, Card card,
+                                             BoardCardButton cardButton,
+                                             int startX, int startY, int width, int height) {
+        CardButton bigCardButton = new CardButton(
+                card,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                -1);
+
+        if (button.getPlayerId() == 0) {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    0,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
+                    if (isLookingFor) {
+                        try {
+                            ((MinionCard) waitingObject).found(card);
+                            isLookingFor = false;
+                            waitingObject = null;
+                            updatePlayers();
+                        } catch (HearthStoneException hse) {
+                            showError(hse.getMessage());
+                        }
+                    } else {
+                        if (button.getPlayerId() == game.getWhoseTurn() && ((MinionCard) card).pressed()) {
+                            isLookingFor = true;
+                            waitingObject = card;
+                        }
+                    }
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (cardButton.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (cardButton.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
+                }
+            }
+        });
+    }
+
+    private void makeWeaponMouseListener(WeaponButton button, Card card,
+                                             WeaponButton weaponButton,
+                                             int startX, int startY, int width, int height) {
+        CardButton bigCardButton = new CardButton(
+                card,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                -1);
+
+        if (weaponButton.getPlayerId() == 0) {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    0,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                if (weaponButton.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (weaponButton.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
+                }
+            }
+        });
+    }
+
+    private void makeHeroPowerMouseListener(HeroPowerButton button, Card card,
+                                            HeroPowerButton powerButton,
+                                         int startX, int startY, int width, int height) {
+        CardButton bigCardButton = new CardButton(
+                card,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                -1);
+
+        if (powerButton.getPlayerId() == 0) {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    0,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                if (powerButton.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (powerButton.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
+                }
             }
         });
     }

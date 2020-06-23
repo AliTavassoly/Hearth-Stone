@@ -12,7 +12,10 @@ import java.awt.image.BufferedImage;
 public class WeaponButton extends ImageButton {
     private int width, height;
     private WeaponCard card;
-    private boolean isEnemy;
+
+    private boolean isShowBig;
+
+    private int playerId;
 
     private BufferedImage cardImage;
     private static BufferedImage circleImage;
@@ -20,11 +23,12 @@ public class WeaponButton extends ImageButton {
     private static BufferedImage shieldImage;
 
 
-    public WeaponButton(WeaponCard card, int width, int height, boolean isEnemy) {
+    public WeaponButton(WeaponCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
         this.height = height;
         this.card = card;
-        this.isEnemy = isEnemy;
+        this.isShowBig = isShowBig;
+        this.playerId = playerId;
 
         configButton();
     }
@@ -37,12 +41,15 @@ public class WeaponButton extends ImageButton {
         addMouseListener(this);
     }
 
-    public boolean isEnemy() {
-        return isEnemy;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public void setEnemy(boolean enemy) {
-        isEnemy = enemy;
+    public boolean isShowBig() {
+        return isShowBig;
+    }
+    public void setShowBig(boolean showBig) {
+        isShowBig = showBig;
     }
 
     @Override

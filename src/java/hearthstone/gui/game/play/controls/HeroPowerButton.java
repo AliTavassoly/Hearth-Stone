@@ -9,19 +9,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class HeroPowerButton extends ImageButton {
-
     private int width, height;
     private HeroPowerCard card;
 
-    private boolean isEnemy;
+    private boolean isShowBig;
 
-    private static BufferedImage circleImage, cardImage;
+    private int playerId;
 
-    public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isEnemy) {
+    private static BufferedImage circleImage;
+
+    private BufferedImage cardImage;
+
+    public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
         this.height = height;
         this.card = card;
-        this.isEnemy = isEnemy;
+        this.isShowBig = isShowBig;
+        this.playerId = playerId;
 
         configButton();
     }
@@ -32,12 +36,15 @@ public class HeroPowerButton extends ImageButton {
         setFocusPainted(false);
     }
 
-    public boolean isEnemy() {
-        return isEnemy;
+    public int getPlayerId(){
+        return playerId;
     }
 
-    public void setEnemy(boolean enemy) {
-        isEnemy = enemy;
+    public boolean isShowBig() {
+        return isShowBig;
+    }
+    public void setShowBig(boolean showBig) {
+        isShowBig = showBig;
     }
 
     @Override
@@ -45,9 +52,9 @@ public class HeroPowerButton extends ImageButton {
         Graphics2D g2 = (Graphics2D) g;
 
         try {
-            String path = "/images/cards/hero_power/" + card.getName().    // Hero Power card should replace
+            String path = "/images/cards/hero_power/" + card.getName().
                     toLowerCase().replace(' ', '_').replace("'", "") + ".png";
-            if (cardImage != null)
+            if (cardImage == null)
                 cardImage = ImageResource.getInstance().getImage(path);
 
             path = "/images/cards/hero_power/" + "circle_frame.png";
@@ -56,6 +63,7 @@ public class HeroPowerButton extends ImageButton {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         g2.drawImage(cardImage, 20, 25, null);
 
         g2.drawImage(circleImage, 0, 0, null);
