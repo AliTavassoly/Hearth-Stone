@@ -1,6 +1,5 @@
 package hearthstone;
 
-import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
@@ -24,8 +23,8 @@ public class DataTransform {
         }
     }
 
-    public int getWhoseTurn(Game game){
-        return game.getWhoseTurn();
+    public int getWhoseTurn(){
+        return HearthStone.currentGame.getWhoseTurn();
     }
 
     public ArrayList<Card> getLand(Player player){

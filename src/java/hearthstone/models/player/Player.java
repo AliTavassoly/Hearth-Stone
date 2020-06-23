@@ -161,6 +161,8 @@ public class Player {
     }
 
     public void pickCard() throws HearthStoneException {
+        if(deck.getCards().size() == 0)
+            throw new HearthStoneException("your deck is empty!");
         int cardInd = Rand.getInstance().getRandomNumber(deck.getCards().size());
         Card card = deck.getCards().get(cardInd);
         deck.getCards().remove(cardInd);

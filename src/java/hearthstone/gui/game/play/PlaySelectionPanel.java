@@ -94,7 +94,7 @@ public class PlaySelectionPanel extends JPanel {
         // listeners
         playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                // Nothing in this faze
+                // Nothing in this phase
             }
         });
 
@@ -107,8 +107,9 @@ public class PlaySelectionPanel extends JPanel {
                 enemyPlayer.setEnemyPlayer(myPlayer);
 
                 Game game = new Game(myPlayer, enemyPlayer);
+                HearthStone.currentGame = game;
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new PracticeGameBoard(myPlayer, enemyPlayer, game));
+                        new PracticeGameBoard(myPlayer, enemyPlayer));
             }
         });
 
@@ -122,8 +123,9 @@ public class PlaySelectionPanel extends JPanel {
                 computerPlayer.setEnemyPlayer(myPlayer);
 
                 Game game = new Game(myPlayer, computerPlayer);
+                HearthStone.currentGame = game;
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new SoloGameBoard(myPlayer, computerPlayer, game));
+                        new SoloGameBoard(myPlayer, computerPlayer));
             }
         });
     }

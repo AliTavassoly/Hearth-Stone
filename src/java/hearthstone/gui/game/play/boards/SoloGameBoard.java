@@ -6,7 +6,6 @@ import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 import hearthstone.util.Rand;
@@ -14,8 +13,8 @@ import hearthstone.util.Rand;
 import java.util.ArrayList;
 
 public class SoloGameBoard extends GameBoard {
-    public SoloGameBoard(Player myPlayer, Player enemyPlayer, Game game) {
-        super(myPlayer, enemyPlayer, game);
+    public SoloGameBoard(Player myPlayer, Player enemyPlayer) {
+        super(myPlayer, enemyPlayer);
     }
 
     @Override

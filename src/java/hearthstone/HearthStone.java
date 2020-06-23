@@ -3,6 +3,7 @@ package hearthstone;
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.models.Account;
 import hearthstone.models.Passive;
@@ -20,6 +21,8 @@ public class  HearthStone {
     public static Account currentAccount;
     public static String dataPath;
     public static Market market = new Market();
+
+    public static Game currentGame;
 
     public static boolean userNameIsValid(String username) {
         for (int i = 0; i < username.length(); i++) {

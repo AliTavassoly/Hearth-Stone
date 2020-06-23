@@ -1,6 +1,5 @@
 package hearthstone;
 
-import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
@@ -31,9 +30,11 @@ public class Mapper {
         player.updatePlayer();
     }
 
-    public void endTurn(Game game){
-        game.endTurn();
+    public void endTurn(){
+        HearthStone.currentGame.endTurn();
     }
+
+    public void startGame(){HearthStone.currentGame.startGame();}
 
     public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
         if(waited instanceof Card){
