@@ -32,4 +32,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
     public void setAttack(int attack) {
         this.attack = attack;
     }
+
+    @Override
+    public void battlecry() { }
 }

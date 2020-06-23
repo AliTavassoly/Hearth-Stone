@@ -1,6 +1,8 @@
 package hearthstone.gui.game.play.boards;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
+import hearthstone.Mapper;
 import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -26,8 +28,6 @@ import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
-import hearthstone.util.mappers.GuiLogicMapper;
-import hearthstone.util.mappers.GuiPlayerMapper;
 import hearthstone.util.timer.MyTask;
 import hearthstone.util.timer.MyTimerTask;
 
@@ -198,14 +198,14 @@ public class GameBoard extends JPanel {
         }
         g2.drawImage(backgroundImage, 0, 0, null);
 
-        drawMyMana(g2, GuiPlayerMapper.getInstance().getMana(myPlayer),
-                GuiPlayerMapper.getInstance().getTurnNumber(myPlayer));
+        drawMyMana(g2, DataTransform.getInstance().getMana(myPlayer),
+                DataTransform.getInstance().getTurnNumber(myPlayer));
 
-        drawEnemyMana(g2, GuiPlayerMapper.getInstance().getMana(enemyPlayer),
-                GuiPlayerMapper.getInstance().getTurnNumber(enemyPlayer));
+        drawEnemyMana(g2, DataTransform.getInstance().getMana(enemyPlayer),
+                DataTransform.getInstance().getTurnNumber(enemyPlayer));
 
-        drawMyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(myPlayer).getCards().size());
-        drawEnemyDeckNumberOfCards(g2, GuiPlayerMapper.getInstance().getDeck(enemyPlayer).getCards().size());
+        drawMyDeckNumberOfCards(g2, DataTransform.getInstance().getDeck(myPlayer).getCards().size());
+        drawEnemyDeckNumberOfCards(g2, DataTransform.getInstance().getDeck(enemyPlayer).getCards().size());
 
         g2.drawImage(sparkImage.getImage().getScaledInstance(
                 sparkImage.getWidth(), sparkImage.getHeight(),
@@ -230,8 +230,8 @@ public class GameBoard extends JPanel {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        GuiPlayerMapper.getInstance().setPassive(myPlayer, passiveDialog0.getPassive());
-        GuiPlayerMapper.getInstance().doPassive(myPlayer);
+        DataTransform.getInstance().setPassive(myPlayer, passiveDialog0.getPassive());
+        Mapper.getInstance().doPassive(myPlayer);
 
 
         PassiveDialog passiveDialog1 = new PassiveDialog(
@@ -242,9 +242,8 @@ public class GameBoard extends JPanel {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        GuiPlayerMapper.getInstance().setPassive(enemyPlayer, passiveDialog1.getPassive());
-        GuiPlayerMapper.getInstance().doPassive(enemyPlayer);
-
+        DataTransform.getInstance().setPassive(enemyPlayer, passiveDialog1.getPassive());
+        Mapper.getInstance().doPassive(enemyPlayer);
     }
 
     private void drawMyMana(Graphics2D g, int number, int maxNumber) {
@@ -330,23 +329,23 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyHeroPower() {
-        if (GuiPlayerMapper.getInstance().getHeroPower(myPlayer) == null)
+        if (DataTransform.getInstance().getHeroPower(myPlayer) == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(myPlayer),
+        HeroPowerButton heroPowerButton = new HeroPowerButton(DataTransform.getInstance().getHeroPower(myPlayer),
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true,0);
         heroPowerButton.setBounds(myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
 
-        makeHeroPowerMouseListener(heroPowerButton, GuiPlayerMapper.getInstance().getHeroPower(myPlayer),
+        makeHeroPowerMouseListener(heroPowerButton, DataTransform.getInstance().getHeroPower(myPlayer),
                 heroPowerButton, myHeroPowerX, myHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
         add(heroPowerButton);
     }
 
     private void drawEnemyHeroPower() {
-        if (GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer) == null)
+        if (DataTransform.getInstance().getHeroPower(enemyPlayer) == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(GuiPlayerMapper.getInstance().getHeroPower(enemyPlayer),
+        HeroPowerButton heroPowerButton = new HeroPowerButton(DataTransform.getInstance().getHeroPower(enemyPlayer),
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true, 1);
         heroPowerButton.setBounds(enemyHeroPowerX, enemyHeroPowerY,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
@@ -354,39 +353,39 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyWeapon() {
-        if (GuiPlayerMapper.getInstance().getWeapon(myPlayer) == null)
+        if (DataTransform.getInstance().getWeapon(myPlayer) == null)
             return;
-        WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(myPlayer),
+        WeaponButton weaponButton = new WeaponButton(DataTransform.getInstance().getWeapon(myPlayer),
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, 0);
         weaponButton.setBounds(myWeaponX, myWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
 
-        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(myPlayer),
+        makeWeaponMouseListener(weaponButton, DataTransform.getInstance().getWeapon(myPlayer),
                 weaponButton, myWeaponX, myWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
         add(weaponButton);
     }
 
     private void drawEnemyWeapon() {
-        if (GuiPlayerMapper.getInstance().getWeapon(enemyPlayer) == null)
+        if (DataTransform.getInstance().getWeapon(enemyPlayer) == null)
             return;
-        WeaponButton weaponButton = new WeaponButton(GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
+        WeaponButton weaponButton = new WeaponButton(DataTransform.getInstance().getWeapon(enemyPlayer),
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, 1);
         weaponButton.setBounds(enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
 
-        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
+        makeWeaponMouseListener(weaponButton, DataTransform.getInstance().getWeapon(enemyPlayer),
                 weaponButton, enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
 
-        makeWeaponMouseListener(weaponButton, GuiPlayerMapper.getInstance().getWeapon(enemyPlayer),
+        makeWeaponMouseListener(weaponButton, DataTransform.getInstance().getWeapon(enemyPlayer),
                 weaponButton, enemyWeaponX, enemyWeaponY,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
         add(weaponButton);
     }
 
     private void drawMyCardsOnHand() {
-        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getHand(myPlayer);
+        ArrayList<Card> cards = DataTransform.getInstance().getHand(myPlayer);
         if (cards.size() == 0)
             return;
 
@@ -420,7 +419,7 @@ public class GameBoard extends JPanel {
     }
 
     protected void drawEnemyCardsOnHand() {
-        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getHand(enemyPlayer);
+        ArrayList<Card> cards = DataTransform.getInstance().getHand(enemyPlayer);
         if (cards.size() == 0)
             return;
         int dis = enemyHandDisCard / cards.size();
@@ -453,7 +452,7 @@ public class GameBoard extends JPanel {
     }
 
     private void drawMyCardsOnLand() {
-        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getLand(myPlayer);
+        ArrayList<Card> cards = DataTransform.getInstance().getLand(myPlayer);
         if (cards.size() == 0)
             return;
 
@@ -491,7 +490,7 @@ public class GameBoard extends JPanel {
     }
 
     private void drawEnemyCardsOnLand() {
-        ArrayList<Card> cards = GuiPlayerMapper.getInstance().getLand(enemyPlayer);
+        ArrayList<Card> cards = DataTransform.getInstance().getLand(enemyPlayer);
         if (cards.size() == 0)
             return;
 
@@ -642,9 +641,9 @@ public class GameBoard extends JPanel {
                           int startX, int startY, int width, int height) {
         try {
             if (button.getPlayerId() == 0) {
-                GuiPlayerMapper.getInstance().playCard(myPlayer, card);
+                Mapper.getInstance().playCard(myPlayer, card);
             } else {
-                GuiPlayerMapper.getInstance().playCard(enemyPlayer, card);
+                Mapper.getInstance().playCard(enemyPlayer, card);
             }
             cardButton.playSound();
             hearthstone.util.Logger.saveLog("Play card",
@@ -708,7 +707,7 @@ public class GameBoard extends JPanel {
             public void mouseReleased(MouseEvent E) {
                 if (!isInMyLand(startX, startY) &&
                         isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        game.getWhoseTurn() == 0) {
+                        DataTransform.getInstance().getWhoseTurn(game) == 0) {
                     playCard(button, card, cardButton,
                             startX, startY, width, height);
                 } else if (!isInEnemyLand(startX, startY) &&
@@ -762,7 +761,7 @@ public class GameBoard extends JPanel {
                 if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
                     if (isLookingFor) {
                         try {
-                            ((MinionCard) waitingObject).found(card);
+                            Mapper.getInstance().foundObjectForObject(waitingObject, card);
                             isLookingFor = false;
                             waitingObject = null;
                             updatePlayers();
@@ -879,7 +878,7 @@ public class GameBoard extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
                     try{
-                        ((MinionCard) waitingObject).found(hero);
+                        Mapper.getInstance().foundObjectForObject(waitingObject, hero);
                         isLookingFor = false;
                         waitingObject = null;
                     } catch (HearthStoneException hse){
@@ -927,7 +926,7 @@ public class GameBoard extends JPanel {
                     ex.printStackTrace();
                 }
                 CredentialsFrame.getSoundPlayer().loopPlay();
-                closeBoard();
+                beforeCloseBoard();
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
         });
@@ -943,7 +942,7 @@ public class GameBoard extends JPanel {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                GuiLogicMapper.getInstance().endTurn(game);
+                Mapper.getInstance().endTurn(game);
                 endTurnLineTimerTask.myStop();
 
                 isLookingFor = false;
@@ -967,7 +966,7 @@ public class GameBoard extends JPanel {
         enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, 1); // enemy hero
         makeHeroMouseListener(enemyHero, enemyHero.getHero());
 
-        myPassive = new PassiveButton(GuiPlayerMapper.getInstance().getPassive(myPlayer),
+        myPassive = new PassiveButton(DataTransform.getInstance().getPassive(myPlayer),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 
@@ -1051,7 +1050,7 @@ public class GameBoard extends JPanel {
         messageDialog.setVisibility(true);
     }
 
-    private void closeBoard() {
+    private void beforeCloseBoard() {
         soundPlayer.stop();
         endTurnLineTimerTask.myStop();
     }
@@ -1068,8 +1067,8 @@ public class GameBoard extends JPanel {
     }
 
     private void updatePlayers() {
-        GuiPlayerMapper.getInstance().updatePlayer(myPlayer);
-        GuiPlayerMapper.getInstance().updatePlayer(enemyPlayer);
+        Mapper.getInstance().updatePlayer(myPlayer);
+        Mapper.getInstance().updatePlayer(enemyPlayer);
         restart();
     }
 

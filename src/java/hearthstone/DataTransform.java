@@ -1,5 +1,6 @@
-package hearthstone.util.mappers;
+package hearthstone;
 
+import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.Passive;
 import hearthstone.models.card.Card;
@@ -9,22 +10,22 @@ import hearthstone.models.player.Player;
 
 import java.util.ArrayList;
 
-public class GuiPlayerMapper {
-    private static GuiPlayerMapper instance;
+public class DataTransform {
+    private static DataTransform instance;
 
-    private GuiPlayerMapper(){
+    private DataTransform(){
     }
 
-    public static GuiPlayerMapper getInstance(){
+    public static DataTransform getInstance(){
         if(instance == null){
-            return instance = new GuiPlayerMapper();
+            return instance = new DataTransform();
         } else {
             return instance;
         }
     }
 
-    public void playCard(Player player, Card card) throws Exception{
-        player.playCard(card);
+    public int getWhoseTurn(Game game){
+        return game.getWhoseTurn();
     }
 
     public ArrayList<Card> getLand(Player player){
@@ -51,10 +52,6 @@ public class GuiPlayerMapper {
         return player.getPassive();
     }
 
-    public void doPassive(Player player){
-        player.doPassives();
-    }
-
     public void setPassive(Player player, Passive passive){
         player.setPassive(passive);
     }
@@ -65,9 +62,5 @@ public class GuiPlayerMapper {
 
     public WeaponCard getWeapon(Player player){
         return player.getWeapon();
-    }
-
-    public void updatePlayer(Player player){
-        player.updateCardsOnLand();
     }
 }

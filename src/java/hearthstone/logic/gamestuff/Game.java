@@ -19,14 +19,14 @@ public class Game {
 
     private void configGame() {
         for(Card card: player0.getDeck().getCards()){
-            card.setPlayer(player0);
+            player0.configCard(card);
         }
-        player0.getHero().setPlayer(player0);
+        player0.configHero(player0.getHero());
 
         for(Card card: player1.getDeck().getCards()){
-            card.setPlayer(player1);
+            player1.configCard(card);
         }
-        player1.getHero().setPlayer(player1);
+        player1.configHero(player1.getHero());
     }
 
     public void startGame(){

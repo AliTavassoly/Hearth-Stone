@@ -25,7 +25,6 @@ public class ImageButton extends JButton implements MouseListener {
     }
 
     public ImageButton(String normalPath, String activePath, int width, int height) {
-
         this.normalPath = normalPath;
         this.activePath = activePath;
         this.width = width;

@@ -4,7 +4,7 @@ import hearthstone.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 
 public interface MinionBehaviour {
-    void battlecry() throws HearthStoneException;
+    void battlecry();
     void endTurnBehave() throws HearthStoneException;
     void startTurnBehave() throws HearthStoneException;
     void gotAttackedBehave() throws HearthStoneException;

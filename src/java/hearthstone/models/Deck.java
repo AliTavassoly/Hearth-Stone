@@ -98,15 +98,15 @@ public class Deck {
         cardGame.putIfAbsent(card1.getId(), 0);
         cardGame.putIfAbsent(card2.getId(), 0);
 
-        if(!cardGame.get(card1.getId()).equals(cardGame.get(card2.getId())))
+        if (!cardGame.get(card1.getId()).equals(cardGame.get(card2.getId())))
             return cardGame.get(card1.getId()) > cardGame.get(card2.getId()) ? card1 : card2;
-        if(card1.getCardType() != CardType.HEROPOWER && card2.getCardType() != CardType.HEROPOWER) {
+        if (card1.getCardType() != CardType.HEROPOWER && card2.getCardType() != CardType.HEROPOWER) {
             if (card1.getRarity().getValue() != card2.getRarity().getValue())
                 return card1.getRarity().getValue() > card2.getRarity().getValue() ? card1 : card2;
         }
-        if(card1.getManaCost() != card2.getManaCost())
+        if (card1.getManaCost() != card2.getManaCost())
             return card1.getManaCost() > card2.getManaCost() ? card1 : card2;
-        if(card1.getCardType() == CardType.MINIONCARD || card2.getCardType() == CardType.MINIONCARD)
+        if (card1.getCardType() == CardType.MINIONCARD || card2.getCardType() == CardType.MINIONCARD)
             return card1.getCardType() == CardType.MINIONCARD ? card1 : card2;
         return card1;
     }
@@ -161,7 +161,7 @@ public class Deck {
         return true;
     }
 
-    public void add(Card baseCard, int cnt) throws Exception {
+    public void add(Card baseCard, int cnt) throws HearthStoneException {
         if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
             throw new HearthStoneException("You don't have " + (numberOfCards(baseCard) + cnt) + " numbers of this card!");
         }
@@ -179,6 +179,13 @@ public class Deck {
         }
         for (int i = 0; i < cnt; i++)
             cards.add(baseCard.copy());
+    }
+
+    public void addInTheMiddleOfGame(Card card) throws HearthStoneException {
+        if (cards.size() + 1 > GameConfigs.maxCardInDeck) {
+            throw new HearthStoneException("Deck is full!");
+        }
+        cards.add(card);
     }
 
     public boolean canRemove(Card baseCard, int cnt) {
