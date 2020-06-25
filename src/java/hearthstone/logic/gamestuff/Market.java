@@ -1,6 +1,6 @@
 package hearthstone.logic.gamestuff;
 
-import hearthstone.models.card.Card;
+import hearthstone.logic.models.card.Card;
 
 import java.util.ArrayList;
 

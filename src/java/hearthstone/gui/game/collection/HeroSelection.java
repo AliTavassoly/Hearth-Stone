@@ -13,7 +13,7 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.models.hero.Hero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 

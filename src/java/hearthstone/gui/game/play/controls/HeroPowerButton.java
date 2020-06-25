@@ -2,10 +2,12 @@ package hearthstone.gui.game.play.controls;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class HeroPowerButton extends ImageButton {
@@ -16,9 +18,11 @@ public class HeroPowerButton extends ImageButton {
 
     private int playerId;
 
-    private static BufferedImage circleImage;
+    private static BufferedImage circleNormalImage;
+    private static BufferedImage circleActiveImage;
 
     private BufferedImage cardImage;
+    private BufferedImage circleImage;
 
     public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
@@ -47,6 +51,10 @@ public class HeroPowerButton extends ImageButton {
         isShowBig = showBig;
     }
 
+    public Card getCard(){
+        return card;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -57,9 +65,13 @@ public class HeroPowerButton extends ImageButton {
             if (cardImage == null)
                 cardImage = ImageResource.getInstance().getImage(path);
 
-            path = "/images/cards/hero_power/" + "circle_frame.png";
-            if (circleImage == null)
-                circleImage = ImageResource.getInstance().getImage(path);
+            if (circleNormalImage == null)
+                circleNormalImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_normal_frame.png");
+            if (circleActiveImage == null)
+                circleActiveImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_active_frame.png");
+
+            if(circleImage == null)
+                circleImage = circleNormalImage;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,5 +97,19 @@ public class HeroPowerButton extends ImageButton {
         g.setFont(font);
         g.setColor(Color.WHITE);
         g.drawString(text, x, y);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        circleImage = circleActiveImage;
+        repaint();
+        revalidate();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        circleImage = circleNormalImage;
+        repaint();
+        revalidate();
     }
 }

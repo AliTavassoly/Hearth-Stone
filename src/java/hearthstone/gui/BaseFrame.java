@@ -7,32 +7,24 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class BaseFrame extends JFrame {
     private Font hearthStoneFont;
 
     public BaseFrame() {
+        configFrame();
+    }
+
+    private void configFrame(){
         try (InputStream in = new BufferedInputStream(
                 this.getClass().getResourceAsStream("/fonts/text_font.ttf"))) {
             hearthStoneFont = Font.createFont(Font.TRUETYPE_FONT, in);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        Image cursorImage = null;
-        try {
-            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/cursor.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
-                new Point(0, 0), "customCursor");
-        setCursor(customCursor);
+
+        setCursor();
     }
 
     public Font getCustomFont(int style, int size) {
@@ -47,5 +39,18 @@ public class BaseFrame extends JFrame {
     public static void error(String text) {
         ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), text,
                 SizeConfigs.errorWidth, SizeConfigs.errorHeight);
+    }
+
+    public void  setCursor(){
+        Image cursorImage = null;
+        try {
+            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
+                    "/images/normal_cursor.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
+                new Point(0, 0), "customCursor");
+        setCursor(customCursor);
     }
 }

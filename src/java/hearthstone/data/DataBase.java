@@ -7,23 +7,23 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
-import hearthstone.models.Account;
-import hearthstone.models.AccountCredential;
-import hearthstone.models.Passive;
-import hearthstone.models.card.Card;
-import hearthstone.models.card.CardType;
-import hearthstone.models.card.Rarity;
-import hearthstone.models.card.heropower.heropowers.Heal;
-import hearthstone.models.card.heropower.heropowers.TheSilverHand;
-import hearthstone.models.card.minion.MinionType;
-import hearthstone.models.card.minion.minions.*;
-import hearthstone.models.card.reward.rewards.LearnDraconic;
-import hearthstone.models.card.reward.rewards.StrengthInNumbers;
-import hearthstone.models.card.spell.spells.*;
-import hearthstone.models.card.weapon.weapons.*;
-import hearthstone.models.hero.Hero;
-import hearthstone.models.hero.HeroType;
-import hearthstone.models.hero.heroes.*;
+import hearthstone.logic.models.Account;
+import hearthstone.logic.models.AccountCredential;
+import hearthstone.logic.models.Passive;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.CardType;
+import hearthstone.logic.models.card.Rarity;
+import hearthstone.logic.models.card.heropower.heropowers.Heal;
+import hearthstone.logic.models.card.heropower.heropowers.TheSilverHand;
+import hearthstone.logic.models.card.minion.MinionType;
+import hearthstone.logic.models.card.minion.minions.*;
+import hearthstone.logic.models.card.reward.rewards.LearnDraconic;
+import hearthstone.logic.models.card.reward.rewards.StrengthInNumbers;
+import hearthstone.logic.models.card.spell.spells.*;
+import hearthstone.logic.models.card.weapon.weapons.*;
+import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.heroes.*;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.File;
@@ -158,6 +158,16 @@ public class DataBase {
                 false, false, false, false, false, false, true, MinionType.BEAST);
         HearthStone.baseCards.put(locust.getId(), locust);
 
+        Sheep sheep = new Sheep(id++, "Sheep", "Just Sheep!", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 1, 1,
+                false, false, false, false,
+                false, false, false, MinionType.BEAST);
+        HearthStone.baseCards.put(sheep.getId(), sheep);
+
+        TheHulk theHulk = new TheHulk(id++, "The Hulk", "Just Hulk!", 3, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 2,
+                false, false, false, false,
+                false, false, false, MinionType.BEAST);
+        HearthStone.baseCards.put(theHulk.getId(), theHulk);
+
         // Weapon
         WarglaivesOfAzzinoth warglaivesOfAzzinoth = new WarglaivesOfAzzinoth(id++, "Warglaives of Azzinoth", "After attacking a minion, your hero may attack again.", 5, HeroType.ALL, Rarity.EPIC, CardType.WEAPONCARD, 4, 3);
         HearthStone.baseCards.put(warglaivesOfAzzinoth.getId(), warglaivesOfAzzinoth);
@@ -171,16 +181,11 @@ public class DataBase {
         Glaivezooka glaivezooka = new Glaivezooka(id++, "Glaivezooka", "Battlecry: Give a random friendly minion +1 Attack.", 2, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(glaivezooka.getId(), glaivezooka);
 
-        EaglehornBow eaglehornBow = new EaglehornBow(id++, "Eaglehorn Bow", "Whenever a friendly Secret is revealed, gain +1 Durability.", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPONCARD, 2, 3);
+        EaglehornBow eaglehornBow = new EaglehornBow(id++, "Eaglehorn Bow", "", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPONCARD, 3, 3);
         HearthStone.baseCards.put(eaglehornBow.getId(), eaglehornBow);
 
         DesertSpear desertSpear = new DesertSpear(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 3, 1);
         HearthStone.baseCards.put(desertSpear.getId(), desertSpear);
-
-        Sheep sheep = new Sheep(id++, "Sheep", "Just Sheep!", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 1, 1,
-                false, false, false, false,
-                false, false, false, MinionType.BEAST);
-        HearthStone.baseCards.put(sheep.getId(), sheep);
 
         BattleAxe battleAxe = new BattleAxe(id++, "Battle Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPONCARD, 2, 2);
         HearthStone.baseCards.put(battleAxe.getId(), battleAxe);

@@ -4,10 +4,10 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.models.card.Card;
-import hearthstone.models.card.CardType;
-import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.CardType;
+import hearthstone.logic.models.card.minion.MinionCard;
+import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
 

@@ -45,7 +45,8 @@ public class MyTimerTask extends Thread {
         while (!shouldStop && (length == 0 || System.currentTimeMillis() - startTime < length) && !task.finishCondition()) {
             try {
                 Thread.sleep(period);
-            } catch (InterruptedException ignore) { }
+            } catch (InterruptedException ignore) {
+            }
 
             task.periodFunction();
 

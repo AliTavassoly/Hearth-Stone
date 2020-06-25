@@ -15,7 +15,7 @@ import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.models.card.Card;
+import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 

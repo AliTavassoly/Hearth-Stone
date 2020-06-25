@@ -1,11 +1,12 @@
 package hearthstone;
 
-import hearthstone.models.Deck;
-import hearthstone.models.Passive;
-import hearthstone.models.card.Card;
-import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.weapon.WeaponCard;
-import hearthstone.models.player.Player;
+import hearthstone.logic.GameConfigs;
+import hearthstone.logic.models.Deck;
+import hearthstone.logic.models.Passive;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.heropower.HeroPowerCard;
+import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.logic.models.hero.Hero;
 
 import java.util.ArrayList;
 
@@ -27,39 +28,51 @@ public class DataTransform {
         return HearthStone.currentGame.getWhoseTurn();
     }
 
-    public ArrayList<Card> getLand(Player player){
-        return player.getLand();
+    public ArrayList<Card> getLand(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getLand();
     }
 
-    public ArrayList<Card> getHand(Player player){
-        return player.getHand();
+    public ArrayList<Card> getHand(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getHand();
     }
 
-    public Deck getDeck(Player player){
-        return player.getDeck();
+    public Deck getDeck(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getDeck();
     }
 
-    public int getMana(Player player){
-        return player.getMana();
+    public int getMana(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getMana();
     }
 
-    public int getTurnNumber(Player player){
-        return player.getTurnNumber();
+    public int getTurnNumber(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getTurnNumber();
     }
 
-    public Passive getPassive(Player player){
-        return player.getPassive();
+    public Passive getPassive(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getPassive();
     }
 
-    public void setPassive(Player player, Passive passive){
-        player.setPassive(passive);
+    public void setPassive(int playerId, Passive passive){
+        HearthStone.currentGame.getPlayerById(playerId).setPassive(passive);
     }
 
-    public HeroPowerCard getHeroPower(Player player){
-        return player.getHeroPower();
+    public HeroPowerCard getHeroPower(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getHeroPower();
     }
 
-    public WeaponCard getWeapon(Player player){
-        return player.getWeapon();
+    public WeaponCard getWeapon(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getWeapon();
+    }
+
+    public Hero getHero(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getHero();
+    }
+
+    public int getMaxManaInGame(){
+        return GameConfigs.maxManaInGame;
+    }
+
+    public int getNumberOfPassive(){
+        return GameConfigs.initialPassives;
     }
 }

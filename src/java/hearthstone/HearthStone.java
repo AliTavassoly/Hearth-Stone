@@ -3,12 +3,13 @@ package hearthstone;
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.gamestuff.Market;
-import hearthstone.models.Account;
-import hearthstone.models.Passive;
-import hearthstone.models.card.Card;
-import hearthstone.models.hero.Hero;
+import hearthstone.logic.models.Account;
+import hearthstone.logic.models.Passive;
+import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class  HearthStone {
     public static String dataPath;
     public static Market market = new Market();
 
+    public static GameBoard currentGameBoard;
     public static Game currentGame;
 
     public static boolean userNameIsValid(String username) {
@@ -49,6 +51,15 @@ public class  HearthStone {
             }
         }
         return false;
+    }
+
+    public static Card getCardByName(String name){
+        for(Card card: baseCards.values()){
+            if(card.getName().equals(name)){
+                return card.copy();
+            }
+        }
+        return null;
     }
 
     public static void login(String username, String password) throws Exception {

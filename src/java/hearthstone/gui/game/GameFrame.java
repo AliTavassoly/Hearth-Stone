@@ -2,9 +2,10 @@ package hearthstone.gui.game;
 
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame extends BaseFrame {
     private MainMenuPanel mainMenuPanel;
@@ -38,5 +39,18 @@ public class GameFrame extends BaseFrame {
 
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+    }
+
+    public void setCursor(String path){
+        Image cursorImage = null;
+        try {
+            cursorImage = ImageResource.getInstance().getImage(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage,
+                new Point(0, 0), "customCursor");
+        setCursor(customCursor);
     }
 }

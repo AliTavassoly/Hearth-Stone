@@ -1,25 +1,27 @@
 package hearthstone.gui.game.play.boards;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
+import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.game.play.Animation;
 import hearthstone.gui.game.play.controls.BoardCardButton;
 import hearthstone.logic.GameConfigs;
-import hearthstone.models.card.Card;
-import hearthstone.models.player.Player;
+import hearthstone.logic.models.card.Card;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
 
 public class SoloGameBoard extends GameBoard {
-    public SoloGameBoard(Player myPlayer, Player enemyPlayer) {
-        super(myPlayer, enemyPlayer);
+    public SoloGameBoard(int myPlayerId, int enemyPlayerId) {
+        super(myPlayerId, enemyPlayerId);
     }
 
     @Override
     protected void drawEnemyCardsOnHand() {
-        ArrayList<Card> cards = enemyPlayer.getHand();
+        ArrayList<Card> cards = DataTransform.getInstance().getHand(enemyPlayerId);
         if (cards.size() == 0)
             return;
         int dis = enemyHandDisCard / cards.size();
@@ -34,10 +36,12 @@ public class SoloGameBoard extends GameBoard {
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
 
             if (!animatedCardsInEnemyHand.contains(card)) {
-                animateCard(enemyPickedCardX, enemyPickedCardY,
-                        enemyHandX + dis * (i - cards.size() / 2), enemyHandY,
-                        cardButton);
                 animatedCardsInEnemyHand.add(card);
+
+                Animation destination = new Animation(enemyHandX + dis * (i - cards.size() / 2),
+                        enemyHandY, cardButton);
+
+                animateCard(enemyPickedCardX, enemyPickedCardY, destination);
             }
             add(cardButton);
         }
@@ -53,7 +57,7 @@ public class SoloGameBoard extends GameBoard {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        myPlayer.setPassive(passiveDialog0.getPassive());
-        myPlayer.doPassives();
+        DataTransform.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
+        Mapper.getInstance().doPassive(myPlayerId);
     }
 }

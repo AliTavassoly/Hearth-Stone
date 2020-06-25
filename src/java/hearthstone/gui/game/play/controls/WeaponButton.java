@@ -3,14 +3,16 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class WeaponButton extends ImageButton {
     private int width, height;
+
     private WeaponCard card;
 
     private boolean isShowBig;
@@ -18,7 +20,9 @@ public class WeaponButton extends ImageButton {
     private int playerId;
 
     private BufferedImage cardImage;
-    private static BufferedImage circleImage;
+    private BufferedImage circleImage;
+
+    private static BufferedImage circleNormalImage, circleActiveImage;
     private static BufferedImage swordImage;
     private static BufferedImage shieldImage;
 
@@ -45,6 +49,10 @@ public class WeaponButton extends ImageButton {
         return playerId;
     }
 
+    public WeaponCard getCard() {
+        return card;
+    }
+
     public boolean isShowBig() {
         return isShowBig;
     }
@@ -63,9 +71,13 @@ public class WeaponButton extends ImageButton {
                 cardImage = ImageResource.getInstance().getImage(path);
             g2.drawImage(cardImage, 20, 25, null);
 
-            path = "/images/cards/weapon/" + "circle_frame.png";
-            if (circleImage == null)
-                circleImage = ImageResource.getInstance().getImage(path);
+            if (circleNormalImage == null)
+                circleNormalImage = ImageResource.getInstance().getImage("/images/cards/weapon/" + "circle_normal_frame.png");
+            if (circleActiveImage == null)
+                circleActiveImage = ImageResource.getInstance().getImage("/images/cards/weapon/" + "circle_active_frame.png");
+
+            if(circleImage == null)
+                circleImage = circleNormalImage;
             g2.drawImage(circleImage, 0, 0, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,5 +157,19 @@ public class WeaponButton extends ImageButton {
         g.drawString(text,
                 x + SizeConfigs.weaponDetailWidth / 2 - fontMetrics.stringWidth(text) + 7,
                 y + SizeConfigs.weaponDetailHeight - 7);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        circleImage = circleActiveImage;
+        repaint();
+        revalidate();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        circleImage = circleNormalImage;
+        repaint();
+        revalidate();
     }
 }

@@ -3,8 +3,8 @@ package hearthstone.gui.controls.deck;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.models.Deck;
-import hearthstone.models.hero.Hero;
+import hearthstone.logic.models.Deck;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;

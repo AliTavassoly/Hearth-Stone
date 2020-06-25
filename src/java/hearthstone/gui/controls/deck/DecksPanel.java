@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.deck;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.models.Deck;
+import hearthstone.logic.models.Deck;
 
 import javax.swing.*;
 import java.awt.*;

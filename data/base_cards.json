@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.models.card.spell.spells.Polymorph",
+    "type": "hearthstone.logic.models.card.spell.spells.Polymorph",
     "data": {
       "id": 0,
       "name": "Polymorph",
@@ -14,7 +14,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.models.card.spell.spells.FreezingPotion",
+    "type": "hearthstone.logic.models.card.spell.spells.FreezingPotion",
     "data": {
       "id": 1,
       "name": "Freezing Potion",
@@ -28,7 +28,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.models.card.minion.minions.Dreadscale",
+    "type": "hearthstone.logic.models.card.minion.minions.Dreadscale",
     "data": {
       "health": 2,
       "attack": 4,
@@ -60,7 +60,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.models.card.spell.spells.Soulfire",
+    "type": "hearthstone.logic.models.card.spell.spells.Soulfire",
     "data": {
       "id": 3,
       "name": "Soulfire",
@@ -74,7 +74,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.models.card.spell.spells.FriendlySmith",
+    "type": "hearthstone.logic.models.card.spell.spells.FriendlySmith",
     "data": {
       "id": 4,
       "name": "Friendly Smith",
@@ -88,7 +88,7 @@
     }
   },
   "5": {
-    "type": "hearthstone.models.card.minion.minions.LabRecruiter",
+    "type": "hearthstone.logic.models.card.minion.minions.LabRecruiter",
     "data": {
       "health": 2,
       "attack": 3,
@@ -120,7 +120,7 @@
     }
   },
   "6": {
-    "type": "hearthstone.models.card.heropower.heropowers.TheSilverHand",
+    "type": "hearthstone.logic.models.card.heropower.heropowers.TheSilverHand",
     "data": {
       "id": 6,
       "name": "The Silver Hand",
@@ -133,7 +133,7 @@
     }
   },
   "7": {
-    "type": "hearthstone.models.card.spell.spells.GnomishArmyKnife",
+    "type": "hearthstone.logic.models.card.spell.spells.GnomishArmyKnife",
     "data": {
       "id": 7,
       "name": "Gnomish Army Knife",
@@ -147,7 +147,7 @@
     }
   },
   "8": {
-    "type": "hearthstone.models.card.heropower.heropowers.Heal",
+    "type": "hearthstone.logic.models.card.heropower.heropowers.Heal",
     "data": {
       "id": 8,
       "name": "Heal",
@@ -160,7 +160,7 @@
     }
   },
   "9": {
-    "type": "hearthstone.models.card.minion.minions.HighPriestAmet",
+    "type": "hearthstone.logic.models.card.minion.minions.HighPriestAmet",
     "data": {
       "health": 7,
       "attack": 2,
@@ -192,7 +192,7 @@
     }
   },
   "10": {
-    "type": "hearthstone.models.card.spell.spells.Blur",
+    "type": "hearthstone.logic.models.card.spell.spells.Blur",
     "data": {
       "id": 10,
       "name": "Blur",
@@ -206,7 +206,7 @@
     }
   },
   "11": {
-    "type": "hearthstone.models.card.spell.spells.Tracking",
+    "type": "hearthstone.logic.models.card.spell.spells.Tracking",
     "data": {
       "id": 11,
       "name": "Tracking",
@@ -220,7 +220,7 @@
     }
   },
   "12": {
-    "type": "hearthstone.models.card.spell.spells.Sprint",
+    "type": "hearthstone.logic.models.card.spell.spells.Sprint",
     "data": {
       "id": 12,
       "name": "Sprint",
@@ -234,7 +234,7 @@
     }
   },
   "13": {
-    "type": "hearthstone.models.card.spell.spells.SwarmOfLocusts",
+    "type": "hearthstone.logic.models.card.spell.spells.SwarmOfLocusts",
     "data": {
       "id": 13,
       "name": "Swarm of Locusts",
@@ -248,7 +248,7 @@
     }
   },
   "14": {
-    "type": "hearthstone.models.card.spell.spells.PharaohsBlessing",
+    "type": "hearthstone.logic.models.card.spell.spells.PharaohsBlessing",
     "data": {
       "id": 14,
       "name": "Pharaoh\u0027s Blessing",
@@ -262,7 +262,7 @@
     }
   },
   "15": {
-    "type": "hearthstone.models.card.spell.spells.BookOfSpecters",
+    "type": "hearthstone.logic.models.card.spell.spells.BookOfSpecters",
     "data": {
       "id": 15,
       "name": "Book of Specters",
@@ -276,7 +276,7 @@
     }
   },
   "16": {
-    "type": "hearthstone.models.card.minion.minions.HulkingOverfiend",
+    "type": "hearthstone.logic.models.card.minion.minions.HulkingOverfiend",
     "data": {
       "health": 5,
       "attack": 10,
@@ -308,7 +308,7 @@
     }
   },
   "17": {
-    "type": "hearthstone.models.card.minion.minions.WrathscaleNaga",
+    "type": "hearthstone.logic.models.card.minion.minions.WrathscaleNaga",
     "data": {
       "health": 1,
       "attack": 3,
@@ -340,7 +340,7 @@
     }
   },
   "18": {
-    "type": "hearthstone.models.card.minion.minions.WrathspikeBrute",
+    "type": "hearthstone.logic.models.card.minion.minions.WrathspikeBrute",
     "data": {
       "health": 6,
       "attack": 2,
@@ -372,8 +372,9 @@
     }
   },
   "19": {
-    "type": "hearthstone.models.card.minion.minions.PitCommander",
+    "type": "hearthstone.logic.models.card.minion.minions.PitCommander",
     "data": {
+      "didItEndTurnBehave": false,
       "health": 9,
       "attack": 7,
       "initialHealth": 9,
@@ -404,7 +405,7 @@
     }
   },
   "20": {
-    "type": "hearthstone.models.card.minion.minions.GoldshireFootman",
+    "type": "hearthstone.logic.models.card.minion.minions.GoldshireFootman",
     "data": {
       "health": 2,
       "attack": 1,
@@ -436,7 +437,7 @@
     }
   },
   "21": {
-    "type": "hearthstone.models.card.minion.minions.Abomination",
+    "type": "hearthstone.logic.models.card.minion.minions.Abomination",
     "data": {
       "health": 4,
       "attack": 4,
@@ -468,7 +469,7 @@
     }
   },
   "22": {
-    "type": "hearthstone.models.card.minion.minions.Sathrovarr",
+    "type": "hearthstone.logic.models.card.minion.minions.Sathrovarr",
     "data": {
       "health": 5,
       "attack": 5,
@@ -500,7 +501,7 @@
     }
   },
   "23": {
-    "type": "hearthstone.models.card.minion.minions.TombWarden",
+    "type": "hearthstone.logic.models.card.minion.minions.TombWarden",
     "data": {
       "health": 6,
       "attack": 3,
@@ -532,7 +533,7 @@
     }
   },
   "24": {
-    "type": "hearthstone.models.card.minion.minions.SecurityRover",
+    "type": "hearthstone.logic.models.card.minion.minions.SecurityRover",
     "data": {
       "health": 6,
       "attack": 2,
@@ -564,7 +565,7 @@
     }
   },
   "25": {
-    "type": "hearthstone.models.card.minion.minions.CurioCollector",
+    "type": "hearthstone.logic.models.card.minion.minions.CurioCollector",
     "data": {
       "health": 4,
       "attack": 4,
@@ -596,7 +597,7 @@
     }
   },
   "26": {
-    "type": "hearthstone.models.card.minion.minions.FaerieDragon",
+    "type": "hearthstone.logic.models.card.minion.minions.FaerieDragon",
     "data": {
       "health": 6,
       "attack": 6,
@@ -628,7 +629,7 @@
     }
   },
   "27": {
-    "type": "hearthstone.models.card.minion.minions.Locust",
+    "type": "hearthstone.logic.models.card.minion.minions.Locust",
     "data": {
       "health": 1,
       "attack": 1,
@@ -660,103 +661,7 @@
     }
   },
   "28": {
-    "type": "hearthstone.models.card.weapon.weapons.WarglaivesOfAzzinoth",
-    "data": {
-      "durability": 4,
-      "attack": 3,
-      "id": 28,
-      "name": "Warglaives of Azzinoth",
-      "description": "After attacking a minion, your hero may attack again.",
-      "manaCost": 5,
-      "heroType": "ALL",
-      "rarity": "EPIC",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "29": {
-    "type": "hearthstone.models.card.weapon.weapons.Flamereaper",
-    "data": {
-      "durability": 3,
-      "attack": 4,
-      "id": 29,
-      "name": "Flamereaper",
-      "description": "Also damages the minions next to whomever your hero attacks.",
-      "manaCost": 7,
-      "heroType": "ALL",
-      "rarity": "EPIC",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "30": {
-    "type": "hearthstone.models.card.weapon.weapons.Candleshot",
-    "data": {
-      "durability": 3,
-      "attack": 1,
-      "id": 30,
-      "name": "Candleshot",
-      "description": "Your hero is Immune while attacking.",
-      "manaCost": 1,
-      "heroType": "ALL",
-      "rarity": "COMMON",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "31": {
-    "type": "hearthstone.models.card.weapon.weapons.Glaivezooka",
-    "data": {
-      "durability": 2,
-      "attack": 2,
-      "id": 31,
-      "name": "Glaivezooka",
-      "description": "Battlecry: Give a random friendly minion +1 Attack.",
-      "manaCost": 2,
-      "heroType": "ALL",
-      "rarity": "COMMON",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "32": {
-    "type": "hearthstone.models.card.weapon.weapons.EaglehornBow",
-    "data": {
-      "durability": 2,
-      "attack": 3,
-      "id": 32,
-      "name": "Eaglehorn Bow",
-      "description": "Whenever a friendly Secret is revealed, gain +1 Durability.",
-      "manaCost": 3,
-      "heroType": "ALL",
-      "rarity": "RARE",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "33": {
-    "type": "hearthstone.models.card.weapon.weapons.DesertSpear",
-    "data": {
-      "durability": 3,
-      "attack": 1,
-      "id": 33,
-      "name": "Desert Spear",
-      "description": "After your hero attacks, summon a 1/1 Locust with Rush.",
-      "manaCost": 3,
-      "heroType": "ALL",
-      "rarity": "COMMON",
-      "cardType": "WEAPONCARD",
-      "buyPrice": 5,
-      "sellPrice": 5
-    }
-  },
-  "34": {
-    "type": "hearthstone.models.card.minion.minions.Sheep",
+    "type": "hearthstone.logic.models.card.minion.minions.Sheep",
     "data": {
       "health": 1,
       "attack": 1,
@@ -776,7 +681,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "BEAST",
-      "id": 34,
+      "id": 28,
       "name": "Sheep",
       "description": "Just Sheep!",
       "manaCost": 1,
@@ -787,12 +692,154 @@
       "sellPrice": 5
     }
   },
-  "35": {
-    "type": "hearthstone.models.card.weapon.weapons.BattleAxe",
+  "29": {
+    "type": "hearthstone.logic.models.card.minion.minions.TheHulk",
+    "data": {
+      "health": 3,
+      "attack": 2,
+      "initialHealth": 3,
+      "initialAttack": 2,
+      "isTaunt": false,
+      "isDeathRattle": false,
+      "isTriggeredEffect": false,
+      "isSpellDamage": false,
+      "isDivineShield": false,
+      "isCharge": false,
+      "isRush": false,
+      "hasWaitingForDraw": false,
+      "hasEndTurnBehave": false,
+      "numberOfAttack": 0,
+      "isFirstTurn": true,
+      "numberOfAttackedMinion": 0,
+      "numberOfAttackedHero": 0,
+      "minionType": "BEAST",
+      "id": 29,
+      "name": "The Hulk",
+      "description": "Just Hulk!",
+      "manaCost": 3,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "MINIONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "30": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.WarglaivesOfAzzinoth",
+    "data": {
+      "durability": 4,
+      "attack": 3,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 30,
+      "name": "Warglaives of Azzinoth",
+      "description": "After attacking a minion, your hero may attack again.",
+      "manaCost": 5,
+      "heroType": "ALL",
+      "rarity": "EPIC",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "31": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.Flamereaper",
+    "data": {
+      "durability": 3,
+      "attack": 4,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 31,
+      "name": "Flamereaper",
+      "description": "Also damages the minions next to whomever your hero attacks.",
+      "manaCost": 7,
+      "heroType": "ALL",
+      "rarity": "EPIC",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "32": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.Candleshot",
+    "data": {
+      "durability": 3,
+      "attack": 1,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 32,
+      "name": "Candleshot",
+      "description": "Your hero is Immune while attacking.",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "33": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.Glaivezooka",
     "data": {
       "durability": 2,
       "attack": 2,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 33,
+      "name": "Glaivezooka",
+      "description": "Battlecry: Give a random friendly minion +1 Attack.",
+      "manaCost": 2,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "34": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.EaglehornBow",
+    "data": {
+      "durability": 3,
+      "attack": 3,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 34,
+      "name": "Eaglehorn Bow",
+      "description": "",
+      "manaCost": 3,
+      "heroType": "ALL",
+      "rarity": "RARE",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "35": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.DesertSpear",
+    "data": {
+      "durability": 3,
+      "attack": 1,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
       "id": 35,
+      "name": "Desert Spear",
+      "description": "After your hero attacks, summon a 1/1 Locust with Rush.",
+      "manaCost": 3,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "WEAPONCARD",
+      "buyPrice": 5,
+      "sellPrice": 5
+    }
+  },
+  "36": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.BattleAxe",
+    "data": {
+      "durability": 2,
+      "attack": 2,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 36,
       "name": "Battle Axe",
       "description": "",
       "manaCost": 1,
@@ -803,12 +850,14 @@
       "sellPrice": 5
     }
   },
-  "36": {
-    "type": "hearthstone.models.card.weapon.weapons.HeavyAxe",
+  "37": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.HeavyAxe",
     "data": {
       "durability": 3,
       "attack": 1,
-      "id": 36,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 37,
       "name": "Heavy Axe",
       "description": "",
       "manaCost": 1,
@@ -819,12 +868,14 @@
       "sellPrice": 5
     }
   },
-  "37": {
-    "type": "hearthstone.models.card.weapon.weapons.WickedKnife",
+  "38": {
+    "type": "hearthstone.logic.models.card.weapon.weapons.WickedKnife",
     "data": {
       "durability": 2,
       "attack": 1,
-      "id": 37,
+      "numberOfAttack": 0,
+      "isFirstTurn": false,
+      "id": 38,
       "name": "Wicked Knife",
       "description": "",
       "manaCost": 1,
@@ -835,10 +886,10 @@
       "sellPrice": 5
     }
   },
-  "38": {
-    "type": "hearthstone.models.card.reward.rewards.LearnDraconic",
+  "39": {
+    "type": "hearthstone.logic.models.card.reward.rewards.LearnDraconic",
     "data": {
-      "id": 38,
+      "id": 39,
       "name": "Learn Draconic",
       "description": "Sidequest: Spend\n8 Mana on spells.\nReward: Summon a\n6/6 Dragon.",
       "manaCost": 1,
@@ -849,10 +900,10 @@
       "sellPrice": 5
     }
   },
-  "39": {
-    "type": "hearthstone.models.card.reward.rewards.StrengthInNumbers",
+  "40": {
+    "type": "hearthstone.logic.models.card.reward.rewards.StrengthInNumbers",
     "data": {
-      "id": 39,
+      "id": 40,
       "name": "Strength in Numbers",
       "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n minion from your deck.",
       "manaCost": 1,

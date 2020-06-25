@@ -12,8 +12,8 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.gui.game.play.boards.SoloGameBoard;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.player.AIPlayer;
-import hearthstone.models.player.Player;
+import hearthstone.logic.models.player.AIPlayer;
+import hearthstone.logic.models.player.Player;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -103,13 +103,10 @@ public class PlaySelectionPanel extends JPanel {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player enemyPlayer = HearthStone.currentAccount.getPlayer();
 
-                myPlayer.setEnemyPlayer(enemyPlayer);
-                enemyPlayer.setEnemyPlayer(myPlayer);
+                makeNewPracticeGame(myPlayer, enemyPlayer);
 
-                Game game = new Game(myPlayer, enemyPlayer);
-                HearthStone.currentGame = game;
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new PracticeGameBoard(myPlayer, enemyPlayer));
+                        HearthStone.currentGameBoard);
             }
         });
 
@@ -119,13 +116,10 @@ public class PlaySelectionPanel extends JPanel {
                 Player computerPlayer = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
                         HearthStone.currentAccount.getSelectedHero().getSelectedDeck());
 
-                myPlayer.setEnemyPlayer(computerPlayer);
-                computerPlayer.setEnemyPlayer(myPlayer);
+                makeNewSoloGame(myPlayer, computerPlayer);
 
-                Game game = new Game(myPlayer, computerPlayer);
-                HearthStone.currentGame = game;
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        new SoloGameBoard(myPlayer, computerPlayer));
+                        HearthStone.currentGameBoard);
             }
         });
     }
@@ -175,5 +169,25 @@ public class PlaySelectionPanel extends JPanel {
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(soloPlay);
+    }
+
+    private void makeNewPracticeGame(Player player0, Player player1){
+        player0.setEnemyPlayerId(1);
+        player1.setEnemyPlayerId(0);
+
+        HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
+        HearthStone.currentGame.startGame();
+        HearthStone.currentGameBoard.restart();
+    }
+
+    private void makeNewSoloGame(Player player0, Player player1){
+        player0.setEnemyPlayerId(1);
+        player1.setEnemyPlayerId(0);
+
+        HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
+        HearthStone.currentGame.startGame();
+        HearthStone.currentGameBoard.restart();
     }
 }

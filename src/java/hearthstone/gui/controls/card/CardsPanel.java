@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.card;
 
 import hearthstone.data.DataBase;
-import hearthstone.models.card.Card;
+import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
 import javax.swing.*;

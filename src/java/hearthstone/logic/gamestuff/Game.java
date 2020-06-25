@@ -1,7 +1,6 @@
 package hearthstone.logic.gamestuff;
 
-import hearthstone.models.card.Card;
-import hearthstone.models.player.Player;
+import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
 
 public class Game {
@@ -13,28 +12,15 @@ public class Game {
         this.player1  = player1;
 
         whoseTurn = 0;
-
-        configGame();
-    }
-
-    private void configGame() {
-        for(Card card: player0.getDeck().getCards()){
-            player0.configCard(card);
-        }
-        player0.configHero(player0.getHero());
-
-        for(Card card: player1.getDeck().getCards()){
-            player1.configCard(card);
-        }
-        player1.configHero(player1.getHero());
     }
 
     public void startGame(){
         try {
             player0.startGame();
-            player0.startTurn();
 
             player1.startGame();
+
+            player0.startTurn();
         } catch (HearthStoneException e){
             try {
                 hearthstone.util.Logger.saveLog("ERROR",
@@ -80,5 +66,10 @@ public class Game {
 
     public int getWhoseTurn(){
         return whoseTurn;
+    }
+
+    public Player getPlayerById(int id){
+        if (id == 0) return player0;
+        else return player1;
     }
 }
