@@ -1,5 +1,6 @@
 package hearthstone;
 
+import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.hero.Hero;
@@ -64,6 +65,26 @@ public class Mapper {
     public void addAttack(int attack, MinionCard minionCard) {
         minionCard.changeAttack(attack);
         updateBoard();
+    }
+
+    public void restoreHealth(int heal, MinionCard minionCard){
+        minionCard.restoreHeal(heal);
+    }
+
+    public void restoreHealth(int heal, Hero hero){
+        hero.restoreHealth(heal);
+    }
+
+    public void setPassive(int playerId, Passive passive) {
+        HearthStone.currentGame.getPlayerById(playerId).setPassive(passive);
+    }
+
+    public void restartSpentManaOnMinions(int playerId) {
+        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnMinions(0);
+    }
+
+    public void restartSpentManaOnSpells(int playerId) {
+        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnSpells(0);
     }
 
     public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {

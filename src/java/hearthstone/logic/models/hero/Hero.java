@@ -17,7 +17,7 @@ public abstract class Hero implements HeroBehaviour{
     private int id;
     private String name;
     private String description;
-    private int health;
+    private int health, initialHealth;
     private HeroType type;
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
@@ -36,6 +36,7 @@ public abstract class Hero implements HeroBehaviour{
         this.description = description;
         this.health = health;
         this.type = type;
+        this.initialHealth = health;
 
         ArrayList<Card> initialCard = new ArrayList<>();
 
@@ -154,6 +155,11 @@ public abstract class Hero implements HeroBehaviour{
     @Override
     public void gotHeal(int heal) throws HearthStoneException {
         this.health += heal;
+    }
+
+    @Override
+    public void restoreHealth(int heal) {
+        health = Math.max(initialHealth, health + heal);
     }
 
     @Override

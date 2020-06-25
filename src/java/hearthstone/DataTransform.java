@@ -58,10 +58,6 @@ public class DataTransform {
         return HearthStone.currentGame.getPlayerById(playerId).getPassive();
     }
 
-    public void setPassive(int playerId, Passive passive) {
-        HearthStone.currentGame.getPlayerById(playerId).setPassive(passive);
-    }
-
     public HeroPowerCard getHeroPower(int playerId) {
         return HearthStone.currentGame.getPlayerById(playerId).getHeroPower();
     }
@@ -76,14 +72,6 @@ public class DataTransform {
 
     public Hero getHero(int playerId) {
         return HearthStone.currentGame.getPlayerById(playerId).getHero();
-    }
-
-    public void restartSpentManaOnMinions(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnMinions(0);
-    }
-
-    public void restartSpentManaOnSpells(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnSpells(0);
     }
 
     public int spentManaOnMinions(int playerId) {

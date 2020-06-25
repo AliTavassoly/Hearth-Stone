@@ -91,7 +91,7 @@ public class SoloGameBoard extends GameBoard {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        DataTransform.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
+        Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
         Mapper.getInstance().doPassive(myPlayerId);
     }
 }

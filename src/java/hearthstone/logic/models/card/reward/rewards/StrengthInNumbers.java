@@ -1,6 +1,7 @@
 package hearthstone.logic.models.card.reward.rewards;
 
 import hearthstone.DataTransform;
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.interfaces.Battlecry;
@@ -17,7 +18,7 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        DataTransform.getInstance().restartSpentManaOnMinions(getPlayer().getPlayerId());
+        Mapper.getInstance().restartSpentManaOnMinions(getPlayer().getPlayerId());
     }
 
     @Override
@@ -36,6 +37,6 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
     @Override
     public void doReward() {
         getPlayer().summonMinionFromCurrentDeck();
-        DataTransform.getInstance().restartSpentManaOnMinions(getPlayer().getPlayerId());
+        Mapper.getInstance().restartSpentManaOnMinions(getPlayer().getPlayerId());
     }
 }

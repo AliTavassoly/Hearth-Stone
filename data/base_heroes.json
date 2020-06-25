@@ -6,6 +6,7 @@
       "name": "Mage",
       "description": "witchers are good with spells!\nshe pays 2 mana less for spells!",
       "health": 30,
+      "initialHealth": 30,
       "type": "MAGE",
       "decks": [],
       "isImmune": false
@@ -18,6 +19,7 @@
       "name": "Warlock",
       "description": "healthier than other!\nreduce 2 health and do somethings !\n",
       "health": 35,
+      "initialHealth": 35,
       "type": "WARLOCK",
       "decks": [],
       "isImmune": false
@@ -30,6 +32,7 @@
       "name": "Rogue",
       "description": "the thief!\nwith 3 mana, she can steal one opponent card!",
       "health": 30,
+      "initialHealth": 30,
       "type": "ROGUE",
       "decks": [],
       "isImmune": false
@@ -42,6 +45,7 @@
       "name": "Paladin",
       "description": "is very good and strong",
       "health": 30,
+      "initialHealth": 30,
       "type": "PALADIN",
       "decks": [],
       "isImmune": false
@@ -54,6 +58,7 @@
       "name": "Priest",
       "description": "",
       "health": 30,
+      "initialHealth": 30,
       "type": "PRIEST",
       "decks": [],
       "isImmune": false

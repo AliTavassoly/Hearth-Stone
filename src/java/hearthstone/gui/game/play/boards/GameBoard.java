@@ -235,7 +235,7 @@ public class GameBoard extends JPanel {
                         DataTransform.getInstance().getNumberOfPassive(),
                         HearthStone.basePassives.size())
         );
-        DataTransform.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
+        Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
         Mapper.getInstance().doPassive(myPlayerId);
 
 
@@ -247,7 +247,7 @@ public class GameBoard extends JPanel {
                         DataTransform.getInstance().getNumberOfPassive(),
                         HearthStone.basePassives.size())
         );
-        DataTransform.getInstance().setPassive(enemyPlayerId, passiveDialog1.getPassive());
+        Mapper.getInstance().setPassive(enemyPlayerId, passiveDialog1.getPassive());
         Mapper.getInstance().doPassive(enemyPlayerId);
     }
 

@@ -2,6 +2,7 @@ package hearthstone.logic.models.card.reward.rewards;
 
 import hearthstone.DataTransform;
 import hearthstone.HearthStone;
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.interfaces.Battlecry;
@@ -18,7 +19,7 @@ public class LearnDraconic extends RewardCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        DataTransform.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
+        Mapper.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
     }
 
     @Override
@@ -37,6 +38,6 @@ public class LearnDraconic extends RewardCard implements Battlecry {
     @Override
     public void doReward() {
         getPlayer().makeAndSummonMinion(HearthStone.getCardByName("Faerie Dragon"));
-        DataTransform.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
+        Mapper.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
     }
 }
