@@ -5,6 +5,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
@@ -62,16 +63,16 @@ public class DeckButton extends ImageButton {
 
     private int getSize(String text, int maxWidth) {
         int size = 20;
-        Font font = GameFrame.getInstance().getCustomFont(0, size);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, size);
         while (getFontMetrics(font).stringWidth(text) > maxWidth) {
             size--;
-            font = GameFrame.getInstance().getCustomFont(0, size);
+            font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, size);
         }
         return size;
     }
 
     private void drawStringOnDeck(Graphics2D g2) {
-        Font font = GameFrame.getInstance().getCustomFont(0, 15);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 15);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
@@ -87,13 +88,13 @@ public class DeckButton extends ImageButton {
 
         if (deck.getBestCard() == null) {
             String text = "favorite card: no card";
-            font = GameFrame.getInstance().getCustomFont(0, getSize(text, maxCardNameWidth));
+            font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
             g2.drawString("favorite card: no card", 155, stringStartY + 2 * stringDis);
         } else {
             String text = "favorite card: " + deck.getBestCard().getName();
-            font = GameFrame.getInstance().getCustomFont(0, getSize(text, maxCardNameWidth));
+            font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
             g2.drawString("favorite card: " + deck.getBestCard().getName(), 155, stringStartY + 2 * stringDis);

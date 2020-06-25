@@ -18,6 +18,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
     protected boolean hasWaitingForDraw, hasEndTurnBehave;
+    protected boolean isImmune;
 
     protected int numberOfAttack;
     protected boolean isFirstTurn;
@@ -27,7 +28,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     private MinionType minionType;
 
 
-    public MinionCard(){ }
+    public MinionCard() {
+    }
 
     public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
@@ -59,7 +61,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
         configMinion();
     }
 
-    private void configMinion(){
+    private void configMinion() {
         initialAttack = attack;
         initialHealth = health;
     }
@@ -67,6 +69,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public int getInitialHealth() {
         return initialHealth;
     }
+
     public void setInitialHealth(int initialHealth) {
         this.initialHealth = initialHealth;
     }
@@ -74,6 +77,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public int getInitialAttack() {
         return initialAttack;
     }
+
     public void setInitialAttack(int initialAttack) {
         this.initialAttack = initialAttack;
     }
@@ -81,6 +85,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public void setHealth(int health) {
         this.health = health;
     }
+
     public int getHealth() {
         return health;
     }
@@ -88,6 +93,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public void setAttack(int attack) {
         this.attack = attack;
     }
+
     public int getAttack() {
         return attack;
     }
@@ -95,6 +101,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public boolean isTaunt() {
         return isTaunt;
     }
+
     public void setTaunt(boolean taunt) {
         isTaunt = taunt;
     }
@@ -102,6 +109,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public boolean isDeathRattle() {
         return isDeathRattle;
     }
+
     public void setDeathRattle(boolean deathRattle) {
         isDeathRattle = deathRattle;
     }
@@ -109,6 +117,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public boolean isTriggeredEffect() {
         return isTriggeredEffect;
     }
+
     public void setTriggeredEffect(boolean triggeredEffect) {
         isTriggeredEffect = triggeredEffect;
     }
@@ -116,6 +125,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public boolean isSpellDamage() {
         return isSpellDamage;
     }
+
     public void setSpellDamage(boolean spellDamage) {
         isSpellDamage = spellDamage;
     }
@@ -123,6 +133,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public boolean isDivineShield() {
         return isDivineShield;
     }
+
     public void setDivineShield(boolean divineShield) {
         isDivineShield = divineShield;
     }
@@ -130,14 +141,23 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     public MinionType getMinionType() {
         return minionType;
     }
+
     public void setMinionType(MinionType minionType) {
         this.minionType = minionType;
     }
 
+    public boolean isImmune() {
+        return isImmune;
+    }
+
+    public void setImmune(boolean immune) {
+        isImmune = immune;
+    }
 
     public int getNumberOfAttack() {
         return numberOfAttack;
     }
+
     public void setNumberOfAttack(int numberOfAttack) {
         this.numberOfAttack = numberOfAttack;
     }
@@ -149,12 +169,35 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     }
 
     @Override
+    public void gotDamage(int damage) throws HearthStoneException {
+        if(isImmune)
+            throw new HearthStoneException("The minion is Immune!");
+        health -= damage;
+    }
+
+    @Override
+    public void gotHeal(int heal) throws HearthStoneException {
+        this.health += heal;
+    }
+
+    @Override
+    public void changeAttack(int attack) {
+        this.attack += attack;
+    }
+
+    @Override
     public void attack(MinionCard minionCard) {
-        Mapper.getInstance().damage(this.attack, minionCard);
-        if(minionCard instanceof IsAttacked){
-            ((IsAttacked)minionCard).isAttacked();
+        try {
+            Mapper.getInstance().damage(this.attack, minionCard);
+        } catch (Exception ignore) { }
+
+        if (minionCard instanceof IsAttacked) {
+            ((IsAttacked) minionCard).isAttacked();
         }
-        Mapper.getInstance().damage(minionCard.getAttack(), this);
+
+        try {
+            Mapper.getInstance().damage(minionCard.getAttack(), this);
+        } catch (Exception ignore) { }
     }
 
     @Override
@@ -166,7 +209,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     }
 
     @Override
-    public void found(Object object) throws HearthStoneException{
+    public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
             if (((Card) object).getPlayer() == this.getPlayer()) {
                 throw new HearthStoneException("Choose enemy!");

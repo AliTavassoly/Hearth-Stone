@@ -3,6 +3,7 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
@@ -91,7 +92,7 @@ public class WeaponButton extends ImageButton {
     }
 
     private void drawAttack(Graphics2D g, String text) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setColor(Color.WHITE);
@@ -103,7 +104,7 @@ public class WeaponButton extends ImageButton {
     }
 
     private void drawDurability(Graphics2D g, String text) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setColor(Color.WHITE);

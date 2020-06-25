@@ -11,6 +11,7 @@ import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
+import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -27,6 +28,8 @@ public class Player {
     protected int mana;
     protected int turnNumber;
 
+    private int manaSpentOnMinions, manaSpentOnSpells;
+
     protected boolean isStarted;
     protected int playerId;
     protected int enemyPlayerId;
@@ -37,7 +40,7 @@ public class Player {
     protected ArrayList<Card> land;
 
     protected HeroPowerCard heroPower;
-
+    protected RewardCard reward;
     protected WeaponCard weapon;
 
     public Player(Hero hero, Deck deck) {
@@ -157,6 +160,31 @@ public class Player {
         return playerId;
     }
 
+
+    public int getManaSpentOnMinions() {
+        return manaSpentOnMinions;
+    }
+
+    public void setManaSpentOnMinions(int manaSpentOnMinions) {
+        this.manaSpentOnMinions = manaSpentOnMinions;
+    }
+
+    public int getManaSpentOnSpells() {
+        return manaSpentOnSpells;
+    }
+
+    public void setManaSpentOnSpells(int manaSpentOnSpells) {
+        this.manaSpentOnSpells = manaSpentOnSpells;
+    }
+
+    public void setReward(RewardCard reward){
+        this.reward = reward;
+    }
+
+    public RewardCard getReward(){
+        return reward;
+    }
+
 /*    public Player getEnemyPlayer() {
         return enemyPlayer;
     }
@@ -242,9 +270,10 @@ public class Player {
                     throw new HearthStoneException("your land is full!");
                 land.add(cardInHand);
                 break;
-            case HEROCARD:
-            case SPELL:
             case REWARDCARD:
+                this.reward = (RewardCard) cardInHand;
+                break;
+            case SPELL:
         }
 
         hand.remove(cardInHand);
@@ -252,17 +281,41 @@ public class Player {
 
         handleBattleCry(cardInHand);
 
-        handlePlayCardOperationForDeck(cardInHand);
+        handleCardPlayInformation(cardInHand);
 
         handleWaitingCards(cardInHand);
+
+        Mapper.getInstance().updateBoard();
+    }
+
+    private void handleCardPlayInformation(Card card){
+        if(card.getCardType() == CardType.SPELL)
+            manaSpentOnSpells += card.getManaCost();
+        if(card.getCardType() == CardType.MINIONCARD)
+            manaSpentOnMinions += card.getManaCost();
+
+        handlePlayCardOperationForDeck(card);
+    }
+
+    private void handleStartTurnBehaviours() {
+        for (Card card : land) {
+            ((MinionCard) card).startTurnBehave();
+        }
+
+        hero.startTurnBehave();
+
+        if (heroPower != null) {
+            // HERO POWER START TURN BEAHVE
+        }
+
+        if (weapon != null) {
+            weapon.startTurnBehave();
+        }
     }
 
     private void handleBattleCry(Card card) {
-        if (card.getCardType() == CardType.MINIONCARD && card instanceof Battlecry) {
-            ((Battlecry) card).battlecry();
-        } else if (card.getCardType() == CardType.WEAPONCARD && card instanceof Battlecry) {
-            ((Battlecry) card).battlecry();
-        }
+        if(card instanceof Battlecry)
+            ((Battlecry)card).battlecry();
     }
 
     private void handleWaitingCards(Card cardInHand) {
@@ -299,6 +352,23 @@ public class Player {
         }
     }
 
+    public void summonMinionFromCurrentDeck() {
+        if (originalDeck.getCards().size() == 0)
+            return;
+        int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+        for (int i = 0; i < deck.getCards().size(); i++) {
+            Card card = deck.getCards().get(start);
+            if (card.getCardType() == CardType.MINIONCARD) {
+                if (land.size() < GameConfigs.maxCardInLand) {
+                    land.add(card);
+                }
+                return;
+            }
+            start++;
+            start %= deck.getCards().size();
+        }
+    }
+
     public void summonMinionFromCurrentDeck(MinionType minionType) {
         if (originalDeck.getCards().size() == 0)
             return;
@@ -313,6 +383,7 @@ public class Player {
                 return;
             }
             start++;
+            start %= deck.getCards().size();
         }
     }
 
@@ -345,16 +416,17 @@ public class Player {
         land.add(cardInLand);
     }
 
-    public Card getRandomMinionFromLand() {
+    public MinionCard getRandomMinionFromLand() {
         if (land.size() == 0)
             return null;
         int start = Rand.getInstance().getRandomNumber(land.size());
         for (int i = 0; i < land.size(); i++) {
             Card card = land.get(start);
             if (card.getCardType() == CardType.MINIONCARD) {
-                return card;
+                return (MinionCard) card;
             }
             start++;
+            start %= deck.getCards().size();
         }
         return null;
     }
@@ -381,15 +453,15 @@ public class Player {
         }
     }
 
-    public ArrayList<Card> neighborCards(Card card) {
-        ArrayList<Card> ans = new ArrayList<>();
+    public ArrayList<MinionCard> neighborCards(Card card) {
+        ArrayList<MinionCard> ans = new ArrayList<>();
         for (int i = 0; i < land.size(); i++) {
             Card card1 = land.get(i);
             if (card == card1) {
                 if (i + 1 < land.size())
-                    ans.add(land.get(i + 1));
+                    ans.add((MinionCard) land.get(i + 1));
                 if (i - 1 >= 0)
-                    ans.add(land.get(i - 1));
+                    ans.add((MinionCard) land.get(i - 1));
                 return ans;
             }
         }
@@ -406,6 +478,7 @@ public class Player {
                 return card;
             }
             start++;
+            start %= deck.getCards().size();
         }
         return null;
     }
@@ -420,6 +493,7 @@ public class Player {
                 return card;
             }
             start++;
+            start %= deck.getCards().size();
         }
         return null;
     }
@@ -457,13 +531,7 @@ public class Player {
             pickCard();
         }*/
 
-        for (Card card : land) {
-            ((MinionCard) card).startTurnBehave();
-        }
-
-        if (weapon != null) {
-            weapon.startTurnBehave();
-        }
+        handleStartTurnBehaviours();
 
         Mapper.getInstance().updateBoard();
     }
@@ -505,6 +573,13 @@ public class Player {
         handleFriendlyMinionDies(friendlyMinionDies, diedInThisMoment);
     }
 
+    private void updateReward(){
+        if(reward != null && reward.metCondition()){
+            reward.doReward();
+            reward = null;
+        }
+    }
+
     private void updateWeapon() {
         if (weapon != null && weapon.getDurability() < 0) {
             weapon = null;
@@ -518,5 +593,6 @@ public class Player {
         updateCardsOnLand();
         updateWeapon();
         updateCardsOnLand();
+        updateReward();
     }
 }

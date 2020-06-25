@@ -107,5 +107,8 @@
   "minionTypeHeight": 28,
 
   "inGameErrorWidth": 300,
-  "inGameErrorHeight": 100
+  "inGameErrorHeight": 100,
+
+  "progressManaWidth": 40,
+  "progressManaHeight": 40
 }

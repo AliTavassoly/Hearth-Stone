@@ -4,6 +4,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
@@ -90,7 +91,7 @@ public class HeroPowerButton extends ImageButton {
     }
 
     private void drawMana(Graphics2D g, String text) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
 

@@ -8,6 +8,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
 
@@ -51,28 +52,6 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         configButton();
     }
 
-    public BoardCardButton(Card card, int width, int height, int playerId) {
-        this.card = card;
-        this.playerId = playerId;
-
-        this.width = width;
-        this.height = height;
-
-        configButton();
-    }
-
-    public BoardCardButton(Card card, int width, int height, int initialRotate, int playerId) {
-        this.card = card;
-        this.initialRotate = initialRotate;
-        this.playerId = playerId;
-        rotate = initialRotate;
-
-        this.width = width;
-        this.height = height;
-
-        configButton();
-    }
-
     public BoardCardButton(Card card, int width, int height, boolean showBig, int playerId) {
         this.card = card;
         this.playerId = playerId;
@@ -88,7 +67,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         this.card = card;
         this.playerId = playerId;
         this.showBig = showBig;
-        this.isInLand = true;
+        this.isInLand = isInLand;
 
         this.width = width;
         this.height = height;
@@ -234,7 +213,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         if (isBack)
             return;
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 20);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -299,7 +278,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
             e.printStackTrace();
         }
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER,0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -321,7 +300,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         final int minionHealthY = height - 37;
 
         g.setColor(color);
-        Font font = GameFrame.getInstance().getCustomFont(0, 30);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER,0, 30);
         g.setFont(font);
 
         text = String.valueOf(((MinionCard) card).getAttack());
@@ -357,7 +336,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
         final int weaponAttackY = height - 15 + 10;
 
         g.setColor(color);
-        Font font = GameFrame.getInstance().getCustomFont(0, 20);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER,0, 20);
         g.setFont(font);
 
         String text;

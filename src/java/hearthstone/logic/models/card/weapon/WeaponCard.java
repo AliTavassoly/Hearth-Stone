@@ -12,8 +12,8 @@ import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 public abstract class WeaponCard extends Card implements WeaponBehaviour{
-    private int durability;
-    private int attack;
+    protected int durability;
+    protected int attack;
 
     protected int numberOfAttack;
     protected boolean isFirstTurn;
@@ -56,7 +56,10 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
 
     @Override
     public void attack(MinionCard minionCard) {
-        Mapper.getInstance().damage(this.attack, minionCard);
+        try {
+            Mapper.getInstance().damage(this.attack, minionCard);
+        } catch (Exception ignore){ }
+
         if(minionCard instanceof IsAttacked){
             ((IsAttacked)minionCard).isAttacked();
         }

@@ -178,6 +178,9 @@ public class PlaySelectionPanel extends JPanel {
         player1.setPlayerId(1);
         player1.setEnemyPlayerId(0);
 
+        //player0.setReward((RewardCard) HearthStone.getCardByName("Learn Draconic")); // JUST FOR TESSSSSSSSSSSSST
+        //player1.setReward((RewardCard) HearthStone.getCardByName("Learn Draconic")); // JUST FOR TESSSSSSSSSSSSST
+
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
         HearthStone.currentGame.startGame();

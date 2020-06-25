@@ -2,7 +2,6 @@ package hearthstone;
 
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
@@ -37,31 +36,35 @@ public class Mapper {
 
     public void startGame(){ HearthStone.currentGame.startGame();}
 
-    public void damage(int damage, MinionCard minionCard){
-        minionCard.setHealth(minionCard.getHealth() - damage);
+    public void damage(int damage, MinionCard minionCard) throws HearthStoneException {
+        minionCard.gotDamage(damage);
+        updateBoard();
     }
 
-    public void damage(int damage, Hero hero){
-        hero.setHealth(hero.getHealth() - damage);
+    public void damage(int damage, Hero hero) throws HearthStoneException{
+        hero.gotDamage(damage);
+        updateBoard();
     }
 
-    public void heal(int heal, MinionCard minionCard){
-        minionCard.setHealth(minionCard.getHealth() + heal);
+    public void heal(int heal, MinionCard minionCard) throws HearthStoneException{
+        minionCard.gotHeal(heal);
+        updateBoard();
     }
 
-    public void heal(int heal, Hero hero){
-        hero.setHealth(hero.getHealth() + heal);
+    public void heal(int heal, Hero hero)throws HearthStoneException {
+        hero.gotHeal(heal);
+        updateBoard();
     }
 
     public void setHealth(int health, MinionCard minionCard){
         minionCard.setHealth(health);
+        updateBoard();
     }
 
-    public void addAttack(int attack, MinionCard minionCard){ minionCard.setAttack(minionCard.getAttack() + attack); }
-
-    public void addDurability(int durability, WeaponCard weaponCard){ weaponCard.setDurability(weaponCard.getDurability() + durability); }
-
-    public void addAttack(int attack, WeaponCard weaponCard){ weaponCard.setAttack(weaponCard.getAttack() + attack); }
+    public void addAttack(int attack, MinionCard minionCard) {
+        minionCard.changeAttack(attack);
+        updateBoard();
+    }
 
     public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
         if(waited instanceof Card){

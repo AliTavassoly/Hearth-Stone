@@ -26,9 +26,13 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
     @Override
     public void isAttacked() {
         Hero hero = DataTransform.getInstance().getHero(this.getPlayer().getEnemyPlayerId());
-        Mapper.getInstance().damage(1, hero);
+        try {
+            Mapper.getInstance().damage(1, hero);
+        } catch (Exception ignore) {}
         for(Card card: DataTransform.getInstance().getLand(this.getPlayer().getEnemyPlayerId())){
-            Mapper.getInstance().damage(1, (MinionCard) card);
+            try {
+                Mapper.getInstance().damage(1, (MinionCard) card);
+            } catch (Exception ignore) {}
         }
     }
 }

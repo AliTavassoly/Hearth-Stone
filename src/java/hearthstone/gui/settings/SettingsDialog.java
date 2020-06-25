@@ -4,6 +4,7 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
 
@@ -129,11 +130,11 @@ public class SettingsDialog extends JDialog {
 
     private void makeLabels(){
         volumeDownLabel = new JLabel("Volume Down");
-        volumeDownLabel.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        volumeDownLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 20));
         volumeDownLabel.setForeground(new Color(69, 28, 28));
 
         volumeUpLabel = new JLabel("Volume Up");
-        volumeUpLabel.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        volumeUpLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 20));
         volumeUpLabel.setForeground(new Color(69, 28, 28));
     }
 

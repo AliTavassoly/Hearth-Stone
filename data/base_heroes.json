@@ -7,7 +7,8 @@
       "description": "witchers are good with spells!\nshe pays 2 mana less for spells!",
       "health": 30,
       "type": "MAGE",
-      "decks": []
+      "decks": [],
+      "isImmune": false
     }
   },
   "1": {
@@ -18,7 +19,8 @@
       "description": "healthier than other!\nreduce 2 health and do somethings !\n",
       "health": 35,
       "type": "WARLOCK",
-      "decks": []
+      "decks": [],
+      "isImmune": false
     }
   },
   "2": {
@@ -29,7 +31,8 @@
       "description": "the thief!\nwith 3 mana, she can steal one opponent card!",
       "health": 30,
       "type": "ROGUE",
-      "decks": []
+      "decks": [],
+      "isImmune": false
     }
   },
   "3": {
@@ -40,7 +43,8 @@
       "description": "is very good and strong",
       "health": 30,
       "type": "PALADIN",
-      "decks": []
+      "decks": [],
+      "isImmune": false
     }
   },
   "4": {
@@ -51,7 +55,8 @@
       "description": "",
       "health": 30,
       "type": "PRIEST",
-      "decks": []
+      "decks": [],
+      "isImmune": false
     }
   }
 }

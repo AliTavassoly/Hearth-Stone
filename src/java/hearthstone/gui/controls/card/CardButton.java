@@ -8,6 +8,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
 
@@ -82,7 +83,7 @@ public class CardButton extends ImageButton implements MouseListener {
                     null);
         }
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,

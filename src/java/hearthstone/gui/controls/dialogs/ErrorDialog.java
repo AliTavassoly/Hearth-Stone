@@ -4,6 +4,7 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 
 import javax.swing.*;
@@ -46,7 +47,7 @@ public class ErrorDialog extends MyDialog {
     private void makeLabels(){
         message = new JLabel(text);
         message.setForeground(new Color(69, 28, 28));
-        message.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+        message.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 20));
     }
 
     private void makeButtons(){

@@ -4,6 +4,7 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
@@ -12,6 +13,8 @@ import java.awt.image.BufferedImage;
 public class BoardHeroButton extends ImageButton {
     private Hero hero;
     private int width, height;
+
+    private BufferedImage immuneImage;
 
     private BufferedImage heroImage;
     private BufferedImage healthBackground;
@@ -57,6 +60,10 @@ public class BoardHeroButton extends ImageButton {
                 healthBackground = ImageResource.getInstance().getImage(
                         "/images/health_background.png");
 
+            if(immuneImage == null)
+                immuneImage = ImageResource.getInstance().getImage(
+                        "/images/heroes/normal_heroes/immune_frame.png");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,7 +75,16 @@ public class BoardHeroButton extends ImageButton {
                 height,
                 null);
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 15);
+        if(hero.isImmune()){
+            g2.drawImage(immuneImage.getScaledInstance(width,
+                    height,
+                    Image.SCALE_SMOOTH), 0, 0,
+                    width,
+                    height,
+                    null);
+        }
+
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER,0, 15);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -88,7 +104,7 @@ public class BoardHeroButton extends ImageButton {
     }
 
     private void drawHealth(Graphics2D g, String text, FontMetrics fontMetrics) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(0, 20);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 20);
         g.setFont(font);
         String health = String.valueOf(hero.getHealth());
         g.setColor(Color.WHITE);

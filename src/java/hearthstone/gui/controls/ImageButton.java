@@ -1,6 +1,7 @@
 package hearthstone.gui.controls;
 
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -173,7 +174,7 @@ public class ImageButton extends JButton implements MouseListener {
 
     private void drawText(Graphics2D g) {
         if (text != null) {
-            Font font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
+            Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
             FontMetrics fontMetrics = g.getFontMetrics(font);
             int textWidth = fontMetrics.stringWidth(text);
 

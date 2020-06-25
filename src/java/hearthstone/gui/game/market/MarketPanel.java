@@ -16,6 +16,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.card.Card;
+import hearthstone.util.FontType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -143,7 +144,7 @@ public class MarketPanel extends JPanel {
         gemLabel = new JLabel();
         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
         gemLabel.setForeground(Color.WHITE);
-        gemLabel.setFont(GameFrame.getInstance().getCustomFont(0, 62));
+        gemLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 62));
 
         ImagePanel imagePanel = new ImagePanel("gem.png",
                 SizeConfigs.bigGemButtonWidth,
@@ -376,7 +377,7 @@ public class MarketPanel extends JPanel {
         public Price(String text) {
             JLabel label = new JLabel(text);
             label.setForeground(Color.WHITE);
-            label.setFont(GameFrame.getInstance().getCustomFont(0, 20));
+            label.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 20));
 
             ImagePanel gemImage = new ImagePanel("gem.png",
                     SizeConfigs.smallGemButtonWidth,

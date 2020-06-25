@@ -2,6 +2,7 @@ package hearthstone.gui.game.play.dialogs;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 import hearthstone.util.timer.MyTask;
 import hearthstone.util.timer.MyTimerTask;
@@ -89,14 +90,14 @@ public class MessageDialog extends ImageButton {
 
     private void drawText(Graphics2D g) {
         if (text != null) {
-            Font font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
+            Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
             FontMetrics fontMetrics = g.getFontMetrics(font);
             int textWidth = fontMetrics.stringWidth(text);
 
             while (textWidth >= width){
                 textSize--;
 
-                font = CredentialsFrame.getInstance().getCustomFont(textStyle, textSize);
+                font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
                 fontMetrics = g.getFontMetrics(font);
                 textWidth = fontMetrics.stringWidth(text);
             }

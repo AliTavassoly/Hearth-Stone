@@ -32,6 +32,8 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
             return;
         int ind = Rand.getInstance().getRandomNumber(land.size());
         MinionCard card = (MinionCard) land.get(ind);
-        Mapper.getInstance().damage(3, card);
+        try {
+            Mapper.getInstance().damage(3, card);
+        } catch (Exception ignore) {}
     }
 }

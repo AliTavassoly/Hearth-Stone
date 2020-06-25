@@ -2,33 +2,31 @@ package hearthstone.gui;
 
 import hearthstone.gui.controls.dialogs.ErrorDialog;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.FontType;
+import hearthstone.util.getresource.FontResource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 
 public class BaseFrame extends JFrame {
-    private Font hearthStoneFont;
-
     public BaseFrame() {
         configFrame();
     }
 
     private void configFrame(){
-        try (InputStream in = new BufferedInputStream(
-                this.getClass().getResourceAsStream("/fonts/text_font.ttf"))) {
-            hearthStoneFont = Font.createFont(Font.TRUETYPE_FONT, in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         setCursor();
     }
 
-    public Font getCustomFont(int style, int size) {
-        return hearthStoneFont.deriveFont(style, size);
+    public Font getCustomFont(FontType fontType, int style, int size) {
+        Font font = null;
+        switch (fontType){
+            case TEXT:
+            case NUMBER:
+                font = FontResource.getInstance().getFont("/fonts/text_font.ttf");
+                break;
+        }
+        return font.deriveFont(style, size);
     }
 
     public void switchPanelTo(JFrame frame, JPanel panel) {

@@ -27,7 +27,9 @@ public class Dreadscale extends MinionCard implements EndTurnBehave {
     public void endTurnBehave() {
         for(Card card: DataTransform.getInstance().getLand(this.getPlayer().getEnemyPlayerId())){
             MinionCard minionCard = (MinionCard)card;
-            Mapper.getInstance().damage(1, minionCard);
+            try {
+                Mapper.getInstance().damage(1, minionCard);
+            } catch (Exception ignore) {}
         }
         Mapper.getInstance().updateBoard();
     }

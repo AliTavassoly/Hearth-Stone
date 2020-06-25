@@ -18,6 +18,7 @@ import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.FontType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -177,11 +178,11 @@ public class DeckArrangement extends JPanel {
     private void makeLabels() {
         nameLabel = new JLabel("name  :  ");
         nameLabel.setForeground(new Color(255, 255, 68));
-        nameLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        nameLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 15));
 
         manaLabel = new JLabel("mana cost  :  ");
         manaLabel.setForeground(new Color(255, 255, 68));
-        manaLabel.setFont(GameFrame.getInstance().getCustomFont(0, 15));
+        manaLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 15));
     }
 
     private void makeFields() {

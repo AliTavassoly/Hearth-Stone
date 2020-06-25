@@ -13,7 +13,7 @@ import hearthstone.util.HearthStoneException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Hero {
+public abstract class Hero implements HeroBehaviour{
     private int id;
     private String name;
     private String description;
@@ -21,6 +21,8 @@ public abstract class Hero {
     private HeroType type;
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
+
+    protected boolean isImmune;
 
     private Player player;
 
@@ -47,7 +49,6 @@ public abstract class Hero {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -55,7 +56,6 @@ public abstract class Hero {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -63,7 +63,6 @@ public abstract class Hero {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -71,7 +70,6 @@ public abstract class Hero {
     public int getHealth() {
         return health;
     }
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -79,7 +77,6 @@ public abstract class Hero {
     public HeroType getType() {
         return type;
     }
-
     public void setType(HeroType type) {
         this.type = type;
     }
@@ -87,7 +84,6 @@ public abstract class Hero {
     public ArrayList<Deck> getDecks() {
         return decks;
     }
-
     public void setDecks(ArrayList<Deck> decks) {
         this.decks = decks;
     }
@@ -102,7 +98,6 @@ public abstract class Hero {
         }
         return null;
     }
-
     public void setSelectedDeck(Deck selectedDeck){
         this.selectedDeck = selectedDeck;
     }
@@ -111,9 +106,16 @@ public abstract class Hero {
     public Player getPlayer() {
         return player;
     }
-
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+
+    public boolean isImmune() {
+        return isImmune;
+    }
+    public void setImmune(boolean immune) {
+        isImmune = immune;
     }
 
     // End of getter setter
@@ -139,5 +141,23 @@ public abstract class Hero {
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
+    }
+
+    @Override
+    public void gotDamage(int damage) throws HearthStoneException {
+        if(isImmune){
+            throw new HearthStoneException("The Hero is Immune!");
+        }
+        this.health -= damage;
+    }
+
+    @Override
+    public void gotHeal(int heal) throws HearthStoneException {
+        this.health += heal;
+    }
+
+    @Override
+    public void startTurnBehave() {
+        isImmune = false;
     }
 }

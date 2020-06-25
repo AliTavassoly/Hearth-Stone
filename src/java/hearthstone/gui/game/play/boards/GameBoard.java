@@ -22,11 +22,9 @@ import hearthstone.gui.game.play.dialogs.MessageDialog;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionBehaviour;
+import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponBehaviour;
-import hearthstone.util.CursorType;
-import hearthstone.util.HearthStoneException;
-import hearthstone.util.Rand;
-import hearthstone.util.SoundPlayer;
+import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
 import hearthstone.util.timer.MyTask;
 import hearthstone.util.timer.MyTimerTask;
@@ -153,6 +151,12 @@ public class GameBoard extends JPanel {
     protected final int enemyErrorX = 200;
     protected final int enemyErrorY = 70;
 
+    private final int myRewardX = 0;
+    private final int myRewardY = 315;
+
+    private final int enemyRewardX = 0;
+    private final int enemyRewardY = 130;
+
     // Finals END
 
     public GameBoard(int myPlayerId, int enemyPlayerId) {
@@ -271,12 +275,12 @@ public class GameBoard extends JPanel {
         if (maxNumber == 10)
             fontSize = 19;
 
-        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, fontSize));
         g.setColor(Color.WHITE);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         FontMetrics fontMetrics = g.getFontMetrics
-                (GameFrame.getInstance().getCustomFont(0, fontSize));
+                (GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, fontSize));
         g.drawString(text,
                 myManaStringX - fontMetrics.stringWidth(text) / 2, myManaStringY);
     }
@@ -290,12 +294,12 @@ public class GameBoard extends JPanel {
         if (maxNumber == 10)
             fontSize = 19;
 
-        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.setFont(GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, fontSize));
         g.setColor(Color.WHITE);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         FontMetrics fontMetrics = g.getFontMetrics
-                (GameFrame.getInstance().getCustomFont(0, fontSize));
+                (GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, fontSize));
         g.drawString(text,
                 enemyManaStringX - fontMetrics.stringWidth(text) / 2, enemyManaStringY);
     }
@@ -305,18 +309,36 @@ public class GameBoard extends JPanel {
     private void drawDeckNumberOfCards(Graphics2D g, int X, int Y, int number) {
         int fontSize = 50;
 
-        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
+        g.setFont(GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, fontSize));
         g.setColor(Color.WHITE);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         FontMetrics fontMetrics = g.getFontMetrics
-                (GameFrame.getInstance().getCustomFont(0, fontSize));
+                (GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, fontSize));
 
         g.drawString(String.valueOf(number),
                 X - fontMetrics.stringWidth(String.valueOf(number)) / 2,
                 Y);
     }
     // DRAW DECK NUMBER
+
+    // DRAW REWARD
+    private void drawReward(int playerId, int X, int Y) {
+        RewardCard rewardCard = DataTransform.getInstance().getReward(playerId);
+        if (rewardCard == null)
+            return;
+
+        BoardRewardButton rewardButton = new BoardRewardButton(
+                rewardCard,
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight);
+
+        rewardButton.setBounds(X, Y,
+                SizeConfigs.medCardWidth, SizeConfigs.medCardHeight);
+
+        add(rewardButton);
+    }
+    // DRAW REWARD
 
     // DRAW HEROPOWER
     private void drawHeroPower(int playerId, int X, int Y) {
@@ -535,7 +557,7 @@ public class GameBoard extends JPanel {
 
     protected void animateCard(int startX, int startY,
                                Animation animation) {
-        long period = 20;
+        long period = 15;
 
         final int width = animation.getComponent().getWidth();
         final int height = animation.getComponent().getHeight();
@@ -559,7 +581,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void periodFunction() {
-                int jump = 4;
+                int jump = 5;
                 int plusX = jump;
                 int plusY = jump;
 
@@ -616,8 +638,6 @@ public class GameBoard extends JPanel {
 
             hearthstone.util.Logger.saveLog("Play card",
                     card.getName() + " played");
-
-            restart();
         } catch (HearthStoneException e) {
             try {
                 hearthstone.util.Logger.saveLog("ERROR",
@@ -1022,6 +1042,9 @@ public class GameBoard extends JPanel {
 
         drawWeapon(0, myWeaponX, myWeaponY);
         drawWeapon(1, enemyWeaponX, enemyWeaponY);
+
+        drawReward(0, myRewardX, myRewardY);
+        drawReward(1, enemyRewardX, enemyRewardY);
 
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);

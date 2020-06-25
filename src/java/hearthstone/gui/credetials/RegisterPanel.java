@@ -6,6 +6,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.fields.PasswordField;
 import hearthstone.gui.controls.fields.TextField;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.util.FontType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -190,7 +191,7 @@ public class RegisterPanel extends JPanel {
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {
         Graphics2D graphics2D = (Graphics2D) graphic;
-        Font font = CredentialsFrame.getInstance().getCustomFont(style, size);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
 

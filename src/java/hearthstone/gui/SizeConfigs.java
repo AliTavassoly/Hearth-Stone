@@ -115,6 +115,9 @@ public class SizeConfigs {
     public static int inGameErrorWidth;
     public static int inGameErrorHeight;
 
+    public static int progressManaWidth;
+    public static int progressManaHeight;
+
     static public void setConfigs(Map<String, Object> configs) {
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
@@ -227,5 +230,8 @@ public class SizeConfigs {
 
         inGameErrorWidth = ((Double) configs.get("inGameErrorWidth")).intValue();
         inGameErrorHeight = ((Double) configs.get("inGameErrorHeight")).intValue();
+
+        progressManaWidth = ((Double) configs.get("progressManaWidth")).intValue();
+        progressManaHeight = ((Double) configs.get("progressManaHeight")).intValue();
     }
 }
