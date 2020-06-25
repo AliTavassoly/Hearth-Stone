@@ -41,11 +41,12 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     private int playerId;
 
-    public BoardCardButton(Card card, int width, int height) {
+    public BoardCardButton(Card card, int width, int height, int playerId, boolean isBack) {
         this.card = card;
         this.width = width;
         this.height = height;
-        isBack = true;
+        this.playerId = playerId;
+        this.isBack = isBack;
 
         configButton();
     }

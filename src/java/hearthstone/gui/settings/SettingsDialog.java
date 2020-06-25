@@ -65,7 +65,7 @@ public class SettingsDialog extends JDialog {
         Image cursorImage = null;
         try{
             cursorImage = ImageResource.getInstance().getImage(
-                    "/images/cursor.png");
+                    "/images/normal_cursor.png");
         } catch (Exception e){
             e.printStackTrace();
         }

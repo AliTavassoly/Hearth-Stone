@@ -19,31 +19,65 @@ public class SoloGameBoard extends GameBoard {
         super(myPlayerId, enemyPlayerId);
     }
 
-    @Override
-    protected void drawEnemyCardsOnHand() {
-        ArrayList<Card> cards = DataTransform.getInstance().getHand(enemyPlayerId);
+
+    protected void drawCardsOnHand(int playerId, int handX, int handY) {
+        ArrayList<Card> cards = DataTransform.getInstance().getHand(playerId);
         if (cards.size() == 0)
             return;
-        int dis = enemyHandDisCard / cards.size();
+
+        int dis = handDisCard / cards.size();
+        int startX = handX;
+        int startY = handY;
+
+        if (cards.size() % 2 == 0) {
+            startX += 25;
+        }
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            BoardCardButton cardButton = new BoardCardButton(card, SizeConfigs.smallCardWidth,
-                    SizeConfigs.smallCardHeight);
+            BoardCardButton cardButton;
 
-            cardButton.setBounds(enemyHandX + dis * (i - cards.size() / 2),
-                    enemyHandY,
+            if (playerId == myPlayerId) {
+                cardButton = new BoardCardButton(card,
+                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
+
+                makeCardOnHandMouseListener(cardButton, card, cardButton,
+                        startX + dis * (i - cards.size() / 2),
+                        startY,
+                        SizeConfigs.smallCardWidth,
+                        SizeConfigs.smallCardHeight);
+            } else {
+                cardButton = new BoardCardButton(card,
+                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 1, true);
+            }
+
+            synchronized (animationsCard) {
+                if (animationsCard.contains(card)) {
+                    int ind = animationsCard.indexOf(card);
+                    Animation destination = animations.get(ind);
+                    destination.setX(startX + dis * (i - cards.size() / 2));
+                    destination.setY(startY);
+                    continue;
+                }
+            }
+
+            cardButton.setBounds(startX + dis * (i - cards.size() / 2),
+                    startY,
                     SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight);
 
-            if (!animatedCardsInEnemyHand.contains(card)) {
-                animatedCardsInEnemyHand.add(card);
-
-                Animation destination = new Animation(enemyHandX + dis * (i - cards.size() / 2),
-                        enemyHandY, cardButton);
-
-                animateCard(enemyPickedCardX, enemyPickedCardY, destination);
-            }
             add(cardButton);
+
+            if (!animatedCardsInHand.contains(card)) {
+                animatedCardsInHand.add(card);
+
+                Animation destination = new Animation(startX + dis * (i - cards.size() / 2),
+                        startY, cardButton);
+
+                if (playerId == myPlayerId)
+                    animateCard(myPickedCardX, myPickedCardY, destination);
+                else
+                    animateCard(enemyPickedCardX, enemyPickedCardY, destination);
+            }
         }
     }
 
