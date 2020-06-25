@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 
 public class HeroPowerButton extends ImageButton {
     private int width, height;
+
     private HeroPowerCard card;
 
     private boolean isShowBig;
@@ -38,6 +39,8 @@ public class HeroPowerButton extends ImageButton {
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
         setFocusPainted(false);
+
+        addMouseListener(this);
     }
 
     public int getPlayerId(){

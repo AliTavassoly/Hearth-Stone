@@ -172,7 +172,10 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeNewPracticeGame(Player player0, Player player1){
+        player0.setPlayerId(0);
         player0.setEnemyPlayerId(1);
+
+        player1.setPlayerId(1);
         player1.setEnemyPlayerId(0);
 
         HearthStone.currentGame = new Game(player0, player1);
@@ -182,7 +185,10 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeNewSoloGame(Player player0, Player player1){
+        player0.setPlayerId(0);
         player0.setEnemyPlayerId(1);
+
+        player1.setPlayerId(1);
         player1.setEnemyPlayerId(0);
 
         HearthStone.currentGame = new Game(player0, player1);

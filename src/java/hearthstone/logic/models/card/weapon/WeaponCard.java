@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.weapon;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
@@ -41,8 +42,14 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
         this.attack = attack;
     }
 
+    public boolean canAttack(){
+        return numberOfAttack > 0 &&
+                DataTransform.getInstance().getWhoseTurn() == getPlayer().getPlayerId();
+    }
+
     @Override
     public void startTurnBehave() {
+        numberOfAttack++;
         durability--;
         isFirstTurn = false;
     }
@@ -84,6 +91,6 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
 
     @Override
     public boolean pressed() {
-        return numberOfAttack > 0;
+        return canAttack();
     }
 }

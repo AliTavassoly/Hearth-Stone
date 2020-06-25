@@ -699,7 +699,7 @@
       "attack": 2,
       "initialHealth": 3,
       "initialAttack": 2,
-      "isTaunt": false,
+      "isTaunt": true,
       "isDeathRattle": false,
       "isTriggeredEffect": false,
       "isSpellDamage": false,

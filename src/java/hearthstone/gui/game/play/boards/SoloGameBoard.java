@@ -41,7 +41,7 @@ public class SoloGameBoard extends GameBoard {
                 cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
 
-                makeCardOnHandMouseListener(cardButton, card, cardButton,
+                makeCardOnHandMouseListener(cardButton,
                         startX + dis * (i - cards.size() / 2),
                         startY,
                         SizeConfigs.smallCardWidth,

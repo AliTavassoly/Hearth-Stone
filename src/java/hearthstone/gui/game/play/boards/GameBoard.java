@@ -22,6 +22,7 @@ import hearthstone.gui.game.play.dialogs.MessageDialog;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionBehaviour;
+import hearthstone.logic.models.card.weapon.WeaponBehaviour;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
@@ -92,16 +93,16 @@ public class GameBoard extends JPanel {
     private final int myHeroY = SizeConfigs.gameFrameHeight - 236;
 
     private final int myHeroPowerX = midX + 52;
-    private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 190;
+    private final int myHeroPowerY = SizeConfigs.gameFrameHeight - 220;
 
     private final int enemyHeroPowerX = midX + 52;
-    private final int enemyHeroPowerY = 60;
+    private final int enemyHeroPowerY = 90;
 
     private final int myWeaponX = midX - 165;
-    private final int myWeaponY = SizeConfigs.gameFrameHeight - 190;
+    private final int myWeaponY = SizeConfigs.gameFrameHeight - 220;
 
     private final int enemyWeaponX = midX - 165;
-    private final int enemyWeaponY = 60;
+    private final int enemyWeaponY = 90;
 
     private final int heroWidth = SizeConfigs.medHeroWidth;
     private final int heroHeight = SizeConfigs.medHeroHeight;
@@ -202,8 +203,10 @@ public class GameBoard extends JPanel {
         drawEnemyMana(g2, DataTransform.getInstance().getMana(enemyPlayerId),
                 DataTransform.getInstance().getTurnNumber(enemyPlayerId));
 
-        drawMyDeckNumberOfCards(g2, DataTransform.getInstance().getDeck(myPlayerId).getCards().size());
-        drawEnemyDeckNumberOfCards(g2, DataTransform.getInstance().getDeck(enemyPlayerId).getCards().size());
+        drawDeckNumberOfCards(g2, myDeckCardsNumberX, myDeckCardsNumberY,
+                DataTransform.getInstance().getDeck(myPlayerId).getCards().size());
+        drawDeckNumberOfCards(g2, enemyDeckCardsNumberX, enemyDeckCardsNumberY,
+                DataTransform.getInstance().getDeck(enemyPlayerId).getCards().size());
 
         g2.drawImage(sparkImage.getImage().getScaledInstance(
                 sparkImage.getWidth(), sparkImage.getHeight(),
@@ -244,6 +247,7 @@ public class GameBoard extends JPanel {
         Mapper.getInstance().doPassive(enemyPlayerId);
     }
 
+    // DRAW MANA
     private void drawMyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, DataTransform.getInstance().getMaxManaInGame());
@@ -295,8 +299,10 @@ public class GameBoard extends JPanel {
         g.drawString(text,
                 enemyManaStringX - fontMetrics.stringWidth(text) / 2, enemyManaStringY);
     }
+    // DRAW MANA
 
-    private void drawMyDeckNumberOfCards(Graphics2D g, int number) {
+    // DRAW DECK NUMBER
+    private void drawDeckNumberOfCards(Graphics2D g, int X, int Y, int number) {
         int fontSize = 50;
 
         g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
@@ -307,31 +313,20 @@ public class GameBoard extends JPanel {
                 (GameFrame.getInstance().getCustomFont(0, fontSize));
 
         g.drawString(String.valueOf(number),
-                myDeckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
-                myDeckCardsNumberY);
+                X - fontMetrics.stringWidth(String.valueOf(number)) / 2,
+                Y);
     }
-
-    private void drawEnemyDeckNumberOfCards(Graphics2D g, int number) {
-        int fontSize = 50;
-
-        g.setFont(GameFrame.getInstance().getCustomFont(0, fontSize));
-        g.setColor(Color.WHITE);
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-        FontMetrics fontMetrics = g.getFontMetrics
-                (GameFrame.getInstance().getCustomFont(0, fontSize));
-
-        g.drawString(String.valueOf(number),
-                enemyDeckCardsNumberX - fontMetrics.stringWidth(String.valueOf(number)) / 2,
-                enemyDeckCardsNumberY);
-    }
+    // DRAW DECK NUMBER
 
     // DRAW HEROPOWER
     private void drawHeroPower(int playerId, int X, int Y) {
         if (DataTransform.getInstance().getHeroPower(playerId) == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(DataTransform.getInstance().getHeroPower(playerId),
-                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true, 1);
+                SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true, playerId);
+
+        makeHeroPowerMouseListener(heroPowerButton);
+
         heroPowerButton.setBounds(X, Y,
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight);
 
@@ -343,17 +338,15 @@ public class GameBoard extends JPanel {
     private void drawWeapon(int playerId, int X, int Y) {
         if (DataTransform.getInstance().getWeapon(playerId) == null)
             return;
+
         WeaponButton weaponButton = new WeaponButton(DataTransform.getInstance().getWeapon(playerId),
-                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, 1);
+                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, playerId);
         weaponButton.setBounds(X, Y,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
 
-        makeWeaponMouseListener(weaponButton, DataTransform.getInstance().getWeapon(playerId),
-                weaponButton, X, Y,
-                SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
+        makeWeaponMouseListener(weaponButton);
 
-        makeWeaponMouseListener(weaponButton, DataTransform.getInstance().getWeapon(playerId),
-                weaponButton, X, Y,
+        weaponButton.setBounds(X, Y,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
 
         add(weaponButton);
@@ -380,13 +373,13 @@ public class GameBoard extends JPanel {
 
             if (playerId == myPlayerId) {
                 cardButton = new BoardCardButton(card,
-                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
+                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, playerId);
             } else {
                 cardButton = new BoardCardButton(card,
-                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, 1);
+                        SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, playerId);
             }
 
-            makeCardOnHandMouseListener(cardButton, card, cardButton,
+            makeCardOnHandMouseListener(cardButton,
                     startX + dis * (i - cards.size() / 2),
                     startY,
                     SizeConfigs.smallCardWidth,
@@ -443,12 +436,10 @@ public class GameBoard extends JPanel {
                         SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 1, true);
             }
 
-            makeCardOnLandMouseListener(cardButton, card, cardButton,
+            makeCardOnLandMouseListener(cardButton,
                     startX + dis * (i - cards.size() / 2)
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
-                    startY,
-                    SizeConfigs.smallCardWidthOnLand,
-                    SizeConfigs.smallCardHeightOnLand);
+                    startY);
 
             synchronized (animationsCard) {
                 if (animationsCard.contains(card)) {
@@ -609,7 +600,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void playCard(BoardCardButton button, Card card, BoardCardButton cardButton,
+    private void playCard(BoardCardButton button, Card card,
                           int startX, int startY, int width, int height) {
         try {
             if (button.getPlayerId() == 0) {
@@ -621,7 +612,7 @@ public class GameBoard extends JPanel {
             if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPONCARD || card.getCardType() == CardType.HEROPOWER)
                 removeCardAnimation(card);
 
-            cardButton.playSound();
+            button.playSound();
 
             hearthstone.util.Logger.saveLog("Play card",
                     card.getName() + " played");
@@ -643,11 +634,11 @@ public class GameBoard extends JPanel {
         }
     }
 
-    protected void makeCardOnHandMouseListener(BoardCardButton button, Card card,
-                                             BoardCardButton cardButton,
-                                             int startX, int startY, int width, int height) {
+    // MOUSE LISTENERS
+    protected void makeCardOnHandMouseListener(BoardCardButton button,
+                                               int startX, int startY, int width, int height) {
         CardButton bigCardButton = new CardButton(
-                card,
+                button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
                 -1);
@@ -668,7 +659,7 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                if (cardButton.isShowBig()) {
+                if (button.isShowBig()) {
                     add(bigCardButton);
                     if (button.getPlayerId() == 0)
                         button.setBounds(button.getX(), button.getY() - 47, button.getWidth(), button.getHeight());
@@ -679,7 +670,7 @@ public class GameBoard extends JPanel {
             }
 
             public void mouseExited(MouseEvent e) {
-                if (cardButton.isShowBig()) {
+                if (button.isShowBig()) {
                     remove(bigCardButton);
                     if (button.getPlayerId() == 0 && button.getY() != startY)
                         button.setBounds(button.getX(), button.getY() + 47, button.getWidth(), button.getHeight());
@@ -693,12 +684,12 @@ public class GameBoard extends JPanel {
                 if (!isInMyLand(startX, startY) &&
                         isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         DataTransform.getInstance().getWhoseTurn() == 0) {
-                    playCard(button, card, cardButton,
+                    playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else if (!isInEnemyLand(startX, startY) &&
                         isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         DataTransform.getInstance().getWhoseTurn() == 1) {
-                    playCard(button, card, cardButton,
+                    playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else {
                     button.setBounds(startX, startY, width, height);
@@ -718,11 +709,10 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeCardOnLandMouseListener(BoardCardButton button, Card card,
-                                             BoardCardButton cardButton,
-                                             int startX, int startY, int width, int height) {
+    private void makeCardOnLandMouseListener(BoardCardButton button,
+                                             int startX, int startY) {
         CardButton bigCardButton = new CardButton(
-                card,
+                button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
                 -1);
@@ -743,33 +733,31 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if ((isInMyLand(startX, startY) || isInEnemyLand(startX, startY))) {
-                    if (isLookingFor) {
-                        try {
-                            Mapper.getInstance().foundObjectForObject(waitingObject, card);
-                            deleteCurrentMouseWaiting();
-                            Mapper.getInstance().updateBoard();
-                        } catch (HearthStoneException hse) {
-                            showError(hse.getMessage());
-                        }
-                    } else {
-                        if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
-                                && ((MinionBehaviour) card).pressed()) {
-                            makeNewMouseWaiting(CursorType.ATTACK, card);
-                        }
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                } else {
+                    if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
+                            && ((MinionBehaviour) button.getCard()).pressed()) {
+                        makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }
             }
 
             public void mouseEntered(MouseEvent e) {
-                if (cardButton.isShowBig()) {
+                if (button.isShowBig()) {
                     add(bigCardButton);
                     updateUI();
                 }
             }
 
             public void mouseExited(MouseEvent e) {
-                if (cardButton.isShowBig()) {
+                if (button.isShowBig()) {
                     remove(bigCardButton);
                     updateUI();
                 }
@@ -777,16 +765,69 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeWeaponMouseListener(WeaponButton button, Card card,
-                                         WeaponButton weaponButton,
-                                         int startX, int startY, int width, int height) {
+    private void makeWeaponMouseListener(WeaponButton button) {
         CardButton bigCardButton = new CardButton(
-                card,
+                button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
                 -1);
 
-        if (weaponButton.getPlayerId() == 0) {
+        if (button.getPlayerId() == 0) {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
+                    0,
+                    SizeConfigs.medCardWidth,
+                    SizeConfigs.medCardHeight);
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                } else {
+                    if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
+                            && ((WeaponBehaviour) button.getCard()).pressed()) {
+                        makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
+                    }
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (button.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (button.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
+                }
+            }
+        });
+    }
+
+    private void makeHeroPowerMouseListener(HeroPowerButton button) {
+        CardButton bigCardButton = new CardButton(
+                button.getCard(),
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight,
+                -1);
+
+        if (button.getPlayerId() == 0) {
             bigCardButton.setBounds(
                     SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
                     SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
@@ -802,68 +843,19 @@ public class GameBoard extends JPanel {
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                if (weaponButton.isShowBig()) {
+                if (button.isShowBig()) {
                     add(bigCardButton);
                     updateUI();
                 }
             }
 
             public void mouseExited(MouseEvent e) {
-                if (weaponButton.isShowBig()) {
+                if (button.isShowBig()) {
                     remove(bigCardButton);
                     updateUI();
                 }
             }
         });
-    }
-
-    private void makeHeroPowerMouseListener(HeroPowerButton button, Card card,
-                                            HeroPowerButton powerButton,
-                                            int startX, int startY, int width, int height) {
-        CardButton bigCardButton = new CardButton(
-                card,
-                SizeConfigs.medCardWidth,
-                SizeConfigs.medCardHeight,
-                -1);
-
-        if (powerButton.getPlayerId() == 0) {
-            bigCardButton.setBounds(
-                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
-                    SizeConfigs.gameFrameHeight - SizeConfigs.medCardHeight,
-                    SizeConfigs.medCardWidth,
-                    SizeConfigs.medCardHeight);
-        } else {
-            bigCardButton.setBounds(
-                    SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
-                    0,
-                    SizeConfigs.medCardWidth,
-                    SizeConfigs.medCardHeight);
-        }
-
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                if (powerButton.isShowBig()) {
-                    add(bigCardButton);
-                    updateUI();
-                }
-            }
-
-            public void mouseExited(MouseEvent e) {
-                if (powerButton.isShowBig()) {
-                    remove(bigCardButton);
-                    updateUI();
-                }
-            }
-        });
-    }
-
-    private void removeCardAnimation(Card card) {
-        synchronized (animationsCard) {
-            if (animationsCard.contains(card)) {
-                int ind = animationsCard.indexOf(card);
-                this.remove(animations.get(ind).getComponent());
-            }
-        }
     }
 
     private void makeHeroMouseListener(BoardHeroButton button) {
@@ -879,6 +871,16 @@ public class GameBoard extends JPanel {
                 }
             }
         });
+    }
+    // MOUSE LISTENERS
+
+    private void removeCardAnimation(Card card) {
+        synchronized (animationsCard) {
+            if (animationsCard.contains(card)) {
+                int ind = animationsCard.indexOf(card);
+                this.remove(animations.get(ind).getComponent());
+            }
+        }
     }
 
     public void makeNewMouseWaiting(CursorType cursorType, Card card) {

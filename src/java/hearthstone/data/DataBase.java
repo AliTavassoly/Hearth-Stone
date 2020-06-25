@@ -165,7 +165,7 @@ public class DataBase {
 
         TheHulk theHulk = new TheHulk(id++, "The Hulk", "Just Hulk!", 3, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 2,
                 false, false, false, false,
-                false, false, false, MinionType.BEAST);
+                true, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(theHulk.getId(), theHulk);
 
         // Weapon

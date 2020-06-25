@@ -28,6 +28,7 @@ public class Player {
     protected int turnNumber;
 
     protected boolean isStarted;
+    protected int playerId;
     protected int enemyPlayerId;
 
     private ArrayList<Card> waitingForDraw;
@@ -51,8 +52,8 @@ public class Player {
         configPlayer();
     }
 
-    private void configPlayer(){
-        for(Card card: deck.getCards()){
+    private void configPlayer() {
+        for (Card card : deck.getCards()) {
             configCard(card);
         }
         configHero(hero);
@@ -146,6 +147,14 @@ public class Player {
 
     public int getEnemyPlayerId() {
         return enemyPlayerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public int getPlayerId() {
+        return playerId;
     }
 
 /*    public Player getEnemyPlayer() {
@@ -262,7 +271,7 @@ public class Player {
         }
     }
 
-    private void handleDeathRattles(ArrayList <Card> deathRattles) {
+    private void handleDeathRattles(ArrayList<Card> deathRattles) {
         for (Card card : deathRattles) {
             if (card instanceof DeathRattle) {
                 ((DeathRattle) (card)).deathRattle();
@@ -282,10 +291,10 @@ public class Player {
         }
     }
 
-    private void handleFriendlyMinionDies(ArrayList <Card> friendlyMinionDies, int number){
-        for(Card card: friendlyMinionDies){
-            for(int i = 0; i < number; i++){
-                ((FriendlyMinionDies)card).friendlyMinionDies();
+    private void handleFriendlyMinionDies(ArrayList<Card> friendlyMinionDies, int number) {
+        for (Card card : friendlyMinionDies) {
+            for (int i = 0; i < number; i++) {
+                ((FriendlyMinionDies) card).friendlyMinionDies();
             }
         }
     }
@@ -423,7 +432,6 @@ public class Player {
         return false;
     }
 
-
     public void endTurn() {
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : land) {
@@ -453,7 +461,7 @@ public class Player {
             ((MinionCard) card).startTurnBehave();
         }
 
-        if(weapon != null){
+        if (weapon != null) {
             weapon.startTurnBehave();
         }
 
@@ -476,7 +484,7 @@ public class Player {
         for (int i = 0; i < land.size(); i++) {
             Card card = land.get(i);
 
-            if (((MinionCard) card).getHealth() > 0 && ((MinionCard) card) instanceof FriendlyMinionDies){
+            if (((MinionCard) card).getHealth() > 0 && ((MinionCard) card) instanceof FriendlyMinionDies) {
                 friendlyMinionDies.add(card);
             }
 
@@ -497,13 +505,14 @@ public class Player {
         handleFriendlyMinionDies(friendlyMinionDies, diedInThisMoment);
     }
 
-    private void updateWeapon(){
-        if(weapon != null && weapon.getDurability() == 0){
+    private void updateWeapon() {
+        if (weapon != null && weapon.getDurability() < 0) {
             weapon = null;
         }
     }
 
-    private void updateHeroPower(){ }
+    private void updateHeroPower() {
+    }
 
     public void updatePlayer() {
         updateCardsOnLand();
