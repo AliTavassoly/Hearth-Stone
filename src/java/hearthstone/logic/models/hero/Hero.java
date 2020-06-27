@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
+import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.player.Player;
@@ -13,7 +14,7 @@ import hearthstone.util.HearthStoneException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Hero implements HeroBehaviour{
+public abstract class Hero implements HeroBehaviour, Character {
     private int id;
     private String name;
     private String description;
@@ -153,7 +154,7 @@ public abstract class Hero implements HeroBehaviour{
     }
 
     @Override
-    public void gotHeal(int heal) throws HearthStoneException {
+    public void gotHeal(int heal) {
         this.health += heal;
     }
 

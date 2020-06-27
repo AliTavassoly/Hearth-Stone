@@ -47,8 +47,11 @@ public class GameBoard extends JPanel {
     protected final int myPlayerId, enemyPlayerId;
 
     private PassiveButton myPassive;
+
     private MyTimerTask endTurnLineTimerTask;
     private SparkImage sparkImage;
+    private ImagePanel ropeImage;
+
     protected ArrayList<Card> animatedCardsInHand;
     protected ArrayList<Card> animatedCardsInLand;
 
@@ -504,6 +507,7 @@ public class GameBoard extends JPanel {
     }
     // DRAW CARDS
 
+    // END TURN LINE
     private void drawEndTurnTimeLine() {
         int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
         long length = 90000;
@@ -512,6 +516,9 @@ public class GameBoard extends JPanel {
 
         final int[] xSpark = {endTurnTimeLineStartX};
         final int[] ySpark = {endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2};
+
+        final int sparkWidth = sparkImage.getWidth();
+        final int sparkHeight = sparkImage.getHeight();
 
         SoundPlayer countdown = new SoundPlayer("/sounds/countdown.wav");
 
@@ -528,6 +535,10 @@ public class GameBoard extends JPanel {
 
                 sparkImage.setX(xSpark[0]);
                 sparkImage.setY(ySpark[0]);
+
+                ropeImage.setBounds(xSpark[0] + sparkWidth - 7, ySpark[0] + sparkHeight / 2 - 7,
+                        endTurnTimeLineEndX - (xSpark[0] + sparkWidth) + 5,
+                        SizeConfigs.endTurnRopeHeight);
 
                 repaint();
                 revalidate();
@@ -554,6 +565,7 @@ public class GameBoard extends JPanel {
             }
         });
     }
+    // END TURN LINE
 
     protected void animateCard(int startX, int startY,
                                Animation animation) {
@@ -997,6 +1009,11 @@ public class GameBoard extends JPanel {
                 SizeConfigs.endTurnFireHeight,
                 "/images/spark_0.png");
 
+        ropeImage = new ImagePanel("rope.png", SizeConfigs.endTurnRopeWidth + 7,
+                SizeConfigs.endTurnRopeHeight, sparkImage.getX() + sparkImage.getWidth(),
+                sparkImage.getY() + sparkImage.getHeight() / 2,true);
+        add(ropeImage);
+
         myHero = new BoardHeroButton(DataTransform.getInstance().getHero(myPlayerId),
                 heroWidth, heroHeight, 0);
         makeHeroMouseListener(myHero);
@@ -1101,6 +1118,9 @@ public class GameBoard extends JPanel {
             if (component instanceof ImagePanel &&
                     ((ImagePanel) component).getImagePath().contains("spark"))
                 continue;
+            if (component instanceof ImagePanel && ((ImagePanel) component).isRTL())
+                continue;
+
             if (component instanceof BoardCardButton) {
                 BoardCardButton boardCardButton = (BoardCardButton) component;
                 if (animationsCard.contains(boardCardButton.getCard())) {

@@ -1,6 +1,7 @@
 package hearthstone.logic.models.card.minion;
 
 import hearthstone.Mapper;
+import hearthstone.logic.models.Character;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
@@ -9,7 +10,7 @@ import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-public abstract class MinionCard extends Card implements MinionBehaviour {
+public abstract class MinionCard extends Card implements MinionBehaviour, Character {
     protected int health;
     protected int attack;
     protected int initialHealth;
@@ -176,12 +177,12 @@ public abstract class MinionCard extends Card implements MinionBehaviour {
     }
 
     @Override
-    public void gotHeal(int heal) throws HearthStoneException {
+    public void gotHeal(int heal) {
         this.health += heal;
     }
 
     @Override
-    public void restoreHeal(int heal) {
+    public void restoreHealth(int heal) {
         this.health = Math.max(initialHealth, this.health + heal);
     }
 

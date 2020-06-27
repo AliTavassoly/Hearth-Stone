@@ -1,9 +1,9 @@
 package hearthstone;
 
+import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -37,42 +37,29 @@ public class Mapper {
 
     public void startGame(){ HearthStone.currentGame.startGame();}
 
-    public void damage(int damage, MinionCard minionCard) throws HearthStoneException {
-        minionCard.gotDamage(damage);
-        updateBoard();
-    }
-
-    public void damage(int damage, Hero hero) throws HearthStoneException{
-        hero.gotDamage(damage);
-        updateBoard();
-    }
-
-    public void heal(int heal, MinionCard minionCard) throws HearthStoneException{
-        minionCard.gotHeal(heal);
-        updateBoard();
-    }
-
-    public void heal(int heal, Hero hero)throws HearthStoneException {
-        hero.gotHeal(heal);
-        updateBoard();
-    }
-
-    public void setHealth(int health, MinionCard minionCard){
-        minionCard.setHealth(health);
-        updateBoard();
-    }
-
     public void addAttack(int attack, MinionCard minionCard) {
         minionCard.changeAttack(attack);
         updateBoard();
     }
 
-    public void restoreHealth(int heal, MinionCard minionCard){
-        minionCard.restoreHeal(heal);
+    public void setHealth(int health, Character character){
+        character.setHealth(health);
+        updateBoard();
     }
 
-    public void restoreHealth(int heal, Hero hero){
-        hero.restoreHealth(heal);
+    public void damage(int damage, Character character) throws HearthStoneException{
+        character.gotDamage(damage);
+        updateBoard();
+    }
+
+    public void heal(int heal, Character character){
+        character.gotHeal(heal);
+        updateBoard();
+    }
+
+    public void restoreHealth(int heal, Character character){
+        character.restoreHealth(heal);
+        updateBoard();
     }
 
     public void setPassive(int playerId, Passive passive) {

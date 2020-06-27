@@ -7,8 +7,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel {
+    private int startX, startY;
     private int width, height;
     private String imagePath;
+    private boolean isRTL;
 
     private BufferedImage image;
 
@@ -16,6 +18,19 @@ public class ImagePanel extends JPanel {
         this.imagePath = imagePath;
         this.width = width;
         this.height = height;
+
+        setPreferredSize(new Dimension(width, height));
+    }
+
+    public ImagePanel(String imagePath, int width, int height, int startX, int startY, boolean isRTL) {
+        this.imagePath = imagePath;
+        this.width = width;
+        this.height = height;
+
+        this.startX = startX;
+        this.startY = startY;
+
+        this.isRTL = isRTL;
 
         setPreferredSize(new Dimension(width, height));
     }
@@ -33,9 +48,25 @@ public class ImagePanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g2.drawImage(image.getScaledInstance(width, height,
-                Image.SCALE_SMOOTH),
-                0, 0, width, height,
-                null);
+
+        if (isRTL) {
+            g2.drawImage(image.getScaledInstance(width, height,
+                    Image.SCALE_SMOOTH),
+                    startX - (int) getBounds().getX(), 0, width, height,
+                    null);
+        } else {
+            g2.drawImage(image.getScaledInstance(width, height,
+                    Image.SCALE_SMOOTH),
+                    0, 0, width, height,
+                    null);
+        }
+    }
+
+    public BufferedImage getImage(){
+        return image;
+    }
+
+    public boolean isRTL(){
+        return isRTL;
     }
 }
