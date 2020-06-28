@@ -25,6 +25,8 @@ public class Player {
     protected Deck deck;
     protected Passive passive;
 
+    private String username;
+
     protected int mana;
     protected int turnNumber;
 
@@ -43,10 +45,12 @@ public class Player {
     protected RewardCard reward;
     protected WeaponCard weapon;
 
-    public Player(Hero hero, Deck deck) {
+    public Player(Hero hero, Deck deck, String username) {
         this.hero = hero.copy();
         originalDeck = deck;
         this.deck = deck.copy();
+
+        this.username = username;
 
         hand = new ArrayList<>();
         land = new ArrayList<>();
@@ -62,6 +66,15 @@ public class Player {
         configHero(hero);
 
         mana = 0;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getMana() {
@@ -177,11 +190,11 @@ public class Player {
         this.manaSpentOnSpells = manaSpentOnSpells;
     }
 
-    public void setReward(RewardCard reward){
+    public void setReward(RewardCard reward) {
         this.reward = reward;
     }
 
-    public RewardCard getReward(){
+    public RewardCard getReward() {
         return reward;
     }
 
@@ -288,10 +301,10 @@ public class Player {
         Mapper.getInstance().updateBoard();
     }
 
-    private void handleCardPlayInformation(Card card){
-        if(card.getCardType() == CardType.SPELL)
+    private void handleCardPlayInformation(Card card) {
+        if (card.getCardType() == CardType.SPELL)
             manaSpentOnSpells += card.getManaCost();
-        if(card.getCardType() == CardType.MINIONCARD)
+        if (card.getCardType() == CardType.MINIONCARD)
             manaSpentOnMinions += card.getManaCost();
 
         handlePlayCardOperationForDeck(card);
@@ -314,8 +327,8 @@ public class Player {
     }
 
     private void handleBattleCry(Card card) {
-        if(card instanceof Battlecry)
-            ((Battlecry)card).battlecry();
+        if (card instanceof Battlecry)
+            ((Battlecry) card).battlecry();
     }
 
     private void handleWaitingCards(Card cardInHand) {
@@ -435,7 +448,8 @@ public class Player {
         this.configCard(card);
         try {
             deck.addInTheMiddleOfGame(card);
-        } catch (HearthStoneException ignore) {
+        } catch (HearthStoneException e) {
+            e.printStackTrace();
         }
     }
 
@@ -573,8 +587,8 @@ public class Player {
         handleFriendlyMinionDies(friendlyMinionDies, diedInThisMoment);
     }
 
-    private void updateReward(){
-        if(reward != null && reward.metCondition()){
+    private void updateReward() {
+        if (reward != null && reward.metCondition()) {
             reward.doReward();
             reward = null;
         }
@@ -594,5 +608,13 @@ public class Player {
         updateWeapon();
         updateCardsOnLand();
         updateReward();
+    }
+
+    public void lostGame(){
+        // should  develop
+    }
+
+    public void wonGame(){
+        // should  develop
     }
 }

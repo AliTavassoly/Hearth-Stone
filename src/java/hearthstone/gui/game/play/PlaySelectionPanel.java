@@ -35,7 +35,6 @@ public class PlaySelectionPanel extends JPanel {
     private final int buttonDisY = 100;
     private final int startButtonY = SizeConfigs.gameFrameHeight / 2;
 
-
     public PlaySelectionPanel() {
         configPanel();
 
@@ -114,7 +113,7 @@ public class PlaySelectionPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 Player myPlayer = HearthStone.currentAccount.getPlayer();
                 Player computerPlayer = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
-                        HearthStone.currentAccount.getSelectedHero().getSelectedDeck());
+                        HearthStone.currentAccount.getSelectedHero().getSelectedDeck(), myPlayer.getUsername());
 
                 makeNewSoloGame(myPlayer, computerPlayer);
 
@@ -125,6 +124,7 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(1120, 700));
         setLayout(null);
         setVisible(true);
     }

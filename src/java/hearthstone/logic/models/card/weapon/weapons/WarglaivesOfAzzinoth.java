@@ -37,11 +37,13 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
     }
 
     @Override
-    public void attack(MinionCard minionCard) {
-        try {
+    public void attack(MinionCard minionCard) throws HearthStoneException{
             Mapper.getInstance().damage(this.attack, minionCard);
+        try {
             numberOfAttack++;
-        } catch (Exception ignore){ }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         if(minionCard instanceof IsAttacked){
             ((IsAttacked)minionCard).isAttacked();

@@ -12,20 +12,19 @@ import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 public class DesertSpear extends WeaponCard {
-    public DesertSpear() { }
+    public DesertSpear() {
+    }
 
-    public DesertSpear(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack){
+    public DesertSpear(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack) {
         super(id, name, description, manaCost, heroType, rarity, cardType, durability, attack);
     }
 
     @Override
-    public void attack(MinionCard minionCard) {
-        try {
-            Mapper.getInstance().damage(this.attack, minionCard);
-            getPlayer().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
-        } catch (Exception ignore){ }
-        if(minionCard instanceof IsAttacked){
-            ((IsAttacked)minionCard).isAttacked();
+    public void attack(MinionCard minionCard) throws HearthStoneException {
+        Mapper.getInstance().damage(this.attack, minionCard);
+        getPlayer().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        if (minionCard instanceof IsAttacked) {
+            ((IsAttacked) minionCard).isAttacked();
         }
     }
 

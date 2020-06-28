@@ -22,8 +22,7 @@ public class Mapper {
     }
 
     public void playCard(int playerId, Card card) throws Exception{
-        HearthStone.currentGame.getPlayerById(playerId)
-                .playCard(card);
+        HearthStone.currentGame.getPlayerById(playerId).playCard(card);
     }
 
     public void doPassive(int playerId){
@@ -36,6 +35,18 @@ public class Mapper {
     }
 
     public void startGame(){ HearthStone.currentGame.startGame();}
+
+    public void gameEnded(){
+        HearthStone.currentGameBoard.gameEnded();
+    }
+
+    public void lost(int playerId){
+        HearthStone.currentGame.getPlayerById(playerId).lostGame();
+    }
+
+    public void won(int playerId){
+        HearthStone.currentGame.getPlayerById(playerId).wonGame();
+    }
 
     public void addAttack(int attack, MinionCard minionCard) {
         minionCard.changeAttack(attack);

@@ -8,12 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends BaseFrame {
-    private MainMenuPanel mainMenuPanel;
     private static GameFrame gameFrame;
 
     private GameFrame() {
-        mainMenuPanel = new MainMenuPanel();
-
         configFrame();
     }
 
@@ -35,7 +32,7 @@ public class GameFrame extends BaseFrame {
         this.setSize(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setContentPane(mainMenuPanel);
+        this.setContentPane(new MainMenuPanel());
 
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);

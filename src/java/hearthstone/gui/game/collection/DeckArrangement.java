@@ -99,6 +99,7 @@ public class DeckArrangement extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(1120, 700));
         //setLayout(new BorderLayout());
         //add(layeredPane, BorderLayout.CENTER);
         setLayout(null);

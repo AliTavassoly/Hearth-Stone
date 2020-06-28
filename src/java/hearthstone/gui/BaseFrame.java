@@ -4,8 +4,8 @@ import hearthstone.gui.controls.dialogs.ErrorDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.FontResource;
+import hearthstone.util.getresource.ImageResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
@@ -42,8 +42,7 @@ public class BaseFrame extends JFrame {
     public void  setCursor(){
         Image cursorImage = null;
         try {
-            cursorImage = ImageIO.read(this.getClass().getResourceAsStream(
-                    "/images/normal_cursor.png"));
+            cursorImage = ImageResource.getInstance().getImage("/images/normal_cursor.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -100,7 +100,6 @@ public class  HearthStone {
             DataBase.load();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to load DataBase!");
         }
         CredentialsFrame.getInstance();
     }

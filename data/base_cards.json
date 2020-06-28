@@ -281,6 +281,7 @@
   "16": {
     "type": "hearthstone.logic.models.card.minion.minions.HulkingOverfiend",
     "data": {
+      "thisTurnAttack": 0,
       "health": 5,
       "attack": 10,
       "initialHealth": 5,

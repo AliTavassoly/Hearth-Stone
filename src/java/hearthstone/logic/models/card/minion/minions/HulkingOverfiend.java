@@ -11,6 +11,8 @@ import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 public class HulkingOverfiend extends MinionCard {
+    private int thisTurnAttack;
+
     public HulkingOverfiend() {
     }
 
@@ -20,6 +22,12 @@ public class HulkingOverfiend extends MinionCard {
         super(id, name, description, manaCost, heroType, rarity, cardType, health, attack,
                 isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield,
                 isTaunt, isCharge, isRush, minionType);
+    }
+
+    @Override
+    public void startTurnBehave() {
+        super.startTurnBehave();
+        thisTurnAttack = 0;
     }
 
     @Override
@@ -47,6 +55,7 @@ public class HulkingOverfiend extends MinionCard {
                     numberOfAttack++;
 
                 numberOfAttackedMinion++;
+                thisTurnAttack++;
             }
         } else if (object instanceof Hero) {
             if (((Hero) object).getPlayer() == this.getPlayer()) {
@@ -55,12 +64,13 @@ public class HulkingOverfiend extends MinionCard {
                 this.attack((Hero) object);
                 numberOfAttack--;
                 numberOfAttackedHero++;
+                thisTurnAttack++;
             }
         }
     }
 
     @Override
     public boolean pressed() {
-        return (numberOfAttack > 0 || (isFirstTurn && numberOfAttackedMinion == 0));
+        return ((numberOfAttack > 0 && thisTurnAttack != 2) || (isFirstTurn && numberOfAttackedMinion == 0));
     }
 }

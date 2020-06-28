@@ -171,7 +171,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void gotDamage(int damage) throws HearthStoneException {
-        if(isImmune)
+        if (isImmune)
             throw new HearthStoneException("The minion is Immune!");
         health -= damage;
     }
@@ -195,7 +195,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     public void attack(MinionCard minionCard) {
         try {
             Mapper.getInstance().damage(this.attack, minionCard);
-        } catch (Exception ignore) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (minionCard instanceof IsAttacked) {
             ((IsAttacked) minionCard).isAttacked();
@@ -203,7 +205,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
         try {
             Mapper.getInstance().damage(minionCard.getAttack(), this);
-        } catch (Exception ignore) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

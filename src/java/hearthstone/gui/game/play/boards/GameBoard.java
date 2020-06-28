@@ -9,6 +9,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
 import hearthstone.gui.controls.card.CardButton;
+import hearthstone.gui.controls.dialogs.ErrorDialog;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.controls.icons.CloseIcon;
@@ -57,6 +58,7 @@ public class GameBoard extends JPanel {
 
     protected ArrayList<Card> animationsCard;
     protected ArrayList<Animation> animations;
+    private final Object animationLock = new Object();
 
     private boolean isLookingFor;
     private Object waitingObject;
@@ -183,7 +185,6 @@ public class GameBoard extends JPanel {
         showPassiveDialogs();
 
         iconLayout();
-
         makeGameStuff();
 
         gameStuffLayout();
@@ -200,7 +201,8 @@ public class GameBoard extends JPanel {
                 backgroundImage = ImageResource.getInstance().getImage(
                         "/images/game_board_background.png");
             }
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         g2.drawImage(backgroundImage, 0, 0, null);
 
@@ -224,6 +226,7 @@ public class GameBoard extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(1120, 700));
         setLayout(null);
         setDoubleBuffered(true);
         setVisible(true);
@@ -410,7 +413,7 @@ public class GameBoard extends JPanel {
                     SizeConfigs.smallCardWidth,
                     SizeConfigs.smallCardHeight);
 
-            synchronized (animationsCard) {
+            synchronized (animationLock) {
                 if (animationsCard.contains(card)) {
                     int ind = animationsCard.indexOf(card);
                     Animation destination = animations.get(ind);
@@ -466,7 +469,7 @@ public class GameBoard extends JPanel {
                             - (cards.size() % 2 == 1 ? SizeConfigs.smallCardWidthOnLand / 2 : 0),
                     startY);
 
-            synchronized (animationsCard) {
+            synchronized (animationLock) {
                 if (animationsCard.contains(card)) {
                     int ind = animationsCard.indexOf(card);
                     Animation animation = animations.get(ind);
@@ -520,7 +523,7 @@ public class GameBoard extends JPanel {
         final int sparkWidth = sparkImage.getWidth();
         final int sparkHeight = sparkImage.getHeight();
 
-        SoundPlayer countdown = new SoundPlayer("/sounds/countdown.wav");
+        SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
         endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyTask() {
             @Override
@@ -546,7 +549,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void warningFunction() {
-                countdown.playOnce();
+                warningPlayer.playOnce();
             }
 
             @Override
@@ -556,7 +559,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                countdown.stop();
+                warningPlayer.stop();
             }
 
             @Override
@@ -585,7 +588,7 @@ public class GameBoard extends JPanel {
         MyTimerTask task = new MyTimerTask(period, new MyTask() {
             @Override
             public void startFunction() {
-                synchronized (animationsCard) {
+                synchronized (animationLock) {
                     animationsCard.add(((BoardCardButton) animation.getComponent()).getCard());
                     animations.add(animation);
                 }
@@ -618,7 +621,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                synchronized (animationsCard) {
+                synchronized (animationLock) {
                     int ind = animationsCard.indexOf(((BoardCardButton) animation.getComponent()).getCard());
                     animationsCard.remove(ind);
                     animations.remove(ind);
@@ -627,9 +630,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
-                if (x[0] == animation.getX() && y[0] == animation.getY())
-                    return true;
-                return false;
+                return x[0] == animation.getX() && y[0] == animation.getY();
             }
         });
     }
@@ -907,7 +908,7 @@ public class GameBoard extends JPanel {
     // MOUSE LISTENERS
 
     private void removeCardAnimation(Card card) {
-        synchronized (animationsCard) {
+        synchronized (animationLock) {
             if (animationsCard.contains(card)) {
                 int ind = animationsCard.indexOf(card);
                 this.remove(animations.get(ind).getComponent());
@@ -975,7 +976,6 @@ public class GameBoard extends JPanel {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                CredentialsFrame.getSoundPlayer().loopPlay();
                 beforeCloseBoard();
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
@@ -1011,7 +1011,7 @@ public class GameBoard extends JPanel {
 
         ropeImage = new ImagePanel("rope.png", SizeConfigs.endTurnRopeWidth + 7,
                 SizeConfigs.endTurnRopeHeight, sparkImage.getX() + sparkImage.getWidth(),
-                sparkImage.getY() + sparkImage.getHeight() / 2,true);
+                sparkImage.getY() + sparkImage.getHeight() / 2, true);
         add(ropeImage);
 
         myHero = new BoardHeroButton(DataTransform.getInstance().getHero(myPlayerId),
@@ -1027,6 +1027,7 @@ public class GameBoard extends JPanel {
 
         messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        add(messageDialog);
     }
 
     private void iconLayout() {
@@ -1108,9 +1109,49 @@ public class GameBoard extends JPanel {
         messageDialog.setVisibility(true);
     }
 
+    public void gameEnded() {
+        if (DataTransform.getInstance().isLost(0)) {
+            try {
+                DataBase.save();
+
+                hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(1) +
+                        " won " +
+                        DataTransform.getInstance().getPlayerName(0));
+
+                Mapper.getInstance().lost(0);
+                Mapper.getInstance().won(1);
+
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Ooops! You lost the game :(",
+                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                DataBase.save();
+                hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(0) +
+                        " won " +
+                        DataTransform.getInstance().getPlayerName(1));
+
+                Mapper.getInstance().lost(1);
+                Mapper.getInstance().won(0);
+
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Congratulation! You Won the game :)",
+                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        beforeCloseBoard();
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+    }
+
     private void beforeCloseBoard() {
-        soundPlayer.stop();
         endTurnLineTimerTask.myStop();
+        CredentialsFrame.getSoundPlayer().loopPlay();
+        soundPlayer.stop();
+        deleteCurrentMouseWaiting();
     }
 
     private void removeComponents() {
@@ -1123,10 +1164,13 @@ public class GameBoard extends JPanel {
 
             if (component instanceof BoardCardButton) {
                 BoardCardButton boardCardButton = (BoardCardButton) component;
-                if (animationsCard.contains(boardCardButton.getCard())) {
-                    continue;
+                synchronized (animationLock) {
+                    if (animationsCard.contains(boardCardButton.getCard())) {
+                        continue;
+                    }
                 }
             }
+
             if (component instanceof MessageDialog)
                 continue;
             this.remove(component);

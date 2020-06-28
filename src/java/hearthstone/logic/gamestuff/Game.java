@@ -1,7 +1,10 @@
 package hearthstone.logic.gamestuff;
 
+import hearthstone.Mapper;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.timer.MyTask;
+import hearthstone.util.timer.MyTimerTask;
 
 public class Game {
     private Player player0, player1;
@@ -12,6 +15,32 @@ public class Game {
         this.player1  = player1;
 
         whoseTurn = 0;
+
+        MyTimerTask myTimerTask = new MyTimerTask(500, new MyTask() {
+            @Override
+            public void startFunction() { }
+
+            @Override
+            public void periodFunction() { }
+
+            @Override
+            public void warningFunction() { }
+
+            @Override
+            public void finishedFunction() {
+
+            }
+
+            @Override
+            public void closeFunction() {
+                Mapper.getInstance().gameEnded();
+            }
+
+            @Override
+            public boolean finishCondition() {
+                return gameEnded();
+            }
+        });
     }
 
     public void startGame(){
@@ -71,5 +100,9 @@ public class Game {
     public Player getPlayerById(int id){
         if (id == 0) return player0;
         else return player1;
+    }
+
+    public boolean gameEnded(){
+        return player0.getHero().getHealth() <= 0 || player1.getHero().getHealth() <= 0;
     }
 }

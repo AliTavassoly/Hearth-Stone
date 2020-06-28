@@ -81,6 +81,7 @@ public class DeckSelection extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(1120, 700));
         setLayout(null);
         setVisible(true);
     }

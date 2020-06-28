@@ -62,6 +62,7 @@ public class MainMenuPanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         g.drawImage(backgroundImage, 0, 0, null);
     }
 
@@ -180,6 +181,7 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(1120, 700));
         setLayout(null);
         setVisible(true);
     }

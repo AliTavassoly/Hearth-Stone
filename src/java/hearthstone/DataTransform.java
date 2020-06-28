@@ -74,6 +74,10 @@ public class DataTransform {
         return HearthStone.currentGame.getPlayerById(playerId).getHero();
     }
 
+    public String getPlayerName(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getUsername();
+    }
+
     public int spentManaOnMinions(int playerId) {
         return HearthStone.currentGame.getPlayerById(playerId).getManaSpentOnMinions();
     }
@@ -88,5 +92,9 @@ public class DataTransform {
 
     public int getNumberOfPassive() {
         return GameConfigs.initialPassives;
+    }
+
+    public boolean isLost(int playerId){
+        return HearthStone.currentGame.getPlayerById(playerId).getHero().getHealth() <= 0;
     }
 }

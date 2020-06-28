@@ -55,10 +55,12 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
     }
 
     @Override
-    public void attack(MinionCard minionCard) {
+    public void attack(MinionCard minionCard) throws HearthStoneException{
         try {
             Mapper.getInstance().damage(this.attack, minionCard);
-        } catch (Exception ignore){ }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         if(minionCard instanceof IsAttacked){
             ((IsAttacked)minionCard).isAttacked();

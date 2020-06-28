@@ -231,7 +231,7 @@ public class Account {
     }
 
     public Player getPlayer() {
-        return new Player(selectedHero, getSelectedHero().getSelectedDeck());
+        return new Player(selectedHero, getSelectedHero().getSelectedDeck(), username);
     }
 
     public class Collection {
