@@ -522,9 +522,7 @@ public class Player {
 
     public void endTurn() {
         ArrayList<Card> cards = new ArrayList<>();
-        for (Card card : land) {
-            cards.add(card);
-        }
+        cards.addAll(land);
 
         for (Card card : cards) {
             MinionCard minionCard = (MinionCard) card;
@@ -539,13 +537,16 @@ public class Player {
         //mana = ++turnNumber;
         mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
-        pickCard();
 
         /*if(passive.getName().equals("Twice Draw")){
             pickCard();
         }*/
 
         handleStartTurnBehaviours();
+
+        Mapper.getInstance().updateBoard();
+
+        pickCard();
 
         Mapper.getInstance().updateBoard();
     }

@@ -8,7 +8,6 @@ import hearthstone.logic.models.card.interfaces.WaitDrawingCard;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.util.HearthStoneException;
 
 public class HighPriestAmet extends MinionCard implements WaitDrawingCard {
     public HighPriestAmet(){ }
@@ -24,7 +23,7 @@ public class HighPriestAmet extends MinionCard implements WaitDrawingCard {
     }
 
     @Override
-    public boolean waitDrawingCard(Card card) throws HearthStoneException {
+    public boolean waitDrawingCard(Card card) {
         if (card.getCardType() != CardType.MINIONCARD)
             return false;
         MinionCard minionCard = (MinionCard) card;

@@ -9,6 +9,7 @@ import hearthstone.logic.models.card.interfaces.EndTurnBehave;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 
 public class Dreadscale extends MinionCard implements EndTurnBehave {
     public Dreadscale(){ }
@@ -28,10 +29,8 @@ public class Dreadscale extends MinionCard implements EndTurnBehave {
         for(Card card: DataTransform.getInstance().getLand(this.getPlayer().getEnemyPlayerId())){
             MinionCard minionCard = (MinionCard)card;
             try {
-                Mapper.getInstance().damage(1, minionCard);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                Mapper.getInstance().damage(1, minionCard, false);
+            } catch (HearthStoneException ignore) { }
         }
         Mapper.getInstance().updateBoard();
     }

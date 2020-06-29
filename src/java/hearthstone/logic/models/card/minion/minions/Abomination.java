@@ -10,6 +10,7 @@ import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 
 public class Abomination extends MinionCard implements DeathRattle {
     public Abomination(){ }
@@ -28,16 +29,12 @@ public class Abomination extends MinionCard implements DeathRattle {
 
         try {
             Mapper.getInstance().damage(2, hero);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (HearthStoneException ignore) { }
 
         for(Card card: DataTransform.getInstance().getLand(this.getPlayer().getEnemyPlayerId())){
             try {
                 Mapper.getInstance().damage(2, (MinionCard) card, false);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            } catch (HearthStoneException ignore){ }
         }
 
         Mapper.getInstance().updateBoard();

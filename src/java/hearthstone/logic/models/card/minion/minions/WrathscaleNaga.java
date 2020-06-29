@@ -9,6 +9,7 @@ import hearthstone.logic.models.card.interfaces.FriendlyMinionDies;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
@@ -34,8 +35,6 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
         MinionCard card = (MinionCard) land.get(ind);
         try {
             Mapper.getInstance().damage(3, card);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (HearthStoneException ignore) { }
     }
 }
