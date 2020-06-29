@@ -1170,7 +1170,8 @@ public class GameBoard extends JPanel {
                 Mapper.getInstance().lost(1);
                 Mapper.getInstance().won(0);
 
-                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Congratulation! You Won the game :)",
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(),
+                        "Congratulation! You Won the game :)", new Color(38, 104, 23),
                         SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
             } catch (Exception e) {
                 e.printStackTrace();

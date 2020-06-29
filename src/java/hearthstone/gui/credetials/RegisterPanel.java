@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class RegisterPanel extends JPanel {
@@ -107,12 +109,16 @@ public class RegisterPanel extends JPanel {
 
     private void makeFields() {
         nameField = new TextField(10);
+        nameField.addKeyListener(new MyAction());
 
         userField = new TextField(10);
+        userField.addKeyListener(new MyAction());
 
         passField = new PasswordField(10);
+        passField.addKeyListener(new MyAction());
 
         repField = new PasswordField(10);
+        repField.addKeyListener(new MyAction());
     }
 
     private void configPanel() {
@@ -240,5 +246,15 @@ public class RegisterPanel extends JPanel {
 
         closeButton.setBounds(iconX, endIconY, SizeConfigs.iconWidth, SizeConfigs.iconHeight);
         add(closeButton);
+    }
+
+    class MyAction implements KeyListener {
+        public void keyTyped(KeyEvent keyEvent) { }
+        public void keyReleased(KeyEvent keyEvent) { }
+        public void keyPressed(KeyEvent keyEvent) {
+            if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER){
+                registerButton.doClick();
+            }
+        }
     }
 }

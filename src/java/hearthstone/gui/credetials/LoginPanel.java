@@ -13,9 +13,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel{
     private ImageButton backButton, loginButton, closeButton, minimizeButton;
     private TextField userField;
     private PasswordField passField;
@@ -151,9 +153,11 @@ public class LoginPanel extends JPanel {
     private void makeFields() {
         userField = new TextField(10);
         userField.setBorder(null);
+        userField.addKeyListener(new MyAction());
 
         passField = new PasswordField(10);
         passField.setBorder(null);
+        passField.addKeyListener(new MyAction());
     }
 
     private void drawString(String text, int x, int y, int size, int style,
@@ -214,5 +218,15 @@ public class LoginPanel extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
         add(closeButton);
+    }
+
+    class MyAction implements KeyListener {
+        public void keyTyped(KeyEvent keyEvent) { }
+        public void keyReleased(KeyEvent keyEvent) { }
+        public void keyPressed(KeyEvent keyEvent) {
+            if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER){
+                loginButton.doClick();
+            }
+        }
     }
 }
