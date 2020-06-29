@@ -20,6 +20,7 @@ import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
+import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.minion.MinionBehaviour;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponBehaviour;
@@ -895,6 +896,24 @@ public class GameBoard extends JPanel {
         }
 
         button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                } else {
+                    if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
+                            && ((HeroPowerBehaviour) button.getCard()).pressed()) {
+                        makeNewMouseWaiting(((HeroPowerBehaviour)button.getCard()).lookingForCursorType(),
+                                button.getCard());
+                    }
+                }
+            }
+
             public void mouseEntered(MouseEvent e) {
                 if (button.isShowBig()) {
                     add(bigCardButton);
@@ -949,6 +968,9 @@ public class GameBoard extends JPanel {
                 break;
             case ATTACK:
                 GameFrame.getInstance().setCursor("/images/attack_cursor.png");
+                break;
+            case HEAL:
+                GameFrame.getInstance().setCursor("/images/heal_cursor.png");
                 break;
         }
     }

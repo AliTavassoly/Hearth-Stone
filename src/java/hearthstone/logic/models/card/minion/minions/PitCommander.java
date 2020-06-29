@@ -24,7 +24,7 @@ public class PitCommander extends MinionCard implements EndTurnBehave {
     public void endTurnBehave() {
         if(didItEndTurnBehave)
             return;
-        getPlayer().summonMinionFromCurrentDeck(MinionType.DEMON);
+        getPlayer().getFactory().summonMinionFromCurrentDeck(MinionType.DEMON);
         didItEndTurnBehave = true;
     }
 }

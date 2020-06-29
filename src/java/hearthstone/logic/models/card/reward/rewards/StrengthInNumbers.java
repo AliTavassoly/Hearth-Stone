@@ -36,7 +36,7 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
 
     @Override
     public void doReward() {
-        getPlayer().summonMinionFromCurrentDeck();
+        getPlayer().getFactory().summonMinionFromCurrentDeck();
         Mapper.getInstance().restartSpentManaOnMinions(getPlayer().getPlayerId());
     }
 }

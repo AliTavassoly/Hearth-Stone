@@ -15,9 +15,10 @@ import hearthstone.util.HearthStoneException;
 public class WarglaivesOfAzzinoth extends WeaponCard {
     private int numberOfThisTurnAttacked;
 
-    public WarglaivesOfAzzinoth() { }
+    public WarglaivesOfAzzinoth() {
+    }
 
-    public WarglaivesOfAzzinoth(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack){
+    public WarglaivesOfAzzinoth(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack) {
         super(id, name, description, manaCost, heroType, rarity, cardType, durability, attack);
     }
 
@@ -37,16 +38,16 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
     }
 
     @Override
-    public void attack(MinionCard minionCard) throws HearthStoneException{
-            Mapper.getInstance().damage(this.attack, minionCard);
+    public void attack(MinionCard minionCard) throws HearthStoneException {
+        Mapper.getInstance().damage(this.attack, minionCard);
         try {
             numberOfAttack++;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(minionCard instanceof IsAttacked){
-            ((IsAttacked)minionCard).isAttacked();
+        if (minionCard instanceof IsAttacked) {
+            ((IsAttacked) minionCard).isAttacked();
         }
     }
 

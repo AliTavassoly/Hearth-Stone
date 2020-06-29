@@ -22,7 +22,7 @@ public class DesertSpear extends WeaponCard {
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
         Mapper.getInstance().damage(this.attack, minionCard);
-        getPlayer().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        getPlayer().getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
         if (minionCard instanceof IsAttacked) {
             ((IsAttacked) minionCard).isAttacked();
         }
@@ -34,7 +34,7 @@ public class DesertSpear extends WeaponCard {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         Mapper.getInstance().damage(this.attack, hero);
-        getPlayer().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        getPlayer().getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
         Mapper.getInstance().updateBoard();
     }
 }

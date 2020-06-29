@@ -7,6 +7,7 @@ import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
+import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
@@ -45,6 +46,8 @@ public class Player {
     protected RewardCard reward;
     protected WeaponCard weapon;
 
+    private final CardFactory factory;
+
     public Player(Hero hero, Deck deck, String username) {
         this.hero = hero.copy();
         originalDeck = deck;
@@ -55,6 +58,7 @@ public class Player {
         hand = new ArrayList<>();
         land = new ArrayList<>();
         waitingForDraw = new ArrayList<>();
+        factory = new CardFactory();
 
         configPlayer();
     }
@@ -198,13 +202,9 @@ public class Player {
         return reward;
     }
 
-/*    public Player getEnemyPlayer() {
-        return enemyPlayer;
+    public CardFactory getFactory() {
+        return factory;
     }
-
-    public void setEnemyPlayer(Player enemyPlayer) {
-        this.enemyPlayer = enemyPlayer;
-    }*/
 
     // End of getter setter
 
@@ -240,14 +240,6 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for (int i = 0; i < waitingForDraw.size(); i++) {
-            Card card1 = waitingForDraw.get(i);
-            if (card1 instanceof WaitDrawingCard && ((WaitDrawingCard) card1).waitDrawingCard(card)) {
-                waitingForDraw.remove(i);
-                i--;
-            }
-        }
-
         hand.add(card);
     }
 
@@ -281,7 +273,6 @@ public class Player {
             case MINIONCARD:
                 if (land.size() == GameConfigs.maxCardInLand)
                     throw new HearthStoneException("your land is full!");
-                land.add(cardInHand);
                 break;
             case REWARDCARD:
                 this.reward = (RewardCard) cardInHand;
@@ -298,7 +289,29 @@ public class Player {
 
         handleWaitingCards(cardInHand);
 
+        if (cardInHand.getCardType() == CardType.MINIONCARD)
+            summonMinion(cardInHand);
+
         Mapper.getInstance().updateBoard();
+    }
+
+    private void summonMinion(Card card) {
+        MinionCard minionCard = (MinionCard) card;
+
+        for (int i = 0; i < waitingForDraw.size(); i++) {
+            Card card1 = waitingForDraw.get(i);
+            try {
+                if (card1 instanceof WaitDrawingCard && ((WaitDrawingCard) card1).waitDrawingCard(card) && card != card1) {
+                    waitingForDraw.remove(i);
+                    i--;
+                }
+            } catch (HearthStoneException e) { }
+        }
+
+        minionCard.setInitialAttack(minionCard.getAttack());
+        minionCard.setInitialHealth(minionCard.getHealth());
+
+        land.add(minionCard);
     }
 
     private void handleCardPlayInformation(Card card) {
@@ -319,6 +332,7 @@ public class Player {
 
         if (heroPower != null) {
             // HERO POWER START TURN BEAHVE
+            ((HeroPowerBehaviour) heroPower).startTurnBehave();
         }
 
         if (weapon != null) {
@@ -363,153 +377,6 @@ public class Player {
                 ((FriendlyMinionDies) card).friendlyMinionDies();
             }
         }
-    }
-
-    public void summonMinionFromCurrentDeck() {
-        if (originalDeck.getCards().size() == 0)
-            return;
-        int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
-        for (int i = 0; i < deck.getCards().size(); i++) {
-            Card card = deck.getCards().get(start);
-            if (card.getCardType() == CardType.MINIONCARD) {
-                if (land.size() < GameConfigs.maxCardInLand) {
-                    land.add(card);
-                }
-                return;
-            }
-            start++;
-            start %= deck.getCards().size();
-        }
-    }
-
-    public void summonMinionFromCurrentDeck(MinionType minionType) {
-        if (originalDeck.getCards().size() == 0)
-            return;
-        int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
-        for (int i = 0; i < deck.getCards().size(); i++) {
-            Card card = deck.getCards().get(start);
-            if (card.getCardType() == CardType.MINIONCARD &&
-                    ((MinionCard) card).getMinionType() == minionType) {
-                if (land.size() < GameConfigs.maxCardInLand) {
-                    land.add(card);
-                }
-                return;
-            }
-            start++;
-            start %= deck.getCards().size();
-        }
-    }
-
-    public void makeAndPickCard(MinionType minionType) throws HearthStoneException {
-        Card cardInHand = null;
-        for (Card card : HearthStone.baseCards.values()) {
-            if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
-                cardInHand = card.copy();
-                configCard(cardInHand);
-                break;
-            }
-        }
-
-        if (hand.size() == GameConfigs.maxCardInHand)
-            throw new HearthStoneException("your hand is full!");
-
-        hand.add(cardInHand);
-    }
-
-    public void makeAndSummonMinion(MinionType minionType) throws HearthStoneException {
-        Card cardInLand = null;
-        for (Card card : HearthStone.baseCards.values()) {
-            if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
-                cardInLand = card.copy();
-                configCard(cardInLand);
-            }
-        }
-        if (land.size() == GameConfigs.maxCardInLand)
-            throw new HearthStoneException("your land is full!");
-        land.add(cardInLand);
-    }
-
-    public MinionCard getRandomMinionFromLand() {
-        if (land.size() == 0)
-            return null;
-        int start = Rand.getInstance().getRandomNumber(land.size());
-        for (int i = 0; i < land.size(); i++) {
-            Card card = land.get(start);
-            if (card.getCardType() == CardType.MINIONCARD) {
-                return (MinionCard) card;
-            }
-            start++;
-            start %= deck.getCards().size();
-        }
-        return null;
-    }
-
-    public void makeAndPutDeck(Card card) {
-        this.configCard(card);
-        try {
-            deck.addInTheMiddleOfGame(card);
-        } catch (HearthStoneException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void makeAndSummonMinion(Card card) {
-        if (land.size() < GameConfigs.maxCardInLand) {
-            configCard(card);
-            land.add(card);
-        }
-    }
-
-    public void makeAndPutHand(Card card) {
-        this.configCard(card);
-        if (hand.size() < GameConfigs.maxCardInHand) {
-            hand.add(card);
-        }
-    }
-
-    public ArrayList<MinionCard> neighborCards(Card card) {
-        ArrayList<MinionCard> ans = new ArrayList<>();
-        for (int i = 0; i < land.size(); i++) {
-            Card card1 = land.get(i);
-            if (card == card1) {
-                if (i + 1 < land.size())
-                    ans.add((MinionCard) land.get(i + 1));
-                if (i - 1 >= 0)
-                    ans.add((MinionCard) land.get(i - 1));
-                return ans;
-            }
-        }
-        return ans;
-    }
-
-    public Card getRandomCardFromOriginalDeck(CardType cardType) {
-        if (originalDeck.getCards().size() == 0)
-            return null;
-        int start = Rand.getInstance().getRandomNumber(originalDeck.getCards().size());
-        for (int i = 0; i < originalDeck.getCards().size(); i++) {
-            Card card = originalDeck.getCards().get(start);
-            if (card.getCardType() == cardType) {
-                return card;
-            }
-            start++;
-            start %= deck.getCards().size();
-        }
-        return null;
-    }
-
-    public Card getRandomCardFromCurrentDeck(CardType cardType) {
-        if (originalDeck.getCards().size() == 0)
-            return null;
-        int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
-        for (int i = 0; i < deck.getCards().size(); i++) {
-            Card card = deck.getCards().get(start);
-            if (card.getCardType() == cardType) {
-                return card;
-            }
-            start++;
-            start %= deck.getCards().size();
-        }
-        return null;
     }
 
     public boolean haveTaunt() {
@@ -559,6 +426,21 @@ public class Player {
         hero.setPlayer(this);
     }
 
+    public ArrayList<MinionCard> neighborCards(Card card) {
+        ArrayList<MinionCard> ans = new ArrayList<>();
+        for (int i = 0; i < land.size(); i++) {
+            Card card1 = land.get(i);
+            if (card == card1) {
+                if (i + 1 < land.size())
+                    ans.add((MinionCard) land.get(i + 1));
+                if (i - 1 >= 0)
+                    ans.add((MinionCard) land.get(i - 1));
+                return ans;
+            }
+        }
+        return ans;
+    }
+
     private void updateCardsOnLand() {
         int diedInThisMoment = 0;
         ArrayList<Card> deathRattles = new ArrayList<>();
@@ -604,19 +486,19 @@ public class Player {
     private void updateHeroPower() {
     }
 
-    public void lostGame(){
+    public void lostGame() {
         originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
     }
 
-    public void wonGame(){
+    public void wonGame() {
         originalDeck.setTotalGames(originalDeck.getWinGames() + 1);
         originalDeck.setWinGames(originalDeck.getWinGames() + 1);
     }
 
     public ArrayList<Card> getTopCards(int numberOfTopCards) {
-        ArrayList <Card> cards = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>();
 
-        for(int i = 0; i < numberOfTopCards; i++){
+        for (int i = 0; i < numberOfTopCards; i++) {
             cards.add(deck.getCards().get(i));
         }
 
@@ -624,9 +506,9 @@ public class Player {
     }
 
     public void removeInitialCards(ArrayList<Card> discardCards, int numberOfTopCards) {
-        for(int i = 0; i < numberOfTopCards; i++){
+        for (int i = 0; i < numberOfTopCards; i++) {
             Card card = deck.getCards().get(i);
-            if(discardCards.contains(card)){
+            if (discardCards.contains(card)) {
                 deck.getCards().remove(i);
 
                 i--;
@@ -641,5 +523,160 @@ public class Player {
         updateWeapon();
         updateCardsOnLand();
         updateReward();
+    }
+
+    public class CardFactory {
+        public CardFactory() {
+        }
+
+        public void summonMinionFromCurrentDeck() {
+            if (originalDeck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
+                return;
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            for (int i = 0; i < deck.getCards().size(); i++) {
+                Card card = deck.getCards().get(start);
+                if (card.getCardType() == CardType.MINIONCARD) {
+                    summonMinion(card);
+                    deck.getCards().remove(start);
+                    return;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+        }
+
+        public void summonMinionFromCurrentDeck(int attack, int health) {
+            if (originalDeck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
+                return;
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            for (int i = 0; i < deck.getCards().size(); i++) {
+                Card card = deck.getCards().get(start);
+                if (card.getCardType() == CardType.MINIONCARD) {
+                    MinionCard minion = (MinionCard) card;
+                    if (minion.getAttack() == attack && minion.getHealth() == health) {
+                        summonMinion(card);
+                        deck.getCards().remove(start);
+                        return;
+                    }
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+        }
+
+        public void summonMinionFromCurrentDeck(MinionType minionType) {
+            if (originalDeck.getCards().size() == 0 || land.size() < GameConfigs.maxCardInLand)
+                return;
+
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            for (int i = 0; i < deck.getCards().size(); i++) {
+                Card card = deck.getCards().get(start);
+                if (card.getCardType() == CardType.MINIONCARD &&
+                        ((MinionCard) card).getMinionType() == minionType) {
+                    summonMinion(card);
+                    deck.getCards().remove(start);
+                    return;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+        }
+
+        public void makeAndPickCard(MinionType minionType) throws HearthStoneException {
+            Card cardInHand = null;
+            for (Card card : HearthStone.baseCards.values()) {
+                if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
+                    cardInHand = card.copy();
+                    configCard(cardInHand);
+                    break;
+                }
+            }
+
+            if (hand.size() == GameConfigs.maxCardInHand)
+                throw new HearthStoneException("your hand is full!");
+
+            hand.add(cardInHand);
+        }
+
+        public void makeAndSummonMinion(MinionType minionType) throws HearthStoneException {
+            Card cardInLand = null;
+            for (Card card : HearthStone.baseCards.values()) {
+                if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
+                    cardInLand = card.copy();
+                    configCard(cardInLand);
+                }
+            }
+            if (land.size() == GameConfigs.maxCardInLand)
+                throw new HearthStoneException("your land is full!");
+            summonMinion(cardInLand);
+        }
+
+        public MinionCard getRandomMinionFromLand() {
+            if (land.size() == 0)
+                return null;
+            int start = Rand.getInstance().getRandomNumber(land.size());
+            for (int i = 0; i < land.size(); i++) {
+                Card card = land.get(start);
+                if (card.getCardType() == CardType.MINIONCARD) {
+                    return (MinionCard) card;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+            return null;
+        }
+
+        public void makeAndPutDeck(Card card) {
+            configCard(card);
+            try {
+                deck.addInTheMiddleOfGame(card);
+            } catch (HearthStoneException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void makeAndSummonMinion(Card card) {
+            if (land.size() < GameConfigs.maxCardInLand) {
+                configCard(card);
+                summonMinion(card);
+            }
+        }
+
+        public void makeAndPutHand(Card card) {
+            configCard(card);
+            if (hand.size() < GameConfigs.maxCardInHand) {
+                hand.add(card);
+            }
+        }
+
+        public Card getRandomCardFromOriginalDeck(CardType cardType) {
+            if (originalDeck.getCards().size() == 0)
+                return null;
+            int start = Rand.getInstance().getRandomNumber(originalDeck.getCards().size());
+            for (int i = 0; i < originalDeck.getCards().size(); i++) {
+                Card card = originalDeck.getCards().get(start);
+                if (card.getCardType() == cardType) {
+                    return card;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+            return null;
+        }
+
+        public Card getRandomCardFromCurrentDeck(CardType cardType) {
+            if (originalDeck.getCards().size() == 0)
+                return null;
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            for (int i = 0; i < deck.getCards().size(); i++) {
+                Card card = deck.getCards().get(start);
+                if (card.getCardType() == cardType) {
+                    return card;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+            return null;
+        }
     }
 }

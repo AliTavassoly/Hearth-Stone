@@ -5,6 +5,8 @@ import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.hero.HeroType;
 
 public abstract class HeroPowerCard extends Card {
+    protected int numberOfAttack;
+
     public HeroPowerCard() { }
 
     public HeroPowerCard(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType){

@@ -124,6 +124,7 @@
   "6": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.TheSilverHand",
     "data": {
+      "numberOfAttack": 0,
       "id": 6,
       "name": "The Silver Hand",
       "description": "Hero Power\nSummon two 1/1 Recruits.",
@@ -151,6 +152,7 @@
   "8": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.Heal",
     "data": {
+      "numberOfAttack": 0,
       "id": 8,
       "name": "Heal",
       "description": "Hero Power\nRestore 4 Health.",

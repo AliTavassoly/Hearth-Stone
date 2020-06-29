@@ -20,13 +20,13 @@ public class LabRecruiter extends MinionCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = (MinionCard) getPlayer().getRandomCardFromOriginalDeck(CardType.MINIONCARD);
+        MinionCard minionCard = (MinionCard) getPlayer().getFactory().getRandomCardFromOriginalDeck(CardType.MINIONCARD);
 
         if(minionCard == null)
             return;
 
-        getPlayer().makeAndPutDeck(minionCard.copy());
-        getPlayer().makeAndPutDeck(minionCard.copy());
-        getPlayer().makeAndPutDeck(minionCard.copy());
+        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
+        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
+        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
     }
 }

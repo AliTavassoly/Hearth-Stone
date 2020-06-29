@@ -160,7 +160,7 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     @Override
     public void restoreHealth(int heal) {
-        health = Math.max(initialHealth, health + heal);
+        health = Math.min(initialHealth, health + heal);
     }
 
     @Override

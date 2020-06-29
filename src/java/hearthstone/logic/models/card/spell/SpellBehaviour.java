@@ -1,4 +1,3 @@
 package hearthstone.logic.models.card.spell;
 
-public interface SpellBehaviour {
-}
+public interface SpellBehaviour { }

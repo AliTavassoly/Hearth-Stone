@@ -183,7 +183,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void restoreHealth(int heal) {
-        this.health = Math.max(initialHealth, this.health + heal);
+        this.health = Math.min(initialHealth, this.health + heal);
     }
 
     @Override
