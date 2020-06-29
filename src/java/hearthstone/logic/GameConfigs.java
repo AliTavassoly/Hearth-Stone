@@ -12,8 +12,9 @@ public class GameConfigs {
     public static int maxCardOfOneType;
     public static int maxNumberOfDeck;
     public static int initialPassives;
+    public static int initialDiscardCards;
 
-    public static void setConfigs(Map<String, Object> configs){
+    public static void setConfigs(Map<String, Object> configs) {
         maxCardInCollection = ((Double) configs.get("maxCardInCollection")).intValue();
         maxCardInDeck = ((Double) configs.get("maxCardInDeck")).intValue();
         initialCoins = ((Double) configs.get("initialCoins")).intValue();
@@ -21,7 +22,8 @@ public class GameConfigs {
         maxCardInLand = ((Double) configs.get("maxCardInLand")).intValue();
         maxManaInGame = ((Double) configs.get("maxManaInGame")).intValue();
         maxCardOfOneType = ((Double) configs.get("maxCardOfOneType")).intValue();
-        maxNumberOfDeck= ((Double) configs.get("maxNumberOfDeck")).intValue();
-        initialPassives= ((Double) configs.get("initialPassives")).intValue();
+        maxNumberOfDeck = ((Double) configs.get("maxNumberOfDeck")).intValue();
+        initialPassives = ((Double) configs.get("initialPassives")).intValue();
+        initialDiscardCards = ((Double) configs.get("initialDiscardCards")).intValue();
     }
 }

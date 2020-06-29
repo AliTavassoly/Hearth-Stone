@@ -93,6 +93,7 @@ public class StatusPanel extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight));
         setLayout(null);
         setVisible(true);
     }

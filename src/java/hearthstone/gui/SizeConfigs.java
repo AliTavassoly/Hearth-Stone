@@ -118,6 +118,9 @@ public class SizeConfigs {
     public static int progressManaWidth;
     public static int progressManaHeight;
 
+    public static int bigRedMarkWidth;
+    public static int bigRedMarkHeight;
+
     static public void setConfigs(Map<String, Object> configs) {
         // General
         credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
@@ -233,5 +236,8 @@ public class SizeConfigs {
 
         progressManaWidth = ((Double) configs.get("progressManaWidth")).intValue();
         progressManaHeight = ((Double) configs.get("progressManaHeight")).intValue();
+
+        bigRedMarkWidth = ((Double) configs.get("bigRedMarkWidth")).intValue();
+        bigRedMarkHeight = ((Double) configs.get("bigRedMarkHeight")).intValue();
     }
 }

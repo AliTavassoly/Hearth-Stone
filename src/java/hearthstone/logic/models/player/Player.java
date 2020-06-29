@@ -603,18 +603,41 @@ public class Player {
     private void updateHeroPower() {
     }
 
-    public void updatePlayer() {
-        updateCardsOnLand();
-        updateWeapon();
-        updateCardsOnLand();
-        updateReward();
-    }
-
     public void lostGame(){
         // should  develop
     }
 
     public void wonGame(){
         // should  develop
+    }
+
+    public ArrayList<Card> getTopCards(int numberOfTopCards) {
+        ArrayList <Card> cards = new ArrayList<>();
+
+        for(int i = 0; i < numberOfTopCards; i++){
+            cards.add(deck.getCards().get(i));
+        }
+
+        return cards;
+    }
+
+    public void removeInitialCards(ArrayList<Card> discardCards, int numberOfTopCards) {
+        for(int i = 0; i < numberOfTopCards; i++){
+            Card card = deck.getCards().get(i);
+            if(discardCards.contains(card)){
+                deck.getCards().remove(i);
+
+                i--;
+
+                deck.getCards().add(card);
+            }
+        }
+    }
+
+    public void updatePlayer() {
+        updateCardsOnLand();
+        updateWeapon();
+        updateCardsOnLand();
+        updateReward();
     }
 }

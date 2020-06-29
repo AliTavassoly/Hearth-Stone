@@ -7,5 +7,6 @@
   "maxCardInLand": 5,
   "maxCardOfOneType": 5,
   "maxNumberOfDeck": 7,
-  "initialPassives": 3
+  "initialPassives": 3,
+  "initialDiscardCards": 3
 }

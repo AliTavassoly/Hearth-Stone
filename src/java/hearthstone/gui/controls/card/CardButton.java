@@ -20,15 +20,30 @@ import java.awt.image.BufferedImage;
 public class CardButton extends ImageButton implements MouseListener {
     int width, height, number;
     private Card card;
+    private boolean markable;
+
+    private boolean isMark;
 
     private BufferedImage cardImage;
-    private static BufferedImage numberImage;
+    private static BufferedImage numberImage, redMark;
 
     public CardButton(Card card, int width, int height, int number) {
         this.card = card;
         this.width = width;
         this.height = height;
         this.number = number;
+
+        configButton();
+    }
+
+    public CardButton(Card card, int width, int height, int number, boolean markable) {
+        this.card = card;
+        this.width = width;
+        this.height = height;
+        this.number = number;
+        this.markable = markable;
+
+        isMark = false;
 
         configButton();
     }
@@ -61,6 +76,9 @@ public class CardButton extends ImageButton implements MouseListener {
 
             if (numberImage == null)
                 numberImage = ImageResource.getInstance().getImage("/images/flag.png");
+            if (redMark == null) {
+                redMark = ImageResource.getInstance().getImage("/images/red_mark.png");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +98,18 @@ public class CardButton extends ImageButton implements MouseListener {
                     width / 2 - SizeConfigs.numberOfCardFlagWidth / 2, height - 38,
                     SizeConfigs.numberOfCardFlagWidth,
                     SizeConfigs.numberOfCardFlagHeight,
+                    null);
+        }
+
+        if (isMark){
+            g2.drawImage(redMark.getScaledInstance(
+                    SizeConfigs.bigRedMarkWidth,
+                    SizeConfigs.bigRedMarkHeight,
+                    Image.SCALE_SMOOTH),
+                    width / 2 - SizeConfigs.bigRedMarkWidth / 2,
+                    height / 2 - SizeConfigs.bigRedMarkHeight / 2,
+                    SizeConfigs.bigRedMarkWidth,
+                    SizeConfigs.bigRedMarkHeight,
                     null);
         }
 
@@ -181,21 +211,42 @@ public class CardButton extends ImageButton implements MouseListener {
         g.drawString(text, x, y);
     }
 
+    public boolean isMark() {
+        return isMark;
+    }
+
+    public Card getCard(){
+        return card;
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        String path;
-        if (card.getCardType() == CardType.MINIONCARD) {
-            path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
-        } else if (card.getCardType() == CardType.SPELL) {
-            path = "/sounds/spells/" + "spell" + ".wav";
-        } else if (card.getCardType() == CardType.WEAPONCARD) {
-            path = "/sounds/weapons/" + "weapon" + ".wav";
-        } else if(card.getCardType() == CardType.REWARDCARD) {
-            path = "/sounds/rewards/" + "reward" + ".wav";
+        if(!markable) {
+            String path;
+            if (card.getCardType() == CardType.MINIONCARD) {
+                path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
+            } else if (card.getCardType() == CardType.SPELL) {
+                path = "/sounds/spells/" + "spell" + ".wav";
+            } else if (card.getCardType() == CardType.WEAPONCARD) {
+                path = "/sounds/weapons/" + "weapon" + ".wav";
+            } else if (card.getCardType() == CardType.REWARDCARD) {
+                path = "/sounds/rewards/" + "reward" + ".wav";
+            } else {
+                return;
+            }
+            SoundPlayer soundPlayer = new SoundPlayer(path);
+            soundPlayer.playOnce();
         } else {
-            return;
+            changeMarkState();
+            repaint();
+            revalidate();
         }
-        SoundPlayer soundPlayer = new SoundPlayer(path);
-        soundPlayer.playOnce();
+    }
+
+    private void changeMarkState(){
+        if(isMark)
+            isMark = false;
+        else
+            isMark = true;
     }
 }

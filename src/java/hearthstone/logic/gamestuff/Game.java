@@ -3,7 +3,7 @@ package hearthstone.logic.gamestuff;
 import hearthstone.Mapper;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.timer.MyTask;
+import hearthstone.util.timer.MyBigTask;
 import hearthstone.util.timer.MyTimerTask;
 
 public class Game {
@@ -16,7 +16,7 @@ public class Game {
 
         whoseTurn = 0;
 
-        MyTimerTask myTimerTask = new MyTimerTask(500, new MyTask() {
+        MyTimerTask myTimerTask = new MyTimerTask(500, new MyBigTask() {
             @Override
             public void startFunction() { }
 

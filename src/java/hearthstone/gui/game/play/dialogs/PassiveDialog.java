@@ -1,9 +1,10 @@
-package hearthstone.gui.controls.dialogs;
+package hearthstone.gui.game.play.dialogs;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
+import hearthstone.gui.controls.dialogs.MyDialog;
 import hearthstone.logic.models.Passive;
 
 import javax.swing.*;
@@ -11,20 +12,30 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PassiveDialog extends MyDialog {
+    protected static final int extraPassiveX = 60;
+    protected static final int extraPassiveY = 50;
+
+    // statics ended
+
     private Passive selectedPassive;
     private ArrayList<Passive> passives;
     private ArrayList<PassiveButton> passiveButtons;
     private ImagePanel backgroundPanel;
 
     private int width, height;
+
     private JFrame frame;
 
-    public PassiveDialog(JFrame frame, int width, int height,
+    public PassiveDialog(JFrame frame,
                          ArrayList<Integer> passivesId){
-        super(frame, width, height);
+        super(frame, passivesId.size() * SizeConfigs.medCardWidth + extraPassiveX,
+                SizeConfigs.medCardHeight + extraPassiveY);
+
+        this.width = passivesId.size() * SizeConfigs.medCardWidth + extraPassiveX;
+        this.height = SizeConfigs.medCardHeight + extraPassiveY;
+
+
         this.frame = frame;
-        this.width = width;
-        this.height = height;
 
         passives = new ArrayList<>();
         for(int id : passivesId)

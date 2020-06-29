@@ -7,6 +7,8 @@ import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
+import java.util.ArrayList;
+
 public class Mapper {
     private static Mapper instance;
 
@@ -98,6 +100,10 @@ public class Mapper {
 
     public void makeNewMouseWaiting(CursorType cursorType, Card card){
         HearthStone.currentGameBoard.makeNewMouseWaiting(cursorType, card);
+    }
+
+    public void removeInitialCards(int playerId, ArrayList <Card> discardCards, int numberOfTopCards){
+        HearthStone.currentGame.getPlayerById(playerId).removeInitialCards(discardCards, numberOfTopCards);
     }
 
     public void updateBoard(){

@@ -110,5 +110,8 @@
   "inGameErrorHeight": 100,
 
   "progressManaWidth": 40,
-  "progressManaHeight": 40
+  "progressManaHeight": 40,
+
+  "bigRedMarkWidth": 125,
+  "bigRedMarkHeight": 125
 }

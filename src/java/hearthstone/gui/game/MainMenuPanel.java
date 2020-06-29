@@ -181,7 +181,7 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void configPanel() {
-        setSize(new Dimension(1120, 700));
+        setSize(new Dimension(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight));
         setLayout(null);
         setVisible(true);
     }

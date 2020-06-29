@@ -10,7 +10,6 @@ import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
 import hearthstone.gui.controls.card.CardButton;
 import hearthstone.gui.controls.dialogs.ErrorDialog;
-import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
@@ -19,7 +18,10 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.Animation;
 import hearthstone.gui.game.play.controls.*;
+import hearthstone.gui.game.play.dialogs.CardDialog;
 import hearthstone.gui.game.play.dialogs.MessageDialog;
+import hearthstone.gui.game.play.dialogs.PassiveDialog;
+import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionBehaviour;
@@ -27,7 +29,9 @@ import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponBehaviour;
 import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
-import hearthstone.util.timer.MyTask;
+import hearthstone.util.timer.MyBigTask;
+import hearthstone.util.timer.MyDelayTask;
+import hearthstone.util.timer.MyDelayTimerTask;
 import hearthstone.util.timer.MyTimerTask;
 
 import javax.swing.*;
@@ -143,9 +147,6 @@ public class GameBoard extends JPanel {
     protected int enemyPickedCardX = enemyDeckCardsNumberX;
     protected int enemyPickedCardY = enemyDeckCardsNumberY - SizeConfigs.smallCardHeight - 27;
 
-    protected final int extraPassiveX = 60;
-    protected final int extraPassiveY = 50;
-
     protected final int endTurnTimeLineStartX = boardStartX + 10;
     protected final int endTurnTimeLineEndX = endTurnButtonX - 15;
     protected final int endTurnTimeLineY = midY;
@@ -182,14 +183,26 @@ public class GameBoard extends JPanel {
 
         makeIcons();
 
-        showPassiveDialogs();
-
         iconLayout();
+
         makeGameStuff();
 
-        gameStuffLayout();
+        gameStuffLayoutBeforeStartGame();
 
-        drawEndTurnTimeLine();
+        MyDelayTimerTask initialGameAsking = new MyDelayTimerTask(100, new MyDelayTask() {
+            @Override
+            public void delayAction() {
+                showPassiveDialogs();
+
+                showCardDialog();
+
+                gameStuffLayout();
+
+                drawEndTurnTimeLine();
+
+                Mapper.getInstance().startGame();
+            }
+        });
     }
 
     @Override
@@ -226,7 +239,7 @@ public class GameBoard extends JPanel {
     }
 
     private void configPanel() {
-        setSize(new Dimension(1120, 700));
+        setSize(new Dimension(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight));
         setLayout(null);
         setDoubleBuffered(true);
         setVisible(true);
@@ -235,8 +248,6 @@ public class GameBoard extends JPanel {
     protected void showPassiveDialogs() {
         PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
-                DataTransform.getInstance().getNumberOfPassive() * SizeConfigs.medCardWidth + extraPassiveX,
-                SizeConfigs.medCardHeight + extraPassiveY,
                 Rand.getInstance().getRandomArray(
                         DataTransform.getInstance().getNumberOfPassive(),
                         HearthStone.basePassives.size())
@@ -247,14 +258,28 @@ public class GameBoard extends JPanel {
 
         PassiveDialog passiveDialog1 = new PassiveDialog(
                 GameFrame.getInstance(),
-                DataTransform.getInstance().getNumberOfPassive() * SizeConfigs.medCardWidth + extraPassiveX,
-                SizeConfigs.medCardHeight + extraPassiveY,
                 Rand.getInstance().getRandomArray(
                         DataTransform.getInstance().getNumberOfPassive(),
                         HearthStone.basePassives.size())
         );
         Mapper.getInstance().setPassive(enemyPlayerId, passiveDialog1.getPassive());
         Mapper.getInstance().doPassive(enemyPlayerId);
+    }
+
+    protected void showCardDialog() {
+        ArrayList<Card> discardCards = new ArrayList<>();
+
+        CardDialog cardDialog0 = new CardDialog(
+                GameFrame.getInstance(),
+                DataTransform.getInstance().getTopCards(0, GameConfigs.initialDiscardCards));
+
+        Mapper.getInstance().removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
+
+        CardDialog cardDialog1 = new CardDialog(
+                GameFrame.getInstance(),
+                DataTransform.getInstance().getTopCards(1, GameConfigs.initialDiscardCards));
+
+        Mapper.getInstance().removeInitialCards(1, cardDialog1.getCards(), GameConfigs.initialDiscardCards);
     }
 
     // DRAW MANA
@@ -525,8 +550,7 @@ public class GameBoard extends JPanel {
 
         SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
-        endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyTask() {
-            @Override
+        endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyBigTask() {
             public void startFunction() {
             }
 
@@ -585,7 +609,7 @@ public class GameBoard extends JPanel {
         x[0] = startX;
         y[0] = startY;
 
-        MyTimerTask task = new MyTimerTask(period, new MyTask() {
+        MyTimerTask task = new MyTimerTask(period, new MyBigTask() {
             @Override
             public void startFunction() {
                 synchronized (animationLock) {
@@ -1046,6 +1070,20 @@ public class GameBoard extends JPanel {
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
         add(closeButton);
+    }
+
+    private void gameStuffLayoutBeforeStartGame() {
+        endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
+                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);
+        add(endTurnButton);
+
+        myHero.setBounds(myHeroX, myHeroY,
+                heroWidth, heroHeight);
+        add(myHero);
+
+        enemyHero.setBounds(enemyHeroX, enemyHeroY,
+                heroWidth, heroHeight);
+        add(enemyHero);
     }
 
     private void gameStuffLayout() {

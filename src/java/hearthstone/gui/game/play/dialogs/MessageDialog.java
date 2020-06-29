@@ -4,7 +4,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
-import hearthstone.util.timer.MyTask;
+import hearthstone.util.timer.MyBigTask;
 import hearthstone.util.timer.MyTimerTask;
 
 import java.awt.*;
@@ -62,7 +62,7 @@ public class MessageDialog extends ImageButton {
     public void setVisibility(boolean visibility){
         if(visibility){
             setVisible(true);
-            MyTimerTask myTimerTask = new MyTimerTask(showTime, showTime, new MyTask() {
+            MyTimerTask myTimerTask = new MyTimerTask(showTime, showTime, new MyBigTask() {
                 public void startFunction() { }
                 public void periodFunction() { }
                 public void warningFunction() { }

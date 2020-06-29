@@ -4,10 +4,10 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.Animation;
 import hearthstone.gui.game.play.controls.BoardCardButton;
+import hearthstone.gui.game.play.dialogs.PassiveDialog;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.Rand;
@@ -85,8 +85,6 @@ public class SoloGameBoard extends GameBoard {
     protected void showPassiveDialogs() {
         PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
-                GameConfigs.initialPassives * SizeConfigs.medCardWidth + extraPassiveX,
-                SizeConfigs.medCardHeight + extraPassiveY,
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())

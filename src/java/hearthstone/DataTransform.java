@@ -94,6 +94,10 @@ public class DataTransform {
         return GameConfigs.initialPassives;
     }
 
+    public ArrayList<Card> getTopCards(int playerId, int numberOfTopCards){
+        return HearthStone.currentGame.getPlayerById(playerId).getTopCards(numberOfTopCards);
+    }
+
     public boolean isLost(int playerId){
         return HearthStone.currentGame.getPlayerById(playerId).getHero().getHealth() <= 0;
     }

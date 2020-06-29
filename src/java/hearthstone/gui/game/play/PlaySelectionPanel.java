@@ -124,7 +124,7 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void configPanel() {
-        setSize(new Dimension(1120, 700));
+        setSize(new Dimension(SizeConfigs.gameFrameWidth, SizeConfigs.gameFrameHeight));
         setLayout(null);
         setVisible(true);
     }
@@ -183,8 +183,6 @@ public class PlaySelectionPanel extends JPanel {
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
-        HearthStone.currentGame.startGame();
-        HearthStone.currentGameBoard.restart();
     }
 
     private void makeNewSoloGame(Player player0, Player player1){
@@ -196,7 +194,5 @@ public class PlaySelectionPanel extends JPanel {
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
-        HearthStone.currentGame.startGame();
-        HearthStone.currentGameBoard.restart();
     }
 }

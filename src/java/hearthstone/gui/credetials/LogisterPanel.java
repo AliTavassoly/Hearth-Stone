@@ -45,6 +45,7 @@ public class LogisterPanel extends JPanel {
     }
 
     private void configPanel() {
+        setSize(new Dimension(SizeConfigs.credentialFrameWidth, SizeConfigs.credentialFrameHeight));
         setLayout(null);
         setVisible(true);
     }
