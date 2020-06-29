@@ -78,7 +78,7 @@ public class Deck {
         return heroType;
     }
 
-    public int getTotalWin() {
+    public int getWinPercentage() {
         if (totalGames == 0)
             return 0;
         return winGames * 100 / totalGames;

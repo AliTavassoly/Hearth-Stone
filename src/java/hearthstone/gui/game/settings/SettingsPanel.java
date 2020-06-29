@@ -105,6 +105,7 @@ public class SettingsPanel extends JPanel {
                 -1, Color.white, Color.yellow, 14, 0,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
+
         // listeners
         changePassword.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -177,16 +178,20 @@ public class SettingsPanel extends JPanel {
 
         deletedAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                Data.deleteAccount(HearthStone.currentAccount.getUsername());
                 try {
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to delete you account ?",
                             SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+
                     boolean sure = sureDialog.getValue();
+
                     if (sure) {
                         Data.deleteAccount(HearthStone.currentAccount.getUsername());
                         GameFrame.getInstance().setVisible(false);
                         GameFrame.getInstance().dispose();
                         CredentialsFrame.getNewInstance().setVisible(true);
+
+                        Logger.saveLog("Delete account",
+                                "account deleted");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

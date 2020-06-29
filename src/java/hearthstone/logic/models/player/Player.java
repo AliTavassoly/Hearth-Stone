@@ -604,11 +604,12 @@ public class Player {
     }
 
     public void lostGame(){
-        // should  develop
+        originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
     }
 
     public void wonGame(){
-        // should  develop
+        originalDeck.setTotalGames(originalDeck.getWinGames() + 1);
+        originalDeck.setWinGames(originalDeck.getWinGames() + 1);
     }
 
     public ArrayList<Card> getTopCards(int numberOfTopCards) {

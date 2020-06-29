@@ -79,7 +79,7 @@ public class DeckButton extends ImageButton {
         g2.setColor(new Color(69, 27, 27));
 
         g2.drawString("total games: " + deck.getTotalGames(), 380, stringStartY);
-        g2.drawString("win rate: " + deck.getTotalWin() + "%", 380, stringStartY + stringDis);
+        g2.drawString("win rate: " + deck.getWinPercentage() + "%", 380, stringStartY + stringDis);
         g2.drawString("wins: " + deck.getWinGames(), 380, stringStartY + 2 * stringDis);
 
         g2.setFont(font);
