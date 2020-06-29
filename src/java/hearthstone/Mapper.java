@@ -12,41 +12,43 @@ import java.util.ArrayList;
 public class Mapper {
     private static Mapper instance;
 
-    private Mapper(){
+    private Mapper() {
     }
 
-    public static Mapper getInstance(){
-        if(instance == null){
+    public static Mapper getInstance() {
+        if (instance == null) {
             return instance = new Mapper();
         } else {
             return instance;
         }
     }
 
-    public void playCard(int playerId, Card card) throws Exception{
+    public void playCard(int playerId, Card card) throws Exception {
         HearthStone.currentGame.getPlayerById(playerId).playCard(card);
     }
 
-    public void doPassive(int playerId){
+    public void doPassive(int playerId) {
         HearthStone.currentGame.getPlayerById(playerId)
                 .doPassives();
     }
 
-    public void endTurn(){
+    public void endTurn() {
         HearthStone.currentGame.endTurn();
     }
 
-    public void startGame(){ HearthStone.currentGame.startGame();}
+    public void startGame() {
+        HearthStone.currentGame.startGame();
+    }
 
-    public void gameEnded(){
+    public void gameEnded() {
         HearthStone.currentGameBoard.gameEnded();
     }
 
-    public void lost(int playerId){
+    public void lost(int playerId) {
         HearthStone.currentGame.getPlayerById(playerId).lostGame();
     }
 
-    public void won(int playerId){
+    public void won(int playerId) {
         HearthStone.currentGame.getPlayerById(playerId).wonGame();
     }
 
@@ -55,22 +57,28 @@ public class Mapper {
         updateBoard();
     }
 
-    public void setHealth(int health, Character character){
+    public void setHealth(int health, Character character) {
         character.setHealth(health);
         updateBoard();
     }
 
-    public void damage(int damage, Character character) throws HearthStoneException{
+    public void damage(int damage, Character character) throws HearthStoneException {
         character.gotDamage(damage);
         updateBoard();
     }
 
-    public void heal(int heal, Character character){
+    public void damage(int damage, Character character, boolean update) throws HearthStoneException {
+        character.gotDamage(damage);
+        if (update)
+            updateBoard();
+    }
+
+    public void heal(int heal, Character character) {
         character.gotHeal(heal);
         updateBoard();
     }
 
-    public void restoreHealth(int heal, Character character){
+    public void restoreHealth(int heal, Character character) {
         character.restoreHealth(heal);
         updateBoard();
     }
@@ -88,25 +96,25 @@ public class Mapper {
     }
 
     public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
-        if(waited instanceof Card){
-            Card card = (Card)waited;
+        if (waited instanceof Card) {
+            Card card = (Card) waited;
             card.found(founded);
         }
     }
 
-    public void deleteCurrentMouseWaiting(){
+    public void deleteCurrentMouseWaiting() {
         HearthStone.currentGameBoard.deleteCurrentMouseWaiting();
     }
 
-    public void makeNewMouseWaiting(CursorType cursorType, Card card){
+    public void makeNewMouseWaiting(CursorType cursorType, Card card) {
         HearthStone.currentGameBoard.makeNewMouseWaiting(cursorType, card);
     }
 
-    public void removeInitialCards(int playerId, ArrayList <Card> discardCards, int numberOfTopCards){
+    public void removeInitialCards(int playerId, ArrayList<Card> discardCards, int numberOfTopCards) {
         HearthStone.currentGame.getPlayerById(playerId).removeInitialCards(discardCards, numberOfTopCards);
     }
 
-    public void updateBoard(){
+    public void updateBoard() {
         HearthStone.currentGame.getPlayerById(0).updatePlayer();
         HearthStone.currentGame.getPlayerById(1).updatePlayer();
         HearthStone.currentGameBoard.restart();
