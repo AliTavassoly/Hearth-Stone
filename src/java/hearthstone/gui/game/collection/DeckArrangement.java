@@ -281,7 +281,6 @@ public class DeckArrangement extends JPanel {
                     DataBase.save();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
 
-
                     hearthstone.util.Logger.saveLog("Click_button",
                             "delete");
                     hearthstone.util.Logger.saveLog("Delete deck",

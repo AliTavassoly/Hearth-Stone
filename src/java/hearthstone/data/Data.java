@@ -11,40 +11,48 @@ public class Data {
     private static Map<String, AccountCredential> accounts = new HashMap<>();
 
     public static void setAccounts(Map<String, AccountCredential> accounts) {
-            Data.accounts = accounts;
+        Data.accounts = accounts;
     }
 
-    public static Map<String, AccountCredential> getAccounts(){
+    public static Map<String, AccountCredential> getAccounts() {
         return accounts;
     }
 
-    public static void checkAccountCredentials(String username, String  password) throws Exception{
-        if(!accounts.containsKey(username)){
+    public static void checkAccountCredentials(String username, String password) throws Exception {
+        if (!accounts.containsKey(username)) {
             throw new HearthStoneException("This username does not exists!");
         }
-        if(accounts.get(username).getPasswordHash()!= Crypt.hash(password)){
+        if (accounts.get(username).getPasswordHash() != Crypt.hash(password)) {
             throw new HearthStoneException("Password is not correct!");
         }
-        if(accounts.get(username).isDeleted()){
+        if (accounts.get(username).isDeleted()) {
             throw new HearthStoneException("This username has been deleted!");
         }
     }
 
     public static void addAccountCredentials(String username, String password) throws Exception {
-        if(accounts.containsKey(username)){
+        if (accounts.containsKey(username)) {
             throw new HearthStoneException("This username is already exists!");
         }
         accounts.put(username, new AccountCredential(accounts.size(), Crypt.hash(password)));
     }
 
-    public static void deleteAccount(String username, String password) throws Exception{
-        if(accounts.get(username).getPasswordHash()!= Crypt.hash(password)){
+    public static void deleteAccount(String username, String password) throws Exception {
+        if (accounts.get(username).getPasswordHash() != Crypt.hash(password)) {
             throw new HearthStoneException("Password is not correct!");
         }
         accounts.get(username).setDeleted(true);
     }
 
-    public static int getAccountId(String username){
+    public static void deleteAccount(String username) {
+        accounts.get(username).setDeleted(true);
+    }
+
+    public static int getAccountId(String username) {
         return accounts.get(username).getId();
+    }
+
+    public static void changePassword(String username, String password){
+        accounts.get(username).setPasswordHash(Crypt.hash(password));
     }
 }

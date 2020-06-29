@@ -8,5 +8,6 @@
   "maxCardOfOneType": 5,
   "maxNumberOfDeck": 7,
   "initialPassives": 3,
-  "initialDiscardCards": 3
+  "initialDiscardCards": 3,
+  "initialCardsBack": 3
 }

@@ -73,8 +73,8 @@ public class SizeConfigs {
     public static int errorWidth;
     public static int errorHeight;
 
-    public static int settingsWidth;
-    public static int settingsHeight;
+    public static int volumeSettingsWidth;
+    public static int volumeSettingsHeight;
 
     public static int numberOfCardFlagWidth;
     public static int numberOfCardFlagHeight;
@@ -192,8 +192,8 @@ public class SizeConfigs {
         errorWidth = ((Double) configs.get("errorWidth")).intValue();
         errorHeight = ((Double) configs.get("errorHeight")).intValue();
 
-        settingsWidth = ((Double) configs.get("settingsWidth")).intValue();
-        settingsHeight = ((Double) configs.get("settingsHeight")).intValue();
+        volumeSettingsWidth = ((Double) configs.get("volumeSettingsWidth")).intValue();
+        volumeSettingsHeight = ((Double) configs.get("volumeSettingsHeight")).intValue();
 
         numberOfCardFlagWidth = ((Double) configs.get("numberOfCardFlagWidth")).intValue();
         numberOfCardFlagHeight = ((Double) configs.get("numberOfCardFlagHeight")).intValue();

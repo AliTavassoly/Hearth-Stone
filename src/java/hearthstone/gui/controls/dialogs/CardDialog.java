@@ -1,10 +1,9 @@
-package hearthstone.gui.game.play.dialogs;
+package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.card.CardButton;
-import hearthstone.gui.controls.dialogs.MyDialog;
 import hearthstone.logic.models.card.Card;
 
 import javax.swing.*;

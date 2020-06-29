@@ -1,8 +1,9 @@
 package hearthstone.gui.controls.dialogs;
+
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
-import hearthstone.gui.controls.fields.TextField;
+import hearthstone.gui.controls.fields.PasswordField;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 
@@ -11,16 +12,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NameDialog extends MyDialog {
+public class PasswordDialog extends MyDialog{
     private JLabel message;
-    private TextField nameField;
+    private PasswordField nameField;
     private ImageButton okButton, cancelButton;
-    private String clicked;
 
     private String text;
     private int width, height;
 
-    public NameDialog(JFrame frame, String text, int width, int height){
+    public PasswordDialog(JFrame frame, String text, int width, int height){
         super(frame, width, height);
         this.text = text;
         this.width = width;
@@ -51,7 +51,7 @@ public class NameDialog extends MyDialog {
     }
 
     private void makeFields(){
-        nameField = new TextField(10);
+        nameField = new PasswordField(10);
     }
 
     private void makeButtons(){

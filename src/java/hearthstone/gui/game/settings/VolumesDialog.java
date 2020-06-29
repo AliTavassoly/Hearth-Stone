@@ -1,4 +1,4 @@
-package hearthstone.gui.settings;
+package hearthstone.gui.game.settings;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SettingsDialog extends JDialog {
+public class VolumesDialog extends JDialog {
     private ImageButton volumeUp, volumeDown;
     private JLabel volumeUpLabel, volumeDownLabel;
     private ImagePanel backgroundPanel;
@@ -24,10 +24,10 @@ public class SettingsDialog extends JDialog {
 
     private int width, height;
 
-    public SettingsDialog(JFrame frame, int width, int height) {
+    public VolumesDialog(JFrame frame) {
         super(frame);
-        this.width = width;
-        this.height = height;
+        this.width = SizeConfigs.volumeSettingsWidth;
+        this.height = SizeConfigs.volumeSettingsHeight;
 
         volumeChange = 0;
 

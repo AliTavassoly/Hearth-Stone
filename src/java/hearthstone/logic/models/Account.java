@@ -14,6 +14,7 @@ public class Account {
     private String username;
     private String name;
     private int id;
+    private int cardsBackId;
     private ArrayList<Hero> heroes;
     private Collection collection;
     private ArrayList<Deck> decks;
@@ -46,11 +47,11 @@ public class Account {
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
             int number = 2 + Rand.getInstance().getRandomNumber(2);
-            for(int i = 0; i < number; i++) {
+            for (int i = 0; i < number; i++) {
                 cards.add(card);
             }
 
-            if(Rand.getInstance().getProbability(1, 1)) {
+            if (Rand.getInstance().getProbability(1, 1)) {
                 unlockedCards.add(card.getId());
             }
         }
@@ -166,6 +167,15 @@ public class Account {
 
     public void setDecks(ArrayList<Deck> decks) {
         this.decks = decks;
+    }
+
+
+    public int getCardsBackId() {
+        return cardsBackId;
+    }
+
+    public void setCardsBackId(int cardsBackId) {
+        this.cardsBackId = cardsBackId;
     }
 
     // End of setters and getters

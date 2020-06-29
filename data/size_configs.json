@@ -68,8 +68,8 @@
   "errorWidth": 527,
   "errorHeight": 200,
 
-  "settingsWidth": 500,
-  "settingsHeight": 500,
+  "volumeSettingsWidth": 500,
+  "volumeSettingsHeight": 500,
 
   "numberOfCardFlagWidth": 35,
   "numberOfCardFlagHeight": 38,

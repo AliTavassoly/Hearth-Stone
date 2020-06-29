@@ -1,4 +1,4 @@
-package hearthstone.gui.game.play.dialogs;
+package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;

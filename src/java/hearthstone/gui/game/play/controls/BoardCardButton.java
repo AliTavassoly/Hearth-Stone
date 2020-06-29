@@ -1,5 +1,6 @@
 package hearthstone.gui.game.play.controls;
 
+import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
@@ -30,8 +31,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private BufferedImage minionImage;
     private BufferedImage cardImage;
     private BufferedImage frameImage;
+    private BufferedImage cardBackImage;
 
-    private static BufferedImage cardBackImage;
     private static BufferedImage deathRattleImage;
     private static BufferedImage divineShieldImage;
     private static BufferedImage triggeredEffectImage;
@@ -104,7 +105,7 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
         try {
             if (cardBackImage == null)
-                cardBackImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" + "card_back2" + ".png");
+                cardBackImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" + "card_back" + HearthStone.currentAccount.getCardsBackId() + ".png");
 
             if (deathRattleImage == null)
                 deathRattleImage = ImageResource.getInstance().getImage(
