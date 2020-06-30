@@ -246,20 +246,44 @@ public class Player {
         hand.add(card);
     }
 
-    public void drawCard(MinionType minionType) throws HearthStoneException {
-        Card cardInHand = null;
-        for (Card card : deck.getCards()) {
-            if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
-                deck.getCards().remove(card);
-                cardInHand = card;
-                break;
-            }
-        }
+    public void drawCard(int ind) throws HearthStoneException {
+        if (deck.getCards().size() == 0)
+            throw new HearthStoneException("your deck is empty!");
+        int cardInd = ind;
+        Card card = deck.getCards().get(cardInd);
+        deck.getCards().remove(cardInd);
 
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        hand.add(cardInHand);
+        for(int i = 0; i < waitingForDraw.size(); i++){
+            Card waitedCard = waitingForDraw.get(i);
+            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+                waitingForDraw.remove(i);
+                i--;
+            }
+        }
+
+        hand.add(card);
+    }
+
+    public void drawCard(Card card) throws HearthStoneException {
+        if (deck.getCards().size() == 0)
+            throw new HearthStoneException("your deck is empty!");
+        deck.getCards().remove(card);
+
+        if (hand.size() == GameConfigs.maxCardInHand)
+            throw new HearthStoneException("your hand is full!");
+
+        for(int i = 0; i < waitingForDraw.size(); i++){
+            Card waitedCard = waitingForDraw.get(i);
+            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+                waitingForDraw.remove(i);
+                i--;
+            }
+        }
+
+        hand.add(card);
     }
 
     public void playCard(Card cardInHand) throws HearthStoneException {

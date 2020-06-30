@@ -135,4 +135,8 @@ public class DataTransform {
     public MinionCard getRandomMinionFromLand(int playerId){
         return getPlayer(playerId).getFactory().getRandomMinionFromLand();
     }
+
+    public Card deckCard(int playerId, int ind){
+        return getPlayer(playerId).getDeck().getCards().get(ind);
+    }
 }

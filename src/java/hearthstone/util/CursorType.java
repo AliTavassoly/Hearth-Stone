@@ -4,5 +4,6 @@ public enum CursorType {
     NORMAL,
     SEARCH,
     ATTACK,
-    HEAL
+    HEAL,
+    FREEZE
 }

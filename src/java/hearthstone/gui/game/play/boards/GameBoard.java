@@ -972,6 +972,9 @@ public class GameBoard extends JPanel {
             case HEAL:
                 GameFrame.getInstance().setCursor("/images/heal_cursor.png");
                 break;
+            case FREEZE:
+                GameFrame.getInstance().setCursor("/images/freeze_cursor.png");
+                break;
         }
     }
 

@@ -62,6 +62,7 @@ public class Locust extends MinionCard implements MinionBehaviour {
 
     @Override
     public boolean pressed() {
-        return (numberOfAttack > 0 || (isFirstTurn && numberOfAttackedMinion == 0));
+        boolean minionPress = super.pressed();
+        return (numberOfAttack > 0 || (isFirstTurn && numberOfAttackedMinion == 0)) && minionPress;
     }
 }

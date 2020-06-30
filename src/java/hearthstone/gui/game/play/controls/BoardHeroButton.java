@@ -14,7 +14,8 @@ public class BoardHeroButton extends ImageButton {
     private Hero hero;
     private int width, height;
 
-    private BufferedImage immuneImage;
+    private static BufferedImage immuneImage;
+    private static BufferedImage freezeImage;
 
     private BufferedImage heroImage;
     private BufferedImage healthBackground;
@@ -64,6 +65,9 @@ public class BoardHeroButton extends ImageButton {
                 immuneImage = ImageResource.getInstance().getImage(
                         "/images/heroes/normal_heroes/immune_frame.png");
 
+            if(freezeImage == null)
+                freezeImage = ImageResource.getInstance().getImage(
+                        "/images/heroes/normal_heroes/freeze_frame.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,6 +81,14 @@ public class BoardHeroButton extends ImageButton {
 
         if(hero.isImmune()){
             g2.drawImage(immuneImage.getScaledInstance(width,
+                    height,
+                    Image.SCALE_SMOOTH), 0, 0,
+                    width,
+                    height,
+                    null);
+        }
+        if(hero.isFreeze()){
+            g2.drawImage(freezeImage.getScaledInstance(width,
                     height,
                     Image.SCALE_SMOOTH), 0, 0,
                     width,

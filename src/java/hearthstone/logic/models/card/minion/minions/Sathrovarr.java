@@ -53,9 +53,4 @@ public class Sathrovarr extends MinionCard implements Battlecry {
             doBattlecry(object);
         super.found(object);
     }
-
-    @Override
-    public boolean pressed() {
-        return numberOfAttack > 0;
-    }
 }

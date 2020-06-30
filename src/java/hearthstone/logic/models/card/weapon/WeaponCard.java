@@ -45,7 +45,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                DataTransform.getInstance().getWhoseTurn() == getPlayerId();
+                DataTransform.getInstance().getWhoseTurn() == getPlayerId() && !DataTransform.getInstance().getHero(getPlayerId()).isFreeze();
     }
 
     @Override

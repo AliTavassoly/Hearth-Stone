@@ -72,6 +72,7 @@ public class HulkingOverfiend extends MinionCard {
 
     @Override
     public boolean pressed() {
-        return ((numberOfAttack > 0 && thisTurnAttack != 2) || (isFirstTurn && numberOfAttackedMinion == 0));
+        boolean minionPress = super.pressed();
+        return (thisTurnAttack != 2 || (isFirstTurn && numberOfAttackedMinion == 0)) && minionPress;
     }
 }

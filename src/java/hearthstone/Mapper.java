@@ -171,12 +171,38 @@ public class Mapper {
         getPlayer(playerId).getHero().setImmune(immune);
     }
 
-    public void addImmunity(int playerId, int turnNumber){
-        getPlayer(playerId).getHero().addImmunity(turnNumber);
+    public void drawCard(int playerId, int ind) throws HearthStoneException{
+        getPlayer(playerId).drawCard(ind);
     }
 
-    public void handleImmunities(int playerId){
-        getPlayer(playerId).getHero().handleImmunities();
+    public void drawCard(int playerId, Card card) throws HearthStoneException{
+        getPlayer(playerId).drawCard(card);
+    }
+
+    public void handleImmunities(int playerId, Character character){
+        character.handleImmunities();
+    }
+
+    public void handleFreezes(int playerId, Character character){
+        character.handleFreezes();
+    }
+
+    public void addFreezes(int playerId, int turnNumber, Character character){
+        character.addFreezes(turnNumber);
+        handleFreezes(playerId, character);
+    }
+
+    public void addImmunity(int playerId, int turnNumber, Character character){
+        character.addImmunity(turnNumber);
+        handleImmunities(playerId, character);
+    }
+
+    public void reduceFreezes(int playerId, Character character){
+        character.reduceFreezes();
+    }
+
+    public void reduceImmunities(int playerId, Character character){
+        character.reduceImmunities();
     }
 
     public void updateBoard() {

@@ -24,9 +24,8 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
 
     @Override
     public boolean canAttack() {
-        return numberOfAttack > 0 &&
-                DataTransform.getInstance().getWhoseTurn() == getPlayerId() &&
-                numberOfThisTurnAttacked < 2;
+        boolean weaponCanAttack = super.canAttack();
+        return numberOfThisTurnAttacked < 2 && weaponCanAttack;
     }
 
     @Override

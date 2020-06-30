@@ -11,6 +11,8 @@ import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import java.util.ArrayList;
+
 public abstract class MinionCard extends Card implements MinionBehaviour, Character {
     protected int health;
     protected int attack;
@@ -20,7 +22,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
     protected boolean isCharge, isRush;
     protected boolean hasWaitingForDraw, hasEndTurnBehave;
-    protected boolean isImmune;
+    protected boolean isImmune, isFreeze;
+
+    private ArrayList<Integer> immunities, freezes;
 
     protected int numberOfAttack;
     protected boolean isFirstTurn;
@@ -31,6 +35,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
 
     public MinionCard() {
+        configMinion();
     }
 
     public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack) {
@@ -66,6 +71,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     private void configMinion() {
         initialAttack = attack;
         initialHealth = health;
+
+        freezes = new ArrayList<>();
+        immunities = new ArrayList<>();
     }
 
     public int getInitialHealth() {
@@ -164,10 +172,72 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.numberOfAttack = numberOfAttack;
     }
 
+    public void setFreeze(boolean isFreeze){
+        this.isFreeze = isFreeze;
+    }
+
+    public boolean isFreeze(){
+        return isFreeze;
+    }
+
+    @Override
+    public void reduceImmunities(){
+        for(int i = 0; i < immunities.size(); i++){
+            immunities.set(i, immunities.get(i) - 1);
+            if(immunities.get(i) <= 0){
+                immunities.remove(i);
+                i--;
+            }
+        }
+    }
+
+    @Override
+    public void reduceFreezes(){
+        for(int i = 0; i < freezes.size(); i++){
+            freezes.set(i, freezes.get(i) - 1);
+            if(freezes.get(i) <= 0){
+                freezes.remove(i);
+                i--;
+            }
+        }
+    }
+
+    @Override
+    public void handleImmunities(){
+        if(immunities.size() > 0)
+            isImmune = true;
+        else
+            isImmune = false;
+    }
+
+    @Override
+    public void handleFreezes(){
+        if(freezes.size() > 0)
+            isFreeze = true;
+        else
+            isFreeze = false;
+    }
+
+    @Override
+    public void addImmunity(int numberOfTurn){
+        immunities.add(numberOfTurn);
+    }
+
+    @Override
+    public void addFreezes(int numberOfTurn) {
+        freezes.add(numberOfTurn);
+    }
+
     @Override
     public void startTurnBehave() {
         numberOfAttack = 1;
         isFirstTurn = false;
+
+        Mapper.getInstance().reduceImmunities(getPlayerId(), this);
+        Mapper.getInstance().handleImmunities(getPlayerId(), this);
+
+        Mapper.getInstance().reduceFreezes(getPlayerId(), this);
+        Mapper.getInstance().handleFreezes(getPlayerId(), this);
     }
 
     @Override
@@ -242,6 +312,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public boolean pressed() {
-        return numberOfAttack > 0;
+        return numberOfAttack > 0 && !isFreeze;
     }
 }

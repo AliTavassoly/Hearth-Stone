@@ -35,11 +35,13 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
 
     private static BufferedImage deathRattleImage;
     private static BufferedImage divineShieldImage;
+    private static BufferedImage freezeImage;
     private static BufferedImage triggeredEffectImage;
     private static BufferedImage shieldFrameImage;
     private static BufferedImage ovalFrameImage;
     private static BufferedImage shieldFrameImageActive;
     private static BufferedImage ovalFrameImageActive;
+
 
     private int playerId;
 
@@ -132,6 +134,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                 ovalFrameImage = ImageResource.getInstance().getImage("/images/minion_played.png");
             if (ovalFrameImageActive == null)
                 ovalFrameImageActive = ImageResource.getInstance().getImage("/images/minion_played_active.png");
+            if (freezeImage == null)
+                freezeImage = ImageResource.getInstance().getImage("/images/freeze.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,6 +277,14 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                         Image.SCALE_SMOOTH),
                         (width - 10) / 2 - SizeConfigs.minionTypeWidth / 2, height - 42,
                         SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
+                        null);
+            }
+            if(((MinionCard)card).isFreeze()){
+                g.drawImage(freezeImage.getScaledInstance(
+                        width - 10, height - 5,
+                        Image.SCALE_SMOOTH),
+                        0, 0,
+                        width - 10, height - 5,
                         null);
             }
         } catch (Exception e) {
