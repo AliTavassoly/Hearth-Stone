@@ -19,12 +19,12 @@ public class LearnDraconic extends RewardCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        Mapper.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
+        Mapper.getInstance().restartSpentManaOnSpells(getPlayerId());
     }
 
     @Override
     public int getPercentage() {
-        int now = DataTransform.getInstance().spentManaOnSpells(getPlayer().getPlayerId());
+        int now = DataTransform.getInstance().spentManaOnSpells(getPlayerId());
         int end = 8;
 
         return (int)(((double)now / (double)end) * 100);
@@ -32,12 +32,12 @@ public class LearnDraconic extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return getPlayer().getManaSpentOnSpells() >= 8;
+        return DataTransform.getInstance().spentManaOnSpells(getPlayerId()) >= 8;
     }
 
     @Override
     public void doReward() {
-        getPlayer().getFactory().makeAndSummonMinion(HearthStone.getCardByName("Faerie Dragon"));
-        Mapper.getInstance().restartSpentManaOnSpells(getPlayer().getPlayerId());
+        Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Faerie Dragon"));
+        Mapper.getInstance().restartSpentManaOnSpells(getPlayerId());
     }
 }

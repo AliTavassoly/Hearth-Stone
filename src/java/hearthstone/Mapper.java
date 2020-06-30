@@ -1,9 +1,14 @@
 package hearthstone;
 
+import hearthstone.gui.game.play.boards.GameBoard;
+import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
+import hearthstone.logic.models.card.minion.MinionType;
+import hearthstone.logic.models.player.Player;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -23,33 +28,45 @@ public class Mapper {
         }
     }
 
+    public Player getPlayer(int playerId) {
+        return HearthStone.currentGame.getPlayerById(playerId);
+    }
+
+    public GameBoard getGameBoard() {
+        return HearthStone.currentGameBoard;
+    }
+
+    public Game getGame() {
+        return HearthStone.currentGame;
+    }
+
     public void playCard(int playerId, Card card) throws Exception {
-        HearthStone.currentGame.getPlayerById(playerId).playCard(card);
+        getPlayer(playerId).playCard(card);
     }
 
     public void doPassive(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId)
+        getPlayer(playerId)
                 .doPassives();
     }
 
     public void endTurn() {
-        HearthStone.currentGame.endTurn();
+        getGame().endTurn();
     }
 
     public void startGame() {
-        HearthStone.currentGame.startGame();
+        getGame().startGame();
     }
 
     public void gameEnded() {
-        HearthStone.currentGameBoard.gameEnded();
+        getGameBoard().gameEnded();
     }
 
     public void lost(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).lostGame();
+        getPlayer(playerId).lostGame();
     }
 
     public void won(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).wonGame();
+        getPlayer(playerId).wonGame();
     }
 
     public void addAttack(int attack, MinionCard minionCard) {
@@ -84,15 +101,15 @@ public class Mapper {
     }
 
     public void setPassive(int playerId, Passive passive) {
-        HearthStone.currentGame.getPlayerById(playerId).setPassive(passive);
+        getPlayer(playerId).setPassive(passive);
     }
 
     public void restartSpentManaOnMinions(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnMinions(0);
+        getPlayer(playerId).setManaSpentOnMinions(0);
     }
 
     public void restartSpentManaOnSpells(int playerId) {
-        HearthStone.currentGame.getPlayerById(playerId).setManaSpentOnSpells(0);
+        getPlayer(playerId).setManaSpentOnSpells(0);
     }
 
     public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
@@ -103,20 +120,60 @@ public class Mapper {
     }
 
     public void deleteCurrentMouseWaiting() {
-        HearthStone.currentGameBoard.deleteCurrentMouseWaiting();
+        getGameBoard().deleteCurrentMouseWaiting();
     }
 
     public void makeNewMouseWaiting(CursorType cursorType, Card card) {
-        HearthStone.currentGameBoard.makeNewMouseWaiting(cursorType, card);
+        getGameBoard().makeNewMouseWaiting(cursorType, card);
+    }
+
+    public void summonMinionFromCurrentDeck(int playerId, int attack, int health){
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(attack, health);
+    }
+
+    public void summonMinionFromCurrentDeck(int playerId, MinionType minionType){
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(minionType);
+    }
+
+    public void summonMinionFromCurrentDeck(int playerId){
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck();
+    }
+
+    public void makeAndPutHand(int playerId, Card card){
+        getPlayer(playerId).getFactory().makeAndPutHand(card);
+    }
+
+    public void isAttacked(IsAttacked character){
+        character.isAttacked();
     }
 
     public void removeInitialCards(int playerId, ArrayList<Card> discardCards, int numberOfTopCards) {
-        HearthStone.currentGame.getPlayerById(playerId).removeInitialCards(discardCards, numberOfTopCards);
+        getPlayer(playerId).removeInitialCards(discardCards, numberOfTopCards);
+    }
+
+    public void setMana(int playerId, int mana) {
+        getPlayer(playerId).setMana(mana);
+    }
+
+    public void reduceMana(int playerId, int reduce) {
+        getPlayer(playerId).reduceMana(reduce);
+    }
+
+    public void makeAndSummonMinion(int playerId, Card card) {
+        getPlayer(playerId).getFactory().makeAndSummonMinion(card);
+    }
+
+    public void makeAndPutDeck(int playerId, Card card) {
+        getPlayer(playerId).getFactory().makeAndPutDeck(card);
+    }
+
+    public void setHeroImmune(int playerId, boolean immune){
+        getPlayer(playerId).getHero().setImmune(immune);
     }
 
     public void updateBoard() {
-        HearthStone.currentGame.getPlayerById(0).updatePlayer();
-        HearthStone.currentGame.getPlayerById(1).updatePlayer();
-        HearthStone.currentGameBoard.restart();
+        getPlayer(0).updatePlayer();
+        getPlayer(1).updatePlayer();
+        getGameBoard().restart();
     }
 }

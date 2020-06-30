@@ -10,7 +10,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "1": {
@@ -24,7 +25,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "2": {
@@ -57,7 +59,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "3": {
@@ -71,7 +74,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "4": {
@@ -85,7 +89,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "5": {
@@ -118,7 +123,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "6": {
@@ -132,7 +138,8 @@
       "heroType": "PALADIN",
       "cardType": "HEROPOWER",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "7": {
@@ -146,7 +153,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "8": {
@@ -160,7 +168,8 @@
       "heroType": "PRIEST",
       "cardType": "HEROPOWER",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "9": {
@@ -193,7 +202,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "10": {
@@ -207,7 +217,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "11": {
@@ -221,7 +232,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "12": {
@@ -235,7 +247,8 @@
       "rarity": "COMMON",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "13": {
@@ -249,7 +262,8 @@
       "rarity": "RARE",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "14": {
@@ -263,7 +277,8 @@
       "rarity": "RARE",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "15": {
@@ -277,7 +292,8 @@
       "rarity": "EPIC",
       "cardType": "SPELL",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "16": {
@@ -311,7 +327,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "17": {
@@ -344,7 +361,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "18": {
@@ -377,7 +395,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "19": {
@@ -411,7 +430,8 @@
       "rarity": "EPIC",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "20": {
@@ -444,7 +464,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "21": {
@@ -477,7 +498,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "22": {
@@ -510,7 +532,8 @@
       "rarity": "LEGENDARY",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "23": {
@@ -543,7 +566,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "24": {
@@ -576,7 +600,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "25": {
@@ -609,7 +634,8 @@
       "rarity": "RARE",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "26": {
@@ -642,7 +668,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "27": {
@@ -675,7 +702,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "28": {
@@ -708,7 +736,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "29": {
@@ -741,7 +770,8 @@
       "rarity": "COMMON",
       "cardType": "MINIONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "30": {
@@ -760,7 +790,8 @@
       "rarity": "EPIC",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "31": {
@@ -778,7 +809,8 @@
       "rarity": "EPIC",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "32": {
@@ -796,7 +828,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "33": {
@@ -814,7 +847,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "34": {
@@ -832,7 +866,8 @@
       "rarity": "RARE",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "35": {
@@ -850,7 +885,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "36": {
@@ -868,7 +904,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "37": {
@@ -886,7 +923,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "38": {
@@ -904,7 +942,8 @@
       "rarity": "COMMON",
       "cardType": "WEAPONCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "39": {
@@ -918,7 +957,8 @@
       "rarity": "COMMON",
       "cardType": "REWARDCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   },
   "40": {
@@ -932,7 +972,8 @@
       "rarity": "COMMON",
       "cardType": "REWARDCARD",
       "buyPrice": 5,
-      "sellPrice": 5
+      "sellPrice": 5,
+      "playerId": 0
     }
   }
 }

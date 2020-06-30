@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.minion;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.card.Card;
@@ -200,7 +201,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         }
 
         if (minionCard instanceof IsAttacked) {
-            ((IsAttacked) minionCard).isAttacked();
+            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
         }
 
         try {
@@ -212,7 +213,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (hero.getPlayer().haveTaunt()) {
+        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         Mapper.getInstance().damage(this.attack, hero);
@@ -221,7 +222,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     @Override
     public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
-            if (((Card) object).getPlayer() == this.getPlayer()) {
+            if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((MinionCard) object);
@@ -229,7 +230,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
                 numberOfAttackedMinion++;
             }
         } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayer() == this.getPlayer()) {
+            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((Hero) object);

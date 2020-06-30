@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.heropower.heropowers;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
@@ -23,7 +24,7 @@ public class Heal extends HeroPowerCard implements HeroPowerBehaviour {
 
     @Override
     public boolean canAttackThisTurn() {
-        return numberOfAttack > 0 && getManaCost() <= getPlayer().getMana();
+        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
     }
 
     @Override
@@ -36,12 +37,12 @@ public class Heal extends HeroPowerCard implements HeroPowerBehaviour {
         if(object instanceof Hero){
             Hero hero = (Hero)object;
             Mapper.getInstance().restoreHealth(4, hero);
-            getPlayer().setMana(getPlayer().getMana() - this.getManaCost());
+            Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
             numberOfAttack--;
         } else if (object instanceof MinionCard){
             MinionCard minion = (MinionCard)object;
             Mapper.getInstance().restoreHealth(4, minion);
-            getPlayer().setMana(getPlayer().getMana() - this.getManaCost());
+            Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
             numberOfAttack--;
         }
     }

@@ -44,7 +44,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
 
     public boolean canAttack(){
         return numberOfAttack > 0 &&
-                DataTransform.getInstance().getWhoseTurn() == getPlayer().getPlayerId();
+                DataTransform.getInstance().getWhoseTurn() == getPlayerId();
     }
 
     @Override
@@ -63,13 +63,13 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
         }
 
         if(minionCard instanceof IsAttacked){
-            ((IsAttacked)minionCard).isAttacked();
+            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
         }
     }
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (hero.getPlayer().haveTaunt()) {
+        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         Mapper.getInstance().damage(this.attack, hero);
@@ -78,14 +78,14 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
     @Override
     public void found(Object object) throws HearthStoneException{
         if (object instanceof MinionCard) {
-            if (((Card) object).getPlayer() == this.getPlayer()) {
+            if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((MinionCard) object);
                 numberOfAttack--;
             }
         } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayer() == this.getPlayer()) {
+            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((Hero) object);

@@ -7,7 +7,6 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.player.Player;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -25,7 +24,7 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     protected boolean isImmune;
 
-    private Player player;
+    private int playerId;
 
     public Hero() {
     }
@@ -105,11 +104,11 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
 
 
-    public Player getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
 

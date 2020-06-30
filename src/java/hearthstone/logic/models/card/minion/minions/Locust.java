@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.minion.minions;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
@@ -26,7 +27,7 @@ public class Locust extends MinionCard implements MinionBehaviour {
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (hero.getPlayer().haveTaunt()) {
+        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if(isFirstTurn){
             throw new HearthStoneException("Rush card can not attack to hero in first turn!");
@@ -38,7 +39,7 @@ public class Locust extends MinionCard implements MinionBehaviour {
     @Override
     public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
-            if (((Card) object).getPlayer() == this.getPlayer()) {
+            if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((MinionCard) object);
@@ -49,7 +50,7 @@ public class Locust extends MinionCard implements MinionBehaviour {
                 numberOfAttackedMinion++;
             }
         } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayer() == this.getPlayer()) {
+            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((Hero) object);

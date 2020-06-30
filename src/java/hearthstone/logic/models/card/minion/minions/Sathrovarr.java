@@ -28,14 +28,14 @@ public class Sathrovarr extends MinionCard implements Battlecry {
             throw new HearthStoneException("choose a minion!");
 
         Card card = (Card)object;
-        if (card.getPlayer() != this.getPlayer()){
+        if (card.getPlayerId() != this.getPlayerId()){
             throw new HearthStoneException("choose a friendly minion!");
         } else if (card == this){
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
-            this.getPlayer().getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
-            this.getPlayer().getFactory().makeAndPutHand(HearthStone.getCardByName(card.getName()));
-            this.getPlayer().getFactory().makeAndSummonMinion(HearthStone.getCardByName(card.getName()));
+            Mapper.getInstance().makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            Mapper.getInstance().makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
 
             Mapper.getInstance().updateBoard();
             Mapper.getInstance().deleteCurrentMouseWaiting();

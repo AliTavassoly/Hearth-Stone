@@ -25,7 +25,7 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
     @Override
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                DataTransform.getInstance().getWhoseTurn() == getPlayer().getPlayerId() &&
+                DataTransform.getInstance().getWhoseTurn() == getPlayerId() &&
                 numberOfThisTurnAttacked < 2;
     }
 
@@ -47,14 +47,14 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
         }
 
         if (minionCard instanceof IsAttacked) {
-            ((IsAttacked) minionCard).isAttacked();
+            Mapper.getInstance().isAttacked((IsAttacked) minionCard);
         }
     }
 
     @Override
     public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
-            if (((Card) object).getPlayer() == this.getPlayer()) {
+            if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((MinionCard) object);
@@ -62,7 +62,7 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
                 numberOfThisTurnAttacked++;
             }
         } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayer() == this.getPlayer()) {
+            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
                 this.attack((Hero) object);

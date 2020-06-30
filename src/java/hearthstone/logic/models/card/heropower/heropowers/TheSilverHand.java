@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.heropower.heropowers;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
@@ -16,10 +17,10 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
     }
 
     private void doAbility(){
-        getPlayer().setMana(getPlayer().getMana() - this.getManaCost());
+        Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
 
-        getPlayer().getFactory().summonMinionFromCurrentDeck(1, 1);
-        getPlayer().getFactory().summonMinionFromCurrentDeck(1, 1);
+        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
+        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
         Mapper.getInstance().updateBoard();
     }
 
@@ -30,7 +31,7 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
 
     @Override
     public boolean canAttackThisTurn() {
-        return numberOfAttack > 0 && getManaCost() <= getPlayer().getMana();
+        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
     }
 
     @Override
@@ -40,7 +41,7 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
 
     @Override
     public void found(Object object) {
-        if(object instanceof Hero && ((Hero)object).getPlayer() == this.getPlayer()){
+        if(object instanceof Hero && ((Hero)object).getPlayerId() == this.getPlayerId()){
             doAbility();
             numberOfAttack--;
         }

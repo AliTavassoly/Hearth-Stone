@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.weapon.weapons;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
@@ -18,7 +19,7 @@ public class Glaivezooka extends WeaponCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = getPlayer().getFactory().getRandomMinionFromLand();
+        MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
         if (minionCard != null)
             Mapper.getInstance().addAttack(1, minionCard);
     }

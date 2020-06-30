@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.weapon.weapons;
 
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.interfaces.WhileAlive;
@@ -24,6 +25,6 @@ public class Candleshot extends WeaponCard implements WhileAlive {
     @Override
     public void doWhileAlive() {
         if (canAttack())
-            getPlayer().getHero().setImmune(true);
+            Mapper.getInstance().setHeroImmune(getPlayerId(), true);
     }
 }

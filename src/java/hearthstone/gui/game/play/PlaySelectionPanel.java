@@ -172,26 +172,11 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeNewPracticeGame(Player player0, Player player1){
-        player0.setPlayerId(0);
-        player0.setEnemyPlayerId(1);
-
-        player1.setPlayerId(1);
-        player1.setEnemyPlayerId(0);
-
-        //player0.setReward((RewardCard) HearthStone.getCardByName("Learn Draconic")); // JUST FOR TESSSSSSSSSSSSST
-        //player1.setReward((RewardCard) HearthStone.getCardByName("Learn Draconic")); // JUST FOR TESSSSSSSSSSSSST
-
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
     }
 
     private void makeNewSoloGame(Player player0, Player player1){
-        player0.setPlayerId(0);
-        player0.setEnemyPlayerId(1);
-
-        player1.setPlayerId(1);
-        player1.setEnemyPlayerId(0);
-
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
     }

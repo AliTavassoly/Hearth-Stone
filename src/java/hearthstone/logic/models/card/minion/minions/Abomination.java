@@ -25,13 +25,13 @@ public class Abomination extends MinionCard implements DeathRattle {
 
     @Override
     public void deathRattle() {
-        Hero hero = DataTransform.getInstance().getHero(this.getPlayer().getEnemyPlayerId());
+        Hero hero = DataTransform.getInstance().getHero(DataTransform.getInstance().getEnemyId(getPlayerId()));
 
         try {
             Mapper.getInstance().damage(2, hero);
         } catch (HearthStoneException ignore) { }
 
-        for(Card card: DataTransform.getInstance().getLand(this.getPlayer().getEnemyPlayerId())){
+        for(Card card: DataTransform.getInstance().getLand(DataTransform.getInstance().getEnemyId(getPlayerId()))){
             try {
                 Mapper.getInstance().damage(2, (MinionCard) card, false);
             } catch (HearthStoneException ignore){ }

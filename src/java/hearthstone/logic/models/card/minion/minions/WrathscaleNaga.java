@@ -10,7 +10,6 @@ import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.Rand;
 
 import java.util.ArrayList;
 
@@ -28,11 +27,12 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
 
     @Override
     public void friendlyMinionDies() {
-        ArrayList<Card> land = DataTransform.getInstance().getLand(getPlayer().getEnemyPlayerId());
+        ArrayList<Card> land = DataTransform.getInstance().getLand(DataTransform.getInstance().getEnemyId(getPlayerId()));
         if(land.size() == 0)
             return;
-        int ind = Rand.getInstance().getRandomNumber(land.size());
-        MinionCard card = (MinionCard) land.get(ind);
+
+        MinionCard card = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
+
         try {
             Mapper.getInstance().damage(3, card);
         } catch (HearthStoneException ignore) { }

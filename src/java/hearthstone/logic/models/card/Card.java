@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.player.Player;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -18,7 +17,7 @@ public abstract class Card implements CardBehaviour {
     private CardType cardType;
     private int buyPrice, sellPrice;
 
-    private Player player;
+    private int playerId;
 
     public Card() {
     }
@@ -46,8 +45,8 @@ public abstract class Card implements CardBehaviour {
         sellPrice = buyPrice = 5;
     }
 
-    public void setPlayer(Player player){
-        this.player = player;
+    public void setPlayerId(int playerId){
+        this.playerId = playerId;
     }
 
     public int getId() {
@@ -113,8 +112,8 @@ public abstract class Card implements CardBehaviour {
         this.sellPrice = sellPrice;
     }
 
-    public Player getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public Card copy() {

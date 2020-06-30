@@ -1,5 +1,7 @@
 package hearthstone.logic.models.card.minion.minions;
 
+import hearthstone.DataTransform;
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.interfaces.Battlecry;
@@ -20,13 +22,15 @@ public class LabRecruiter extends MinionCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = (MinionCard) getPlayer().getFactory().getRandomCardFromOriginalDeck(CardType.MINIONCARD);
+        MinionCard minionCard = (MinionCard) DataTransform.getInstance().getRandomCardFromOriginalDeck(
+                getPlayerId(),
+                CardType.MINIONCARD);
 
         if(minionCard == null)
             return;
 
-        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
-        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
-        getPlayer().getFactory().makeAndPutDeck(minionCard.copy());
+        Mapper.getInstance().makeAndPutDeck(getPlayerId(), minionCard.copy());
+        Mapper.getInstance().makeAndPutDeck(getPlayerId(), minionCard.copy());
+        Mapper.getInstance().makeAndPutDeck(getPlayerId(), minionCard.copy());
     }
 }

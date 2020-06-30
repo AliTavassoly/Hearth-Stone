@@ -14,7 +14,7 @@ public class Game {
         this.player0  = player0;
         this.player1  = player1;
 
-        whoseTurn = 0;
+        configGame();
 
         MyTimerTask myTimerTask = new MyTimerTask(500, new MyBigTask() {
             @Override
@@ -41,6 +41,16 @@ public class Game {
                 return gameEnded();
             }
         });
+    }
+
+    private void configGame() {
+        whoseTurn = 0;
+
+        player0.setPlayerId(0);
+        player1.setPlayerId(1);
+
+        player0.configPlayer();
+        player1.configPlayer();
     }
 
     public void startGame(){

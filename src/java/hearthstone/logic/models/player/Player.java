@@ -35,7 +35,6 @@ public class Player {
 
     protected boolean isStarted;
     protected int playerId;
-    protected int enemyPlayerId;
 
     private ArrayList<Card> waitingForDraw;
 
@@ -59,11 +58,9 @@ public class Player {
         land = new ArrayList<>();
         waitingForDraw = new ArrayList<>();
         factory = new CardFactory();
-
-        configPlayer();
     }
 
-    private void configPlayer() {
+    public void configPlayer() {
         for (Card card : deck.getCards()) {
             configCard(card);
         }
@@ -71,7 +68,6 @@ public class Player {
 
         mana = 0;
     }
-
 
     public String getUsername() {
         return username;
@@ -161,14 +157,6 @@ public class Player {
         this.hero = hero;
     }
 
-    public void setEnemyPlayerId(int enemyPlayerId) {
-        this.enemyPlayerId = enemyPlayerId;
-    }
-
-    public int getEnemyPlayerId() {
-        return enemyPlayerId;
-    }
-
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
@@ -176,7 +164,6 @@ public class Player {
     public int getPlayerId() {
         return playerId;
     }
-
 
     public int getManaSpentOnMinions() {
         return manaSpentOnMinions;
@@ -207,6 +194,10 @@ public class Player {
     }
 
     // End of getter setter
+
+    public void reduceMana(int reduce){
+        mana -= reduce;
+    }
 
     public void doPassives() {
         if (passive.getName().equals("Off Cards")) {
@@ -419,11 +410,11 @@ public class Player {
     }
 
     private void configCard(Card card) {
-        card.setPlayer(this);
+        card.setPlayerId(this.getPlayerId());
     }
 
     private void configHero(Hero hero) {
-        hero.setPlayer(this);
+        hero.setPlayerId(this.getPlayerId());
     }
 
     public ArrayList<MinionCard> neighborCards(Card card) {

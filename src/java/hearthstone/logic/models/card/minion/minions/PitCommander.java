@@ -1,5 +1,6 @@
 package hearthstone.logic.models.card.minion.minions;
 
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.interfaces.EndTurnBehave;
@@ -24,7 +25,7 @@ public class PitCommander extends MinionCard implements EndTurnBehave {
     public void endTurnBehave() {
         if(didItEndTurnBehave)
             return;
-        getPlayer().getFactory().summonMinionFromCurrentDeck(MinionType.DEMON);
+        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), MinionType.DEMON);
         didItEndTurnBehave = true;
     }
 }
