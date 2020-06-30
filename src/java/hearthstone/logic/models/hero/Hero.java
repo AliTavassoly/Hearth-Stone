@@ -22,15 +22,18 @@ public abstract class Hero implements HeroBehaviour, Character {
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
 
+    private ArrayList<Integer> immunities;
+
     protected boolean isImmune;
 
     private int playerId;
 
     public Hero() {
+        configHero();
     }
 
     public Hero(int id, String name, HeroType type, String description,
-                int health, List<Integer> initialCardsId) throws Exception {
+                int health, List<Integer> initialCardsId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,6 +46,12 @@ public abstract class Hero implements HeroBehaviour, Character {
         for (int x : initialCardsId) {
             initialCard.add(HearthStone.baseCards.get(x).copy());
         }
+
+        configHero();
+    }
+
+    private void configHero(){
+        immunities = new ArrayList<>();
 
         decks = new ArrayList<>();
     }
@@ -136,6 +145,27 @@ public abstract class Hero implements HeroBehaviour, Character {
         return null;
     }
 
+    public void reduceImmunities(){
+        for(int i = 0; i < immunities.size(); i++){
+            immunities.set(i, immunities.get(i) - 1);
+            if(immunities.get(i) <= 0){
+                immunities.remove(i);
+                i--;
+            }
+        }
+    }
+
+    public void handleImmunities(){
+        if(immunities.size() > 0)
+            isImmune = true;
+        else
+            isImmune = false;
+    }
+
+    public void addImmunity(int numberOfTurn){
+        immunities.add(numberOfTurn);
+    }
+
     public Hero copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
@@ -164,6 +194,7 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     @Override
     public void startTurnBehave() {
-        isImmune = false;
+        reduceImmunities();
+        handleImmunities();
     }
 }

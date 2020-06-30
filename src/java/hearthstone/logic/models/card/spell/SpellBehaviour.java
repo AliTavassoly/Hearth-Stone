@@ -1,3 +1,8 @@
 package hearthstone.logic.models.card.spell;
 
-public interface SpellBehaviour { }
+import hearthstone.util.CursorType;
+
+public interface SpellBehaviour {
+    void doAbility();
+    CursorType getCursorType();
+}

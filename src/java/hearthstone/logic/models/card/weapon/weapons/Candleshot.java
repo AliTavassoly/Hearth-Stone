@@ -3,11 +3,10 @@ package hearthstone.logic.models.card.weapon.weapons;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.WhileAlive;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.HeroType;
 
-public class Candleshot extends WeaponCard implements WhileAlive {
+public class Candleshot extends WeaponCard {
     public Candleshot() {
     }
 
@@ -19,12 +18,7 @@ public class Candleshot extends WeaponCard implements WhileAlive {
     public void startTurnBehave() {
         super.startTurnBehave();
 
-        doWhileAlive();
-    }
-
-    @Override
-    public void doWhileAlive() {
-        if (canAttack())
-            Mapper.getInstance().setHeroImmune(getPlayerId(), true);
+        Mapper.getInstance().addImmunity(getPlayerId(), 1);
+        Mapper.getInstance().handleImmunities(getPlayerId());
     }
 }

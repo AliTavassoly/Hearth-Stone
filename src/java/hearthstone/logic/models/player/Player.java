@@ -13,6 +13,8 @@ import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.reward.RewardCard;
+import hearthstone.logic.models.card.spell.SpellBehaviour;
+import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
@@ -279,6 +281,7 @@ public class Player {
                 this.reward = (RewardCard) cardInHand;
                 break;
             case SPELL:
+                break;
         }
 
         hand.remove(cardInHand);
@@ -292,6 +295,9 @@ public class Player {
 
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
+
+        if(cardInHand.getCardType() == CardType.SPELL)
+            playSpell(cardInHand);
 
         Mapper.getInstance().updateBoard();
     }
@@ -319,6 +325,12 @@ public class Player {
         land.add(minionCard);
     }
 
+    private void playSpell(Card card){
+        SpellCard spell = (SpellCard) card;
+
+        ((SpellBehaviour)spell).doAbility();
+    }
+
     private void handleCardPlayInformation(Card card) {
         if (card.getCardType() == CardType.SPELL)
             manaSpentOnSpells += card.getManaCost();
@@ -335,11 +347,12 @@ public class Player {
 
         hero.startTurnBehave();
 
+        updateHeroPower();
         if (heroPower != null) {
-            // HERO POWER START TURN BEAHVE
             ((HeroPowerBehaviour) heroPower).startTurnBehave();
         }
 
+        updateWeapon();
         if (weapon != null) {
             weapon.startTurnBehave();
         }

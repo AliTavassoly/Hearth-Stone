@@ -9,6 +9,7 @@
       "initialHealth": 30,
       "type": "MAGE",
       "decks": [],
+      "immunities": [],
       "isImmune": false,
       "playerId": 0
     }
@@ -23,6 +24,7 @@
       "initialHealth": 35,
       "type": "WARLOCK",
       "decks": [],
+      "immunities": [],
       "isImmune": false,
       "playerId": 0
     }
@@ -37,6 +39,7 @@
       "initialHealth": 30,
       "type": "ROGUE",
       "decks": [],
+      "immunities": [],
       "isImmune": false,
       "playerId": 0
     }
@@ -51,6 +54,7 @@
       "initialHealth": 30,
       "type": "PALADIN",
       "decks": [],
+      "immunities": [],
       "isImmune": false,
       "playerId": 0
     }
@@ -65,6 +69,7 @@
       "initialHealth": 30,
       "type": "PRIEST",
       "decks": [],
+      "immunities": [],
       "isImmune": false,
       "playerId": 0
     }

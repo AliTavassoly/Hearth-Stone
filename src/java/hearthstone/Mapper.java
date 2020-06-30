@@ -171,6 +171,14 @@ public class Mapper {
         getPlayer(playerId).getHero().setImmune(immune);
     }
 
+    public void addImmunity(int playerId, int turnNumber){
+        getPlayer(playerId).getHero().addImmunity(turnNumber);
+    }
+
+    public void handleImmunities(int playerId){
+        getPlayer(playerId).getHero().handleImmunities();
+    }
+
     public void updateBoard() {
         getPlayer(0).updatePlayer();
         getPlayer(1).updatePlayer();
