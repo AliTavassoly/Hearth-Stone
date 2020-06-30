@@ -50,17 +50,14 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     @Override
     public void startTurnBehave() {
-        numberOfAttack++;
+        numberOfAttack = 1;
         durability--;
         isFirstTurn = false;
     }
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        try {
-            Mapper.getInstance().damage(this.attack, minionCard);
-        } catch (HearthStoneException ignore) {
-        }
+        Mapper.getInstance().damage(this.attack, minionCard);
 
         try {
             Mapper.getInstance().damage(minionCard.getAttack(),

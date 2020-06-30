@@ -32,7 +32,7 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
     @Override
     public void startTurnBehave() {
         numberOfThisTurnAttacked = 0;
-        numberOfAttack++;
+        numberOfAttack = 1;
         durability--;
         isFirstTurn = false;
     }
