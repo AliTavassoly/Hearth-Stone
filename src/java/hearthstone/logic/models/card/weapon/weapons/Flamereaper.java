@@ -10,6 +10,8 @@ import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import java.util.ArrayList;
+
 public class Flamereaper extends WeaponCard {
     public Flamereaper() {
     }
@@ -20,6 +22,10 @@ public class Flamereaper extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
+        ArrayList <MinionCard> neighbors = DataTransform.getInstance().getNeighbors(
+                        DataTransform.getInstance().getEnemyId(getPlayerId()),
+                        minionCard);
+
         Mapper.getInstance().damage(this.attack, minionCard);
 
         try {
@@ -27,9 +33,7 @@ public class Flamereaper extends WeaponCard {
                     DataTransform.getInstance().getHero(getPlayerId()), false);
         } catch (HearthStoneException ignore) { }
 
-        for (MinionCard minionCard1 : DataTransform.getInstance().getNeighbors(
-                DataTransform.getInstance().getEnemyId(getPlayerId()),
-                minionCard)) {
+        for (MinionCard minionCard1 : neighbors){
             try {
                 Mapper.getInstance().damage(this.getAttack(), minionCard1, false);
             } catch (HearthStoneException ignore) { }
