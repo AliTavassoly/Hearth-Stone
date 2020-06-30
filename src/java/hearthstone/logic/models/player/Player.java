@@ -37,6 +37,7 @@ public class Player {
     protected int playerId;
 
     private ArrayList<Card> waitingForDraw;
+    private ArrayList<Card> waitingForSummon;
 
     protected ArrayList<Card> hand;
     protected ArrayList<Card> land;
@@ -57,6 +58,7 @@ public class Player {
         hand = new ArrayList<>();
         land = new ArrayList<>();
         waitingForDraw = new ArrayList<>();
+        waitingForSummon = new ArrayList<>();
         factory = new CardFactory();
     }
 
@@ -195,7 +197,7 @@ public class Player {
 
     // End of getter setter
 
-    public void reduceMana(int reduce){
+    public void reduceMana(int reduce) {
         mana -= reduce;
     }
 
@@ -216,12 +218,12 @@ public class Player {
         turnNumber = 0;
         mana = 0;
 
-        pickCard();
-        pickCard();
-        pickCard();
+        drawCard();
+        drawCard();
+        drawCard();
     }
 
-    public void pickCard() throws HearthStoneException {
+    public void drawCard() throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
         int cardInd = 0;
@@ -231,10 +233,18 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
+        for(int i = 0; i < waitingForDraw.size(); i++){
+            Card waitedCard = waitingForDraw.get(i);
+            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+                waitingForDraw.remove(i);
+                i--;
+            }
+        }
+
         hand.add(card);
     }
 
-    public void pickCard(MinionType minionType) throws HearthStoneException {
+    public void drawCard(MinionType minionType) throws HearthStoneException {
         Card cardInHand = null;
         for (Card card : deck.getCards()) {
             if (card.getCardType() == CardType.MINIONCARD && ((MinionCard) card).getMinionType() == minionType) {
@@ -289,18 +299,22 @@ public class Player {
     private void summonMinion(Card card) {
         MinionCard minionCard = (MinionCard) card;
 
-        for (int i = 0; i < waitingForDraw.size(); i++) {
-            Card card1 = waitingForDraw.get(i);
+        for (int i = 0; i < waitingForSummon.size(); i++) {
+            Card card1 = waitingForSummon.get(i);
             try {
-                if (card1 instanceof WaitDrawingCard && ((WaitDrawingCard) card1).waitDrawingCard(card) && card != card1) {
-                    waitingForDraw.remove(i);
+                if (card1 instanceof WaitSummonCard && ((WaitSummonCard) card1).waitSummonCard(card) && card != card1) {
+                    waitingForSummon.remove(i);
                     i--;
                 }
-            } catch (HearthStoneException e) { }
+            } catch (HearthStoneException e) {
+            }
         }
 
         minionCard.setInitialAttack(minionCard.getAttack());
         minionCard.setInitialHealth(minionCard.getHealth());
+
+        if (card instanceof WaitSummonCard)
+            waitingForSummon.add(card);
 
         land.add(minionCard);
     }
@@ -339,6 +353,12 @@ public class Player {
     private void handleWaitingCards(Card cardInHand) {
         if (cardInHand instanceof WaitDrawingCard) {
             waitingForDraw.add(cardInHand);
+        }
+    }
+
+    private void handleWaitingSummon(Card cardInHand) {
+        if (cardInHand instanceof WaitSummonCard) {
+            waitingForSummon.add(cardInHand);
         }
     }
 
@@ -404,7 +424,7 @@ public class Player {
 
         Mapper.getInstance().updateBoard();
 
-        pickCard();
+        drawCard();
 
         Mapper.getInstance().updateBoard();
     }

@@ -22,6 +22,11 @@ public class Flamereaper extends WeaponCard {
     public void attack(MinionCard minionCard) throws HearthStoneException {
         Mapper.getInstance().damage(this.attack, minionCard);
 
+        try {
+            Mapper.getInstance().damage(minionCard.getAttack(),
+                    DataTransform.getInstance().getHero(getPlayerId()), false);
+        } catch (HearthStoneException ignore) { }
+
         for (MinionCard minionCard1 : DataTransform.getInstance().getNeighbors(
                 DataTransform.getInstance().getEnemyId(getPlayerId()),
                 minionCard)) {

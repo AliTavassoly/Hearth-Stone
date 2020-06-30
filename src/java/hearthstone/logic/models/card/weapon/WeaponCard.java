@@ -11,16 +11,17 @@ import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
-public abstract class WeaponCard extends Card implements WeaponBehaviour{
+public abstract class WeaponCard extends Card implements WeaponBehaviour {
     protected int durability;
     protected int attack;
 
     protected int numberOfAttack;
     protected boolean isFirstTurn;
 
-    public WeaponCard() { }
+    public WeaponCard() {
+    }
 
-    public WeaponCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack){
+    public WeaponCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int durability, int attack) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.durability = durability;
         this.attack = attack;
@@ -42,7 +43,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
         this.attack = attack;
     }
 
-    public boolean canAttack(){
+    public boolean canAttack() {
         return numberOfAttack > 0 &&
                 DataTransform.getInstance().getWhoseTurn() == getPlayerId();
     }
@@ -55,16 +56,20 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
     }
 
     @Override
-    public void attack(MinionCard minionCard) throws HearthStoneException{
+    public void attack(MinionCard minionCard) throws HearthStoneException {
         try {
             Mapper.getInstance().damage(this.attack, minionCard);
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (HearthStoneException ignore) {
         }
 
-        if(minionCard instanceof IsAttacked){
-            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
+        try {
+            Mapper.getInstance().damage(minionCard.getAttack(),
+                    DataTransform.getInstance().getHero(getPlayerId()));
+        } catch (HearthStoneException ignore) {
         }
+
+        if (minionCard instanceof IsAttacked)
+            Mapper.getInstance().isAttacked((IsAttacked) minionCard);
     }
 
     @Override
@@ -76,7 +81,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour{
     }
 
     @Override
-    public void found(Object object) throws HearthStoneException{
+    public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
             if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");

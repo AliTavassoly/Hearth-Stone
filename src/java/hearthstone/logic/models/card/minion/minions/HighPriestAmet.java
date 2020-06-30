@@ -4,12 +4,12 @@ import hearthstone.Mapper;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.WaitDrawingCard;
+import hearthstone.logic.models.card.interfaces.WaitSummonCard;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
 
-public class HighPriestAmet extends MinionCard implements WaitDrawingCard {
+public class HighPriestAmet extends MinionCard implements WaitSummonCard {
     public HighPriestAmet(){ }
 
     public HighPriestAmet(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
@@ -23,7 +23,7 @@ public class HighPriestAmet extends MinionCard implements WaitDrawingCard {
     }
 
     @Override
-    public boolean waitDrawingCard(Card card) {
+    public boolean waitSummonCard(Card card) {
         if (card.getCardType() != CardType.MINIONCARD)
             return false;
         MinionCard minionCard = (MinionCard) card;

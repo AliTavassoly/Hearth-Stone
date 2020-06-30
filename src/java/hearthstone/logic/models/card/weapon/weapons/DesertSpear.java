@@ -23,6 +23,12 @@ public class DesertSpear extends WeaponCard {
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
         Mapper.getInstance().damage(this.attack, minionCard);
+
+        try {
+            Mapper.getInstance().damage(minionCard.getAttack(),
+                    DataTransform.getInstance().getHero(getPlayerId()));
+        } catch (HearthStoneException ignore) { }
+
         Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
         if (minionCard instanceof IsAttacked) {
             Mapper.getInstance().isAttacked((IsAttacked)minionCard);
