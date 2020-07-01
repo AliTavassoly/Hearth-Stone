@@ -74,6 +74,11 @@ public class Mapper {
         updateBoard();
     }
 
+    public void addHealth(int health, MinionCard minionCard) {
+        minionCard.gotHeal(health);
+        updateBoard();
+    }
+
     public void setHealth(int health, Character character) {
         character.setHealth(health);
         updateBoard();
@@ -203,6 +208,18 @@ public class Mapper {
 
     public void reduceImmunities(int playerId, Character character){
         character.reduceImmunities();
+    }
+
+    public void setTaunt(boolean isTaunt, MinionCard minionCard){
+        minionCard.setTaunt(isTaunt);
+    }
+
+    public void setDivineShield(boolean isDivineShields, MinionCard minionCard){
+        minionCard.setDivineShield(isDivineShields);
+    }
+
+    public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion){
+        getPlayer(playerId).transformMinion(oldMinion, newMinion);
     }
 
     public void updateBoard() {

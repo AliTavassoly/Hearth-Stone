@@ -573,6 +573,34 @@ public class Player {
         updateReward();
     }
 
+    public void transformMinion(MinionCard oldMinion, MinionCard newMinion){
+        for(int i = 0; i < land.size(); i++){
+            Card card = land.get(i);
+            if(card == oldMinion){
+                land.set(i, newMinion);
+                break;
+            }
+        }
+
+        for(int i = 0; i < waitingForDraw.size(); i++){
+            Card card = waitingForDraw.get(i);
+            if(card ==  oldMinion){
+                waitingForDraw.remove(i);
+                break;
+            }
+        }
+
+        for(int i = 0; i < waitingForSummon.size(); i++){
+            Card card = waitingForSummon.get(i);
+            if(card ==  oldMinion){
+                waitingForSummon.remove(i);
+                break;
+            }
+        }
+
+        configCard(newMinion);
+    }
+
     public class CardFactory {
         public CardFactory() {
         }
@@ -613,7 +641,7 @@ public class Player {
         }
 
         public void summonMinionFromCurrentDeck(MinionType minionType) {
-            if (originalDeck.getCards().size() == 0 || land.size() < GameConfigs.maxCardInLand)
+            if (deck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
                 return;
 
             int start = Rand.getInstance().getRandomNumber(deck.getCards().size());

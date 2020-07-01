@@ -18,4 +18,6 @@ public class Sheep extends MinionCard {
                 isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield,
                 isTaunt, isCharge, isRush, minionType);
     }
+
+
 }

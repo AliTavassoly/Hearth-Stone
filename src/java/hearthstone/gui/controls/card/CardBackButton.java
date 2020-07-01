@@ -35,7 +35,7 @@ public class CardBackButton extends ImageButton implements MouseListener {
 
         if(cardImage == null)
             cardImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
-                    "card_back" + id + ".png");
+                    "card_back_" + id + ".png");
 
         g2.drawImage(cardImage.getScaledInstance(
                 width, height,
