@@ -646,6 +646,10 @@ public class GameBoard extends JPanel {
                     int ind = animationsCard.indexOf(((BoardCardButton) animation.getComponent()).getCard());
                     animationsCard.remove(ind);
                     animations.remove(ind);
+
+                    if(animationsCard.size() == 0){
+                        Mapper.getInstance().updateBoard();
+                    }
                 }
             }
 
@@ -1108,6 +1112,7 @@ public class GameBoard extends JPanel {
     }
 
     private void gameStuffLayout() {
+
         drawCardsOnHand(0, myHandX, myHandY);
         drawCardsOnHand(1, enemyHandX, enemyHandY);
 
