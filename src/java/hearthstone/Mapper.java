@@ -229,8 +229,16 @@ public class Mapper {
         minionCard.setTaunt(isTaunt);
     }
 
+    public void setCharge(boolean isCharge, MinionCard minionCard) {
+        minionCard.setCharge(isCharge);
+    }
+
     public void setDivineShield(boolean isDivineShields, MinionCard minionCard){
         minionCard.setDivineShield(isDivineShields);
+    }
+
+    public void removeDivineShield(MinionCard minionCard){
+
     }
 
     public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion){

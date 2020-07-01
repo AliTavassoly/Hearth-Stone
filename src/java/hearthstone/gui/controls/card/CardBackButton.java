@@ -4,6 +4,7 @@ import hearthstone.gui.controls.ImageButton;
 import hearthstone.util.getresource.ImageResource;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
@@ -11,7 +12,7 @@ public class CardBackButton extends ImageButton implements MouseListener {
     private int width, height;
     private int id;
 
-    private BufferedImage cardImage;
+    private BufferedImage cardImage, activeCard, normalCard;
 
     public CardBackButton(int id, int width, int height){
         this.width = width;
@@ -36,6 +37,12 @@ public class CardBackButton extends ImageButton implements MouseListener {
         if(cardImage == null)
             cardImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
                     "card_back_" + id + ".png");
+        if(normalCard == null)
+            normalCard = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
+                    "card_back_" + id + ".png");
+        if(activeCard == null)
+            activeCard = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
+                    "card_back_" + id + "_active.png");
 
         g2.drawImage(cardImage.getScaledInstance(
                 width, height,
@@ -47,5 +54,19 @@ public class CardBackButton extends ImageButton implements MouseListener {
 
     public int getId(){
         return id;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        cardImage = activeCard;
+        repaint();
+        revalidate();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        cardImage = normalCard;
+        repaint();
+        revalidate();
     }
 }

@@ -29,10 +29,6 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
         numberOfAttack = 1;
     }
 
-    @Override
-    public boolean canAttackThisTurn() {
-        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
-    }
 
     @Override
     public CursorType lookingForCursorType() {
@@ -48,7 +44,7 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
     }
 
     @Override
-    public boolean pressed() {
-        return canAttackThisTurn();
+    public boolean canAttack() {
+        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
     }
 }

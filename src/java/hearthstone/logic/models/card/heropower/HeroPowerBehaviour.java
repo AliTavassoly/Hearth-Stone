@@ -4,7 +4,6 @@ import hearthstone.util.CursorType;
 
 public interface HeroPowerBehaviour {
     void startTurnBehave();
-    boolean canAttackThisTurn();
-    boolean pressed();
+    boolean canAttack();
     CursorType lookingForCursorType();
 }

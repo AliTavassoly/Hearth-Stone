@@ -164,6 +164,14 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         isImmune = immune;
     }
 
+    public boolean isCharge() {
+        return isCharge;
+    }
+
+    public void setCharge(boolean isCharge) {
+        this.isCharge = isCharge;
+    }
+
     public int getNumberOfAttack() {
         return numberOfAttack;
     }
@@ -172,19 +180,23 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.numberOfAttack = numberOfAttack;
     }
 
-    public void setFreeze(boolean isFreeze){
+    public void setFreeze(boolean isFreeze) {
         this.isFreeze = isFreeze;
     }
 
-    public boolean isFreeze(){
+    public boolean isFreeze() {
         return isFreeze;
     }
 
+    public void removeDivineShield() {
+        this.isDivineShield = false;
+    }
+
     @Override
-    public void reduceImmunities(){
-        for(int i = 0; i < immunities.size(); i++){
+    public void reduceImmunities() {
+        for (int i = 0; i < immunities.size(); i++) {
             immunities.set(i, immunities.get(i) - 1);
-            if(immunities.get(i) <= 0){
+            if (immunities.get(i) <= 0) {
                 immunities.remove(i);
                 i--;
             }
@@ -192,10 +204,10 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     @Override
-    public void reduceFreezes(){
-        for(int i = 0; i < freezes.size(); i++){
+    public void reduceFreezes() {
+        for (int i = 0; i < freezes.size(); i++) {
             freezes.set(i, freezes.get(i) - 1);
-            if(freezes.get(i) <= 0){
+            if (freezes.get(i) <= 0) {
                 freezes.remove(i);
                 i--;
             }
@@ -203,23 +215,23 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     @Override
-    public void handleImmunities(){
-        if(immunities.size() > 0)
+    public void handleImmunities() {
+        if (immunities.size() > 0)
             isImmune = true;
         else
             isImmune = false;
     }
 
     @Override
-    public void handleFreezes(){
-        if(freezes.size() > 0)
+    public void handleFreezes() {
+        if (freezes.size() > 0)
             isFreeze = true;
         else
             isFreeze = false;
     }
 
     @Override
-    public void addImmunity(int numberOfTurn){
+    public void addImmunity(int numberOfTurn) {
         immunities.add(numberOfTurn);
     }
 
@@ -263,15 +275,15 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     @Override
-    public void attack(MinionCard minionCard) {
-        try {
+    public void attack(MinionCard minionCard) throws HearthStoneException {
+        if (!minionCard.isImmune && minionCard.isDivineShield) {
+            minionCard.removeDivineShield();
+        } else {
             Mapper.getInstance().damage(this.attack, minionCard);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         if (minionCard instanceof IsAttacked) {
-            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
+            Mapper.getInstance().isAttacked((IsAttacked) minionCard);
         }
 
         try {
@@ -285,6 +297,10 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     public void attack(Hero hero) throws HearthStoneException {
         if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
+        } else if (isFirstTurn) {
+            if (isRush && !isCharge) {
+                throw new HearthStoneException("Rush card can not attack to hero in first turn!");
+            }
         }
         Mapper.getInstance().damage(this.attack, hero);
     }
@@ -292,11 +308,13 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     @Override
     public void found(Object object) throws HearthStoneException {
         if (object instanceof MinionCard) {
-            if (((Card) object).getPlayerId() == this.getPlayerId()) {
+            MinionCard minion = (MinionCard) object;
+            if (minion.getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
-                this.attack((MinionCard) object);
-                numberOfAttack--;
+                this.attack(minion);
+                if (!isFirstTurn)
+                    numberOfAttack--;
                 numberOfAttackedMinion++;
             }
         } else if (object instanceof Hero) {
@@ -312,6 +330,12 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public boolean canAttack() {
-        return numberOfAttack > 0 && !isFreeze;
+        if (isFreeze)
+            return false;
+        if (numberOfAttack > 0)
+            return true;
+        if (numberOfAttack == 0 && (isRush || isCharge))
+            return true;
+        return false;
     }
 }

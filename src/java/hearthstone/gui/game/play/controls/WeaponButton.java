@@ -19,10 +19,10 @@ public class WeaponButton extends ImageButton {
 
     private int playerId;
 
-    private BufferedImage cardImage;
+    private BufferedImage cardImage, weaponImage;
 
-    private static BufferedImage weaponImage, activeWeaponImage, inactiveWeaponImage;
-
+    private static BufferedImage activeWeaponImage, inactiveWeaponImage;
+    private static BufferedImage activeWeaponImageHovered, inactiveWeaponImageHovered;
 
     public WeaponButton(WeaponCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
@@ -72,11 +72,17 @@ public class WeaponButton extends ImageButton {
                 activeWeaponImage = ImageResource.getInstance().getImage("/images/cards/weapon/" + "active_frame.png");
             if (inactiveWeaponImage == null)
                 inactiveWeaponImage = ImageResource.getInstance().getImage("/images/cards/weapon/" + "inactive_frame.png");
+            if (activeWeaponImageHovered == null)
+                activeWeaponImageHovered = ImageResource.getInstance().getImage("/images/cards/weapon/" + "active_frame_hovered.png");
+            if (inactiveWeaponImageHovered == null)
+                inactiveWeaponImageHovered = ImageResource.getInstance().getImage("/images/cards/weapon/" + "inactive_frame_hovered.png");
 
-            if(card.canAttack())
-                weaponImage = activeWeaponImage;
-            else
-                weaponImage = inactiveWeaponImage;
+            if(weaponImage == null) {
+                if (card.canAttack())
+                    weaponImage = activeWeaponImage;
+                else
+                    weaponImage = inactiveWeaponImage;
+            }
 
             g2.drawImage(weaponImage, 0, 0, null);
         } catch (Exception e) {
@@ -118,18 +124,22 @@ public class WeaponButton extends ImageButton {
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
         if(card.canAttack()) {
-            weaponImage = activeWeaponImage;
-            repaint();
-            revalidate();
+            weaponImage = activeWeaponImageHovered;
+        } else {
+            weaponImage = inactiveWeaponImageHovered;
         }
+        repaint();
+        revalidate();
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
         if(card.canAttack()) {
             weaponImage = activeWeaponImage;
-            repaint();
-            revalidate();
+        } else {
+            weaponImage = inactiveWeaponImage;
         }
+        repaint();
+        revalidate();
     }
 }

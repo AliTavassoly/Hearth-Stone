@@ -23,11 +23,6 @@ public class Heal extends HeroPowerCard implements HeroPowerBehaviour {
     }
 
     @Override
-    public boolean canAttackThisTurn() {
-        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
-    }
-
-    @Override
     public CursorType lookingForCursorType() {
         return CursorType.HEAL;
     }
@@ -48,7 +43,7 @@ public class Heal extends HeroPowerCard implements HeroPowerBehaviour {
     }
 
     @Override
-    public boolean pressed() {
-        return canAttackThisTurn();
+    public boolean canAttack() {
+        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
     }
 }

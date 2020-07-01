@@ -70,9 +70,9 @@ public class HeroPowerButton extends ImageButton {
                 cardImage = ImageResource.getInstance().getImage(path);
 
             if (circleNormalImage == null)
-                circleNormalImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_normal_frame.png");
+                circleNormalImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_frame.png");
             if (circleActiveImage == null)
-                circleActiveImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_active_frame.png");
+                circleActiveImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_frame_hovered.png");
 
             if(circleImage == null)
                 circleImage = circleNormalImage;

@@ -1,7 +1,5 @@
 package hearthstone.logic.models.card.minion.minions;
 
-import hearthstone.DataTransform;
-import hearthstone.Mapper;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
@@ -29,17 +27,6 @@ public class HulkingOverfiend extends MinionCard {
     public void startTurnBehave() {
         super.startTurnBehave();
         thisTurnAttack = 0;
-    }
-
-    @Override
-    public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
-            throw new HearthStoneException("There is taunt in front of you!");
-        } else if(isFirstTurn){
-            throw new HearthStoneException("Rush card can not attack to hero in first turn!");
-        }
-
-        Mapper.getInstance().damage(this.attack, hero);
     }
 
     @Override

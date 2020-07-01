@@ -31,6 +31,7 @@ public class GnomishArmyKnife  extends SpellCard {
             MinionCard minionCard = (MinionCard)object;
             Mapper.getInstance().setDivineShield(true, minionCard);
             Mapper.getInstance().setTaunt(true, minionCard);
+            Mapper.getInstance().setCharge(true, minionCard);
         }
     }
 }
