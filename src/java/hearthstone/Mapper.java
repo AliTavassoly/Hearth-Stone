@@ -8,6 +8,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
+import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
@@ -71,6 +72,16 @@ public class Mapper {
 
     public void addAttack(int attack, MinionCard minionCard) {
         minionCard.changeAttack(attack);
+        updateBoard();
+    }
+
+    public void addAttack(int attack, WeaponCard weaponCard) {
+        weaponCard.setAttack(weaponCard.getAttack() + attack);
+        updateBoard();
+    }
+
+    public void addDurability(int durability, WeaponCard weaponCard) {
+        weaponCard.setDurability(weaponCard.getDurability() + durability);
         updateBoard();
     }
 
@@ -178,6 +189,10 @@ public class Mapper {
 
     public void drawCard(int playerId, int ind) throws HearthStoneException{
         getPlayer(playerId).drawCard(ind);
+    }
+
+    public void drawCard(int playerId) throws HearthStoneException{
+        getPlayer(playerId).drawCard();
     }
 
     public void drawCard(int playerId, Card card) throws HearthStoneException{

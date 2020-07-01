@@ -11,5 +11,5 @@ public interface MinionBehaviour {
     void attack(MinionCard minionCard) throws HearthStoneException;
     void attack(Hero hero) throws HearthStoneException;
 
-    boolean pressed();
+    boolean canAttack();
 }

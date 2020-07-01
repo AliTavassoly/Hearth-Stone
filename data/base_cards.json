@@ -306,6 +306,21 @@
     }
   },
   "16": {
+    "type": "hearthstone.logic.models.card.spell.spells.WeaponSteal",
+    "data": {
+      "id": 16,
+      "name": "Weapon Steal",
+      "description": "Choose your enemy weapon and add it to your deck",
+      "manaCost": 2,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "SPELL",
+      "buyPrice": 5,
+      "sellPrice": 5,
+      "playerId": 0
+    }
+  },
+  "17": {
     "type": "hearthstone.logic.models.card.minion.minions.HulkingOverfiend",
     "data": {
       "thisTurnAttack": 0,
@@ -331,7 +346,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "DEMON",
-      "id": 16,
+      "id": 17,
       "name": "Hulking Overfiend",
       "description": "Rush. After this attacks and kills a minion, it may attack again.",
       "manaCost": 8,
@@ -343,7 +358,7 @@
       "playerId": 0
     }
   },
-  "17": {
+  "18": {
     "type": "hearthstone.logic.models.card.minion.minions.WrathscaleNaga",
     "data": {
       "health": 1,
@@ -368,7 +383,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "NORMAL",
-      "id": 17,
+      "id": 18,
       "name": "Wrathscale Naga",
       "description": "After a friendly minion dies, deal 3 damage to a random enemy.",
       "manaCost": 3,
@@ -380,7 +395,7 @@
       "playerId": 0
     }
   },
-  "18": {
+  "19": {
     "type": "hearthstone.logic.models.card.minion.minions.WrathspikeBrute",
     "data": {
       "health": 6,
@@ -405,7 +420,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "DEMON",
-      "id": 18,
+      "id": 19,
       "name": "Wrathspike Brute",
       "description": "Taunt After this is attacked, deal 1 damage to all enemies.",
       "manaCost": 5,
@@ -417,7 +432,7 @@
       "playerId": 0
     }
   },
-  "19": {
+  "20": {
     "type": "hearthstone.logic.models.card.minion.minions.PitCommander",
     "data": {
       "didItEndTurnBehave": false,
@@ -443,7 +458,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "DEMON",
-      "id": 19,
+      "id": 20,
       "name": "Pit Commander",
       "description": "Taunt At the end of your turn, summon a Demon from your deck.",
       "manaCost": 9,
@@ -455,7 +470,7 @@
       "playerId": 0
     }
   },
-  "20": {
+  "21": {
     "type": "hearthstone.logic.models.card.minion.minions.GoldshireFootman",
     "data": {
       "health": 2,
@@ -480,7 +495,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "NORMAL",
-      "id": 20,
+      "id": 21,
       "name": "Goldshire Footman",
       "description": "Taunt",
       "manaCost": 1,
@@ -492,7 +507,7 @@
       "playerId": 0
     }
   },
-  "21": {
+  "22": {
     "type": "hearthstone.logic.models.card.minion.minions.Abomination",
     "data": {
       "health": 4,
@@ -517,7 +532,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "NORMAL",
-      "id": 21,
+      "id": 22,
       "name": "Abomination",
       "description": "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.",
       "manaCost": 5,
@@ -529,7 +544,7 @@
       "playerId": 0
     }
   },
-  "22": {
+  "23": {
     "type": "hearthstone.logic.models.card.minion.minions.Sathrovarr",
     "data": {
       "health": 5,
@@ -554,7 +569,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "DEMON",
-      "id": 22,
+      "id": 23,
       "name": "Sathrovarr",
       "description": "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.",
       "manaCost": 9,
@@ -566,7 +581,7 @@
       "playerId": 0
     }
   },
-  "23": {
+  "24": {
     "type": "hearthstone.logic.models.card.minion.minions.TombWarden",
     "data": {
       "health": 6,
@@ -591,7 +606,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "MECH",
-      "id": 23,
+      "id": 24,
       "name": "Tomb Warden",
       "description": "Taunt \n Battlecry: Summon a copy\n of this minion.",
       "manaCost": 8,
@@ -603,7 +618,7 @@
       "playerId": 0
     }
   },
-  "24": {
+  "25": {
     "type": "hearthstone.logic.models.card.minion.minions.SecurityRover",
     "data": {
       "health": 6,
@@ -628,7 +643,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "MECH",
-      "id": 24,
+      "id": 25,
       "name": "Security Rover",
       "description": "Whenever this minion\ntakes damage, summon a\n2/3 Mech with Taunt.",
       "manaCost": 6,
@@ -640,7 +655,7 @@
       "playerId": 0
     }
   },
-  "25": {
+  "26": {
     "type": "hearthstone.logic.models.card.minion.minions.CurioCollector",
     "data": {
       "health": 4,
@@ -665,7 +680,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "NORMAL",
-      "id": 25,
+      "id": 26,
       "name": "Curio Collector",
       "description": "Whenever you draw a card, gain +1/+1.",
       "manaCost": 5,
@@ -677,7 +692,7 @@
       "playerId": 0
     }
   },
-  "26": {
+  "27": {
     "type": "hearthstone.logic.models.card.minion.minions.FaerieDragon",
     "data": {
       "health": 6,
@@ -702,7 +717,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "DRAGON",
-      "id": 26,
+      "id": 27,
       "name": "Faerie Dragon",
       "description": "Nothing",
       "manaCost": 5,
@@ -714,7 +729,7 @@
       "playerId": 0
     }
   },
-  "27": {
+  "28": {
     "type": "hearthstone.logic.models.card.minion.minions.Locust",
     "data": {
       "health": 1,
@@ -739,7 +754,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "BEAST",
-      "id": 27,
+      "id": 28,
       "name": "Locust",
       "description": "Rush",
       "manaCost": 1,
@@ -751,7 +766,7 @@
       "playerId": 0
     }
   },
-  "28": {
+  "29": {
     "type": "hearthstone.logic.models.card.minion.minions.Sheep",
     "data": {
       "health": 1,
@@ -776,7 +791,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "BEAST",
-      "id": 28,
+      "id": 29,
       "name": "Sheep",
       "description": "Just Sheep!",
       "manaCost": 1,
@@ -788,7 +803,7 @@
       "playerId": 0
     }
   },
-  "29": {
+  "30": {
     "type": "hearthstone.logic.models.card.minion.minions.TheHulk",
     "data": {
       "health": 3,
@@ -813,7 +828,7 @@
       "numberOfAttackedMinion": 0,
       "numberOfAttackedHero": 0,
       "minionType": "BEAST",
-      "id": 29,
+      "id": 30,
       "name": "The Hulk",
       "description": "Just Hulk!",
       "manaCost": 3,
@@ -825,7 +840,7 @@
       "playerId": 0
     }
   },
-  "30": {
+  "31": {
     "type": "hearthstone.logic.models.card.weapon.weapons.WarglaivesOfAzzinoth",
     "data": {
       "numberOfThisTurnAttacked": 0,
@@ -833,7 +848,7 @@
       "attack": 3,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 30,
+      "id": 31,
       "name": "Warglaives of Azzinoth",
       "description": "After attacking a minion, your hero may attack again.",
       "manaCost": 5,
@@ -845,14 +860,14 @@
       "playerId": 0
     }
   },
-  "31": {
+  "32": {
     "type": "hearthstone.logic.models.card.weapon.weapons.Flamereaper",
     "data": {
       "durability": 3,
       "attack": 4,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 31,
+      "id": 32,
       "name": "Flamereaper",
       "description": "Also damages the minions next to whomever your hero attacks.",
       "manaCost": 7,
@@ -864,14 +879,14 @@
       "playerId": 0
     }
   },
-  "32": {
+  "33": {
     "type": "hearthstone.logic.models.card.weapon.weapons.Candleshot",
     "data": {
       "durability": 3,
       "attack": 1,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 32,
+      "id": 33,
       "name": "Candleshot",
       "description": "Your hero is Immune while attacking.",
       "manaCost": 1,
@@ -883,14 +898,14 @@
       "playerId": 0
     }
   },
-  "33": {
+  "34": {
     "type": "hearthstone.logic.models.card.weapon.weapons.Glaivezooka",
     "data": {
       "durability": 2,
       "attack": 2,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 33,
+      "id": 34,
       "name": "Glaivezooka",
       "description": "Battlecry: Give a random friendly minion +1 Attack.",
       "manaCost": 2,
@@ -902,14 +917,14 @@
       "playerId": 0
     }
   },
-  "34": {
+  "35": {
     "type": "hearthstone.logic.models.card.weapon.weapons.EaglehornBow",
     "data": {
       "durability": 3,
       "attack": 3,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 34,
+      "id": 35,
       "name": "Eaglehorn Bow",
       "description": "",
       "manaCost": 3,
@@ -921,14 +936,14 @@
       "playerId": 0
     }
   },
-  "35": {
+  "36": {
     "type": "hearthstone.logic.models.card.weapon.weapons.DesertSpear",
     "data": {
       "durability": 3,
       "attack": 1,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 35,
+      "id": 36,
       "name": "Desert Spear",
       "description": "After your hero attacks, summon a 1/1 Locust with Rush.",
       "manaCost": 3,
@@ -940,14 +955,14 @@
       "playerId": 0
     }
   },
-  "36": {
+  "37": {
     "type": "hearthstone.logic.models.card.weapon.weapons.BattleAxe",
     "data": {
       "durability": 2,
       "attack": 2,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 36,
+      "id": 37,
       "name": "Battle Axe",
       "description": "",
       "manaCost": 1,
@@ -959,14 +974,14 @@
       "playerId": 0
     }
   },
-  "37": {
+  "38": {
     "type": "hearthstone.logic.models.card.weapon.weapons.HeavyAxe",
     "data": {
       "durability": 3,
       "attack": 1,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 37,
+      "id": 38,
       "name": "Heavy Axe",
       "description": "",
       "manaCost": 1,
@@ -978,14 +993,14 @@
       "playerId": 0
     }
   },
-  "38": {
+  "39": {
     "type": "hearthstone.logic.models.card.weapon.weapons.WickedKnife",
     "data": {
       "durability": 2,
       "attack": 1,
       "numberOfAttack": 0,
       "isFirstTurn": false,
-      "id": 38,
+      "id": 39,
       "name": "Wicked Knife",
       "description": "",
       "manaCost": 1,
@@ -997,10 +1012,10 @@
       "playerId": 0
     }
   },
-  "39": {
+  "40": {
     "type": "hearthstone.logic.models.card.reward.rewards.LearnDraconic",
     "data": {
-      "id": 39,
+      "id": 40,
       "name": "Learn Draconic",
       "description": "Sidequest: Spend\n8 Mana on spells.\nReward: Summon a\n6/6 Dragon.",
       "manaCost": 1,
@@ -1012,10 +1027,10 @@
       "playerId": 0
     }
   },
-  "40": {
+  "41": {
     "type": "hearthstone.logic.models.card.reward.rewards.StrengthInNumbers",
     "data": {
-      "id": 40,
+      "id": 41,
       "name": "Strength in Numbers",
       "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n minion from your deck.",
       "manaCost": 1,

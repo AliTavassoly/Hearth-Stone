@@ -106,6 +106,9 @@ public class DataBase {
         BookOfSpecters bookOfSpecters = new BookOfSpecters(id++, "Book of Specters", "Draw 3 cards. Discard \n any spells drawn.", 2, HeroType.ALL, Rarity.EPIC, CardType.SPELL);
         HearthStone.baseCards.put(bookOfSpecters.getId(), bookOfSpecters);
 
+        WeaponSteal weapon_steal = new WeaponSteal(id++, "Weapon Steal", "Choose your enemy weapon and add it to your deck", 2, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
+        HearthStone.baseCards.put(weapon_steal.getId(), weapon_steal);
+
         // Minion
         HulkingOverfiend hulkingOverfiend = new HulkingOverfiend(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10,
                 false, false, false, false, false, false, true, MinionType.DEMON);

@@ -311,7 +311,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     @Override
-    public boolean pressed() {
+    public boolean canAttack() {
         return numberOfAttack > 0 && !isFreeze;
     }
 }

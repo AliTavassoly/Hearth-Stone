@@ -797,7 +797,7 @@ public class GameBoard extends JPanel {
                     }
                 } else {
                     if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
-                            && ((MinionBehaviour) button.getCard()).pressed()) {
+                            && ((MinionBehaviour) button.getCard()).canAttack()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }

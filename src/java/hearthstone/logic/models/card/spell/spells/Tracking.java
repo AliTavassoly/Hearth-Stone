@@ -1,9 +1,15 @@
 package hearthstone.logic.models.card.spell.spells;
 
+import hearthstone.DataTransform;
+import hearthstone.Mapper;
+import hearthstone.gui.controls.dialogs.CardSelectionDialog;
+import hearthstone.gui.game.GameFrame;
+import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.util.HearthStoneException;
 
 public class Tracking extends SpellCard {
     public Tracking() { }
@@ -14,6 +20,11 @@ public class Tracking extends SpellCard {
 
     @Override
     public void doAbility() {
-
+        CardSelectionDialog dialog = new CardSelectionDialog(GameFrame.getInstance(),
+                DataTransform.getInstance().getTopCards(getPlayerId(), 3));
+        Card card = dialog.getCard();
+        try {
+            Mapper.getInstance().drawCard(getPlayerId(), card);
+        } catch (HearthStoneException ignore) {}
     }
 }
