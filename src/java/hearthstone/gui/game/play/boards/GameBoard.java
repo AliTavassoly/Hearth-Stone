@@ -264,8 +264,6 @@ public class GameBoard extends JPanel {
     }
 
     protected void showCardDialog() {
-        ArrayList<Card> discardCards = new ArrayList<>();
-
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
                 DataTransform.getInstance().getTopCards(0, GameConfigs.initialDiscardCards));

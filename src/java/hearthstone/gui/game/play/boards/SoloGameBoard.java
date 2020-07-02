@@ -4,6 +4,7 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
+import hearthstone.gui.controls.dialogs.CardDialog;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.Animation;
@@ -91,5 +92,14 @@ public class SoloGameBoard extends GameBoard {
         );
         Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
         Mapper.getInstance().doPassive(myPlayerId);
+    }
+
+    @Override
+    protected void showCardDialog() {
+        CardDialog cardDialog0 = new CardDialog(
+                GameFrame.getInstance(),
+                DataTransform.getInstance().getTopCards(0, GameConfigs.initialDiscardCards));
+
+        Mapper.getInstance().removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
     }
 }

@@ -14,7 +14,8 @@ import hearthstone.util.HearthStoneException;
 import java.util.ArrayList;
 
 public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
-    public WrathscaleNaga(){ }
+    public WrathscaleNaga() {
+    }
 
     public WrathscaleNaga(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
                           boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
@@ -28,13 +29,15 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
     @Override
     public void friendlyMinionDies() {
         ArrayList<Card> land = DataTransform.getInstance().getLand(DataTransform.getInstance().getEnemyId(getPlayerId()));
-        if(land.size() == 0)
+        if (land.size() == 0)
             return;
 
         MinionCard card = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
 
         try {
-            Mapper.getInstance().damage(3, card);
-        } catch (HearthStoneException ignore) { }
+            if (card != null)
+                Mapper.getInstance().damage(3, card);
+        } catch (HearthStoneException ignore) {
+        }
     }
 }
