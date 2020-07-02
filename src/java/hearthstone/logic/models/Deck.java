@@ -14,7 +14,7 @@ import hearthstone.util.HearthStoneException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Deck {
+public class Deck implements Comparable<Deck> {
     private String name;
     private int totalGames;
     private int winGames;
@@ -213,5 +213,30 @@ public class Deck {
     public void cardPlay(Card baseCard) {
         cardGame.putIfAbsent(baseCard.getId(), 0);
         cardGame.put(baseCard.getId(), cardGame.get(baseCard.getId()) + 1);
+    }
+
+    @Override
+    public int compareTo(Deck deck) {
+        if (this.getWinPercentage() != deck.getWinPercentage()) {
+            if (this.getWinPercentage() > deck.getWinPercentage())
+                return -1;
+            return 1;
+        }
+        if(this.getWinGames() != deck.getWinGames()){
+            if (this.getWinGames() > deck.getWinGames())
+                return -1;
+            return 1;
+        }
+        if(this.getTotalGames() != deck.getTotalGames()){
+            if (this.getTotalGames() > deck.getTotalGames())
+                return -1;
+            return 1;
+        }
+        if(this.getManaAv() != deck.getManaAv()){
+            if(this.getManaAv() < deck.getManaAv())
+                return -1;
+            return 1;
+        }
+        return 0;
     }
 }

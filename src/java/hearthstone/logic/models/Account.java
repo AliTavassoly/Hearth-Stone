@@ -9,6 +9,7 @@ import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Account {
     private String username;
@@ -213,10 +214,11 @@ public class Account {
     public ArrayList<Deck> getBestDecks(int cnt) {
         ArrayList<Deck> ans = new ArrayList<>();
         ArrayList<Deck> decks = getDecks();
-        // Sort Decks
+
+        Collections.sort(decks);
 
         cnt = Math.min(cnt, decks.size());
-        for (int i = decks.size() - 1; i >= decks.size() - cnt; i--) {
+        for (int i = 0; i < cnt; i++) {
             ans.add(decks.get(i));
         }
         return ans;

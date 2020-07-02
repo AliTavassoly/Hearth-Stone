@@ -32,6 +32,18 @@ public class Animation {
         this.component = component;
     }
 
+    public Animation(int destinationX, int destinationY, int destinationWidth, int destinationHeight, int removeDelayAfterArrived, Component component){
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
+
+        this.destinationWidth = destinationWidth;
+        this.destinationHeight = destinationHeight;
+
+        this.removeDelayAfterArrived = removeDelayAfterArrived;
+
+        this.component = component;
+    }
+
     public synchronized void setComponent(Component component){
         this.component = component;
     }

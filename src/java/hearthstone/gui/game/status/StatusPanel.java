@@ -74,8 +74,9 @@ public class StatusPanel extends JPanel {
     private void makeDeckList() {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
+        ArrayList<Deck> topDecks = HearthStone.currentAccount.getBestDecks(10);
 
-        for (Deck deck : HearthStone.currentAccount.getBestDecks(10)) {
+        for (Deck deck : topDecks) {
             decks.add(deck);
             panels.add(null);
         }

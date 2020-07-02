@@ -675,24 +675,26 @@ public class GameBoard extends JPanel {
         });
     }
 
-    protected void animateCardWithResize(Card card, int startX, int startY,
+    protected void animateCardWithResize(int startX, int startY,
                                          int startWidth, int startHeight,
                                          Animation animation) {
         long period = 20;
 
-        final double[] x = {animation.getComponent().getX()};
-        final double[] y = {animation.getComponent().getY()};
+        final int[] x = {startX};
+        final int[] y = {startY};
 
-        final double[] width = {animation.getComponent().getWidth()};
-        final double[] height = {animation.getComponent().getHeight()};
-
-        x[0] = startX;
-        y[0] = startY;
-
-        width[0] = startWidth;
-        height[0] = startHeight;
+        final int[] width = {startWidth};
+        final int[] height = {startHeight};
 
         MyTimerTask task = new MyTimerTask(period, new MyBigTask() {
+            private void addComponentIfNot(Component component) {
+                for(Component component1: GameBoard.this.getComponents()){
+                    if(component1 == component)
+                        return;
+                }
+                GameBoard.this.add(component);
+            }
+
             @Override
             public void startFunction() {
                 synchronized (animationLock) {
@@ -706,35 +708,28 @@ public class GameBoard extends JPanel {
 
             @Override
             public void periodFunction() {
-                double jumpLoc = 1;
-                double plusX = jumpLoc;
-                double plusY = jumpLoc;
+                int jumpLoc = 4;
+                int plusX = jumpLoc;
+                int plusY = jumpLoc;
 
-                double jumpSize = 0.5;
-                double plusWidth = jumpSize;
-                double plusHeight = jumpSize;
+                int jumpSize = 1;
+                int plusWidth = jumpSize;
+                int plusHeight = jumpSize;
 
                 if (Math.abs(animation.getDestinationX() - x[0]) < jumpLoc)
                     plusX = 1;
                 if (Math.abs(animation.getDestinationY() - y[0]) < jumpLoc)
                     plusY = 1;
 
-                if (Math.abs(animation.getDestinationWidth() - width[0]) < jumpSize)
-                    plusWidth = 0.5;
-                if (Math.abs(animation.getDestinationHeight() - height[0]) < jumpSize)
-                    plusHeight = 0.5;
-
                 x[0] += (animation.getDestinationX() - x[0] != 0 ? plusX * (animation.getDestinationX() - x[0]) / Math.abs(animation.getDestinationX() - x[0]) : 0);
                 y[0] += (animation.getDestinationY() - y[0] != 0 ? plusY * (animation.getDestinationY() - y[0]) / Math.abs(animation.getDestinationY() - y[0]) : 0);
-
 
                 width[0] += (animation.getDestinationWidth() - width[0] != 0 ? plusWidth * (animation.getDestinationWidth() - width[0]) / Math.abs(animation.getDestinationWidth() - width[0]) : 0);
                 height[0] += (animation.getDestinationHeight() - height[0] != 0 ? plusHeight * (animation.getDestinationHeight() - height[0]) / Math.abs(animation.getDestinationHeight() - height[0]) : 0);
 
-                GameBoard.this.remove(animation.getComponent());
-                animation.setComponent(new CardButton(card, false, (int) width[0], (int) height[0], -1));
-                animation.getComponent().setBounds((int) x[0], (int) y[0], (int) width[0], (int) height[0]);
-                GameBoard.this.add(animation.getComponent());
+                ((CardButton)animation.getComponent()).setMySize(width[0], height[0]);
+                animation.getComponent().setBounds( x[0], y[0], width[0], height[0]);
+                addComponentIfNot(animation.getComponent());
             }
 
             @Override
@@ -750,7 +745,6 @@ public class GameBoard extends JPanel {
                 MyDelayTimerTask delayTimerTask = new MyDelayTimerTask(3000, new MyDelayTask() {
                     @Override
                     public void delayAction() {
-
                         synchronized (animationLock) {
                             int ind = animationsCard.indexOf(((CardButton) animation.getComponent()).getCard());
                             animationsCard.remove(ind);
@@ -766,10 +760,10 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
-                return (int) x[0] == animation.getDestinationX() &&
-                        (int) y[0] == animation.getDestinationY() &&
-                        (int) width[0] == animation.getDestinationWidth() &&
-                        (int) height[0] == animation.getDestinationHeight();
+                return x[0] == animation.getDestinationX() &&
+                        y[0] == animation.getDestinationY() &&
+                        width[0] == animation.getDestinationWidth() &&
+                        height[0] == animation.getDestinationHeight();
             }
         });
     }
@@ -1073,13 +1067,23 @@ public class GameBoard extends JPanel {
         }
 
         if (playerId == myPlayerId) {
-            animateCard(myHandX, myHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+            //animateCard(myHandX, myHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+            //        new Animation(mySpellDestinationX, mySpellDestinationY,
+             //               3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+
+            animateCardWithResize(myHandX, myHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
                     new Animation(mySpellDestinationX, mySpellDestinationY,
-                            3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+                            SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+                            3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         } else {
-            animateCard(enemyHandX, enemyHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+            //animateCard(enemyHandX, enemyHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+            //        new Animation(enemySpellDestinationX, enemySpellDestinationY,
+            //                3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+
+            animateCardWithResize(enemyHandX, enemyHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
                     new Animation(enemySpellDestinationX, enemySpellDestinationY,
-                            3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+                            SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+                            3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         }
     }
 

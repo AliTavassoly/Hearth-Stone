@@ -34,6 +34,7 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
         this.width = width;
         this.height = height;
         this.number = number;
+        this.writeInfo = true;
 
         configButton();
     }
@@ -44,6 +45,7 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
         this.height = height;
         this.number = number;
         this.markable = markable;
+        this.writeInfo = true;
 
         isMark = false;
 
@@ -241,6 +243,13 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
 
     public Card getCard() {
         return card;
+    }
+
+    public void setMySize(int width, int height){
+        this.width = width;
+        this.height = height;
+        setSize(new Dimension(width, height));
+        repaint();
     }
 
     @Override
