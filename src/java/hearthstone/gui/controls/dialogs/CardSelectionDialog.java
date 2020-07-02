@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CardSelectionDialog extends MyDialog{
-    protected static final int extraPassiveX = 60;
+    protected static final int extraPassiveX = 100;
     protected static final int extraPassiveY = 50;
 
     // statics ended

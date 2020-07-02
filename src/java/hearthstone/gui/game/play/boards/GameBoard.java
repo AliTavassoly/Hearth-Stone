@@ -158,11 +158,8 @@ public class GameBoard extends JPanel {
     private final int myRewardX = 0;
     private final int myRewardY = 315;
 
-    private final int enemySpellDestinationX = 180;
-    private final int enemySpellDestinationY = 0;
-
-    private final int mySpellDestinationX = 180;
-    private final int mySpellDestinationY = 450;
+    private final int spellDestinationX = 180;
+    private final int spellDestinationY = midY - SizeConfigs.medCardHeight / 2;
 
     private final int enemyRewardX = 0;
     private final int enemyRewardY = 130;
@@ -1067,21 +1064,13 @@ public class GameBoard extends JPanel {
         }
 
         if (playerId == myPlayerId) {
-            //animateCard(myHandX, myHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-            //        new Animation(mySpellDestinationX, mySpellDestinationY,
-             //               3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
-
             animateCardWithResize(myHandX, myHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
-                    new Animation(mySpellDestinationX, mySpellDestinationY,
+                    new Animation(spellDestinationX, spellDestinationY,
                             SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
                             3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         } else {
-            //animateCard(enemyHandX, enemyHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-            //        new Animation(enemySpellDestinationX, enemySpellDestinationY,
-            //                3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
-
             animateCardWithResize(enemyHandX, enemyHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
-                    new Animation(enemySpellDestinationX, enemySpellDestinationY,
+                    new Animation(spellDestinationX, spellDestinationY,
                             SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
                             3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         }
