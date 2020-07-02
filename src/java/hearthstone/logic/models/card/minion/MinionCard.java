@@ -295,6 +295,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
+        // Divine Shield added
         if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
