@@ -39,8 +39,8 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     private static BufferedImage triggeredEffectImage;
     private static BufferedImage shieldFrameImage;
     private static BufferedImage ovalFrameImage;
-    private static BufferedImage shieldFrameImageActive;
-    private static BufferedImage ovalFrameImageActive;
+    private static BufferedImage shieldFrameImageHovered;
+    private static BufferedImage ovalFrameImageHovered;
 
     private int playerId;
 
@@ -127,12 +127,12 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
                                 replace(' ', '_').replace("'", "") + ".png");
             if (shieldFrameImage == null)
                 shieldFrameImage = ImageResource.getInstance().getImage("/images/minion_shield.png");
-            if (shieldFrameImageActive == null)
-                shieldFrameImageActive = ImageResource.getInstance().getImage("/images/minion_shield_active.png");
+            if (shieldFrameImageHovered == null)
+                shieldFrameImageHovered = ImageResource.getInstance().getImage("/images/minion_shield_hovered.png");
             if (ovalFrameImage == null)
                 ovalFrameImage = ImageResource.getInstance().getImage("/images/minion_played.png");
-            if (ovalFrameImageActive == null)
-                ovalFrameImageActive = ImageResource.getInstance().getImage("/images/minion_played_active.png");
+            if (ovalFrameImageHovered == null)
+                ovalFrameImageHovered = ImageResource.getInstance().getImage("/images/minion_played_hovered.png");
             if (freezeImage == null)
                 freezeImage = ImageResource.getInstance().getImage("/images/freeze.png");
         } catch (Exception e) {
@@ -419,9 +419,9 @@ public class BoardCardButton extends ImageButton implements MouseListener, Mouse
     public void mouseEntered(MouseEvent mouseEvent) {
         if (card.getCardType() == CardType.MINIONCARD && isInLand) {
             if (((MinionCard) card).isTaunt()) {
-                frameImage = shieldFrameImageActive;
+                frameImage = shieldFrameImageHovered;
             } else {
-                frameImage = ovalFrameImageActive;
+                frameImage = ovalFrameImageHovered;
             }
         }
         this.repaint();

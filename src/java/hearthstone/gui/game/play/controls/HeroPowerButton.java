@@ -3,6 +3,7 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
@@ -20,11 +21,12 @@ public class HeroPowerButton extends ImageButton {
 
     private int playerId;
 
-    private static BufferedImage circleNormalImage;
-    private static BufferedImage circleActiveImage;
+    private static BufferedImage heroPowerFrame;
+    private static BufferedImage heroPowerFrameHovered;
+    private static BufferedImage inactiveHeroPower;
 
     private BufferedImage cardImage;
-    private BufferedImage circleImage;
+    private BufferedImage frameImage;
 
     public HeroPowerButton(HeroPowerCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
@@ -44,18 +46,19 @@ public class HeroPowerButton extends ImageButton {
         addMouseListener(this);
     }
 
-    public int getPlayerId(){
+    public int getPlayerId() {
         return playerId;
     }
 
     public boolean isShowBig() {
         return isShowBig;
     }
+
     public void setShowBig(boolean showBig) {
         isShowBig = showBig;
     }
 
-    public Card getCard(){
+    public Card getCard() {
         return card;
     }
 
@@ -69,25 +72,31 @@ public class HeroPowerButton extends ImageButton {
             if (cardImage == null)
                 cardImage = ImageResource.getInstance().getImage(path);
 
-            if (circleNormalImage == null)
-                circleNormalImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_frame.png");
-            if (circleActiveImage == null)
-                circleActiveImage = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "circle_frame_hovered.png");
+            if (heroPowerFrame == null)
+                heroPowerFrame = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_frame.png");
+            if (heroPowerFrameHovered == null)
+                heroPowerFrameHovered = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_frame_hovered.png");
+            if (inactiveHeroPower == null)
+                inactiveHeroPower = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_inactive.png");
 
-            if(circleImage == null)
-                circleImage = circleNormalImage;
+            if (frameImage == null)
+                frameImage = heroPowerFrame;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         g2.drawImage(cardImage, 20, 25, null);
 
-        g2.drawImage(circleImage, 0, 0, null);
+        if (((HeroPowerBehaviour) card).canAttack())
+            g2.drawImage(frameImage, 0, 0, null);
+        else
+            g2.drawImage(inactiveHeroPower, 0, 0, null);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        drawMana(g2, String.valueOf(card.getManaCost()));
+        if (((HeroPowerBehaviour) card).canAttack())
+            drawMana(g2, String.valueOf(card.getManaCost()));
     }
 
     private void drawMana(Graphics2D g, String text) {
@@ -105,14 +114,14 @@ public class HeroPowerButton extends ImageButton {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        circleImage = circleActiveImage;
+        frameImage = heroPowerFrameHovered;
         repaint();
         revalidate();
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        circleImage = circleNormalImage;
+        frameImage = heroPowerFrame;
         repaint();
         revalidate();
     }

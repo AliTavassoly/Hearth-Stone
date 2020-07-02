@@ -13,6 +13,7 @@
       "freezes": [],
       "isImmune": false,
       "isFreeze": false,
+      "spellSafe": false,
       "playerId": 0
     }
   },
@@ -30,6 +31,7 @@
       "freezes": [],
       "isImmune": false,
       "isFreeze": false,
+      "spellSafe": false,
       "playerId": 0
     }
   },
@@ -47,6 +49,7 @@
       "freezes": [],
       "isImmune": false,
       "isFreeze": false,
+      "spellSafe": false,
       "playerId": 0
     }
   },
@@ -64,6 +67,7 @@
       "freezes": [],
       "isImmune": false,
       "isFreeze": false,
+      "spellSafe": false,
       "playerId": 0
     }
   },
@@ -81,6 +85,7 @@
       "freezes": [],
       "isImmune": false,
       "isFreeze": false,
+      "spellSafe": false,
       "playerId": 0
     }
   }

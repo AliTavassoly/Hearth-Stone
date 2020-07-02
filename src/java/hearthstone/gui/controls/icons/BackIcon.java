@@ -11,9 +11,9 @@ import java.awt.event.ActionListener;
 public class BackIcon extends ImageButton {
     private JPanel panel;
 
-    public BackIcon(String normalPath, String activePath,
+    public BackIcon(String normalPath, String hoveredPath,
                     int width, int height, JPanel panel) {
-        super(normalPath, activePath, width, height);
+        super(normalPath, hoveredPath, width, height);
         this.panel = panel;
         configIcon();
     }

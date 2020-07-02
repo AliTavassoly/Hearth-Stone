@@ -31,6 +31,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected int numberOfAttackedMinion;
     protected int numberOfAttackedHero;
 
+    protected boolean spellSafe;
+
     private MinionType minionType;
 
 
@@ -187,6 +189,16 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     public boolean isFreeze() {
         return isFreeze;
     }
+
+    public boolean isSpellSafe() {
+        return spellSafe;
+    }
+
+    public void setSpellSafe(boolean spellSafe){
+        this.spellSafe = spellSafe;
+    }
+
+    // END OF GETTER SETTER
 
     public void removeDivineShield() {
         this.isDivineShield = false;

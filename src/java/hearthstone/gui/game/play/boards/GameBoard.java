@@ -989,17 +989,17 @@ public class GameBoard extends JPanel {
 
     private void makeIcons() {
         backButton = new ImageButton("icons/back.png",
-                "icons/back_active.png",
+                "icons/back_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
         minimizeButton = new MinimizeIcon("icons/minimize.png",
-                "icons/minimize_active.png",
+                "icons/minimize_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
         closeButton = new CloseIcon("icons/close.png",
-                "icons/close_active.png",
+                "icons/close_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
@@ -1031,7 +1031,7 @@ public class GameBoard extends JPanel {
 
     private void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
-                "end_turn_active.png", 15, 1,
+                "end_turn_hovered.png", 15, 1,
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);
         endTurnButton.addActionListener(new ActionListener() {
             @Override

@@ -14,4 +14,5 @@ public interface Character {
     void handleImmunities();
     void handleFreezes();
     int getPlayerId();
+    boolean isSpellSafe();
 }

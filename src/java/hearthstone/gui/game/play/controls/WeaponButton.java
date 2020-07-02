@@ -22,7 +22,7 @@ public class WeaponButton extends ImageButton {
     private BufferedImage cardImage, weaponImage;
 
     private static BufferedImage activeWeaponImage, inactiveWeaponImage;
-    private static BufferedImage activeWeaponImageHovered, inactiveWeaponImageHovered;
+    private static BufferedImage activeWeaponImageHovered;
 
     public WeaponButton(WeaponCard card, int width, int height, boolean isShowBig, int playerId) {
         this.width = width;
@@ -53,6 +53,7 @@ public class WeaponButton extends ImageButton {
     public boolean isShowBig() {
         return isShowBig;
     }
+
     public void setShowBig(boolean showBig) {
         isShowBig = showBig;
     }
@@ -74,10 +75,8 @@ public class WeaponButton extends ImageButton {
                 inactiveWeaponImage = ImageResource.getInstance().getImage("/images/cards/weapon/" + "inactive_frame.png");
             if (activeWeaponImageHovered == null)
                 activeWeaponImageHovered = ImageResource.getInstance().getImage("/images/cards/weapon/" + "active_frame_hovered.png");
-            if (inactiveWeaponImageHovered == null)
-                inactiveWeaponImageHovered = ImageResource.getInstance().getImage("/images/cards/weapon/" + "inactive_frame_hovered.png");
 
-            if(weaponImage == null) {
+            if (weaponImage == null) {
                 if (card.canAttack())
                     weaponImage = activeWeaponImage;
                 else
@@ -92,9 +91,10 @@ public class WeaponButton extends ImageButton {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        drawAttack(g2, String.valueOf(card.getAttack()));
-
-        drawDurability(g2, String.valueOf(card.getDurability()));
+        if (card.canAttack()) {
+            drawAttack(g2, String.valueOf(card.getAttack()));
+            drawDurability(g2, String.valueOf(card.getDurability()));
+        }
     }
 
     private void drawAttack(Graphics2D g, String text) {
@@ -110,7 +110,7 @@ public class WeaponButton extends ImageButton {
     }
 
     private void drawDurability(Graphics2D g, String text) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setColor(Color.WHITE);
@@ -123,10 +123,8 @@ public class WeaponButton extends ImageButton {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if(card.canAttack()) {
+        if (card.canAttack()) {
             weaponImage = activeWeaponImageHovered;
-        } else {
-            weaponImage = inactiveWeaponImageHovered;
         }
         repaint();
         revalidate();
@@ -134,7 +132,7 @@ public class WeaponButton extends ImageButton {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if(card.canAttack()) {
+        if (card.canAttack()) {
             weaponImage = activeWeaponImage;
         } else {
             weaponImage = inactiveWeaponImage;

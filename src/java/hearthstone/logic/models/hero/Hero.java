@@ -25,7 +25,10 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     private ArrayList<Integer> immunities, freezes;
 
-    protected boolean isImmune, isFreeze;
+    protected boolean isImmune;
+    protected boolean isFreeze;
+
+    protected boolean spellSafe;
 
     private int playerId;
 
@@ -135,6 +138,13 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
     public void setFreeze(boolean freeze) {
         isFreeze = freeze;
+    }
+
+    public boolean isSpellSafe() {
+        return spellSafe;
+    }
+    public void setSpellSafe(boolean spellSafe) {
+        this.spellSafe = spellSafe;
     }
 
     public Hero copy() {

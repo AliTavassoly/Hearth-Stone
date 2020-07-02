@@ -12,9 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LogoutIcon extends ImageButton {
-    public LogoutIcon(String normalPath, String activePath,
+    public LogoutIcon(String normalPath, String hoveredPath,
                       int width, int height) {
-        super(normalPath, activePath, width, height);
+        super(normalPath, hoveredPath, width, height);
         configIcon();
     }
 

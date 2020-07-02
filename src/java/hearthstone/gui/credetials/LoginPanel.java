@@ -118,15 +118,15 @@ public class LoginPanel extends JPanel{
     }
 
     private void makeIcons() {
-        backButton = new ImageButton("icons/back.png", "icons/back_active.png",
+        backButton = new ImageButton("icons/back.png", "icons/back_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        closeButton = new ImageButton("icons/close.png", "icons/close_active.png",
+        closeButton = new ImageButton("icons/close.png", "icons/close_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new ImageButton("icons/minimize.png", "icons/minimize_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 

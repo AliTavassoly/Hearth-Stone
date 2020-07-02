@@ -51,11 +51,11 @@ public class LogisterPanel extends JPanel {
     }
 
     private void makeIcons() {
-        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 

@@ -106,7 +106,7 @@ public class VolumesDialog extends JDialog {
 
     private void makeVolumesButtons(){
         volumeDown = new ImageButton("/icons/volume_down.png",
-                "/icons/volume_down_active.png",
+                "/icons/volume_down_hovered.png",
                 SizeConfigs.iconHeight, SizeConfigs.iconWidth);
         volumeDown.addActionListener(new ActionListener() {
             @Override
@@ -117,7 +117,7 @@ public class VolumesDialog extends JDialog {
         });
 
         volumeUp = new ImageButton("/icons/volume_up.png",
-                "/icons/volume_up_active.png",
+                "/icons/volume_up_hovered.png",
                 SizeConfigs.iconHeight, SizeConfigs.iconWidth);
         volumeUp.addActionListener(new ActionListener() {
             @Override

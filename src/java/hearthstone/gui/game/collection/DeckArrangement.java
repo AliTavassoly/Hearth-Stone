@@ -105,19 +105,19 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeIcons() {
-        backButton = new BackIcon("icons/back.png", "icons/back_active.png",
+        backButton = new BackIcon("icons/back.png", "icons/back_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight, new DeckSelection(hero));
 
-        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
+        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
     }

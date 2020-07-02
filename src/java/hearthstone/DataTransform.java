@@ -136,6 +136,18 @@ public class DataTransform {
         return getPlayer(playerId).getFactory().getRandomMinionFromLand();
     }
 
+    public Card getRandomCardFromHand(int playerId){
+        return getPlayer(playerId).getFactory().getRandomCardFromHand();
+    }
+
+    public Passive getBasePassive(int ind){
+        return HearthStone.basePassives.get(ind);
+    }
+
+    public boolean isSpellSafe(MinionCard minionCard){
+        return minionCard.isSpellSafe();
+    }
+
     public Card deckCard(int playerId, int ind){
         return getPlayer(playerId).getDeck().getCards().get(ind);
     }

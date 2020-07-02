@@ -92,6 +92,10 @@ public class SoloGameBoard extends GameBoard {
         );
         Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
         Mapper.getInstance().doPassive(myPlayerId);
+
+        Mapper.getInstance().passPassivesToAI(enemyPlayerId, Rand.getInstance().getRandomArray(
+                GameConfigs.initialPassives,
+                HearthStone.basePassives.size()));
     }
 
     @Override

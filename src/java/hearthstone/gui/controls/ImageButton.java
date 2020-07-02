@@ -12,22 +12,22 @@ import java.awt.image.BufferedImage;
 
 public class ImageButton extends JButton implements MouseListener {
     private String imagePath, text;
-    private String normalPath, activePath;
+    private String normalPath, hoveredPath;
     private int width, height;
     private int textStyle, textSize;
-    private Color currentColor, textColor, textColorActive;
+    private Color currentColor, textColor, hoveredTextColor;
     private boolean isRadio;
     private int tof;
 
-    private BufferedImage image, normalImage, activeImage;
+    private BufferedImage image, normalImage, hoveredImage;
 
     public ImageButton() {
 
     }
 
-    public ImageButton(String normalPath, String activePath, int width, int height) {
+    public ImageButton(String normalPath, String hoveredPath, int width, int height) {
         this.normalPath = normalPath;
-        this.activePath = activePath;
+        this.hoveredPath = hoveredPath;
         this.width = width;
         this.height = height;
         imagePath = normalPath;
@@ -35,11 +35,11 @@ public class ImageButton extends JButton implements MouseListener {
         configButton();
     }
 
-    public ImageButton(String text, String normalPath, String activePath,
+    public ImageButton(String text, String normalPath, String hoveredPath,
                        int textSize, int textStyle, int width, int height) {
         this.text = text;
         this.normalPath = normalPath;
-        this.activePath = activePath;
+        this.hoveredPath = hoveredPath;
         this.textSize = textSize;
         this.textStyle = textStyle;
         this.width = width;
@@ -78,13 +78,13 @@ public class ImageButton extends JButton implements MouseListener {
         configButton();
     }
 
-    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+    public ImageButton(String text, String imagePath, int tof, Color textColor, Color hoveredTextColor,
                        int textSize, int textStyle, int width, int height) {
         this.text = text;
         this.imagePath = imagePath;
         this.tof = tof;
         this.textColor = textColor;
-        this.textColorActive = textColorActive;
+        this.hoveredTextColor = hoveredTextColor;
         this.textSize = textSize;
         this.textStyle = textStyle;
         this.width = width;
@@ -94,14 +94,14 @@ public class ImageButton extends JButton implements MouseListener {
         configButton();
     }
 
-    public ImageButton(String text, String imagePath, int tof, Color textColor, Color textColorActive,
+    public ImageButton(String text, String imagePath, int tof, Color textColor, Color hoveredTextColor,
                        boolean isRadio,
                        int textSize, int textStyle, int width, int height) {
         this.text = text;
         this.imagePath = imagePath;
         this.tof = tof;
         this.textColor = textColor;
-        this.textColorActive = textColorActive;
+        this.hoveredTextColor = hoveredTextColor;
         this.isRadio = isRadio;
         this.textSize = textSize;
         this.textStyle = textStyle;
@@ -124,8 +124,8 @@ public class ImageButton extends JButton implements MouseListener {
                 normalImage = ImageResource.getInstance().getImage("/images/" + normalPath);
                 image = normalImage;
             }
-            if (activePath != null)
-                activeImage = ImageResource.getInstance().getImage("/images/" + activePath);
+            if (hoveredPath != null)
+                hoveredImage = ImageResource.getInstance().getImage("/images/" + hoveredPath);
 
             if (normalPath == null)
                 image = ImageResource.getInstance().getImage("/images/" + imagePath);
@@ -149,11 +149,11 @@ public class ImageButton extends JButton implements MouseListener {
     }
 
     public void mouseEntered() {
-        if (textColorActive != null) {
-            currentColor = textColorActive;
+        if (hoveredTextColor != null) {
+            currentColor = hoveredTextColor;
             repaint();
-        } else if (activePath != null) {
-            imagePath = activePath;
+        } else if (hoveredPath != null) {
+            imagePath = hoveredPath;
             repaint();
         }
     }
@@ -190,13 +190,12 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (textColorActive != null) {
-            currentColor = textColorActive;
+        if (hoveredTextColor != null) {
+            currentColor = hoveredTextColor;
             revalidate();
             repaint();
-        } else if (activePath != null) {
-            //imagePath = activePath;
-            image = activeImage;
+        } else if (hoveredPath != null) {
+            image = hoveredImage;
             revalidate();
             repaint();
         }

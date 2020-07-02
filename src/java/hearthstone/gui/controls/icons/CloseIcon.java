@@ -10,9 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CloseIcon extends ImageButton {
-    public CloseIcon(String normalPath, String activePath,
+    public CloseIcon(String normalPath, String hoveredPath,
                      int width, int height) {
-        super(normalPath, activePath, width, height);
+        super(normalPath, hoveredPath, width, height);
         configIcon();
     }
 

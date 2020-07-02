@@ -9,6 +9,7 @@ import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.logic.models.player.AIPlayer;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
@@ -243,6 +244,18 @@ public class Mapper {
 
     public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion){
         getPlayer(playerId).transformMinion(oldMinion, newMinion);
+    }
+
+    public void passPassivesToAI(int playerId, ArrayList<Integer> passives){
+        ((AIPlayer)getPlayer(playerId)).choosePassive(passives);
+    }
+
+    public void setSpellSafe(MinionCard minionCard, boolean isSpellSafe){
+        minionCard.setSpellSafe(isSpellSafe);
+    }
+
+    public void discardCard(int playerId, Card card) throws HearthStoneException{
+        getPlayer(playerId).discardCard(card);
     }
 
     public void updateBoard() {

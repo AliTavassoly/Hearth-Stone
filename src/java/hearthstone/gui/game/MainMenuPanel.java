@@ -67,19 +67,19 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void makeIcons() {
-        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_active.png",
+        logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        settingsButton = new SettingIcon("icons/settings.png", "icons/settings_active.png",
+        settingsButton = new SettingIcon("icons/settings.png", "icons/settings_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_active.png",
+        minimizeButton = new MinimizeIcon("icons/minimize.png", "icons/minimize_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
 
-        closeButton = new CloseIcon("icons/close.png", "icons/close_active.png",
+        closeButton = new CloseIcon("icons/close.png", "icons/close_hovered.png",
                 SizeConfigs.iconWidth,
                 SizeConfigs.iconHeight);
     }

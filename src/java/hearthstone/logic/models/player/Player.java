@@ -225,6 +225,7 @@ public class Player {
         drawCard();
     }
 
+    // CARD ACTION
     public void drawCard() throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
@@ -284,6 +285,45 @@ public class Player {
         }
 
         hand.add(card);
+    }
+
+    public void discardCard(Card cardInHand) throws HearthStoneException {
+        if (cardInHand.getManaCost() > mana)
+            throw new HearthStoneException("you don't have enough mana!");
+
+        switch (cardInHand.getCardType()) {
+            case HEROPOWER:
+                heroPower = (HeroPowerCard) cardInHand;
+                break;
+            case WEAPONCARD:
+                weapon = (WeaponCard) cardInHand;
+                break;
+            case MINIONCARD:
+                if (land.size() == GameConfigs.maxCardInLand)
+                    throw new HearthStoneException("your land is full!");
+                break;
+            case REWARDCARD:
+                this.reward = (RewardCard) cardInHand;
+                break;
+            case SPELL:
+                break;
+        }
+
+        hand.remove(cardInHand);
+
+        handleBattleCry(cardInHand);
+
+        handleCardPlayInformation(cardInHand);
+
+        handleWaitingCards(cardInHand);
+
+        if (cardInHand.getCardType() == CardType.MINIONCARD)
+            summonMinion(cardInHand);
+
+        if(cardInHand.getCardType() == CardType.SPELL)
+            playSpell(cardInHand);
+
+        Mapper.getInstance().updateBoard();
     }
 
     public void playCard(Card cardInHand) throws HearthStoneException {
@@ -354,7 +394,9 @@ public class Player {
 
         ((SpellBehaviour)spell).doAbility();
     }
+    // CARD ACTION
 
+    // HANDLE INTERFACES
     private void handleCardPlayInformation(Card card) {
         if (card.getCardType() == CardType.SPELL)
             manaSpentOnSpells += card.getManaCost();
@@ -426,6 +468,7 @@ public class Player {
             }
         }
     }
+    // HANDLE INTERFACES
 
     public boolean haveTaunt() {
         for (Card card : land) {
@@ -723,6 +766,12 @@ public class Player {
             if (hand.size() < GameConfigs.maxCardInHand) {
                 hand.add(card);
             }
+        }
+
+        public Card getRandomCardFromHand() {
+            if (hand.size() == 0)
+                return null;
+            return hand.get(Rand.getInstance().getRandomNumber(hand.size()));
         }
 
         public Card getRandomCardFromOriginalDeck(CardType cardType) {

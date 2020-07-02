@@ -12,7 +12,7 @@ public class CardBackButton extends ImageButton implements MouseListener {
     private int width, height;
     private int id;
 
-    private BufferedImage cardImage, activeCard, normalCard;
+    private BufferedImage cardImage, hoveredCard, normalCard;
 
     public CardBackButton(int id, int width, int height){
         this.width = width;
@@ -40,9 +40,9 @@ public class CardBackButton extends ImageButton implements MouseListener {
         if(normalCard == null)
             normalCard = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
                     "card_back_" + id + ".png");
-        if(activeCard == null)
-            activeCard = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
-                    "card_back_" + id + "_active.png");
+        if(hoveredCard == null)
+            hoveredCard = ImageResource.getInstance().getImage("/images/cards/cards_back/" +
+                    "card_back_" + id + "_hovered.png");
 
         g2.drawImage(cardImage.getScaledInstance(
                 width, height,
@@ -58,7 +58,7 @@ public class CardBackButton extends ImageButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        cardImage = activeCard;
+        cardImage = hoveredCard;
         repaint();
         revalidate();
     }

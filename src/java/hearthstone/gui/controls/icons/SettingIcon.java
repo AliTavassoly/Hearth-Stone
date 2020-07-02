@@ -9,9 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingIcon extends ImageButton {
-    public SettingIcon(String normalPath, String activePath,
+    public SettingIcon(String normalPath, String hoveredPath,
                        int width, int height) {
-        super(normalPath, activePath, width, height);
+        super(normalPath, hoveredPath, width, height);
         configIcon();
     }
 
