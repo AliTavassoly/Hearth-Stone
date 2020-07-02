@@ -13,7 +13,6 @@ import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.reward.RewardCard;
-import hearthstone.logic.models.card.spell.SpellBehaviour;
 import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
@@ -392,7 +391,9 @@ public class Player {
     private void playSpell(Card card){
         SpellCard spell = (SpellCard) card;
 
-        ((SpellBehaviour)spell).doAbility();
+        Mapper.getInstance().animateSpell(getPlayerId(), card);
+
+        spell.doAbility();
     }
     // CARD ACTION
 

@@ -3,12 +3,23 @@ package hearthstone.gui.game.play;
 import java.awt.*;
 
 public class Animation {
-    private int x, y;
+    private int destinationX, destinationY;
+    private int destinationWidth, destinationHeight;
     private Component component;
 
-    public Animation(int x, int y, Component component){
-        this.x = x;
-        this.y = y;
+    public Animation(int destinationX, int destinationY, Component component){
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
+        this.component = component;
+    }
+
+    public Animation(int destinationX, int destinationY, int destinationWidth, int destinationHeight, Component component){
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
+
+        this.destinationWidth = destinationWidth;
+        this.destinationHeight = destinationHeight;
+
         this.component = component;
     }
 
@@ -19,17 +30,24 @@ public class Animation {
         return component;
     }
 
-    public synchronized void setX(int x){
-        this.x = x;
+    public synchronized void setDestinationX(int destinationX){
+        this.destinationX = destinationX;
     }
-    public synchronized void setY(int y){
-        this.y = y;
+    public synchronized void setDestinationY(int destinationY){
+        this.destinationY = destinationY;
     }
 
-    public synchronized int getX(){
-        return x;
+    public synchronized int getDestinationX(){
+        return destinationX;
     }
-    public synchronized int getY(){
-        return y;
+    public synchronized int getDestinationY(){
+        return destinationY;
+    }
+
+    public synchronized int getDestinationWidth(){
+        return destinationWidth;
+    }
+    public synchronized int getDestinationHeight(){
+        return destinationHeight;
     }
 }

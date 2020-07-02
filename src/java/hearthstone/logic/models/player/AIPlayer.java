@@ -49,6 +49,11 @@ public class AIPlayer extends Player {
         });
     }
 
+    public void choosePassive(ArrayList<Integer> passives){
+        int ind = Rand.getInstance().getRandomNumber(passives.size());
+        Mapper.getInstance().setPassive(getPlayerId(), DataTransform.getInstance().getBasePassive(ind));
+    }
+
     private void attackToMinions(){
         attackMinionToMinion();
         attackWeaponToMinion();

@@ -56,8 +56,8 @@ public class SoloGameBoard extends GameBoard {
                 if (animationsCard.contains(card)) {
                     int ind = animationsCard.indexOf(card);
                     Animation destination = animations.get(ind);
-                    destination.setX(startX + dis * (i - cards.size() / 2));
-                    destination.setY(startY);
+                    destination.setDestinationX(startX + dis * (i - cards.size() / 2));
+                    destination.setDestinationY(startY);
                     continue;
                 }
             }

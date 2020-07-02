@@ -21,6 +21,7 @@ public class CardButton extends ImageButton implements MouseListener {
     int width, height, number;
     private Card card;
     private boolean markable;
+    private boolean writeInfo;
 
     private boolean isMark;
 
@@ -42,6 +43,18 @@ public class CardButton extends ImageButton implements MouseListener {
         this.height = height;
         this.number = number;
         this.markable = markable;
+
+        isMark = false;
+
+        configButton();
+    }
+
+    public CardButton(Card card, boolean writeInfo, int width, int height, int number) {
+        this.card = card;
+        this.writeInfo = writeInfo;
+        this.width = width;
+        this.height = height;
+        this.number = number;
 
         isMark = false;
 
@@ -101,7 +114,7 @@ public class CardButton extends ImageButton implements MouseListener {
                     null);
         }
 
-        if (isMark){
+        if (isMark) {
             g2.drawImage(redMark.getScaledInstance(
                     SizeConfigs.bigRedMarkWidth,
                     SizeConfigs.bigRedMarkHeight,
@@ -207,6 +220,8 @@ public class CardButton extends ImageButton implements MouseListener {
     }
 
     private void drawStringOnCard(Graphics2D g, String text, int x, int y, Color color) {
+        if(!writeInfo)
+            return;
         g.setColor(color);
         g.drawString(text, x, y);
     }
@@ -215,13 +230,21 @@ public class CardButton extends ImageButton implements MouseListener {
         return isMark;
     }
 
-    public Card getCard(){
+    public boolean isWriteInfo() {
+        return writeInfo;
+    }
+
+    public void setWriteInfo(boolean writeInfo) {
+        this.writeInfo = writeInfo;
+    }
+
+    public Card getCard() {
         return card;
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        if(!markable) {
+        if (!markable) {
             String path;
             if (card.getCardType() == CardType.MINIONCARD) {
                 path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
@@ -243,8 +266,8 @@ public class CardButton extends ImageButton implements MouseListener {
         }
     }
 
-    private void changeMarkState(){
-        if(isMark)
+    private void changeMarkState() {
+        if (isMark)
             isMark = false;
         else
             isMark = true;

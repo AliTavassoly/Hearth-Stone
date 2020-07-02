@@ -258,6 +258,10 @@ public class Mapper {
         getPlayer(playerId).discardCard(card);
     }
 
+    public void animateSpell(int playerId, Card card){
+        getGameBoard().animateSpell(playerId, card);
+    }
+
     public void updateBoard() {
         getPlayer(0).updatePlayer();
         getPlayer(1).updatePlayer();
