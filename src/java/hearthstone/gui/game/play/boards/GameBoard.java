@@ -17,6 +17,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.Animation;
 import hearthstone.gui.game.play.controls.*;
+import hearthstone.gui.interfaces.HaveCard;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
@@ -462,9 +463,9 @@ public class GameBoard extends JPanel {
                         startY, cardButton);
 
                 if (playerId == myPlayerId)
-                    animateCard(myPickedCardX, myPickedCardY, destination);
+                    animateCard(myPickedCardX, myPickedCardY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
                 else
-                    animateCard(enemyPickedCardX, enemyPickedCardY, destination);
+                    animateCard(enemyPickedCardX, enemyPickedCardY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
             }
         }
     }
@@ -527,9 +528,9 @@ public class GameBoard extends JPanel {
                         startY, cardButton);
 
                 if (playerId == myPlayerId)
-                    animateCard(myHandX, myHandY, destination);
+                    animateCard(myHandX, myHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
                 else
-                    animateCard(enemyHandX, enemyHandY, destination);
+                    animateCard(enemyHandX, enemyHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
             }
             add(cardButton);
         }
@@ -596,27 +597,30 @@ public class GameBoard extends JPanel {
     // END TURN LINE
 
     // ANIMATIONS
-    protected void animateCard(int startX, int startY,
+    protected void animateCard(int startX, int startY, int width, int height,
                                Animation animation) {
-        long period = 15;
+        long period = 25;
 
-        final int width = animation.getComponent().getWidth();
-        final int height = animation.getComponent().getHeight();
-
-        final int[] x = {animation.getComponent().getX()};
-        final int[] y = {animation.getComponent().getY()};
-
-        animation.getComponent().setBounds(startX, startY, animation.getComponent().getWidth(), animation.getComponent().getHeight());
-
-        x[0] = startX;
-        y[0] = startY;
+        final int[] x = {startX};
+        final int[] y = {startY};
 
         MyTimerTask task = new MyTimerTask(period, new MyBigTask() {
+            private void addComponentIfNot(Component component) {
+                for(Component component1: GameBoard.this.getComponents()){
+                    if(component1 == component)
+                        return;
+                }
+                GameBoard.this.add(component);
+            }
+
             @Override
             public void startFunction() {
                 synchronized (animationLock) {
-                    animationsCard.add(((BoardCardButton) animation.getComponent()).getCard());
+                    animationsCard.add(((HaveCard) animation.getComponent()).getCard());
                     animations.add(animation);
+
+                    animation.getComponent().setBounds(startX, startY, width, height);
+                    add(animation.getComponent());
                 }
             }
 
@@ -635,6 +639,7 @@ public class GameBoard extends JPanel {
                 y[0] += (animation.getDestinationY() - y[0] != 0 ? plusY * (animation.getDestinationY() - y[0]) / Math.abs(animation.getDestinationY() - y[0]) : 0);
 
                 animation.getComponent().setBounds(x[0], y[0], width, height);
+                addComponentIfNot(animation.getComponent());
             }
 
             @Override
@@ -647,15 +652,20 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                synchronized (animationLock) {
-                    int ind = animationsCard.indexOf(((BoardCardButton) animation.getComponent()).getCard());
-                    animationsCard.remove(ind);
-                    animations.remove(ind);
+                MyDelayTimerTask removeDelay =  new MyDelayTimerTask(animation.getRemoveDelayAfterArrived(), new MyDelayTask() {
+                    @Override
+                    public void delayAction() {
+                        synchronized (animationLock) {
+                            int ind = animationsCard.indexOf(((HaveCard) animation.getComponent()).getCard());
+                            animationsCard.remove(ind);
+                            animations.remove(ind);
 
-                    if(animationsCard.size() == 0){
-                        Mapper.getInstance().updateBoard();
+                            if (animationsCard.size() == 0) {
+                                Mapper.getInstance().updateBoard();
+                            }
+                        }
                     }
-                }
+                });
             }
 
             @Override
@@ -667,7 +677,7 @@ public class GameBoard extends JPanel {
 
     protected void animateCardWithResize(Card card, int startX, int startY,
                                          int startWidth, int startHeight,
-                               Animation animation) {
+                                         Animation animation) {
         long period = 20;
 
         final double[] x = {animation.getComponent().getX()};
@@ -709,9 +719,9 @@ public class GameBoard extends JPanel {
                 if (Math.abs(animation.getDestinationY() - y[0]) < jumpLoc)
                     plusY = 1;
 
-                if(Math.abs(animation.getDestinationWidth() - width[0]) < jumpSize)
+                if (Math.abs(animation.getDestinationWidth() - width[0]) < jumpSize)
                     plusWidth = 0.5;
-                if(Math.abs(animation.getDestinationHeight() - height[0]) < jumpSize)
+                if (Math.abs(animation.getDestinationHeight() - height[0]) < jumpSize)
                     plusHeight = 0.5;
 
                 x[0] += (animation.getDestinationX() - x[0] != 0 ? plusX * (animation.getDestinationX() - x[0]) / Math.abs(animation.getDestinationX() - x[0]) : 0);
@@ -722,8 +732,8 @@ public class GameBoard extends JPanel {
                 height[0] += (animation.getDestinationHeight() - height[0] != 0 ? plusHeight * (animation.getDestinationHeight() - height[0]) / Math.abs(animation.getDestinationHeight() - height[0]) : 0);
 
                 GameBoard.this.remove(animation.getComponent());
-                animation.setComponent(new CardButton(card, false, (int)width[0], (int)height[0], -1));
-                animation.getComponent().setBounds((int)x[0], (int)y[0], (int)width[0], (int)height[0]);
+                animation.setComponent(new CardButton(card, false, (int) width[0], (int) height[0], -1));
+                animation.getComponent().setBounds((int) x[0], (int) y[0], (int) width[0], (int) height[0]);
                 GameBoard.this.add(animation.getComponent());
             }
 
@@ -736,7 +746,7 @@ public class GameBoard extends JPanel {
             }
 
             @Override
-            public void closeFunction()  {
+            public void closeFunction() {
                 MyDelayTimerTask delayTimerTask = new MyDelayTimerTask(3000, new MyDelayTask() {
                     @Override
                     public void delayAction() {
@@ -746,7 +756,7 @@ public class GameBoard extends JPanel {
                             animationsCard.remove(ind);
                             animations.remove(ind);
 
-                            if(animationsCard.size() == 0){
+                            if (animationsCard.size() == 0) {
                                 Mapper.getInstance().updateBoard();
                             }
                         }
@@ -756,10 +766,10 @@ public class GameBoard extends JPanel {
 
             @Override
             public boolean finishCondition() {
-                return (int)x[0] == animation.getDestinationX() &&
-                        (int)y[0] == animation.getDestinationY() &&
-                        (int)width[0] == animation.getDestinationWidth() &&
-                        (int)height[0] == animation.getDestinationHeight();
+                return (int) x[0] == animation.getDestinationX() &&
+                        (int) y[0] == animation.getDestinationY() &&
+                        (int) width[0] == animation.getDestinationWidth() &&
+                        (int) height[0] == animation.getDestinationHeight();
             }
         });
     }
@@ -985,7 +995,7 @@ public class GameBoard extends JPanel {
                 } else {
                     if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
                             && ((HeroPowerBehaviour) button.getCard()).canAttack()) {
-                        makeNewMouseWaiting(((HeroPowerBehaviour)button.getCard()).lookingForCursorType(),
+                        makeNewMouseWaiting(((HeroPowerBehaviour) button.getCard()).lookingForCursorType(),
                                 button.getCard());
                     }
                 }
@@ -1055,25 +1065,21 @@ public class GameBoard extends JPanel {
         }
     }
 
-    public void animateSpell(int playerId, Card card){
-        for(Component component: this.getComponents()){
-            if(component instanceof BoardCardButton && ((BoardCardButton)component).getCard() == card){
-                this.remove(component);
-            }
-
-            if(component instanceof CardButton && ((CardButton)component).getCard() == card){
+    public void animateSpell(int playerId, Card card) {
+        for (Component component : this.getComponents()) {
+            if (component instanceof HaveCard && ((HaveCard) component).getCard() == card) {
                 this.remove(component);
             }
         }
 
-        if(playerId == myPlayerId){
-            animateCardWithResize(card, myHandX, myHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
-                    new Animation(mySpellDestinationX, mySpellDestinationY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-                            new CardButton(card, false, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, -1)));
+        if (playerId == myPlayerId) {
+            animateCard(myHandX, myHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+                    new Animation(mySpellDestinationX, mySpellDestinationY,
+                            3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         } else {
-            animateCardWithResize(card, enemyHandX, enemyHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
-                    new Animation(enemySpellDestinationX, enemySpellDestinationY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-                            new CardButton(card, false, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, -1)));
+            animateCard(enemyHandX, enemyHandY, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
+                    new Animation(enemySpellDestinationX, enemySpellDestinationY,
+                            3000, new CardButton(card, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         }
     }
 
@@ -1239,7 +1245,6 @@ public class GameBoard extends JPanel {
     }
 
     private void gameStuffLayout() {
-
         drawCardsOnHand(0, myHandX, myHandY);
         drawCardsOnHand(1, enemyHandX, enemyHandY);
 
@@ -1354,17 +1359,8 @@ public class GameBoard extends JPanel {
             if (component instanceof ImagePanel && ((ImagePanel) component).isRTL())
                 continue;
 
-            if (component instanceof BoardCardButton) {
-                BoardCardButton boardCardButton = (BoardCardButton) component;
-                synchronized (animationLock) {
-                    if (animationsCard.contains(boardCardButton.getCard())) {
-                        continue;
-                    }
-                }
-            }
-
-            if (component instanceof CardButton) {
-                CardButton cardButton = (CardButton) component;
+            if (component instanceof HaveCard) {
+                HaveCard cardButton = (HaveCard) component;
                 synchronized (animationLock) {
                     if (animationsCard.contains(cardButton.getCard())) {
                         continue;

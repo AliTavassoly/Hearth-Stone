@@ -4,6 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.gui.interfaces.HaveCard;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionCard;
@@ -17,7 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class CardButton extends ImageButton implements MouseListener {
+public class CardButton extends ImageButton implements MouseListener, HaveCard {
     int width, height, number;
     private Card card;
     private boolean markable;

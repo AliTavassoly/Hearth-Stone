@@ -7,9 +7,18 @@ public class Animation {
     private int destinationWidth, destinationHeight;
     private Component component;
 
+    private int removeDelayAfterArrived;
+
     public Animation(int destinationX, int destinationY, Component component){
         this.destinationX = destinationX;
         this.destinationY = destinationY;
+        this.component = component;
+    }
+
+    public Animation(int destinationX, int destinationY, int removeDelayAfterArrived, Component component){
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
+        this.removeDelayAfterArrived = removeDelayAfterArrived;
         this.component = component;
     }
 
@@ -49,5 +58,12 @@ public class Animation {
     }
     public synchronized int getDestinationHeight(){
         return destinationHeight;
+    }
+
+    public synchronized int getRemoveDelayAfterArrived() {
+        return removeDelayAfterArrived;
+    }
+    public synchronized void setRemoveDelayAfterArrived(int removeDelayAfterArrived) {
+        this.removeDelayAfterArrived = removeDelayAfterArrived;
     }
 }

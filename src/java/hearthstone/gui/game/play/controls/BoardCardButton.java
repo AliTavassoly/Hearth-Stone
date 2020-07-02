@@ -5,6 +5,7 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
+import hearthstone.gui.interfaces.HaveCard;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionCard;
@@ -19,7 +20,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-public class BoardCardButton extends ImageButton implements MouseListener, MouseMotionListener {
+public class BoardCardButton extends ImageButton implements HaveCard, MouseListener, MouseMotionListener {
     private int width, height;
     private double initialRotate, rotate;
     private boolean showBig;

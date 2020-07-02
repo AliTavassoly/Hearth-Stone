@@ -75,9 +75,9 @@ public class SoloGameBoard extends GameBoard {
                         startY, cardButton);
 
                 if (playerId == myPlayerId)
-                    animateCard(myPickedCardX, myPickedCardY, destination);
+                    animateCard(myPickedCardX, myPickedCardY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
                 else
-                    animateCard(enemyPickedCardX, enemyPickedCardY, destination);
+                    animateCard(enemyPickedCardX, enemyPickedCardY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, destination);
             }
         }
     }
