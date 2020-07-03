@@ -1,15 +1,13 @@
 package hearthstone.logic.models.card.heropower.heropowers;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
-public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
+public class TheSilverHand extends HeroPowerCard  {
     public TheSilverHand() { }
 
     public TheSilverHand(int id, String name, String description, int manaCost, HeroType heroType, CardType cardType){
@@ -25,12 +23,6 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
     }
 
     @Override
-    public void startTurnBehave() {
-        numberOfAttack = 1;
-    }
-
-
-    @Override
     public CursorType lookingForCursorType() {
         return CursorType.SEARCH;
     }
@@ -41,10 +33,5 @@ public class TheSilverHand extends HeroPowerCard implements HeroPowerBehaviour {
             doAbility();
             numberOfAttack--;
         }
-    }
-
-    @Override
-    public boolean canAttack() {
-        return numberOfAttack > 0 && getManaCost() <= DataTransform.getInstance().getMana(getPlayerId());
     }
 }

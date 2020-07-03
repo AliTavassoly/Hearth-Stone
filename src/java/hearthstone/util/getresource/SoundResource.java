@@ -8,9 +8,6 @@ public class SoundResource {
     private static SoundResource instance;
     private static Map<String, File> map = new HashMap<>();
 
-    private SoundResource() {
-    }
-
     public static SoundResource getInstance() {
         if (instance == null) {
             return instance = new SoundResource();

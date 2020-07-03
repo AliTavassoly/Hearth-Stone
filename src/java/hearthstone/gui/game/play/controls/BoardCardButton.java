@@ -27,8 +27,6 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
     private Card card;
     private boolean isBack, isInLand;
 
-    private SoundPlayer soundPlayer;
-
     private BufferedImage minionImage;
     private BufferedImage cardImage;
     private BufferedImage frameImage;
@@ -160,8 +158,8 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
             default:
                 return;
         }
-        if (soundPlayer == null)
-            soundPlayer = new SoundPlayer(path);
+
+        SoundPlayer soundPlayer = new SoundPlayer(path);
         soundPlayer.playOnce();
     }
 
@@ -218,7 +216,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         if (isBack)
             return;
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 20);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 20);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -272,7 +270,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
                         SizeConfigs.minionTypeWidth, SizeConfigs.minionTypeHeight,
                         null);
             }
-            if(((MinionCard)card).isFreeze()){
+            if (((MinionCard) card).isFreeze()) {
                 g.drawImage(freezeImage.getScaledInstance(
                         width - 18 - 10, height - 28 - 15,
                         Image.SCALE_SMOOTH),
@@ -291,7 +289,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
                 width - 10, height - 15,
                 null);
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER,0, 30);
+        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -313,7 +311,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         final int minionHealthY = height - 37;
 
         g.setColor(color);
-        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER,0, 30);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 30);
         g.setFont(font);
 
         text = String.valueOf(((MinionCard) card).getAttack());
@@ -328,28 +326,28 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
     }
 
     void drawStringOnCard(Graphics2D g, Color color, FontMetrics fontMetrics) {
-        final int spellManaX = 14;
+        final int spellManaX = 13;
         final int spellManaY = 25;
 
-        final int heroPowerManaX = width / 2 + 3;
-        final int heroPowerManaY = 20;
+        final int heroPowerManaX = width / 2 + 1;
+        final int heroPowerManaY = 19;
 
-        final int minionManaX = 14;
-        final int minionManaY = 25;
-        final int minionAttackX = 25 - 10;
+        final int minionManaX = 13;
+        final int minionManaY = 26;
+        final int minionAttackX = 25 - 12;
         final int minionAttackY = height - 15 + 10;
         final int minionHealthX = width - 15 + 10 - 3;
         final int minionHealthY = height - 15 + 10;
 
-        final int weaponManaX = 14;
-        final int weaponManaY = 25;
+        final int weaponManaX = 13;
+        final int weaponManaY = 26;
         final int weaponDurabilityX = width - 15 + 10;
         final int weaponDurabilityY = height - 15 + 10;
         final int weaponAttackX = 25 - 10;
         final int weaponAttackY = height - 15 + 10;
 
         g.setColor(color);
-        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER,0, 20);
+        Font font = GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 20);
         g.setFont(font);
 
         String text;

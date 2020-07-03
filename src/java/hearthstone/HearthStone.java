@@ -11,6 +11,7 @@ import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +55,33 @@ public class  HearthStone {
         return false;
     }
 
+    public static ArrayList<Card> getCardsArray(ArrayList<String> cardsName){
+        ArrayList<Card> ans = new ArrayList<>();
+
+        for(int i = 0; i < cardsName.size(); i++){
+            ans.add(getCardByName(cardsName.get(i)));
+        }
+
+        return ans;
+    }
+
     public static Card getCardByName(String name){
         for(Card card: baseCards.values()){
             if(card.getName().equals(name)){
                 return card.copy();
             }
         }
+        System.out.println("Card with name " + name + " not found!");
+        return null;
+    }
+
+    public static Hero getHeroByName(String name){
+        for(Hero hero: baseHeroes.values()){
+            if(hero.getName().equals(name)){
+                return hero.copy();
+            }
+        }
+        System.out.println("Hero with name " + name + " not found!");
         return null;
     }
 

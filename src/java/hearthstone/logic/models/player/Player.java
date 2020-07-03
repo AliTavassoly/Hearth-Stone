@@ -20,6 +20,7 @@ import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Player {
     protected Hero hero;
@@ -68,6 +69,8 @@ public class Player {
             configCard(card);
         }
         configHero(hero);
+
+        Collections.shuffle(deck.getCards());
 
         mana = 0;
     }
@@ -196,6 +199,9 @@ public class Player {
         return factory;
     }
 
+    public boolean haveWeapon(){
+        return weapon != null;
+    }
     // End of getter setter
 
     public void reduceMana(int reduce) {
@@ -516,6 +522,10 @@ public class Player {
 
     private void configHero(Hero hero) {
         hero.setPlayerId(this.getPlayerId());
+
+        HeroPowerCard heroPower = (HeroPowerCard) HearthStone.getCardByName(hero.getHeroPowerName());
+        configCard(heroPower);
+        this.heroPower = heroPower;
     }
 
     public ArrayList<MinionCard> neighborCards(Card card) {
@@ -590,7 +600,7 @@ public class Player {
     public ArrayList<Card> getTopCards(int numberOfTopCards) {
         ArrayList<Card> cards = new ArrayList<>();
 
-        for (int i = 0; i < numberOfTopCards; i++) {
+        for (int i = 0; i < Math.min(numberOfTopCards, deck.getCards().size()); i++) {
             cards.add(deck.getCards().get(i));
         }
 
@@ -750,9 +760,7 @@ public class Player {
             configCard(card);
             try {
                 deck.addInTheMiddleOfGame(card);
-            } catch (HearthStoneException e) {
-                e.printStackTrace();
-            }
+            } catch (HearthStoneException ignore) { }
         }
 
         public void makeAndSummonMinion(Card card) {
@@ -790,6 +798,13 @@ public class Player {
             return null;
         }
 
+        public Card getRandomCardFromCurrentDeck() {
+            if (deck.getCards().size() == 0)
+                return null;
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            return deck.getCards().get(start);
+        }
+
         public Card getRandomCardFromCurrentDeck(CardType cardType) {
             if (originalDeck.getCards().size() == 0)
                 return null;
@@ -803,6 +818,14 @@ public class Player {
                 start %= deck.getCards().size();
             }
             return null;
+        }
+
+        public void removeFromDeck(Card card){
+            deck.getCards().remove(card);
+        }
+
+        public void removeFromHand(Card card){
+            hand.remove(card);
         }
     }
 }

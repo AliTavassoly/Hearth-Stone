@@ -19,9 +19,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected int initialHealth;
     protected int initialAttack;
     protected boolean isTaunt;
-    protected boolean isDeathRattle, isTriggeredEffect, isSpellDamage, isDivineShield;
+    protected boolean isDeathRattle, isTriggeredEffect, isSpellSafe, isHeroPowerSafe, isDivineShield;
     protected boolean isCharge, isRush;
-    protected boolean hasWaitingForDraw, hasEndTurnBehave;
     protected boolean isImmune, isFreeze;
 
     private ArrayList<Integer> immunities, freezes;
@@ -49,7 +48,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     public MinionCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType, int health, int attack,
-                      boolean isDeathRattle, boolean isTriggeredEffect, boolean isSpellDamage, boolean isDivineShield,
+                      boolean isDeathRattle, boolean isTriggeredEffect,
+                      boolean isSpellSafe, boolean isHeroPowerSafe, boolean isDivineShield,
                       boolean isTaunt, boolean isCharge, boolean isRush, MinionType minionType) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
         this.health = health;
@@ -58,7 +58,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
         this.isDeathRattle = isDeathRattle;
         this.isTriggeredEffect = isTriggeredEffect;
-        this.isSpellDamage = isSpellDamage;
+        this.isSpellSafe = isSpellSafe;
+        this.isHeroPowerSafe = isHeroPowerSafe;
         this.isDivineShield = isDivineShield;
 
         this.isCharge = isCharge;
@@ -134,14 +135,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         isTriggeredEffect = triggeredEffect;
     }
 
-    public boolean isSpellDamage() {
-        return isSpellDamage;
-    }
-
-    public void setSpellDamage(boolean spellDamage) {
-        isSpellDamage = spellDamage;
-    }
-
     public boolean isDivineShield() {
         return isDivineShield;
     }
@@ -196,6 +189,14 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     public void setSpellSafe(boolean spellSafe){
         this.spellSafe = spellSafe;
+    }
+
+    public boolean isHeroPowerSafe(){
+        return isHeroPowerSafe;
+    }
+
+    public void setHeroPowerSafe(boolean isHeroPowerSafe){
+        this.isHeroPowerSafe = isHeroPowerSafe;
     }
 
     // END OF GETTER SETTER

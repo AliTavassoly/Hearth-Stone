@@ -5,6 +5,7 @@ import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
@@ -109,12 +110,10 @@ public class Mapper {
 
     public void heal(int heal, Character character) {
         character.gotHeal(heal);
-        updateBoard();
     }
 
     public void restoreHealth(int heal, Character character) {
         character.restoreHealth(heal);
-        updateBoard();
     }
 
     public void setPassive(int playerId, Passive passive) {
@@ -198,6 +197,7 @@ public class Mapper {
 
     public void drawCard(int playerId, Card card) throws HearthStoneException{
         getPlayer(playerId).drawCard(card);
+        updateBoard();
     }
 
     public void handleImmunities(int playerId, Character character){
@@ -254,12 +254,26 @@ public class Mapper {
         minionCard.setSpellSafe(isSpellSafe);
     }
 
+    public void setHeroPower(int playerId, HeroPowerCard heroPower){
+        getPlayer(playerId).setHeroPower(heroPower);
+    }
+
     public void discardCard(int playerId, Card card) throws HearthStoneException{
         getPlayer(playerId).discardCard(card);
     }
 
     public void animateSpell(int playerId, Card card){
         getGameBoard().animateSpell(playerId, card);
+    }
+
+    public void stealFromDeck(int stealerId, int stolenId, Card card){
+        getPlayer(stolenId).getFactory().removeFromDeck(card);
+        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
+    }
+
+    public void stealFromHand(int stealerId, int stolenId, Card card){
+        getPlayer(stolenId).getFactory().removeFromHand(card);
+        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
     }
 
     public void updateBoard() {

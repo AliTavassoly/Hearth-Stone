@@ -170,7 +170,6 @@ public class Account {
         this.decks = decks;
     }
 
-
     public int getCardsBackId() {
         return cardsBackId;
     }

@@ -5,6 +5,7 @@ import hearthstone.util.HearthStoneException;
 public interface Character {
     void gotDamage(int damage) throws HearthStoneException;
     void gotHeal(int heal);
+    int getHealth();
     void setHealth(int health);
     void restoreHealth(int heal);
     void addFreezes(int turnNumber);

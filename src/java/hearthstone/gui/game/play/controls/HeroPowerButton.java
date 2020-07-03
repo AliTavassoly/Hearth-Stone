@@ -5,6 +5,7 @@ import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
+import hearthstone.logic.models.card.interfaces.Upgradeable;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
@@ -21,8 +22,8 @@ public class HeroPowerButton extends ImageButton {
 
     private int playerId;
 
-    private static BufferedImage heroPowerFrame;
-    private static BufferedImage heroPowerFrameHovered;
+    private static BufferedImage heroPowerFrame, heroPowerFrameHovered;
+    private static BufferedImage heroPowerUpgradeFrame, heroPowerUpgradeFrameHovered;
     private static BufferedImage inactiveHeroPower;
 
     private BufferedImage cardImage;
@@ -78,6 +79,10 @@ public class HeroPowerButton extends ImageButton {
                 heroPowerFrameHovered = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_frame_hovered.png");
             if (inactiveHeroPower == null)
                 inactiveHeroPower = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_inactive.png");
+            if (heroPowerUpgradeFrame == null)
+                heroPowerUpgradeFrame = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_frame_upgraded.png");
+            if (heroPowerUpgradeFrameHovered == null)
+                heroPowerUpgradeFrameHovered = ImageResource.getInstance().getImage("/images/cards/hero_power/" + "hero_power_frame_upgraded_hovered.png");
 
             if (frameImage == null)
                 frameImage = heroPowerFrame;
@@ -87,9 +92,12 @@ public class HeroPowerButton extends ImageButton {
 
         g2.drawImage(cardImage, 20, 25, null);
 
-        if (((HeroPowerBehaviour) card).canAttack())
-            g2.drawImage(frameImage, 0, 0, null);
-        else
+        if (((HeroPowerBehaviour) card).canAttack()) {
+            if (card instanceof Upgradeable && ((Upgradeable) card).isUpgraded())
+                g2.drawImage(heroPowerUpgradeFrame, 0, 0, null);
+            else
+                g2.drawImage(heroPowerFrame, 0, 0, null);
+        } else
             g2.drawImage(inactiveHeroPower, 0, 0, null);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -114,14 +122,20 @@ public class HeroPowerButton extends ImageButton {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        frameImage = heroPowerFrameHovered;
+        if (card instanceof Upgradeable && ((Upgradeable) card).isUpgraded())
+            frameImage = heroPowerUpgradeFrameHovered;
+        else
+            frameImage = heroPowerFrameHovered;
         repaint();
         revalidate();
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        frameImage = heroPowerFrame;
+        if (card instanceof Upgradeable && ((Upgradeable) card).isUpgraded())
+            frameImage = heroPowerUpgradeFrame;
+        else
+            frameImage = heroPowerFrame;
         repaint();
         revalidate();
     }

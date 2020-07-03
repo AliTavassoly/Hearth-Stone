@@ -13,8 +13,7 @@ import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.heropower.heropowers.Heal;
-import hearthstone.logic.models.card.heropower.heropowers.TheSilverHand;
+import hearthstone.logic.models.card.heropower.heropowers.*;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.minion.minions.*;
 import hearthstone.logic.models.card.reward.rewards.LearnDraconic;
@@ -44,13 +43,19 @@ public class DataBase {
         Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(polymorph.getId(), polymorph);
 
+        Fireblast fireblast = new Fireblast(id++, "Fireblast", "Deal 1 damage.", 2, HeroType.MAGE, CardType.HEROPOWER);
+        HearthStone.baseCards.put(fireblast.getId(), fireblast);
+
         FreezingPotion freezingPotion = new FreezingPotion(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(freezingPotion.getId(), freezingPotion);
 
         // Warlock
         Dreadscale dreadscale = new Dreadscale(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINIONCARD, 2, 4,
-                false, false, false, false, false, false, false, MinionType.BEAST);
+                false, false, false, false, false, false, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(dreadscale.getId(), dreadscale);
+
+        Sacrificer sacrificer = new Sacrificer(id++, "Sacrificer", "Sacrifice.", 2, HeroType.WARLOCK, CardType.HEROPOWER);
+        HearthStone.baseCards.put(sacrificer.getId(), sacrificer);
 
         Soulfire soulfire = new Soulfire(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(soulfire.getId(), soulfire);
@@ -59,8 +64,11 @@ public class DataBase {
         FriendlySmith friendlySmith = new FriendlySmith(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(friendlySmith.getId(), friendlySmith);
 
+        AncientBlades ancientBlades = new AncientBlades(id++, "Ancient Blades", "Steal cards.", 3, HeroType.ROGUE, CardType.HEROPOWER);
+        HearthStone.baseCards.put(ancientBlades.getId(), ancientBlades);
+
         LabRecruiter labRecruiter = new LabRecruiter(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINIONCARD, 2, 3,
-        false, false, false, false, false, false, false, MinionType.NORMAL);
+        false, false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(labRecruiter.getId(), labRecruiter);
 
         // Paladin
@@ -82,7 +90,7 @@ public class DataBase {
         HighPriestAmet highPriestAmet = new HighPriestAmet(id++, "High Priest Amet", "Whenever you summon a\n" +
                 "minion, set its Health equal\n" +
                 "to this minion's.", 4, HeroType.PRIEST, Rarity.LEGENDARY, CardType.MINIONCARD, 7, 2,
-                false, false, false, false, false, false, false, MinionType.NORMAL);
+                false, false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(highPriestAmet.getId(), highPriestAmet);
 
         // All
@@ -111,63 +119,63 @@ public class DataBase {
 
         // Minion
         HulkingOverfiend hulkingOverfiend = new HulkingOverfiend(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 5, 10,
-                false, false, false, false, false, false, true, MinionType.DEMON);
+                false, false, false, false, false,false, false, true, MinionType.DEMON);
         HearthStone.baseCards.put(hulkingOverfiend.getId(), hulkingOverfiend);
 
         WrathscaleNaga wrathscaleNaga = new WrathscaleNaga(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 1, 3,
-                false, false, false, false, false, false, false, MinionType.NORMAL);
+                false, false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(wrathscaleNaga.getId(), wrathscaleNaga);
 
         WrathspikeBrute wrathspikeBrute = new WrathspikeBrute(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 6, 2,
-                false, false, false, false, true, false,  false, MinionType.DEMON);
+                false, false, false, false, false, true, false,  false, MinionType.DEMON);
         HearthStone.baseCards.put(wrathspikeBrute.getId(), wrathspikeBrute);
 
         PitCommander pitCommander = new PitCommander(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINIONCARD, 9, 7,
-                false, false, false, false, true, false, false, MinionType.DEMON);
+                false, false, false, false, false, true, false, false, MinionType.DEMON);
         HearthStone.baseCards.put(pitCommander.getId(), pitCommander);
 
         GoldshireFootman goldshireFootman = new GoldshireFootman(id++, "Goldshire Footman", "Taunt", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 2, 1,
-                false, false, false, false,
+                false, false, false, false, false,
                 true, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(goldshireFootman.getId(), goldshireFootman);
 
         Abomination abomination = new Abomination(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4,
-                true, false, false, false, true, false, false, MinionType.NORMAL);
+                true, false, false, false, false, true, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(abomination.getId(), abomination);
 
         Sathrovarr sathrovarr = new Sathrovarr(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINIONCARD, 5, 5,
-                false, false, false, false, false, false, false, MinionType.DEMON);
+                false, false, false, false, false, false, false, false, MinionType.DEMON);
         HearthStone.baseCards.put(sathrovarr.getId(), sathrovarr);
 
         TombWarden tombWarden = new TombWarden(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 3,
-                false, false, false, false, true, false, false, MinionType.MECH);
+                false, false, false, false, false, true, false, false, MinionType.MECH);
         HearthStone.baseCards.put(tombWarden.getId(), tombWarden);
 
         SecurityRover securityRover = new SecurityRover(id++, "Security Rover", "Whenever this minion\n" +
                 "takes damage, summon a\n" +
                 "2/3 Mech with Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 6, 2,
-                false, false, false, false, false, false, false, MinionType.MECH);
+                false, false, false, false, false, false, false, false, MinionType.MECH);
         HearthStone.baseCards.put(securityRover.getId(), securityRover);
 
         CurioCollector curioCollector = new CurioCollector(id++, "Curio Collector", "Whenever you draw a card, gain +1/+1.", 5, HeroType.ALL, Rarity.RARE, CardType.MINIONCARD, 4, 4,
-                false, false, false, false, false, false, false, MinionType.NORMAL);
+                false, false, false, false, false, false, false, false, MinionType.NORMAL);
         HearthStone.baseCards.put(curioCollector.getId(), curioCollector);
 
         FaerieDragon faerieDragon = new FaerieDragon(id++, "Faerie Dragon", "Nothing", 5, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 6, 6,
-                false, false, false, false, false, false, false, MinionType.DRAGON);
+                false, false, true, true, false, false, false, false, MinionType.DRAGON);
         HearthStone.baseCards.put(faerieDragon.getId(), faerieDragon);
 
         Locust locust = new Locust(id++, "Locust", "Rush", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 1, 1,
-                false, false, false, false, false, false, true, MinionType.BEAST);
+                false, false, false, false, false, false, false, true, MinionType.BEAST);
         HearthStone.baseCards.put(locust.getId(), locust);
 
         Sheep sheep = new Sheep(id++, "Sheep", "Just Sheep!", 1, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 1, 1,
-                false, false, false, false,
+                false, false, false, false, false,
                 false, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(sheep.getId(), sheep);
 
         TheHulk theHulk = new TheHulk(id++, "The Hulk", "Just Hulk!", 3, HeroType.ALL, Rarity.COMMON, CardType.MINIONCARD, 3, 2,
-                false, false, false, false,
+                false, false, false, false, false,
                 true, false, false, MinionType.BEAST);
         HearthStone.baseCards.put(theHulk.getId(), theHulk);
 
@@ -217,23 +225,32 @@ public class DataBase {
 
     private static void loadHeroes() throws Exception {
         int id = 0;
-        Mage mage = new Mage(id++, "Mage", HeroType.MAGE, "witchers are good with spells!\nshe pays 2 mana less for spells!", 30, new ArrayList<Integer>(
+        Mage mage = new Mage(id++, "Mage", HeroType.MAGE,
+                "witchers are good with spells!\nshe pays 2 mana less for spells!", "Fireblast",
+                30, new ArrayList<Integer>(
                 Arrays.asList(0, 1, 10, 13, 16, 19)));
         HearthStone.baseHeroes.put(mage.getId(), mage);
 
-        Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK, "healthier than other!\nreduce 2 health and do somethings !\n", 35, new ArrayList<Integer>(
+        Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK,
+                "healthier than other!\nreduce 2 health and do somethings !\n", "Sacrificer",
+                35, new ArrayList<Integer>(
                 Arrays.asList(2, 3, 11, 11, 14, 14, 17)));
         HearthStone.baseHeroes.put(warlock.getId(), warlock);
 
-        Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE, "the thief!\nwith 3 mana, she can steal one opponent card!", 30, new ArrayList<Integer>(
+        Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE,
+                "the thief!\nwith 3 mana, she can steal one opponent card!", "Ancient Blades",
+                30, new ArrayList<Integer>(
                 Arrays.asList(4, 5, 12, 15, 15, 18, 18)));
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
 
-        Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "is very good and strong", 30, new ArrayList<Integer>(
+        Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "The Silver Hand",
+                "is very good and strong",
+                30, new ArrayList<Integer>(
                 Arrays.asList(6, 7)));
         HearthStone.baseHeroes.put(paladin.getId(), paladin);
 
-        Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", 30, new ArrayList<Integer>(
+        Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
+                30, new ArrayList<Integer>(
                 Arrays.asList(8, 9)));
         HearthStone.baseHeroes.put(priest.getId(), priest);
 
@@ -286,6 +303,12 @@ public class DataBase {
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/game_configs.json");
         return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
+        }.getType());
+    }
+
+    public static Map<String, ArrayList<String> > getDecks() throws Exception{
+        FileReader fileReader = new FileReader(dataPath + "/decks.json");
+        return gson.fromJson(fileReader, new TypeToken<Map<String, ArrayList<String> > >() {
         }.getType());
     }
 
@@ -361,6 +384,23 @@ public class DataBase {
         fileWriter.flush();
         fileWriter.close();
     }
+
+    /*private static void saveDecks() throws Exception {
+        Map<String, ArrayList<String> > map = new HashMap<>();
+        ArrayList<String> n1 = new ArrayList<>();
+        ArrayList<String> n2 = new ArrayList<>();
+        for(int i = 0; i < 15; i++) {
+            n1.add("Sheep");
+            n2.add("Sheep");
+        }
+        map.put("friend", n1);
+        map.put("enemy", n2);
+
+        FileWriter fileWriter = new FileWriter(dataPath + "/decks.json");
+        gson.toJson(map, new TypeToken<Map<String, ArrayList<String>>>() {}.getType(), fileWriter);
+        fileWriter.flush();
+        fileWriter.close();
+    }*/
 
     private static void saveMarket() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/market.json");

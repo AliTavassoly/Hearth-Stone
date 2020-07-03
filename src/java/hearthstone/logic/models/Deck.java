@@ -30,6 +30,13 @@ public class Deck implements Comparable<Deck> {
         this.heroType = heroType;
     }
 
+    public Deck(String name, HeroType heroType, ArrayList<Card> cards){
+        this.name = name;
+        this.heroType = heroType;
+
+        this.cards = cards;
+    }
+
     public HashMap<Integer, Integer> getCardGame() {
         return cardGame;
     }

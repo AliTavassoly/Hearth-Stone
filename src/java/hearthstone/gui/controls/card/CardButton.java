@@ -148,14 +148,14 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
         final int spellManaY = 39;
 
         final int heroPowerManaX = width / 2 + 1;
-        final int heroPowerManaY = 28;
+        final int heroPowerManaY = 27;
 
-        final int minionManaX = 24;
-        final int minionManaY = 39;
-        final int minionAttackX = 25;
-        final int minionAttackY = height - 27;
-        final int minionHealthX = width - 17;
-        final int minionHealthY = height - 27;
+        final int minionManaX = 22;
+        final int minionManaY = 38;
+        final int minionAttackX = 24;
+        final int minionAttackY = height - 28;
+        final int minionHealthX = width - 19;
+        final int minionHealthY = height - 28;
 
         final int weaponManaX = 24;
         final int weaponManaY = 39;

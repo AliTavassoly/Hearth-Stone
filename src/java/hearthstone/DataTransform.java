@@ -3,6 +3,7 @@ package hearthstone;
 import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
+import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
@@ -140,8 +141,20 @@ public class DataTransform {
         return getPlayer(playerId).getFactory().getRandomCardFromHand();
     }
 
+    public Card getRandomCardFromCurrentDeck(int playerId){
+        return getPlayer(playerId).getFactory().getRandomCardFromCurrentDeck();
+    }
+
+    public int getHealth(Character character){
+        return character.getHealth();
+    }
+
     public Passive getBasePassive(int ind){
         return HearthStone.basePassives.get(ind);
+    }
+
+    public boolean haveWeapon(int playerId){
+        return getPlayer(playerId).haveWeapon();
     }
 
     public boolean isSpellSafe(MinionCard minionCard){

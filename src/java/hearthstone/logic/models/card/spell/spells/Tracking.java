@@ -11,6 +11,8 @@ import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import java.util.ArrayList;
+
 public class Tracking extends SpellCard {
     public Tracking() { }
 
@@ -20,8 +22,11 @@ public class Tracking extends SpellCard {
 
     @Override
     public void doAbility() {
-        CardSelectionDialog dialog = new CardSelectionDialog(GameFrame.getInstance(),
-                DataTransform.getInstance().getTopCards(getPlayerId(), 3));
+        ArrayList<Card> cards = DataTransform.getInstance().getTopCards(getPlayerId(), 3);
+        if(cards == null || cards.size() == 0)
+            return;
+
+        CardSelectionDialog dialog = new CardSelectionDialog(GameFrame.getInstance(), cards);
         Card card = dialog.getCard();
         try {
             Mapper.getInstance().drawCard(getPlayerId(), card);

@@ -18,6 +18,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     private int id;
     private String name;
     private String description;
+    private String heroPowerName;
     private int health, initialHealth;
     private HeroType type;
     private ArrayList<Deck> decks;
@@ -37,10 +38,12 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
 
     public Hero(int id, String name, HeroType type, String description,
+                String heroPowerName,
                 int health, List<Integer> initialCardsId) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.heroPowerName = heroPowerName;
         this.health = health;
         this.type = type;
         this.initialHealth = health;
@@ -79,6 +82,14 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public String getHeroPowerName() {
+        return heroPowerName;
+    }
+    public void setHeroPowerName(String heroPowerName) {
+        this.heroPowerName = heroPowerName;
     }
 
     public int getHealth() {
@@ -124,14 +135,12 @@ public abstract class Hero implements HeroBehaviour, Character {
         this.playerId = playerId;
     }
 
-
     public boolean isImmune() {
         return isImmune;
     }
     public void setImmune(boolean immune) {
         isImmune = immune;
     }
-
 
     public boolean isFreeze() {
         return isFreeze;
