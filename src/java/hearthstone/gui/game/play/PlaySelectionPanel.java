@@ -40,8 +40,9 @@ public class PlaySelectionPanel extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int buttonDisY = 100;
-    private final int startButtonY = SizeConfigs.gameFrameHeight / 2 - 200;
+    private final int buttonDisY = 150;
+    private final int startButtonY = SizeConfigs.gameFrameHeight / 2 - buttonDisY * 3 / 2 - SizeConfigs.largeButtonHeight / 2;
+    private final int buttonX = SizeConfigs.gameFrameWidth - 200;
 
     public PlaySelectionPanel() {
         configPanel();
@@ -189,25 +190,25 @@ public class PlaySelectionPanel extends JPanel {
         add(closeButton);
 
         // BUTTONS
-        playOnline.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        playOnline.setBounds(buttonX,
                 startButtonY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(playOnline);
 
-        practicePlay.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        practicePlay.setBounds(buttonX,
                 startButtonY + buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(practicePlay);
 
-        soloPlay.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        soloPlay.setBounds(buttonX,
                 startButtonY + 2 * buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);
         add(soloPlay);
 
-        deckReaderPlay.setBounds(SizeConfigs.gameFrameWidth / 2 - SizeConfigs.largeButtonWidth / 2,
+        deckReaderPlay.setBounds(buttonX,
                 startButtonY + 3 * buttonDisY,
                 SizeConfigs.largeButtonWidth,
                 SizeConfigs.largeButtonHeight);

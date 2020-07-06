@@ -48,6 +48,7 @@ public class Soulfire extends SpellCard {
 
             try {
                 Mapper.getInstance().discardCard(getPlayerId(), DataTransform.getInstance().getRandomCardFromHand(getPlayerId()));
+                Mapper.getInstance().updateBoard();
             } catch (Exception ignore) {
             }
         }

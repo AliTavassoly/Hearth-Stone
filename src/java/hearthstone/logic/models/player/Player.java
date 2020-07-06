@@ -68,12 +68,14 @@ public class Player {
             configCard(card);
         }
 
-        configPassive(passive);
+        if (passive != null)
+            configPassive(passive);
 
         configHero(hero);
 
-        if (shuffle)
+        if (shuffle) {
             Collections.shuffle(deck.getCards());
+        }
 
         mana = 0;
     }
@@ -206,7 +208,7 @@ public class Player {
         return weapon != null;
     }
 
-    public void setExtraMana(int extraMana){
+    public void setExtraMana(int extraMana) {
         this.extraMana = extraMana;
     }
     // End of getter setter
@@ -391,27 +393,28 @@ public class Player {
     // CARD ACTION
 
     // HANDLE INTERFACES
-    private void handleStartGameBehave(){
-        for(Card card: deck.getCards()){
-            if(card instanceof StartGameBehave){
-                ((StartGameBehave)card).startGameBehave();;
+    private void handleStartGameBehave() {
+        for (Card card : deck.getCards()) {
+            if (card instanceof StartGameBehave) {
+                ((StartGameBehave) card).startGameBehave();
+                ;
             }
         }
 
-        if(hero instanceof StartGameBehave){
-            ((StartGameBehave)hero).startGameBehave();
+        if (hero instanceof StartGameBehave) {
+            ((StartGameBehave) hero).startGameBehave();
         }
 
-        if(hero.getSpecialHeroPower() instanceof StartGameBehave){
-            ((StartGameBehave)hero.getSpecialHeroPower()).startGameBehave();
+        if (hero.getSpecialHeroPower() instanceof StartGameBehave) {
+            ((StartGameBehave) hero.getSpecialHeroPower()).startGameBehave();
         }
 
-        if(heroPower instanceof StartGameBehave){
-            ((StartGameBehave)heroPower).startGameBehave();
+        if (heroPower instanceof StartGameBehave) {
+            ((StartGameBehave) heroPower).startGameBehave();
         }
 
-        if(passive instanceof StartGameBehave){
-            ((StartGameBehave)passive).startGameBehave();
+        if (passive instanceof StartGameBehave) {
+            ((StartGameBehave) passive).startGameBehave();
         }
     }
 
@@ -445,7 +448,7 @@ public class Player {
         handlePlayCardOperationForDeck(card);
     }
 
-    private void handleEndTurnBehaviours(){
+    private void handleEndTurnBehaviours() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(land);
 
@@ -455,12 +458,12 @@ public class Player {
                 ((EndTurnBehave) minionCard).endTurnBehave();
         }
 
-        if(passive instanceof EndTurnBehave){
-            ((EndTurnBehave)passive).endTurnBehave();
+        if (passive instanceof EndTurnBehave) {
+            ((EndTurnBehave) passive).endTurnBehave();
         }
 
-        if(hero.getSpecialHeroPower() instanceof EndTurnBehave){
-            ((EndTurnBehave)hero.getSpecialHeroPower()).endTurnBehave();
+        if (hero.getSpecialHeroPower() instanceof EndTurnBehave) {
+            ((EndTurnBehave) hero.getSpecialHeroPower()).endTurnBehave();
         }
     }
 
@@ -517,16 +520,16 @@ public class Player {
     }
     // HANDLE INTERFACES
 
-    public void discountSpells(int mana){
-        for(Card card: deck.getCards()){
-            if(card.getCardType() == CardType.SPELL){
+    public void discountSpells(int mana) {
+        for (Card card : deck.getCards()) {
+            if (card.getCardType() == CardType.SPELL) {
                 Mapper.getInstance().setCardMana(card, Math.max(0, card.getManaCost() - mana));
             }
         }
     }
 
-    public void discountAllDeckCard(int mana){
-        for(Card card: deck.getCards()){
+    public void discountAllDeckCard(int mana) {
+        for (Card card : deck.getCards()) {
             card.setManaCost(Math.max(0, card.getManaCost() - mana));
         }
     }
@@ -546,13 +549,9 @@ public class Player {
     }
 
     public void startTurn() throws Exception {
-        mana = ++turnNumber + extraMana;
-        //mana = 10;
+        //mana = ++turnNumber + extraMana;
+        mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
-
-        /*if(passive.getName().equals("Twice Draw")){
-            pickCard();
-        }*/
 
         handleStartTurnBehaviours();
 
@@ -563,7 +562,7 @@ public class Player {
         Mapper.getInstance().updateBoard();
     }
 
-    public void configPassive(Passive passive){
+    public void configPassive(Passive passive) {
         passive.setPlayerId(getPlayerId());
     }
 

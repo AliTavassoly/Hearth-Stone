@@ -206,6 +206,9 @@ public class SoloGameBoard extends GameBoard {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if(DataTransform.getInstance().getWhoseTurn() != myPlayerId)
+                    return;
+
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 

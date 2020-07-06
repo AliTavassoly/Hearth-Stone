@@ -18,16 +18,19 @@ public class Sacrificer extends HeroPowerCard {
         super(id, name, description, manaCost, heroType, cardType);
     }
 
-    private void doAbility(){
+    private void doAbility(Hero hero){
+        Mapper.getInstance().setHealth(hero.getHealth() - 2, hero);
         if(Rand.getInstance().getProbability(1, 2)){
             try {
                 Mapper.getInstance().drawCard(getPlayerId());
+                Mapper.getInstance().updateBoard();
             } catch (HearthStoneException ignore) {}
         } else {
             MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
             if(minionCard != null){
                 Mapper.getInstance().addAttack(1, minionCard);
                 Mapper.getInstance().addHealth(1, minionCard);
+                Mapper.getInstance().updateBoard();
             }
         }
     }
@@ -35,7 +38,7 @@ public class Sacrificer extends HeroPowerCard {
     @Override
     public void found(Object object) {
         if(object instanceof Hero) {
-            doAbility();
+            doAbility(((Hero)object));
             numberOfAttack--;
         }
     }

@@ -43,7 +43,7 @@ public class Game {
         }).start();
     }
 
-    private void configGame(boolean shuffleCards) {
+    private void configGame() {
         whoseTurn = 0;
 
         player0.setPlayerId(0);
@@ -55,7 +55,7 @@ public class Game {
 
     public void startGame(){
         try {
-            configGame(shuffleCards);
+            configGame();
 
             Mapper.getInstance().startGame(player0.getPlayerId());
 
