@@ -1086,5 +1086,20 @@
       "sellPrice": 5,
       "playerId": 0
     }
+  },
+  "45": {
+    "type": "hearthstone.logic.models.card.reward.rewards.SecurityReward",
+    "data": {
+      "id": 45,
+      "name": "Security Reward",
+      "description": "Sidequest: Spend 10 Mana\n + on minions.\nReward: Summon a\n security rover from your deck.",
+      "manaCost": 1,
+      "heroType": "ALL",
+      "rarity": "COMMON",
+      "cardType": "REWARDCARD",
+      "buyPrice": 5,
+      "sellPrice": 5,
+      "playerId": 0
+    }
   }
 }

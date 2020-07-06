@@ -17,6 +17,7 @@ import hearthstone.logic.models.card.heropower.heropowers.*;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.minion.minions.*;
 import hearthstone.logic.models.card.reward.rewards.LearnDraconic;
+import hearthstone.logic.models.card.reward.rewards.SecurityReward;
 import hearthstone.logic.models.card.reward.rewards.StrengthInNumbers;
 import hearthstone.logic.models.card.spell.spells.*;
 import hearthstone.logic.models.card.weapon.weapons.*;
@@ -218,6 +219,12 @@ public class DataBase {
                 "Reward: Summon a\n" +
                 " minion from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
         HearthStone.baseCards.put(strengthInNumbers.getId(), strengthInNumbers);
+
+        SecurityReward securityReward = new SecurityReward(id++, "Security Reward", "Sidequest: Spend 10 Mana\n +" +
+                " on minions.\n" +
+                "Reward: Summon a\n" +
+                " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
+        HearthStone.baseCards.put(securityReward.getId(), securityReward);
 
         //baseCards = getBaseCards();
     }

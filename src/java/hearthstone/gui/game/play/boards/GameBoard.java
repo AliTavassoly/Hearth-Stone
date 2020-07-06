@@ -62,8 +62,8 @@ public class GameBoard extends JPanel {
     protected ArrayList<Animation> animations;
     private final Object animationLock = new Object();
 
-    private boolean isLookingFor;
-    private Object waitingObject;
+    protected boolean isLookingFor;
+    protected Object waitingObject;
 
     private static BufferedImage backgroundImage;
     private static BufferedImage manaImage;
@@ -842,7 +842,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeCardOnLandMouseListener(BoardCardButton button,
+    protected void makeCardOnLandMouseListener(BoardCardButton button,
                                              int startX, int startY) {
         CardButton bigCardButton = new CardButton(
                 button.getCard(),
@@ -898,7 +898,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeWeaponMouseListener(WeaponButton button) {
+    protected void makeWeaponMouseListener(WeaponButton button) {
         CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
@@ -953,7 +953,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeHeroPowerMouseListener(HeroPowerButton button) {
+    protected void makeHeroPowerMouseListener(HeroPowerButton button) {
         CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
@@ -1009,7 +1009,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeHeroMouseListener(BoardHeroButton button) {
+    protected void makeHeroMouseListener(BoardHeroButton button) {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
@@ -1281,7 +1281,7 @@ public class GameBoard extends JPanel {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    private synchronized void showError(String text) {
+    protected synchronized void showError(String text) {
         messageDialog.setText(text);
         this.remove(messageDialog);
 

@@ -9,10 +9,15 @@ import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.Animation;
 import hearthstone.gui.game.play.controls.BoardCardButton;
+import hearthstone.gui.game.play.controls.HeroPowerButton;
+import hearthstone.gui.game.play.controls.WeaponButton;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
+import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class SoloGameBoard extends GameBoard {
@@ -105,5 +110,79 @@ public class SoloGameBoard extends GameBoard {
                 DataTransform.getInstance().getTopCards(0, GameConfigs.initialDiscardCards));
 
         Mapper.getInstance().removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
+    }
+
+    @Override
+    protected void makeCardOnHandMouseListener(BoardCardButton button, int startX, int startY, int width, int height) {
+        if(button.getCard().getPlayerId() == 0){
+            super.makeCardOnHandMouseListener(button, startX, startY, width, height);
+            return;
+        }
+    }
+
+    @Override
+    protected void makeCardOnLandMouseListener(BoardCardButton button, int startX, int startY) {
+        if(button.getCard().getPlayerId() == 0){
+            super.makeCardOnLandMouseListener(button, startX, startY);
+            return;
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void makeHeroPowerMouseListener(HeroPowerButton button) {
+        if(button.getCard().getPlayerId() == 0){
+            super.makeHeroPowerMouseListener(button);
+            return;
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void makeWeaponMouseListener(WeaponButton button) {
+        if(button.getCard().getPlayerId() == 0){
+            super.makeWeaponMouseListener(button);
+            return;
+        }
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (isLookingFor) {
+                    try {
+                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        deleteCurrentMouseWaiting();
+                        Mapper.getInstance().updateBoard();
+                    } catch (HearthStoneException hse) {
+                        showError(hse.getMessage());
+                    }
+                }
+            }
+        });
     }
 }

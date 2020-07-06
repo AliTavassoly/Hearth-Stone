@@ -10,11 +10,11 @@ public class Game {
     private Player player0, player1;
     private int whoseTurn;
 
-    public Game(Player player0, Player player1){
+    public Game(Player player0, Player player1, boolean shuffleCards){
         this.player0  = player0;
         this.player1  = player1;
 
-        configGame();
+        configGame(shuffleCards);
 
         MyTimerTask myTimerTask = new MyTimerTask(500, new MyBigTask() {
             @Override
@@ -43,14 +43,14 @@ public class Game {
         });
     }
 
-    private void configGame() {
+    private void configGame(boolean shuffleCards) {
         whoseTurn = 0;
 
         player0.setPlayerId(0);
         player1.setPlayerId(1);
 
-        player0.configPlayer();
-        player1.configPlayer();
+        player0.configPlayer(shuffleCards);
+        player1.configPlayer(shuffleCards);
     }
 
     public void startGame(){

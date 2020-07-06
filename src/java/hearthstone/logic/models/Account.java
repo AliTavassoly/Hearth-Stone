@@ -48,8 +48,10 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
-            if(card.getCardType() == CardType.HEROPOWER)
+            if(card.getCardType() == CardType.HEROPOWER) {
+                unlockedCards.add(card.getId());
                 continue;
+            }
 
             int number = 2 + Rand.getInstance().getRandomNumber(2);
             for (int i = 0; i < number; i++) {

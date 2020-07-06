@@ -155,6 +155,10 @@ public class Mapper {
         getPlayer(playerId).getFactory().summonMinionFromCurrentDeck();
     }
 
+    public void summonMinionFromCurrentDeck(int playerId, String cardName){
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(cardName);
+    }
+
     public void makeAndPutHand(int playerId, Card card){
         getPlayer(playerId).getFactory().makeAndPutHand(card);
     }

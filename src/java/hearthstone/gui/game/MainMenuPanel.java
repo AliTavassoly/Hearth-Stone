@@ -1,7 +1,5 @@
 package hearthstone.gui.game;
 
-import hearthstone.HearthStone;
-import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
@@ -13,7 +11,6 @@ import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;
 import hearthstone.gui.game.status.StatusPanel;
-import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -162,17 +159,8 @@ public class MainMenuPanel extends JPanel {
                         e.printStackTrace();
                     }
 
-                    HearthStone.currentAccount.readyForPlay();
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                             new PlaySelectionPanel());
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) {
-                    }
-                    BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

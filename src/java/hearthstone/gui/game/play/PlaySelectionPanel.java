@@ -112,19 +112,35 @@ public class PlaySelectionPanel extends JPanel {
 
         practicePlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                makeNewPracticeGame();
+                try {
+                    HearthStone.currentAccount.readyForPlay();
 
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        HearthStone.currentGameBoard);
+                    makeNewPracticeGame();
+
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
+                            HearthStone.currentGameBoard);
+                } catch (HearthStoneException hse){
+                    BaseFrame.error(hse.getMessage());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
         soloPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                makeNewSoloGame();
+                try {
+                    HearthStone.currentAccount.readyForPlay();
 
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        HearthStone.currentGameBoard);
+                    makeNewSoloGame();
+
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
+                            HearthStone.currentGameBoard);
+                } catch (HearthStoneException hse){
+                    BaseFrame.error(hse.getMessage());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -202,7 +218,7 @@ public class PlaySelectionPanel extends JPanel {
         Player player0 = HearthStone.currentAccount.getPlayer();
         Player player1 = HearthStone.currentAccount.getPlayer();
 
-        HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGame = new Game(player0, player1, true);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
     }
 
@@ -211,7 +227,7 @@ public class PlaySelectionPanel extends JPanel {
         Player player1 = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
                 HearthStone.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGame = new Game(player0, player1, true);
         HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
     }
 
@@ -231,7 +247,7 @@ public class PlaySelectionPanel extends JPanel {
                         HearthStone.getCardsArray(decks.get("enemy"))),
                 HearthStone.currentAccount.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGame = new Game(player0, player1, false);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
     }
 }

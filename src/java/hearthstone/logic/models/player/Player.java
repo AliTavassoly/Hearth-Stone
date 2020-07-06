@@ -64,13 +64,15 @@ public class Player {
         factory = new CardFactory();
     }
 
-    public void configPlayer() {
+    public void configPlayer(boolean shuffle) {
         for (Card card : deck.getCards()) {
             configCard(card);
         }
+
         configHero(hero);
 
-        Collections.shuffle(deck.getCards());
+        if (shuffle)
+            Collections.shuffle(deck.getCards());
 
         mana = 0;
     }
@@ -199,7 +201,7 @@ public class Player {
         return factory;
     }
 
-    public boolean haveWeapon(){
+    public boolean haveWeapon() {
         return weapon != null;
     }
     // End of getter setter
@@ -241,9 +243,9 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for(int i = 0; i < waitingForDraw.size(); i++){
+        for (int i = 0; i < waitingForDraw.size(); i++) {
             Card waitedCard = waitingForDraw.get(i);
-            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
                 waitingForDraw.remove(i);
                 i--;
             }
@@ -262,9 +264,9 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for(int i = 0; i < waitingForDraw.size(); i++){
+        for (int i = 0; i < waitingForDraw.size(); i++) {
             Card waitedCard = waitingForDraw.get(i);
-            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
                 waitingForDraw.remove(i);
                 i--;
             }
@@ -281,9 +283,9 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for(int i = 0; i < waitingForDraw.size(); i++){
+        for (int i = 0; i < waitingForDraw.size(); i++) {
             Card waitedCard = waitingForDraw.get(i);
-            if(((WaitDrawingCard)waitedCard).waitDrawingCard(card)){
+            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
                 waitingForDraw.remove(i);
                 i--;
             }
@@ -325,7 +327,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
 
-        if(cardInHand.getCardType() == CardType.SPELL)
+        if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
         Mapper.getInstance().updateBoard();
@@ -365,7 +367,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
 
-        if(cardInHand.getCardType() == CardType.SPELL)
+        if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
         Mapper.getInstance().updateBoard();
@@ -394,7 +396,7 @@ public class Player {
         land.add(minionCard);
     }
 
-    private void playSpell(Card card){
+    private void playSpell(Card card) {
         SpellCard spell = (SpellCard) card;
 
         Mapper.getInstance().animateSpell(getPlayerId(), card);
@@ -421,6 +423,7 @@ public class Player {
         hero.startTurnBehave();
 
         updateHeroPower();
+
         if (heroPower != null) {
             ((HeroPowerBehaviour) heroPower).startTurnBehave();
         }
@@ -627,26 +630,26 @@ public class Player {
         updateReward();
     }
 
-    public void transformMinion(MinionCard oldMinion, MinionCard newMinion){
-        for(int i = 0; i < land.size(); i++){
+    public void transformMinion(MinionCard oldMinion, MinionCard newMinion) {
+        for (int i = 0; i < land.size(); i++) {
             Card card = land.get(i);
-            if(card == oldMinion){
+            if (card == oldMinion) {
                 land.set(i, newMinion);
                 break;
             }
         }
 
-        for(int i = 0; i < waitingForDraw.size(); i++){
+        for (int i = 0; i < waitingForDraw.size(); i++) {
             Card card = waitingForDraw.get(i);
-            if(card ==  oldMinion){
+            if (card == oldMinion) {
                 waitingForDraw.remove(i);
                 break;
             }
         }
 
-        for(int i = 0; i < waitingForSummon.size(); i++){
+        for (int i = 0; i < waitingForSummon.size(); i++) {
             Card card = waitingForSummon.get(i);
-            if(card ==  oldMinion){
+            if (card == oldMinion) {
                 waitingForSummon.remove(i);
                 break;
             }
@@ -712,6 +715,24 @@ public class Player {
             }
         }
 
+        public void summonMinionFromCurrentDeck(String cardName) {
+            if (deck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
+                return;
+
+            int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
+            for (int i = 0; i < deck.getCards().size(); i++) {
+                Card card = deck.getCards().get(start);
+                if (card.getCardType() == CardType.MINIONCARD &&
+                        card.getName().equals(cardName)) {
+                    summonMinion(card);
+                    deck.getCards().remove(start);
+                    return;
+                }
+                start++;
+                start %= deck.getCards().size();
+            }
+        }
+
         public void makeAndPickCard(MinionType minionType) throws HearthStoneException {
             Card cardInHand = null;
             for (Card card : HearthStone.baseCards.values()) {
@@ -760,7 +781,8 @@ public class Player {
             configCard(card);
             try {
                 deck.addInTheMiddleOfGame(card);
-            } catch (HearthStoneException ignore) { }
+            } catch (HearthStoneException ignore) {
+            }
         }
 
         public void makeAndSummonMinion(Card card) {
@@ -820,11 +842,11 @@ public class Player {
             return null;
         }
 
-        public void removeFromDeck(Card card){
+        public void removeFromDeck(Card card) {
             deck.getCards().remove(card);
         }
 
-        public void removeFromHand(Card card){
+        public void removeFromHand(Card card) {
             hand.remove(card);
         }
     }
