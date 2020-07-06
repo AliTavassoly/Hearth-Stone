@@ -14,7 +14,7 @@ import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
@@ -402,6 +402,10 @@ public class Player {
             ((StartGameBehave)hero).startGameBehave();
         }
 
+        if(hero.getSpecialHeroPower() instanceof StartGameBehave){
+            ((StartGameBehave)hero.getSpecialHeroPower()).startGameBehave();
+        }
+
         if(heroPower instanceof StartGameBehave){
             ((StartGameBehave)heroPower).startGameBehave();
         }
@@ -418,7 +422,6 @@ public class Player {
 
         hero.startTurnBehave();
 
-        updateHeroPower();
         if (heroPower != null) {
             heroPower.startTurnBehave();
         }
@@ -454,6 +457,10 @@ public class Player {
 
         if(passive instanceof EndTurnBehave){
             ((EndTurnBehave)passive).endTurnBehave();
+        }
+
+        if(hero.getSpecialHeroPower() instanceof EndTurnBehave){
+            ((EndTurnBehave)hero.getSpecialHeroPower()).endTurnBehave();
         }
     }
 
@@ -510,6 +517,14 @@ public class Player {
     }
     // HANDLE INTERFACES
 
+    public void discountSpells(int mana){
+        for(Card card: deck.getCards()){
+            if(card.getCardType() == CardType.SPELL){
+                Mapper.getInstance().setCardMana(card, Math.max(0, card.getManaCost() - mana));
+            }
+        }
+    }
+
     public void discountAllDeckCard(int mana){
         for(Card card: deck.getCards()){
             card.setManaCost(Math.max(0, card.getManaCost() - mana));
@@ -562,6 +577,8 @@ public class Player {
         HeroPowerCard heroPower = (HeroPowerCard) HearthStone.getCardByName(hero.getHeroPowerName());
         configCard(heroPower);
         this.heroPower = heroPower;
+
+        hero.getSpecialHeroPower().setPlayerId(getPlayerId());
     }
 
     public ArrayList<MinionCard> neighborCards(Card card) {
@@ -617,11 +634,8 @@ public class Player {
 
     private void updateWeapon() {
         if (weapon != null && weapon.getDurability() < 0) {
-            weapon = null;
+            Mapper.getInstance().setWeapon(getPlayerId(), null);
         }
-    }
-
-    private void updateHeroPower() {
     }
 
     public void lostGame() {
@@ -696,7 +710,7 @@ public class Player {
         }
 
         public void summonMinionFromCurrentDeck() {
-            if (originalDeck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
+            if (deck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
                 return;
             int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
             for (int i = 0; i < deck.getCards().size(); i++) {
@@ -712,7 +726,7 @@ public class Player {
         }
 
         public void summonMinionFromCurrentDeck(int attack, int health) {
-            if (originalDeck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
+            if (deck.getCards().size() == 0 || land.size() == GameConfigs.maxCardInLand)
                 return;
             int start = Rand.getInstance().getRandomNumber(deck.getCards().size());
             for (int i = 0; i < deck.getCards().size(); i++) {

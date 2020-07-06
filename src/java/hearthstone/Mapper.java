@@ -9,7 +9,7 @@ import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.logic.models.player.AIPlayer;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.CursorType;
@@ -249,6 +249,10 @@ public class Mapper {
         minionCard.setTaunt(isTaunt);
     }
 
+    public void setWeapon(int playerId, WeaponCard weaponCard){
+        getPlayer(playerId).setWeapon(weaponCard);
+    }
+
     public void setCharge(boolean isCharge, MinionCard minionCard) {
         minionCard.setCharge(isCharge);
     }
@@ -271,6 +275,10 @@ public class Mapper {
 
     public void discountAllDeckCard(int playerId, int mana){
         getPlayer(playerId).discountAllDeckCard(mana);
+    }
+
+    public void discountSpells(int playerId, int mana){
+        getPlayer(playerId).discountSpells(mana);
     }
 
     public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion){

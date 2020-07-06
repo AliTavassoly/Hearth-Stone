@@ -4,7 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
 
 import javax.swing.*;
 import java.awt.*;

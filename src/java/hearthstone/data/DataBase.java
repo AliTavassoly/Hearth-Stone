@@ -23,7 +23,9 @@ import hearthstone.logic.models.card.weapon.weapons.*;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.logic.models.hero.heroes.*;
-import hearthstone.logic.models.passives.*;
+import hearthstone.logic.models.passive.Passive;
+import hearthstone.logic.models.passive.passives.*;
+import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.File;
@@ -246,8 +248,8 @@ public class DataBase {
                 30);
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
 
-        Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "The Silver Hand",
-                "is very good and strong",
+        Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "Minions",
+                "The Silver Hand",
                 30);
         HearthStone.baseHeroes.put(paladin.getId(), paladin);
 
@@ -458,9 +460,12 @@ public class DataBase {
 
     public static void load() throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder();
+
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
+
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 

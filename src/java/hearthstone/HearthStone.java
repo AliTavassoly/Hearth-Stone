@@ -9,7 +9,7 @@ import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
 
 import java.util.ArrayList;
 import java.util.HashMap;

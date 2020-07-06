@@ -10,6 +10,14 @@
       "initialHealth": 30,
       "type": "MAGE",
       "decks": [],
+      "specialHeroPower": {
+        "type": "hearthstone.logic.models.specialpower.specialpowers.MagePower",
+        "data": {
+          "name": "Mage Power",
+          "id": 0,
+          "playerId": 0
+        }
+      },
       "immunities": [],
       "freezes": [],
       "isImmune": false,
@@ -29,6 +37,14 @@
       "initialHealth": 35,
       "type": "WARLOCK",
       "decks": [],
+      "specialHeroPower": {
+        "type": "hearthstone.logic.models.specialpower.specialpowers.WarlockPower",
+        "data": {
+          "name": "Warlock Power",
+          "id": 1,
+          "playerId": 0
+        }
+      },
       "immunities": [],
       "freezes": [],
       "isImmune": false,
@@ -48,6 +64,14 @@
       "initialHealth": 30,
       "type": "ROGUE",
       "decks": [],
+      "specialHeroPower": {
+        "type": "hearthstone.logic.models.specialpower.specialpowers.RoguePower",
+        "data": {
+          "name": "Rogue Power",
+          "id": 2,
+          "playerId": 0
+        }
+      },
       "immunities": [],
       "freezes": [],
       "isImmune": false,
@@ -61,12 +85,20 @@
     "data": {
       "id": 3,
       "name": "Paladin",
-      "description": "The Silver Hand",
-      "heroPowerName": "is very good and strong",
+      "description": "Minions",
+      "heroPowerName": "The Silver Hand",
       "health": 30,
       "initialHealth": 30,
       "type": "PALADIN",
       "decks": [],
+      "specialHeroPower": {
+        "type": "hearthstone.logic.models.specialpower.specialpowers.PaladinPower",
+        "data": {
+          "name": "Paladin Power",
+          "id": 3,
+          "playerId": 0
+        }
+      },
       "immunities": [],
       "freezes": [],
       "isImmune": false,
@@ -86,6 +118,14 @@
       "initialHealth": 30,
       "type": "PRIEST",
       "decks": [],
+      "specialHeroPower": {
+        "type": "hearthstone.logic.models.specialpower.specialpowers.PriestPower",
+        "data": {
+          "name": "Priest Power",
+          "id": 4,
+          "playerId": 0
+        }
+      },
       "immunities": [],
       "freezes": [],
       "isImmune": false,

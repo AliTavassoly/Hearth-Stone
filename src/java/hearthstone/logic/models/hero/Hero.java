@@ -8,7 +8,8 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
+import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -23,6 +24,8 @@ public abstract class Hero implements HeroBehaviour, Character {
     private HeroType type;
     private ArrayList<Deck> decks;
     private Deck selectedDeck;
+
+    protected SpecialHeroPower specialHeroPower;
 
     private ArrayList<Integer> immunities, freezes;
 
@@ -78,7 +81,6 @@ public abstract class Hero implements HeroBehaviour, Character {
         this.description = description;
     }
 
-
     public String getHeroPowerName() {
         return heroPowerName;
     }
@@ -121,6 +123,8 @@ public abstract class Hero implements HeroBehaviour, Character {
         this.selectedDeck = selectedDeck;
     }
 
+    public SpecialHeroPower getSpecialHeroPower() { return specialHeroPower; }
+    public void setSpecialHeroPower(SpecialHeroPower specialHeroPower) { this.specialHeroPower = specialHeroPower; }
 
     public int getPlayerId() {
         return playerId;
@@ -152,9 +156,12 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     public Hero copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
+
         Gson gson = gsonBuilder.create();
         return gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
     }

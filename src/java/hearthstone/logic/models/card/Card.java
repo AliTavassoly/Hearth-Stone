@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
+import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -119,9 +120,12 @@ public abstract class Card implements CardBehaviour {
 
     public Card copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
+
         Gson gson = gsonBuilder.create();
         return gson.fromJson(gson.toJson(this, Card.class), Card.class);
     }

@@ -12,7 +12,7 @@ import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passives.Passive;
+import hearthstone.logic.models.passive.Passive;
 import hearthstone.logic.models.player.Player;
 
 import java.util.ArrayList;

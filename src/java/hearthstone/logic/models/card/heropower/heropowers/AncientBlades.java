@@ -24,19 +24,28 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
             int enemyId = DataTransform.getInstance().getEnemyId(myId);
 
             Card handCard = DataTransform.getInstance().getRandomCardFromHand(enemyId);
-            if (handCard != null)
+            if (handCard != null) {
                 Mapper.getInstance().stealFromHand(myId, enemyId, handCard);
+                if (handCard.getHeroType() != HeroType.ALL && handCard.getHeroType() != DataTransform.getInstance().getHero(getPlayerId()).getType())
+                    Mapper.getInstance().setCardMana(handCard, Math.max(0, handCard.getManaCost() - 2));
+            }
 
             Card deckCard = DataTransform.getInstance().getRandomCardFromCurrentDeck(enemyId);
-            if(deckCard != null)
+            if (deckCard != null) {
                 Mapper.getInstance().stealFromDeck(myId, enemyId, deckCard);
+                if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != DataTransform.getInstance().getHero(getPlayerId()).getType())
+                    Mapper.getInstance().setCardMana(deckCard, Math.max(0, deckCard.getManaCost() - 2));
+            }
         } else {
             int myId = getPlayerId();
             int enemyId = DataTransform.getInstance().getEnemyId(myId);
 
             Card deckCard = DataTransform.getInstance().getRandomCardFromCurrentDeck(enemyId);
-            if(deckCard != null)
+            if (deckCard != null) {
                 Mapper.getInstance().stealFromDeck(myId, enemyId, deckCard);
+                if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != DataTransform.getInstance().getHero(getPlayerId()).getType())
+                    Mapper.getInstance().setCardMana(deckCard, Math.max(0, deckCard.getManaCost() - 2));
+            }
         }
         Mapper.getInstance().updateBoard();
     }

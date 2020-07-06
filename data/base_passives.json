@@ -1,6 +1,6 @@
 {
   "0": {
-    "type": "hearthstone.logic.models.passives.TwiceDraw",
+    "type": "hearthstone.logic.models.passive.passives.TwiceDraw",
     "data": {
       "id": 0,
       "name": "Twice Draw",
@@ -8,7 +8,7 @@
     }
   },
   "1": {
-    "type": "hearthstone.logic.models.passives.OffCards",
+    "type": "hearthstone.logic.models.passive.passives.OffCards",
     "data": {
       "id": 1,
       "name": "Off Cards",
@@ -16,7 +16,7 @@
     }
   },
   "2": {
-    "type": "hearthstone.logic.models.passives.FreePower",
+    "type": "hearthstone.logic.models.passive.passives.FreePower",
     "data": {
       "id": 2,
       "name": "Free Power",
@@ -24,7 +24,7 @@
     }
   },
   "3": {
-    "type": "hearthstone.logic.models.passives.ManaJump",
+    "type": "hearthstone.logic.models.passive.passives.ManaJump",
     "data": {
       "id": 3,
       "name": "Mana Jump",
@@ -32,7 +32,7 @@
     }
   },
   "4": {
-    "type": "hearthstone.logic.models.passives.Nurse",
+    "type": "hearthstone.logic.models.passive.passives.Nurse",
     "data": {
       "id": 4,
       "name": "Nurse",
