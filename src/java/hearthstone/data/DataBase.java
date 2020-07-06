@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -227,31 +226,26 @@ public class DataBase {
         int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE,
                 "witchers are good with spells!\nshe pays 2 mana less for spells!", "Fireblast",
-                30, new ArrayList<Integer>(
-                Arrays.asList(0, 1, 10, 13, 16, 19)));
+                30);
         HearthStone.baseHeroes.put(mage.getId(), mage);
 
         Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK,
                 "healthier than other!\nreduce 2 health and do somethings !\n", "Sacrificer",
-                35, new ArrayList<Integer>(
-                Arrays.asList(2, 3, 11, 11, 14, 14, 17)));
+                35);
         HearthStone.baseHeroes.put(warlock.getId(), warlock);
 
         Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE,
                 "the thief!\nwith 3 mana, she can steal one opponent card!", "Ancient Blades",
-                30, new ArrayList<Integer>(
-                Arrays.asList(4, 5, 12, 15, 15, 18, 18)));
+                30);
         HearthStone.baseHeroes.put(rogue.getId(), rogue);
 
         Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "The Silver Hand",
                 "is very good and strong",
-                30, new ArrayList<Integer>(
-                Arrays.asList(6, 7)));
+                30);
         HearthStone.baseHeroes.put(paladin.getId(), paladin);
 
         Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
-                30, new ArrayList<Integer>(
-                Arrays.asList(8, 9)));
+                30);
         HearthStone.baseHeroes.put(priest.getId(), priest);
 
         //baseHeroes = getBaseHeroes();

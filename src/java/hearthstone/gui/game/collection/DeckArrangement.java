@@ -123,11 +123,11 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeCardsPanel() {
-        // MAKE CARDS FILTERING
+        ArrayList<Card> initialCards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (Card card : HearthStone.currentAccount.getCollection().getCards()) {
+        for (Card card : initialCards) {
             Card card1 = card.copy();
             cards.add(card1);
             panels.add(getCardsPanel(card1));

@@ -24,9 +24,6 @@ public class SoundPlayer {
                 if (e.getType() == LineEvent.Type.STOP) {
                     clip.close();
                 }
-
-                if (!clip.isRunning())
-                    clip.close();
             });
 
             gainControl =
@@ -42,7 +39,7 @@ public class SoundPlayer {
 
     public static void changeVolume(int x) {
         soundValue += x;
-        CredentialsFrame.getSoundPlayer().getGainControl().setValue(soundValue);
+        CredentialsFrame.getInstance().getSoundPlayer().getGainControl().setValue(soundValue);
     }
 
     public void playOnce() {
@@ -69,5 +66,9 @@ public class SoundPlayer {
         if (clip != null) {
             clip.stop();
         }
+    }
+
+    public void myClose(){
+        clip.close();
     }
 }

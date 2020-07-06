@@ -177,7 +177,7 @@ public class GameBoard extends JPanel {
         animations = new ArrayList<>();
 
         soundPlayer = new SoundPlayer("/sounds/play_background.wav");
-        CredentialsFrame.getSoundPlayer().stop();
+        CredentialsFrame.getInstance().stopSound();
         soundPlayer.loopPlay();
 
         configPanel();
@@ -583,6 +583,7 @@ public class GameBoard extends JPanel {
             @Override
             public void closeFunction() {
                 warningPlayer.stop();
+                warningPlayer.myClose();
             }
 
             @Override
@@ -1339,7 +1340,7 @@ public class GameBoard extends JPanel {
 
     private void beforeCloseBoard() {
         endTurnLineTimerTask.myStop();
-        CredentialsFrame.getSoundPlayer().loopPlay();
+        CredentialsFrame.getInstance().playSound();
         soundPlayer.stop();
         deleteCurrentMouseWaiting();
     }

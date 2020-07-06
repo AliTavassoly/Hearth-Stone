@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class  HearthStone {
+public class  HearthStone{
     public static Map<Integer, Card> baseCards = new HashMap<>();
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Map<Integer, Passive> basePassives = new HashMap<>();

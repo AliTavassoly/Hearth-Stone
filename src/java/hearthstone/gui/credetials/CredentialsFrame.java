@@ -9,34 +9,28 @@ import javax.swing.*;
 public class CredentialsFrame extends BaseFrame {
     private LogisterPanel logisterPanel;
     private static CredentialsFrame credentialsFrame;
-    private static SoundPlayer soundPlayer;
+    private SoundPlayer soundPlayer;
 
     private CredentialsFrame() {
         logisterPanel = new LogisterPanel();
 
-        if(soundPlayer == null) {
-            soundPlayer = new SoundPlayer("/sounds/background.wav");
-
-            soundPlayer.loopPlay();
-        }
-
         configFrame();
-    }
-
-    public static SoundPlayer getSoundPlayer() {
-        return soundPlayer;
     }
 
     public static CredentialsFrame getInstance() {
         if (credentialsFrame == null) {
-            return credentialsFrame = new CredentialsFrame();
-        } else {
-            return credentialsFrame;
+            credentialsFrame = new CredentialsFrame();
+            credentialsFrame.playSound();
         }
+        return credentialsFrame;
     }
 
     public static CredentialsFrame getNewInstance() {
-        return credentialsFrame = new CredentialsFrame();
+        if(credentialsFrame != null)
+            credentialsFrame.stopSound();
+        credentialsFrame = new CredentialsFrame();
+        credentialsFrame.playSound();
+        return credentialsFrame;
     }
 
     private void configFrame() {
@@ -51,5 +45,19 @@ public class CredentialsFrame extends BaseFrame {
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         this.setVisible(true);
+    }
+
+    public void stopSound() {
+        soundPlayer.stop();
+        soundPlayer.myClose();
+    }
+
+    public void playSound() {
+        soundPlayer = new SoundPlayer("/sounds/background.wav");
+        soundPlayer.loopPlay();
+    }
+
+    public SoundPlayer getSoundPlayer(){
+        return soundPlayer;
     }
 }

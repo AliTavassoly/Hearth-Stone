@@ -3,6 +3,7 @@ package hearthstone.logic.models;
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
@@ -47,6 +48,9 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
+            if(card.getCardType() == CardType.HEROPOWER)
+                continue;
+
             int number = 2 + Rand.getInstance().getRandomNumber(2);
             for (int i = 0; i < number; i++) {
                 cards.add(card);
@@ -55,9 +59,6 @@ public class Account {
             if (Rand.getInstance().getProbability(1, 1)) {
                 unlockedCards.add(card.getId());
             }
-        }
-        for (int i = 0; i < HearthStone.baseHeroes.size(); i++) {
-            unlockedHeroes.add(i);
         }
 
         collection = new Collection(cards);

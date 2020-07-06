@@ -17,10 +17,10 @@ public class SoundResource {
     }
 
     public File getSound(String path) {
-        /*if(!map.containsKey(path)) {
+        if(!map.containsKey(path)) {
             map.put(path, new File(this.getClass().getResource(path).getFile()));
         }
-        return map.get(path);*/
-        return new File(this.getClass().getResource(path).getFile());
+        return map.get(path);
+        //return new File(this.getClass().getResource(path).getFile());
     }
 }

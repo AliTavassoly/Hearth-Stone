@@ -12,7 +12,6 @@ import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Hero implements HeroBehaviour, Character {
     private int id;
@@ -39,7 +38,7 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     public Hero(int id, String name, HeroType type, String description,
                 String heroPowerName,
-                int health, List<Integer> initialCardsId) {
+                int health) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -47,12 +46,6 @@ public abstract class Hero implements HeroBehaviour, Character {
         this.health = health;
         this.type = type;
         this.initialHealth = health;
-
-        ArrayList<Card> initialCard = new ArrayList<>();
-
-        for (int x : initialCardsId) {
-            initialCard.add(HearthStone.baseCards.get(x).copy());
-        }
 
         configHero();
     }
