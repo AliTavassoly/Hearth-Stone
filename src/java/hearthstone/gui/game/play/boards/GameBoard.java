@@ -27,10 +27,10 @@ import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponBehaviour;
 import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
-import hearthstone.util.timer.MyBigTask;
-import hearthstone.util.timer.MyDelayTask;
-import hearthstone.util.timer.MyDelayTimerTask;
-import hearthstone.util.timer.MyTimerTask;
+import hearthstone.util.timer.HSBigTask;
+import hearthstone.util.timer.HSDelayTask;
+import hearthstone.util.timer.HSDelayTimerTask;
+import hearthstone.util.timer.HSTimerTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +51,7 @@ public class GameBoard extends JPanel {
 
     private PassiveButton myPassive;
 
-    private MyTimerTask endTurnLineTimerTask;
+    private HSTimerTask endTurnLineTimerTask;
     private SparkImage sparkImage;
     private ImagePanel ropeImage;
 
@@ -190,7 +190,7 @@ public class GameBoard extends JPanel {
 
         gameStuffLayoutBeforeStartGame();
 
-        MyDelayTimerTask initialGameAsking = new MyDelayTimerTask(100, new MyDelayTask() {
+        new HSDelayTimerTask(100, new HSDelayTask() {
             @Override
             public void delayAction() {
                 showPassiveDialogs();
@@ -203,7 +203,7 @@ public class GameBoard extends JPanel {
 
                 Mapper.getInstance().startGame();
             }
-        });
+        }).start();
     }
 
     @Override
@@ -549,7 +549,7 @@ public class GameBoard extends JPanel {
 
         SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
-        endTurnLineTimerTask = new MyTimerTask(period, length, warningTime, new MyBigTask() {
+        endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new HSBigTask() {
             public void startFunction() {
             }
 
@@ -591,6 +591,7 @@ public class GameBoard extends JPanel {
                 return false;
             }
         });
+        endTurnLineTimerTask.start();
     }
     // END TURN LINE
 
@@ -602,7 +603,7 @@ public class GameBoard extends JPanel {
         final int[] x = {startX};
         final int[] y = {startY};
 
-        MyTimerTask task = new MyTimerTask(period, new MyBigTask() {
+        new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
                 for(Component component1: GameBoard.this.getComponents()){
                     if(component1 == component)
@@ -650,7 +651,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                MyDelayTimerTask removeDelay =  new MyDelayTimerTask(animation.getRemoveDelayAfterArrived(), new MyDelayTask() {
+                new HSDelayTimerTask(animation.getRemoveDelayAfterArrived(), new HSDelayTask() {
                     @Override
                     public void delayAction() {
                         synchronized (animationLock) {
@@ -663,14 +664,14 @@ public class GameBoard extends JPanel {
                             }
                         }
                     }
-                });
+                }).start();
             }
 
             @Override
             public boolean finishCondition() {
                 return x[0] == animation.getDestinationX() && y[0] == animation.getDestinationY();
             }
-        });
+        }).start();
     }
 
     protected void animateCardWithResize(int startX, int startY,
@@ -684,7 +685,7 @@ public class GameBoard extends JPanel {
         final int[] width = {startWidth};
         final int[] height = {startHeight};
 
-        MyTimerTask task = new MyTimerTask(period, new MyBigTask() {
+        new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
                 for(Component component1: GameBoard.this.getComponents()){
                     if(component1 == component)
@@ -740,7 +741,7 @@ public class GameBoard extends JPanel {
 
             @Override
             public void closeFunction() {
-                MyDelayTimerTask delayTimerTask = new MyDelayTimerTask(3000, new MyDelayTask() {
+                new HSDelayTimerTask(3000, new HSDelayTask() {
                     @Override
                     public void delayAction() {
                         synchronized (animationLock) {
@@ -753,7 +754,7 @@ public class GameBoard extends JPanel {
                             }
                         }
                     }
-                });
+                }).start();
             }
 
             @Override
@@ -763,7 +764,7 @@ public class GameBoard extends JPanel {
                         width[0] == animation.getDestinationWidth() &&
                         height[0] == animation.getDestinationHeight();
             }
-        });
+        }).start();
     }
     // ANIMATIONS
 

@@ -10,8 +10,8 @@ import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
-import hearthstone.util.timer.MyDelayTask;
-import hearthstone.util.timer.MyDelayTimerTask;
+import hearthstone.util.timer.HSDelayTask;
+import hearthstone.util.timer.HSDelayTimerTask;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class AIPlayer extends Player {
 
         playMinions();
 
-        MyDelayTimerTask initialGameAsking = new MyDelayTimerTask(4000, new MyDelayTask() {
+        new HSDelayTimerTask(4000, new HSDelayTask() {
             @Override
             public void delayAction() {
 
@@ -46,7 +46,7 @@ public class AIPlayer extends Player {
 
                 Mapper.getInstance().endTurn();
             }
-        });
+        }).start();
     }
 
     public void choosePassive(ArrayList<Integer> passives){

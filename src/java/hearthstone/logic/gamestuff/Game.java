@@ -3,8 +3,8 @@ package hearthstone.logic.gamestuff;
 import hearthstone.Mapper;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.timer.MyBigTask;
-import hearthstone.util.timer.MyTimerTask;
+import hearthstone.util.timer.HSBigTask;
+import hearthstone.util.timer.HSTimerTask;
 
 public class Game {
     private Player player0, player1;
@@ -16,7 +16,7 @@ public class Game {
 
         configGame(shuffleCards);
 
-        MyTimerTask myTimerTask = new MyTimerTask(500, new MyBigTask() {
+        new HSTimerTask(500, new HSBigTask() {
             @Override
             public void startFunction() { }
 
@@ -40,7 +40,7 @@ public class Game {
             public boolean finishCondition() {
                 return gameEnded();
             }
-        });
+        }).start();
     }
 
     private void configGame(boolean shuffleCards) {

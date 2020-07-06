@@ -1,14 +1,12 @@
 package hearthstone.util.timer;
 
-public class MyDelayTimerTask extends Thread {
-    private MyDelayTask task;
+public class HSDelayTimerTask extends Thread {
+    private HSDelayTask task;
     private long delay;
 
-    public MyDelayTimerTask(long delay, MyDelayTask task) {
+    public HSDelayTimerTask(long delay, HSDelayTask task) {
         this.delay = delay;
         this.task = task;
-
-        this.start();
     }
 
     @Override
@@ -19,5 +17,9 @@ public class MyDelayTimerTask extends Thread {
             e.printStackTrace();
         }
         task.delayAction();
+    }
+
+    public void start(){
+        super.start();
     }
 }

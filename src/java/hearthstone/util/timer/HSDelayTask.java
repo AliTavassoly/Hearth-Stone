@@ -1,5 +1,5 @@
 package hearthstone.util.timer;
 
-public interface MyDelayTask {
+public interface HSDelayTask {
     void delayAction();
 }

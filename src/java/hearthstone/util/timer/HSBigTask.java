@@ -1,6 +1,6 @@
 package hearthstone.util.timer;
 
-public interface MyBigTask {
+public interface HSBigTask {
     void startFunction();
 
     void periodFunction();
