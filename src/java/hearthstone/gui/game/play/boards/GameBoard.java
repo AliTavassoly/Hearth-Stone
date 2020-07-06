@@ -43,17 +43,18 @@ import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton;
-    private ImageButton endTurnButton;
-    private BoardHeroButton myHero, enemyHero;
+    protected ImageButton endTurnButton;
+    protected BoardHeroButton myHero;
+    protected BoardHeroButton enemyHero;
     private final SoundPlayer soundPlayer;
 
     protected final int myPlayerId, enemyPlayerId;
 
-    private PassiveButton myPassive;
+    protected PassiveButton myPassive;
 
-    private HSTimerTask endTurnLineTimerTask;
-    private SparkImage sparkImage;
-    private ImagePanel ropeImage;
+    protected HSTimerTask endTurnLineTimerTask;
+    protected SparkImage sparkImage;
+    protected ImagePanel ropeImage;
 
     protected ArrayList<Card> animatedCardsInHand;
     protected ArrayList<Card> animatedCardsInLand;
@@ -68,7 +69,7 @@ public class GameBoard extends JPanel {
     private static BufferedImage backgroundImage;
     private static BufferedImage manaImage;
 
-    private MessageDialog messageDialog;
+    protected MessageDialog messageDialog;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -109,8 +110,8 @@ public class GameBoard extends JPanel {
     private final int enemyWeaponX = midX - 165;
     private final int enemyWeaponY = 90;
 
-    private final int heroWidth = SizeConfigs.medHeroWidth;
-    private final int heroHeight = SizeConfigs.medHeroHeight;
+    protected final int heroWidth = SizeConfigs.medHeroWidth;
+    protected final int heroHeight = SizeConfigs.medHeroHeight;
 
     private final int enemyHeroX = midX - 60;
     private final int enemyHeroY = 60;
@@ -254,7 +255,6 @@ public class GameBoard extends JPanel {
                         HearthStone.basePassives.size())
         );
         Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
-        Mapper.getInstance().doPassive(myPlayerId);
 
 
         PassiveDialog passiveDialog1 = new PassiveDialog(
@@ -264,7 +264,6 @@ public class GameBoard extends JPanel {
                         HearthStone.basePassives.size())
         );
         Mapper.getInstance().setPassive(enemyPlayerId, passiveDialog1.getPassive());
-        Mapper.getInstance().doPassive(enemyPlayerId);
     }
 
     protected void showCardDialog() {
@@ -535,7 +534,7 @@ public class GameBoard extends JPanel {
     // DRAW CARDS
 
     // END TURN LINE
-    private void drawEndTurnTimeLine() {
+    protected void drawEndTurnTimeLine() {
         int totalX = endTurnTimeLineEndX - endTurnTimeLineStartX - sparkImage.getWidth();
         long length = 90000;
         long period = length / totalX * 2;
@@ -1159,7 +1158,7 @@ public class GameBoard extends JPanel {
         });
     }
 
-    private void makeGameStuff() {
+    protected void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
                 "end_turn_hovered.png", 15, 1,
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight);

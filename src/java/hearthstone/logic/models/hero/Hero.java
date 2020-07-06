@@ -8,6 +8,7 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.passives.Passive;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
@@ -153,6 +154,7 @@ public abstract class Hero implements HeroBehaviour, Character {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
     }
@@ -233,6 +235,11 @@ public abstract class Hero implements HeroBehaviour, Character {
     @Override
     public void gotHeal(int heal) {
         this.health += heal;
+    }
+
+    @Override
+    public void restoreHealth() {
+        this.health = initialHealth;
     }
 
     @Override

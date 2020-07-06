@@ -9,12 +9,12 @@ import hearthstone.util.timer.HSTimerTask;
 public class Game {
     private Player player0, player1;
     private int whoseTurn;
+    private boolean shuffleCards;
 
     public Game(Player player0, Player player1, boolean shuffleCards){
         this.player0  = player0;
         this.player1  = player1;
-
-        configGame(shuffleCards);
+        this.shuffleCards = shuffleCards;
 
         new HSTimerTask(500, new HSBigTask() {
             @Override
@@ -55,11 +55,13 @@ public class Game {
 
     public void startGame(){
         try {
-            player0.startGame();
+            configGame(shuffleCards);
 
-            player1.startGame();
+            Mapper.getInstance().startGame(player0.getPlayerId());
 
-            player0.startTurn();
+            Mapper.getInstance().startGame(player1.getPlayerId());
+
+            Mapper.getInstance().startTurn(player0.getPlayerId());
         } catch (HearthStoneException e){
             try {
                 hearthstone.util.Logger.saveLog("ERROR",
@@ -74,9 +76,9 @@ public class Game {
     public void endTurn(){
         if(whoseTurn == 0) {
             try {
-                player0.endTurn();
+                Mapper.getInstance().endTurn(player0.getPlayerId());
                 whoseTurn = 1;
-                player1.startTurn();
+                Mapper.getInstance().startTurn(player1.getPlayerId());
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",
@@ -88,9 +90,9 @@ public class Game {
             }
         } else {
             try {
-                player1.endTurn();
+                Mapper.getInstance().endTurn(player1.getPlayerId());
                 whoseTurn = 0;
-                player0.startTurn();
+                Mapper.getInstance().startTurn(player0.getPlayerId());
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",

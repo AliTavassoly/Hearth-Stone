@@ -1,22 +1,42 @@
 {
   "0": {
-    "id": 0,
-    "name": "Twice Draw"
+    "type": "hearthstone.logic.models.passives.TwiceDraw",
+    "data": {
+      "id": 0,
+      "name": "Twice Draw",
+      "playerId": 0
+    }
   },
   "1": {
-    "id": 1,
-    "name": "Off Cards"
+    "type": "hearthstone.logic.models.passives.OffCards",
+    "data": {
+      "id": 1,
+      "name": "Off Cards",
+      "playerId": 0
+    }
   },
   "2": {
-    "id": 2,
-    "name": "Free Power"
+    "type": "hearthstone.logic.models.passives.FreePower",
+    "data": {
+      "id": 2,
+      "name": "Free Power",
+      "playerId": 0
+    }
   },
   "3": {
-    "id": 3,
-    "name": "Mana Jump"
+    "type": "hearthstone.logic.models.passives.ManaJump",
+    "data": {
+      "id": 3,
+      "name": "Mana Jump",
+      "playerId": 0
+    }
   },
   "4": {
-    "id": 4,
-    "name": "Warriors"
+    "type": "hearthstone.logic.models.passives.Nurse",
+    "data": {
+      "id": 4,
+      "name": "Nurse",
+      "playerId": 0
+    }
   }
 }

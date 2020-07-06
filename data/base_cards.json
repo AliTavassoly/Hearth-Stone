@@ -17,6 +17,7 @@
   "1": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.Fireblast",
     "data": {
+      "extraNumberOfAttack": 0,
       "numberOfAttack": 0,
       "id": 1,
       "name": "Fireblast",
@@ -84,6 +85,7 @@
   "4": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.Sacrificer",
     "data": {
+      "extraNumberOfAttack": 0,
       "numberOfAttack": 0,
       "id": 4,
       "name": "Sacrificer",
@@ -99,6 +101,7 @@
   "5": {
     "type": "hearthstone.logic.models.card.spell.spells.Soulfire",
     "data": {
+      "damage": 0,
       "id": 5,
       "name": "Soulfire",
       "description": "Deal 4 damage. Discard a random card.",
@@ -129,6 +132,7 @@
   "7": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.AncientBlades",
     "data": {
+      "extraNumberOfAttack": 0,
       "numberOfAttack": 0,
       "id": 7,
       "name": "Ancient Blades",
@@ -181,6 +185,7 @@
   "9": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.TheSilverHand",
     "data": {
+      "extraNumberOfAttack": 0,
       "numberOfAttack": 0,
       "id": 9,
       "name": "The Silver Hand",
@@ -211,6 +216,7 @@
   "11": {
     "type": "hearthstone.logic.models.card.heropower.heropowers.Heal",
     "data": {
+      "extraNumberOfAttack": 0,
       "numberOfAttack": 0,
       "id": 11,
       "name": "Heal",

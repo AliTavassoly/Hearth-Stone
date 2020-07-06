@@ -7,9 +7,9 @@ import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
-import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.passives.Passive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +71,6 @@ public class  HearthStone{
                 return card.copy();
             }
         }
-        System.out.println("Card with name " + name + " not found!");
         return null;
     }
 
@@ -81,7 +80,6 @@ public class  HearthStone{
                 return hero.copy();
             }
         }
-        System.out.println("Hero with name " + name + " not found!");
         return null;
     }
 

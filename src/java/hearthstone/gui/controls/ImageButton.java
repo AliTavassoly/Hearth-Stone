@@ -18,6 +18,7 @@ public class ImageButton extends JButton implements MouseListener {
     private Color currentColor, textColor, hoveredTextColor;
     private boolean isRadio;
     private int tof;
+    private ShouldHovered shouldHovered;
 
     private BufferedImage image, normalImage, hoveredImage;
 
@@ -44,6 +45,22 @@ public class ImageButton extends JButton implements MouseListener {
         this.textStyle = textStyle;
         this.width = width;
         this.height = height;
+        imagePath = normalPath;
+
+        configButton();
+    }
+
+    public ImageButton(String text, String normalPath, String hoveredPath,
+                       int textSize, int textStyle, int width, int height, ShouldHovered shouldHovered) {
+        this.text = text;
+        this.normalPath = normalPath;
+        this.hoveredPath = hoveredPath;
+        this.textSize = textSize;
+        this.textStyle = textStyle;
+        this.width = width;
+        this.height = height;
+        this.shouldHovered = shouldHovered;
+
         imagePath = normalPath;
 
         configButton();
@@ -190,6 +207,8 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
+        if(shouldHovered != null && !shouldHovered.shouldHovered())
+            return;
         if (hoveredTextColor != null) {
             currentColor = hoveredTextColor;
             revalidate();

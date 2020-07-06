@@ -11,11 +11,20 @@ import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
 public class Soulfire extends SpellCard {
+    private int damage;
+
     public Soulfire() {
     }
 
     public Soulfire(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType) {
         super(id, name, description, manaCost, heroType, rarity, cardType);
+    }
+
+    public void setDamage(int damage){
+        this.damage = damage;
+    }
+    public int getDamage(){
+        return damage;
     }
 
     @Override

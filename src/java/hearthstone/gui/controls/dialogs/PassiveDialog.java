@@ -4,7 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImagePanel;
 import hearthstone.gui.controls.PassiveButton;
-import hearthstone.logic.models.Passive;
+import hearthstone.logic.models.passives.Passive;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public class PassiveDialog extends MyDialog {
 
         passives = new ArrayList<>();
         for(int id : passivesId)
-            passives.add(HearthStone.basePassives.get(id));
+            passives.add(HearthStone.basePassives.get(id).copy());
 
         passiveButtons = new ArrayList<>();
 

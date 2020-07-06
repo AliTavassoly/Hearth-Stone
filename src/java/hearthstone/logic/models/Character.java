@@ -8,6 +8,7 @@ public interface Character {
     int getHealth();
     void setHealth(int health);
     void restoreHealth(int heal);
+    void restoreHealth();
     void addFreezes(int turnNumber);
     void addImmunity(int turnNumber);
     void reduceImmunities();

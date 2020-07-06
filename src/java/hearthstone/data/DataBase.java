@@ -9,7 +9,6 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.AccountCredential;
-import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
@@ -24,6 +23,7 @@ import hearthstone.logic.models.card.weapon.weapons.*;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.logic.models.hero.heroes.*;
+import hearthstone.logic.models.passives.*;
 import hearthstone.util.AbstractAdapter;
 
 import java.io.File;
@@ -260,20 +260,20 @@ public class DataBase {
 
     private static void loadPassives() throws Exception {
         int id = 0;
-        Passive twiceDraw = new Passive(id++, "Twice Draw");
+        TwiceDraw twiceDraw = new TwiceDraw(id++, "Twice Draw");
         basePassives.put(twiceDraw.getId(), twiceDraw);
 
-        Passive offCards = new Passive(id++, "Off Cards");
+        OffCards offCards = new OffCards(id++, "Off Cards");
         basePassives.put(offCards.getId(), offCards);
 
-        Passive freePower = new Passive(id++, "Free Power");
+        FreePower freePower = new FreePower(id++, "Free Power");
         basePassives.put(freePower.getId(), freePower);
 
-        Passive manaJump = new Passive(id++, "Mana Jump");
+        ManaJump manaJump = new ManaJump(id++, "Mana Jump");
         basePassives.put(manaJump.getId(), manaJump);
 
-        Passive warriors = new Passive(id++, "Warriors");
-        basePassives.put(warriors.getId(), warriors);
+        Nurse nurse = new Nurse(id++, "Nurse");
+        basePassives.put(nurse.getId(), nurse);
 
         //basePassives = getBasePassives();
     }
@@ -381,7 +381,8 @@ public class DataBase {
 
     private static void saveCredentials() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/credentials.json");
-        gson.toJson(Data.getAccounts(), new TypeToken<Map<Integer, AccountCredential>>() {}.getType(), fileWriter);
+        gson.toJson(Data.getAccounts(),
+                new TypeToken<Map<Integer, AccountCredential>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
@@ -459,6 +460,7 @@ public class DataBase {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
         gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 

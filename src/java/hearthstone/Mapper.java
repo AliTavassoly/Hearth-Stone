@@ -3,13 +3,13 @@ package hearthstone;
 import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Character;
-import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.logic.models.passives.Passive;
 import hearthstone.logic.models.player.AIPlayer;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.CursorType;
@@ -39,6 +39,10 @@ public class Mapper {
         return HearthStone.currentGameBoard;
     }
 
+    public void setExtraMane(int playerId, int extraMana){
+        getPlayer(playerId).setExtraMana(extraMana);
+    }
+
     public Game getGame() {
         return HearthStone.currentGame;
     }
@@ -47,17 +51,24 @@ public class Mapper {
         getPlayer(playerId).playCard(card);
     }
 
-    public void doPassive(int playerId) {
-        getPlayer(playerId)
-                .doPassives();
-    }
-
     public void endTurn() {
         getGame().endTurn();
     }
 
     public void startGame() {
         getGame().startGame();
+    }
+
+    public void startGame(int playerId) throws HearthStoneException{
+        getPlayer(playerId).startGame();
+    }
+
+    public void startTurn(int playerId) throws Exception{
+        getPlayer(playerId).startTurn();
+    }
+
+    public void endTurn(int playerId){
+        getPlayer(playerId).endTurn();
     }
 
     public void gameEnded() {
@@ -110,6 +121,10 @@ public class Mapper {
 
     public void heal(int heal, Character character) {
         character.gotHeal(heal);
+    }
+
+    public void restoreHealth(Character character) {
+        character.restoreHealth();
     }
 
     public void restoreHealth(int heal, Character character) {
@@ -171,7 +186,7 @@ public class Mapper {
         getPlayer(playerId).removeInitialCards(discardCards, numberOfTopCards);
     }
 
-    public void setMana(int playerId, int mana) {
+    public void setPlayerMana(int playerId, int mana) {
         getPlayer(playerId).setMana(mana);
     }
 
@@ -244,6 +259,18 @@ public class Mapper {
 
     public void removeDivineShield(MinionCard minionCard){
 
+    }
+
+    public void setCardMana(Card card, int mana){
+        card.setManaCost(mana);
+    }
+
+    public void setHeroPowerExtraAttack(HeroPowerCard power, int extra){
+        power.setExtraNumberOfAttack(extra);
+    }
+
+    public void discountAllDeckCard(int playerId, int mana){
+        getPlayer(playerId).discountAllDeckCard(mana);
     }
 
     public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion){

@@ -4,10 +4,8 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
@@ -16,6 +14,7 @@ import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.passives.Passive;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
@@ -30,7 +29,7 @@ public class Player {
 
     private String username;
 
-    protected int mana;
+    protected int mana, extraMana;
     protected int turnNumber;
 
     private int manaSpentOnMinions, manaSpentOnSpells;
@@ -68,6 +67,8 @@ public class Player {
         for (Card card : deck.getCards()) {
             configCard(card);
         }
+
+        configPassive(passive);
 
         configHero(hero);
 
@@ -204,28 +205,21 @@ public class Player {
     public boolean haveWeapon() {
         return weapon != null;
     }
+
+    public void setExtraMana(int extraMana){
+        this.extraMana = extraMana;
+    }
     // End of getter setter
 
     public void reduceMana(int reduce) {
         mana -= reduce;
     }
 
-    public void doPassives() {
-        if (passive.getName().equals("Off Cards")) {
-            for (Card card : deck.getCards()) {
-                card.setManaCost(Math.max(0, card.getManaCost() - 1));
-            }
-        } else if (passive.getName().equals("Free Power")) {
-            for (Card card : deck.getCards()) {
-                if (card.getCardType() == CardType.HEROPOWER)
-                    card.setManaCost(Math.max(0, card.getManaCost() - 1));
-            }
-        }
-    }
-
     public void startGame() throws HearthStoneException {
         turnNumber = 0;
         mana = 0;
+
+        handleStartGameBehave();
 
         drawCard();
         drawCard();
@@ -322,7 +316,7 @@ public class Player {
 
         handleCardPlayInformation(cardInHand);
 
-        handleWaitingCards(cardInHand);
+        handleWaitingDrawCards(cardInHand);
 
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
@@ -362,7 +356,7 @@ public class Player {
 
         handleCardPlayInformation(cardInHand);
 
-        handleWaitingCards(cardInHand);
+        handleWaitingDrawCards(cardInHand);
 
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
@@ -376,16 +370,7 @@ public class Player {
     private void summonMinion(Card card) {
         MinionCard minionCard = (MinionCard) card;
 
-        for (int i = 0; i < waitingForSummon.size(); i++) {
-            Card card1 = waitingForSummon.get(i);
-            try {
-                if (card1 instanceof WaitSummonCard && ((WaitSummonCard) card1).waitSummonCard(card) && card != card1) {
-                    waitingForSummon.remove(i);
-                    i--;
-                }
-            } catch (HearthStoneException e) {
-            }
-        }
+        handleWaitingSummon(card);
 
         minionCard.setInitialAttack(minionCard.getAttack());
         minionCard.setInitialHealth(minionCard.getHealth());
@@ -406,13 +391,24 @@ public class Player {
     // CARD ACTION
 
     // HANDLE INTERFACES
-    private void handleCardPlayInformation(Card card) {
-        if (card.getCardType() == CardType.SPELL)
-            manaSpentOnSpells += card.getManaCost();
-        if (card.getCardType() == CardType.MINIONCARD)
-            manaSpentOnMinions += card.getManaCost();
+    private void handleStartGameBehave(){
+        for(Card card: deck.getCards()){
+            if(card instanceof StartGameBehave){
+                ((StartGameBehave)card).startGameBehave();;
+            }
+        }
 
-        handlePlayCardOperationForDeck(card);
+        if(hero instanceof StartGameBehave){
+            ((StartGameBehave)hero).startGameBehave();
+        }
+
+        if(heroPower instanceof StartGameBehave){
+            ((StartGameBehave)heroPower).startGameBehave();
+        }
+
+        if(passive instanceof StartGameBehave){
+            ((StartGameBehave)passive).startGameBehave();
+        }
     }
 
     private void handleStartTurnBehaviours() {
@@ -423,14 +419,41 @@ public class Player {
         hero.startTurnBehave();
 
         updateHeroPower();
-
         if (heroPower != null) {
-            ((HeroPowerBehaviour) heroPower).startTurnBehave();
+            heroPower.startTurnBehave();
         }
 
         updateWeapon();
         if (weapon != null) {
             weapon.startTurnBehave();
+        }
+
+        if (passive instanceof StartTurnBehave) {
+            ((StartTurnBehave) passive).startTurnBehave();
+        }
+    }
+
+    private void handleCardPlayInformation(Card card) {
+        if (card.getCardType() == CardType.SPELL)
+            manaSpentOnSpells += card.getManaCost();
+        if (card.getCardType() == CardType.MINIONCARD)
+            manaSpentOnMinions += card.getManaCost();
+
+        handlePlayCardOperationForDeck(card);
+    }
+
+    private void handleEndTurnBehaviours(){
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(land);
+
+        for (Card card : cards) {
+            MinionCard minionCard = (MinionCard) card;
+            if (card instanceof EndTurnBehave)
+                ((EndTurnBehave) minionCard).endTurnBehave();
+        }
+
+        if(passive instanceof EndTurnBehave){
+            ((EndTurnBehave)passive).endTurnBehave();
         }
     }
 
@@ -439,15 +462,22 @@ public class Player {
             ((Battlecry) card).battlecry();
     }
 
-    private void handleWaitingCards(Card cardInHand) {
+    private void handleWaitingDrawCards(Card cardInHand) {
         if (cardInHand instanceof WaitDrawingCard) {
             waitingForDraw.add(cardInHand);
         }
     }
 
     private void handleWaitingSummon(Card cardInHand) {
-        if (cardInHand instanceof WaitSummonCard) {
-            waitingForSummon.add(cardInHand);
+        for (int i = 0; i < waitingForSummon.size(); i++) {
+            Card card1 = waitingForSummon.get(i);
+            try {
+                if (card1 instanceof WaitSummonCard && ((WaitSummonCard) card1).waitSummonCard(cardInHand) && cardInHand != card1) {
+                    waitingForSummon.remove(i);
+                    i--;
+                }
+            } catch (HearthStoneException e) {
+            }
         }
     }
 
@@ -463,14 +493,6 @@ public class Player {
         }
     }
 
-    private void handlePlayCardOperationForDeck(Card cardInHand) {
-        for (Card card : originalDeck.getCards()) {
-            if (card.getName().equals(cardInHand.getName())) {
-                originalDeck.cardPlay(cardInHand);
-            }
-        }
-    }
-
     private void handleFriendlyMinionDies(ArrayList<Card> friendlyMinionDies, int number) {
         for (Card card : friendlyMinionDies) {
             for (int i = 0; i < number; i++) {
@@ -478,7 +500,21 @@ public class Player {
             }
         }
     }
+
+    private void handlePlayCardOperationForDeck(Card cardInHand) {
+        for (Card card : originalDeck.getCards()) {
+            if (card.getName().equals(cardInHand.getName())) {
+                originalDeck.cardPlay(cardInHand);
+            }
+        }
+    }
     // HANDLE INTERFACES
+
+    public void discountAllDeckCard(int mana){
+        for(Card card: deck.getCards()){
+            card.setManaCost(Math.max(0, card.getManaCost() - mana));
+        }
+    }
 
     public boolean haveTaunt() {
         for (Card card : land) {
@@ -489,21 +525,14 @@ public class Player {
     }
 
     public void endTurn() {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.addAll(land);
-
-        for (Card card : cards) {
-            MinionCard minionCard = (MinionCard) card;
-            if (card instanceof EndTurnBehave)
-                ((EndTurnBehave) minionCard).endTurnBehave();
-        }
+        handleEndTurnBehaviours();
 
         Mapper.getInstance().updateBoard();
     }
 
     public void startTurn() throws Exception {
-        //mana = ++turnNumber;
-        mana = 10;
+        mana = ++turnNumber + extraMana;
+        //mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         /*if(passive.getName().equals("Twice Draw")){
@@ -517,6 +546,10 @@ public class Player {
         drawCard();
 
         Mapper.getInstance().updateBoard();
+    }
+
+    public void configPassive(Passive passive){
+        passive.setPlayerId(getPlayerId());
     }
 
     private void configCard(Card card) {
@@ -765,16 +798,8 @@ public class Player {
         public MinionCard getRandomMinionFromLand() {
             if (land.size() == 0)
                 return null;
-            int start = Rand.getInstance().getRandomNumber(land.size());
-            for (int i = 0; i < land.size(); i++) {
-                Card card = land.get(start);
-                if (card.getCardType() == CardType.MINIONCARD) {
-                    return (MinionCard) card;
-                }
-                start++;
-                start %= deck.getCards().size();
-            }
-            return null;
+            int randId = Rand.getInstance().getRandomNumber(land.size());
+            return (MinionCard) land.get(randId);
         }
 
         public void makeAndPutDeck(Card card) {

@@ -5,7 +5,6 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.Passive;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
@@ -13,6 +12,7 @@ import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.passives.Passive;
 import hearthstone.logic.models.player.Player;
 
 import java.util.ArrayList;
@@ -65,6 +65,10 @@ public class DataTransform {
 
     public int getMana(int playerId) {
         return getPlayer(playerId).getMana();
+    }
+
+    public int getMana(Card card) {
+        return card.getManaCost();
     }
 
     public int getTurnNumber(int playerId) {

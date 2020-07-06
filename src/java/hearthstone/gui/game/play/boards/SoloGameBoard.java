@@ -4,18 +4,25 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
+import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.PassiveButton;
+import hearthstone.gui.controls.ShouldHovered;
 import hearthstone.gui.controls.dialogs.CardDialog;
+import hearthstone.gui.controls.dialogs.MessageDialog;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.Animation;
-import hearthstone.gui.game.play.controls.BoardCardButton;
-import hearthstone.gui.game.play.controls.HeroPowerButton;
-import hearthstone.gui.game.play.controls.WeaponButton;
+import hearthstone.gui.game.play.controls.*;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
+import hearthstone.util.SoundPlayer;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -96,7 +103,6 @@ public class SoloGameBoard extends GameBoard {
                         HearthStone.basePassives.size())
         );
         Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
-        Mapper.getInstance().doPassive(myPlayerId);
 
         Mapper.getInstance().passPassivesToAI(enemyPlayerId, Rand.getInstance().getRandomArray(
                 GameConfigs.initialPassives,
@@ -184,5 +190,60 @@ public class SoloGameBoard extends GameBoard {
                 }
             }
         });
+    }
+
+    @Override
+    protected void makeGameStuff() {
+        endTurnButton = new ImageButton("End Turn", "end_turn.png",
+                "end_turn_hovered.png", 15, 1,
+                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight, new ShouldHovered() {
+            @Override
+            public boolean shouldHovered() {
+                return DataTransform.getInstance().getWhoseTurn() == 0;
+            }
+        });
+
+        endTurnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
+                soundPlayer.playOnce();
+
+                Mapper.getInstance().endTurn();
+                endTurnLineTimerTask.myStop();
+
+                deleteCurrentMouseWaiting();
+
+                drawEndTurnTimeLine();
+                restart();
+            }
+        });
+
+        sparkImage = new SparkImage(
+                endTurnTimeLineStartX,
+                endTurnTimeLineY - SizeConfigs.endTurnFireHeight / 2,
+                SizeConfigs.endTurnFireWidth,
+                SizeConfigs.endTurnFireHeight,
+                "/images/spark_0.png");
+
+        ropeImage = new ImagePanel("rope.png", SizeConfigs.endTurnRopeWidth + 7,
+                SizeConfigs.endTurnRopeHeight, sparkImage.getX() + sparkImage.getWidth(),
+                sparkImage.getY() + sparkImage.getHeight() / 2, true);
+        add(ropeImage);
+
+        myHero = new BoardHeroButton(DataTransform.getInstance().getHero(myPlayerId),
+                heroWidth, heroHeight, 0);
+        makeHeroMouseListener(myHero);
+
+        enemyHero = new BoardHeroButton(DataTransform.getInstance().getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
+        makeHeroMouseListener(enemyHero);
+
+        myPassive = new PassiveButton(DataTransform.getInstance().getPassive(myPlayerId),
+                SizeConfigs.medCardWidth,
+                SizeConfigs.medCardHeight);
+
+        messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+                15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        add(messageDialog);
     }
 }
