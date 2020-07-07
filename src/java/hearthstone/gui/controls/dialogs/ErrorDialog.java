@@ -16,6 +16,7 @@ public class ErrorDialog extends MyDialog {
     private JLabel message;
     private ImageButton okButton;
     private Color color;
+    private SoundPlayer soundPlayer;
 
     private int width, height;
     private String text;
@@ -25,6 +26,29 @@ public class ErrorDialog extends MyDialog {
         this.width = width;
         this.height = height;
         this.text = text;
+
+        this.soundPlayer = soundPlayer;
+
+        playError();
+
+        configDialog();
+
+        makeButtons();
+
+        makeLabels();
+
+        layoutComponent();
+
+        setVisible(true);
+    }
+
+    public ErrorDialog(JFrame frame, String text, int width, int height, SoundPlayer soundPlayer) {
+        super(frame, width, height);
+        this.width = width;
+        this.height = height;
+        this.text = text;
+
+        this.soundPlayer = soundPlayer;
 
         playError();
 
@@ -46,6 +70,29 @@ public class ErrorDialog extends MyDialog {
 
         this.text = text;
         this.color = color;
+
+        playError();
+
+        configDialog();
+
+        makeButtons();
+
+        makeLabels();
+
+        layoutComponent();
+
+        setVisible(true);
+    }
+
+    public ErrorDialog(JFrame frame, String text, Color color, int width, int height, SoundPlayer soundPlayer) {
+        super(frame, width, height);
+        this.width = width;
+        this.height = height;
+
+        this.text = text;
+        this.color = color;
+
+        this.soundPlayer = soundPlayer;
 
         playError();
 
@@ -92,8 +139,12 @@ public class ErrorDialog extends MyDialog {
 
     private void playError() {
         try {
-            SoundPlayer soundPlayer = new SoundPlayer("/sounds/error.wav");
-            soundPlayer.playOnce();
+            if(soundPlayer == null) {
+                SoundPlayer soundPlayer = new SoundPlayer("/sounds/error.wav");
+                soundPlayer.playOnce();
+            } else {
+                soundPlayer.playOnce();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

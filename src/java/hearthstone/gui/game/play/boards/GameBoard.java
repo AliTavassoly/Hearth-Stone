@@ -1311,8 +1311,10 @@ public class GameBoard extends JPanel {
                 Mapper.getInstance().lost(0);
                 Mapper.getInstance().won(1);
 
+                SoundPlayer loseSound = new SoundPlayer("/sounds/lose.wav");
+
                 ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Ooops! You lost the game :(",
-                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight, loseSound);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1326,9 +1328,11 @@ public class GameBoard extends JPanel {
                 Mapper.getInstance().lost(1);
                 Mapper.getInstance().won(0);
 
-                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(),
-                        "Congratulation! You Won the game :)", new Color(38, 104, 23),
-                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight);
+                SoundPlayer victorySound = new SoundPlayer("/sounds/victory.wav");
+
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "congratulations! You won the game!",
+                        new Color(38, 104, 23),
+                        SizeConfigs.dialogWidth, SizeConfigs.dialogHeight, victorySound);
             } catch (Exception e) {
                 e.printStackTrace();
             }

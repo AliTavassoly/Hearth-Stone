@@ -413,7 +413,7 @@ public class Player {
             ((StartGameBehave) heroPower).startGameBehave();
         }
 
-        if (passive instanceof StartGameBehave) {
+        if (passive != null && passive instanceof StartGameBehave) {
             ((StartGameBehave) passive).startGameBehave();
         }
     }
