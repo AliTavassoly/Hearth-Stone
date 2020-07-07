@@ -242,7 +242,7 @@ public class Player {
         }
     }
 
-    public void logPlayCard(Card card){
+    public void logPlayCard(Card card) {
         try {
             Logger.saveLog("Play Card",
                     DataTransform.getInstance().getPlayerName(getPlayerId())
@@ -262,13 +262,7 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for (int i = 0; i < waitingForDraw.size(); i++) {
-            Card waitedCard = waitingForDraw.get(i);
-            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
-                waitingForDraw.remove(i);
-                i--;
-            }
-        }
+        handleWaitingDrawCards(card);
 
         hand.add(card);
         logDrawCard(card);
@@ -284,13 +278,7 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for (int i = 0; i < waitingForDraw.size(); i++) {
-            Card waitedCard = waitingForDraw.get(i);
-            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
-                waitingForDraw.remove(i);
-                i--;
-            }
-        }
+        handleWaitingDrawCards(card);
 
         hand.add(card);
         logDrawCard(card);
@@ -304,13 +292,7 @@ public class Player {
         if (hand.size() == GameConfigs.maxCardInHand)
             throw new HearthStoneException("your hand is full!");
 
-        for (int i = 0; i < waitingForDraw.size(); i++) {
-            Card waitedCard = waitingForDraw.get(i);
-            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
-                waitingForDraw.remove(i);
-                i--;
-            }
-        }
+        handleWaitingDrawCards(card);
 
         hand.add(card);
         logDrawCard(card);
@@ -340,8 +322,6 @@ public class Player {
         handleBattleCry(cardInHand);
 
         handleCardPlayInformation(cardInHand);
-
-        handleWaitingDrawCards(cardInHand);
 
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
@@ -382,8 +362,6 @@ public class Player {
 
         handleCardPlayInformation(cardInHand);
 
-        handleWaitingDrawCards(cardInHand);
-
         if (cardInHand.getCardType() == CardType.MINIONCARD)
             summonMinion(cardInHand);
 
@@ -404,6 +382,9 @@ public class Player {
 
         if (card instanceof WaitSummonCard)
             waitingForSummon.add(card);
+
+        if(card instanceof WaitDrawingCard)
+            waitingForDraw.add(card);
 
         land.add(minionCard);
     }
@@ -497,9 +478,13 @@ public class Player {
             ((Battlecry) card).battlecry();
     }
 
-    private void handleWaitingDrawCards(Card cardInHand) {
-        if (cardInHand instanceof WaitDrawingCard) {
-            waitingForDraw.add(cardInHand);
+    private void handleWaitingDrawCards(Card card) throws HearthStoneException {
+        for (int i = 0; i < waitingForDraw.size(); i++) {
+            Card waitedCard = waitingForDraw.get(i);
+            if (((WaitDrawingCard) waitedCard).waitDrawingCard(card)) {
+                waitingForDraw.remove(i);
+                i--;
+            }
         }
     }
 
@@ -574,8 +559,8 @@ public class Player {
     }
 
     public void startTurn() throws Exception {
-        mana = ++turnNumber + extraMana;
-        //mana = 10;
+        //mana = ++turnNumber + extraMana;
+        mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         handleStartTurnBehaviours();
@@ -670,7 +655,7 @@ public class Player {
             hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
                     " lost against " +
                     DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -683,7 +668,7 @@ public class Player {
             hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
                     " won " +
                     DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

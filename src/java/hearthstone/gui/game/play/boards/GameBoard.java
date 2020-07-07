@@ -813,14 +813,14 @@ public class GameBoard extends JPanel implements MouseListener {
             }
 
             public void mouseReleased(MouseEvent E) {
-                if (!isInMyLand(startX, startY) &&
-                        isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        DataTransform.getInstance().getWhoseTurn() == 0) {
+                if (isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        DataTransform.getInstance().getWhoseTurn() == button.getCard().getPlayerId() &&
+                button.getCard().getPlayerId() == myPlayerId) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
-                } else if (!isInEnemyLand(startX, startY) &&
-                        isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        DataTransform.getInstance().getWhoseTurn() == 1) {
+                } else if (isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
+                        DataTransform.getInstance().getWhoseTurn() == button.getCard().getPlayerId() &&
+                button.getCard().getPlayerId() == enemyPlayerId) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else {

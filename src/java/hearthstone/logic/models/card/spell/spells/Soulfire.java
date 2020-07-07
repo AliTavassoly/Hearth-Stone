@@ -30,6 +30,7 @@ public class Soulfire extends SpellCard {
     @Override
     public void doAbility() {
         Mapper.getInstance().makeNewMouseWaiting(getCursorType(), this);
+        Mapper.getInstance().updateBoard();
     }
 
     @Override

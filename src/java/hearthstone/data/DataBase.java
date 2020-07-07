@@ -3,28 +3,14 @@ package hearthstone.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.AccountCredential;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.heropower.heropowers.*;
-import hearthstone.logic.models.card.minion.MinionType;
-import hearthstone.logic.models.card.minion.minions.*;
-import hearthstone.logic.models.card.reward.rewards.LearnDraconic;
-import hearthstone.logic.models.card.reward.rewards.SecurityReward;
-import hearthstone.logic.models.card.reward.rewards.StrengthInNumbers;
-import hearthstone.logic.models.card.spell.spells.*;
-import hearthstone.logic.models.card.weapon.weapons.*;
 import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.heroes.*;
 import hearthstone.logic.models.passive.Passive;
-import hearthstone.logic.models.passive.passives.*;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 
@@ -40,7 +26,7 @@ public class DataBase {
     public static Gson gson;
 
     private static void loadCards() throws Exception{
-        int id = 0;
+        /*int id = 0;
         // Mage
         Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
         HearthStone.baseCards.put(polymorph.getId(), polymorph);
@@ -226,13 +212,13 @@ public class DataBase {
                 " on minions.\n" +
                 "Reward: Summon a\n" +
                 " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
-        HearthStone.baseCards.put(securityReward.getId(), securityReward);
+        HearthStone.baseCards.put(securityReward.getId(), securityReward);*/
 
-        //baseCards = getBaseCards();
+        baseCards = getBaseCards();
     }
 
     private static void loadHeroes() throws Exception {
-        int id = 0;
+        /*int id = 0;
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE,
                 "witchers are good with spells!\nshe pays 2 mana less for spells!", "Fireblast",
                 30);
@@ -255,13 +241,13 @@ public class DataBase {
 
         Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
                 30);
-        HearthStone.baseHeroes.put(priest.getId(), priest);
+        HearthStone.baseHeroes.put(priest.getId(), priest);*/
 
-        //baseHeroes = getBaseHeroes();
+        baseHeroes = getBaseHeroes();
     }
 
     private static void loadPassives() throws Exception {
-        int id = 0;
+        /*int id = 0;
         TwiceDraw twiceDraw = new TwiceDraw(id++, "Twice Draw");
         basePassives.put(twiceDraw.getId(), twiceDraw);
 
@@ -275,9 +261,9 @@ public class DataBase {
         basePassives.put(manaJump.getId(), manaJump);
 
         Nurse nurse = new Nurse(id++, "Nurse");
-        basePassives.put(nurse.getId(), nurse);
+        basePassives.put(nurse.getId(), nurse);*/
 
-        //basePassives = getBasePassives();
+        basePassives = getBasePassives();
     }
 
     private static Map<String, AccountCredential> getCredentials() throws Exception {
