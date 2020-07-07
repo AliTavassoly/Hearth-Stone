@@ -34,14 +34,11 @@ import hearthstone.util.timer.HSTimerTask;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class GameBoard extends JPanel {
+public class GameBoard extends JPanel implements MouseListener {
     private ImageButton backButton, minimizeButton, closeButton;
     protected ImageButton endTurnButton;
     protected BoardHeroButton myHero;
@@ -190,6 +187,8 @@ public class GameBoard extends JPanel {
         makeGameStuff();
 
         gameStuffLayoutBeforeStartGame();
+
+        addMouseListener(this);
 
         new HSDelayTimerTask(100, new HSDelayTask() {
             @Override
@@ -1379,4 +1378,16 @@ public class GameBoard extends JPanel {
         revalidate();
         repaint();
     }
+
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        if(SwingUtilities.isRightMouseButton(mouseEvent)){
+            Mapper.getInstance().deleteCurrentMouseWaiting();
+        }
+    }
+    public void mouseClicked(MouseEvent mouseEvent) { }
+    public void mouseReleased(MouseEvent mouseEvent) { }
+    public void mouseEntered(MouseEvent mouseEvent) { }
+    public void mouseExited(MouseEvent mouseEvent) { }
 }
