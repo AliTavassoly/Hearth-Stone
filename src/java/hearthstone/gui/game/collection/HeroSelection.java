@@ -1,7 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -155,7 +155,7 @@ public class HeroSelection extends JPanel {
                 public void actionPerformed(ActionEvent actionEvent) {
                     try {
                         HearthStone.currentAccount.setSelectedHero(hero);
-                        DataBase.save();
+                        Mapper.getInstance().saveDataBase();
 
                         hearthstone.util.Logger.saveLog("Click_button",
                                 "select");
@@ -223,7 +223,7 @@ public class HeroSelection extends JPanel {
 
     private void restart() {
         try {
-            DataBase.save();
+            Mapper.getInstance().saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }

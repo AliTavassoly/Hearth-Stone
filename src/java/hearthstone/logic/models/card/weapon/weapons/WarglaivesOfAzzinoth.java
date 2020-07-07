@@ -2,10 +2,10 @@ package hearthstone.logic.models.card.weapon.weapons;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.IsAttacked;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
@@ -39,6 +39,7 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
         Mapper.getInstance().damage(this.attack, minionCard, false);
+        log(minionCard);
         numberOfAttack++;
 
         try {

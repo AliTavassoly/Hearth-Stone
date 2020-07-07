@@ -245,8 +245,12 @@ public class SoloGameBoard extends GameBoard {
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 
-        messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+        myMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
-        add(messageDialog);
+        add(myMessageDialog);
+
+        enemyMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+                15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        add(enemyMessageDialog);
     }
 }

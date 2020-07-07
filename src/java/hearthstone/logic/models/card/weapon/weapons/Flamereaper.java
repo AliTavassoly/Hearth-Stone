@@ -2,9 +2,9 @@ package hearthstone.logic.models.card.weapon.weapons;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.IsAttacked;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.HeroType;
@@ -27,6 +27,7 @@ public class Flamereaper extends WeaponCard {
                         minionCard);
 
         Mapper.getInstance().damage(this.attack, minionCard);
+        log(minionCard);
 
         try {
             Mapper.getInstance().damage(minionCard.getAttack(),

@@ -2,9 +2,9 @@ package hearthstone.logic.models.card.reward.rewards;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.Battlecry;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.Battlecry;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.hero.HeroType;
 
@@ -38,5 +38,6 @@ public class SecurityReward extends RewardCard implements Battlecry {
     public void doReward() {
         Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), "Security Rover");
         Mapper.getInstance().restartSpentManaOnMinions(getPlayerId());
+        log();
     }
 }

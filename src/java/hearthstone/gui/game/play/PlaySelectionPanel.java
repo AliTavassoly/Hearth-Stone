@@ -219,7 +219,7 @@ public class PlaySelectionPanel extends JPanel {
         Player player0 = HearthStone.currentAccount.getPlayer();
         Player player1 = HearthStone.currentAccount.getPlayer();
 
-        HearthStone.currentGame = new Game(player0, player1, true);
+        HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
     }
 
@@ -228,7 +228,7 @@ public class PlaySelectionPanel extends JPanel {
         Player player1 = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
                 HearthStone.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1, true);
+        HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
     }
 
@@ -248,7 +248,7 @@ public class PlaySelectionPanel extends JPanel {
                         HearthStone.getCardsArray(decks.get("enemy"))),
                 HearthStone.currentAccount.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1, false);
+        HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
     }
 }

@@ -1,7 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -278,7 +278,9 @@ public class DeckArrangement extends JPanel {
                 try {
                     HearthStone.currentAccount.getDecks().remove(deck);
                     hero.getDecks().remove(deck);
-                    DataBase.save();
+
+                    Mapper.getInstance().saveDataBase();
+
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
 
                     hearthstone.util.Logger.saveLog("Click_button",
@@ -348,7 +350,7 @@ public class DeckArrangement extends JPanel {
                     deck.remove(card, 1);
                     deckCardsPanel.removeCard(card);
                     cardsPanel.addCard(card, getCardsPanel(card));
-                    DataBase.save();
+                    Mapper.getInstance().saveDataBase();
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "remove");
@@ -387,7 +389,8 @@ public class DeckArrangement extends JPanel {
                     if (selectedButton != 0)
                         cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
-                    DataBase.save();
+
+                    Mapper.getInstance().saveDataBase();
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "add");

@@ -2,10 +2,10 @@ package hearthstone.logic.models.card.weapon;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.IsAttacked;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
@@ -43,6 +43,22 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
         this.attack = attack;
     }
 
+    protected void log(Hero hero){
+        try {
+            hearthstone.util.Logger.saveLog("Weapon Attack", this.getName() + " attacked to " + hero.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    protected void log(MinionCard minion){
+        try {
+            hearthstone.util.Logger.saveLog("Weapon Attack", this.getName() + " attacked to " + minion.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public boolean canAttack() {
         return numberOfAttack > 0 &&
                 DataTransform.getInstance().getWhoseTurn() == getPlayerId() && !DataTransform.getInstance().getHero(getPlayerId()).isFreeze();
@@ -58,6 +74,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
         Mapper.getInstance().damage(this.attack, minionCard);
+        log(minionCard);
 
         try {
             Mapper.getInstance().damage(minionCard.getAttack(),
@@ -75,6 +92,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         Mapper.getInstance().damage(this.attack, hero);
+        log(hero);
     }
 
     @Override

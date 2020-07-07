@@ -2,10 +2,10 @@ package hearthstone.logic.models.card.minion.minions;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.EndTurnBehave;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.EndTurnBehave;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;

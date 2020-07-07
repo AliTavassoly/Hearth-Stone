@@ -21,7 +21,6 @@ public class Account {
     private Collection collection;
     private ArrayList<Deck> decks;
     private ArrayList<Integer> unlockedCards;
-    private ArrayList<Integer> unlockedHeroes;
     private Hero selectedHero;
     private int gem;
 
@@ -37,7 +36,6 @@ public class Account {
 
         heroes = new ArrayList<>();
         unlockedCards = new ArrayList<>();
-        unlockedHeroes = new ArrayList<>();
         decks = new ArrayList<>();
 
         accountConfigs();
@@ -53,12 +51,12 @@ public class Account {
                 continue;
             }
 
-            int number = 2 + Rand.getInstance().getRandomNumber(2);
+            int number = 1 + Rand.getInstance().getRandomNumber(2);
             for (int i = 0; i < number; i++) {
                 cards.add(card);
             }
 
-            if (Rand.getInstance().getProbability(1, 1)) {
+            if (Rand.getInstance().getProbability(5, 6)) {
                 unlockedCards.add(card.getId());
             }
         }
@@ -112,14 +110,6 @@ public class Account {
 
     public void setUnlockedCards(ArrayList<Integer> unlockedCards) {
         this.unlockedCards = unlockedCards;
-    }
-
-    public ArrayList<Integer> getUnlockedHeroes() {
-        return unlockedHeroes;
-    }
-
-    public void setUnlockedHeroes(ArrayList<Integer> unlockedHeroes) {
-        this.unlockedHeroes = unlockedHeroes;
     }
 
     public void setHeroes(ArrayList<Hero> heroes) {
@@ -183,10 +173,6 @@ public class Account {
 
     // End of setters and getters
 
-    public boolean canBuy(Card baseCard, int cnt) {
-        return unlockedHeroes.contains(Hero.getHeroByType(baseCard.getHeroType()).getId());
-    }
-
     public boolean canSell(Card baseCard, int cnt) {
         return true;
     }
@@ -198,19 +184,22 @@ public class Account {
         if (baseCard.getBuyPrice() * cnt > gem) {
             throw new HearthStoneException("Not enough gems!");
         }
-        if (!unlockedHeroes.contains(Hero.getHeroByType(baseCard.getHeroType()).getId())) {
-            throw new HearthStoneException("This card is for " +
-                    Hero.getHeroByType(baseCard.getHeroType()).getName() + "class and you don't have it!"
-            );
-        }
         for (int i = 0; i < cnt; i++)
             collection.add(baseCard, cnt);
         gem -= baseCard.getSellPrice() * cnt;
+
+        hearthstone.util.Logger.saveLog("buy",
+                "in market, bought " + 1 + " of " +
+                        baseCard.getName() + "!");
     }
 
     public void sellCards(Card baseCard, int cnt) throws Exception {
         gem += baseCard.getSellPrice() * cnt;
         collection.remove(baseCard, cnt);
+
+        hearthstone.util.Logger.saveLog("sell",
+                "in market, sold " + 1 + " of " +
+                        baseCard.getName() + "!");
     }
 
     public ArrayList<Deck> getBestDecks(int cnt) {
@@ -224,10 +213,6 @@ public class Account {
             ans.add(decks.get(i));
         }
         return ans;
-    }
-
-    public void unlockHero(int id) {
-        unlockedHeroes.add(id);
     }
 
     public void unlockCard(int id) {

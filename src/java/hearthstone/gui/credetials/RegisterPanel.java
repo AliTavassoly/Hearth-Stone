@@ -1,6 +1,6 @@
 package hearthstone.gui.credetials;
 
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.fields.PasswordField;
@@ -179,7 +179,8 @@ public class RegisterPanel extends JPanel {
                     CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
-                    DataBase.save();
+
+                    Mapper.getInstance().saveDataBase();
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",

@@ -20,6 +20,8 @@ public class TheSilverHand extends HeroPowerCard  {
         Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
         Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
         Mapper.getInstance().updateBoard();
+
+        log();
     }
 
     @Override

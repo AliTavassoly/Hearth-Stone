@@ -2,6 +2,7 @@ package hearthstone.logic.models.passive;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import hearthstone.DataTransform;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
@@ -27,6 +28,16 @@ public abstract class Passive {
     public int getPlayerId() {
         return playerId;
 
+    }
+
+    public void log(){
+        try {
+            hearthstone.util.Logger.saveLog("Passive",
+                    DataTransform.getInstance().getPlayerName(getPlayerId()) +
+                    " player, chose " + this.getName() + " passive!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public int getId() {

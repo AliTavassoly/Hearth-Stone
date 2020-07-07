@@ -2,11 +2,11 @@ package hearthstone.logic.models.card.minion;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.IsAttacked;
 import hearthstone.logic.models.Character;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
@@ -205,6 +205,24 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isDivineShield = false;
     }
 
+    public void log(Hero hero){
+        try {
+            hearthstone.util.Logger.saveLog("Minion Attack",
+                    this.getName() + " attack to " + hero.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void log(MinionCard minion){
+        try {
+            hearthstone.util.Logger.saveLog("Minion Attack",
+                    this.getName() + " attack to " + minion.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void reduceImmunities() {
         for (int i = 0; i < immunities.size(); i++) {
@@ -298,6 +316,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
             minionCard.removeDivineShield();
         } else {
             Mapper.getInstance().damage(this.attack, minionCard);
+            log(minionCard);
         }
 
         if (minionCard instanceof IsAttacked) {
@@ -321,6 +340,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
             }
         }
         Mapper.getInstance().damage(this.attack, hero);
+        log(hero);
     }
 
     @Override

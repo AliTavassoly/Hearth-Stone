@@ -1,7 +1,7 @@
 package hearthstone.logic.models.specialpower.specialpowers;
 
 import hearthstone.Mapper;
-import hearthstone.logic.models.card.interfaces.StartGameBehave;
+import hearthstone.logic.interfaces.StartGameBehave;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
 
 public class MagePower extends SpecialHeroPower implements StartGameBehave {

@@ -1,6 +1,6 @@
 package hearthstone.gui.controls.card;
 
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
@@ -158,7 +158,7 @@ public class CardsPanel extends JPanel {
 
     private void restart() {
         try {
-            DataBase.save();
+            Mapper.getInstance().saveDataBase();
         } catch (HearthStoneException e) {
             try {
                 hearthstone.util.Logger.saveLog("ERROR",

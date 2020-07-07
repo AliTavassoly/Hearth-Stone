@@ -3,7 +3,6 @@ package hearthstone.gui.game.play.boards;
 import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.ImagePanel;
@@ -66,7 +65,8 @@ public class GameBoard extends JPanel implements MouseListener {
     private static BufferedImage backgroundImage;
     private static BufferedImage manaImage;
 
-    protected MessageDialog messageDialog;
+    protected MessageDialog myMessageDialog;
+    protected MessageDialog enemyMessageDialog;
 
     // Finals START
     private final int boardStartX = SizeConfigs.gameFrameWidth / 2 - 360;
@@ -1037,18 +1037,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 removeCardAnimation(card);
 
             button.playSound();
-
-            hearthstone.util.Logger.saveLog("Play card",
-                    card.getName() + " played");
         } catch (HearthStoneException e) {
-            try {
-                hearthstone.util.Logger.saveLog("ERROR",
-                        e.getClass().getName() + ": " + e.getMessage()
-                                + "\nStack Trace: " + e.getStackTrace());
-            } catch (Exception f) {
-                e.getStackTrace();
-            }
-
             button.setBounds(startX, startY, width, height);
             showError(e.getMessage());
         } catch (Exception ex) {
@@ -1145,7 +1134,8 @@ public class GameBoard extends JPanel implements MouseListener {
             boolean sure = sureDialog.getValue();
             if (sure) {
                 try {
-                    DataBase.save();
+                    Mapper.getInstance().saveDataBase();
+
                     hearthstone.util.Logger.saveLog("Exit",
                             "Exited from game board");
                 } catch (Exception ex) {
@@ -1200,9 +1190,13 @@ public class GameBoard extends JPanel implements MouseListener {
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 
-        messageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+        myMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
-        add(messageDialog);
+        add(myMessageDialog);
+
+        enemyMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
+                15, 0, -17, 2500, SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+        add(enemyMessageDialog);
     }
 
     private void iconLayout() {
@@ -1281,31 +1275,25 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     protected synchronized void showError(String text) {
-        messageDialog.setText(text);
-        this.remove(messageDialog);
-
         if (DataTransform.getInstance().getWhoseTurn() == 0) {
-            messageDialog.setImagePath("/images/my_think_dialog.png");
-            messageDialog.setBounds(myErrorX, myErrorY,
+            myMessageDialog.setText(text);
+            myMessageDialog.setImagePath("/images/my_think_dialog.png");
+            myMessageDialog.setBounds(myErrorX, myErrorY,
                     SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+            myMessageDialog.setVisibility(true);
         } else {
-            messageDialog.setImagePath("/images/enemy_think_dialog.png");
-            messageDialog.setBounds(enemyErrorX, enemyErrorY,
+            enemyMessageDialog.setText(text);
+            enemyMessageDialog.setImagePath("/images/enemy_think_dialog.png");
+            enemyMessageDialog.setBounds(enemyErrorX, enemyErrorY,
                     SizeConfigs.inGameErrorWidth, SizeConfigs.inGameErrorHeight);
+            enemyMessageDialog.setVisibility(true);
         }
-
-        this.add(messageDialog);
-        messageDialog.setVisibility(true);
     }
 
     public void gameEnded() {
         if (DataTransform.getInstance().isLost(0)) {
             try {
-                DataBase.save();
-
-                hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(1) +
-                        " won " +
-                        DataTransform.getInstance().getPlayerName(0));
+                Mapper.getInstance().saveDataBase();
 
                 Mapper.getInstance().lost(0);
                 Mapper.getInstance().won(1);
@@ -1319,10 +1307,7 @@ public class GameBoard extends JPanel implements MouseListener {
             }
         } else {
             try {
-                DataBase.save();
-                hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(0) +
-                        " won " +
-                        DataTransform.getInstance().getPlayerName(1));
+                Mapper.getInstance().saveDataBase();
 
                 Mapper.getInstance().lost(1);
                 Mapper.getInstance().won(0);
@@ -1378,7 +1363,6 @@ public class GameBoard extends JPanel implements MouseListener {
         revalidate();
         repaint();
     }
-
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {

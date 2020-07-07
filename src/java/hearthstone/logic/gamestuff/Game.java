@@ -9,12 +9,10 @@ import hearthstone.util.timer.HSTimerTask;
 public class Game {
     private Player player0, player1;
     private int whoseTurn;
-    private boolean shuffleCards;
 
-    public Game(Player player0, Player player1, boolean shuffleCards){
+    public Game(Player player0, Player player1){
         this.player0  = player0;
         this.player1  = player1;
-        this.shuffleCards = shuffleCards;
 
         new HSTimerTask(500, new HSBigTask() {
             @Override
@@ -49,8 +47,8 @@ public class Game {
         player0.setPlayerId(0);
         player1.setPlayerId(1);
 
-        player0.configPlayer(shuffleCards);
-        player1.configPlayer(shuffleCards);
+        player0.configPlayer();
+        player1.configPlayer();
     }
 
     public void startGame(){

@@ -19,7 +19,9 @@ public class Sacrificer extends HeroPowerCard {
     }
 
     private void doAbility(Hero hero){
+        Mapper.getInstance().reduceMana(getPlayerId(), getManaCost());
         Mapper.getInstance().setHealth(hero.getHealth() - 2, hero);
+
         if(Rand.getInstance().getProbability(1, 2)){
             try {
                 Mapper.getInstance().drawCard(getPlayerId());
@@ -33,11 +35,13 @@ public class Sacrificer extends HeroPowerCard {
                 Mapper.getInstance().updateBoard();
             }
         }
+
+        log();
     }
 
     @Override
     public void found(Object object) {
-        if(object instanceof Hero) {
+        if(object instanceof Hero && ((Hero)object).getPlayerId() == this.getPlayerId()) {
             doAbility(((Hero)object));
             numberOfAttack--;
         }

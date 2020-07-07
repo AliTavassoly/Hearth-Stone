@@ -1,13 +1,14 @@
 package hearthstone.logic.models.player;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
+import hearthstone.logic.interfaces.*;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.card.interfaces.*;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.reward.RewardCard;
@@ -16,10 +17,10 @@ import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Logger;
 import hearthstone.util.Rand;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Player {
     protected Hero hero;
@@ -63,7 +64,7 @@ public class Player {
         factory = new CardFactory();
     }
 
-    public void configPlayer(boolean shuffle) {
+    public void configPlayer() {
         for (Card card : deck.getCards()) {
             configCard(card);
         }
@@ -72,10 +73,6 @@ public class Player {
             configPassive(passive);
 
         configHero(hero);
-
-        if (shuffle) {
-            Collections.shuffle(deck.getCards());
-        }
 
         mana = 0;
     }
@@ -218,6 +215,12 @@ public class Player {
     }
 
     public void startGame() throws HearthStoneException {
+        try {
+            Logger.saveLog("Start Game", DataTransform.getInstance().getPlayerName(getPlayerId()) + " started a game!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         turnNumber = 0;
         mana = 0;
 
@@ -229,6 +232,26 @@ public class Player {
     }
 
     // CARD ACTION
+    public void logDrawCard(Card card) {
+        try {
+            Logger.saveLog("Draw Card",
+                    DataTransform.getInstance().getPlayerName(getPlayerId())
+                            + " drew " + card.getName() + "!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void logPlayCard(Card card){
+        try {
+            Logger.saveLog("Play Card",
+                    DataTransform.getInstance().getPlayerName(getPlayerId())
+                            + " played " + card.getName() + "!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void drawCard() throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
@@ -248,6 +271,7 @@ public class Player {
         }
 
         hand.add(card);
+        logDrawCard(card);
     }
 
     public void drawCard(int ind) throws HearthStoneException {
@@ -269,6 +293,7 @@ public class Player {
         }
 
         hand.add(card);
+        logDrawCard(card);
     }
 
     public void drawCard(Card card) throws HearthStoneException {
@@ -288,6 +313,7 @@ public class Player {
         }
 
         hand.add(card);
+        logDrawCard(card);
     }
 
     public void discardCard(Card cardInHand) throws HearthStoneException {
@@ -327,6 +353,7 @@ public class Player {
             playSpell(cardInHand);
 
         Mapper.getInstance().updateBoard();
+        logPlayCard(cardInHand);
     }
 
     public void playCard(Card cardInHand) throws HearthStoneException {
@@ -367,6 +394,7 @@ public class Player {
             playSpell(cardInHand);
 
         Mapper.getInstance().updateBoard();
+        logPlayCard(cardInHand);
     }
 
     private void summonMinion(Card card) {
@@ -549,8 +577,8 @@ public class Player {
     }
 
     public void startTurn() throws Exception {
-        //mana = ++turnNumber + extraMana;
-        mana = 10;
+        mana = ++turnNumber + extraMana;
+        //mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         handleStartTurnBehaviours();
@@ -564,6 +592,7 @@ public class Player {
 
     public void configPassive(Passive passive) {
         passive.setPlayerId(getPlayerId());
+        passive.log();
     }
 
     private void configCard(Card card) {
@@ -639,11 +668,27 @@ public class Player {
 
     public void lostGame() {
         originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
+
+        try {
+            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
+                    " lost against " +
+                    DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void wonGame() {
         originalDeck.setTotalGames(originalDeck.getWinGames() + 1);
         originalDeck.setWinGames(originalDeck.getWinGames() + 1);
+
+        try {
+            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
+                    " won " +
+                    DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Card> getTopCards(int numberOfTopCards) {

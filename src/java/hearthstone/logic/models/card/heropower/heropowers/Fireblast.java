@@ -2,9 +2,9 @@ package hearthstone.logic.models.card.heropower.heropowers;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.IsAttacked;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.card.interfaces.IsAttacked;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
@@ -26,6 +26,7 @@ public class Fireblast extends HeroPowerCard {
                 throw new HearthStoneException("There is taunt in front of you!");
 
             Mapper.getInstance().damage(1, hero);
+            log();
             Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
             numberOfAttack--;
         } else if (object instanceof MinionCard) {
@@ -39,6 +40,7 @@ public class Fireblast extends HeroPowerCard {
             }
 
             Mapper.getInstance().damage(1, minion);
+            log();
             Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
 
             if (minion instanceof IsAttacked) {

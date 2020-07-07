@@ -2,10 +2,10 @@ package hearthstone.logic.models.card.heropower.heropowers;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
+import hearthstone.logic.interfaces.Upgradeable;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.card.interfaces.Upgradeable;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.CursorType;
@@ -19,6 +19,8 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
     }
 
     private void doAbility() {
+        Mapper.getInstance().reduceMana(getPlayerId(), getManaCost());
+
         if (isUpgraded()) {
             int myId = getPlayerId();
             int enemyId = DataTransform.getInstance().getEnemyId(myId);
@@ -45,8 +47,10 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
                 Mapper.getInstance().stealFromDeck(myId, enemyId, deckCard);
                 if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != DataTransform.getInstance().getHero(getPlayerId()).getType())
                     Mapper.getInstance().setCardMana(deckCard, Math.max(0, deckCard.getManaCost() - 2));
+
             }
         }
+        log();
         Mapper.getInstance().updateBoard();
     }
 

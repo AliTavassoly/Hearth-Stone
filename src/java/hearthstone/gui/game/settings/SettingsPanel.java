@@ -1,8 +1,8 @@
 package hearthstone.gui.game.settings;
 
 import hearthstone.HearthStone;
+import hearthstone.Mapper;
 import hearthstone.data.Data;
-import hearthstone.data.DataBase;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
 import hearthstone.gui.controls.dialogs.CardsBackDialog;
@@ -122,7 +122,8 @@ public class SettingsPanel extends JPanel {
                 }
 
                 try {
-                    DataBase.save();
+                    Mapper.getInstance().saveDataBase();
+
                     Logger.saveLog("Settings changed",
                             "password changed");
                 } catch (Exception e) {
@@ -144,7 +145,8 @@ public class SettingsPanel extends JPanel {
                     return;
 
                 try {
-                    DataBase.save();
+                    Mapper.getInstance().saveDataBase();
+
                     Logger.saveLog("Settings changed",
                             "name changed to: " + HearthStone.currentAccount.getName());
                 } catch (Exception e) {
@@ -161,7 +163,7 @@ public class SettingsPanel extends JPanel {
                 HearthStone.currentAccount.setCardsBackId(cardsBackDialog.getId());
 
                 try {
-                    DataBase.save();
+                    Mapper.getInstance().saveDataBase();
                     Logger.saveLog("Settings changed",
                             "cards back id changed to: " + HearthStone.currentAccount.getCardsBackId());
                 } catch (Exception e) {

@@ -10,6 +10,7 @@ import hearthstone.logic.models.Account;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
+import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class  HearthStone{
 
     public static void register(String name, String username,
                                 String password, String repeat) throws Exception {
-        /*if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
+        if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
             throw new HearthStoneException("please fill all the fields!");
         }
         if (!password.equals(repeat)) {
@@ -103,14 +104,14 @@ public class  HearthStone{
         }
         if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
-        }*/
+        }
         Data.addAccountCredentials(username, password);
         currentAccount = new Account(Data.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);
     }
 
     public static void logout() throws Exception {
-        DataBase.save();
+        Mapper.getInstance().saveDataBase();
         if (currentAccount != null)
             hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
         currentAccount = null;

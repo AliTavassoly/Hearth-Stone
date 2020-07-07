@@ -1,4 +1,4 @@
-package hearthstone.logic.models.card.interfaces;
+package hearthstone.logic.interfaces;
 
 public interface FriendlyMinionDies {
     void friendlyMinionDies();

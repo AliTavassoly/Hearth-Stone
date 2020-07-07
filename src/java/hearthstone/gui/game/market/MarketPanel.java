@@ -1,7 +1,7 @@
 package hearthstone.gui.game.market;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -41,7 +41,7 @@ public class MarketPanel extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startListY = (SizeConfigs.gameFrameHeight - SizeConfigs.marketListHeight) / 2;
+    private final int startListY = 0;
     private final int startListX = 100;
     private final int endListX = startListX + SizeConfigs.marketListWidth;
 
@@ -277,23 +277,20 @@ public class MarketPanel extends JPanel {
                             "sell_button");
                     boolean sure = sureDialog.getValue();
                     if (sure) {
-                        HearthStone.currentAccount.sellCards(card, 1);
+                        Mapper.getInstance().sellCard(card);
+
                         buyPanel.addCard(card, getBuyPanel(card));
                         sellPanel.removeCard(card);
-                        HearthStone.market.addCard(card.copy(), 1);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
-                        hearthstone.util.Logger.saveLog("sell",
-                                "in market, sold " + 1 + " of " +
-                                        card.getName() + "!");
-                        DataBase.save();
+
+                        Mapper.getInstance().saveDataBase();
                     }
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage() +
                                         "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) {
-                    }
+                    } catch (Exception ignored) { }
                     BaseFrame.error(e.getMessage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -334,16 +331,15 @@ public class MarketPanel extends JPanel {
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "buy_button");
+
                     boolean sure = sureDialog.getValue();
                     if (sure) {
-                        HearthStone.currentAccount.buyCards(card, 1);
+                        Mapper.getInstance().buyCard(card);
+
                         buyPanel.removeCard(card);
-                        HearthStone.market.removeCard(card, 1);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
-                        hearthstone.util.Logger.saveLog("buy",
-                                "in market, bought " + 1 + " of " +
-                                        card.getName() + "!");
-                        DataBase.save();
+
+                        Mapper.getInstance().saveDataBase();
                     }
                 } catch (HearthStoneException e) {
                     try {

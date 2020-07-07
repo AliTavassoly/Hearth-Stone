@@ -1,7 +1,7 @@
 package hearthstone.gui.game.collection;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.ImageButton;
@@ -175,7 +175,9 @@ public class DeckSelection extends JPanel {
                         Deck deck = new Deck(name, hero.getType());
                         hero.makeNewDeck(deck);
                         HearthStone.currentAccount.getDecks().add(deck);
-                        DataBase.save();
+
+                        Mapper.getInstance().saveDataBase();
+
                         hearthstone.util.Logger.saveLog("New Deck",
                                 deck.getName() + " deck created!");
                         restart();
@@ -234,7 +236,9 @@ public class DeckSelection extends JPanel {
                 public void actionPerformed(ActionEvent actionEvent) {
                     try {
                         hero.setSelectedDeck(deck);
-                        DataBase.save();
+
+                        Mapper.getInstance().saveDataBase();
+
                         restart();
 
                         hearthstone.util.Logger.saveLog("Click_button",
@@ -314,7 +318,7 @@ public class DeckSelection extends JPanel {
 
     private void restart() {
         try {
-            DataBase.save();
+            Mapper.getInstance().saveDataBase();
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package hearthstone.logic.models.passive.passives;
 
 import hearthstone.Mapper;
-import hearthstone.logic.models.card.interfaces.StartTurnBehave;
+import hearthstone.logic.interfaces.StartTurnBehave;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 
