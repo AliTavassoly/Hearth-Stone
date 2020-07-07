@@ -72,7 +72,6 @@ public class  HearthStone{
                 return card.copy();
             }
         }
-        System.out.println(name + " not found!");
         return null;
     }
 
