@@ -559,8 +559,8 @@ public class Player {
     }
 
     public void startTurn() throws Exception {
-        //mana = ++turnNumber + extraMana;
-        mana = 10;
+        mana = ++turnNumber + extraMana;
+        //mana = 10;
         mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         handleStartTurnBehaviours();

@@ -27,7 +27,6 @@ public class  HearthStone{
 
     public static GameBoard currentGameBoard;
     public static Game currentGame;
-    public static int cardsBackId;
 
     public static boolean userNameIsValid(String username) {
         for (int i = 0; i < username.length(); i++) {
