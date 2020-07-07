@@ -39,6 +39,7 @@ public class Sathrovarr extends MinionCard implements Battlecry {
             Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
 
             Mapper.getInstance().deleteCurrentMouseWaiting();
+            Mapper.getInstance().updateBoard();
         }
     }
 

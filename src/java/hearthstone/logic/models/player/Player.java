@@ -317,9 +317,6 @@ public class Player {
     }
 
     public void discardCard(Card cardInHand) throws HearthStoneException {
-        if (cardInHand.getManaCost() > mana)
-            throw new HearthStoneException("you don't have enough mana!");
-
         switch (cardInHand.getCardType()) {
             case HEROPOWER:
                 heroPower = (HeroPowerCard) cardInHand;

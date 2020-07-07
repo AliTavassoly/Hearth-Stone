@@ -33,6 +33,8 @@ public class PharaohsBlessing extends SpellCard {
             Mapper.getInstance().addHealth(4, minionCard);
             Mapper.getInstance().setTaunt(true, minionCard);
             Mapper.getInstance().setDivineShield(true, minionCard);
+
+            Mapper.getInstance().updateBoard();
         }
     }
 }

@@ -41,7 +41,7 @@ public class MarketPanel extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = SizeConfigs.gameFrameHeight - SizeConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int startListY = 0;
+    private final int startListY = (SizeConfigs.gameFrameHeight - SizeConfigs.marketListHeight) / 2;
     private final int startListX = 100;
     private final int endListX = startListX + SizeConfigs.marketListWidth;
 

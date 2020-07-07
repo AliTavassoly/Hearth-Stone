@@ -24,5 +24,6 @@ public class SecurityRover extends MinionCard implements IsAttacked {
     @Override
     public void isAttacked() {
         Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("The Hulk"));
+        Mapper.getInstance().updateBoard();
     }
 }

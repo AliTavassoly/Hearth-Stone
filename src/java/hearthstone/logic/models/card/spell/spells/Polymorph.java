@@ -32,6 +32,8 @@ public class Polymorph  extends SpellCard {
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
             Mapper.getInstance().transformMinion(minionCard.getPlayerId(), minionCard, (MinionCard) HearthStone.getCardByName("Sheep"));
+
+            Mapper.getInstance().updateBoard();
         }
     }
 }

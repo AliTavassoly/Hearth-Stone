@@ -43,5 +43,7 @@ public class FriendlySmith  extends SpellCard {
         Mapper.getInstance().addAttack(2, selectedWeapon);
         Mapper.getInstance().addDurability(2, selectedWeapon);
         Mapper.getInstance().makeAndPutDeck(getPlayerId(), selectedWeapon);
+
+        Mapper.getInstance().updateBoard();
     }
 }

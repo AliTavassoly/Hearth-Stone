@@ -6,4 +6,6 @@ public class PriestPower extends SpecialHeroPower {
     public PriestPower(int id, String name){
         super(id, name);
     }
+
+    // we have not healer spell !
 }

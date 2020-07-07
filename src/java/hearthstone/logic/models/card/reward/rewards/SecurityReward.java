@@ -39,5 +39,7 @@ public class SecurityReward extends RewardCard implements Battlecry {
         Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), "Security Rover");
         Mapper.getInstance().restartSpentManaOnMinions(getPlayerId());
         log();
+
+        Mapper.getInstance().updateBoard();
     }
 }

@@ -42,5 +42,7 @@ public class DesertSpear extends WeaponCard {
         }
         Mapper.getInstance().damage(this.attack, hero);
         Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
+
+        Mapper.getInstance().updateBoard();
     }
 }

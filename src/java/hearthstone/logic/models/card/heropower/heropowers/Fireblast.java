@@ -49,6 +49,7 @@ public class Fireblast extends HeroPowerCard {
 
             numberOfAttack--;
         }
+        Mapper.getInstance().updateBoard();
     }
 
     @Override

@@ -1157,6 +1157,14 @@ public class GameBoard extends JPanel implements MouseListener {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
+                try {
+                    hearthstone.util.Logger.saveLog("End turn", "Player " +
+                            DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getWhoseTurn()) +
+                            " ended turn!");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 Mapper.getInstance().endTurn();
                 endTurnLineTimerTask.myStop();
 

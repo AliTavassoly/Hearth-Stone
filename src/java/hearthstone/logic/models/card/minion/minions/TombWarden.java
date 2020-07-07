@@ -24,5 +24,6 @@ public class TombWarden extends MinionCard implements Battlecry {
     @Override
     public void battlecry() {
         Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(this.getName()));
+        Mapper.getInstance().updateBoard();
     }
 }

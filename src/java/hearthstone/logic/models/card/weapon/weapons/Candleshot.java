@@ -21,5 +21,7 @@ public class Candleshot extends WeaponCard {
 
         Mapper.getInstance().addImmunity(getPlayerId(), 1, DataTransform.getInstance().getHero(getPlayerId()));
         Mapper.getInstance().handleImmunities(getPlayerId(), DataTransform.getInstance().getHero(getPlayerId()));
+
+        Mapper.getInstance().updateBoard();
     }
 }

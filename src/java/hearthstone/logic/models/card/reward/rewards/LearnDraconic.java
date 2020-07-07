@@ -40,5 +40,7 @@ public class LearnDraconic extends RewardCard implements Battlecry {
         Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Faerie Dragon"));
         Mapper.getInstance().restartSpentManaOnSpells(getPlayerId());
         log();
+
+        Mapper.getInstance().updateBoard();
     }
 }
