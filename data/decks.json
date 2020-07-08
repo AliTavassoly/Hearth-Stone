@@ -1,0 +1,41 @@
+{
+  "friend": [
+    "Learn Draconic",
+    "Book of Specters",
+    "Faerie Dragon",
+    "High Priest Amet",
+    "Sathrovarr",
+    "Tracking",
+    "Soulfire",
+    "Freezing Potion",
+    "Friendly Smith",
+    "Curio Collector",
+    "Pharaoh's Blessing",
+    "Polymorph",
+    "Sprint",
+    "Gnomish Army Knife",
+    "Polymorph",
+    "Tomb Warden",
+    "Wrathspike Brute",
+    "The Hulk",
+    "Locust",
+    "Sathrovarr",
+    "Lab Recruiter",
+    "Locust",
+    "Hulking Overfiend"
+  ],
+  "enemy": [
+    "Security Reward",
+    "Dreadscale",
+    "Flamereaper",
+    "Swarm of Locusts",
+    "Tomb Warden",
+    "Sathrovarr",
+    "Abomination",
+    "Security Rover",
+    "The Hulk",
+    "Locust",
+    "Hulking Overfiend",
+    "Security Rover"
+  ]
+}
