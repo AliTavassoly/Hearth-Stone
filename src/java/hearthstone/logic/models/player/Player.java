@@ -16,6 +16,7 @@ import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
+import hearthstone.logic.behaviours.*;
 import hearthstone.util.Logger;
 import hearthstone.util.Rand;
 

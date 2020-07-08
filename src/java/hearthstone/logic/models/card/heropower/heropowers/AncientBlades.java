@@ -6,6 +6,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.behaviours.*;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.CursorType;
 

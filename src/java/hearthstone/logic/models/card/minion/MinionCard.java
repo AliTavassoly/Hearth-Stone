@@ -3,6 +3,7 @@ package hearthstone.logic.models.card.minion;
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.logic.behaviours.Character;
+import hearthstone.logic.behaviours.*;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;

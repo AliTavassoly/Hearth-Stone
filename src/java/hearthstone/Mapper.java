@@ -3,7 +3,7 @@ package hearthstone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.behaviours.Character;
-import hearthstone.logic.behaviours.IsAttacked;
+import hearthstone.logic.behaviours.*;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
