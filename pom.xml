@@ -4,6 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <build>
+        <sourceDirectory>src/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
     <groupId>groupId</groupId>
     <artifactId>Hearth-Stone</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -14,6 +28,5 @@
             <version>2.8.6</version>
         </dependency>
     </dependencies>
-
 
 </project>
