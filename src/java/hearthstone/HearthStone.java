@@ -8,7 +8,7 @@ import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class  HearthStone{
     public static Map<Integer, Card> baseCards = new HashMap<>();
-    public static Map<Integer, IHero> baseHeroes = new HashMap<>();
+    public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Map<Integer, Passive> basePassives = new HashMap<>();
 
     public static Account currentAccount;
@@ -74,8 +74,8 @@ public class  HearthStone{
         return null;
     }
 
-    public static IHero getHeroByName(String name){
-        for(IHero hero: baseHeroes.values()){
+    public static Hero getHeroByName(String name){
+        for(Hero hero: baseHeroes.values()){
             if(hero.getName().equals(name)){
                 return hero.copy();
             }

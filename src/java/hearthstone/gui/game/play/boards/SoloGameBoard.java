@@ -9,7 +9,7 @@ import hearthstone.gui.controls.buttons.PassiveButton;
 import hearthstone.gui.controls.dialogs.CardDialog;
 import hearthstone.gui.controls.dialogs.MessageDialog;
 import hearthstone.gui.controls.dialogs.PassiveDialog;
-import hearthstone.gui.controls.interfaces.IShouldHovered;
+import hearthstone.gui.controls.interfaces.ShouldHovered;
 import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.controls.*;
@@ -48,10 +48,10 @@ public class SoloGameBoard extends GameBoard {
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            BoardCardButtonI cardButton;
+            BoardCardButton cardButton;
 
             if (playerId == myPlayerId) {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, 0);
 
                 makeCardOnHandMouseListener(cardButton,
@@ -60,7 +60,7 @@ public class SoloGameBoard extends GameBoard {
                         SizeConfigs.smallCardWidth,
                         SizeConfigs.smallCardHeight);
             } else {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 1, true);
             }
 
@@ -119,7 +119,7 @@ public class SoloGameBoard extends GameBoard {
     }
 
     @Override
-    protected void makeCardOnHandMouseListener(BoardCardButtonI button, int startX, int startY, int width, int height) {
+    protected void makeCardOnHandMouseListener(BoardCardButton button, int startX, int startY, int width, int height) {
         if(button.getCard().getPlayerId() == 0){
             super.makeCardOnHandMouseListener(button, startX, startY, width, height);
             return;
@@ -127,7 +127,7 @@ public class SoloGameBoard extends GameBoard {
     }
 
     @Override
-    protected void makeCardOnLandMouseListener(BoardCardButtonI button, int startX, int startY) {
+    protected void makeCardOnLandMouseListener(BoardCardButton button, int startX, int startY) {
         if(button.getCard().getPlayerId() == 0){
             super.makeCardOnLandMouseListener(button, startX, startY);
             return;
@@ -196,7 +196,7 @@ public class SoloGameBoard extends GameBoard {
     protected void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",
                 "end_turn_hovered.png", 15, 1,
-                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight, new IShouldHovered() {
+                SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight, new ShouldHovered() {
             @Override
             public boolean shouldHovered() {
                 return DataTransform.getInstance().getWhoseTurn() == 0;

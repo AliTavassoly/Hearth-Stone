@@ -3,8 +3,8 @@ package hearthstone.logic.models.card.heropower.heropowers;
 import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.CursorType;
 
 public class TheSilverHand extends HeroPowerCard  {
@@ -31,7 +31,7 @@ public class TheSilverHand extends HeroPowerCard  {
 
     @Override
     public void found(Object object) {
-        if(object instanceof IHero && ((IHero)object).getPlayerId() == this.getPlayerId()){
+        if(object instanceof Hero && ((Hero)object).getPlayerId() == this.getPlayerId()){
             doAbility();
             numberOfAttack--;
         }

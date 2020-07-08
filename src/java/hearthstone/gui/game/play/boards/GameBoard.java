@@ -4,13 +4,13 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.buttons.CardButtonI;
+import hearthstone.gui.controls.buttons.CardButton;
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.buttons.PassiveButton;
 import hearthstone.gui.controls.dialogs.*;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
-import hearthstone.gui.controls.interfaces.IHaveCard;
+import hearthstone.gui.controls.interfaces.HaveCard;
 import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
@@ -20,16 +20,16 @@ import hearthstone.gui.util.Animation;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.heropower.IHeroPowerBehaviour;
-import hearthstone.logic.models.card.minion.IMinionBehaviour;
+import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
+import hearthstone.logic.models.card.minion.MinionBehaviour;
 import hearthstone.logic.models.card.reward.RewardCard;
-import hearthstone.logic.models.card.weapon.IWeaponBehaviour;
+import hearthstone.logic.models.card.weapon.WeaponBehaviour;
 import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
+import hearthstone.util.timer.HSBigTask;
+import hearthstone.util.timer.HSDelayTask;
 import hearthstone.util.timer.HSDelayTimerTask;
 import hearthstone.util.timer.HSTimerTask;
-import hearthstone.util.timer.IHSBigTask;
-import hearthstone.util.timer.IHSDelayTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -190,7 +190,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
         addMouseListener(this);
 
-        new HSDelayTimerTask(100, new IHSDelayTask() {
+        new HSDelayTimerTask(100, new HSDelayTask() {
             @Override
             public void delayAction() {
                 showPassiveDialogs();
@@ -419,13 +419,13 @@ public class GameBoard extends JPanel implements MouseListener {
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            BoardCardButtonI cardButton;
+            BoardCardButton cardButton;
 
             if (playerId == myPlayerId) {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, true, playerId);
             } else {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 180, true, playerId);
             }
 
@@ -476,13 +476,13 @@ public class GameBoard extends JPanel implements MouseListener {
 
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            BoardCardButtonI cardButton;
+            BoardCardButton cardButton;
 
             if (myPlayerId == playerId) {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 0, true);
             } else {
-                cardButton = new BoardCardButtonI(card,
+                cardButton = new BoardCardButton(card,
                         SizeConfigs.smallCardWidthOnLand, SizeConfigs.smallCardHeightOnLand, true, 1, true);
             }
 
@@ -547,7 +547,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
         SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
-        endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new IHSBigTask() {
+        endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new HSBigTask() {
             public void startFunction() {
             }
 
@@ -601,7 +601,7 @@ public class GameBoard extends JPanel implements MouseListener {
         final int[] x = {startX};
         final int[] y = {startY};
 
-        new HSTimerTask(period, new IHSBigTask() {
+        new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
                 for(Component component1: GameBoard.this.getComponents()){
                     if(component1 == component)
@@ -613,7 +613,7 @@ public class GameBoard extends JPanel implements MouseListener {
             @Override
             public void startFunction() {
                 synchronized (animationLock) {
-                    animationsCard.add(((IHaveCard) animation.getComponent()).getCard());
+                    animationsCard.add(((HaveCard) animation.getComponent()).getCard());
                     animations.add(animation);
 
                     animation.getComponent().setBounds(startX, startY, width, height);
@@ -649,11 +649,11 @@ public class GameBoard extends JPanel implements MouseListener {
 
             @Override
             public void closeFunction() {
-                new HSDelayTimerTask(animation.getRemoveDelayAfterArrived(), new IHSDelayTask() {
+                new HSDelayTimerTask(animation.getRemoveDelayAfterArrived(), new HSDelayTask() {
                     @Override
                     public void delayAction() {
                         synchronized (animationLock) {
-                            int ind = animationsCard.indexOf(((IHaveCard) animation.getComponent()).getCard());
+                            int ind = animationsCard.indexOf(((HaveCard) animation.getComponent()).getCard());
                             animationsCard.remove(ind);
                             animations.remove(ind);
 
@@ -683,7 +683,7 @@ public class GameBoard extends JPanel implements MouseListener {
         final int[] width = {startWidth};
         final int[] height = {startHeight};
 
-        new HSTimerTask(period, new IHSBigTask() {
+        new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
                 for(Component component1: GameBoard.this.getComponents()){
                     if(component1 == component)
@@ -695,7 +695,7 @@ public class GameBoard extends JPanel implements MouseListener {
             @Override
             public void startFunction() {
                 synchronized (animationLock) {
-                    animationsCard.add(((CardButtonI) animation.getComponent()).getCard());
+                    animationsCard.add(((CardButton) animation.getComponent()).getCard());
                     animations.add(animation);
 
                     animation.getComponent().setBounds(startX, startY, startWidth, startHeight);
@@ -724,7 +724,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 width[0] += (animation.getDestinationWidth() - width[0] != 0 ? plusWidth * (animation.getDestinationWidth() - width[0]) / Math.abs(animation.getDestinationWidth() - width[0]) : 0);
                 height[0] += (animation.getDestinationHeight() - height[0] != 0 ? plusHeight * (animation.getDestinationHeight() - height[0]) / Math.abs(animation.getDestinationHeight() - height[0]) : 0);
 
-                ((CardButtonI)animation.getComponent()).setMySize(width[0], height[0]);
+                ((CardButton)animation.getComponent()).setMySize(width[0], height[0]);
                 animation.getComponent().setBounds( x[0], y[0], width[0], height[0]);
                 addComponentIfNot(animation.getComponent());
             }
@@ -739,11 +739,11 @@ public class GameBoard extends JPanel implements MouseListener {
 
             @Override
             public void closeFunction() {
-                new HSDelayTimerTask(3000, new IHSDelayTask() {
+                new HSDelayTimerTask(3000, new HSDelayTask() {
                     @Override
                     public void delayAction() {
                         synchronized (animationLock) {
-                            int ind = animationsCard.indexOf(((CardButtonI) animation.getComponent()).getCard());
+                            int ind = animationsCard.indexOf(((CardButton) animation.getComponent()).getCard());
                             animationsCard.remove(ind);
                             animations.remove(ind);
 
@@ -767,9 +767,9 @@ public class GameBoard extends JPanel implements MouseListener {
     // ANIMATIONS
 
     // MOUSE LISTENERS
-    protected void makeCardOnHandMouseListener(BoardCardButtonI button,
+    protected void makeCardOnHandMouseListener(BoardCardButton button,
                                                int startX, int startY, int width, int height) {
-        CardButtonI bigCardButton = new CardButtonI(
+        CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
@@ -841,9 +841,9 @@ public class GameBoard extends JPanel implements MouseListener {
         });
     }
 
-    protected void makeCardOnLandMouseListener(BoardCardButtonI button,
+    protected void makeCardOnLandMouseListener(BoardCardButton button,
                                                int startX, int startY) {
-        CardButtonI bigCardButton = new CardButtonI(
+        CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
@@ -875,7 +875,7 @@ public class GameBoard extends JPanel implements MouseListener {
                     }
                 } else {
                     if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
-                            && ((IMinionBehaviour) button.getCard()).canAttack()) {
+                            && ((MinionBehaviour) button.getCard()).canAttack()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }
@@ -898,7 +898,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     protected void makeWeaponMouseListener(WeaponButton button) {
-        CardButtonI bigCardButton = new CardButtonI(
+        CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
@@ -930,7 +930,7 @@ public class GameBoard extends JPanel implements MouseListener {
                     }
                 } else {
                     if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
-                            && ((IWeaponBehaviour) button.getCard()).pressed()) {
+                            && ((WeaponBehaviour) button.getCard()).pressed()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }
@@ -953,7 +953,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     protected void makeHeroPowerMouseListener(HeroPowerButton button) {
-        CardButtonI bigCardButton = new CardButtonI(
+        CardButton bigCardButton = new CardButton(
                 button.getCard(),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight,
@@ -985,8 +985,8 @@ public class GameBoard extends JPanel implements MouseListener {
                     }
                 } else {
                     if (button.getPlayerId() == DataTransform.getInstance().getWhoseTurn()
-                            && ((IHeroPowerBehaviour) button.getCard()).canAttack()) {
-                        makeNewMouseWaiting(((IHeroPowerBehaviour) button.getCard()).lookingForCursorType(),
+                            && ((HeroPowerBehaviour) button.getCard()).canAttack()) {
+                        makeNewMouseWaiting(((HeroPowerBehaviour) button.getCard()).lookingForCursorType(),
                                 button.getCard());
                     }
                 }
@@ -1024,7 +1024,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
     // MOUSE LISTENERS
 
-    private void playCard(BoardCardButtonI button, Card card,
+    private void playCard(BoardCardButton button, Card card,
                           int startX, int startY, int width, int height) {
         try {
             if (button.getPlayerId() == 0) {
@@ -1047,7 +1047,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     public void animateSpell(int playerId, Card card) {
         for (Component component : this.getComponents()) {
-            if (component instanceof IHaveCard && ((IHaveCard) component).getCard() == card) {
+            if (component instanceof HaveCard && ((HaveCard) component).getCard() == card) {
                 this.remove(component);
             }
         }
@@ -1056,12 +1056,12 @@ public class GameBoard extends JPanel implements MouseListener {
             animateCardWithResize(myHandX, myHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
                     new Animation(spellDestinationX, spellDestinationY,
                             SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-                            3000, new CardButtonI(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+                            3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         } else {
             animateCardWithResize(enemyHandX, enemyHandY, SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight,
                     new Animation(spellDestinationX, spellDestinationY,
                             SizeConfigs.medCardWidth, SizeConfigs.medCardHeight,
-                            3000, new CardButtonI(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
+                            3000, new CardButton(card, false, SizeConfigs.medCardWidth, SizeConfigs.medCardHeight, -1)));
         }
     }
 
@@ -1349,8 +1349,8 @@ public class GameBoard extends JPanel implements MouseListener {
             if (component instanceof ImagePanel && ((ImagePanel) component).isRTL())
                 continue;
 
-            if (component instanceof IHaveCard) {
-                IHaveCard cardButton = (IHaveCard) component;
+            if (component instanceof HaveCard) {
+                HaveCard cardButton = (HaveCard) component;
                 synchronized (animationLock) {
                     if (animationsCard.contains(cardButton.getCard())) {
                         continue;

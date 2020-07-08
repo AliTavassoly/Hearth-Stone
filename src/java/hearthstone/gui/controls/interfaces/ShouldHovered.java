@@ -1,5 +1,5 @@
 package hearthstone.gui.controls.interfaces;
 
-public interface IShouldHovered {
+public interface ShouldHovered {
     boolean shouldHovered() ;
 }

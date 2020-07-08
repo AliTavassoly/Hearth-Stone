@@ -4,8 +4,8 @@ import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
+import hearthstone.util.timer.HSDelayTask;
 import hearthstone.util.timer.HSDelayTimerTask;
-import hearthstone.util.timer.IHSDelayTask;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -62,7 +62,7 @@ public class MessageDialog extends ImageButton {
     public void setVisibility(boolean visibility){
         if(visibility){
             setVisible(true);
-            new HSDelayTimerTask(showTime, new IHSDelayTask() {
+            new HSDelayTimerTask(showTime, new HSDelayTask() {
                 @Override
                 public void delayAction() {
                     setVisibility(false);

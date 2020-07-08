@@ -7,11 +7,11 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.minion.MinionCard;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
-public abstract class WeaponCard extends Card implements IWeaponBehaviour {
+public abstract class WeaponCard extends Card implements WeaponBehaviour {
     protected int durability;
     protected int attack;
 
@@ -43,7 +43,7 @@ public abstract class WeaponCard extends Card implements IWeaponBehaviour {
         this.attack = attack;
     }
 
-    protected void log(IHero hero){
+    protected void log(Hero hero){
         try {
             hearthstone.util.Logger.saveLog("Weapon Attack", this.getName() + " attacked to " + hero.getName() + "!");
         } catch (Exception e){
@@ -87,7 +87,7 @@ public abstract class WeaponCard extends Card implements IWeaponBehaviour {
     }
 
     @Override
-    public void attack(IHero hero) throws HearthStoneException {
+    public void attack(Hero hero) throws HearthStoneException {
         if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
@@ -104,11 +104,11 @@ public abstract class WeaponCard extends Card implements IWeaponBehaviour {
                 this.attack((MinionCard) object);
                 numberOfAttack--;
             }
-        } else if (object instanceof IHero) {
-            if (((IHero) object).getPlayerId() == this.getPlayerId()) {
+        } else if (object instanceof Hero) {
+            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
-                this.attack((IHero) object);
+                this.attack((Hero) object);
                 numberOfAttack--;
             }
         }

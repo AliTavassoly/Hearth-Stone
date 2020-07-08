@@ -5,7 +5,7 @@ import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.hero.HeroType;
 
-public abstract class RewardCard extends Card implements IRewardBehaviour {
+public abstract class RewardCard extends Card implements RewardBehaviour {
     public RewardCard(){ }
 
     public RewardCard(int id, String name, String description,

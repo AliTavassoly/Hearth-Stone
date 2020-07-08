@@ -4,8 +4,8 @@ import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.behaviours.Upgradeable;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.card.heropower.IHeroPowerBehaviour;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
@@ -92,7 +92,7 @@ public class HeroPowerButton extends ImageButton {
 
         g2.drawImage(cardImage, 20, 25, null);
 
-        if (((IHeroPowerBehaviour) card).canAttack()) {
+        if (((HeroPowerBehaviour) card).canAttack()) {
             if (card instanceof Upgradeable && ((Upgradeable) card).isUpgraded())
                 g2.drawImage(heroPowerUpgradeFrame, 0, 0, null);
             else
@@ -103,7 +103,7 @@ public class HeroPowerButton extends ImageButton {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        if (((IHeroPowerBehaviour) card).canAttack())
+        if (((HeroPowerBehaviour) card).canAttack())
             drawMana(g2, String.valueOf(card.getManaCost()));
     }
 

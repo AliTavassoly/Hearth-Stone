@@ -1,13 +1,13 @@
 package hearthstone.util.timer;
 
 public class HSTimerTask extends Thread {
-    private IHSBigTask task;
+    private HSBigTask task;
     private long period, length;
     private long warningTime;
     private final long startTime;
     private boolean shouldStop;
 
-    public HSTimerTask(long period, long length, long warningTime, IHSBigTask task) {
+    public HSTimerTask(long period, long length, long warningTime, HSBigTask task) {
         this.period = period;
         this.length = length;
         this.task = task;
@@ -16,7 +16,7 @@ public class HSTimerTask extends Thread {
         startTime = System.currentTimeMillis();
     }
 
-    public HSTimerTask(long period, long length, IHSBigTask task) {
+    public HSTimerTask(long period, long length, HSBigTask task) {
         this.period = period;
         this.length = length;
         this.task = task;
@@ -24,7 +24,7 @@ public class HSTimerTask extends Thread {
         startTime = System.currentTimeMillis();
     }
 
-    public HSTimerTask(long period, IHSBigTask task) {
+    public HSTimerTask(long period, HSBigTask task) {
         this.period = period;
         this.task = task;
 

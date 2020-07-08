@@ -2,12 +2,11 @@ package hearthstone.logic.models.card.heropower.heropowers;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.IsAttacked;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.minion.MinionCard;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -20,8 +19,8 @@ public class Fireblast extends HeroPowerCard {
     }
 
     private void doAbility(Object object) throws HearthStoneException {
-        if (object instanceof IHero) {
-            IHero hero = (IHero) object;
+        if (object instanceof Hero) {
+            Hero hero = (Hero) object;
             if (DataTransform.getInstance().haveTaunt(hero.getPlayerId()))
                 throw new HearthStoneException("There is taunt in front of you!");
 
@@ -66,8 +65,8 @@ public class Fireblast extends HeroPowerCard {
 
             doAbility(minionCard);
             numberOfAttack--;
-        } else if (object instanceof IHero) {
-            IHero hero = (IHero) object;
+        } else if (object instanceof Hero) {
+            Hero hero = (Hero) object;
             if (hero.getPlayerId() == this.getPlayerId())
                 throw new HearthStoneException("Choose enemy!");
             if (DataTransform.getInstance().haveTaunt(hero.getPlayerId()))

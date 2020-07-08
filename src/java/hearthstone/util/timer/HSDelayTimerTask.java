@@ -1,10 +1,10 @@
 package hearthstone.util.timer;
 
 public class HSDelayTimerTask extends Thread {
-    private IHSDelayTask task;
+    private HSDelayTask task;
     private long delay;
 
-    public HSDelayTimerTask(long delay, IHSDelayTask task) {
+    public HSDelayTimerTask(long delay, HSDelayTask task) {
         this.delay = delay;
         this.task = task;
     }

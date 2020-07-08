@@ -1,6 +1,6 @@
 package hearthstone.gui.controls.buttons;
 
-import hearthstone.gui.controls.interfaces.IShouldHovered;
+import hearthstone.gui.controls.interfaces.ShouldHovered;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
@@ -19,7 +19,7 @@ public class ImageButton extends JButton implements MouseListener {
     private Color currentColor, textColor, hoveredTextColor;
     private boolean isRadio;
     private int tof;
-    private IShouldHovered IShouldHovered;
+    private ShouldHovered ShouldHovered;
 
     private BufferedImage image, normalImage, hoveredImage;
 
@@ -52,7 +52,7 @@ public class ImageButton extends JButton implements MouseListener {
     }
 
     public ImageButton(String text, String normalPath, String hoveredPath,
-                       int textSize, int textStyle, int width, int height, IShouldHovered IShouldHovered) {
+                       int textSize, int textStyle, int width, int height, ShouldHovered ShouldHovered) {
         this.text = text;
         this.normalPath = normalPath;
         this.hoveredPath = hoveredPath;
@@ -60,7 +60,7 @@ public class ImageButton extends JButton implements MouseListener {
         this.textStyle = textStyle;
         this.width = width;
         this.height = height;
-        this.IShouldHovered = IShouldHovered;
+        this.ShouldHovered = ShouldHovered;
 
         imagePath = normalPath;
 
@@ -208,7 +208,7 @@ public class ImageButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if(IShouldHovered != null && !IShouldHovered.shouldHovered())
+        if(ShouldHovered != null && !ShouldHovered.shouldHovered())
             return;
         if (hoveredTextColor != null) {
             currentColor = hoveredTextColor;

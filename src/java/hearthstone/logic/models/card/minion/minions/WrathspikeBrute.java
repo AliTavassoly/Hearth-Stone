@@ -8,8 +8,8 @@ import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
 public class WrathspikeBrute extends MinionCard implements IsAttacked{
@@ -27,7 +27,7 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
 
     @Override
     public void isAttacked() {
-        IHero hero = DataTransform.getInstance().getHero(DataTransform.getInstance().getEnemyId(getPlayerId()));
+        Hero hero = DataTransform.getInstance().getHero(DataTransform.getInstance().getEnemyId(getPlayerId()));
 
         try {
             Mapper.getInstance().damage(1, hero);

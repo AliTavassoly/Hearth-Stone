@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.passive.Passive;
@@ -15,7 +15,7 @@ import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 
-public abstract class IHero implements IHeroBehaviour, ICharacter {
+public abstract class Hero implements HeroBehaviour, Character {
     private int id;
     private String name;
     private String description;
@@ -36,13 +36,13 @@ public abstract class IHero implements IHeroBehaviour, ICharacter {
 
     private int playerId;
 
-    public IHero() {
+    public Hero() {
         configHero();
     }
 
-    public IHero(int id, String name, HeroType type, String description,
-                 String heroPowerName,
-                 int health) {
+    public Hero(int id, String name, HeroType type, String description,
+                String heroPowerName,
+                int health) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -154,16 +154,16 @@ public abstract class IHero implements IHeroBehaviour, ICharacter {
         this.spellSafe = spellSafe;
     }
 
-    public IHero copy() {
+    public Hero copy() {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(IHero.class, new AbstractAdapter<IHero>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
         gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
 
         Gson gson = gsonBuilder.create();
-        return gson.fromJson(gson.toJson(this, IHero.class), IHero.class);
+        return gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
     }
 
     // End of getter setter
@@ -175,8 +175,8 @@ public abstract class IHero implements IHeroBehaviour, ICharacter {
         decks.add(deck);
     }
 
-    public static IHero getHeroByType(HeroType heroType){
-        for(IHero hero : HearthStone.baseHeroes.values()){
+    public static Hero getHeroByType(HeroType heroType){
+        for(Hero hero : HearthStone.baseHeroes.values()){
             if(hero.getType() == heroType)
                 return hero.copy();
         }

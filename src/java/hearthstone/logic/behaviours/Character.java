@@ -2,7 +2,7 @@ package hearthstone.logic.behaviours;
 
 import hearthstone.util.HearthStoneException;
 
-public interface ICharacter {
+public interface Character {
     void gotDamage(int damage) throws HearthStoneException;
     void gotHeal(int heal);
     int getHealth();

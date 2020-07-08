@@ -2,7 +2,7 @@ package hearthstone.logic.models.card.spell.spells;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.spell.SpellCard;
@@ -40,11 +40,11 @@ public class Soulfire extends SpellCard {
 
     @Override
     public void found(Object object) {
-        if (object instanceof ICharacter) {
-            ICharacter ICharacter = (ICharacter) object;
+        if (object instanceof Character) {
+            Character character = (Character) object;
             try {
-                if (!ICharacter.isSpellSafe())
-                    ICharacter.gotDamage(4);
+                if (!character.isSpellSafe())
+                    character.gotDamage(4);
             } catch (HearthStoneException ignore) { }
 
             try {

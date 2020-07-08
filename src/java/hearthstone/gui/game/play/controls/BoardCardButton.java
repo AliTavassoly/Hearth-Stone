@@ -3,7 +3,7 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.ImageButton;
-import hearthstone.gui.controls.interfaces.IHaveCard;
+import hearthstone.gui.controls.interfaces.HaveCard;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.logic.models.card.Card;
@@ -20,7 +20,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-public class BoardCardButtonI extends ImageButton implements IHaveCard, MouseListener, MouseMotionListener {
+public class BoardCardButton extends ImageButton implements HaveCard, MouseListener, MouseMotionListener {
     private int width, height;
     private double initialRotate, rotate;
     private boolean showBig;
@@ -43,7 +43,7 @@ public class BoardCardButtonI extends ImageButton implements IHaveCard, MouseLis
 
     private int playerId;
 
-    public BoardCardButtonI(Card card, int width, int height, int playerId, boolean isBack) {
+    public BoardCardButton(Card card, int width, int height, int playerId, boolean isBack) {
         this.card = card;
         this.width = width;
         this.height = height;
@@ -53,7 +53,7 @@ public class BoardCardButtonI extends ImageButton implements IHaveCard, MouseLis
         configButton();
     }
 
-    public BoardCardButtonI(Card card, int width, int height, boolean showBig, int playerId) {
+    public BoardCardButton(Card card, int width, int height, boolean showBig, int playerId) {
         this.card = card;
         this.playerId = playerId;
         this.showBig = showBig;
@@ -64,7 +64,7 @@ public class BoardCardButtonI extends ImageButton implements IHaveCard, MouseLis
         configButton();
     }
 
-    public BoardCardButtonI(Card card, int width, int height, boolean showBig, int playerId, boolean isInLand) {
+    public BoardCardButton(Card card, int width, int height, boolean showBig, int playerId, boolean isInLand) {
         this.card = card;
         this.playerId = playerId;
         this.showBig = showBig;
@@ -76,7 +76,7 @@ public class BoardCardButtonI extends ImageButton implements IHaveCard, MouseLis
         configButton();
     }
 
-    public BoardCardButtonI(Card card, int width, int height, int initialRotate, boolean showBig, int playerId) {
+    public BoardCardButton(Card card, int width, int height, int initialRotate, boolean showBig, int playerId) {
         this.card = card;
 
         this.width = width;

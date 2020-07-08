@@ -5,8 +5,8 @@ import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.minion.MinionCard;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
@@ -18,7 +18,7 @@ public class Sacrificer extends HeroPowerCard {
         super(id, name, description, manaCost, heroType, cardType);
     }
 
-    private void doAbility(IHero hero){
+    private void doAbility(Hero hero){
         Mapper.getInstance().reduceMana(getPlayerId(), getManaCost());
         Mapper.getInstance().setHealth(hero.getHealth() - 2, hero);
 
@@ -41,8 +41,8 @@ public class Sacrificer extends HeroPowerCard {
 
     @Override
     public void found(Object object) {
-        if(object instanceof IHero && ((IHero)object).getPlayerId() == this.getPlayerId()) {
-            doAbility(((IHero)object));
+        if(object instanceof Hero && ((Hero)object).getPlayerId() == this.getPlayerId()) {
+            doAbility(((Hero)object));
             numberOfAttack--;
         }
     }

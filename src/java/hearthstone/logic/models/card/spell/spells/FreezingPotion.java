@@ -1,7 +1,7 @@
 package hearthstone.logic.models.card.spell.spells;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.spell.SpellCard;
@@ -22,9 +22,9 @@ public class FreezingPotion  extends SpellCard {
 
     @Override
     public void found(Object object){
-        if(object instanceof ICharacter){
-            ICharacter ICharacter = (ICharacter) object;
-            Mapper.getInstance().addFreezes(ICharacter.getPlayerId(), 2, ICharacter);
+        if(object instanceof Character){
+            Character character = (Character) object;
+            Mapper.getInstance().addFreezes(character.getPlayerId(), 2, character);
             Mapper.getInstance().deleteCurrentMouseWaiting();
         }
     }

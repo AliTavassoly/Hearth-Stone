@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.panels;
 
 import hearthstone.Mapper;
-import hearthstone.gui.controls.buttons.CardButtonI;
+import hearthstone.gui.controls.buttons.CardButton;
 import hearthstone.logic.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class CardsPanel extends JPanel {
     private ArrayList<Card> originalCards, compressedCards;
     private ArrayList<JPanel> originalPanels, compressedPanels;
-    private ArrayList<CardButtonI> originalButtons, compressedButtons;
+    private ArrayList<CardButton> originalButtons, compressedButtons;
     private int cardHeight, cardWidth;
 
     private int disX = 10;
@@ -55,7 +55,7 @@ public class CardsPanel extends JPanel {
         for(int i = 0; i < originalCards.size(); i++){
             Card card = originalCards.get(i);
 
-            CardButtonI cardButton = new CardButtonI(card,
+            CardButton cardButton = new CardButton(card,
                     cardWidth,
                     cardHeight, numberOfCards(card.getId()));
             originalButtons.add(cardButton);
@@ -99,7 +99,7 @@ public class CardsPanel extends JPanel {
 
     public void addCard(Card card, JPanel panel) {
         int number = numberOfCards(card.getId());
-        CardButtonI cardButton = new CardButtonI(card,
+        CardButton cardButton = new CardButton(card,
                 cardWidth,
                 cardHeight, number + 1);
         originalButtons.add(cardButton);
@@ -120,7 +120,7 @@ public class CardsPanel extends JPanel {
 
     private void layoutComponent() {
         for (int i = 0; i < compressedCards.size(); i++) {
-            CardButtonI cardButton = compressedButtons.get(i);
+            CardButton cardButton = compressedButtons.get(i);
             JPanel panel = compressedPanels.get(i);
 
             int col = (i - (i % rows)) / rows;

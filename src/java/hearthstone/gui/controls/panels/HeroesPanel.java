@@ -2,14 +2,14 @@ package hearthstone.gui.controls.panels;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.HeroButton;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class HeroesPanel extends JPanel {
-    private ArrayList<IHero> heroes;
+    private ArrayList<Hero> heroes;
     private ArrayList<JPanel> panels;
     private ArrayList<HeroButton> heroButtons;
     private int heroWidth, heroHeight;
@@ -19,7 +19,7 @@ public class HeroesPanel extends JPanel {
     private int disX = 10;
     private int disY = -30;
 
-    public HeroesPanel(ArrayList<IHero> heroes, ArrayList<JPanel> panels,
+    public HeroesPanel(ArrayList<Hero> heroes, ArrayList<JPanel> panels,
                        int heroWidth, int heroHeight) {
         this.heroes = heroes;
         this.panels = panels;
@@ -28,7 +28,7 @@ public class HeroesPanel extends JPanel {
 
         heroButtons = new ArrayList<>();
 
-        for (IHero hero : heroes) {
+        for (Hero hero : heroes) {
             HeroButton heroButton = new HeroButton(hero,
                     SizeConfigs.bigHeroWidth,
                     SizeConfigs.bigHeroHeight);

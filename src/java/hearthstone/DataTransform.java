@@ -2,7 +2,7 @@ package hearthstone;
 
 import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
@@ -11,7 +11,7 @@ import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.logic.models.player.Player;
 
@@ -91,7 +91,7 @@ public class DataTransform {
         return getPlayer(playerId).getReward();
     }
 
-    public IHero getHero(int playerId) {
+    public Hero getHero(int playerId) {
         return getPlayer(playerId).getHero();
     }
 
@@ -148,9 +148,8 @@ public class DataTransform {
     public Card getRandomCardFromCurrentDeck(int playerId){
         return getPlayer(playerId).getFactory().getRandomCardFromCurrentDeck();
     }
-
-    public int getHealth(ICharacter ICharacter){
-        return ICharacter.getHealth();
+    public int getHealth(Character character){
+        return character.getHealth();
     }
 
     public Passive getBasePassive(int ind){

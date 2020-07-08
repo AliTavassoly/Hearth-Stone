@@ -3,7 +3,7 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BoardHeroButton extends ImageButton {
-    private IHero hero;
+    private Hero hero;
     private int width, height;
 
     private static BufferedImage immuneImage;
@@ -22,7 +22,7 @@ public class BoardHeroButton extends ImageButton {
 
     private int playerId;
 
-    public BoardHeroButton(IHero hero, int width, int height, int playerId) {
+    public BoardHeroButton(Hero hero, int width, int height, int playerId) {
         this.hero = hero;
         this.height = height;
         this.width = width;
@@ -43,7 +43,7 @@ public class BoardHeroButton extends ImageButton {
         return playerId;
     }
 
-    public IHero getHero() {
+    public Hero getHero() {
         return hero;
     }
 

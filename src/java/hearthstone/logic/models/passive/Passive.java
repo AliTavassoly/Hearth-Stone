@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.DataTransform;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 
@@ -60,7 +60,7 @@ public abstract class Passive {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(IHero.class, new AbstractAdapter<IHero>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
         gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
 

@@ -2,7 +2,7 @@ package hearthstone.gui.controls.buttons;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.interfaces.IHaveCard;
+import hearthstone.gui.controls.interfaces.HaveCard;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class CardButtonI extends ImageButton implements MouseListener, IHaveCard {
+public class CardButton extends ImageButton implements MouseListener, HaveCard {
     int width, height, number;
     private Card card;
     private boolean markable;
@@ -28,7 +28,7 @@ public class CardButtonI extends ImageButton implements MouseListener, IHaveCard
     private BufferedImage cardImage;
     private static BufferedImage numberImage, redMark;
 
-    public CardButtonI(Card card, int width, int height, int number) {
+    public CardButton(Card card, int width, int height, int number) {
         this.card = card;
         this.width = width;
         this.height = height;
@@ -38,7 +38,7 @@ public class CardButtonI extends ImageButton implements MouseListener, IHaveCard
         configButton();
     }
 
-    public CardButtonI(Card card, int width, int height, int number, boolean markable) {
+    public CardButton(Card card, int width, int height, int number, boolean markable) {
         this.card = card;
         this.width = width;
         this.height = height;
@@ -51,7 +51,7 @@ public class CardButtonI extends ImageButton implements MouseListener, IHaveCard
         configButton();
     }
 
-    public CardButtonI(Card card, boolean writeInfo, int width, int height, int number) {
+    public CardButton(Card card, boolean writeInfo, int width, int height, int number) {
         this.card = card;
         this.writeInfo = writeInfo;
         this.width = width;

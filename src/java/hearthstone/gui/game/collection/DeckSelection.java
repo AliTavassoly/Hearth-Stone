@@ -16,7 +16,7 @@ import hearthstone.gui.controls.panels.DecksPanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -33,7 +33,7 @@ public class DeckSelection extends JPanel {
     private JScrollPane deckCardScroll;
     private HeroButton heroButton;
     private ImageButton addButton;
-    private IHero hero;
+    private Hero hero;
 
     private static BufferedImage backgroundImage;
 
@@ -51,7 +51,7 @@ public class DeckSelection extends JPanel {
     private final int startAddButtonX = startHeroX + SizeConfigs.bigHeroWidth / 2 - SizeConfigs.medButtonWidth / 2;
     private final int startAddButtonY = startHeroY + SizeConfigs.bigHeroHeight + 20;
 
-    public DeckSelection(IHero hero) {
+    public DeckSelection(Hero hero) {
         this.hero = hero;
 
         configPanel();

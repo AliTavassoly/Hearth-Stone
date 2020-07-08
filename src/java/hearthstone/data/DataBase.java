@@ -9,7 +9,7 @@ import hearthstone.logic.gamestuff.Market;
 import hearthstone.logic.models.Account;
 import hearthstone.logic.models.AccountCredential;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
@@ -333,12 +333,12 @@ public class DataBase {
         return ans;
     }
 
-    private static Map<Integer, IHero> getBaseHeroes() throws Exception {
+    private static Map<Integer, Hero> getBaseHeroes() throws Exception {
         File json = new File(dataPath + "/base_heroes.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
         FileReader fileReader = new FileReader(dataPath + "/base_heroes.json");
-        Map<Integer, IHero> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, IHero>>() {
+        Map<Integer, Hero> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Hero>>() {
         }.getType());
         if (ans == null)
             return baseHeroes;
@@ -432,7 +432,7 @@ public class DataBase {
 
     private static void saveHeroes() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_heroes.json");
-        gson.toJson(baseHeroes, new TypeToken<Map<Integer, IHero>>() {}.getType(), fileWriter);
+        gson.toJson(baseHeroes, new TypeToken<Map<Integer, Hero>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
@@ -448,7 +448,7 @@ public class DataBase {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(IHero.class, new AbstractAdapter<IHero>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
         gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
         gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
 

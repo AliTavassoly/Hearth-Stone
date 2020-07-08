@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.buttons.CardButtonI;
+import hearthstone.gui.controls.buttons.CardButton;
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.logic.models.card.Card;
@@ -20,7 +20,7 @@ public class CardDialog extends HSDialog {
 
     private ArrayList<Card> selectedCards;
     private ArrayList<Card> cards;
-    private ArrayList<CardButtonI> buttons;
+    private ArrayList<CardButton> buttons;
     private ImagePanel backgroundPanel;
 
     private ImageButton okButton;
@@ -58,7 +58,7 @@ public class CardDialog extends HSDialog {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                for(CardButtonI button: buttons){
+                for(CardButton button: buttons){
                     if(button.isMark()){
                         selectedCards.add(button.getCard());
                     }
@@ -80,7 +80,7 @@ public class CardDialog extends HSDialog {
 
     private void makeCards() {
         for (Card card : cards) {
-            CardButtonI cardButton = new CardButtonI(
+            CardButton cardButton = new CardButton(
                     card,
                     SizeConfigs.medCardWidth,
                     SizeConfigs.medCardHeight,
@@ -96,7 +96,7 @@ public class CardDialog extends HSDialog {
 
         grid.gridy = 0;
         for (int i = 0; i < buttons.size(); i++) {
-            CardButtonI cardButton = buttons.get(i);
+            CardButton cardButton = buttons.get(i);
             grid.gridx = i;
             backgroundPanel.add(cardButton, grid);
         }

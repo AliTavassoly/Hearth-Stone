@@ -7,16 +7,16 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.IHero;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
+import hearthstone.util.timer.HSDelayTask;
 import hearthstone.util.timer.HSDelayTimerTask;
-import hearthstone.util.timer.IHSDelayTask;
 
 import java.util.ArrayList;
 
 public class AIPlayer extends Player {
-    public AIPlayer(IHero hero, Deck deck, String username) {
+    public AIPlayer(Hero hero, Deck deck, String username) {
         super(hero, deck, username);
     }
 
@@ -28,7 +28,7 @@ public class AIPlayer extends Player {
 
         playMinions();
 
-        new HSDelayTimerTask(4000, new IHSDelayTask() {
+        new HSDelayTimerTask(4000, new HSDelayTask() {
             @Override
             public void delayAction() {
 

@@ -6,7 +6,7 @@ import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
-public abstract class SpellCard extends Card implements ISpellBehaviour {
+public abstract class SpellCard extends Card implements SpellBehaviour {
     public SpellCard() { }
 
     public SpellCard(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){

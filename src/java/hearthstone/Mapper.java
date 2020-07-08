@@ -2,7 +2,7 @@ package hearthstone;
 
 import hearthstone.data.DataBase;
 import hearthstone.gui.game.play.boards.GameBoard;
-import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.behaviours.IsAttacked;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.logic.models.card.Card;
@@ -104,32 +104,32 @@ public class Mapper {
         updateBoard();
     }
 
-    public void setHealth(int health, ICharacter ICharacter) {
-        ICharacter.setHealth(health);
+    public void setHealth(int health, Character character) {
+        character.setHealth(health);
         updateBoard();
     }
 
-    public void damage(int damage, ICharacter ICharacter) throws HearthStoneException {
-        ICharacter.gotDamage(damage);
+    public void damage(int damage, Character character) throws HearthStoneException {
+        character.gotDamage(damage);
         updateBoard();
     }
 
-    public void damage(int damage, ICharacter ICharacter, boolean update) throws HearthStoneException {
-        ICharacter.gotDamage(damage);
+    public void damage(int damage, Character character, boolean update) throws HearthStoneException {
+        character.gotDamage(damage);
         if (update)
             updateBoard();
     }
 
-    public void heal(int heal, ICharacter ICharacter) {
-        ICharacter.gotHeal(heal);
+    public void heal(int heal, Character character) {
+        character.gotHeal(heal);
     }
 
-    public void restoreHealth(ICharacter ICharacter) {
-        ICharacter.restoreHealth();
+    public void restoreHealth(Character character) {
+        character.restoreHealth();
     }
 
-    public void restoreHealth(int heal, ICharacter ICharacter) {
-        ICharacter.restoreHealth(heal);
+    public void restoreHealth(int heal, Character character) {
+        character.restoreHealth(heal);
     }
 
     public void setPassive(int playerId, Passive passive) {
@@ -220,30 +220,30 @@ public class Mapper {
         updateBoard();
     }
 
-    public void handleImmunities(int playerId, ICharacter ICharacter) {
-        ICharacter.handleImmunities();
+    public void handleImmunities(int playerId, Character character) {
+        character.handleImmunities();
     }
 
-    public void handleFreezes(int playerId, ICharacter ICharacter) {
-        ICharacter.handleFreezes();
+    public void handleFreezes(int playerId, Character character) {
+        character.handleFreezes();
     }
 
-    public void addFreezes(int playerId, int turnNumber, ICharacter ICharacter) {
-        ICharacter.addFreezes(turnNumber);
-        handleFreezes(playerId, ICharacter);
+    public void addFreezes(int playerId, int turnNumber, Character character) {
+        character.addFreezes(turnNumber);
+        handleFreezes(playerId, character);
     }
 
-    public void addImmunity(int playerId, int turnNumber, ICharacter ICharacter) {
-        ICharacter.addImmunity(turnNumber);
-        handleImmunities(playerId, ICharacter);
+    public void addImmunity(int playerId, int turnNumber, Character character) {
+        character.addImmunity(turnNumber);
+        handleImmunities(playerId, character);
     }
 
-    public void reduceFreezes(int playerId, ICharacter ICharacter) {
-        ICharacter.reduceFreezes();
+    public void reduceFreezes(int playerId, Character character) {
+        character.reduceFreezes();
     }
 
-    public void reduceImmunities(int playerId, ICharacter ICharacter) {
-        ICharacter.reduceImmunities();
+    public void reduceImmunities(int playerId, Character character) {
+        character.reduceImmunities();
     }
 
     public void setTaunt(boolean isTaunt, MinionCard minionCard) {

@@ -16,8 +16,8 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
+import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.FontType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
@@ -39,7 +39,7 @@ public class DeckArrangement extends JPanel {
     private TextField nameField, manaField;
     private int selectedButton;
     private Deck deck;
-    private IHero hero;
+    private Hero hero;
 
     private static BufferedImage backgroundImage;
 
@@ -61,7 +61,7 @@ public class DeckArrangement extends JPanel {
     private final int filterDisY = 50;
     private final int filterDisX = 10;
 
-    public DeckArrangement(IHero hero, Deck deck) {
+    public DeckArrangement(Hero hero, Deck deck) {
         this.hero = hero;
         this.deck = deck;
 

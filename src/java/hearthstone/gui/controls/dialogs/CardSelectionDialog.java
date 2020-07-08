@@ -1,7 +1,7 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.buttons.CardButtonI;
+import hearthstone.gui.controls.buttons.CardButton;
 import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.logic.models.card.Card;
 
@@ -17,7 +17,7 @@ public class CardSelectionDialog extends HSDialog {
 
     private Card selectedCard;
     private ArrayList<Card> cards;
-    private ArrayList<CardButtonI> buttons;
+    private ArrayList<CardButton> buttons;
     private ImagePanel backgroundPanel;
 
     private int width, height;
@@ -54,7 +54,7 @@ public class CardSelectionDialog extends HSDialog {
 
     private void makePassives(){
         for(Card card : cards){
-            CardButtonI cardButton = new CardButtonI(
+            CardButton cardButton = new CardButton(
                     card,
                     SizeConfigs.medCardWidth,
                     SizeConfigs.medCardHeight,
@@ -75,7 +75,7 @@ public class CardSelectionDialog extends HSDialog {
 
         grid.gridy = 0;
         for(int i = 0; i < buttons.size(); i++){
-            CardButtonI cardButton =  buttons.get(i);
+            CardButton cardButton =  buttons.get(i);
             grid.gridx = i;
             backgroundPanel.add(cardButton, grid);
         }

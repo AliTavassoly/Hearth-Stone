@@ -5,7 +5,7 @@ import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.hero.HeroType;
 
-public abstract class HeroPowerCard extends Card implements IHeroPowerBehaviour {
+public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
     protected int extraNumberOfAttack;
     protected int numberOfAttack;
 
