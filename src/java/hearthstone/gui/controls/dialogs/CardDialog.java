@@ -1,9 +1,9 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
-import hearthstone.gui.controls.card.CardButton;
+import hearthstone.gui.controls.buttons.CardButtonI;
+import hearthstone.gui.controls.buttons.ImageButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.logic.models.card.Card;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class CardDialog extends MyDialog {
+public class CardDialog extends HSDialog {
     protected static final int extraX = 80;
     protected static final int extraY = 150;
 
@@ -20,7 +20,7 @@ public class CardDialog extends MyDialog {
 
     private ArrayList<Card> selectedCards;
     private ArrayList<Card> cards;
-    private ArrayList<CardButton> buttons;
+    private ArrayList<CardButtonI> buttons;
     private ImagePanel backgroundPanel;
 
     private ImageButton okButton;
@@ -58,7 +58,7 @@ public class CardDialog extends MyDialog {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                for(CardButton button: buttons){
+                for(CardButtonI button: buttons){
                     if(button.isMark()){
                         selectedCards.add(button.getCard());
                     }
@@ -80,7 +80,7 @@ public class CardDialog extends MyDialog {
 
     private void makeCards() {
         for (Card card : cards) {
-            CardButton cardButton = new CardButton(
+            CardButtonI cardButton = new CardButtonI(
                     card,
                     SizeConfigs.medCardWidth,
                     SizeConfigs.medCardHeight,
@@ -96,7 +96,7 @@ public class CardDialog extends MyDialog {
 
         grid.gridy = 0;
         for (int i = 0; i < buttons.size(); i++) {
-            CardButton cardButton = buttons.get(i);
+            CardButtonI cardButton = buttons.get(i);
             grid.gridx = i;
             backgroundPanel.add(cardButton, grid);
         }

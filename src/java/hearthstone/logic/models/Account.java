@@ -4,7 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.logic.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
@@ -17,11 +17,11 @@ public class Account {
     private String name;
     private int id;
     private int cardsBackId;
-    private ArrayList<Hero> heroes;
+    private ArrayList<IHero> heroes;
     private Collection collection;
     private ArrayList<Deck> decks;
     private ArrayList<Integer> unlockedCards;
-    private Hero selectedHero;
+    private IHero selectedHero;
     private int gem;
 
     public Account() {
@@ -112,23 +112,23 @@ public class Account {
         this.unlockedCards = unlockedCards;
     }
 
-    public void setHeroes(ArrayList<Hero> heroes) {
+    public void setHeroes(ArrayList<IHero> heroes) {
         this.heroes = heroes;
     }
 
-    public ArrayList<Hero> getHeroes() {
+    public ArrayList<IHero> getHeroes() {
         return heroes;
     }
 
-    public void setSelectedHero(Hero selectedHero) {
+    public void setSelectedHero(IHero selectedHero) {
         this.selectedHero = selectedHero;
     }
 
-    public Hero getSelectedHero() {
+    public IHero getSelectedHero() {
         if (selectedHero == null) {
             return null;
         }
-        for (Hero hero : heroes) {
+        for (IHero hero : heroes) {
             if (selectedHero.getName().equals(hero.getName())) {
                 return hero;
             }
@@ -146,7 +146,7 @@ public class Account {
 
     public ArrayList<Deck> getDecks() {
         for (int i = 0; i < decks.size(); i++) {
-            for (Hero hero : heroes) {
+            for (IHero hero : heroes) {
                 for (int j = 0; j < hero.getDecks().size(); j++) {
                     Deck deck = decks.get(i);
                     Deck deck1 = hero.getDecks().get(j);

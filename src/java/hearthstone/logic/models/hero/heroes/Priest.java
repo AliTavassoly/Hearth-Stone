@@ -1,10 +1,10 @@
 package hearthstone.logic.models.hero.heroes;
 
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.logic.models.specialpower.specialpowers.PriestPower;
 
-public class Priest extends Hero {
+public class Priest extends IHero {
     public Priest(){
         specialHeroPower = new PriestPower(super.getId(), "Priest Power");
     }

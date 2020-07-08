@@ -1,8 +1,8 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.buttons.ImageButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ErrorDialog extends MyDialog {
+public class ErrorDialog extends HSDialog {
     private JLabel message;
     private ImageButton okButton;
     private Color color;

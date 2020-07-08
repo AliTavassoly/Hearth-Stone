@@ -2,15 +2,15 @@ package hearthstone.gui.controls.dialogs;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImagePanel;
-import hearthstone.gui.controls.PassiveButton;
+import hearthstone.gui.controls.buttons.PassiveButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.logic.models.passive.Passive;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PassiveDialog extends MyDialog {
+public class PassiveDialog extends HSDialog {
     protected static final int extraPassiveX = 60;
     protected static final int extraPassiveY = 50;
 

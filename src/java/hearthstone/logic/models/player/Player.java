@@ -4,7 +4,7 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.interfaces.*;
+import hearthstone.logic.behaviours.*;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
@@ -14,7 +14,7 @@ import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.logic.models.card.spell.SpellCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.logic.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Logger;
@@ -23,7 +23,7 @@ import hearthstone.util.Rand;
 import java.util.ArrayList;
 
 public class Player {
-    protected Hero hero;
+    protected IHero hero;
     protected final Deck originalDeck;
     protected Deck deck;
     protected Passive passive;
@@ -50,7 +50,7 @@ public class Player {
 
     private final CardFactory factory;
 
-    public Player(Hero hero, Deck deck, String username) {
+    public Player(IHero hero, Deck deck, String username) {
         this.hero = hero.copy();
         originalDeck = deck;
         this.deck = deck.copy();
@@ -157,11 +157,11 @@ public class Player {
         isStarted = started;
     }
 
-    public Hero getHero() {
+    public IHero getHero() {
         return hero;
     }
 
-    public void setHero(Hero hero) {
+    public void setHero(IHero hero) {
         this.hero = hero;
     }
 
@@ -581,7 +581,7 @@ public class Player {
         card.setPlayerId(this.getPlayerId());
     }
 
-    private void configHero(Hero hero) {
+    private void configHero(IHero hero) {
         hero.setPlayerId(this.getPlayerId());
 
         HeroPowerCard heroPower = (HeroPowerCard) HearthStone.getCardByName(hero.getHeroPowerName());

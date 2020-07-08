@@ -68,7 +68,7 @@ public class SoundPlayer {
         }
     }
 
-    public void myClose(){
+    public void close(){
         clip.close();
     }
 }

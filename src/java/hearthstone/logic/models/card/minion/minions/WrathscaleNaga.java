@@ -2,7 +2,7 @@ package hearthstone.logic.models.card.minion.minions;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.FriendlyMinionDies;
+import hearthstone.logic.behaviours.FriendlyMinionDies;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;

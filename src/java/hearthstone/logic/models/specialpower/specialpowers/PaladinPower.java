@@ -2,7 +2,7 @@ package hearthstone.logic.models.specialpower.specialpowers;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.EndTurnBehave;
+import hearthstone.logic.behaviours.EndTurnBehave;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.specialpower.SpecialHeroPower;
 

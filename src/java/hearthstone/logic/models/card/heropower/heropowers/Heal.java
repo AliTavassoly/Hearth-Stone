@@ -4,8 +4,8 @@ import hearthstone.Mapper;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
 import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.CursorType;
 
 public class Heal extends HeroPowerCard {
@@ -22,8 +22,8 @@ public class Heal extends HeroPowerCard {
 
     @Override
     public void found(Object object) {
-        if(object instanceof Hero){
-            Hero hero = (Hero)object;
+        if(object instanceof IHero){
+            IHero hero = (IHero)object;
 
             Mapper.getInstance().restoreHealth(4, hero);
             log();

@@ -1,7 +1,7 @@
 package hearthstone.gui.credetials;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.util.getresource.ImageResource;

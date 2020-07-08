@@ -1,10 +1,10 @@
 package hearthstone.logic.models.hero.heroes;
 
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.logic.models.specialpower.specialpowers.MagePower;
 
-public class Mage extends Hero{
+public class Mage extends IHero {
     public Mage(){
         specialHeroPower = new MagePower(super.getId(), "Mage Power");
     }

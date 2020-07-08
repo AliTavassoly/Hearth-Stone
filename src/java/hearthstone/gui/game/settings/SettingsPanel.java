@@ -4,7 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.data.Data;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.dialogs.CardsBackDialog;
 import hearthstone.gui.controls.dialogs.NameDialog;
 import hearthstone.gui.controls.dialogs.PasswordDialog;

@@ -2,12 +2,12 @@ package hearthstone.logic.models.card.heropower.heropowers;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.Upgradeable;
+import hearthstone.logic.behaviours.Upgradeable;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.CursorType;
 
 public class AncientBlades extends HeroPowerCard implements Upgradeable {
@@ -61,7 +61,7 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
 
     @Override
     public void found(Object object) {
-        if (object instanceof Hero && ((Hero) object).getPlayerId() == this.getPlayerId()) {
+        if (object instanceof IHero && ((IHero) object).getPlayerId() == this.getPlayerId()) {
             doAbility();
             numberOfAttack--;
         }

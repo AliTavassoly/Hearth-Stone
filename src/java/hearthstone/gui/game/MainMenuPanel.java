@@ -1,12 +1,12 @@
 package hearthstone.gui.game;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
 import hearthstone.gui.controls.icons.SettingIcon;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.collection.HeroSelection;
 import hearthstone.gui.game.market.MarketPanel;
 import hearthstone.gui.game.play.PlaySelectionPanel;

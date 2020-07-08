@@ -1,6 +1,6 @@
 package hearthstone.gui.game.play.controls;
 
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.weapon.WeaponCard;
 import hearthstone.util.FontType;

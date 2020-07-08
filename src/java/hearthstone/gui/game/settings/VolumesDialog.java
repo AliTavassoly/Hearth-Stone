@@ -1,8 +1,8 @@
 package hearthstone.gui.game.settings;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.buttons.ImageButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;

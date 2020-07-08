@@ -1,8 +1,8 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.buttons.ImageButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SureDialog extends MyDialog {
+public class SureDialog extends HSDialog {
     private JLabel message;
     private ImageButton okButton, cancelButton;
     private String clicked;

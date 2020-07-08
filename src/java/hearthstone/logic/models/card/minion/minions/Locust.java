@@ -2,12 +2,12 @@ package hearthstone.logic.models.card.minion.minions;
 
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.card.minion.MinionBehaviour;
+import hearthstone.logic.models.card.minion.IMinionBehaviour;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
 import hearthstone.logic.models.hero.HeroType;
 
-public class Locust extends MinionCard implements MinionBehaviour {
+public class Locust extends MinionCard implements IMinionBehaviour {
 
     public Locust() {
     }

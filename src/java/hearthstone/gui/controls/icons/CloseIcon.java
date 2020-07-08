@@ -2,7 +2,7 @@ package hearthstone.gui.controls.icons;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.dialogs.SureDialog;
 import hearthstone.gui.game.GameFrame;
 

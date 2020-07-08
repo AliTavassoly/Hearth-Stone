@@ -49,7 +49,7 @@ public class CredentialsFrame extends BaseFrame {
 
     public void stopSound() {
         soundPlayer.stop();
-        soundPlayer.myClose();
+        soundPlayer.close();
     }
 
     public void playSound() {

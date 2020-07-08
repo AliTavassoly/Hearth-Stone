@@ -4,20 +4,20 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.card.CardsPanel;
+import hearthstone.gui.controls.buttons.HeroButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.fields.TextField;
-import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.gui.controls.panels.CardsPanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
 import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.FontType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
@@ -39,7 +39,7 @@ public class DeckArrangement extends JPanel {
     private TextField nameField, manaField;
     private int selectedButton;
     private Deck deck;
-    private Hero hero;
+    private IHero hero;
 
     private static BufferedImage backgroundImage;
 
@@ -61,7 +61,7 @@ public class DeckArrangement extends JPanel {
     private final int filterDisY = 50;
     private final int filterDisX = 10;
 
-    public DeckArrangement(Hero hero, Deck deck) {
+    public DeckArrangement(IHero hero, Deck deck) {
         this.hero = hero;
         this.deck = deck;
 

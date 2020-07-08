@@ -3,13 +3,13 @@ package hearthstone.logic.models.card.weapon.weapons;
 import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.IsAttacked;
+import hearthstone.logic.behaviours.IsAttacked;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
 public class DesertSpear extends WeaponCard {
@@ -36,7 +36,7 @@ public class DesertSpear extends WeaponCard {
     }
 
     @Override
-    public void attack(Hero hero) throws HearthStoneException {
+    public void attack(IHero hero) throws HearthStoneException {
         if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         }

@@ -1,8 +1,9 @@
 package hearthstone.gui.controls.dialogs;
+
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.ImagePanel;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.fields.TextField;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.util.FontType;
 
@@ -11,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NameDialog extends MyDialog {
+public class NameDialog extends HSDialog {
     private JLabel message;
     private TextField nameField;
     private ImageButton okButton, cancelButton;

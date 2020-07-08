@@ -1,15 +1,15 @@
 package hearthstone.gui.controls.dialogs;
 
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImagePanel;
-import hearthstone.gui.controls.card.CardBackButton;
+import hearthstone.gui.controls.buttons.CardBackButton;
+import hearthstone.gui.controls.panels.ImagePanel;
 import hearthstone.logic.GameConfigs;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CardsBackDialog extends MyDialog{
+public class CardsBackDialog extends HSDialog {
     protected static final int extraPassiveX = 60;
     protected static final int extraPassiveY = 50;
 

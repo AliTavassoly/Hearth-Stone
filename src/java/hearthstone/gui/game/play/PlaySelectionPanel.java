@@ -4,7 +4,7 @@ import hearthstone.HearthStone;
 import hearthstone.data.DataBase;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;

@@ -2,14 +2,14 @@ package hearthstone.logic.models.card.minion.minions;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.DeathRattle;
+import hearthstone.logic.behaviours.DeathRattle;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.minion.MinionType;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
 public class Abomination extends MinionCard implements DeathRattle {
@@ -26,7 +26,7 @@ public class Abomination extends MinionCard implements DeathRattle {
 
     @Override
     public void deathRattle() {
-        Hero hero = DataTransform.getInstance().getHero(DataTransform.getInstance().getEnemyId(getPlayerId()));
+        IHero hero = DataTransform.getInstance().getHero(DataTransform.getInstance().getEnemyId(getPlayerId()));
 
         try {
             Mapper.getInstance().damage(2, hero);

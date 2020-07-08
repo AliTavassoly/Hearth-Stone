@@ -2,18 +2,18 @@ package hearthstone.logic.models.card.minion;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.IsAttacked;
-import hearthstone.logic.models.Character;
+import hearthstone.logic.behaviours.ICharacter;
+import hearthstone.logic.behaviours.IsAttacked;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 
-public abstract class MinionCard extends Card implements MinionBehaviour, Character {
+public abstract class MinionCard extends Card implements IMinionBehaviour, ICharacter {
     protected int health;
     protected int attack;
     protected int initialHealth;
@@ -205,7 +205,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isDivineShield = false;
     }
 
-    public void log(Hero hero){
+    public void log(IHero hero){
         try {
             hearthstone.util.Logger.saveLog("Minion Attack",
                     this.getName() + " attack to " + hero.getName() + "!");
@@ -331,7 +331,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     }
 
     @Override
-    public void attack(Hero hero) throws HearthStoneException {
+    public void attack(IHero hero) throws HearthStoneException {
         if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
@@ -355,11 +355,11 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
                     numberOfAttack--;
                 numberOfAttackedMinion++;
             }
-        } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
+        } else if (object instanceof IHero) {
+            if (((IHero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
-                this.attack((Hero) object);
+                this.attack((IHero) object);
                 numberOfAttack--;
                 numberOfAttackedHero++;
             }

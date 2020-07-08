@@ -2,7 +2,7 @@ package hearthstone.gui.game.play.controls;
 
 import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.models.card.reward.RewardCard;
 import hearthstone.util.FontType;

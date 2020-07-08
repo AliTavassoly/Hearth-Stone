@@ -2,14 +2,14 @@ package hearthstone.logic.models.card.weapon.weapons;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.interfaces.IsAttacked;
+import hearthstone.logic.behaviours.IsAttacked;
 import hearthstone.logic.models.card.Card;
 import hearthstone.logic.models.card.CardType;
 import hearthstone.logic.models.card.Rarity;
 import hearthstone.logic.models.card.minion.MinionCard;
 import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.Hero;
 import hearthstone.logic.models.hero.HeroType;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 
 public class WarglaivesOfAzzinoth extends WeaponCard {
@@ -64,11 +64,11 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
                 numberOfAttack--;
                 numberOfThisTurnAttacked++;
             }
-        } else if (object instanceof Hero) {
-            if (((Hero) object).getPlayerId() == this.getPlayerId()) {
+        } else if (object instanceof IHero) {
+            if (((IHero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
             } else {
-                this.attack((Hero) object);
+                this.attack((IHero) object);
                 numberOfAttack--;
                 numberOfThisTurnAttacked++;
             }

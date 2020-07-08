@@ -4,19 +4,19 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.deck.DecksPanel;
+import hearthstone.gui.controls.buttons.HeroButton;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.dialogs.ErrorDialog;
 import hearthstone.gui.controls.dialogs.NameDialog;
-import hearthstone.gui.controls.hero.HeroButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.gui.controls.panels.DecksPanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.util.CustomScrollBarUI;
 import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -33,7 +33,7 @@ public class DeckSelection extends JPanel {
     private JScrollPane deckCardScroll;
     private HeroButton heroButton;
     private ImageButton addButton;
-    private Hero hero;
+    private IHero hero;
 
     private static BufferedImage backgroundImage;
 
@@ -51,7 +51,7 @@ public class DeckSelection extends JPanel {
     private final int startAddButtonX = startHeroX + SizeConfigs.bigHeroWidth / 2 - SizeConfigs.medButtonWidth / 2;
     private final int startAddButtonY = startHeroY + SizeConfigs.bigHeroHeight + 20;
 
-    public DeckSelection(Hero hero) {
+    public DeckSelection(IHero hero) {
         this.hero = hero;
 
         configPanel();

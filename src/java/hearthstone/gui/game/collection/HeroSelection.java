@@ -4,16 +4,16 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.BaseFrame;
 import hearthstone.gui.SizeConfigs;
-import hearthstone.gui.controls.ImageButton;
-import hearthstone.gui.controls.hero.HeroesPanel;
+import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.icons.BackIcon;
 import hearthstone.gui.controls.icons.CloseIcon;
 import hearthstone.gui.controls.icons.LogoutIcon;
 import hearthstone.gui.controls.icons.MinimizeIcon;
+import hearthstone.gui.controls.panels.HeroesPanel;
 import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.util.CustomScrollBarUI;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.logic.models.hero.IHero;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -87,14 +87,14 @@ public class HeroSelection extends JPanel {
     }
 
     private void makeList() {
-        ArrayList<Hero> heroes = new ArrayList<>();
+        ArrayList<IHero> heroes = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
         for (int i = 0; i < HearthStone.currentAccount.getHeroes().size(); i++) {
             if (HearthStone.currentAccount.getSelectedHero() == null)
                 break;
-            Hero hero = HearthStone.currentAccount.getHeroes().get(i);
-            Hero zero = HearthStone.currentAccount.getHeroes().get(0);
+            IHero hero = HearthStone.currentAccount.getHeroes().get(i);
+            IHero zero = HearthStone.currentAccount.getHeroes().get(0);
 
             if (HearthStone.currentAccount.getSelectedHero().getName().equals(hero.getName())) {
                 HearthStone.currentAccount.getHeroes().set(0, hero);
@@ -102,7 +102,7 @@ public class HeroSelection extends JPanel {
             }
         }
 
-        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
+        for (IHero hero : HearthStone.currentAccount.getHeroes()) {
             heroes.add(hero);
             panels.add(getHeroPanel(hero));
         }
@@ -119,7 +119,7 @@ public class HeroSelection extends JPanel {
         heroesScroll.setBorder(null);
     }
 
-    private JPanel getHeroPanel(Hero hero) {
+    private JPanel getHeroPanel(IHero hero) {
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,
