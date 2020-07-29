@@ -1,5 +1,8 @@
 package hearthstone.data;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import hearthstone.logic.models.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
@@ -54,5 +57,18 @@ public class Data {
 
     public static void changePassword(String username, String password){
         accounts.get(username).setPasswordHash(Crypt.hash(password));
+    }
+
+    public synchronized static ObjectMapper getDataMapper(){
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return mapper;
+    }
+
+    public synchronized static ObjectMapper getNetworkMapper(){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return mapper;
     }
 }

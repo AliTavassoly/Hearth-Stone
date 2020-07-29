@@ -1,5 +1,6 @@
 package hearthstone.data;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static hearthstone.HearthStone.*;
@@ -296,9 +298,8 @@ public class DataBase {
     }
 
     public static Map<String, ArrayList<String> > getDecks() throws Exception{
-        FileReader fileReader = new FileReader(dataPath + "/decks.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, ArrayList<String> > >() {
-        }.getType());
+        File file = new File(dataPath + "/decks.json");
+        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {});
     }
 
     private static Map<String, Object> getSizeConfigs() throws Exception {
