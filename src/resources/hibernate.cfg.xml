@@ -48,7 +48,5 @@
         <mapping class="hearthstone.models.card.spell.SpellCard"/>
         <mapping class="hearthstone.models.card.weapon.WeaponCard"/>
 
-
-
     </session-factory>
 </hibernate-configuration>
