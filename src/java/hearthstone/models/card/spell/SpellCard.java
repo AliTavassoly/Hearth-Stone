@@ -6,6 +6,9 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public abstract class SpellCard extends Card implements SpellBehaviour {
     public SpellCard() { }
 

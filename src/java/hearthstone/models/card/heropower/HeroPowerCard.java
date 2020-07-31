@@ -5,8 +5,14 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
+    @Column
     protected int extraNumberOfAttack;
+    @Column
     protected int numberOfAttack;
 
     public HeroPowerCard() {

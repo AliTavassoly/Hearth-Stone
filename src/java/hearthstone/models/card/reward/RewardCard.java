@@ -5,6 +5,9 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public abstract class RewardCard extends Card implements RewardBehaviour {
     public RewardCard(){ }
 

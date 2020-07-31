@@ -9,19 +9,34 @@ import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+@Entity
 public class Account {
+    @Id
     private String username;
+    @Column
     private String name;
+    @Column
     private int id;
+    @Column
     private int cardsBackId;
-    private ArrayList<Hero> heroes;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Hero> heroes;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Collection collection;
-    private ArrayList<Deck> decks;
-    private ArrayList<Integer> unlockedCards;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Deck> decks;
+
+    @ElementCollection
+    private List<Integer> unlockedCards;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Hero selectedHero;
+    @Column
     private int gem;
 
     public Account() {
@@ -104,19 +119,19 @@ public class Account {
         this.collection = collection;
     }
 
-    public ArrayList<Integer> getUnlockedCards() {
+    public List<Integer> getUnlockedCards() {
         return unlockedCards;
     }
 
-    public void setUnlockedCards(ArrayList<Integer> unlockedCards) {
+    public void setUnlockedCards(List<Integer> unlockedCards) {
         this.unlockedCards = unlockedCards;
     }
 
-    public void setHeroes(ArrayList<Hero> heroes) {
+    public void setHeroes(List<Hero> heroes) {
         this.heroes = heroes;
     }
 
-    public ArrayList<Hero> getHeroes() {
+    public List<Hero> getHeroes() {
         return heroes;
     }
 
@@ -144,7 +159,7 @@ public class Account {
         return gem;
     }
 
-    public ArrayList<Deck> getDecks() {
+    public List<Deck> getDecks() {
         for (int i = 0; i < decks.size(); i++) {
             for (Hero hero : heroes) {
                 for (int j = 0; j < hero.getDecks().size(); j++) {
@@ -159,7 +174,7 @@ public class Account {
         return decks;
     }
 
-    public void setDecks(ArrayList<Deck> decks) {
+    public void setDecks(List<Deck> decks) {
         this.decks = decks;
     }
 
@@ -204,7 +219,7 @@ public class Account {
 
     public ArrayList<Deck> getBestDecks(int cnt) {
         ArrayList<Deck> ans = new ArrayList<>();
-        ArrayList<Deck> decks = getDecks();
+        List<Deck> decks = getDecks();
 
         Collections.sort(decks);
 
@@ -233,8 +248,15 @@ public class Account {
         return new Player(selectedHero, getSelectedHero().getSelectedDeck(), username);
     }
 
+    @Entity
     public class Collection {
-        private ArrayList<Card> cards;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column
+        private int id;
+
+        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+        private List<Card> cards;
 
         public Collection() {
         }
@@ -243,11 +265,11 @@ public class Account {
             this.cards = cards;
         }
 
-        public ArrayList<Card> getCards() {
+        public List<Card> getCards() {
             return cards;
         }
 
-        public void setCards(ArrayList<Card> cards) {
+        public void setCards(List<Card> cards) {
             this.cards = cards;
         }
 

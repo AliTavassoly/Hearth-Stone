@@ -42,5 +42,13 @@
 
         <mapping class="hearthstone.models.card.Card"/>
 
+        <mapping class="hearthstone.models.card.heropower.HeroPowerCard"/>
+        <mapping class="hearthstone.models.card.minion.MinionCard"/>
+        <mapping class="hearthstone.models.card.reward.RewardCard"/>
+        <mapping class="hearthstone.models.card.spell.SpellCard"/>
+        <mapping class="hearthstone.models.card.weapon.WeaponCard"/>
+
+
+
     </session-factory>
 </hibernate-configuration>

@@ -11,8 +11,14 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public abstract class WeaponCard extends Card implements WeaponBehaviour {
+    @Column
     protected int durability;
+    @Column
     protected int attack;
 
     protected int numberOfAttack;

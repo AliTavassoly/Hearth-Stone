@@ -27,7 +27,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 public class DeckArrangement extends JPanel {
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
@@ -300,7 +301,7 @@ public class DeckArrangement extends JPanel {
         });
     }
 
-    private ArrayList<Card> cardsInFilter(ArrayList<Card> cards) {
+    private <T> ArrayList<Card> cardsInFilter(List<Card> cards) {
         ArrayList<Card> ans = new ArrayList<>();
         for (Card card : cards) {
             if (nameField.getText().length() != 0) {

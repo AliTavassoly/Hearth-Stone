@@ -1,8 +1,16 @@
 package hearthstone.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class AccountCredential {
+    @Id
     private int id;
+    @Column
     private int passwordHash;
+    @Column
     private boolean deleted;
 
     public AccountCredential(){ }

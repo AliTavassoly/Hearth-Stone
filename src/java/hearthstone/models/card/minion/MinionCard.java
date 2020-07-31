@@ -11,15 +11,23 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
 
 public abstract class MinionCard extends Card implements MinionBehaviour, Character {
+    @Column
     protected int health;
+    @Column
     protected int attack;
+    @Column
     protected int initialHealth;
+    @Column
     protected int initialAttack;
+    @Column
     protected boolean isTaunt;
+    @Column
     protected boolean isDeathRattle, isTriggeredEffect, isSpellSafe, isHeroPowerSafe, isDivineShield;
+    @Column
     protected boolean isCharge, isRush;
     protected boolean isImmune, isFreeze;
 
@@ -32,8 +40,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     protected boolean spellSafe;
 
+    @Column
     private MinionType minionType;
-
 
     public MinionCard() {
         configMinion();
