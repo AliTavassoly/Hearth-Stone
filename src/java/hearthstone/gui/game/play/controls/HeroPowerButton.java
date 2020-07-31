@@ -3,9 +3,9 @@ package hearthstone.gui.game.play.controls;
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.logic.behaviours.Upgradeable;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
-import hearthstone.logic.models.card.heropower.HeroPowerCard;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.heropower.HeroPowerBehaviour;
+import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 

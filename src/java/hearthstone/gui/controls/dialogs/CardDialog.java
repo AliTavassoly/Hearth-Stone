@@ -4,7 +4,7 @@ import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.CardButton;
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.panels.ImagePanel;
-import hearthstone.logic.models.card.Card;
+import hearthstone.models.card.Card;
 
 import javax.swing.*;
 import java.awt.*;

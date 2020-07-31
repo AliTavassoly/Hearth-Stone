@@ -1,0 +1,46 @@
+<hibernate-configuration>
+    <session-factory>
+        <!--       database connection-->
+        <property name="connection.driver_class">org.sqlite.JDBC</property>
+        <property name="connection.url">jdbc:sqlite:./data/sqlite.db</property>
+
+        <!--        sql dialect-->
+        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
+
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+
+        <!--     <property name="hbm2ddl.auto">create</property>-->
+
+        <!--        <property name="hbm2ddl.auto">update</property>-->
+        <!-- <property name="hbm2ddl.auto">update</property>-->
+        <property name="hbm2ddl.auto">create</property>
+
+        <mapping class="hearthstone.models.Bases"/>
+
+        <mapping class="hearthstone.models.passive.Passive"/>
+        <mapping class="hearthstone.models.passive.passives.FreePower"/>
+        <mapping class="hearthstone.models.passive.passives.ManaJump"/>
+        <mapping class="hearthstone.models.passive.passives.Nurse"/>
+        <mapping class="hearthstone.models.passive.passives.OffCards"/>
+        <mapping class="hearthstone.models.passive.passives.TwiceDraw"/>
+
+        <mapping class="hearthstone.models.hero.Hero"/>
+        <mapping class="hearthstone.models.hero.heroes.Mage"/>
+        <mapping class="hearthstone.models.hero.heroes.Paladin"/>
+        <mapping class="hearthstone.models.hero.heroes.Priest"/>
+        <mapping class="hearthstone.models.hero.heroes.Rogue"/>
+        <mapping class="hearthstone.models.hero.heroes.Warlock"/>
+
+        <mapping class="hearthstone.models.Deck"/>
+
+        <mapping class="hearthstone.models.specialpower.SpecialHeroPower"/>
+        <mapping class="hearthstone.models.specialpower.specialpowers.MagePower"/>
+        <mapping class="hearthstone.models.specialpower.specialpowers.PaladinPower"/>
+        <mapping class="hearthstone.models.specialpower.specialpowers.PriestPower"/>
+        <mapping class="hearthstone.models.specialpower.specialpowers.RoguePower"/>
+        <mapping class="hearthstone.models.specialpower.specialpowers.WarlockPower"/>
+
+        <mapping class="hearthstone.models.card.Card"/>
+
+    </session-factory>
+</hibernate-configuration>

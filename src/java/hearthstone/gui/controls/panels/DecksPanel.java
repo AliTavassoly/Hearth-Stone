@@ -2,7 +2,7 @@ package hearthstone.gui.controls.panels;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.DeckButton;
-import hearthstone.logic.models.Deck;
+import hearthstone.models.Deck;
 
 import javax.swing.*;
 import java.awt.*;

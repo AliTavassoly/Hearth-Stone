@@ -4,10 +4,10 @@ import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.interfaces.HaveCard;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
@@ -168,19 +168,19 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
 
         switch (card.getCardType()) {
             case SPELL:
-            case REWARDCARD:
+            case REWARD_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 drawStringOnCard(g, text, spellManaX - textWidth / 2,
                         spellManaY, color);
                 break;
-            case HEROPOWER:
+            case HERO_POWER:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 drawStringOnCard(g, text, heroPowerManaX - textWidth / 2,
                         heroPowerManaY, color);
                 break;
-            case MINIONCARD:
+            case MINION_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 drawStringOnCard(g, text, minionManaX - textWidth / 2,
@@ -196,7 +196,7 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
                 drawStringOnCard(g, text, minionHealthX - textWidth / 2,
                         minionHealthY, color);
                 break;
-            case WEAPONCARD:
+            case WEAPON_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 drawStringOnCard(g, text, weaponManaX - textWidth / 2,
@@ -255,13 +255,13 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
     public void mouseClicked(MouseEvent mouseEvent) {
         if (!markable) {
             String path;
-            if (card.getCardType() == CardType.MINIONCARD) {
+            if (card.getCardType() == CardType.MINION_CARD) {
                 path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
             } else if (card.getCardType() == CardType.SPELL) {
                 path = "/sounds/spells/" + "spell" + ".wav";
-            } else if (card.getCardType() == CardType.WEAPONCARD) {
+            } else if (card.getCardType() == CardType.WEAPON_CARD) {
                 path = "/sounds/weapons/" + "weapon" + ".wav";
-            } else if (card.getCardType() == CardType.REWARDCARD) {
+            } else if (card.getCardType() == CardType.REWARD_CARD) {
                 path = "/sounds/rewards/" + "reward" + ".wav";
             } else {
                 return;

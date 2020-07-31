@@ -4,16 +4,16 @@ import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.behaviours.Character;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.heropower.HeroPowerCard;
-import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.card.reward.RewardCard;
-import hearthstone.logic.models.card.weapon.WeaponCard;
-import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passive.Passive;
-import hearthstone.logic.models.player.Player;
+import hearthstone.models.Deck;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.card.heropower.HeroPowerCard;
+import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.reward.RewardCard;
+import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.passive.Passive;
+import hearthstone.models.player.Player;
 
 import java.util.ArrayList;
 

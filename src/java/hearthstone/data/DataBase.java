@@ -4,30 +4,55 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
-import hearthstone.logic.models.Account;
-import hearthstone.logic.models.AccountCredential;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.hero.Hero;
-import hearthstone.logic.models.passive.Passive;
-import hearthstone.logic.models.specialpower.SpecialHeroPower;
+import hearthstone.models.Account;
+import hearthstone.models.AccountCredential;
+import hearthstone.models.Bases;
+import hearthstone.models.Deck;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
+import hearthstone.models.hero.heroes.*;
+import hearthstone.models.passive.Passive;
+import hearthstone.models.passive.passives.*;
+import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 import static hearthstone.HearthStone.*;
 
 public class DataBase {
+    private static SessionFactory sessionFactory = buildSessionFactory();
     public static Gson gson;
+    private static Bases bases;
 
-    private static void loadCards() throws Exception{
+    private static SessionFactory buildSessionFactory() {
+        /*PrintStream err = System.err;
+        try {
+            PrintStream printStream = new PrintStream(new File("./l.txt"));
+            System.setErr(printStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
+        final ServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        //System.out.println(err);
+        return sessionFactory;
+    }
+
+    private static void loadCards() throws Exception {
         /*int id = 0;
         // Mage
         Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
@@ -297,9 +322,10 @@ public class DataBase {
         }.getType());
     }
 
-    public static Map<String, ArrayList<String> > getDecks() throws Exception{
+    public static Map<String, ArrayList<String>> getDecks() throws Exception {
         File file = new File(dataPath + "/decks.json");
-        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {});
+        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {
+        });
     }
 
     private static Map<String, Object> getSizeConfigs() throws Exception {
@@ -346,7 +372,7 @@ public class DataBase {
         return ans;
     }
 
-    private static Map<Integer, Passive> getBasePassives() throws Exception {
+    /*private static Map<Integer, Passive> getBasePassives() throws Exception {
         File json = new File(dataPath + "/base_passives.json");
         json.getParentFile().mkdirs();
         json.createNewFile();
@@ -356,6 +382,15 @@ public class DataBase {
         if (ans == null)
             return basePassives;
         return ans;
+    }*/
+
+    private static Map<Integer, Passive> getBasePassives() throws Exception {
+        List<Passive> passives = getAll(Passive.class);
+        Map<Integer, Passive> map = new HashMap<>();
+        for (Passive passive : passives) {
+            map.put(passive.getId(), passive);
+        }
+        return map;
     }
 
     private static void saveCurrentAccount() throws Exception {
@@ -371,7 +406,8 @@ public class DataBase {
     private static void saveCredentials() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/credentials.json");
         gson.toJson(Data.getAccounts(),
-                new TypeToken<Map<Integer, AccountCredential>>() {}.getType(), fileWriter);
+                new TypeToken<Map<Integer, AccountCredential>>() {
+                }.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
@@ -426,23 +462,80 @@ public class DataBase {
 
     private static void saveCards() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_cards.json");
-        gson.toJson(baseCards, new TypeToken<Map<Integer, Card>>() {}.getType(), fileWriter);
+        gson.toJson(baseCards, new TypeToken<Map<Integer, Card>>() {
+        }.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
     }
 
     private static void saveHeroes() throws Exception {
-        FileWriter fileWriter = new FileWriter(dataPath + "/base_heroes.json");
+        /*FileWriter fileWriter = new FileWriter(dataPath + "/base_heroes.json");
         gson.toJson(baseHeroes, new TypeToken<Map<Integer, Hero>>() {}.getType(), fileWriter);
         fileWriter.flush();
-        fileWriter.close();
+        fileWriter.close();*/
+        Set<Hero> baseHero = new HashSet<>();
+        int id = 0;
+        Mage mage = new Mage(id++, "Mage", HeroType.MAGE,
+                "witchers are good with spells!\nshe pays 2 mana less for spells!", "Fireblast",
+                30);
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(2, "ali", "strong", 5, HeroType.MAGE, CardType.MINION_CARD));
+        Deck deck = new Deck("ali", HeroType.MAGE);
+        deck.setCardGame(new HashMap<>() {
+            {
+                put(5, 6);
+            }
+        });
+        mage.getDecks().add(deck);
+        deck.setCards(cards);
+        mage.setSelectedDeck(deck);
+        baseHero.add(mage);
+
+        Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK,
+                "healthier than other!\nreduce 2 health and do somethings !\n", "Sacrificer",
+                35);
+        baseHero.add(warlock);
+
+        Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE,
+                "the thief!\nwith 3 mana, she can steal one opponent card!", "Ancient Blades",
+                30);
+        baseHero.add(rogue);
+
+        Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "Minions",
+                "The Silver Hand",
+                30);
+        baseHero.add(paladin);
+
+        Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
+                30);
+        baseHero.add(priest);
+
+        bases.setBaseHeroes(baseHero);
     }
 
-    private static void savePassives() throws Exception {
+    /*private static void savePassives() throws Exception {
         FileWriter fileWriter = new FileWriter(dataPath + "/base_passives.json");
         gson.toJson(basePassives, new TypeToken<Map<Integer, Passive>>() {}.getType(), fileWriter);
         fileWriter.flush();
         fileWriter.close();
+    }*/
+
+    private static void savePassives() throws Exception {
+        int id = 0;
+        TwiceDraw twiceDraw = new TwiceDraw(id++, "Twice Draw");
+        save(twiceDraw);
+
+        OffCards offCards = new OffCards(id++, "Off Cards");
+        save(offCards);
+
+        FreePower freePower = new FreePower(id++, "Free Power");
+        save(freePower);
+
+        ManaJump manaJump = new ManaJump(id++, "Mana Jump");
+        save(manaJump);
+
+        Nurse nurse = new Nurse(id++, "Nurse");
+        save(nurse);
     }
 
     public static void load() throws Exception {
@@ -456,7 +549,19 @@ public class DataBase {
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
-        loadConfigs();
+        bases = new Bases();
+
+        //saveCards();
+        saveHeroes();
+        savePassives();
+        System.out.println(bases);
+        //save(bases);
+
+        //Bases bases = fetch(Bases.class, 1);
+
+        //save(bases);
+
+        /*loadConfigs();
 
         loadCards();
         loadHeroes();
@@ -467,6 +572,33 @@ public class DataBase {
         savePassives();
 
         loadAccounts();
-        loadMarket();
+        loadMarket();*/
+    }
+
+    private static void save(Object object) {
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        session.persist(object);
+
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    private static <T> T fetch(Class<T> tClass, Object id) {
+        Session session = sessionFactory.openSession();
+
+        T t = session.get(tClass, (Serializable) id);
+
+        session.close();
+
+        return t;
+    }
+
+    private static <T> List<T> getAll(Class<T> tClass) {
+        Session session = sessionFactory.openSession();
+        return session.createQuery("from " + tClass.getName(), tClass).getResultList();
     }
 }

@@ -2,7 +2,7 @@ package hearthstone.gui.controls.panels;
 
 import hearthstone.Mapper;
 import hearthstone.gui.controls.buttons.CardButton;
-import hearthstone.logic.models.card.Card;
+import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
 import javax.swing.*;

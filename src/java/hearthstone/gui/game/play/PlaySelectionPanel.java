@@ -14,10 +14,10 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.gui.game.play.boards.SoloGameBoard;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.HeroType;
-import hearthstone.logic.models.player.AIPlayer;
-import hearthstone.logic.models.player.Player;
+import hearthstone.models.Deck;
+import hearthstone.models.hero.HeroType;
+import hearthstone.models.player.AIPlayer;
+import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 

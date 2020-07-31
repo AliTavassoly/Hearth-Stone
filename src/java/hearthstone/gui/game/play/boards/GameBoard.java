@@ -18,12 +18,12 @@ import hearthstone.gui.game.MainMenuPanel;
 import hearthstone.gui.game.play.controls.*;
 import hearthstone.gui.util.Animation;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.heropower.HeroPowerBehaviour;
-import hearthstone.logic.models.card.minion.MinionBehaviour;
-import hearthstone.logic.models.card.reward.RewardCard;
-import hearthstone.logic.models.card.weapon.WeaponBehaviour;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.card.heropower.HeroPowerBehaviour;
+import hearthstone.models.card.minion.MinionBehaviour;
+import hearthstone.models.card.reward.RewardCard;
+import hearthstone.models.card.weapon.WeaponBehaviour;
 import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
 import hearthstone.util.timer.HSBigTask;
@@ -1033,7 +1033,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 Mapper.getInstance().playCard(enemyPlayerId, card);
             }
 
-            if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPONCARD || card.getCardType() == CardType.HEROPOWER)
+            if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPON_CARD || card.getCardType() == CardType.HERO_POWER)
                 removeCardAnimation(card);
 
             button.playSound();

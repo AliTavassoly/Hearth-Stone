@@ -3,7 +3,7 @@ package hearthstone.data;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import hearthstone.logic.models.AccountCredential;
+import hearthstone.models.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 

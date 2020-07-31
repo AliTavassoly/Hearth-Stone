@@ -2,7 +2,7 @@ package hearthstone.gui.controls.panels;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.controls.buttons.HeroButton;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.models.hero.Hero;
 
 import javax.swing.*;
 import java.awt.*;

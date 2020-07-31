@@ -6,10 +6,10 @@ import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.controls.interfaces.HaveCard;
 import hearthstone.gui.credetials.CredentialsFrame;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.logic.models.card.Card;
-import hearthstone.logic.models.card.CardType;
-import hearthstone.logic.models.card.minion.MinionCard;
-import hearthstone.logic.models.card.weapon.WeaponCard;
+import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
+import hearthstone.models.card.minion.MinionCard;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;
@@ -117,7 +117,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
                 triggeredEffectImage = ImageResource.getInstance().getImage(
                         "/images/triggered_effect.png");
 
-            if (minionImage == null && card.getCardType() == CardType.MINIONCARD)
+            if (minionImage == null && card.getCardType() == CardType.MINION_CARD)
                 minionImage = ImageResource.getInstance().getImage("/images/cards/oval_minions/" + card.getName().
                         toLowerCase().replace(' ', '_').replace("'", "") + ".png");
             if (cardImage == null)
@@ -143,16 +143,16 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         String path;
 
         switch (card.getCardType()) {
-            case MINIONCARD:
+            case MINION_CARD:
                 path = "/sounds/minions/" + card.getName().toLowerCase().replace(' ', '_') + ".wav";
                 break;
-            case REWARDCARD:
+            case REWARD_CARD:
                 path = "/sounds/rewards/" + "reward" + ".wav";
                 break;
             case SPELL:
                 path = "/sounds/spells/" + "spell" + ".wav";
                 break;
-            case WEAPONCARD:
+            case WEAPON_CARD:
                 path = "/sounds/weapons/" + "weapon" + ".wav";
                 break;
             default:
@@ -188,7 +188,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         // DRAW IMAGE
         Graphics2D g2 = (Graphics2D) g;
 
-        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
+        if (card.getCardType() == CardType.MINION_CARD && isInLand) {
             drawMinionInLand(g2);
             return;
         }
@@ -355,19 +355,19 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         int textWidth;
         switch (card.getCardType()) {
             case SPELL:
-            case REWARDCARD:
+            case REWARD_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, spellManaX - textWidth / 2,
                         spellManaY);
                 break;
-            case HEROPOWER:
+            case HERO_POWER:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, heroPowerManaX - textWidth / 2,
                         heroPowerManaY);
                 break;
-            case MINIONCARD:
+            case MINION_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, minionManaX - textWidth / 2,
@@ -383,7 +383,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
                 g.drawString(text, minionHealthX - textWidth / 2,
                         minionHealthY);
                 break;
-            case WEAPONCARD:
+            case WEAPON_CARD:
                 text = String.valueOf(card.getManaCost());
                 textWidth = fontMetrics.stringWidth(text);
                 g.drawString(text, weaponManaX - textWidth / 2,
@@ -417,7 +417,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
+        if (card.getCardType() == CardType.MINION_CARD && isInLand) {
             if (((MinionCard) card).isTaunt()) {
                 frameImage = shieldFrameImageHovered;
             } else {
@@ -430,7 +430,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (card.getCardType() == CardType.MINIONCARD && isInLand) {
+        if (card.getCardType() == CardType.MINION_CARD && isInLand) {
             if (((MinionCard) card).isTaunt()) {
                 frameImage = shieldFrameImage;
             } else {

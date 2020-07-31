@@ -1,6 +1,6 @@
 package hearthstone.gui.controls.buttons;
 
-import hearthstone.logic.models.passive.Passive;
+import hearthstone.models.passive.Passive;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;

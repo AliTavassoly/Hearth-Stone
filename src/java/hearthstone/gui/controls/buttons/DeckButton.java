@@ -2,8 +2,8 @@ package hearthstone.gui.controls.buttons;
 
 import hearthstone.gui.SizeConfigs;
 import hearthstone.gui.game.GameFrame;
-import hearthstone.logic.models.Deck;
-import hearthstone.logic.models.hero.Hero;
+import hearthstone.models.Deck;
+import hearthstone.models.hero.Hero;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 

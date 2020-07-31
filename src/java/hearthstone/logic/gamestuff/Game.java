@@ -1,7 +1,7 @@
 package hearthstone.logic.gamestuff;
 
 import hearthstone.Mapper;
-import hearthstone.logic.models.player.Player;
+import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.timer.HSBigTask;
 import hearthstone.util.timer.HSTimerTask;

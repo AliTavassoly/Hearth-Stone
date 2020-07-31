@@ -15,7 +15,7 @@ import hearthstone.gui.game.GameFrame;
 import hearthstone.gui.game.play.controls.*;
 import hearthstone.gui.util.Animation;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.models.card.Card;
+import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
