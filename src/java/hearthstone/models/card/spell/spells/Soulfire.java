@@ -10,7 +10,12 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public class Soulfire extends SpellCard {
+    @Column
     private int damage;
 
     public Soulfire() {

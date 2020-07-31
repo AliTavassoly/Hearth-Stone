@@ -9,7 +9,12 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity
 public class HulkingOverfiend extends MinionCard {
+    @Transient
     private int thisTurnAttack;
 
     public HulkingOverfiend() {

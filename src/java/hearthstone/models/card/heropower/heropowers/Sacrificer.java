@@ -11,6 +11,9 @@ import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Sacrificer extends HeroPowerCard {
     public Sacrificer() { }
 

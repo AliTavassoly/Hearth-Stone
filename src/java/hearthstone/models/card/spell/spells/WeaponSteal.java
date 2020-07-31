@@ -8,6 +8,9 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class WeaponSteal extends SpellCard {
     public WeaponSteal() { }
 

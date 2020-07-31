@@ -2,12 +2,20 @@ package hearthstone.logic.gamestuff;
 
 import hearthstone.models.card.Card;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Market {
-    private ArrayList<Card> cards = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public ArrayList<Card> getCards() {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Card> cards = new ArrayList<>();
+
+    public List<Card> getCards() {
         return cards;
     }
 

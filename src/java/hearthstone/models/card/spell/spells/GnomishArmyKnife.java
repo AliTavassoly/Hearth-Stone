@@ -8,6 +8,9 @@ import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class GnomishArmyKnife  extends SpellCard {
     public GnomishArmyKnife() { }
 

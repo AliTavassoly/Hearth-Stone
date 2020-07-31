@@ -24,6 +24,9 @@ import java.util.List;
 @Entity
 public abstract class Hero implements HeroBehaviour, Character {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int allId;
+    @Column
     private int id;
     @Column
     private String name;

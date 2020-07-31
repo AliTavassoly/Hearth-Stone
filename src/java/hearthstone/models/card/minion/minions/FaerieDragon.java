@@ -7,6 +7,9 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class FaerieDragon extends MinionCard implements MinionBehaviour {
 
     public FaerieDragon() { }

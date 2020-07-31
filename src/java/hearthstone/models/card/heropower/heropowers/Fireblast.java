@@ -11,6 +11,9 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Fireblast extends HeroPowerCard {
     public Fireblast() {
     }

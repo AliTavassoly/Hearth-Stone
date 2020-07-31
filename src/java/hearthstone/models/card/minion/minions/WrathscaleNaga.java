@@ -11,8 +11,10 @@ import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity
 public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
     public WrathscaleNaga() {
     }

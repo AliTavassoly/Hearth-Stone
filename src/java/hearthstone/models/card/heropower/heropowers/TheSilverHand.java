@@ -7,6 +7,9 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class TheSilverHand extends HeroPowerCard  {
     public TheSilverHand() { }
 

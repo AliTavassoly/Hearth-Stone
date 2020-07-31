@@ -12,6 +12,9 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+
+@Entity
 public class DesertSpear extends WeaponCard {
     public DesertSpear() {
     }

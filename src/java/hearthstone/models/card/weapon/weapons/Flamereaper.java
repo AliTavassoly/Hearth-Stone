@@ -10,8 +10,10 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity
 public class Flamereaper extends WeaponCard {
     public Flamereaper() {
     }

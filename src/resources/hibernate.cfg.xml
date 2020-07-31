@@ -15,8 +15,6 @@
         <!-- <property name="hbm2ddl.auto">update</property>-->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping class="hearthstone.models.Bases"/>
-
         <mapping class="hearthstone.models.passive.Passive"/>
         <mapping class="hearthstone.models.passive.passives.FreePower"/>
         <mapping class="hearthstone.models.passive.passives.ManaJump"/>
@@ -47,6 +45,61 @@
         <mapping class="hearthstone.models.card.reward.RewardCard"/>
         <mapping class="hearthstone.models.card.spell.SpellCard"/>
         <mapping class="hearthstone.models.card.weapon.WeaponCard"/>
+
+        <mapping class="hearthstone.models.card.heropower.heropowers.AncientBlades"/>
+        <mapping class="hearthstone.models.card.heropower.heropowers.Fireblast"/>
+        <mapping class="hearthstone.models.card.heropower.heropowers.Heal"/>
+        <mapping class="hearthstone.models.card.heropower.heropowers.Sacrificer"/>
+        <mapping class="hearthstone.models.card.heropower.heropowers.TheSilverHand"/>
+
+        <mapping class="hearthstone.models.card.minion.minions.Abomination"/>
+        <mapping class="hearthstone.models.card.minion.minions.CurioCollector"/>
+        <mapping class="hearthstone.models.card.minion.minions.Dreadscale"/>
+        <mapping class="hearthstone.models.card.minion.minions.FaerieDragon"/>
+        <mapping class="hearthstone.models.card.minion.minions.GoldshireFootman"/>
+        <mapping class="hearthstone.models.card.minion.minions.HighPriestAmet"/>
+        <mapping class="hearthstone.models.card.minion.minions.HulkingOverfiend"/>
+        <mapping class="hearthstone.models.card.minion.minions.LabRecruiter"/>
+        <mapping class="hearthstone.models.card.minion.minions.Locust"/>
+        <mapping class="hearthstone.models.card.minion.minions.PitCommander"/>
+        <mapping class="hearthstone.models.card.minion.minions.Sathrovarr"/>
+        <mapping class="hearthstone.models.card.minion.minions.SecurityRover"/>
+        <mapping class="hearthstone.models.card.minion.minions.Sheep"/>
+        <mapping class="hearthstone.models.card.minion.minions.TheHulk"/>
+        <mapping class="hearthstone.models.card.minion.minions.TombWarden"/>
+        <mapping class="hearthstone.models.card.minion.minions.WrathscaleNaga"/>
+        <mapping class="hearthstone.models.card.minion.minions.WrathspikeBrute"/>
+
+        <mapping class="hearthstone.models.card.reward.rewards.LearnDraconic"/>
+        <mapping class="hearthstone.models.card.reward.rewards.SecurityReward"/>
+        <mapping class="hearthstone.models.card.reward.rewards.StrengthInNumbers"/>
+
+        <mapping class="hearthstone.models.card.spell.spells.Blur"/>
+        <mapping class="hearthstone.models.card.spell.spells.BookOfSpecters"/>
+        <mapping class="hearthstone.models.card.spell.spells.FreezingPotion"/>
+        <mapping class="hearthstone.models.card.spell.spells.FriendlySmith"/>
+        <mapping class="hearthstone.models.card.spell.spells.GnomishArmyKnife"/>
+        <mapping class="hearthstone.models.card.spell.spells.PharaohsBlessing"/>
+        <mapping class="hearthstone.models.card.spell.spells.Polymorph"/>
+        <mapping class="hearthstone.models.card.spell.spells.Soulfire"/>
+        <mapping class="hearthstone.models.card.spell.spells.Sprint"/>
+        <mapping class="hearthstone.models.card.spell.spells.SwarmOfLocusts"/>
+        <mapping class="hearthstone.models.card.spell.spells.Tracking"/>
+        <mapping class="hearthstone.models.card.spell.spells.WeaponSteal"/>
+
+        <mapping class="hearthstone.models.card.weapon.weapons.BattleAxe"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.Candleshot"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.DesertSpear"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.EaglehornBow"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.Flamereaper"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.Glaivezooka"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.HeavyAxe"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.WarglaivesOfAzzinoth"/>
+        <mapping class="hearthstone.models.card.weapon.weapons.WickedKnife"/>
+
+        <mapping class="hearthstone.models.Account"/>
+        <mapping class="hearthstone.models.Account$Collection"/>
+        <mapping class="hearthstone.models.AccountCredential"/>
 
     </session-factory>
 </hibernate-configuration>

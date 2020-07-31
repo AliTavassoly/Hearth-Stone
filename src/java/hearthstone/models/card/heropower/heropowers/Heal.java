@@ -8,6 +8,9 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Heal extends HeroPowerCard {
     public Heal() { }
 

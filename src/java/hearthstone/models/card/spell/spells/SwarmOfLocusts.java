@@ -7,6 +7,9 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class SwarmOfLocusts extends SpellCard {
     public SwarmOfLocusts() {
     }

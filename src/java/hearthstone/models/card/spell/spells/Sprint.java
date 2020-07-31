@@ -7,6 +7,9 @@ import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Sprint extends SpellCard {
     public Sprint() {
     }

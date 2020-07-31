@@ -7,6 +7,9 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Candleshot extends WeaponCard {
     public Candleshot() {
     }

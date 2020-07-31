@@ -9,6 +9,9 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class LearnDraconic extends RewardCard implements Battlecry {
     public LearnDraconic(){ }
 

@@ -10,6 +10,9 @@ import hearthstone.logic.behaviours.*;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class AncientBlades extends HeroPowerCard implements Upgradeable {
     public AncientBlades() {
     }

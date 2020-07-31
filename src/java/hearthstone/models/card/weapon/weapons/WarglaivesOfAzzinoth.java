@@ -12,7 +12,12 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity
 public class WarglaivesOfAzzinoth extends WeaponCard {
+    @Transient
     private int numberOfThisTurnAttacked;
 
     public WarglaivesOfAzzinoth() {

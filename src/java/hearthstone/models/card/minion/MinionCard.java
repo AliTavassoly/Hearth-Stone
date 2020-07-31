@@ -12,8 +12,10 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity
 public abstract class MinionCard extends Card implements MinionBehaviour, Character {
     @Column
     protected int health;

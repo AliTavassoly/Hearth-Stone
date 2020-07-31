@@ -12,8 +12,6 @@ import hearthstone.models.passive.Passive;
 import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -11,8 +11,10 @@ import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity
 public class Tracking extends SpellCard {
     public Tracking() { }
 

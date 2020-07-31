@@ -37,7 +37,7 @@ public class Data {
         if (accounts.containsKey(username)) {
             throw new HearthStoneException("This username is already exists!");
         }
-        accounts.put(username, new AccountCredential(accounts.size(), Crypt.hash(password)));
+        accounts.put(username, new AccountCredential(accounts.size(), username, Crypt.hash(password)));
     }
 
     public static void deleteAccount(String username, String password) throws Exception {

@@ -11,6 +11,9 @@ import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Dreadscale extends MinionCard implements EndTurnBehave {
     public Dreadscale(){ }
 

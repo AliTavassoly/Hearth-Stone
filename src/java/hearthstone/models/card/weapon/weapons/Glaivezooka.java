@@ -9,6 +9,9 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Glaivezooka extends WeaponCard implements Battlecry {
     public Glaivezooka() {
     }

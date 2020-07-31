@@ -8,6 +8,9 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class StrengthInNumbers extends RewardCard implements Battlecry {
     public StrengthInNumbers(){ }
 

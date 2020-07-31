@@ -12,8 +12,10 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.Rand;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity
 public class FriendlySmith  extends SpellCard {
     public FriendlySmith() { }
 

@@ -9,6 +9,9 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
 
+import javax.persistence.Entity;
+
+@Entity
 public class SecurityRover extends MinionCard implements IsAttacked {
     public SecurityRover(){ }
 
