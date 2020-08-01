@@ -84,7 +84,7 @@ public class  HearthStone{
 
     public static void login(String username, String password) throws Exception {
         Data.checkAccountCredentials(username, password);
-        currentAccount = DataBase.getAccount(Data.getAccountId(username));
+        currentAccount = DataBase.getAccount(username);
         hearthstone.util.Logger.saveLog("login", "signed in successfully!");
     }
 

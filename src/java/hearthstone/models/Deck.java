@@ -3,6 +3,7 @@ package hearthstone.models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
+import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -12,6 +13,9 @@ import hearthstone.models.passive.Passive;
 import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,22 +26,34 @@ import java.util.Map;
 @Entity
 public class Deck implements Comparable<Deck> {
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column
     private String name;
     @Column
     private int totalGames;
     @Column
     private int winGames;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Card> cards = new ArrayList<>();
+
     @ElementCollection()
     @MapKeyColumn(name="Deck_CardGame")
     private Map<Integer, Integer> cardGame = new HashMap<>();
 
     @Column
     private HeroType heroType;
+
+    @PostLoad
+    void postLoad() {
+        this.cardGame = new HashMap<>(this.cardGame);
+        this.cards = new ArrayList<>(this.cards);
+    }
 
     public Deck() {
     }
@@ -147,14 +163,7 @@ public class Deck implements Comparable<Deck> {
     }
 
     public Deck copy() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        Gson gson = gsonBuilder.create();
+        Gson gson = Data.getDataGson();
         return gson.fromJson(gson.toJson(this, Deck.class), Deck.class);
     }
 

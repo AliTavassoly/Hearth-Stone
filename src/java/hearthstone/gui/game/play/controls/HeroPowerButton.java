@@ -2,7 +2,7 @@ package hearthstone.gui.game.play.controls;
 
 import hearthstone.gui.controls.buttons.ImageButton;
 import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.logic.behaviours.Upgradeable;
+import hearthstone.models.behaviours.Upgradeable;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.heropower.HeroPowerCard;

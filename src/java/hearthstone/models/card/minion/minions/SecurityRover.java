@@ -2,7 +2,7 @@ package hearthstone.models.card.minion.minions;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.IsAttacked;
+import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;

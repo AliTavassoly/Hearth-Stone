@@ -2,7 +2,7 @@ package hearthstone;
 
 import hearthstone.gui.game.play.boards.GameBoard;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.behaviours.Character;
+import hearthstone.models.behaviours.Character;
 import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;

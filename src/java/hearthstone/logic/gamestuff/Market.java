@@ -1,8 +1,11 @@
 package hearthstone.logic.gamestuff;
 
 import hearthstone.models.card.Card;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +13,34 @@ import java.util.List;
 public class Market {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @Column
+    private String name = "Market";
+
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<Card> cards = new ArrayList<>();
 
+    @PostLoad
+    void postLoad() {
+        this.cards = new ArrayList<>(this.cards);
+    }
+
+    public Market(){}
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCards(List<Card> cards){
+        this.cards = cards;
+    }
     public List<Card> getCards() {
         return cards;
     }

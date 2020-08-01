@@ -2,8 +2,8 @@ package hearthstone.models.card.minion;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.Character;
-import hearthstone.logic.behaviours.*;
+import hearthstone.models.behaviours.Character;
+import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -13,6 +13,7 @@ import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 
 @Entity
@@ -31,13 +32,20 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected boolean isDeathRattle, isTriggeredEffect, isSpellSafe, isHeroPowerSafe, isDivineShield;
     @Column
     protected boolean isCharge, isRush;
+
+    @Transient
     protected boolean isImmune, isFreeze;
 
+    @Transient
     private ArrayList<Integer> immunities, freezes;
 
+    @Transient
     protected int numberOfAttack;
+    @Transient
     protected boolean isFirstTurn;
+    @Transient
     protected int numberOfAttackedMinion;
+    @Transient
     protected int numberOfAttackedHero;
 
     protected boolean spellSafe;

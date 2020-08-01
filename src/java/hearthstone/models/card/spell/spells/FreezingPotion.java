@@ -1,7 +1,7 @@
 package hearthstone.models.card.spell.spells;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.Character;
+import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;

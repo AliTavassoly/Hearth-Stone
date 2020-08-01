@@ -2,7 +2,7 @@ package hearthstone.models.card.weapon;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.IsAttacked;
+import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -13,6 +13,7 @@ import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public abstract class WeaponCard extends Card implements WeaponBehaviour {
@@ -21,7 +22,9 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
     @Column
     protected int attack;
 
+    @Transient
     protected int numberOfAttack;
+    @Transient
     protected boolean isFirstTurn;
 
     public WeaponCard() {

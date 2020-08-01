@@ -2,7 +2,7 @@ package hearthstone.models.card.reward.rewards;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.Battlecry;
+import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;

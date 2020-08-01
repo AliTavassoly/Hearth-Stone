@@ -5,6 +5,7 @@ import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.Deck;
+import hearthstone.models.behaviours.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
@@ -16,7 +17,6 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
 import hearthstone.util.HearthStoneException;
-import hearthstone.logic.behaviours.*;
 import hearthstone.util.Logger;
 import hearthstone.util.Rand;
 
@@ -560,8 +560,8 @@ public class Player {
 
     public void startTurn() throws Exception {
         mana = ++turnNumber + extraMana;
-        //mana = 10;
-        mana = Math.min(mana, GameConfigs.maxManaInGame);
+        mana = 10;
+        //mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         handleStartTurnBehaviours();
 
@@ -655,6 +655,7 @@ public class Player {
             hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
                     " lost against " +
                     DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
+            Mapper.getInstance().saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -668,6 +669,7 @@ public class Player {
             hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
                     " won " +
                     DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
+            Mapper.getInstance().saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }

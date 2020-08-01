@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
+import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
-import hearthstone.logic.behaviours.Character;
+import hearthstone.models.behaviours.Character;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
-import jdk.jfr.Name;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -34,20 +34,26 @@ public abstract class Hero implements HeroBehaviour, Character {
     private String description;
     @Column
     private String heroPowerName;
-    @Transient
+    @Column
     private int health;
     @Column
     private int initialHealth;
     @Column
     private HeroType type;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Deck> decks;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Deck selectedDeck;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     protected SpecialHeroPower specialHeroPower;
 
     @Transient
@@ -67,6 +73,11 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     @Transient
     private int playerId;
+
+    @PostLoad
+    void postLoad() {
+        this.decks = new ArrayList<>(this.decks);
+    }
 
     public Hero() {
         configHero();
@@ -90,6 +101,13 @@ public abstract class Hero implements HeroBehaviour, Character {
         immunities = new ArrayList<>();
         freezes = new ArrayList<>();
         decks = new ArrayList<>();
+    }
+
+    public void  setAllId(int allId){
+        this.allId = allId;
+    }
+    public int getAllId(){
+        return allId;
     }
 
     public int getId() {
@@ -187,15 +205,10 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
 
     public Hero copy() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        Gson gson = gsonBuilder.create();
-        return gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
+        Gson gson = Data.getDataGson();
+        Hero hero = gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
+        hero.setAllId(0);
+        return hero;
     }
 
     // End of getter setter

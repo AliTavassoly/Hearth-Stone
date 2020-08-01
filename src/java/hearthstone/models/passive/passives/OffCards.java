@@ -1,7 +1,7 @@
 package hearthstone.models.passive.passives;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.StartGameBehave;
+import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.passive.Passive;
 
 import javax.persistence.Entity;

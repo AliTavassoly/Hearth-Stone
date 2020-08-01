@@ -221,6 +221,7 @@ public class PlaySelectionPanel extends JPanel {
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
+        //HearthStone.currentGame.startGameEndingTimer();
     }
 
     private void makeNewSoloGame(){

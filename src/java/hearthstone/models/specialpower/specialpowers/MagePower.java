@@ -1,7 +1,7 @@
 package hearthstone.models.specialpower.specialpowers;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.StartGameBehave;
+import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.specialpower.SpecialHeroPower;
 
 import javax.persistence.Entity;

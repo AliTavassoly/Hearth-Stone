@@ -3,6 +3,7 @@ package hearthstone.models.passive;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hearthstone.DataTransform;
+import hearthstone.data.Data;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.specialpower.SpecialHeroPower;
@@ -64,14 +65,7 @@ public abstract class Passive {
     }
 
     public Passive copy() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        Gson gson = gsonBuilder.create();
+        Gson gson = Data.getDataGson();
         return gson.fromJson(gson.toJson(this, Passive.class), Passive.class);
     }
 }

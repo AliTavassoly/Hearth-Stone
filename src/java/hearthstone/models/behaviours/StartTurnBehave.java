@@ -1,4 +1,4 @@
-package hearthstone.logic.behaviours;
+package hearthstone.models.behaviours;
 
 public interface StartTurnBehave {
     void startTurnBehave();

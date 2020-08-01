@@ -5,9 +5,13 @@ import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.heroes.Mage;
 import hearthstone.models.player.Player;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,20 +28,40 @@ public class Account {
     private int id;
     @Column
     private int cardsBackId;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Hero> heroes;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
+    @OneToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Collection collection;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Deck> decks;
 
     @ElementCollection
     private List<Integer> unlockedCards;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Hero selectedHero;
+
     @Column
     private int gem;
+
+    @PostLoad
+    void postLoad() {
+        this.heroes = new ArrayList<>(this.heroes);
+        this.decks = new ArrayList<>(this.decks);
+        this.unlockedCards = new ArrayList<>(this.unlockedCards);
+    }
 
     public Account() {
 
@@ -57,7 +81,10 @@ public class Account {
     }
 
     private void accountConfigs() {
-        heroes.addAll(HearthStone.baseHeroes.values());
+        for(Hero hero: HearthStone.baseHeroes.values()){
+            Hero hero1 = hero.copy();
+            heroes.add(hero1);
+        }
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : HearthStone.baseCards.values()) {
@@ -246,77 +273,5 @@ public class Account {
 
     public Player getPlayer() {
         return new Player(selectedHero, getSelectedHero().getSelectedDeck(), username);
-    }
-
-    @Entity
-    public class Collection {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column
-        private int id;
-
-        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-        private List<Card> cards;
-
-        public Collection() {
-        }
-
-        public Collection(ArrayList<Card> cards) {
-            this.cards = cards;
-        }
-
-        public List<Card> getCards() {
-            return cards;
-        }
-
-        public void setCards(List<Card> cards) {
-            this.cards = cards;
-        }
-
-        public int numberOfCards(Card baseCard) {
-            int ans = 0;
-            for (Card card : cards) {
-                if (card.getId() == baseCard.getId()) {
-                    ans++;
-                }
-            }
-            return ans;
-        }
-
-        public boolean canAdd(Card baseCard, int cnt) {
-            return numberOfCards(baseCard) + cnt <= GameConfigs.maxCardOfOneType &&
-                    cards.size() + cnt <= GameConfigs.maxCardInCollection;
-        }
-
-        public void add(Card baseCard, int cnt) throws Exception {
-            if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
-                throw new HearthStoneException("Can not have " +
-                        (numberOfCards(baseCard) + cnt) + " numbers of " + baseCard.getName() + " card!");
-            }
-            if (cards.size() + cnt > GameConfigs.maxCardInCollection) {
-                throw new HearthStoneException("Collection is full!");
-            }
-            for (int i = 0; i < cnt; i++)
-                cards.add(baseCard.copy());
-        }
-
-        public boolean canRemove(Card baseCard, int cnt) {
-            return numberOfCards(baseCard) - cnt >= 0;
-        }
-
-        public void remove(Card baseCard, int cnt) throws Exception {
-            if (numberOfCards(baseCard) - cnt < 0) {
-                throw new HearthStoneException("You don't have " + cnt + " numbers of " +
-                        baseCard.getName() + " in your collection!");
-            }
-            for (int i = 0; i < cnt; i++) {
-                for (int j = 0; j < cards.size(); j++) {
-                    if (cards.get(j).getId() == baseCard.getId()) {
-                        cards.remove(j);
-                        break;
-                    }
-                }
-            }
-        }
     }
 }

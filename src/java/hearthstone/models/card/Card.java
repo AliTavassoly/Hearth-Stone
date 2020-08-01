@@ -2,6 +2,8 @@ package hearthstone.models.card;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.xml.bind.v2.model.core.ID;
+import hearthstone.data.Data;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.passive.Passive;
@@ -9,13 +11,14 @@ import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Card implements CardBehaviour {
+public abstract class Card implements CardBehaviour {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int allId;
+    @Column
     private int id;
     @Column
     private String name;
@@ -32,6 +35,7 @@ public class Card implements CardBehaviour {
     @Column
     private int buyPrice, sellPrice;
 
+    @Transient
     private int playerId;
 
     public Card() {
@@ -62,6 +66,13 @@ public class Card implements CardBehaviour {
 
     public void setPlayerId(int playerId){
         this.playerId = playerId;
+    }
+
+    public void setAllId(int allId){
+        this.allId = allId;
+    }
+    public int getAllId(){
+        return allId;
     }
 
     public int getId() {
@@ -132,15 +143,10 @@ public class Card implements CardBehaviour {
     }
 
     public Card copy() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        Gson gson = gsonBuilder.create();
-        return gson.fromJson(gson.toJson(this, Card.class), Card.class);
+        Gson gson = Data.getDataGson();
+        Card card = gson.fromJson(gson.toJson(this, Card.class), Card.class);
+        card.setAllId(0);
+        return card;
     }
 
     @Override

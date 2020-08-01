@@ -4,17 +4,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import hearthstone.HearthStone;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
-import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
-import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
@@ -43,6 +40,7 @@ import static hearthstone.HearthStone.*;
 
 public class DataBase {
     private static SessionFactory sessionFactory = buildSessionFactory();
+    private static Session session = sessionFactory.openSession();
     public static Gson gson;
 
     private static SessionFactory buildSessionFactory() {
@@ -301,14 +299,14 @@ public class DataBase {
     private static Map<String, AccountCredential> getCredentials() throws Exception {
         Map<String, AccountCredential> ans = new HashMap<>();
         List<AccountCredential> accountCredentials = getAll(AccountCredential.class);
-        for(AccountCredential accountCredential: accountCredentials){
+        for (AccountCredential accountCredential : accountCredentials) {
             ans.put(accountCredential.getUsername(), accountCredential);
         }
         return ans;
     }
 
-    public static Account getAccount(int id) throws Exception {
-        return fetch(Account.class, id);
+    public static Account getAccount(String username) throws Exception {
+        return fetch(Account.class, username);
     }
 
     private static Map<String, Object> getGameConfigs() throws Exception {
@@ -336,71 +334,21 @@ public class DataBase {
     }
 
     private static Market getMarket() throws Exception { // ????????????????????
-        Market ans = getAll(Market.class).get(0);
-        if (ans == null)
-            return market;
-        return ans;
+        return getAll(Market.class).get(0);
     }
 
-    /*private static Map<Integer, Card> getBaseCards() throws Exception {
-        File json = new File(dataPath + "/base_cards.json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/base_cards.json");
-        Map<Integer, Card> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Card>>() {
-        }.getType());
-        if (ans == null)
-            return baseCards;
-        return ans;
-    }*/
-
-    /*private static Map<Integer, Hero> getBaseHeroes() throws Exception {
-        File json = new File(dataPath + "/base_heroes.json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/base_heroes.json");
-        Map<Integer, Hero> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Hero>>() {
-        }.getType());
-        if (ans == null)
-            return baseHeroes;
-        return ans;
-    }*/
-
-    /*private static Map<Integer, Passive> getBasePassives() throws Exception {
-        File json = new File(dataPath + "/base_passives.json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/base_passives.json");
-        Map<Integer, Passive> ans = gson.fromJson(fileReader, new TypeToken<Map<Integer, Passive>>() {
-        }.getType());
-        if (ans == null)
-            return basePassives;
-        return ans;
-    }*/
-
-    /*private static void saveCurrentAccount() throws Exception {
-        File json = new File(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileWriter fileWriter = new FileWriter(dataPath + "/accounts" + "/account_" + currentAccount.getId() + ".json");
-        gson.toJson(currentAccount, Account.class, fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
-    }*/
-
     private static Map<Integer, Card> getBaseCards() throws Exception {
-        List<Card> cards = getAll(Card.class);
         Map<Integer, Card> map = new HashMap<>();
-        for (Card card : cards) {
-            map.put(card.getId(), card);
+        for (int i = 1; i <= 46; i++) {
+            map.put(i - 1, fetch(Card.class, i));
         }
         return map;
     }
 
     private static Map<Integer, Hero> getBaseHeroes() throws Exception {
         Map<Integer, Hero> map = new HashMap<>();
-        for (int i = 0; i < 5; i++) {
-            map.put(i, fetch(Hero.class, i));
+        for (int i = 1; i <= 5; i++) {
+            map.put(i - 1, fetch(Hero.class, i));
         }
         return map;
     }
@@ -415,34 +363,18 @@ public class DataBase {
     }
 
     private static void saveCurrentAccount() throws Exception {
-        save(currentAccount);
+        saveOrUpdate(currentAccount);
+        //saveOrUpdate(currentAccount);
     }
 
     private static void saveCredentials() throws Exception {
-        for(AccountCredential accountCredential: Data.getAccounts().values()){
-            save(accountCredential);
+        for (AccountCredential accountCredential : Data.getAccounts().values()) {
+            saveOrUpdate(accountCredential);
         }
     }
 
-    /*private static void saveDecks() throws Exception {
-        Map<String, ArrayList<String> > map = new HashMap<>();
-        ArrayList<String> n1 = new ArrayList<>();
-        ArrayList<String> n2 = new ArrayList<>();
-        for(int i = 0; i < 15; i++) {
-            n1.add("Sheep");
-            n2.add("Sheep");
-        }
-        map.put("friend", n1);
-        map.put("enemy", n2);
-
-        FileWriter fileWriter = new FileWriter(dataPath + "/decks.json");
-        gson.toJson(map, new TypeToken<Map<String, ArrayList<String>>>() {}.getType(), fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
-    }*/
-
     private static void saveMarket() throws Exception {
-        save(market);
+        saveOrUpdate(market);
     }
 
     public static void save() throws Exception {
@@ -473,194 +405,190 @@ public class DataBase {
         int id = 0;
         // Mage
         Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        save(polymorph);
+        saveOrUpdate(polymorph);
 
         Fireblast fireblast = new Fireblast(id++, "Fireblast", "Deal 1 damage.", 2, HeroType.MAGE, CardType.HERO_POWER);
-        save(fireblast);
+        saveOrUpdate(fireblast);
 
         FreezingPotion freezingPotion = new FreezingPotion(id++, "Freezing Potion", "Freeze an enemy.", 0, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
-        save(freezingPotion);
+        saveOrUpdate(freezingPotion);
 
         // Warlock
         Dreadscale dreadscale = new Dreadscale(id++, "Dreadscale", "At the end of your turn, deal 1 damage to all other minions.", 3, HeroType.WARLOCK, Rarity.LEGENDARY, CardType.MINION_CARD, 2, 4,
                 false, false, false, false, false, false, false, false, MinionType.BEAST);
-        save(dreadscale);
+        saveOrUpdate(dreadscale);
 
         Sacrificer sacrificer = new Sacrificer(id++, "Sacrificer", "Sacrifice.", 2, HeroType.WARLOCK, CardType.HERO_POWER);
-        save(sacrificer);
+        saveOrUpdate(sacrificer);
 
         Soulfire soulfire = new Soulfire(id++, "Soulfire", "Deal 4 damage. Discard a random card.", 1, HeroType.WARLOCK, Rarity.COMMON, CardType.SPELL);
-        save(soulfire);
+        saveOrUpdate(soulfire);
 
         // Rogue
         FriendlySmith friendlySmith = new FriendlySmith(id++, "Friendly Smith", "Discover a weapon\n" + "from any class. Add it\n" + "to your Adventure Deck\n" + "with +2/+2.", 1, HeroType.ROGUE, Rarity.COMMON, CardType.SPELL);
-        save(friendlySmith);
+        saveOrUpdate(friendlySmith);
 
         AncientBlades ancientBlades = new AncientBlades(id++, "Ancient Blades", "Steal cards.", 3, HeroType.ROGUE, CardType.HERO_POWER);
-        save(ancientBlades);
+        saveOrUpdate(ancientBlades);
 
         LabRecruiter labRecruiter = new LabRecruiter(id++, "Lab Recruiter", "Battlecry: Shuffle 3 copies of a friendly minion into your deck.", 2, HeroType.ROGUE, Rarity.COMMON, CardType.MINION_CARD, 2, 3,
                 false, false, false, false, false, false, false, false, MinionType.NORMAL);
-        save(labRecruiter);
+        saveOrUpdate(labRecruiter);
 
         // Paladin
         TheSilverHand theSilverHand = new TheSilverHand(id++, "The Silver Hand", "Hero Power\n" +
                 "Summon two 1/1 Recruits.", 2, HeroType.PALADIN, CardType.HERO_POWER);
-        save(theSilverHand);
+        saveOrUpdate(theSilverHand);
 
         GnomishArmyKnife gnomishArmyKnife = new GnomishArmyKnife(id++, "Gnomish Army Knife", "Give a minion Charge,\n" +
                 "Windfury, Divine Shield,\n" +
                 "Lifesteal, Poisonous,\n" +
                 "Taunt, and Stealth.", 5, HeroType.PALADIN, Rarity.COMMON, CardType.SPELL);
-        save(gnomishArmyKnife);
+        saveOrUpdate(gnomishArmyKnife);
 
         // Priest
         Heal heal = new Heal(id++, "Heal", "Hero Power\n" +
                 "Restore 4 Health.", 2, HeroType.PRIEST, CardType.HERO_POWER);
-        save(heal);
+        saveOrUpdate(heal);
 
         HighPriestAmet highPriestAmet = new HighPriestAmet(id++, "High Priest Amet", "Whenever you summon a\n" +
                 "minion, set its Health equal\n" +
                 "to this minion's.", 4, HeroType.PRIEST, Rarity.LEGENDARY, CardType.MINION_CARD, 7, 2,
                 false, false, false, false, false, false, false, false, MinionType.NORMAL);
-        save(highPriestAmet);
+        saveOrUpdate(highPriestAmet);
 
         // All
 
         // Spell
         Blur blur = new Blur(id++, "Blur", "Your hero can't take damage this turn.", 0, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        save(blur);
+        saveOrUpdate(blur);
 
         Tracking tracking = new Tracking(id++, "Tracking", "Look at the top 3 cards of your deck. Draw one and discard the others.", 1, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        save(tracking);
+        saveOrUpdate(tracking);
 
         Sprint sprint = new Sprint(id++, "Sprint", "Draw 4 cards.", 7, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        save(sprint);
+        saveOrUpdate(sprint);
 
         SwarmOfLocusts swarmOfLocusts = new SwarmOfLocusts(id++, "Swarm of Locusts", "Summon seven 1/1 \n Locusts with Rush.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
-        save(swarmOfLocusts);
+        saveOrUpdate(swarmOfLocusts);
 
         PharaohsBlessing pharaohsBlessing = new PharaohsBlessing(id++, "Pharaoh's Blessing", "Give a minion +4/+4,\n Divine Shield, and Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.SPELL);
-        save(pharaohsBlessing);
+        saveOrUpdate(pharaohsBlessing);
 
         BookOfSpecters bookOfSpecters = new BookOfSpecters(id++, "Book of Specters", "Draw 3 cards. Discard \n any spells drawn.", 2, HeroType.ALL, Rarity.EPIC, CardType.SPELL);
-        save(bookOfSpecters);
+        saveOrUpdate(bookOfSpecters);
 
         WeaponSteal weaponSteal = new WeaponSteal(id++, "Weapon Steal", "Choose your enemy weapon and add it to your deck", 2, HeroType.ALL, Rarity.COMMON, CardType.SPELL);
-        save(weaponSteal);
+        saveOrUpdate(weaponSteal);
 
         // Minion
         HulkingOverfiend hulkingOverfiend = new HulkingOverfiend(id++, "Hulking Overfiend", "Rush. After this attacks and kills a minion, it may attack again.", 8, HeroType.ALL, Rarity.RARE, CardType.MINION_CARD, 5, 10,
                 false, false, false, false, false, false, false, true, MinionType.DEMON);
-        save(hulkingOverfiend);
+        saveOrUpdate(hulkingOverfiend);
 
         WrathscaleNaga wrathscaleNaga = new WrathscaleNaga(id++, "Wrathscale Naga", "After a friendly minion dies, deal 3 damage to a random enemy.", 3, HeroType.ALL, Rarity.EPIC, CardType.MINION_CARD, 1, 3,
                 false, false, false, false, false, false, false, false, MinionType.NORMAL);
-        save(wrathscaleNaga);
+        saveOrUpdate(wrathscaleNaga);
 
         WrathspikeBrute wrathspikeBrute = new WrathspikeBrute(id++, "Wrathspike Brute", "Taunt After this is attacked, deal 1 damage to all enemies.", 5, HeroType.ALL, Rarity.EPIC, CardType.MINION_CARD, 6, 2,
                 false, false, false, false, false, true, false, false, MinionType.DEMON);
-        save(wrathspikeBrute);
+        saveOrUpdate(wrathspikeBrute);
 
         PitCommander pitCommander = new PitCommander(id++, "Pit Commander", "Taunt At the end of your turn, summon a Demon from your deck.", 9, HeroType.ALL, Rarity.EPIC, CardType.MINION_CARD, 9, 7,
                 false, false, false, false, false, true, false, false, MinionType.DEMON);
-        save(pitCommander);
+        saveOrUpdate(pitCommander);
 
         GoldshireFootman goldshireFootman = new GoldshireFootman(id++, "Goldshire Footman", "Taunt", 1, HeroType.ALL, Rarity.COMMON, CardType.MINION_CARD, 2, 1,
                 false, false, false, false, false,
                 true, false, false, MinionType.NORMAL);
-        save(goldshireFootman);
+        saveOrUpdate(goldshireFootman);
 
         Abomination abomination = new Abomination(id++, "Abomination", "Taunt. Deathrattle: Deal 2\ndamage to ALL characters.", 5, HeroType.ALL, Rarity.RARE, CardType.MINION_CARD, 4, 4,
                 true, false, false, false, false, true, false, false, MinionType.NORMAL);
-        save(abomination);
+        saveOrUpdate(abomination);
 
         Sathrovarr sathrovarr = new Sathrovarr(id++, "Sathrovarr", "Battlecry: Choose a friendly\n minion. Add a copy of it to\n your hand, deck, and\n battlefield.", 9, HeroType.ALL, Rarity.LEGENDARY, CardType.MINION_CARD, 5, 5,
                 false, false, false, false, false, false, false, false, MinionType.DEMON);
-        save(sathrovarr);
+        saveOrUpdate(sathrovarr);
 
         TombWarden tombWarden = new TombWarden(id++, "Tomb Warden", "Taunt \n Battlecry: Summon a copy\n of this minion.", 8, HeroType.ALL, Rarity.RARE, CardType.MINION_CARD, 6, 3,
                 false, false, false, false, false, true, false, false, MinionType.MECH);
-        save(tombWarden);
+        saveOrUpdate(tombWarden);
 
         SecurityRover securityRover = new SecurityRover(id++, "Security Rover", "Whenever this minion\n" +
                 "takes damage, summon a\n" +
                 "2/3 Mech with Taunt.", 6, HeroType.ALL, Rarity.RARE, CardType.MINION_CARD, 6, 2,
                 false, false, false, false, false, false, false, false, MinionType.MECH);
-        save(securityRover);
+        saveOrUpdate(securityRover);
 
         CurioCollector curioCollector = new CurioCollector(id++, "Curio Collector", "Whenever you draw a card, gain +1/+1.", 5, HeroType.ALL, Rarity.RARE, CardType.MINION_CARD, 4, 4,
                 false, false, false, false, false, false, false, false, MinionType.NORMAL);
-        save(curioCollector);
+        saveOrUpdate(curioCollector);
 
         FaerieDragon faerieDragon = new FaerieDragon(id++, "Faerie Dragon", "Nothing", 5, HeroType.ALL, Rarity.COMMON, CardType.MINION_CARD, 6, 6,
                 false, false, true, true, false, false, false, false, MinionType.DRAGON);
-        save(faerieDragon);
+        saveOrUpdate(faerieDragon);
 
         Locust locust = new Locust(id++, "Locust", "Rush", 1, HeroType.ALL, Rarity.COMMON, CardType.MINION_CARD, 1, 1,
                 false, false, false, false, false, false, false, true, MinionType.BEAST);
-        save(locust);
+        saveOrUpdate(locust);
 
         Sheep sheep = new Sheep(id++, "Sheep", "Just Sheep!", 1, HeroType.ALL, Rarity.COMMON, CardType.MINION_CARD, 1, 1,
                 false, false, false, false, false,
                 false, false, false, MinionType.BEAST);
-        save(sheep);
+        saveOrUpdate(sheep);
 
         TheHulk theHulk = new TheHulk(id++, "The Hulk", "Just Hulk!", 3, HeroType.ALL, Rarity.COMMON, CardType.MINION_CARD, 3, 2,
                 false, false, false, false, false,
                 true, false, false, MinionType.BEAST);
-        save(theHulk);
+        saveOrUpdate(theHulk);
 
         // Weapon
         WarglaivesOfAzzinoth warglaivesOfAzzinoth = new WarglaivesOfAzzinoth(id++, "Warglaives of Azzinoth", "After attacking a minion, your hero may attack again.", 5, HeroType.ALL, Rarity.EPIC, CardType.WEAPON_CARD, 4, 3);
-        save(warglaivesOfAzzinoth);
+        saveOrUpdate(warglaivesOfAzzinoth);
 
         Flamereaper flamereaper = new Flamereaper(id++, "Flamereaper", "Also damages the minions next to whomever your hero attacks.", 7, HeroType.ALL, Rarity.EPIC, CardType.WEAPON_CARD, 3, 4);
-        save(flamereaper);
+        saveOrUpdate(flamereaper);
 
         Candleshot candleshot = new Candleshot(id++, "Candleshot", "Your hero is Immune while attacking.", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 3, 1);
-        save(candleshot);
+        saveOrUpdate(candleshot);
 
         Glaivezooka glaivezooka = new Glaivezooka(id++, "Glaivezooka", "Battlecry: Give a random friendly minion +1 Attack.", 2, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 2, 2);
-        save(glaivezooka);
+        saveOrUpdate(glaivezooka);
 
         EaglehornBow eaglehornBow = new EaglehornBow(id++, "Eaglehorn Bow", "", 3, HeroType.ALL, Rarity.RARE, CardType.WEAPON_CARD, 3, 3);
-        save(eaglehornBow);
+        saveOrUpdate(eaglehornBow);
 
         DesertSpear desertSpear = new DesertSpear(id++, "Desert Spear", "After your hero attacks, summon a 1/1 Locust with Rush.", 3, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 3, 1);
-        save(desertSpear);
+        saveOrUpdate(desertSpear);
 
         BattleAxe battleAxe = new BattleAxe(id++, "Battle Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 2, 2);
-        save(battleAxe);
+        saveOrUpdate(battleAxe);
 
         HeavyAxe heavyAxe = new HeavyAxe(id++, "Heavy Axe", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 3, 1);
-        save(heavyAxe);
+        saveOrUpdate(heavyAxe);
 
         WickedKnife wickedKnife = new WickedKnife(id++, "Wicked Knife", "", 1, HeroType.ALL, Rarity.COMMON, CardType.WEAPON_CARD, 2, 1);
-        save(wickedKnife);
+        saveOrUpdate(wickedKnife);
 
         // Reward
         LearnDraconic learnDraconic = new LearnDraconic(id++, "Learn Draconic", "Sidequest: Spend\n" +
                 "8 Mana on spells.\n" +
                 "Reward: Summon a\n" +
                 "6/6 Dragon.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARD_CARD);
-        save(learnDraconic);
+        saveOrUpdate(learnDraconic);
 
         StrengthInNumbers strengthInNumbers = new StrengthInNumbers(id++, "Strength in Numbers", "Sidequest: Spend 10 Mana\n +" +
                 " on minions.\n" +
                 "Reward: Summon a\n" +
                 " minion from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARD_CARD);
-        save(strengthInNumbers);
+        saveOrUpdate(strengthInNumbers);
 
         SecurityReward securityReward = new SecurityReward(id++, "Security Reward", "Sidequest: Spend 10 Mana\n +" +
                 " on minions.\n" +
                 "Reward: Summon a\n" +
                 " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARD_CARD);
-        save(securityReward);
-
-        for (Card card : baseCards.values()) {
-            save(card);
-        }
+        saveOrUpdate(securityReward);
     }
 
     private static void saveHeroes() throws Exception {
@@ -668,44 +596,44 @@ public class DataBase {
         Mage mage = new Mage(id++, "Mage", HeroType.MAGE,
                 "witchers are good with spells!\nshe pays 2 mana less for spells!", "Fireblast",
                 30);
-        save(mage);
+        saveOrUpdate(mage);
 
         Warlock warlock = new Warlock(id++, "Warlock", HeroType.WARLOCK,
                 "healthier than other!\nreduce 2 health and do somethings !\n", "Sacrificer",
                 35);
-        save(warlock);
+        saveOrUpdate(warlock);
 
         Rogue rogue = new Rogue(id++, "Rogue", HeroType.ROGUE,
                 "the thief!\nwith 3 mana, she can steal one opponent card!", "Ancient Blades",
                 30);
-        save(rogue);
+        saveOrUpdate(rogue);
 
         Paladin paladin = new Paladin(id++, "Paladin", HeroType.PALADIN, "Minions",
                 "The Silver Hand",
                 30);
-        save(paladin);
+        saveOrUpdate(paladin);
 
         Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
                 30);
-        save(priest);
+        saveOrUpdate(priest);
     }
 
     private static void savePassives() throws Exception {
         int id = 0;
         TwiceDraw twiceDraw = new TwiceDraw(id++, "Twice Draw");
-        save(twiceDraw);
+        saveOrUpdate(twiceDraw);
 
         OffCards offCards = new OffCards(id++, "Off Cards");
-        save(offCards);
+        saveOrUpdate(offCards);
 
         FreePower freePower = new FreePower(id++, "Free Power");
-        save(freePower);
+        saveOrUpdate(freePower);
 
         ManaJump manaJump = new ManaJump(id++, "Mana Jump");
-        save(manaJump);
+        saveOrUpdate(manaJump);
 
         Nurse nurse = new Nurse(id++, "Nurse");
-        save(nurse);
+        saveOrUpdate(nurse);
     }
 
     public static void load() throws Exception {
@@ -719,9 +647,12 @@ public class DataBase {
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
 
-        /*saveCards();
-        saveHeroes();
-        savePassives();*/
+        /*saveHeroes();
+        saveCards();
+        savePassives();
+        saveMarket();
+        if (sessionFactory != null)
+            return;*/
 
         loadConfigs();
 
@@ -729,37 +660,35 @@ public class DataBase {
         loadHeroes();
         loadPassives();
 
-        /*saveCards();
-        saveHeroes();
-        savePassives();*/
-
         loadAccounts();
         loadMarket();
     }
 
-    private static void save(Object object) {
+    private static void saveOrUpdate(Object object) {
         Session session = sessionFactory.openSession();
 
         session.beginTransaction();
 
-        session.persist(object);
+        session.saveOrUpdate(object);
 
         session.getTransaction().commit();
 
         session.close();
     }
 
-    private static void update(Object object){
-        Session session = sessionFactory.openSession();
-
+    /*private static void saveOrUpdate(Object object) {
         session.beginTransaction();
 
-        session.update(object);
+        session.saveOrUpdate(object);
 
         session.getTransaction().commit();
+    }*/
 
-        session.close();
-    }
+    /*private static <T> T fetch(Class<T> tClass, Object id) {
+        T t = session.get(tClass, (Serializable) id);
+
+        return t;
+    }*/
 
     private static <T> T fetch(Class<T> tClass, Object id) {
         Session session = sessionFactory.openSession();

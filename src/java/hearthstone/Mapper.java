@@ -2,9 +2,9 @@ package hearthstone;
 
 import hearthstone.data.DataBase;
 import hearthstone.gui.game.play.boards.GameBoard;
-import hearthstone.logic.behaviours.Character;
-import hearthstone.logic.behaviours.*;
+import hearthstone.models.behaviours.Character;
 import hearthstone.logic.gamestuff.Game;
+import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.card.minion.MinionCard;

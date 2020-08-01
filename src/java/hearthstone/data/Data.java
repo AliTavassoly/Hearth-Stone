@@ -3,7 +3,14 @@ package hearthstone.data;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import hearthstone.models.AccountCredential;
+import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.passive.Passive;
+import hearthstone.models.specialpower.SpecialHeroPower;
+import hearthstone.util.AbstractAdapter;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 
@@ -49,6 +56,11 @@ public class Data {
 
     public static void deleteAccount(String username) {
         accounts.get(username).setDeleted(true);
+        try {
+            DataBase.save();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static int getAccountId(String username) {
@@ -70,5 +82,16 @@ public class Data {
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper;
+    }
+
+    public synchronized static Gson getDataGson(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
+        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
+
+        return gsonBuilder.create();
     }
 }

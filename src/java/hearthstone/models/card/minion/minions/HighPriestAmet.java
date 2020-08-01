@@ -1,7 +1,7 @@
 package hearthstone.models.card.minion.minions;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.WaitSummonCard;
+import hearthstone.models.behaviours.WaitSummonCard;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;

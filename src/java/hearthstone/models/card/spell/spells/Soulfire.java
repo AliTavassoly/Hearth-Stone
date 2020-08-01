@@ -2,7 +2,7 @@ package hearthstone.models.card.spell.spells;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.Character;
+import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
@@ -12,10 +12,11 @@ import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class Soulfire extends SpellCard {
-    @Column
+    @Transient
     private int damage;
 
     public Soulfire() {

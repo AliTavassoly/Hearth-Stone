@@ -1,7 +1,7 @@
 package hearthstone.models.card.minion.minions;
 
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.EndTurnBehave;
+import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
@@ -9,9 +9,11 @@ import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class PitCommander extends MinionCard implements EndTurnBehave {
+    @Transient
     private boolean didItEndTurnBehave;
 
     public PitCommander(){ }

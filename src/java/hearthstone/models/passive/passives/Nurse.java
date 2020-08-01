@@ -2,7 +2,7 @@ package hearthstone.models.passive.passives;
 
 import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.logic.behaviours.EndTurnBehave;
+import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.passive.Passive;
 

@@ -7,12 +7,13 @@ import hearthstone.models.hero.HeroType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
-    @Column
+    @Transient
     protected int extraNumberOfAttack;
-    @Column
+    @Transient
     protected int numberOfAttack;
 
     public HeroPowerCard() {
