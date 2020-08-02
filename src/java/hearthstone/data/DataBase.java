@@ -364,7 +364,6 @@ public class DataBase {
 
     private static void saveCurrentAccount() throws Exception {
         saveOrUpdate(currentAccount);
-        //saveOrUpdate(currentAccount);
     }
 
     private static void saveCredentials() throws Exception {
@@ -675,20 +674,6 @@ public class DataBase {
 
         session.close();
     }
-
-    /*private static void saveOrUpdate(Object object) {
-        session.beginTransaction();
-
-        session.saveOrUpdate(object);
-
-        session.getTransaction().commit();
-    }*/
-
-    /*private static <T> T fetch(Class<T> tClass, Object id) {
-        T t = session.get(tClass, (Serializable) id);
-
-        return t;
-    }*/
 
     private static <T> T fetch(Class<T> tClass, Object id) {
         Session session = sessionFactory.openSession();

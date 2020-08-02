@@ -1,18 +1,14 @@
 <hibernate-configuration>
     <session-factory>
-        <!--       database connection-->
-        <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="connection.url">jdbc:sqlite:./data/sqlite.db</property>
+        <!-- Database connection setting -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5434/hearth-stone</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property>
+        <!-- SQl dialect -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <!-- update the database schema on startup -->
 
-        <!--        sql dialect-->
-        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
-
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
-
-        <!--     <property name="hbm2ddl.auto">create</property>-->
-
-        <!--        <property name="hbm2ddl.auto">update</property>-->
-        <!-- <property name="hbm2ddl.auto">update</property>-->
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="hearthstone.models.passive.Passive"/>
