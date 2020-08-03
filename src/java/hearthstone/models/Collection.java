@@ -21,7 +21,7 @@ public class Collection {
     @Column
     private String name = "Collection";
 
-    @OneToMany
+    @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Card> cards;

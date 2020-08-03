@@ -32,7 +32,6 @@ public class Account {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Hero> heroes;
 
     @OneToOne
@@ -48,7 +47,7 @@ public class Account {
     @ElementCollection
     private List<Integer> unlockedCards;
 
-    @ManyToOne
+    @OneToOne
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Hero selectedHero;
