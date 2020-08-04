@@ -121,123 +121,123 @@ public class SizeConfigs {
     public static int bigRedMarkWidth;
     public static int bigRedMarkHeight;
 
-    static public void setConfigs(Map<String, Object> configs) {
+    static public void setConfigs(Map<String, Integer> configs) {
         // General
-        credentialFrameWidth = ((Double) configs.get("credentialFrameWidth")).intValue();
-        credentialFrameHeight = ((Double) configs.get("credentialFrameHeight")).intValue();
+        credentialFrameWidth = configs.get("credentialFrameWidth");
+        credentialFrameHeight = configs.get("credentialFrameHeight");
 
-        smallButtonWidth = ((Double) configs.get("smallButtonWidth")).intValue();
-        smallButtonHeight = ((Double) configs.get("smallButtonHeight")).intValue();
+        smallButtonWidth = configs.get("smallButtonWidth");
+        smallButtonHeight = configs.get("smallButtonHeight");
 
-        medButtonWidth = ((Double) configs.get("medButtonWidth")).intValue();
-        medButtonHeight = ((Double) configs.get("medButtonHeight")).intValue();
+        medButtonWidth = configs.get("medButtonWidth");
+        medButtonHeight = configs.get("medButtonHeight");
 
-        largeButtonWidth = ((Double) configs.get("largeButtonWidth")).intValue();
-        largeButtonHeight = ((Double) configs.get("largeButtonHeight")).intValue();
+        largeButtonWidth = configs.get("largeButtonWidth");
+        largeButtonHeight = configs.get("largeButtonHeight");
 
-        gameFrameWidth = ((Double) configs.get("gameFrameWidth")).intValue();
-        gameFrameHeight = ((Double) configs.get("gameFrameHeight")).intValue();
+        gameFrameWidth = configs.get("gameFrameWidth");
+        gameFrameHeight = configs.get("gameFrameHeight");
 
-        iconWidth = ((Double) configs.get("iconWidth")).intValue();
-        iconHeight = ((Double) configs.get("iconHeight")).intValue();
+        iconWidth = configs.get("iconWidth");
+        iconHeight = configs.get("iconHeight");
 
-        mainMenuLogoWidth = ((Double) configs.get("mainMenuLogoWidth")).intValue();
-        mainMenuLogoHeight = ((Double) configs.get("mainMenuLogoHeight")).intValue();
+        mainMenuLogoWidth = configs.get("mainMenuLogoWidth");
+        mainMenuLogoHeight = configs.get("mainMenuLogoHeight");
 
-        smallCardWidth = ((Double) configs.get("smallCardWidth")).intValue();
-        smallCardHeight = ((Double) configs.get("smallCardHeight")).intValue();
+        smallCardWidth = configs.get("smallCardWidth");
+        smallCardHeight = configs.get("smallCardHeight");
 
-        smallCardWidthOnLand = ((Double) configs.get("smallCardWidthOnLand")).intValue();
-        smallCardHeightOnLand = ((Double) configs.get("smallCardHeightOnLand")).intValue();
+        smallCardWidthOnLand = configs.get("smallCardWidthOnLand");
+        smallCardHeightOnLand = configs.get("smallCardHeightOnLand");
 
-        medCardWidth = ((Double) configs.get("medCardWidth")).intValue();
-        medCardHeight = ((Double) configs.get("medCardHeight")).intValue();
+        medCardWidth = configs.get("medCardWidth");
+        medCardHeight = configs.get("medCardHeight");
 
-        marketListWidth = ((Double) configs.get("marketListWidth")).intValue();
-        marketListHeight = ((Double) configs.get("marketListHeight")).intValue();
+        marketListWidth = configs.get("marketListWidth");
+        marketListHeight = configs.get("marketListHeight");
 
-        statusListWidth = ((Double) configs.get("statusListWidth")).intValue();
-        statusListHeight = ((Double) configs.get("statusListHeight")).intValue();
+        statusListWidth = configs.get("statusListWidth");
+        statusListHeight = configs.get("statusListHeight");
 
-        deckSelectionListWidth = ((Double) configs.get("deckSelectionListWidth")).intValue();
-        deckSelectionListHeight = ((Double) configs.get("deckSelectionListHeight")).intValue();
+        deckSelectionListWidth = configs.get("deckSelectionListWidth");
+        deckSelectionListHeight = configs.get("deckSelectionListHeight");
 
-        bigHeroWidth = ((Double) configs.get("bigHeroWidth")).intValue();
-        bigHeroHeight = ((Double) configs.get("bigHeroHeight")).intValue();
+        bigHeroWidth = configs.get("bigHeroWidth");
+        bigHeroHeight = configs.get("bigHeroHeight");
 
-        bigCircleHeroWidth = ((Double) configs.get("bigCircleHeroWidth")).intValue();
-        bigCircleHeroHeight = ((Double) configs.get("bigCircleHeroHeight")).intValue();
+        bigCircleHeroWidth = configs.get("bigCircleHeroWidth");
+        bigCircleHeroHeight = configs.get("bigCircleHeroHeight");
 
-        bigHeroDetailWidth = ((Double) configs.get("bigHeroDetailWidth")).intValue();
-        bigHeroDetailHeight = ((Double) configs.get("bigHeroDetailHeight")).intValue();
+        bigHeroDetailWidth = configs.get("bigHeroDetailWidth");
+        bigHeroDetailHeight = configs.get("bigHeroDetailHeight");
 
-        heroesListWidth = ((Double) configs.get("heroesListWidth")).intValue();
-        heroesListHeight = ((Double) configs.get("heroesListHeight")).intValue();
+        heroesListWidth = configs.get("heroesListWidth");
+        heroesListHeight = configs.get("heroesListHeight");
 
-        smallGemButtonWidth = ((Double) configs.get("smallGemButtonWidth")).intValue();
-        smallGemButtonHeight = ((Double) configs.get("smallGemButtonHeight")).intValue();
+        smallGemButtonWidth = configs.get("smallGemButtonWidth");
+        smallGemButtonHeight = configs.get("smallGemButtonHeight");
 
-        bigGemButtonWidth = ((Double) configs.get("bigGemButtonWidth")).intValue();
-        bigGemButtonHeight = ((Double) configs.get("bigGemButtonHeight")).intValue();
+        bigGemButtonWidth = configs.get("bigGemButtonWidth");
+        bigGemButtonHeight = configs.get("bigGemButtonHeight");
 
-        deckWidth = ((Double) configs.get("deckWidth")).intValue();
-        deckHeight = ((Double) configs.get("deckHeight")).intValue();
+        deckWidth = configs.get("deckWidth");
+        deckHeight = configs.get("deckHeight");
 
-        dialogWidth = ((Double) configs.get("dialogWidth")).intValue();
-        dialogHeight = ((Double) configs.get("dialogHeight")).intValue();
+        dialogWidth = configs.get("dialogWidth");
+        dialogHeight = configs.get("dialogHeight");
 
-        arrangementListWidth = ((Double) configs.get("arrangementListWidth")).intValue();
-        arrangementListHeight = ((Double) configs.get("arrangementListHeight")).intValue();
+        arrangementListWidth = configs.get("arrangementListWidth");
+        arrangementListHeight = configs.get("arrangementListHeight");
 
-        errorWidth = ((Double) configs.get("errorWidth")).intValue();
-        errorHeight = ((Double) configs.get("errorHeight")).intValue();
+        errorWidth = configs.get("errorWidth");
+        errorHeight = configs.get("errorHeight");
 
-        volumeSettingsWidth = ((Double) configs.get("volumeSettingsWidth")).intValue();
-        volumeSettingsHeight = ((Double) configs.get("volumeSettingsHeight")).intValue();
+        volumeSettingsWidth = configs.get("volumeSettingsWidth");
+        volumeSettingsHeight = configs.get("volumeSettingsHeight");
 
-        numberOfCardFlagWidth = ((Double) configs.get("numberOfCardFlagWidth")).intValue();
-        numberOfCardFlagHeight = ((Double) configs.get("numberOfCardFlagHeight")).intValue();
+        numberOfCardFlagWidth = configs.get("numberOfCardFlagWidth");
+        numberOfCardFlagHeight = configs.get("numberOfCardFlagHeight");
 
-        marketInfoHeight = ((Double) configs.get("marketInfoHeight")).intValue();
+        marketInfoHeight = configs.get("marketInfoHeight");
 
         // GameBoard
-        endTurnButtonWidth = ((Double) configs.get("endTurnButtonWidth")).intValue();
-        endTurnButtonHeight = ((Double) configs.get("endTurnButtonHeight")).intValue();
+        endTurnButtonWidth = configs.get("endTurnButtonWidth");
+        endTurnButtonHeight = configs.get("endTurnButtonHeight");
 
-        manaWidth = ((Double) configs.get("manaWidth")).intValue();
-        manaHeight = ((Double) configs.get("manaHeight")).intValue();
+        manaWidth = configs.get("manaWidth");
+        manaHeight = configs.get("manaHeight");
 
-        medHeroWidth = ((Double) configs.get("medHeroWidth")).intValue();
-        medHeroHeight = ((Double) configs.get("medHeroHeight")).intValue();
+        medHeroWidth = configs.get("medHeroWidth");
+        medHeroHeight = configs.get("medHeroHeight");
 
-        healthWidth = ((Double) configs.get("healthWidth")).intValue();
-        healthHeight = ((Double) configs.get("healthHeight")).intValue();
+        healthWidth = configs.get("healthWidth");
+        healthHeight = configs.get("healthHeight");
 
-        heroPowerWidth = ((Double) configs.get("heroPowerWidth")).intValue();
-        heroPowerHeight = ((Double) configs.get("heroPowerHeight")).intValue();
+        heroPowerWidth = configs.get("heroPowerWidth");
+        heroPowerHeight = configs.get("heroPowerHeight");
 
-        weaponWidth = ((Double) configs.get("weaponWidth")).intValue();
-        weaponHeight = ((Double) configs.get("weaponHeight")).intValue();
+        weaponWidth = configs.get("weaponWidth");
+        weaponHeight = configs.get("weaponHeight");
 
-        weaponDetailWidth = ((Double) configs.get("weaponDetailWidth")).intValue();
-        weaponDetailHeight = ((Double) configs.get("weaponDetailHeight")).intValue();
+        weaponDetailWidth = configs.get("weaponDetailWidth");
+        weaponDetailHeight = configs.get("weaponDetailHeight");
 
-        endTurnFireWidth = ((Double) configs.get("endTurnFireWidth")).intValue();
-        endTurnFireHeight = ((Double) configs.get("endTurnFireHeight")).intValue();
+        endTurnFireWidth = configs.get("endTurnFireWidth");
+        endTurnFireHeight = configs.get("endTurnFireHeight");
 
-        endTurnRopeWidth = ((Double) configs.get("endTurnRopeWidth")).intValue();
-        endTurnRopeHeight = ((Double) configs.get("endTurnRopeHeight")).intValue();
+        endTurnRopeWidth = configs.get("endTurnRopeWidth");
+        endTurnRopeHeight = configs.get("endTurnRopeHeight");
 
-        minionTypeWidth = ((Double) configs.get("minionTypeWidth")).intValue();
-        minionTypeHeight = ((Double) configs.get("minionTypeHeight")).intValue();
+        minionTypeWidth = configs.get("minionTypeWidth");
+        minionTypeHeight = configs.get("minionTypeHeight");
 
-        inGameErrorWidth = ((Double) configs.get("inGameErrorWidth")).intValue();
-        inGameErrorHeight = ((Double) configs.get("inGameErrorHeight")).intValue();
+        inGameErrorWidth = configs.get("inGameErrorWidth");
+        inGameErrorHeight = configs.get("inGameErrorHeight");
 
-        progressManaWidth = ((Double) configs.get("progressManaWidth")).intValue();
-        progressManaHeight = ((Double) configs.get("progressManaHeight")).intValue();
+        progressManaWidth = configs.get("progressManaWidth");
+        progressManaHeight = configs.get("progressManaHeight");
 
-        bigRedMarkWidth = ((Double) configs.get("bigRedMarkWidth")).intValue();
-        bigRedMarkHeight = ((Double) configs.get("bigRedMarkHeight")).intValue();
+        bigRedMarkWidth = configs.get("bigRedMarkWidth");
+        bigRedMarkHeight = configs.get("bigRedMarkHeight");
     }
 }

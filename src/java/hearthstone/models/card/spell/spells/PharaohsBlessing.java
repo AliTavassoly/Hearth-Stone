@@ -20,7 +20,7 @@ public class PharaohsBlessing extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(getCursorType(), this);
+        Mapper.makeNewMouseWaiting(getCursorType(), this);
     }
 
     @Override
@@ -32,12 +32,21 @@ public class PharaohsBlessing extends SpellCard {
     public void found(Object object) {
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
-            Mapper.getInstance().addAttack(4, minionCard);
-            Mapper.getInstance().addHealth(4, minionCard);
-            Mapper.getInstance().setTaunt(true, minionCard);
-            Mapper.getInstance().setDivineShield(true, minionCard);
 
-            Mapper.getInstance().updateBoard();
+            //Mapper.addAttack(4, minionCard.getCardGameId());
+            minionCard.changeAttack(4);
+
+            //Mapper.addHealth(4, minionCard);
+            minionCard.gotHeal(4);
+            Mapper.updateBoard();
+
+            //Mapper.setTaunt(true, minionCard);
+            minionCard.setTaunt(true);
+
+            //Mapper.setDivineShield(true, minionCard);
+            minionCard.setDivineShield(true);
+
+            Mapper.updateBoard();
         }
     }
 }

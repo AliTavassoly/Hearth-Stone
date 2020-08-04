@@ -18,11 +18,14 @@ public class FreePower extends Passive implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        HeroPowerCard power = DataTransform.getInstance().getHeroPower(getPlayerId());
+        HeroPowerCard power = DataTransform.getHeroPower(getPlayerId());
 
-        Mapper.getInstance().setCardMana(power, Math.max(0, power.getManaCost() - 1));
-        Mapper.getInstance().setHeroPowerExtraAttack(power, 1);
+        //Mapper.setCardMana(power, Math.max(0, power.getManaCost() - 1));
+        power.setManaCost(Math.max(0, power.getManaCost() - 1));
 
-        Mapper.getInstance().updateBoard();
+        //Mapper.setHeroPowerExtraAttack(power, 1);
+        power.setExtraNumberOfAttack(1);
+
+        Mapper.updateBoard();
     }
 }

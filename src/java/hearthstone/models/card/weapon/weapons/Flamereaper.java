@@ -7,6 +7,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
@@ -24,28 +25,35 @@ public class Flamereaper extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        ArrayList <MinionCard> neighbors = DataTransform.getInstance().getNeighbors(
-                        DataTransform.getInstance().getEnemyId(getPlayerId()),
+        ArrayList <MinionCard> neighbors = DataTransform.getNeighbors(
+                        DataTransform.getEnemyId(getPlayerId()),
                         minionCard);
 
-        Mapper.getInstance().damage(this.attack, minionCard);
+        //Mapper.damage(this.attack, minionCard);
+        minionCard.gotDamage(this.attack);
+        Mapper.updateBoard();
+
         log(minionCard);
 
         try {
-            Mapper.getInstance().damage(minionCard.getAttack(),
-                    DataTransform.getInstance().getHero(getPlayerId()), false);
+            /*Mapper.damage(minionCard.getAttack(),
+                    DataTransform.getHero(getPlayerId()), false);*/
+            DataTransform.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+
         } catch (HearthStoneException ignore) { }
 
         for (MinionCard minionCard1 : neighbors){
             try {
-                Mapper.getInstance().damage(this.getAttack(), minionCard1, false);
+                //Mapper.damage(this.getAttack(), minionCard1, false);
+                minionCard1.gotDamage(this.getAttack());
             } catch (HearthStoneException ignore) { }
         }
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
 
         if (minionCard instanceof IsAttacked) {
-            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
+            //Mapper.isAttacked((IsAttacked)minionCard);
+            ((IsAttacked) minionCard).isAttacked();
         }
     }
 }

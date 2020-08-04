@@ -22,9 +22,12 @@ public class Candleshot extends WeaponCard {
     public void startTurnBehave() {
         super.startTurnBehave();
 
-        Mapper.getInstance().addImmunity(getPlayerId(), 1, DataTransform.getInstance().getHero(getPlayerId()));
-        Mapper.getInstance().handleImmunities(getPlayerId(), DataTransform.getInstance().getHero(getPlayerId()));
+        //Mapper.addImmunity(getPlayerId(), 1, DataTransform.getHero(getPlayerId()));
+        DataTransform.getHero(getPlayerId()).addImmunity(1);
 
-        Mapper.getInstance().updateBoard();
+        //Mapper.handleImmunities(getPlayerId(), DataTransform.getHero(getPlayerId()));
+        DataTransform.getHero(getPlayerId()).handleImmunities();
+
+        Mapper.updateBoard();
     }
 }

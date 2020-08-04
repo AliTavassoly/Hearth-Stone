@@ -22,20 +22,30 @@ public class Sacrificer extends HeroPowerCard {
     }
 
     private void doAbility(Hero hero){
-        Mapper.getInstance().reduceMana(getPlayerId(), getManaCost());
-        Mapper.getInstance().setHealth(hero.getHealth() - 2, hero);
+        //Mapper.reduceMana(getPlayerId(), getManaCost());
+        DataTransform.getPlayer(getPlayerId()).reduceMana(getManaCost());
+
+        //Mapper.setHealth(hero.getHealth() - 2, hero);
+        hero.setHealth(hero.getHealth() - 2);
+        Mapper.updateBoard();
 
         if(Rand.getInstance().getProbability(1, 2)){
             try {
-                Mapper.getInstance().drawCard(getPlayerId());
-                Mapper.getInstance().updateBoard();
+                //Mapper.drawCard(getPlayerId());
+                DataTransform.getPlayer(getPlayerId()).drawCard();
+
+                Mapper.updateBoard();
             } catch (HearthStoneException ignore) {}
         } else {
-            MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
+            MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
             if(minionCard != null){
-                Mapper.getInstance().addAttack(1, minionCard);
-                Mapper.getInstance().addHealth(1, minionCard);
-                Mapper.getInstance().updateBoard();
+                //Mapper.addAttack(1, minionCard.getCardGameId());
+                minionCard.changeAttack(1);
+
+                //Mapper.addHealth(1, minionCard);
+                minionCard.gotHeal(1);
+
+                Mapper.updateBoard();
             }
         }
 

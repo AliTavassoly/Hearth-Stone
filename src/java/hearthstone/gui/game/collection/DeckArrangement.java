@@ -280,7 +280,7 @@ public class DeckArrangement extends JPanel {
                     HearthStone.currentAccount.getDecks().remove(deck);
                     hero.getDecks().remove(deck);
 
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
 
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
 
@@ -348,10 +348,13 @@ public class DeckArrangement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    deck.remove(card, 1);
+                    //deck.remove(card, 1);
+                    Mapper.removeFromDeck(deck, card, 1);
+
                     deckCardsPanel.removeCard(card);
                     cardsPanel.addCard(card, getCardsPanel(card));
-                    Mapper.getInstance().saveDataBase();
+
+                    Mapper.saveDataBase();
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "remove");
@@ -386,12 +389,13 @@ public class DeckArrangement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    deck.add(card, 1);
+                    //deck.add(card, 1);
+                    Mapper.addToDeck(deck, card, 1);
                     if (selectedButton != 0)
                         cardsPanel.removeCard(card);
                     deckCardsPanel.addCard(card, getDeckCardsPanel(card));
 
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
 
                     hearthstone.util.Logger.saveLog("Click_button",
                             "add");

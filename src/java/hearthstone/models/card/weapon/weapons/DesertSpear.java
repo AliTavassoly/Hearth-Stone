@@ -25,27 +25,38 @@ public class DesertSpear extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        Mapper.getInstance().damage(this.attack, minionCard);
+        //Mapper.damage(this.attack, minionCard);
+        minionCard.gotDamage(this.attack);
+        Mapper.updateBoard();
 
         try {
-            Mapper.getInstance().damage(minionCard.getAttack(),
-                    DataTransform.getInstance().getHero(getPlayerId()));
+            /*Mapper.damage(minionCard.getAttack(),
+                    DataTransform.getHero(getPlayerId()));*/
+            DataTransform.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+            Mapper.updateBoard();
         } catch (HearthStoneException ignore) { }
 
-        Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
+        //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
+        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+
         if (minionCard instanceof IsAttacked) {
-            Mapper.getInstance().isAttacked((IsAttacked)minionCard);
+            //Mapper.isAttacked((IsAttacked)minionCard);
+            ((IsAttacked) minionCard).isAttacked();
         }
     }
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
+        if (DataTransform.haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
-        Mapper.getInstance().damage(this.attack, hero);
-        Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
+        //Mapper.damage(this.attack, hero);
+        hero.gotDamage(this.attack);
+        Mapper.updateBoard();
 
-        Mapper.getInstance().updateBoard();
+        //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
+        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+
+        Mapper.updateBoard();
     }
 }

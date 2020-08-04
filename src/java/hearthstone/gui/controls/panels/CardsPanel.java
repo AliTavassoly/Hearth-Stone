@@ -159,7 +159,7 @@ public class CardsPanel extends JPanel {
 
     private void restart() {
         try {
-            Mapper.getInstance().saveDataBase();
+            Mapper.saveDataBase();
         } catch (HearthStoneException e) {
             try {
                 hearthstone.util.Logger.saveLog("ERROR",

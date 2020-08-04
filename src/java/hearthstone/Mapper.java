@@ -2,14 +2,9 @@ package hearthstone;
 
 import hearthstone.data.DataBase;
 import hearthstone.gui.game.play.boards.GameBoard;
-import hearthstone.models.behaviours.Character;
 import hearthstone.logic.gamestuff.Game;
-import hearthstone.models.behaviours.IsAttacked;
+import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.heropower.HeroPowerCard;
-import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.minion.MinionType;
-import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
@@ -19,320 +14,325 @@ import hearthstone.util.HearthStoneException;
 import java.util.ArrayList;
 
 public class Mapper {
-    private static Mapper instance;
-
-    private Mapper() {
-    }
-
-    public static Mapper getInstance() {
-        if (instance == null) {
-            return instance = new Mapper();
-        } else {
-            return instance;
-        }
-    }
-
-    public Player getPlayer(int playerId) {
-        return HearthStone.currentGame.getPlayerById(playerId);
-    }
-
-    public GameBoard getGameBoard() {
-        return HearthStone.currentGameBoard;
-    }
-
-    public void setExtraMane(int playerId, int extraMana) {
-        getPlayer(playerId).setExtraMana(extraMana);
-    }
-
-    public Game getGame() {
-        return HearthStone.currentGame;
-    }
-
-    public void playCard(int playerId, Card card) throws Exception {
-        getPlayer(playerId).playCard(card);
-    }
-
-    public void endTurn() {
-        getGame().endTurn();
-    }
-
-    public void startGame() {
-        getGame().startGame();
-    }
-
-    public void startGame(int playerId) throws HearthStoneException {
+    /*public static void startGame(int playerId) throws HearthStoneException {
         getPlayer(playerId).startGame();
-    }
+    }*/
 
-    public void startTurn(int playerId) throws Exception {
+    /*public static void startTurn(int playerId) throws Exception {
         getPlayer(playerId).startTurn();
-    }
+    }*/
 
-    public void endTurn(int playerId) {
+    /*public static void endTurn(int playerId) {
         getPlayer(playerId).endTurn();
-    }
+    }*/
 
-    public void gameEnded() {
-        getGameBoard().gameEnded();
-    }
+    /*public static void setExtraMane(int playerId, int extraMana) {
+        getPlayer(playerId).setExtraMana(extraMana);
+    }*/
 
-    public void lost(int playerId) {
-        getPlayer(playerId).lostGame();
-    }
-
-    public void won(int playerId) {
-        getPlayer(playerId).wonGame();
-    }
-
-    public void addAttack(int attack, MinionCard minionCard) {
+    /*public static void addAttack(int attack, MinionCard minionCard) {
         minionCard.changeAttack(attack);
         updateBoard();
-    }
+    }*/
 
-    public void addAttack(int attack, WeaponCard weaponCard) {
+    /*public static void addAttack(int attack, WeaponCard weaponCard) {
         weaponCard.setAttack(weaponCard.getAttack() + attack);
         updateBoard();
-    }
+    }*/
 
-    public void addDurability(int durability, WeaponCard weaponCard) {
+    /*public static void addDurability(int durability, WeaponCard weaponCard) {
         weaponCard.setDurability(weaponCard.getDurability() + durability);
         updateBoard();
-    }
+    }*/
 
-    public void addHealth(int health, MinionCard minionCard) {
+    /*public static void addHealth(int health, MinionCard minionCard) {
         minionCard.gotHeal(health);
         updateBoard();
-    }
+    }*/
 
-    public void setHealth(int health, Character character) {
+    /*public static void setHealth(int health, Character character) {
         character.setHealth(health);
         updateBoard();
-    }
+    }*/
 
-    public void damage(int damage, Character character) throws HearthStoneException {
+    /*public static void damage(int damage, Character character) throws HearthStoneException {
         character.gotDamage(damage);
         updateBoard();
-    }
+    }*/
 
-    public void damage(int damage, Character character, boolean update) throws HearthStoneException {
+    /*public static void damage(int damage, Character character, boolean update) throws HearthStoneException {
         character.gotDamage(damage);
         if (update)
             updateBoard();
-    }
+    }*/
 
-    public void heal(int heal, Character character) {
+    /*public static void heal(int heal, Character character) {
         character.gotHeal(heal);
-    }
+    }*/
 
-    public void restoreHealth(Character character) {
+    /*public static void restoreHealth(Character character) {
         character.restoreHealth();
-    }
+    }*/
 
-    public void restoreHealth(int heal, Character character) {
+    /*public static void restoreHealth(int heal, Character character) {
         character.restoreHealth(heal);
+    }*/
+
+    /*public static void restartSpentManaOnMinions(int playerId) {
+        getPlayer(playerId).setManaSpentOnMinions(0);
+    }*/
+
+    /*public static void restartSpentManaOnSpells(int playerId) {
+        getPlayer(playerId).setManaSpentOnSpells(0);
+    }*/
+
+    /*public static void summonMinionFromCurrentDeck(int playerId, int attack, int health) {
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(attack, health);
+    }*/
+
+    /*public static void summonMinionFromCurrentDeck(int playerId, MinionType minionType) {
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(minionType);
+    }*/
+
+    /*public static void summonMinionFromCurrentDeck(int playerId) {
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck();
+    }*/
+
+    /*public static void summonMinionFromCurrentDeck(int playerId, String cardName) {
+        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(cardName);
+    }*/
+
+    /*public static void makeAndPutHand(int playerId, Card card) {
+        getPlayer(playerId).getFactory().makeAndPutHand(card);
+    }*/
+
+    /*public static void isAttacked(IsAttacked character) {
+        character.isAttacked();
+    }*/
+
+    /*public static void setPlayerMana(int playerId, int mana) {
+        getPlayer(playerId).setMana(mana);
+    }*/
+
+    /*public static void reduceMana(int playerId, int reduce) {
+        getPlayer(playerId).reduceMana(reduce);
+    }*/
+
+    /*public static void makeAndSummonMinion(int playerId, Card card) {
+        getPlayer(playerId).getFactory().makeAndSummonMinion(card);
+    }*/
+
+    /*public static void makeAndPutDeck(int playerId, Card card) {
+        getPlayer(playerId).getFactory().makeAndPutDeck(card);
+    }*/
+
+    /*public static void setHeroImmune(int playerId, boolean immune) {
+        getPlayer(playerId).getHero().setImmune(immune);
+    }*/
+
+    /*public static void drawCard(int playerId, int ind) throws HearthStoneException {
+        getPlayer(playerId).drawCard(ind);
+    }*/
+
+    /*public static void drawCard(int playerId) throws HearthStoneException {
+        getPlayer(playerId).drawCard();
+    }*/
+
+    /*public static void drawCard(int playerId, Card card) throws HearthStoneException {
+        getPlayer(playerId).drawCard(card);
+        updateBoard();
+    }*/
+
+    /*public static void handleImmunities(int playerId, Character character) {
+        character.handleImmunities();
+    }*/
+
+    /*public static void handleFreezes(int playerId, Character character) {
+        character.handleFreezes();
+    }*/
+
+    /*public static void addFreezes(int playerId, int turnNumber, Character character) {
+        character.addFreezes(turnNumber);
+        handleFreezes(playerId, character);
+    }*/
+
+    /*public static void addImmunity(int playerId, int turnNumber, Character character) {
+        character.addImmunity(turnNumber);
+        handleImmunities(playerId, character);
+    }*/
+
+    /*public static void reduceFreezes(int playerId, Character character) {
+        character.reduceFreezes();
+    }*/
+
+    /*public static void reduceImmunities(int playerId, Character character) {
+        character.reduceImmunities();
+    }*/
+
+    /*public static void setTaunt(boolean isTaunt, MinionCard minionCard) {
+        minionCard.setTaunt(isTaunt);
+    }*/
+
+    /*public static void setWeapon(int playerId, WeaponCard weaponCard) {
+        getPlayer(playerId).setWeapon(weaponCard);
+    }*/
+
+    /*public static void setCharge(boolean isCharge, MinionCard minionCard) {
+        minionCard.setCharge(isCharge);
+    }*/
+
+    /*public static void setDivineShield(boolean isDivineShields, MinionCard minionCard) {
+        minionCard.setDivineShield(isDivineShields);
+    }*/
+
+    /*public static void removeDivineShield(MinionCard minionCard) {
+
+    }*/
+
+    /*public static void setCardMana(Card card, int mana) {
+        card.setManaCost(mana);
+    }*/
+
+    /*public static void setHeroPowerExtraAttack(HeroPowerCard power, int extra) {
+        power.setExtraNumberOfAttack(extra);
+    }*/
+
+    /*public static void discountAllDeckCard(int playerId, int mana) {
+        getPlayer(playerId).discountAllDeckCard(mana);
+    }*/
+
+    /*public static void discountSpells(int playerId, int mana) {
+        getPlayer(playerId).discountSpells(mana);
+    }*/
+
+    /*public static void transformMinion(int playerId, int oldMinionId, MinionCard newMinion) {
+        getPlayer(playerId).transformMinion(oldMinionId, newMinion);
+    }*/
+
+    /*public static void setSpellSafe(MinionCard minionCard, boolean isSpellSafe) {
+        minionCard.setSpellSafe(isSpellSafe);
+    }*/
+
+    /*public static void setHeroPower(int playerId, HeroPowerCard heroPower) {
+        getPlayer(playerId).setHeroPower(heroPower);
+    }*/
+
+    /*public static void discardCard(int playerId, int cardId) throws HearthStoneException {
+        getPlayer(playerId).discardCard(cardId);
+    }*/
+
+    /*public static void stealFromDeck(int stealerId, int stolenId, int cardId) {
+        getPlayer(stolenId).getFactory().removeFromDeck(cardId);
+        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardById(cardId));
+    }*/
+
+    /*public static void stealFromHand(int stealerId, int stolenId, int cardId) {
+        getPlayer(stolenId).getFactory().removeFromHand(cardId);
+        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardById(cardId));
+    }*/
+
+    public static Player getPlayer(int playerId) {
+        return HearthStone.currentGame.getPlayerById(playerId);
     }
 
-    public void setPassive(int playerId, Passive passive) {
+    public static GameBoard getGameBoard() {
+        return HearthStone.currentGameBoard;
+    }
+
+    public static Game getGame() {
+        return HearthStone.currentGame;
+    }
+
+    public static void playCard(int playerId, Card card) throws Exception {
+        getPlayer(playerId).playCard(card);
+    }
+
+    public static void endTurn() {
+        getGame().endTurn();
+    }
+
+    public static void startGame() {
+        getGame().startGame();
+    }
+
+    public static void gameEnded() {
+        getGameBoard().gameEnded();
+    }
+
+    public static void lost(int playerId) {
+        getPlayer(playerId).lostGame();
+    }
+
+    public static void won(int playerId) {
+        getPlayer(playerId).wonGame();
+    }
+
+    public static void setPassive(int playerId, Passive passive) {
         getPlayer(playerId).setPassive(passive);
     }
 
-    public void restartSpentManaOnMinions(int playerId) {
-        getPlayer(playerId).setManaSpentOnMinions(0);
-    }
-
-    public void restartSpentManaOnSpells(int playerId) {
-        getPlayer(playerId).setManaSpentOnSpells(0);
-    }
-
-    public void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
+    public static void foundObjectForObject(Object waited, Object founded) throws HearthStoneException {
         if (waited instanceof Card) {
             Card card = (Card) waited;
             card.found(founded);
         }
     }
 
-    public void deleteCurrentMouseWaiting() {
+    public static void deleteCurrentMouseWaiting() {
         getGameBoard().deleteCurrentMouseWaiting();
     }
 
-    public void makeNewMouseWaiting(CursorType cursorType, Card card) {
+    public static void makeNewMouseWaiting(CursorType cursorType, Card card) {
         getGameBoard().makeNewMouseWaiting(cursorType, card);
     }
 
-    public void summonMinionFromCurrentDeck(int playerId, int attack, int health) {
-        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(attack, health);
-    }
-
-    public void summonMinionFromCurrentDeck(int playerId, MinionType minionType) {
-        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(minionType);
-    }
-
-    public void summonMinionFromCurrentDeck(int playerId) {
-        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck();
-    }
-
-    public void summonMinionFromCurrentDeck(int playerId, String cardName) {
-        getPlayer(playerId).getFactory().summonMinionFromCurrentDeck(cardName);
-    }
-
-    public void makeAndPutHand(int playerId, Card card) {
-        getPlayer(playerId).getFactory().makeAndPutHand(card);
-    }
-
-    public void isAttacked(IsAttacked character) {
-        character.isAttacked();
-    }
-
-    public void removeInitialCards(int playerId, ArrayList<Card> discardCards, int numberOfTopCards) {
+    public static void removeInitialCards(int playerId, ArrayList<Card> discardCards, int numberOfTopCards) {
         getPlayer(playerId).removeInitialCards(discardCards, numberOfTopCards);
     }
 
-    public void setPlayerMana(int playerId, int mana) {
-        getPlayer(playerId).setMana(mana);
-    }
-
-    public void reduceMana(int playerId, int reduce) {
-        getPlayer(playerId).reduceMana(reduce);
-    }
-
-    public void makeAndSummonMinion(int playerId, Card card) {
-        getPlayer(playerId).getFactory().makeAndSummonMinion(card);
-    }
-
-    public void makeAndPutDeck(int playerId, Card card) {
-        getPlayer(playerId).getFactory().makeAndPutDeck(card);
-    }
-
-    public void setHeroImmune(int playerId, boolean immune) {
-        getPlayer(playerId).getHero().setImmune(immune);
-    }
-
-    public void drawCard(int playerId, int ind) throws HearthStoneException {
-        getPlayer(playerId).drawCard(ind);
-    }
-
-    public void drawCard(int playerId) throws HearthStoneException {
-        getPlayer(playerId).drawCard();
-    }
-
-    public void drawCard(int playerId, Card card) throws HearthStoneException {
-        getPlayer(playerId).drawCard(card);
-        updateBoard();
-    }
-
-    public void handleImmunities(int playerId, Character character) {
-        character.handleImmunities();
-    }
-
-    public void handleFreezes(int playerId, Character character) {
-        character.handleFreezes();
-    }
-
-    public void addFreezes(int playerId, int turnNumber, Character character) {
-        character.addFreezes(turnNumber);
-        handleFreezes(playerId, character);
-    }
-
-    public void addImmunity(int playerId, int turnNumber, Character character) {
-        character.addImmunity(turnNumber);
-        handleImmunities(playerId, character);
-    }
-
-    public void reduceFreezes(int playerId, Character character) {
-        character.reduceFreezes();
-    }
-
-    public void reduceImmunities(int playerId, Character character) {
-        character.reduceImmunities();
-    }
-
-    public void setTaunt(boolean isTaunt, MinionCard minionCard) {
-        minionCard.setTaunt(isTaunt);
-    }
-
-    public void setWeapon(int playerId, WeaponCard weaponCard) {
-        getPlayer(playerId).setWeapon(weaponCard);
-    }
-
-    public void setCharge(boolean isCharge, MinionCard minionCard) {
-        minionCard.setCharge(isCharge);
-    }
-
-    public void setDivineShield(boolean isDivineShields, MinionCard minionCard) {
-        minionCard.setDivineShield(isDivineShields);
-    }
-
-    public void removeDivineShield(MinionCard minionCard) {
-
-    }
-
-    public void setCardMana(Card card, int mana) {
-        card.setManaCost(mana);
-    }
-
-    public void setHeroPowerExtraAttack(HeroPowerCard power, int extra) {
-        power.setExtraNumberOfAttack(extra);
-    }
-
-    public void discountAllDeckCard(int playerId, int mana) {
-        getPlayer(playerId).discountAllDeckCard(mana);
-    }
-
-    public void discountSpells(int playerId, int mana) {
-        getPlayer(playerId).discountSpells(mana);
-    }
-
-    public void transformMinion(int playerId, MinionCard oldMinion, MinionCard newMinion) {
-        getPlayer(playerId).transformMinion(oldMinion, newMinion);
-    }
-
-    public void passPassivesToAI(int playerId, ArrayList<Integer> passives) {
+    public static void passPassivesToAI(int playerId, ArrayList<Integer> passives) {
         ((AIPlayer) getPlayer(playerId)).choosePassive(passives);
     }
 
-    public void setSpellSafe(MinionCard minionCard, boolean isSpellSafe) {
-        minionCard.setSpellSafe(isSpellSafe);
-    }
-
-    public void setHeroPower(int playerId, HeroPowerCard heroPower) {
-        getPlayer(playerId).setHeroPower(heroPower);
-    }
-
-    public void discardCard(int playerId, Card card) throws HearthStoneException {
-        getPlayer(playerId).discardCard(card);
-    }
-
-    public void animateSpell(int playerId, Card card) {
+    public static void animateSpell(int playerId, Card card) { // could not remove card object
         getGameBoard().animateSpell(playerId, card);
     }
 
-    public void stealFromDeck(int stealerId, int stolenId, Card card) {
-        getPlayer(stolenId).getFactory().removeFromDeck(card);
-        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
-    }
-
-    public void stealFromHand(int stealerId, int stolenId, Card card) {
-        getPlayer(stolenId).getFactory().removeFromHand(card);
-        getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
-    }
-
-    public void  buyCard(Card card) throws Exception{
+    public static void buyCard(int cardId) throws Exception{
+        Card card = HearthStone.getCardById(cardId);
         HearthStone.currentAccount.buyCards(card, 1);
         HearthStone.market.removeCard(card, 1);
     }
 
-    public void  sellCard(Card card) throws Exception{
+    public static void sellCard(int cardId) throws Exception{
+        Card card = HearthStone.getCardById(cardId);
         HearthStone.currentAccount.sellCards(card, 1);
         HearthStone.market.addCard(card.copy(), 1);
     }
 
-    public void saveDataBase() throws Exception {
+    public static void saveDataBase() throws Exception {
         DataBase.save();
     }
 
-    public void updateBoard() {
+    public static void updateBoard() {
         getPlayer(0).updatePlayer();
         getPlayer(1).updatePlayer();
         getGameBoard().restart();
+    }
+
+    public static void removeFromDeck(Deck deck, Card card, int cnt){
+        try {
+            deck.remove(card, cnt);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void addToDeck(Deck deck, Card card, int cnt) {
+        try {
+            deck.add(card, cnt);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

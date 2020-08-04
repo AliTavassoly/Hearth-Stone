@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.controls.dialogs.CardSelectionDialog;
@@ -42,10 +43,17 @@ public class FriendlySmith  extends SpellCard {
                 discoverWeapons);
 
         WeaponCard selectedWeapon = (WeaponCard) cardDialog.getCard();
-        Mapper.getInstance().addAttack(2, selectedWeapon);
-        Mapper.getInstance().addDurability(2, selectedWeapon);
-        Mapper.getInstance().makeAndPutDeck(getPlayerId(), selectedWeapon);
+        //Mapper.addAttack(2, selectedWeapon);
+        selectedWeapon.setAttack(selectedWeapon.getAttack() + 2);
+        //Mapper.updateBoard();
 
-        Mapper.getInstance().updateBoard();
+        //Mapper.addDurability(2, selectedWeapon);
+        selectedWeapon.setDurability(selectedWeapon.getDurability() + 2);
+        //Mapper.updateBoard();
+
+        //Mapper.makeAndPutDeck(getPlayerId(), selectedWeapon);
+        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
+
+        Mapper.updateBoard();
     }
 }

@@ -85,18 +85,18 @@ public class DeckButton extends ImageButton {
         g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 155, stringStartY);
         g2.drawString("name: " + deck.getName(), 163, stringStartY + stringDis);
 
-        if (deck.getBestCard() == null) {
+        if (deck.getBestCardName() == null) {
             String text = "favorite card: no card";
             font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
             g2.drawString("favorite card: no card", 155, stringStartY + 2 * stringDis);
         } else {
-            String text = "favorite card: " + deck.getBestCard().getName();
+            String text = "favorite card: " + deck.getBestCardName();
             font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
-            g2.drawString("favorite card: " + deck.getBestCard().getName(), 155, stringStartY + 2 * stringDis);
+            g2.drawString("favorite card: " + deck.getBestCardName(), 155, stringStartY + 2 * stringDis);
         }
     }
 }

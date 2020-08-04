@@ -1,5 +1,6 @@
 package hearthstone.models.passive.passives;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.passive.Passive;
@@ -16,6 +17,7 @@ public class ManaJump extends Passive implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        Mapper.getInstance().setExtraMane(getPlayerId(), 1);
+        //Mapper.setExtraMane(getPlayerId(), 1);
+        DataTransform.getPlayer(getPlayerId()).setExtraMana(1);
     }
 }

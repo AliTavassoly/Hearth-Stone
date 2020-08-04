@@ -3,14 +3,8 @@ package hearthstone.data;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import hearthstone.models.AccountCredential;
-import hearthstone.models.card.Card;
-import hearthstone.models.hero.Hero;
-import hearthstone.models.passive.Passive;
-import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 
@@ -77,21 +71,19 @@ public class Data {
         return mapper;
     }
 
+    public synchronized static ObjectMapper getObjectCloneMapper(){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.registerModule(new Hibernate5Module());
+        return mapper;
+    }
+
     public synchronized static ObjectMapper getNetworkMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.registerModule(new Hibernate5Module());
         return mapper;
-    }
-
-    public synchronized static Gson getDataGson(){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        return gsonBuilder.create();
     }
 }

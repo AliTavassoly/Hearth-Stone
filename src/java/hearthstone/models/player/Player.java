@@ -4,6 +4,7 @@ import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
+import hearthstone.logic.gamestuff.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.behaviours.*;
 import hearthstone.models.card.Card;
@@ -49,6 +50,8 @@ public class Player {
     protected WeaponCard weapon;
 
     private final CardFactory factory;
+
+    private Game game;
 
     public Player(Hero hero, Deck deck, String username) {
         this.hero = hero.copy();
@@ -208,6 +211,10 @@ public class Player {
     public void setExtraMana(int extraMana) {
         this.extraMana = extraMana;
     }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
     // End of getter setter
 
     public void reduceMana(int reduce) {
@@ -216,7 +223,7 @@ public class Player {
 
     public void startGame() throws HearthStoneException {
         try {
-            Logger.saveLog("Start Game", DataTransform.getInstance().getPlayerName(getPlayerId()) + " started a game!");
+            Logger.saveLog("Start Game", DataTransform.getPlayerName(getPlayerId()) + " started a game!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -235,7 +242,7 @@ public class Player {
     public void logDrawCard(Card card) {
         try {
             Logger.saveLog("Draw Card",
-                    DataTransform.getInstance().getPlayerName(getPlayerId())
+                    DataTransform.getPlayerName(getPlayerId())
                             + " drew " + card.getName() + "!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,7 +252,7 @@ public class Player {
     public void logPlayCard(Card card) {
         try {
             Logger.saveLog("Play Card",
-                    DataTransform.getInstance().getPlayerName(getPlayerId())
+                    DataTransform.getPlayerName(getPlayerId())
                             + " played " + card.getName() + "!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -298,7 +305,9 @@ public class Player {
         logDrawCard(card);
     }
 
-    public void discardCard(Card cardInHand) throws HearthStoneException {
+    public void discardCard(int cardId) throws HearthStoneException {
+        Card cardInHand = getCardFromHand(cardId);
+
         switch (cardInHand.getCardType()) {
             case HERO_POWER:
                 heroPower = (HeroPowerCard) cardInHand;
@@ -329,7 +338,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
         logPlayCard(cardInHand);
     }
 
@@ -355,7 +364,8 @@ public class Player {
                 break;
         }
 
-        hand.remove(cardInHand);
+        //hand.remove(cardInHand);
+        removeFromHand(cardInHand.getCardGameId());
         mana -= cardInHand.getManaCost();
 
         handleBattleCry(cardInHand);
@@ -368,7 +378,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
         logPlayCard(cardInHand);
     }
 
@@ -383,7 +393,7 @@ public class Player {
         if (card instanceof WaitSummonCard)
             waitingForSummon.add(card);
 
-        if(card instanceof WaitDrawingCard)
+        if (card instanceof WaitDrawingCard)
             waitingForDraw.add(card);
 
         land.add(minionCard);
@@ -392,7 +402,7 @@ public class Player {
     private void playSpell(Card card) {
         SpellCard spell = (SpellCard) card;
 
-        Mapper.getInstance().animateSpell(getPlayerId(), card);
+        Mapper.animateSpell(getPlayerId(), card);
 
         spell.doAbility();
     }
@@ -509,7 +519,7 @@ public class Player {
         }
 
         if (deathRattles.size() > 0) {
-            Mapper.getInstance().updateBoard();
+            Mapper.updateBoard();
         }
     }
 
@@ -522,18 +532,15 @@ public class Player {
     }
 
     private void handlePlayCardOperationForDeck(Card cardInHand) {
-        for (Card card : originalDeck.getCards()) {
-            if (card.getName().equals(cardInHand.getName())) {
-                originalDeck.cardPlay(cardInHand);
-            }
-        }
+        originalDeck.cardPlay(cardInHand.getId());
     }
     // HANDLE INTERFACES
 
     public void discountSpells(int mana) {
         for (Card card : deck.getCards()) {
             if (card.getCardType() == CardType.SPELL) {
-                Mapper.getInstance().setCardMana(card, Math.max(0, card.getManaCost() - mana));
+                //Mapper.setCardMana(card, Math.max(0, card.getManaCost() - mana));
+                card.setManaCost(Math.max(0, card.getManaCost() - mana));
             }
         }
     }
@@ -555,7 +562,7 @@ public class Player {
     public void endTurn() {
         handleEndTurnBehaviours();
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
     }
 
     public void startTurn() throws Exception {
@@ -565,11 +572,11 @@ public class Player {
 
         handleStartTurnBehaviours();
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
 
         drawCard();
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
     }
 
     public void configPassive(Passive passive) {
@@ -579,9 +586,13 @@ public class Player {
 
     private void configCard(Card card) {
         card.setPlayerId(this.getPlayerId());
+        card.setCardGameId(game.getNewCardId());
+        game.addCard(card);
     }
 
     private void configHero(Hero hero) {
+        hero.setHeroGameId(game.getNewHeroId());
+
         hero.setPlayerId(this.getPlayerId());
 
         HeroPowerCard heroPower = (HeroPowerCard) HearthStone.getCardByName(hero.getHeroPowerName());
@@ -589,6 +600,8 @@ public class Player {
         this.heroPower = heroPower;
 
         hero.getSpecialHeroPower().setPlayerId(getPlayerId());
+
+        game.addHero(hero);
     }
 
     public ArrayList<MinionCard> neighborCards(Card card) {
@@ -644,7 +657,8 @@ public class Player {
 
     private void updateWeapon() {
         if (weapon != null && weapon.getDurability() < 0) {
-            Mapper.getInstance().setWeapon(getPlayerId(), null);
+            //Mapper.setWeapon(getPlayerId(), null);
+            DataTransform.getPlayer(getPlayerId()).setWeapon(null);
         }
     }
 
@@ -652,10 +666,10 @@ public class Player {
         originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
 
         try {
-            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
+            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getPlayerName(playerId) +
                     " lost against " +
-                    DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
-            Mapper.getInstance().saveDataBase();
+                    DataTransform.getPlayerName(DataTransform.getEnemyId(playerId)));
+            Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -666,10 +680,10 @@ public class Player {
         originalDeck.setWinGames(originalDeck.getWinGames() + 1);
 
         try {
-            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getInstance().getPlayerName(playerId) +
+            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getPlayerName(playerId) +
                     " won " +
-                    DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getEnemyId(playerId)));
-            Mapper.getInstance().saveDataBase();
+                    DataTransform.getPlayerName(DataTransform.getEnemyId(playerId)));
+            Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -705,10 +719,10 @@ public class Player {
         updateReward();
     }
 
-    public void transformMinion(MinionCard oldMinion, MinionCard newMinion) {
+    public void transformMinion(int oldMinionId, MinionCard newMinion) {
         for (int i = 0; i < land.size(); i++) {
             Card card = land.get(i);
-            if (card == oldMinion) {
+            if (card.getCardGameId() == oldMinionId) {
                 land.set(i, newMinion);
                 break;
             }
@@ -716,7 +730,7 @@ public class Player {
 
         for (int i = 0; i < waitingForDraw.size(); i++) {
             Card card = waitingForDraw.get(i);
-            if (card == oldMinion) {
+            if (card.getCardGameId() == oldMinionId) {
                 waitingForDraw.remove(i);
                 break;
             }
@@ -724,7 +738,7 @@ public class Player {
 
         for (int i = 0; i < waitingForSummon.size(); i++) {
             Card card = waitingForSummon.get(i);
-            if (card == oldMinion) {
+            if (card.getCardGameId() == oldMinionId) {
                 waitingForSummon.remove(i);
                 break;
             }
@@ -909,12 +923,42 @@ public class Player {
             return null;
         }
 
-        public void removeFromDeck(Card card) {
-            deck.getCards().remove(card);
+        public void removeFromDeck(int cardGameId) {
+            for(Card card: deck.getCards()){
+                if(card.getCardGameId() == cardGameId){
+                    //hand.remove(card);
+                    Player.this.removeFromHand(card.getCardGameId());
+                    return;
+                }
+            }
         }
 
-        public void removeFromHand(Card card) {
-            hand.remove(card);
+        public void removeFromHand(int cardGameId) {
+            for(Card card: hand){
+                if(card.getCardGameId() == cardGameId){
+                    //hand.remove(card);
+                    Player.this.removeFromHand(card.getCardGameId());
+                    return;
+                }
+            }
         }
+    }
+
+    public void removeFromHand(int cardId){
+        for(Card card: hand){
+            if(card.getCardGameId() == cardId){
+                hand.remove(card);
+                return;
+            }
+        }
+    }
+
+    public Card getCardFromHand(int cardId){
+        for(Card card: hand){
+            if(card.getCardGameId() == cardId){
+                return card;
+            }
+        }
+        return null;
     }
 }

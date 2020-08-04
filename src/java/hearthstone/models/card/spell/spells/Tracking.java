@@ -24,14 +24,16 @@ public class Tracking extends SpellCard {
 
     @Override
     public void doAbility() {
-        ArrayList<Card> cards = DataTransform.getInstance().getTopCards(getPlayerId(), 3);
+        ArrayList<Card> cards = DataTransform.getTopCards(getPlayerId(), 3);
         if(cards == null || cards.size() == 0)
             return;
 
         CardSelectionDialog dialog = new CardSelectionDialog(GameFrame.getInstance(), cards);
         Card card = dialog.getCard();
         try {
-            Mapper.getInstance().drawCard(getPlayerId(), card);
+            //Mapper.drawCard(getPlayerId(), card);
+            DataTransform.getPlayer(getPlayerId()).drawCard(card);
+            Mapper.updateBoard();
         } catch (HearthStoneException ignore) {}
     }
 }

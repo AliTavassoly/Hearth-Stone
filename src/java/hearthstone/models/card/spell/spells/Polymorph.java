@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
@@ -22,7 +23,7 @@ public class Polymorph  extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(getCursorType(),this);
+        Mapper.makeNewMouseWaiting(getCursorType(),this);
     }
 
     @Override
@@ -34,9 +35,10 @@ public class Polymorph  extends SpellCard {
     public void found(Object object) throws HearthStoneException {
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
-            Mapper.getInstance().transformMinion(minionCard.getPlayerId(), minionCard, (MinionCard) HearthStone.getCardByName("Sheep"));
+            //Mapper.transformMinion(minionCard.getPlayerId(), minionCard.getCardGameId(), (MinionCard) HearthStone.getCardByName("Sheep"));
+            DataTransform.getPlayer(minionCard.getPlayerId()).transformMinion(minionCard.getCardGameId(), (MinionCard) HearthStone.getCardByName("Sheep"));
 
-            Mapper.getInstance().updateBoard();
+            Mapper.updateBoard();
         }
     }
 }

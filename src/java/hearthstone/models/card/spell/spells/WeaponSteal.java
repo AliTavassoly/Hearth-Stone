@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -20,7 +21,7 @@ public class WeaponSteal extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(getCursorType(), this);
+        Mapper.makeNewMouseWaiting(getCursorType(), this);
     }
 
     @Override
@@ -32,9 +33,16 @@ public class WeaponSteal extends SpellCard {
     public void found(Object object) {
         if(object instanceof WeaponCard){
             WeaponCard card = (WeaponCard)((WeaponCard) object).copy();
-            Mapper.getInstance().addAttack(2, card);
-            Mapper.getInstance().addDurability(2, card);
-            Mapper.getInstance().makeAndPutDeck(getPlayerId(), card);
+            //Mapper.addAttack(2, card);
+            card.setAttack(card.getAttack() + 2);
+            //updateBoard();
+
+            //Mapper.addDurability(2, card);
+            card.setDurability(card.getDurability() + 2);
+            Mapper.updateBoard();
+
+            //Mapper.makeAndPutDeck(getPlayerId(), card);
+            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
         }
     }
 }

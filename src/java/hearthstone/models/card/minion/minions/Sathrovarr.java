@@ -1,5 +1,6 @@
 package hearthstone.models.card.minion.minions;
 
+import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
@@ -37,18 +38,23 @@ public class Sathrovarr extends MinionCard implements Battlecry {
         } else if (card == this){
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
-            Mapper.getInstance().makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getInstance().makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getInstance().makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            //Mapper.makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
 
-            Mapper.getInstance().deleteCurrentMouseWaiting();
-            Mapper.getInstance().updateBoard();
+            //Mapper.makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HearthStone.getCardByName(card.getName()));
+
+            //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
+            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName(card.getName()));
+
+            Mapper.deleteCurrentMouseWaiting();
+            Mapper.updateBoard();
         }
     }
 
     @Override
     public void battlecry() {
-        Mapper.getInstance().makeNewMouseWaiting(CursorType.SEARCH, this);
+        Mapper.makeNewMouseWaiting(CursorType.SEARCH, this);
     }
 
     @Override

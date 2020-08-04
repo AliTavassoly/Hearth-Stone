@@ -21,12 +21,13 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        Mapper.getInstance().restartSpentManaOnMinions(getPlayerId());
+        //Mapper.restartSpentManaOnMinions(getPlayerId());
+        DataTransform.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
     }
 
     @Override
     public int getPercentage() {
-        int now = DataTransform.getInstance().spentManaOnMinions(getPlayerId());
+        int now = DataTransform.spentManaOnMinions(getPlayerId());
         int end = 10;
 
         return (int)(((double)now / (double)end) * 100);
@@ -34,15 +35,19 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return DataTransform.getInstance().spentManaOnMinions(getPlayerId()) >= 10;
+        return DataTransform.spentManaOnMinions(getPlayerId()) >= 10;
     }
 
     @Override
     public void doReward() {
-        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId());
-        Mapper.getInstance().restartSpentManaOnMinions(getPlayerId());
+        //Mapper.summonMinionFromCurrentDeck(getPlayerId());
+        DataTransform.getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck();
+
+        //Mapper.restartSpentManaOnMinions(getPlayerId());
+        DataTransform.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
+
         log();
 
-        Mapper.getInstance().updateBoard();
+        Mapper.updateBoard();
     }
 }

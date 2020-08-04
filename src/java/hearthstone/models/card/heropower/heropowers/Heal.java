@@ -1,5 +1,6 @@
 package hearthstone.models.card.heropower.heropowers;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
@@ -28,17 +29,25 @@ public class Heal extends HeroPowerCard {
         if(object instanceof Hero){
             Hero hero = (Hero)object;
 
-            Mapper.getInstance().restoreHealth(4, hero);
+            //Mapper.restoreHealth(4, hero);
+            hero.restoreHealth(4);
+
             log();
-            Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
+
+            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
+            DataTransform.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
         } else if (object instanceof MinionCard){
             MinionCard minion = (MinionCard)object;
 
-            Mapper.getInstance().restoreHealth(4, minion);
+            //Mapper.restoreHealth(4, minion);
+            minion.restoreHealth(4);
+
             log();
-            Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
+
+            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
+            DataTransform.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
         }

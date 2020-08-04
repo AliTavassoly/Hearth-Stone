@@ -1,9 +1,6 @@
 package hearthstone.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import hearthstone.gui.SizeConfigs;
 import hearthstone.logic.GameConfigs;
 import hearthstone.logic.gamestuff.Market;
@@ -18,8 +15,6 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.passive.passives.*;
-import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -41,7 +36,6 @@ import static hearthstone.HearthStone.*;
 public class DataBase {
     private static SessionFactory sessionFactory = buildSessionFactory();
     private static Session session = sessionFactory.openSession();
-    public static Gson gson;
 
     private static SessionFactory buildSessionFactory() {
         /*PrintStream err = System.err;
@@ -309,13 +303,10 @@ public class DataBase {
         return fetch(Account.class, username);
     }
 
-    private static Map<String, Object> getGameConfigs() throws Exception {
-        File json = new File(dataPath + "/game_configs.json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/game_configs.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
-        }.getType());
+    private static Map<String, Integer> getGameConfigs() throws Exception {
+        File file = new File(dataPath + "/game_configs.json");
+        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
+        });
     }
 
     public static Map<String, ArrayList<String>> getDecks() throws Exception {
@@ -324,13 +315,10 @@ public class DataBase {
         });
     }
 
-    private static Map<String, Object> getSizeConfigs() throws Exception {
-        File json = new File(dataPath + "/size_configs.json");
-        json.getParentFile().mkdirs();
-        json.createNewFile();
-        FileReader fileReader = new FileReader(dataPath + "/size_configs.json");
-        return gson.fromJson(fileReader, new TypeToken<Map<String, Object>>() {
-        }.getType());
+    private static Map<String, Integer> getSizeConfigs() throws Exception {
+        File file = new File(dataPath + "/size_configs.json");
+        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
+        });
     }
 
     private static Market getMarket() throws Exception { // ????????????????????
@@ -636,16 +624,6 @@ public class DataBase {
     }
 
     public static void load() throws Exception {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-        gsonBuilder.registerTypeAdapter(Hero.class, new AbstractAdapter<Hero>());
-        gsonBuilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-        gsonBuilder.registerTypeAdapter(SpecialHeroPower.class, new AbstractAdapter<SpecialHeroPower>());
-
-        gsonBuilder.setPrettyPrinting();
-        gson = gsonBuilder.create();
-
         /*saveHeroes();
         saveCards();
         savePassives();

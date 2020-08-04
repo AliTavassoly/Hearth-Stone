@@ -1,5 +1,6 @@
 package hearthstone.models.card.reward;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -8,6 +9,7 @@ import hearthstone.models.hero.HeroType;
 import javax.persistence.Entity;
 
 @Entity
+@JsonIgnoreProperties(value = {"percentage"})
 public abstract class RewardCard extends Card implements RewardBehaviour {
     public RewardCard(){ }
 

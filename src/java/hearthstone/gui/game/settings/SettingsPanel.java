@@ -122,7 +122,7 @@ public class SettingsPanel extends JPanel {
                 }
 
                 try {
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
 
                     Logger.saveLog("Settings changed",
                             "password changed");
@@ -145,7 +145,7 @@ public class SettingsPanel extends JPanel {
                     return;
 
                 try {
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
 
                     Logger.saveLog("Settings changed",
                             "name changed to: " + HearthStone.currentAccount.getName());
@@ -163,7 +163,7 @@ public class SettingsPanel extends JPanel {
                 HearthStone.currentAccount.setCardsBackId(cardsBackDialog.getId());
 
                 try {
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
                     Logger.saveLog("Settings changed",
                             "cards back id changed to: " + HearthStone.currentAccount.getCardsBackId());
                 } catch (Exception e) {

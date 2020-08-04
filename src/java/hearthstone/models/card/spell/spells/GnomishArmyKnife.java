@@ -20,7 +20,7 @@ public class GnomishArmyKnife  extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(getCursorType(), this);
+        Mapper.makeNewMouseWaiting(getCursorType(), this);
     }
 
     @Override
@@ -32,11 +32,16 @@ public class GnomishArmyKnife  extends SpellCard {
     public void found(Object object) {
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
-            Mapper.getInstance().setDivineShield(true, minionCard);
-            Mapper.getInstance().setTaunt(true, minionCard);
-            Mapper.getInstance().setCharge(true, minionCard);
+            //Mapper.setDivineShield(true, minionCard);
+            minionCard.setDivineShield(true);
 
-            Mapper.getInstance().updateBoard();
+            //Mapper.setTaunt(true, minionCard);
+            minionCard.setTaunt(true);
+
+            //Mapper.setCharge(true, minionCard);
+            minionCard.setCharge(true);
+
+            Mapper.updateBoard();
         }
     }
 }

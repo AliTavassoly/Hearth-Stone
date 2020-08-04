@@ -18,11 +18,14 @@ public class PaladinPower extends SpecialHeroPower implements EndTurnBehave {
 
     @Override
     public void endTurnBehave() {
-        MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
+        MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
         if(minionCard == null)
             return;
-        Mapper.getInstance().addAttack(1, minionCard);
-        Mapper.getInstance().addHealth(1, minionCard);
-        Mapper.getInstance().updateBoard();
+        //Mapper.addAttack(1, minionCard.getCardGameId());
+        minionCard.changeAttack(1);
+
+        //Mapper.addHealth(1, minionCard);
+        minionCard.gotHeal(1);
+        Mapper.updateBoard();
     }
 }

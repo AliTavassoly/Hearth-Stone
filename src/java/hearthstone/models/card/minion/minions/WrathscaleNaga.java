@@ -31,15 +31,18 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
 
     @Override
     public void friendlyMinionDies() {
-        ArrayList<Card> land = DataTransform.getInstance().getLand(DataTransform.getInstance().getEnemyId(getPlayerId()));
+        ArrayList<Card> land = DataTransform.getLand(DataTransform.getEnemyId(getPlayerId()));
         if (land.size() == 0)
             return;
 
-        MinionCard card = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
+        MinionCard card = DataTransform.getRandomMinionFromLand(getPlayerId());
 
         try {
-            if (card != null)
-                Mapper.getInstance().damage(3, card);
+            if (card != null) {
+                //Mapper.damage(3, card);
+                card.gotDamage(3);
+                Mapper.updateBoard();
+            }
         } catch (HearthStoneException ignore) {
         }
     }

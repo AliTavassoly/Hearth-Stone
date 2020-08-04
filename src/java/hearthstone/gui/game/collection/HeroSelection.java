@@ -155,7 +155,7 @@ public class HeroSelection extends JPanel {
                 public void actionPerformed(ActionEvent actionEvent) {
                     try {
                         HearthStone.currentAccount.setSelectedHero(hero);
-                        Mapper.getInstance().saveDataBase();
+                        Mapper.saveDataBase();
 
                         hearthstone.util.Logger.saveLog("Click_button",
                                 "select");
@@ -223,7 +223,7 @@ public class HeroSelection extends JPanel {
 
     private void restart() {
         try {
-            Mapper.getInstance().saveDataBase();
+            Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }

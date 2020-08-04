@@ -294,11 +294,17 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         numberOfAttack = 1;
         isFirstTurn = false;
 
-        Mapper.getInstance().reduceImmunities(getPlayerId(), this);
-        Mapper.getInstance().handleImmunities(getPlayerId(), this);
+        //Mapper.reduceImmunities(getPlayerId(), this);
+        this.reduceImmunities();
 
-        Mapper.getInstance().reduceFreezes(getPlayerId(), this);
-        Mapper.getInstance().handleFreezes(getPlayerId(), this);
+        //Mapper.handleImmunities(getPlayerId(), this);
+        this.handleImmunities();
+
+        //Mapper.reduceFreezes(getPlayerId(), this);
+        this.reduceFreezes();
+
+        //Mapper.handleFreezes(getPlayerId(), this);
+        this.handleFreezes();
     }
 
     @Override
@@ -333,16 +339,21 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         if (!minionCard.isImmune && minionCard.isDivineShield) {
             minionCard.removeDivineShield();
         } else {
-            Mapper.getInstance().damage(this.attack, minionCard);
+            //Mapper.damage(this.attack, minionCard);
+            minionCard.gotDamage(this.attack);
+            Mapper.updateBoard();
             log(minionCard);
         }
 
         if (minionCard instanceof IsAttacked) {
-            Mapper.getInstance().isAttacked((IsAttacked) minionCard);
+            //Mapper.isAttacked((IsAttacked) minionCard);
+            ((IsAttacked) minionCard).isAttacked();
         }
 
         try {
-            Mapper.getInstance().damage(minionCard.getAttack(), this);
+            //Mapper.damage(minionCard.getAttack(), this);
+            this.gotDamage(minionCard.getAttack());
+            Mapper.updateBoard();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -350,14 +361,17 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.getInstance().haveTaunt(hero.getPlayerId())) {
+        if (DataTransform.haveTaunt(hero.getPlayerId())) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
             if (isRush && !isCharge) {
                 throw new HearthStoneException("Rush card can not attack to hero in first turn!");
             }
         }
-        Mapper.getInstance().damage(this.attack, hero);
+        //Mapper.damage(this.attack, hero);
+        hero.gotDamage(this.attack);
+        Mapper.updateBoard();
+
         log(hero);
     }
 

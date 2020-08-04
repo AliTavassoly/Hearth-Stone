@@ -176,7 +176,7 @@ public class DeckSelection extends JPanel {
                         hero.makeNewDeck(deck);
                         HearthStone.currentAccount.getDecks().add(deck);
 
-                        Mapper.getInstance().saveDataBase();
+                        Mapper.saveDataBase();
 
                         hearthstone.util.Logger.saveLog("New Deck",
                                 deck.getName() + " deck created!");
@@ -237,7 +237,7 @@ public class DeckSelection extends JPanel {
                     try {
                         hero.setSelectedDeck(deck);
 
-                        Mapper.getInstance().saveDataBase();
+                        Mapper.saveDataBase();
 
                         restart();
 
@@ -318,7 +318,7 @@ public class DeckSelection extends JPanel {
 
     private void restart() {
         try {
-            Mapper.getInstance().saveDataBase();
+            Mapper.saveDataBase();
         } catch (Exception e){
             e.printStackTrace();
         }

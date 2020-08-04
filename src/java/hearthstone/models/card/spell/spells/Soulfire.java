@@ -35,8 +35,8 @@ public class Soulfire extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(getCursorType(), this);
-        Mapper.getInstance().updateBoard();
+        Mapper.makeNewMouseWaiting(getCursorType(), this);
+        Mapper.updateBoard();
     }
 
     @Override
@@ -54,8 +54,8 @@ public class Soulfire extends SpellCard {
             } catch (HearthStoneException ignore) { }
 
             try {
-                Mapper.getInstance().discardCard(getPlayerId(), DataTransform.getInstance().getRandomCardFromHand(getPlayerId()));
-                Mapper.getInstance().updateBoard();
+                DataTransform.getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
+                Mapper.updateBoard();
             } catch (Exception ignore) {
             }
         }

@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -22,7 +23,8 @@ public class Sprint extends SpellCard {
     public void doAbility() {
         try {
             for (int i = 0; i < 4; i++)
-                Mapper.getInstance().drawCard(getPlayerId());
+                //Mapper.drawCard(getPlayerId());
+                DataTransform.getPlayer(getPlayerId()).drawCard();
         } catch (HearthStoneException ignore) {
         }
     }

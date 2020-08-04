@@ -20,15 +20,18 @@ public class FreezingPotion  extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.getInstance().makeNewMouseWaiting(CursorType.FREEZE, this);
+        Mapper.makeNewMouseWaiting(CursorType.FREEZE, this);
     }
 
     @Override
     public void found(Object object){
         if(object instanceof Character){
             Character character = (Character) object;
-            Mapper.getInstance().addFreezes(character.getPlayerId(), 2, character);
-            Mapper.getInstance().deleteCurrentMouseWaiting();
+            //Mapper.addFreezes(character.getPlayerId(), 2, character);
+            character.addFreezes(2);
+            character.handleFreezes();
+
+            Mapper.deleteCurrentMouseWaiting();
         }
     }
 }

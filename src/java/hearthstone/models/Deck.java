@@ -1,17 +1,12 @@
 package hearthstone.models;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.HearthStone;
 import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
-import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
-import hearthstone.models.passive.Passive;
-import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
@@ -151,7 +146,7 @@ public class Deck implements Comparable<Deck> {
         return card1;
     }
 
-    public Card getBestCard() {
+    public String getBestCardName() {
         if (cards.size() == 0)
             return null;
         Card mxCard = cards.get(0).copy();
@@ -159,12 +154,16 @@ public class Deck implements Comparable<Deck> {
             Card card = cards.get(i).copy();
             mxCard = biggerCard(mxCard, card);
         }
-        return mxCard;
+        return mxCard.getName();
     }
 
     public Deck copy() {
-        Gson gson = Data.getDataGson();
-        return gson.fromJson(gson.toJson(this, Deck.class), Deck.class);
+        ObjectMapper mapper = Data.getObjectCloneMapper();
+        Deck deck = null;
+        try {
+            deck = mapper.readValue(mapper.writeValueAsString(this), Deck.class);
+        } catch (Exception e) { }
+        return deck;
     }
 
     //End of getter setter !
@@ -247,9 +246,9 @@ public class Deck implements Comparable<Deck> {
         return cards.size() == GameConfigs.maxCardInDeck;
     }
 
-    public void cardPlay(Card baseCard) {
-        cardGame.putIfAbsent(baseCard.getId(), 0);
-        cardGame.put(baseCard.getId(), cardGame.get(baseCard.getId()) + 1);
+    public void cardPlay(int cardId) {
+        cardGame.putIfAbsent(cardId, 0);
+        cardGame.put(cardId, cardGame.get(cardId) + 1);
     }
 
     @Override

@@ -29,7 +29,9 @@ public class HighPriestAmet extends MinionCard implements WaitSummonCard {
         if (card.getCardType() != CardType.MINION_CARD)
             return false;
         MinionCard minionCard = (MinionCard) card;
-        Mapper.getInstance().setHealth(this.getHealth(), minionCard);
+        //Mapper.setHealth(this.getHealth(), minionCard);
+        minionCard.setHealth(this.getHealth());
+        Mapper.updateBoard();
         return true;
     }
 }

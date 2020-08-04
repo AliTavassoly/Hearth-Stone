@@ -180,7 +180,7 @@ public class RegisterPanel extends JPanel {
                     CredentialsFrame.getInstance().setVisible(false);
                     GameFrame.getNewInstance().setVisible(true);
 
-                    Mapper.getInstance().saveDataBase();
+                    Mapper.saveDataBase();
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",

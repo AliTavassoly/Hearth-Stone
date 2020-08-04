@@ -277,13 +277,13 @@ public class MarketPanel extends JPanel {
                             "sell_button");
                     boolean sure = sureDialog.getValue();
                     if (sure) {
-                        Mapper.getInstance().sellCard(card);
+                        Mapper.sellCard(card.getId());
 
                         buyPanel.addCard(card, getBuyPanel(card));
                         sellPanel.removeCard(card);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
 
-                        Mapper.getInstance().saveDataBase();
+                        Mapper.saveDataBase();
                     }
                 } catch (HearthStoneException e) {
                     try {
@@ -334,12 +334,12 @@ public class MarketPanel extends JPanel {
 
                     boolean sure = sureDialog.getValue();
                     if (sure) {
-                        Mapper.getInstance().buyCard(card);
+                        Mapper.buyCard(card.getId());
 
                         buyPanel.removeCard(card);
                         gemLabel.setText(String.valueOf(HearthStone.currentAccount.getGem()));
 
-                        Mapper.getInstance().saveDataBase();
+                        Mapper.saveDataBase();
                     }
                 } catch (HearthStoneException e) {
                     try {

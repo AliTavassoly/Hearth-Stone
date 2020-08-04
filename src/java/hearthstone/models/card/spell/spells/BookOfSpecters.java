@@ -22,11 +22,13 @@ public class BookOfSpecters  extends SpellCard {
 
     @Override
     public void doAbility() {
-        ArrayList<Card> topCards = DataTransform.getInstance().getTopCards(getPlayerId(), 3);
+        ArrayList<Card> topCards = DataTransform.getTopCards(getPlayerId(), 3);
         for(Card card: topCards){
             if(card.getCardType() != CardType.SPELL){
                 try {
-                    Mapper.getInstance().drawCard(getPlayerId(), card);
+                    //Mapper.drawCard(getPlayerId(), card);
+                    DataTransform.getPlayer(getPlayerId()).drawCard(card);
+                    Mapper.updateBoard();
                 } catch (HearthStoneException ignore){}
             }
         }

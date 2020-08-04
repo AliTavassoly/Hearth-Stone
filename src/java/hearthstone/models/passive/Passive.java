@@ -1,13 +1,8 @@
 package hearthstone.models.passive;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.DataTransform;
 import hearthstone.data.Data;
-import hearthstone.models.card.Card;
-import hearthstone.models.hero.Hero;
-import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +36,7 @@ public abstract class Passive {
     public void log(){
         try {
             hearthstone.util.Logger.saveLog("Passive",
-                    DataTransform.getInstance().getPlayerName(getPlayerId()) +
+                    DataTransform.getPlayerName(getPlayerId()) +
                     " player, chose " + this.getName() + " passive!");
         } catch (Exception e){
             e.printStackTrace();
@@ -65,7 +60,13 @@ public abstract class Passive {
     }
 
     public Passive copy() {
-        Gson gson = Data.getDataGson();
-        return gson.fromJson(gson.toJson(this, Passive.class), Passive.class);
+        ObjectMapper mapper = Data.getObjectCloneMapper();
+        Passive passive = null;
+        try {
+            passive = mapper.readValue(mapper.writeValueAsString(this), Passive.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return passive;
     }
 }

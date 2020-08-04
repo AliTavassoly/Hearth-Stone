@@ -1,14 +1,8 @@
 package hearthstone.models.card;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sun.xml.bind.v2.model.core.ID;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.data.Data;
-import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
-import hearthstone.models.passive.Passive;
-import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.*;
@@ -36,7 +30,7 @@ public abstract class Card implements CardBehaviour {
     private int buyPrice, sellPrice;
 
     @Transient
-    private int playerId;
+    private int playerId, cardGameId;
 
     public Card() {
     }
@@ -66,13 +60,6 @@ public abstract class Card implements CardBehaviour {
 
     public void setPlayerId(int playerId){
         this.playerId = playerId;
-    }
-
-    public void setAllId(int allId){
-        this.allId = allId;
-    }
-    public int getAllId(){
-        return allId;
     }
 
     public int getId() {
@@ -142,10 +129,24 @@ public abstract class Card implements CardBehaviour {
         return playerId;
     }
 
+    public int getCardGameId(){
+        return cardGameId;
+    }
+    public void setCardGameId(int cardGameId){
+        this.cardGameId = cardGameId;
+    }
+
     public Card copy() {
-        Gson gson = Data.getDataGson();
-        Card card = gson.fromJson(gson.toJson(this, Card.class), Card.class);
-        card.setAllId(0);
+        ObjectMapper mapper = Data.getObjectCloneMapper();
+        Card card = null;
+        String json;
+        try {
+            json = mapper.writeValueAsString(this);
+            card = mapper.readValue(json, Card.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        card.allId = 0;
         return card;
     }
 

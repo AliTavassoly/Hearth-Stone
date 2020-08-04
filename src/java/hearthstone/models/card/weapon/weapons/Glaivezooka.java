@@ -22,8 +22,11 @@ public class Glaivezooka extends WeaponCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
-        if (minionCard != null)
-            Mapper.getInstance().addAttack(1, minionCard);
+        MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
+        if (minionCard != null) {
+            //Mapper.addAttack(1, minionCard.getCardGameId());
+            minionCard.changeAttack(1);
+            Mapper.updateBoard();
+        }
     }
 }

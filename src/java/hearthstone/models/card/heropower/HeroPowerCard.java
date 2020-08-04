@@ -43,7 +43,7 @@ public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
     @Override
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                getManaCost() <= DataTransform.getInstance().getMana(getPlayerId()) &&
-                DataTransform.getInstance().getWhoseTurn() == getPlayerId();
+                getManaCost() <= DataTransform.getMana(getPlayerId()) &&
+                DataTransform.getWhoseTurn() == getPlayerId();
     }
 }

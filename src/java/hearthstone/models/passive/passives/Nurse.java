@@ -18,12 +18,13 @@ public class Nurse extends Passive implements EndTurnBehave {
 
     @Override
     public void endTurnBehave() {
-        MinionCard minionCard = DataTransform.getInstance().getRandomMinionFromLand(getPlayerId());
+        MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
 
         if(minionCard == null)
             return;
 
-        Mapper.getInstance().restoreHealth(minionCard);
-        Mapper.getInstance().updateBoard();
+        //Mapper.restoreHealth(minionCard);
+        minionCard.restoreHealth();
+        Mapper.updateBoard();
     }
 }

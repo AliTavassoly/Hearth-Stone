@@ -32,9 +32,8 @@ public class SoloGameBoard extends GameBoard {
         super(myPlayerId, enemyPlayerId);
     }
 
-
     protected void drawCardsOnHand(int playerId, int handX, int handY) {
-        ArrayList<Card> cards = DataTransform.getInstance().getHand(playerId);
+        ArrayList<Card> cards = DataTransform.getHand(playerId);
         if (cards.size() == 0)
             return;
 
@@ -65,8 +64,8 @@ public class SoloGameBoard extends GameBoard {
             }
 
             synchronized (animationsCard) {
-                if (animationsCard.contains(card)) {
-                    int ind = animationsCard.indexOf(card);
+                if (animationsCard.contains(card.getCardGameId())) {
+                    int ind = animationsCard.indexOf(card.getCardGameId());
                     Animation destination = animations.get(ind);
                     destination.setDestinationX(startX + dis * (i - cards.size() / 2));
                     destination.setDestinationY(startY);
@@ -80,8 +79,8 @@ public class SoloGameBoard extends GameBoard {
 
             add(cardButton);
 
-            if (!animatedCardsInHand.contains(card)) {
-                animatedCardsInHand.add(card);
+            if (!animatedCardsInHand.contains(card.getCardGameId())) {
+                animatedCardsInHand.add(card.getCardGameId());
 
                 Animation destination = new Animation(startX + dis * (i - cards.size() / 2),
                         startY, cardButton);
@@ -102,9 +101,9 @@ public class SoloGameBoard extends GameBoard {
                         GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
-        Mapper.getInstance().setPassive(myPlayerId, passiveDialog0.getPassive());
+        Mapper.setPassive(myPlayerId, passiveDialog0.getPassive());
 
-        Mapper.getInstance().passPassivesToAI(enemyPlayerId, Rand.getInstance().getRandomArray(
+        Mapper.passPassivesToAI(enemyPlayerId, Rand.getInstance().getRandomArray(
                 GameConfigs.initialPassives,
                 HearthStone.basePassives.size()));
     }
@@ -113,9 +112,9 @@ public class SoloGameBoard extends GameBoard {
     protected void showCardDialog() {
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
-                DataTransform.getInstance().getTopCards(0, GameConfigs.initialDiscardCards));
+                DataTransform.getTopCards(0, GameConfigs.initialDiscardCards));
 
-        Mapper.getInstance().removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
+        Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
     }
 
     @Override
@@ -137,9 +136,9 @@ public class SoloGameBoard extends GameBoard {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
                     try {
-                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        Mapper.foundObjectForObject(waitingObject, button.getCard());
                         deleteCurrentMouseWaiting();
-                        Mapper.getInstance().updateBoard();
+                        Mapper.updateBoard();
                     } catch (HearthStoneException hse) {
                         showError(hse.getMessage());
                     }
@@ -159,9 +158,9 @@ public class SoloGameBoard extends GameBoard {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
                     try {
-                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        Mapper.foundObjectForObject(waitingObject, button.getCard());
                         deleteCurrentMouseWaiting();
-                        Mapper.getInstance().updateBoard();
+                        Mapper.updateBoard();
                     } catch (HearthStoneException hse) {
                         showError(hse.getMessage());
                     }
@@ -181,9 +180,9 @@ public class SoloGameBoard extends GameBoard {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
                     try {
-                        Mapper.getInstance().foundObjectForObject(waitingObject, button.getCard());
+                        Mapper.foundObjectForObject(waitingObject, button.getCard());
                         deleteCurrentMouseWaiting();
-                        Mapper.getInstance().updateBoard();
+                        Mapper.updateBoard();
                     } catch (HearthStoneException hse) {
                         showError(hse.getMessage());
                     }
@@ -199,19 +198,19 @@ public class SoloGameBoard extends GameBoard {
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight, new ShouldHovered() {
             @Override
             public boolean shouldHovered() {
-                return DataTransform.getInstance().getWhoseTurn() == 0;
+                return DataTransform.getWhoseTurn() == 0;
             }
         });
 
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(DataTransform.getInstance().getWhoseTurn() != myPlayerId)
+                if(DataTransform.getWhoseTurn() != myPlayerId)
                     return;
 
                 try {
                     hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            DataTransform.getInstance().getPlayerName(DataTransform.getInstance().getWhoseTurn()) +
+                            DataTransform.getPlayerName(DataTransform.getWhoseTurn()) +
                             " ended turn!");
                 } catch (Exception e){
                     e.printStackTrace();
@@ -220,7 +219,7 @@ public class SoloGameBoard extends GameBoard {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                Mapper.getInstance().endTurn();
+                Mapper.endTurn();
                 endTurnLineTimerTask.myStop();
 
                 deleteCurrentMouseWaiting();
@@ -242,14 +241,14 @@ public class SoloGameBoard extends GameBoard {
                 sparkImage.getY() + sparkImage.getHeight() / 2, true);
         add(ropeImage);
 
-        myHero = new BoardHeroButton(DataTransform.getInstance().getHero(myPlayerId),
+        myHero = new BoardHeroButton(DataTransform.getHero(myPlayerId),
                 heroWidth, heroHeight, 0);
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(DataTransform.getInstance().getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
+        enemyHero = new BoardHeroButton(DataTransform.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
         makeHeroMouseListener(enemyHero);
 
-        myPassive = new PassiveButton(DataTransform.getInstance().getPassive(myPlayerId),
+        myPassive = new PassiveButton(DataTransform.getPassive(myPlayerId),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 

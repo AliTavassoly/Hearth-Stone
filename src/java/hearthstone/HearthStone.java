@@ -73,6 +73,15 @@ public class  HearthStone{
         return null;
     }
 
+    public static Card getCardById(int cardId){
+        for(Card card: baseCards.values()){
+            if(card.getId() == cardId){
+                return card.copy();
+            }
+        }
+        return null;
+    }
+
     public static Hero getHeroByName(String name){
         for(Hero hero: baseHeroes.values()){
             if(hero.getName().equals(name)){
@@ -108,7 +117,7 @@ public class  HearthStone{
     }
 
     public static void logout() throws Exception {
-        Mapper.getInstance().saveDataBase();
+        Mapper.saveDataBase();
         if (currentAccount != null)
             hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
         currentAccount = null;

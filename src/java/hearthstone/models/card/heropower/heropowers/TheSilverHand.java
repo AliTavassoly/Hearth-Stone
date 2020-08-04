@@ -1,5 +1,6 @@
 package hearthstone.models.card.heropower.heropowers;
 
+import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
@@ -18,11 +19,17 @@ public class TheSilverHand extends HeroPowerCard  {
     }
 
     private void doAbility(){
-        Mapper.getInstance().reduceMana(getPlayerId(), this.getManaCost());
+        //Mapper.reduceMana(getPlayerId(), this.getManaCost());
+        DataTransform.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
-        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
-        Mapper.getInstance().summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
-        Mapper.getInstance().updateBoard();
+        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
+        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
+
+        for(int i = 0; i < 2; i++){
+            DataTransform.getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck(1, 1);
+        }
+
+        Mapper.updateBoard();
 
         log();
     }

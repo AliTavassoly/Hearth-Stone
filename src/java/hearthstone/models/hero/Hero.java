@@ -1,17 +1,13 @@
 package hearthstone.models.hero;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.Deck;
-import hearthstone.models.card.Card;
-import hearthstone.models.passive.Passive;
 import hearthstone.models.specialpower.SpecialHeroPower;
-import hearthstone.util.AbstractAdapter;
 import hearthstone.util.HearthStoneException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
@@ -72,7 +68,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     protected boolean spellSafe;
 
     @Transient
-    private int playerId;
+    private int playerId, heroGameId;
 
     @PostLoad
     void postLoad() {
@@ -101,13 +97,6 @@ public abstract class Hero implements HeroBehaviour, Character {
         immunities = new ArrayList<>();
         freezes = new ArrayList<>();
         decks = new ArrayList<>();
-    }
-
-    public void  setAllId(int allId){
-        this.allId = allId;
-    }
-    public int getAllId(){
-        return allId;
     }
 
     public int getId() {
@@ -204,10 +193,22 @@ public abstract class Hero implements HeroBehaviour, Character {
         this.spellSafe = spellSafe;
     }
 
+    public void setHeroGameId(int heroGameId){
+        this.heroGameId = heroGameId;
+    }
+    public int getHeroGameId(){
+        return heroGameId;
+    }
+
     public Hero copy() {
-        Gson gson = Data.getDataGson();
-        Hero hero = gson.fromJson(gson.toJson(this, Hero.class), Hero.class);
-        hero.setAllId(0);
+        ObjectMapper mapper = Data.getObjectCloneMapper();
+        Hero hero = null;
+        try {
+            hero = mapper.readValue(mapper.writeValueAsString(this), Hero.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        hero.allId = 0;
         return hero;
     }
 
@@ -301,10 +302,16 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     @Override
     public void startTurnBehave()  {
-        Mapper.getInstance().reduceImmunities(getPlayerId(), this);
-        Mapper.getInstance().handleImmunities(getPlayerId(), this);
+        //Mapper.reduceImmunities(getPlayerId(), this);
+        this.reduceImmunities();
 
-        Mapper.getInstance().reduceFreezes(getPlayerId(), this);
-        Mapper.getInstance().handleFreezes(getPlayerId(), this);
+        //Mapper.handleImmunities(getPlayerId(), this);
+        this.handleImmunities();
+
+        //Mapper.reduceFreezes(getPlayerId(), this);
+        this.reduceFreezes();
+
+        //Mapper.handleFreezes(getPlayerId(), this);
+        this.handleFreezes();
     }
 }
