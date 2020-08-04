@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.controls.dialogs.CardSelectionDialog;
@@ -52,7 +51,7 @@ public class FriendlySmith  extends SpellCard {
         //Mapper.updateBoard();
 
         //Mapper.makeAndPutDeck(getPlayerId(), selectedWeapon);
-        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
 
         Mapper.updateBoard();
     }

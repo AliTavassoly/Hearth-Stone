@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.gui.game.GameFrame;
@@ -24,7 +23,7 @@ public class Tracking extends SpellCard {
 
     @Override
     public void doAbility() {
-        ArrayList<Card> cards = DataTransform.getTopCards(getPlayerId(), 3);
+        ArrayList<Card> cards = Mapper.getTopCards(getPlayerId(), 3);
         if(cards == null || cards.size() == 0)
             return;
 
@@ -32,7 +31,7 @@ public class Tracking extends SpellCard {
         Card card = dialog.getCard();
         try {
             //Mapper.drawCard(getPlayerId(), card);
-            DataTransform.getPlayer(getPlayerId()).drawCard(card);
+            Mapper.getPlayer(getPlayerId()).drawCard(card);
             Mapper.updateBoard();
         } catch (HearthStoneException ignore) {}
     }

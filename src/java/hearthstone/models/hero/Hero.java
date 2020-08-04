@@ -47,7 +47,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Deck selectedDeck;
 
-    @ManyToOne
+    @OneToOne
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     protected SpecialHeroPower specialHeroPower;

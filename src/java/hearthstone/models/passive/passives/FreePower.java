@@ -1,6 +1,5 @@
 package hearthstone.models.passive.passives;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.card.heropower.HeroPowerCard;
@@ -18,7 +17,7 @@ public class FreePower extends Passive implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        HeroPowerCard power = DataTransform.getHeroPower(getPlayerId());
+        HeroPowerCard power = Mapper.getHeroPower(getPlayerId());
 
         //Mapper.setCardMana(power, Math.max(0, power.getManaCost() - 1));
         power.setManaCost(Math.max(0, power.getManaCost() - 1));

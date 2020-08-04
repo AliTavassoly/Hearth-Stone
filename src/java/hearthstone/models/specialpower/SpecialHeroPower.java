@@ -1,13 +1,15 @@
 package hearthstone.models.specialpower;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public abstract class SpecialHeroPower {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int allId;
+
+    @Column
     private int id;
     @Column
     private String name;

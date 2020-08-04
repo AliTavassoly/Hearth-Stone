@@ -1,7 +1,7 @@
 package hearthstone.models.passive;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.DataTransform;
+import hearthstone.Mapper;
 import hearthstone.data.Data;
 
 import javax.persistence.Column;
@@ -36,7 +36,7 @@ public abstract class Passive {
     public void log(){
         try {
             hearthstone.util.Logger.saveLog("Passive",
-                    DataTransform.getPlayerName(getPlayerId()) +
+                    Mapper.getPlayerName(getPlayerId()) +
                     " player, chose " + this.getName() + " passive!");
         } catch (Exception e){
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
@@ -39,13 +38,13 @@ public class Sathrovarr extends MinionCard implements Battlecry {
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
             //Mapper.makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
 
             //Mapper.makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HearthStone.getCardByName(card.getName()));
 
             //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName(card.getName()));
 
             Mapper.deleteCurrentMouseWaiting();
             Mapper.updateBoard();

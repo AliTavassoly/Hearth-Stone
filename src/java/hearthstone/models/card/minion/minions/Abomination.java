@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.DeathRattle;
 import hearthstone.models.card.Card;
@@ -29,7 +28,7 @@ public class Abomination extends MinionCard implements DeathRattle {
 
     @Override
     public void deathRattle() {
-        Hero hero = DataTransform.getHero(DataTransform.getEnemyId(getPlayerId()));
+        Hero hero = Mapper.getHero(Mapper.getEnemyId(getPlayerId()));
 
         try {
             //Mapper.damage(2, hero);
@@ -37,7 +36,7 @@ public class Abomination extends MinionCard implements DeathRattle {
             Mapper.updateBoard();
         } catch (HearthStoneException ignore) { }
 
-        for(Card card: DataTransform.getLand(DataTransform.getEnemyId(getPlayerId()))){
+        for(Card card: Mapper.getLand(Mapper.getEnemyId(getPlayerId()))){
             try {
                 //Mapper.damage(2, (MinionCard) card, false);
                 ((MinionCard) card).gotDamage(2);

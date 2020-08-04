@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Mage extends Hero {
-    public Mage(){
-        specialHeroPower = new MagePower(super.getId(), "Mage Power");
-    }
+    public Mage(){ }
 
     public Mage(int id, String name, HeroType type, String description,
                 String heroPowerName, int health) throws Exception{

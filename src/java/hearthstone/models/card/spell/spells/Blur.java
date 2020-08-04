@@ -1,8 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
-import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
@@ -20,9 +18,9 @@ public class Blur  extends SpellCard{
 
     @Override
     public void doAbility() {
-        //Mapper.addImmunity(getPlayerId(), 1, DataTransform.getHero(getPlayerId()));
-        DataTransform.getHero(getPlayerId()).addImmunity(1);
-        //Mapper.handleImmunities(getPlayerId(), DataTransform.getHero(getPlayerId()));
-        DataTransform.getHero(getPlayerId()).handleImmunities();
+        //Mapper.addImmunity(getPlayerId(), 1, Mapper.getHero(getPlayerId()));
+        Mapper.getHero(getPlayerId()).addImmunity(1);
+        //Mapper.handleImmunities(getPlayerId(), Mapper.getHero(getPlayerId()));
+        Mapper.getHero(getPlayerId()).handleImmunities();
     }
 }

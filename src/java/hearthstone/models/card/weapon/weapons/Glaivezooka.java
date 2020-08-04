@@ -1,6 +1,5 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
@@ -22,7 +21,9 @@ public class Glaivezooka extends WeaponCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
+        //MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
+        MinionCard minionCard = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
+
         if (minionCard != null) {
             //Mapper.addAttack(1, minionCard.getCardGameId());
             minionCard.changeAttack(1);

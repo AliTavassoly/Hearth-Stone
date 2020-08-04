@@ -1,6 +1,5 @@
 package hearthstone.models.card.heropower.heropowers;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.CardType;
@@ -25,7 +24,7 @@ public class Fireblast extends HeroPowerCard {
     private void doAbility(Object object) throws HearthStoneException {
         if (object instanceof Hero) {
             Hero hero = (Hero) object;
-            if (DataTransform.haveTaunt(hero.getPlayerId()))
+            if (Mapper.getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
             //Mapper.damage(1, hero);
@@ -34,7 +33,7 @@ public class Fireblast extends HeroPowerCard {
 
             log();
             //Mapper.reduceMana(getPlayerId(), this.getManaCost());
-            DataTransform.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
+            Mapper.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
         } else if (object instanceof MinionCard) {
@@ -53,7 +52,7 @@ public class Fireblast extends HeroPowerCard {
             log();
 
             //Mapper.reduceMana(getPlayerId(), this.getManaCost());
-            DataTransform.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
+            Mapper.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             if (minion instanceof IsAttacked) {
                 //Mapper.isAttacked((IsAttacked) minion);
@@ -83,7 +82,7 @@ public class Fireblast extends HeroPowerCard {
             Hero hero = (Hero) object;
             if (hero.getPlayerId() == this.getPlayerId())
                 throw new HearthStoneException("Choose enemy!");
-            if (DataTransform.haveTaunt(hero.getPlayerId()))
+            if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
             doAbility(hero);

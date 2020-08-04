@@ -1,6 +1,5 @@
 package hearthstone.models.card.reward.rewards;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
@@ -22,12 +21,13 @@ public class SecurityReward extends RewardCard implements Battlecry {
     @Override
     public void battlecry() {
         //Mapper.restartSpentManaOnMinions(getPlayerId());
-        DataTransform.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
+        Mapper.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
     }
 
     @Override
     public int getPercentage() {
-        int now = DataTransform.spentManaOnMinions(getPlayerId());
+        //int now = DataTransform.spentManaOnMinions(getPlayerId());
+        int now = Mapper.getPlayer(getPlayerId()).getManaSpentOnMinions();
         int end = 10;
 
         return (int)(((double)now / (double)end) * 100);
@@ -35,16 +35,17 @@ public class SecurityReward extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return DataTransform.spentManaOnMinions(getPlayerId()) >= 10;
+        return Mapper.getPlayer(getPlayerId()).getManaSpentOnMinions() >= 10
+                /*DataTransform.spentManaOnMinions(getPlayerId()) >= 10*/;
     }
 
     @Override
     public void doReward() {
         //Mapper.summonMinionFromCurrentDeck(getPlayerId(), "Security Rover");
-        DataTransform.getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck("Security Rover");
+        Mapper.getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck("Security Rover");
 
         //Mapper.restartSpentManaOnMinions(getPlayerId());
-        DataTransform.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
+        Mapper.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
 
         log();
 

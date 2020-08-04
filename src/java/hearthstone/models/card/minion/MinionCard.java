@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.behaviours.IsAttacked;
@@ -361,7 +360,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.haveTaunt(hero.getPlayerId())) {
+        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
             if (isRush && !isCharge) {

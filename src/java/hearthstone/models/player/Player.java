@@ -1,6 +1,5 @@
 package hearthstone.models.player;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.logic.GameConfigs;
@@ -223,7 +222,7 @@ public class Player {
 
     public void startGame() throws HearthStoneException {
         try {
-            Logger.saveLog("Start Game", DataTransform.getPlayerName(getPlayerId()) + " started a game!");
+            Logger.saveLog("Start Game", Mapper.getPlayerName(getPlayerId()) + " started a game!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -242,7 +241,7 @@ public class Player {
     public void logDrawCard(Card card) {
         try {
             Logger.saveLog("Draw Card",
-                    DataTransform.getPlayerName(getPlayerId())
+                    Mapper.getPlayerName(getPlayerId())
                             + " drew " + card.getName() + "!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,7 +251,7 @@ public class Player {
     public void logPlayCard(Card card) {
         try {
             Logger.saveLog("Play Card",
-                    DataTransform.getPlayerName(getPlayerId())
+                    Mapper.getPlayerName(getPlayerId())
                             + " played " + card.getName() + "!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -658,7 +657,7 @@ public class Player {
     private void updateWeapon() {
         if (weapon != null && weapon.getDurability() < 0) {
             //Mapper.setWeapon(getPlayerId(), null);
-            DataTransform.getPlayer(getPlayerId()).setWeapon(null);
+            Mapper.getPlayer(getPlayerId()).setWeapon(null);
         }
     }
 
@@ -666,9 +665,9 @@ public class Player {
         originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
 
         try {
-            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getPlayerName(playerId) +
+            hearthstone.util.Logger.saveLog("Game ended", Mapper.getPlayerName(playerId) +
                     " lost against " +
-                    DataTransform.getPlayerName(DataTransform.getEnemyId(playerId)));
+                    Mapper.getPlayerName(Mapper.getEnemyId(playerId)));
             Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -680,9 +679,9 @@ public class Player {
         originalDeck.setWinGames(originalDeck.getWinGames() + 1);
 
         try {
-            hearthstone.util.Logger.saveLog("Game ended", DataTransform.getPlayerName(playerId) +
+            hearthstone.util.Logger.saveLog("Game ended", Mapper.getPlayerName(playerId) +
                     " won " +
-                    DataTransform.getPlayerName(DataTransform.getEnemyId(playerId)));
+                    Mapper.getPlayerName(Mapper.getEnemyId(playerId)));
             Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
@@ -28,7 +27,7 @@ public class SecurityRover extends MinionCard implements IsAttacked {
     @Override
     public void isAttacked() {
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("The Hulk"));
-        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("The Hulk"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("The Hulk"));
 
         Mapper.updateBoard();
     }

@@ -1,6 +1,5 @@
 package hearthstone.logic.gamestuff;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
@@ -70,13 +69,13 @@ public class Game {
             configGame();
 
             //Mapper.startGame(player0.getPlayerId());
-            DataTransform.getPlayer(player0.getPlayerId()).startGame();
+            Mapper.getPlayer(player0.getPlayerId()).startGame();
 
             //Mapper.startGame(player1.getPlayerId());
-            DataTransform.getPlayer(player1.getPlayerId()).startGame();
+            Mapper.getPlayer(player1.getPlayerId()).startGame();
 
             //Mapper.startTurn(player0.getPlayerId());
-            DataTransform.getPlayer(player0.getPlayerId()).startTurn();
+            Mapper.getPlayer(player0.getPlayerId()).startTurn();
         } catch (HearthStoneException e){
             try {
                 hearthstone.util.Logger.saveLog("ERROR",
@@ -92,11 +91,11 @@ public class Game {
         if(whoseTurn == 0) {
             try {
                 //Mapper.endTurn(player0.getPlayerId());
-                DataTransform.getPlayer(player0.getPlayerId()).endTurn();
+                Mapper.getPlayer(player0.getPlayerId()).endTurn();
 
                 whoseTurn = 1;
                 //Mapper.startTurn(player1.getPlayerId());
-                DataTransform.getPlayer(player1.getPlayerId()).startTurn();
+                Mapper.getPlayer(player1.getPlayerId()).startTurn();
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",
@@ -109,11 +108,11 @@ public class Game {
         } else {
             try {
                 //Mapper.endTurn(player1.getPlayerId());
-                DataTransform.getPlayer(player1.getPlayerId()).endTurn();
+                Mapper.getPlayer(player1.getPlayerId()).endTurn();
 
                 whoseTurn = 0;
                 //Mapper.startTurn(player0.getPlayerId());
-                DataTransform.getPlayer(player0.getPlayerId()).startTurn();
+                Mapper.getPlayer(player0.getPlayerId()).startTurn();
             } catch (HearthStoneException e){
                 try {
                     hearthstone.util.Logger.saveLog("ERROR",

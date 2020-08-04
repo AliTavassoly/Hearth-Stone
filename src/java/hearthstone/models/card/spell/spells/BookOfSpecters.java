@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -22,12 +21,12 @@ public class BookOfSpecters  extends SpellCard {
 
     @Override
     public void doAbility() {
-        ArrayList<Card> topCards = DataTransform.getTopCards(getPlayerId(), 3);
+        ArrayList<Card> topCards = Mapper.getTopCards(getPlayerId(), 3);
         for(Card card: topCards){
             if(card.getCardType() != CardType.SPELL){
                 try {
                     //Mapper.drawCard(getPlayerId(), card);
-                    DataTransform.getPlayer(getPlayerId()).drawCard(card);
+                    Mapper.getPlayer(getPlayerId()).drawCard(card);
                     Mapper.updateBoard();
                 } catch (HearthStoneException ignore){}
             }

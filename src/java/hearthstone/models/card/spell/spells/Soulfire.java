@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
@@ -10,7 +9,6 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
@@ -54,7 +52,8 @@ public class Soulfire extends SpellCard {
             } catch (HearthStoneException ignore) { }
 
             try {
-                DataTransform.getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
+                //Mapper.getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
+                Mapper.getPlayer(getPlayerId()).discardCard(Mapper.getPlayer(getPlayerId()).getFactory().getRandomCardFromHand().getCardGameId());
                 Mapper.updateBoard();
             } catch (Exception ignore) {
             }

@@ -1,6 +1,5 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
@@ -31,13 +30,13 @@ public class DesertSpear extends WeaponCard {
 
         try {
             /*Mapper.damage(minionCard.getAttack(),
-                    DataTransform.getHero(getPlayerId()));*/
-            DataTransform.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+                    Mapper.getHero(getPlayerId()));*/
+            Mapper.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
             Mapper.updateBoard();
         } catch (HearthStoneException ignore) { }
 
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked)minionCard);
@@ -47,7 +46,7 @@ public class DesertSpear extends WeaponCard {
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.haveTaunt(hero.getPlayerId())) {
+        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         //Mapper.damage(this.attack, hero);
@@ -55,7 +54,7 @@ public class DesertSpear extends WeaponCard {
         Mapper.updateBoard();
 
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
 
         Mapper.updateBoard();
     }

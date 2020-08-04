@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.FriendlyMinionDies;
 import hearthstone.models.card.Card;
@@ -31,11 +30,12 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
 
     @Override
     public void friendlyMinionDies() {
-        ArrayList<Card> land = DataTransform.getLand(DataTransform.getEnemyId(getPlayerId()));
+        ArrayList<Card> land = Mapper.getLand(Mapper.getEnemyId(getPlayerId()));
         if (land.size() == 0)
             return;
 
-        MinionCard card = DataTransform.getRandomMinionFromLand(getPlayerId());
+        //MinionCard card = DataTransform.getRandomMinionFromLand(getPlayerId());
+        MinionCard card = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
 
         try {
             if (card != null) {

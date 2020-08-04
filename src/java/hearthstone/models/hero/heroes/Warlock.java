@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Warlock extends Hero {
-    public Warlock(){
-        specialHeroPower = new RoguePower(super.getId(), "Rogue Power");
-    }
+    public Warlock(){ }
 
     public Warlock(int id, String name, HeroType type, String description,
                 String heroPowerName, int health) throws Exception{

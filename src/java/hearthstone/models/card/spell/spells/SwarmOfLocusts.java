@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
@@ -23,7 +22,7 @@ public class SwarmOfLocusts extends SpellCard {
     public void doAbility() {
         for (int i = 0; i < 7; i++) {
             //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
         }
         Mapper.updateBoard();
     }

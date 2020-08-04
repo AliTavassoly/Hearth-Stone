@@ -1,6 +1,5 @@
 package hearthstone.models.passive.passives;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.StartTurnBehave;
 import hearthstone.models.passive.Passive;
@@ -20,7 +19,7 @@ public class TwiceDraw extends Passive implements StartTurnBehave {
     public void startTurnBehave() {
         try {
             //Mapper.drawCard(getPlayerId());
-            DataTransform.getPlayer(getPlayerId()).drawCard();
+            Mapper.getPlayer(getPlayerId()).drawCard();
         } catch (HearthStoneException ignore) {}
     }
 }

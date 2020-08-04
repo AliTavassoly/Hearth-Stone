@@ -32,6 +32,7 @@ public class Account {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    //@Transient
     private List<Hero> heroes;
 
     @OneToOne

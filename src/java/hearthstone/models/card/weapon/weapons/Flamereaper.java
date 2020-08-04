@@ -1,13 +1,11 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
-import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
@@ -25,9 +23,10 @@ public class Flamereaper extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        ArrayList <MinionCard> neighbors = DataTransform.getNeighbors(
-                        DataTransform.getEnemyId(getPlayerId()),
-                        minionCard);
+        /*DataTransform.getNeighbors(
+                        Mapper.getEnemyId(getPlayerId()),
+                        minionCard);*/
+        ArrayList <MinionCard> neighbors = Mapper.getPlayer(getPlayerId()).neighborCards(minionCard);
 
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
@@ -37,8 +36,8 @@ public class Flamereaper extends WeaponCard {
 
         try {
             /*Mapper.damage(minionCard.getAttack(),
-                    DataTransform.getHero(getPlayerId()), false);*/
-            DataTransform.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+                    Mapper.getHero(getPlayerId()), false);*/
+            Mapper.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
 
         } catch (HearthStoneException ignore) { }
 

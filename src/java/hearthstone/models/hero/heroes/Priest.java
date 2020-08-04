@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity
 public class Priest extends Hero {
     public Priest(){
-        specialHeroPower = new PriestPower(super.getId(), "Priest Power");
+
     }
 
     public Priest(int id, String name, HeroType type, String description,

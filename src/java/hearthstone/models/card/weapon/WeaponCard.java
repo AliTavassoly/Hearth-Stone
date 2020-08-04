@@ -1,6 +1,5 @@
 package hearthstone.models.card.weapon;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
@@ -70,7 +69,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                DataTransform.getWhoseTurn() == getPlayerId() && !DataTransform.getHero(getPlayerId()).isFreeze();
+                Mapper.getWhoseTurn() == getPlayerId() && !Mapper.getHero(getPlayerId()).isFreeze();
     }
 
     @Override
@@ -90,8 +89,8 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
         try {
             /*Mapper.damage(minionCard.getAttack(),
-                    DataTransform.getHero(getPlayerId()));*/
-            DataTransform.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+                    Mapper.getHero(getPlayerId()));*/
+            Mapper.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
             Mapper.updateBoard();
         } catch (HearthStoneException ignore) {
         }
@@ -103,7 +102,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (DataTransform.haveTaunt(hero.getPlayerId())) {
+        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
         //Mapper.damage(this.attack, hero);

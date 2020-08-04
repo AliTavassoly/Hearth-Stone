@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Rogue extends Hero {
-    public Rogue(){
-        specialHeroPower = new RoguePower(super.getId(), "Rogue Power");
-    }
+    public Rogue(){ }
 
     public Rogue(int id, String name, HeroType type, String description,
                 String heroPowerName, int health) throws Exception{

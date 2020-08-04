@@ -1,6 +1,5 @@
 package hearthstone.models.card.reward.rewards;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
@@ -23,12 +22,13 @@ public class LearnDraconic extends RewardCard implements Battlecry {
     @Override
     public void battlecry() {
         //Mapper.restartSpentManaOnSpells(getPlayerId());
-        DataTransform.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
+        Mapper.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
     }
 
     @Override
     public int getPercentage() {
-        int now = DataTransform.spentManaOnSpells(getPlayerId());
+        //int now = DataTransform.spentManaOnSpells(getPlayerId());
+        int now = Mapper.getPlayer(getPlayerId()).getManaSpentOnSpells();
         int end = 8;
 
         return (int)(((double)now / (double)end) * 100);
@@ -36,16 +36,17 @@ public class LearnDraconic extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return DataTransform.spentManaOnSpells(getPlayerId()) >= 8;
+        return Mapper.getPlayer(getPlayerId()).getManaSpentOnSpells() >= 8
+                /*DataTransform.spentManaOnSpells(getPlayerId()) >= 8*/ ;
     }
 
     @Override
     public void doReward() {
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Faerie Dragon"));
-        DataTransform.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Faerie Dragon"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Faerie Dragon"));
 
         //Mapper.restartSpentManaOnSpells(getPlayerId());
-        DataTransform.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
+        Mapper.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
 
         log();
 

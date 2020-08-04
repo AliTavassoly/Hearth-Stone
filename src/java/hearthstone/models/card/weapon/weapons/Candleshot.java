@@ -1,6 +1,5 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -22,11 +21,11 @@ public class Candleshot extends WeaponCard {
     public void startTurnBehave() {
         super.startTurnBehave();
 
-        //Mapper.addImmunity(getPlayerId(), 1, DataTransform.getHero(getPlayerId()));
-        DataTransform.getHero(getPlayerId()).addImmunity(1);
+        //Mapper.addImmunity(getPlayerId(), 1, Mapper.getHero(getPlayerId()));
+        Mapper.getHero(getPlayerId()).addImmunity(1);
 
-        //Mapper.handleImmunities(getPlayerId(), DataTransform.getHero(getPlayerId()));
-        DataTransform.getHero(getPlayerId()).handleImmunities();
+        //Mapper.handleImmunities(getPlayerId(), Mapper.getHero(getPlayerId()));
+        Mapper.getHero(getPlayerId()).handleImmunities();
 
         Mapper.updateBoard();
     }

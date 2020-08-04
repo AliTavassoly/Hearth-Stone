@@ -1,6 +1,5 @@
 package hearthstone.gui.game.play.boards;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
@@ -33,7 +32,7 @@ public class SoloGameBoard extends GameBoard {
     }
 
     protected void drawCardsOnHand(int playerId, int handX, int handY) {
-        ArrayList<Card> cards = DataTransform.getHand(playerId);
+        ArrayList<Card> cards = Mapper.getHand(playerId);
         if (cards.size() == 0)
             return;
 
@@ -63,7 +62,7 @@ public class SoloGameBoard extends GameBoard {
                         SizeConfigs.smallCardWidth, SizeConfigs.smallCardHeight, 1, true);
             }
 
-            synchronized (animationsCard) {
+            synchronized (animationLock) {
                 if (animationsCard.contains(card.getCardGameId())) {
                     int ind = animationsCard.indexOf(card.getCardGameId());
                     Animation destination = animations.get(ind);
@@ -112,7 +111,7 @@ public class SoloGameBoard extends GameBoard {
     protected void showCardDialog() {
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
-                DataTransform.getTopCards(0, GameConfigs.initialDiscardCards));
+                Mapper.getTopCards(0, GameConfigs.initialDiscardCards));
 
         Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
     }
@@ -198,19 +197,19 @@ public class SoloGameBoard extends GameBoard {
                 SizeConfigs.endTurnButtonWidth, SizeConfigs.endTurnButtonHeight, new ShouldHovered() {
             @Override
             public boolean shouldHovered() {
-                return DataTransform.getWhoseTurn() == 0;
+                return Mapper.getWhoseTurn() == 0;
             }
         });
 
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(DataTransform.getWhoseTurn() != myPlayerId)
+                if(Mapper.getWhoseTurn() != myPlayerId)
                     return;
 
                 try {
                     hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            DataTransform.getPlayerName(DataTransform.getWhoseTurn()) +
+                            Mapper.getPlayerName(Mapper.getWhoseTurn()) +
                             " ended turn!");
                 } catch (Exception e){
                     e.printStackTrace();
@@ -241,14 +240,14 @@ public class SoloGameBoard extends GameBoard {
                 sparkImage.getY() + sparkImage.getHeight() / 2, true);
         add(ropeImage);
 
-        myHero = new BoardHeroButton(DataTransform.getHero(myPlayerId),
+        myHero = new BoardHeroButton(Mapper.getHero(myPlayerId),
                 heroWidth, heroHeight, 0);
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(DataTransform.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
+        enemyHero = new BoardHeroButton(Mapper.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
         makeHeroMouseListener(enemyHero);
 
-        myPassive = new PassiveButton(DataTransform.getPassive(myPlayerId),
+        myPassive = new PassiveButton(Mapper.getPassive(myPlayerId),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 

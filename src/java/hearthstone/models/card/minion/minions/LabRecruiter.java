@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
@@ -26,9 +25,10 @@ public class LabRecruiter extends MinionCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        MinionCard minionCard = (MinionCard) DataTransform.getRandomCardFromOriginalDeck(
-                getPlayerId(),
-                CardType.MINION_CARD);
+        //MinionCard minionCard = (MinionCard) DataTransform.getRandomCardFromOriginalDeck(getPlayerId(),
+        //                CardType.MINION_CARD);
+        MinionCard minionCard = (MinionCard) Mapper.getPlayer(getPlayerId()).getFactory().getRandomCardFromOriginalDeck(CardType.MINION_CARD);
+
 
         if(minionCard == null)
             return;
@@ -38,7 +38,7 @@ public class LabRecruiter extends MinionCard implements Battlecry {
         //Mapper.makeAndPutDeck(getPlayerId(), minionCard.copy());
 
         for(int i = 0; i < 3; i++){
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(minionCard.copy());
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(minionCard.copy());
         }
     }
 }

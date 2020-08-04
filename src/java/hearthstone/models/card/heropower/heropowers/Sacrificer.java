@@ -1,6 +1,5 @@
 package hearthstone.models.card.heropower.heropowers;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
@@ -23,7 +22,7 @@ public class Sacrificer extends HeroPowerCard {
 
     private void doAbility(Hero hero){
         //Mapper.reduceMana(getPlayerId(), getManaCost());
-        DataTransform.getPlayer(getPlayerId()).reduceMana(getManaCost());
+        Mapper.getPlayer(getPlayerId()).reduceMana(getManaCost());
 
         //Mapper.setHealth(hero.getHealth() - 2, hero);
         hero.setHealth(hero.getHealth() - 2);
@@ -32,12 +31,13 @@ public class Sacrificer extends HeroPowerCard {
         if(Rand.getInstance().getProbability(1, 2)){
             try {
                 //Mapper.drawCard(getPlayerId());
-                DataTransform.getPlayer(getPlayerId()).drawCard();
+                Mapper.getPlayer(getPlayerId()).drawCard();
 
                 Mapper.updateBoard();
             } catch (HearthStoneException ignore) {}
         } else {
-            MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
+            //MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
+            MinionCard minionCard = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
             if(minionCard != null){
                 //Mapper.addAttack(1, minionCard.getCardGameId());
                 minionCard.changeAttack(1);

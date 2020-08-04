@@ -1,6 +1,6 @@
 package hearthstone.models.player;
 
-import hearthstone.DataTransform;
+import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
@@ -51,7 +51,7 @@ public class AIPlayer extends Player {
 
     public void choosePassive(ArrayList<Integer> passives){
         int ind = Rand.getInstance().getRandomNumber(passives.size());
-        Mapper.setPassive(getPlayerId(), DataTransform.getBasePassive(ind));
+        Mapper.setPassive(getPlayerId(), HearthStone.basePassives.get(ind));
     }
 
     private void attackToMinions(){
@@ -65,9 +65,9 @@ public class AIPlayer extends Player {
     }
 
     private void playWeapon(){
-        ArrayList<Card> hand = new ArrayList<>(DataTransform.getHand(getPlayerId()));
+        ArrayList<Card> hand = new ArrayList<>(Mapper.getHand(getPlayerId()));
         for(Card card: hand){
-            if(card.getCardType() == CardType.WEAPON_CARD && DataTransform.getWeapon(getPlayerId()) == null) {
+            if(card.getCardType() == CardType.WEAPON_CARD && Mapper.getWeapon(getPlayerId()) == null) {
                 try {
                     playCard(card);
                 } catch (HearthStoneException ignore) {
@@ -77,7 +77,7 @@ public class AIPlayer extends Player {
     }
 
     private void playMinions(){
-        ArrayList<Card> hand = new ArrayList<>(DataTransform.getHand(getPlayerId()));
+        ArrayList<Card> hand = new ArrayList<>(Mapper.getHand(getPlayerId()));
         for(Card card: hand){
             if(card.getCardType() == CardType.MINION_CARD) {
                 try {
@@ -89,20 +89,20 @@ public class AIPlayer extends Player {
     }
 
     private void attackMinionsToHero(){
-        ArrayList<Card> land = new ArrayList<>(DataTransform.getLand(getPlayerId()));
+        ArrayList<Card> land = new ArrayList<>(Mapper.getLand(getPlayerId()));
         for (Card myCard : land) {
             MinionCard myMinion = (MinionCard) myCard;
             if(myMinion.canAttack() && myMinion.getHealth() > 0){
                 try {
-                    myMinion.found(DataTransform.getHero(DataTransform.getEnemyId(getPlayerId())));
+                    myMinion.found(Mapper.getHero(Mapper.getEnemyId(getPlayerId())));
                 } catch (HearthStoneException ignore) {}
             }
         }
     }
 
     private void attackMinionToMinion(){
-        ArrayList<Card> myLand = new ArrayList<>(DataTransform.getLand(getPlayerId()));
-        ArrayList<Card> enemyLand = new ArrayList<>(DataTransform.getLand(DataTransform.getEnemyId(getPlayerId())));
+        ArrayList<Card> myLand = new ArrayList<>(Mapper.getLand(getPlayerId()));
+        ArrayList<Card> enemyLand = new ArrayList<>(Mapper.getLand(Mapper.getEnemyId(getPlayerId())));
 
         for(int i = 0; i < 10; i++) {
             for (Card myCard : myLand) {
@@ -121,10 +121,10 @@ public class AIPlayer extends Player {
     }
 
     private void attackWeaponToMinion(){
-        WeaponCard myWeapon = DataTransform.getWeapon(getPlayerId());
+        WeaponCard myWeapon = Mapper.getWeapon(getPlayerId());
         if(myWeapon == null || !myWeapon.canAttack())
             return;
-        ArrayList<Card> enemyLand = new ArrayList<>(DataTransform.getLand(DataTransform.getEnemyId(getPlayerId())));
+        ArrayList<Card> enemyLand = new ArrayList<>(Mapper.getLand(Mapper.getEnemyId(getPlayerId())));
         for (Card enemyCard: enemyLand){
             MinionCard enemyMinion = (MinionCard)enemyCard;
             if(enemyMinion.getHealth() > 0 && myWeapon.canAttack()){
@@ -136,12 +136,12 @@ public class AIPlayer extends Player {
     }
 
     private void attackWeaponToHero(){
-        WeaponCard myWeapon = DataTransform.getWeapon(getPlayerId());
+        WeaponCard myWeapon = Mapper.getWeapon(getPlayerId());
         if(myWeapon == null || !myWeapon.canAttack())
             return;
 
         try {
-            myWeapon.found(DataTransform.getHero(DataTransform.getEnemyId(getPlayerId())));
+            myWeapon.found(Mapper.getHero(Mapper.getEnemyId(getPlayerId())));
         } catch (HearthStoneException ignore) {}
     }
 }

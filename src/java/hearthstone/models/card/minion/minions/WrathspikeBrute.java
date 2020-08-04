@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
@@ -30,7 +29,7 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
 
     @Override
     public void isAttacked() {
-        Hero hero = DataTransform.getHero(DataTransform.getEnemyId(getPlayerId()));
+        Hero hero = Mapper.getHero(Mapper.getEnemyId(getPlayerId()));
 
         try {
             //Mapper.damage(1, hero);
@@ -38,7 +37,7 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
             Mapper.updateBoard();
         } catch (HearthStoneException ignore) { }
 
-        for(Card card: DataTransform.getLand(DataTransform.getEnemyId(getPlayerId()))){
+        for(Card card: Mapper.getLand(Mapper.getEnemyId(getPlayerId()))){
             try {
                 //Mapper.damage(1, (MinionCard) card, false);
                 ((MinionCard) card).gotDamage(1);

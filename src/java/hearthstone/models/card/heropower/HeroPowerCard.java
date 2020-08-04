@@ -1,11 +1,10 @@
 package hearthstone.models.card.heropower;
 
-import hearthstone.DataTransform;
+import hearthstone.Mapper;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
@@ -43,7 +42,7 @@ public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
     @Override
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                getManaCost() <= DataTransform.getMana(getPlayerId()) &&
-                DataTransform.getWhoseTurn() == getPlayerId();
+                getManaCost() <= Mapper.getMana(getPlayerId()) &&
+                Mapper.getWhoseTurn() == getPlayerId();
     }
 }

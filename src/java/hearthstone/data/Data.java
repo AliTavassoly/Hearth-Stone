@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import hearthstone.models.AccountCredential;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
+import org.hibernate.collection.internal.PersistentBag;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +77,7 @@ public class Data {
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.registerModule(new Hibernate5Module());
+        mapper.registerSubtypes(PersistentBag.class);
         return mapper;
     }
 

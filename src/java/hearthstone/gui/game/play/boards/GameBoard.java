@@ -1,6 +1,5 @@
 package hearthstone.gui.game.play.boards;
 
-import hearthstone.DataTransform;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.gui.SizeConfigs;
@@ -57,7 +56,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     protected ArrayList<Integer> animationsCard;
     protected ArrayList<Animation> animations;
-    private final Object animationLock = new Object();
+    protected final Object animationLock = new Object();
 
     protected boolean isLookingFor;
     protected Object waitingObject;
@@ -220,16 +219,16 @@ public class GameBoard extends JPanel implements MouseListener {
         }
         g2.drawImage(backgroundImage, 0, 0, null);
 
-        drawMyMana(g2, DataTransform.getMana(myPlayerId),
-                DataTransform.getTurnNumber(myPlayerId));
+        drawMyMana(g2, Mapper.getMana(myPlayerId),
+                Mapper.getTurnNumber(myPlayerId));
 
-        drawEnemyMana(g2, DataTransform.getMana(enemyPlayerId),
-                DataTransform.getTurnNumber(enemyPlayerId));
+        drawEnemyMana(g2, Mapper.getMana(enemyPlayerId),
+                Mapper.getTurnNumber(enemyPlayerId));
 
         drawDeckNumberOfCards(g2, myDeckCardsNumberX, myDeckCardsNumberY,
-                DataTransform.getDeck(myPlayerId).getCards().size());
+                Mapper.getDeckSize(myPlayerId));
         drawDeckNumberOfCards(g2, enemyDeckCardsNumberX, enemyDeckCardsNumberY,
-                DataTransform.getDeck(enemyPlayerId).getCards().size());
+                Mapper.getDeckSize(enemyPlayerId));
 
         g2.drawImage(sparkImage.getImage().getScaledInstance(
                 sparkImage.getWidth(), sparkImage.getHeight(),
@@ -250,7 +249,7 @@ public class GameBoard extends JPanel implements MouseListener {
         PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
-                        DataTransform.getNumberOfPassive(),
+                        GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
         Mapper.setPassive(myPlayerId, passiveDialog0.getPassive());
@@ -259,7 +258,7 @@ public class GameBoard extends JPanel implements MouseListener {
         PassiveDialog passiveDialog1 = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
-                        DataTransform.getNumberOfPassive(),
+                        GameConfigs.initialPassives,
                         HearthStone.basePassives.size())
         );
         Mapper.setPassive(enemyPlayerId, passiveDialog1.getPassive());
@@ -268,13 +267,13 @@ public class GameBoard extends JPanel implements MouseListener {
     protected void showCardDialog() {
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
-                DataTransform.getTopCards(0, GameConfigs.initialDiscardCards));
+                Mapper.getTopCards(0, GameConfigs.initialDiscardCards));
 
         Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
 
         CardDialog cardDialog1 = new CardDialog(
                 GameFrame.getInstance(),
-                DataTransform.getTopCards(1, GameConfigs.initialDiscardCards));
+                Mapper.getTopCards(1, GameConfigs.initialDiscardCards));
 
         Mapper.removeInitialCards(1, cardDialog1.getCards(), GameConfigs.initialDiscardCards);
     }
@@ -282,7 +281,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW MANA
     private void drawMyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
-        maxNumber = Math.min(maxNumber, DataTransform.getMaxManaInGame());
+        maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
         for (int i = 0; i < number; i++) {
             try {
@@ -315,7 +314,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     private void drawEnemyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
-        maxNumber = Math.min(maxNumber, DataTransform.getMaxManaInGame());
+        maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
         String text = number + "/" + maxNumber;
 
@@ -352,7 +351,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // DRAW REWARD
     private void drawReward(int playerId, int X, int Y) {
-        RewardCard rewardCard = DataTransform.getReward(playerId);
+        RewardCard rewardCard = Mapper.getReward(playerId);
         if (rewardCard == null)
             return;
 
@@ -370,9 +369,9 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // DRAW HEROPOWER
     private void drawHeroPower(int playerId, int X, int Y) {
-        if (DataTransform.getHeroPower(playerId) == null)
+        if (Mapper.getHeroPower(playerId) == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(DataTransform.getHeroPower(playerId),
+        HeroPowerButton heroPowerButton = new HeroPowerButton(Mapper.getHeroPower(playerId),
                 SizeConfigs.heroPowerWidth, SizeConfigs.heroPowerHeight, true, playerId);
 
         makeHeroPowerMouseListener(heroPowerButton);
@@ -386,10 +385,10 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // DRAW WEAPON
     private void drawWeapon(int playerId, int X, int Y) {
-        if (DataTransform.getWeapon(playerId) == null)
+        if (Mapper.getWeapon(playerId) == null)
             return;
 
-        WeaponButton weaponButton = new WeaponButton(DataTransform.getWeapon(playerId),
+        WeaponButton weaponButton = new WeaponButton(Mapper.getWeapon(playerId),
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight, true, playerId);
         weaponButton.setBounds(X, Y,
                 SizeConfigs.weaponWidth, SizeConfigs.weaponHeight);
@@ -405,7 +404,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // DRAW CARDS
     protected void drawCardsOnHand(int playerId, int handX, int handY) {
-        ArrayList<Card> cards = DataTransform.getHand(playerId);
+        ArrayList<Card> cards = Mapper.getHand(playerId);
         if (cards.size() == 0)
             return;
 
@@ -466,7 +465,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     private void drawCardsOnLand(int playerId, int landX, int landY) {
-        ArrayList<Card> cards = DataTransform.getLand(playerId);
+        ArrayList<Card> cards = Mapper.getLand(playerId);
         if (cards.size() == 0)
             return;
 
@@ -814,12 +813,12 @@ public class GameBoard extends JPanel implements MouseListener {
 
             public void mouseReleased(MouseEvent E) {
                 if (isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        DataTransform.getWhoseTurn() == button.getCard().getPlayerId() &&
+                        Mapper.getWhoseTurn() == button.getCard().getPlayerId() &&
                 button.getCard().getPlayerId() == myPlayerId) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else if (isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        DataTransform.getWhoseTurn() == button.getCard().getPlayerId() &&
+                        Mapper.getWhoseTurn() == button.getCard().getPlayerId() &&
                 button.getCard().getPlayerId() == enemyPlayerId) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
@@ -831,7 +830,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
         button.addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if ((DataTransform.getWhoseTurn() != button.getPlayerId()))
+                if ((Mapper.getWhoseTurn() != button.getPlayerId()))
                     return;
 
                 int newX = e.getX() + button.getX();
@@ -874,7 +873,7 @@ public class GameBoard extends JPanel implements MouseListener {
                         showError(hse.getMessage());
                     }
                 } else {
-                    if (button.getPlayerId() == DataTransform.getWhoseTurn()
+                    if (button.getPlayerId() == Mapper.getWhoseTurn()
                             && ((MinionBehaviour) button.getCard()).canAttack()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
@@ -929,7 +928,7 @@ public class GameBoard extends JPanel implements MouseListener {
                         showError(hse.getMessage());
                     }
                 } else {
-                    if (button.getPlayerId() == DataTransform.getWhoseTurn()
+                    if (button.getPlayerId() == Mapper.getWhoseTurn()
                             && ((WeaponBehaviour) button.getCard()).pressed()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
@@ -984,7 +983,7 @@ public class GameBoard extends JPanel implements MouseListener {
                         showError(hse.getMessage());
                     }
                 } else {
-                    if (button.getPlayerId() == DataTransform.getWhoseTurn()
+                    if (button.getPlayerId() == Mapper.getWhoseTurn()
                             && ((HeroPowerBehaviour) button.getCard()).canAttack()) {
                         makeNewMouseWaiting(((HeroPowerBehaviour) button.getCard()).lookingForCursorType(),
                                 button.getCard());
@@ -1159,7 +1158,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
                 try {
                     hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            DataTransform.getPlayerName(DataTransform.getWhoseTurn()) +
+                            Mapper.getPlayerName(Mapper.getWhoseTurn()) +
                             " ended turn!");
                 } catch (Exception e){
                     e.printStackTrace();
@@ -1187,14 +1186,14 @@ public class GameBoard extends JPanel implements MouseListener {
                 sparkImage.getY() + sparkImage.getHeight() / 2, true);
         add(ropeImage);
 
-        myHero = new BoardHeroButton(DataTransform.getHero(myPlayerId),
+        myHero = new BoardHeroButton(Mapper.getHero(myPlayerId),
                 heroWidth, heroHeight, 0);
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(DataTransform.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
+        enemyHero = new BoardHeroButton(Mapper.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
         makeHeroMouseListener(enemyHero);
 
-        myPassive = new PassiveButton(DataTransform.getPassive(myPlayerId),
+        myPassive = new PassiveButton(Mapper.getPassive(myPlayerId),
                 SizeConfigs.medCardWidth,
                 SizeConfigs.medCardHeight);
 
@@ -1283,7 +1282,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     protected synchronized void showError(String text) {
-        if (DataTransform.getWhoseTurn() == 0) {
+        if (Mapper.getWhoseTurn() == 0) {
             myMessageDialog.setText(text);
             myMessageDialog.setImagePath("/images/my_think_dialog.png");
             myMessageDialog.setBounds(myErrorX, myErrorY,
@@ -1299,7 +1298,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     public void gameEnded() {
-        if (DataTransform.isLost(0)) {
+        if (Mapper.isLost(0)) {
             try {
                 Mapper.saveDataBase();
 

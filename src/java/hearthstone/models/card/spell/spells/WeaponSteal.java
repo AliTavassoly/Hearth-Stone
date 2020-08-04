@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -42,7 +41,7 @@ public class WeaponSteal extends SpellCard {
             Mapper.updateBoard();
 
             //Mapper.makeAndPutDeck(getPlayerId(), card);
-            DataTransform.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
         }
     }
 }

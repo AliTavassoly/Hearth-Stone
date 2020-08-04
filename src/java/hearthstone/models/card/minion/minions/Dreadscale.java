@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.DataTransform;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.Card;
@@ -28,7 +27,7 @@ public class Dreadscale extends MinionCard implements EndTurnBehave {
 
     @Override
     public void endTurnBehave() {
-        for(Card card: DataTransform.getLand(DataTransform.getEnemyId(getPlayerId()))){
+        for(Card card: Mapper.getLand(Mapper.getEnemyId(getPlayerId()))){
             MinionCard minionCard = (MinionCard)card;
             try {
                 //Mapper.damage(1, minionCard, false);
