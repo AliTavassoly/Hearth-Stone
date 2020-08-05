@@ -22,6 +22,7 @@ public class Market {
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(CascadeType.SAVE_UPDATE)
+    //@JsonSerialize(using = HibernateDeckListSerializer.class)
     private List<Card> cards = new ArrayList<>();
 
     @PostLoad

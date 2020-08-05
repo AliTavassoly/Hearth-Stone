@@ -1,14 +1,15 @@
 package hearthstone.models.hero;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.Deck;
 import hearthstone.models.specialpower.SpecialHeroPower;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.jsonserializers.DeckListSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -40,6 +41,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JsonSerialize(converter = DeckListSerializer.class)
     private List<Deck> decks;
 
     @ManyToOne
@@ -204,7 +206,8 @@ public abstract class Hero implements HeroBehaviour, Character {
         ObjectMapper mapper = Data.getObjectCloneMapper();
         Hero hero = null;
         try {
-            hero = mapper.readValue(mapper.writeValueAsString(this), Hero.class);
+            String json = mapper.writeValueAsString(this);
+            hero = mapper.readValue(json, Hero.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

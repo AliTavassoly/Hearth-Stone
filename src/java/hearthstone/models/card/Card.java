@@ -139,9 +139,8 @@ public abstract class Card implements CardBehaviour {
     public Card copy() {
         ObjectMapper mapper = Data.getObjectCloneMapper();
         Card card = null;
-        String json;
         try {
-            json = mapper.writeValueAsString(this);
+            String json = mapper.writeValueAsString(this);
             card = mapper.readValue(json, Card.class);
         } catch (Exception e) {
             e.printStackTrace();

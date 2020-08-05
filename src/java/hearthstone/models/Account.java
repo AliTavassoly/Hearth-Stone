@@ -1,13 +1,15 @@
 package hearthstone.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
-import hearthstone.models.hero.heroes.Mage;
 import hearthstone.models.player.Player;
+import hearthstone.util.jsonserializers.DeckListSerializer;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.jsonserializers.HeroListSerializer;
 import hearthstone.util.Rand;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
@@ -32,7 +34,7 @@ public class Account {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    //@Transient
+    @JsonSerialize(converter = HeroListSerializer.class)
     private List<Hero> heroes;
 
     @OneToOne
@@ -43,6 +45,7 @@ public class Account {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JsonSerialize(converter = DeckListSerializer.class)
     private List<Deck> decks;
 
     @ElementCollection

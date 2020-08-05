@@ -1,6 +1,7 @@
 package hearthstone.models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
 import hearthstone.data.Data;
 import hearthstone.logic.GameConfigs;
@@ -8,6 +9,8 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.jsonserializers.CardListSerializer;
+import hearthstone.util.jsonserializers.MapIntToIntSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -35,10 +38,12 @@ public class Deck implements Comparable<Deck> {
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JsonSerialize(converter = CardListSerializer.class)
     private List<Card> cards = new ArrayList<>();
 
     @ElementCollection()
     @MapKeyColumn(name="Deck_CardGame")
+    @JsonSerialize(converter = MapIntToIntSerializer.class)
     private Map<Integer, Integer> cardGame = new HashMap<>();
 
     @Column
@@ -161,7 +166,8 @@ public class Deck implements Comparable<Deck> {
         ObjectMapper mapper = Data.getObjectCloneMapper();
         Deck deck = null;
         try {
-            deck = mapper.readValue(mapper.writeValueAsString(this), Deck.class);
+            String json =  mapper.writeValueAsString(this);
+            deck = mapper.readValue(json, Deck.class);
         } catch (Exception e) { }
         return deck;
     }

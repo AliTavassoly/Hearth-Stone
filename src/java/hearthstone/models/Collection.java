@@ -1,8 +1,10 @@
 package hearthstone.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.logic.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.jsonserializers.CardListSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -24,6 +26,7 @@ public class Collection {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JsonSerialize(converter = CardListSerializer.class)
     private List<Card> cards;
 
     @PostLoad
