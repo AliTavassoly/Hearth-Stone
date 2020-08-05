@@ -1,9 +1,9 @@
 package hearthstone.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import hearthstone.gui.SizeConfigs;
-import hearthstone.logic.GameConfigs;
-import hearthstone.logic.gamestuff.Market;
+import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.configs.GameConfigs;
+import hearthstone.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
 import hearthstone.models.card.Card;
@@ -377,7 +377,7 @@ public class DataBase {
         GameConfigs.setConfigs(gameConfigs);
 
         var sizeConfigs = getSizeConfigs();
-        SizeConfigs.setConfigs(sizeConfigs);
+        GUIConfigs.setConfigs(sizeConfigs);
     }
 
     private static void loadMarket() throws Exception {

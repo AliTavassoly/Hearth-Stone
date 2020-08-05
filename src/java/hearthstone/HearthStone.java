@@ -2,10 +2,10 @@ package hearthstone;
 
 import hearthstone.data.Data;
 import hearthstone.data.DataBase;
-import hearthstone.gui.credetials.CredentialsFrame;
-import hearthstone.gui.game.play.boards.GameBoard;
-import hearthstone.logic.gamestuff.Game;
-import hearthstone.logic.gamestuff.Market;
+import hearthstone.client.gui.credetials.CredentialsFrame;
+import hearthstone.client.gui.game.play.boards.GameBoard;
+import hearthstone.logic.Game;
+import hearthstone.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;

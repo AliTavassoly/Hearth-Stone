@@ -1,6 +1,6 @@
 package hearthstone.util;
 
-import hearthstone.gui.credetials.CredentialsFrame;
+import hearthstone.client.gui.credetials.CredentialsFrame;
 import hearthstone.util.getresource.SoundResource;
 
 import javax.sound.sampled.*;

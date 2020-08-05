@@ -1,8 +1,8 @@
 package hearthstone;
 
 import hearthstone.data.DataBase;
-import hearthstone.gui.game.play.boards.GameBoard;
-import hearthstone.logic.gamestuff.Game;
+import hearthstone.client.gui.game.play.boards.GameBoard;
+import hearthstone.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;

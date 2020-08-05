@@ -83,8 +83,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isRush = isRush;
         this.minionType = minionType;
 
-        isFirstTurn = true;
-
         configMinion();
     }
 
@@ -94,6 +92,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
         freezes = new ArrayList<>();
         immunities = new ArrayList<>();
+
+        isFirstTurn = true;
     }
 
     public int getInitialHealth() {

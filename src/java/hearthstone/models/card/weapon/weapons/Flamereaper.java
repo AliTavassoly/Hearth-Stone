@@ -26,7 +26,7 @@ public class Flamereaper extends WeaponCard {
         /*DataTransform.getNeighbors(
                         Mapper.getEnemyId(getPlayerId()),
                         minionCard);*/
-        ArrayList <MinionCard> neighbors = Mapper.getPlayer(getPlayerId()).neighborCards(minionCard);
+        ArrayList <MinionCard> neighbors = Mapper.getPlayer(minionCard.getPlayerId()).neighborCards(minionCard);
 
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);

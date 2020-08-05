@@ -1,8 +1,8 @@
 package hearthstone.models.card.spell.spells;
 
 import hearthstone.Mapper;
-import hearthstone.gui.controls.dialogs.CardSelectionDialog;
-import hearthstone.gui.game.GameFrame;
+import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
+import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;

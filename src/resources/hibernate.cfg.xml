@@ -97,7 +97,7 @@
         <mapping class="hearthstone.models.Collection"/>
         <mapping class="hearthstone.models.AccountCredential"/>
 
-        <mapping class="hearthstone.logic.gamestuff.Market"/>
+        <mapping class="hearthstone.logic.Market"/>
 
     </session-factory>
 </hibernate-configuration>

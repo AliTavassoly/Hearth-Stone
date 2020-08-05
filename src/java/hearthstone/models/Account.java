@@ -2,14 +2,14 @@ package hearthstone.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
-import hearthstone.logic.GameConfigs;
+import hearthstone.client.configs.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
-import hearthstone.util.jsonserializers.DeckListSerializer;
+import hearthstone.util.jacksonserializers.DeckListSerializer;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.jsonserializers.HeroListSerializer;
+import hearthstone.util.jacksonserializers.HeroListSerializer;
 import hearthstone.util.Rand;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;

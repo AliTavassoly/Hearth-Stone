@@ -2,8 +2,8 @@ package hearthstone.models.player;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.logic.GameConfigs;
-import hearthstone.logic.gamestuff.Game;
+import hearthstone.client.configs.GameConfigs;
+import hearthstone.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.behaviours.*;
 import hearthstone.models.card.Card;
@@ -362,7 +362,6 @@ public class Player {
             case SPELL:
                 break;
         }
-
         //hand.remove(cardInHand);
         removeFromHand(cardInHand.getCardGameId());
         mana -= cardInHand.getManaCost();
@@ -607,7 +606,7 @@ public class Player {
         ArrayList<MinionCard> ans = new ArrayList<>();
         for (int i = 0; i < land.size(); i++) {
             Card card1 = land.get(i);
-            if (card == card1) {
+            if (card.getCardGameId() == card1.getCardGameId()) {
                 if (i + 1 < land.size())
                     ans.add((MinionCard) land.get(i + 1));
                 if (i - 1 >= 0)
@@ -626,7 +625,7 @@ public class Player {
         for (int i = 0; i < land.size(); i++) {
             Card card = land.get(i);
 
-            if (((MinionCard) card).getHealth() > 0 && ((MinionCard) card) instanceof FriendlyMinionDies) {
+            if (((MinionCard) card).getHealth() > 0 && card instanceof FriendlyMinionDies) {
                 friendlyMinionDies.add(card);
             }
 

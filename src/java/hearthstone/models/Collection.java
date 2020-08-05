@@ -1,10 +1,10 @@
 package hearthstone.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hearthstone.logic.GameConfigs;
+import hearthstone.client.configs.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
-import hearthstone.util.jsonserializers.CardListSerializer;
+import hearthstone.util.jacksonserializers.CardListSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
