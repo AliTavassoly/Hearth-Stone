@@ -1,6 +1,6 @@
 package hearthstone.client.gui.credetials;
 
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;

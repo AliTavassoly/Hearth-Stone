@@ -1,7 +1,7 @@
 package hearthstone;
 
-import hearthstone.data.Data;
-import hearthstone.data.DataBase;
+import hearthstone.server.data.Data;
+import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.credetials.CredentialsFrame;
 import hearthstone.client.gui.game.play.boards.GameBoard;
 import hearthstone.logic.Game;

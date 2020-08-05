@@ -2,8 +2,8 @@ package hearthstone.client.gui.game.play.boards;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.client.configs.GUIConfigs;
-import hearthstone.client.configs.GameConfigs;
+import hearthstone.client.data.GUIConfigs;
+import hearthstone.server.data.GameConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.CardDialog;

@@ -2,7 +2,7 @@ package hearthstone.models.passive;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.Mapper;
-import hearthstone.data.Data;
+import hearthstone.server.data.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

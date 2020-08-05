@@ -1,8 +1,7 @@
-package hearthstone.data;
+package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import hearthstone.client.configs.GUIConfigs;
-import hearthstone.client.configs.GameConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
@@ -38,13 +37,13 @@ public class DataBase {
     private static Session session = sessionFactory.openSession();
 
     private static SessionFactory buildSessionFactory() {
-        /*PrintStream err = System.err;
+        PrintStream err = System.err;
         try {
             PrintStream printStream = new PrintStream(new File("./l.txt"));
             System.setErr(printStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }*/
+        }
 
         final ServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();

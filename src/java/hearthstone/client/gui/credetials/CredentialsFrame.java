@@ -1,7 +1,7 @@
 package hearthstone.client.gui.credetials;
 
 import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.util.SoundPlayer;
 
 import javax.swing.*;

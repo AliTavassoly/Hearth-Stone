@@ -1,6 +1,6 @@
 package hearthstone.client.gui;
 
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.dialogs.ErrorDialog;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.util.FontType;

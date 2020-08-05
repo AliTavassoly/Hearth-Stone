@@ -1,4 +1,4 @@
-package hearthstone.client.configs;
+package hearthstone.client.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,7 +1,7 @@
 package hearthstone.client.gui.controls.icons;
 
 import hearthstone.HearthStone;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.credetials.CredentialsFrame;

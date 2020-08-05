@@ -1,6 +1,6 @@
 package hearthstone.util;
 
-import hearthstone.data.Data;
+import hearthstone.server.data.Data;
 
 import java.io.File;
 import java.io.FileWriter;

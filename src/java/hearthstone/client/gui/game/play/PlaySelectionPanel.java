@@ -1,9 +1,9 @@
 package hearthstone.client.gui.game.play;
 
 import hearthstone.HearthStone;
-import hearthstone.data.DataBase;
+import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;

@@ -1,0 +1,38 @@
+package hearthstone.client.network;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hearthstone.client.ClientMapper;
+import hearthstone.client.data.Data;
+import hearthstone.models.Packet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
+
+public class Receiver extends Thread{
+    private InputStream inputStream;
+
+    public Receiver(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Scanner scanner = new Scanner(inputStream);
+            while (true) {
+                System.out.println("client started to read ... : ");
+                String message = scanner.nextLine();
+                System.out.println(message);
+
+                ObjectMapper mapper = Data.getNetworkMapper();
+
+                Packet packet = mapper.readValue(message, Packet.class);
+
+                ClientMapper.invokeFunction(packet);
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+}

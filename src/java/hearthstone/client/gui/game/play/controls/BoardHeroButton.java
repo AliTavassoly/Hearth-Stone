@@ -1,6 +1,6 @@
 package hearthstone.client.gui.game.play.controls;
 
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.credetials.CredentialsFrame;
 import hearthstone.models.hero.Hero;

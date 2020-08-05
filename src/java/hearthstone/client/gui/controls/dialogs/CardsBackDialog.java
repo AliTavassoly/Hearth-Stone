@@ -1,7 +1,7 @@
 package hearthstone.client.gui.controls.dialogs;
 
-import hearthstone.client.configs.GUIConfigs;
-import hearthstone.client.configs.GameConfigs;
+import hearthstone.client.data.GUIConfigs;
+import hearthstone.server.data.GameConfigs;
 import hearthstone.client.gui.controls.buttons.CardBackButton;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 

@@ -1,6 +1,6 @@
 package hearthstone;
 
-import hearthstone.data.DataBase;
+import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.game.play.boards.GameBoard;
 import hearthstone.logic.Game;
 import hearthstone.models.Deck;

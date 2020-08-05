@@ -1,7 +1,7 @@
 package hearthstone.client.gui.credetials;
 
 import hearthstone.Mapper;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
 import hearthstone.client.gui.controls.fields.TextField;

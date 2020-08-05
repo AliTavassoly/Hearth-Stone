@@ -1,4 +1,4 @@
-package hearthstone.data;
+package hearthstone.server.data;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

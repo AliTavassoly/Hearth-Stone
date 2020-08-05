@@ -1,7 +1,7 @@
 package hearthstone.models.card;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.data.Data;
+import hearthstone.server.data.Data;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 

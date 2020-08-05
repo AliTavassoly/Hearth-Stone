@@ -2,7 +2,7 @@ package hearthstone.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
-import hearthstone.client.configs.GameConfigs;
+import hearthstone.server.data.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;

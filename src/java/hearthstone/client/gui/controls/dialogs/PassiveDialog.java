@@ -1,7 +1,7 @@
 package hearthstone.client.gui.controls.dialogs;
 
 import hearthstone.HearthStone;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.models.passive.Passive;

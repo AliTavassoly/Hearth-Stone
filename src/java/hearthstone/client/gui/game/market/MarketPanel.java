@@ -3,7 +3,7 @@ package hearthstone.client.gui.game.market;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.configs.GUIConfigs;
+import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.controls.icons.BackIcon;
