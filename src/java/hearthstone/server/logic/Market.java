@@ -30,7 +30,9 @@ public class Market {
         this.cards = new ArrayList<>(this.cards);
     }
 
-    public Market(){}
+    public Market(){
+        cards = new ArrayList<>();
+    }
 
     public int getId() {
         return id;

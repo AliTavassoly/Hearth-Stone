@@ -1,13 +1,13 @@
 package hearthstone.server.network;
 
-import hearthstone.client.ClientMapper;
-import hearthstone.client.HSClient;
+import hearthstone.models.Account;
 import hearthstone.models.Packet;
-import hearthstone.server.model.ClientDetails;
+import hearthstone.models.card.Card;
 import hearthstone.util.HearthStoneException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class ServerMapper {
     private static Packet addClientHandlerToPacket(Packet packet, ClientHandler clientHandler) {
@@ -89,6 +89,75 @@ public class ServerMapper {
     public static void registerResponse(String username, ClientHandler clientHandler) {
         Packet packet = new Packet("registerResponse",
                 null);
+        clientHandler.sendPacket(packet);
+    }
+
+    // Credentials End
+
+    // Market
+
+    public static void buyCardRequest(int cardId, ClientHandler clientHandler){
+        try {
+            HSServer.getInstance().buyCard(cardId, clientHandler);
+        } catch (HearthStoneException e) {
+            Packet packet = new Packet("showMenuError",
+                    new Object[]{e.getMessage()});
+            clientHandler.sendPacket(packet);
+        }
+    }
+
+    public static void buyCardResponse(Card card, ClientHandler clientHandler){
+        Packet packet = new Packet("buyCardResponse",
+                new Object[]{card});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void sellCardRequest(int cardId, ClientHandler clientHandler){
+        try {
+            HSServer.getInstance().sellCard(cardId, clientHandler);
+        } catch (HearthStoneException e) {
+            Packet packet = new Packet("showMenuError",
+                    new Object[]{e.getMessage()});
+            clientHandler.sendPacket(packet);
+        }
+    }
+
+    public static void sellCardResponse(Card card, ClientHandler clientHandler){
+        Packet packet = new Packet("sellCardResponse",
+                new Object[]{card});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void marketCardsRequest(ClientHandler clientHandler){
+        HSServer.getInstance().marketCardsInitialCard(clientHandler);
+    }
+
+    public static void marketCardsResponse(ArrayList<Card> cards, ClientHandler clientHandler){
+        Packet packet = new Packet("marketCardsResponse",
+                new Object[]{cards});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void startUpdateMarketCards(ClientHandler clientHandler){
+        HSServer.getInstance().startUpdateMarketCards(clientHandler);
+    }
+
+    public static void updateMarketCards(ArrayList<Card> cards, ClientHandler clientHandler){
+        Packet packet = new Packet("updateMarketCards",
+                new Object[]{cards});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void stopUpdateMarketCards(ClientHandler clientHandler){
+        HSServer.getInstance().stopUpdateMarketCards(clientHandler);
+    }
+
+
+    // Market
+
+    public static void updateAccount(Account account, ClientHandler clientHandler){
+        Packet packet = new Packet("updateAccount",
+                new Object[]{account});
         clientHandler.sendPacket(packet);
     }
 }

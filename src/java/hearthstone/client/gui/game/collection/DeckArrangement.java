@@ -2,6 +2,7 @@ package hearthstone.client.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
+import hearthstone.client.HSClient;
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.HeroButton;
@@ -124,7 +125,7 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeCardsPanel() {
-        ArrayList<Card> initialCards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
+        ArrayList<Card> initialCards = cardsInFilter(HSClient.currentAccount.getCollection().getCards());
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
@@ -277,7 +278,7 @@ public class DeckArrangement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.currentAccount.getDecks().remove(deck);
+                    HSClient.currentAccount.getDecks().remove(deck);
                     hero.getDecks().remove(deck);
 
                     Mapper.saveDataBase();
@@ -505,7 +506,7 @@ public class DeckArrangement extends JPanel {
     }
 
     private void update() {
-        ArrayList<Card> cards = cardsInFilter(HearthStone.currentAccount.getCollection().getCards());
+        ArrayList<Card> cards = cardsInFilter(HSClient.currentAccount.getCollection().getCards());
         ArrayList<JPanel> panels = new ArrayList<>();
 
         for (Card card : cards) {

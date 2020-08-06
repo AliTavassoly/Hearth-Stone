@@ -1,6 +1,7 @@
 package hearthstone.client.gui.controls.buttons;
 
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.interfaces.HaveCard;
 import hearthstone.client.gui.credetials.CredentialsFrame;
@@ -79,7 +80,7 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
         try {
             String path;
             if (cardImage == null) {
-                if (HearthStone.currentAccount.getUnlockedCards().contains(card.getId())) {
+                if (HSClient.currentAccount.getUnlockedCards().contains(card.getId())) {
                     path = "/images/cards/" + card.getName().
                             toLowerCase().replace(' ', '_').replace("'", "") + ".png";
                 } else {

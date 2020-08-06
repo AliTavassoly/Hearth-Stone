@@ -1,6 +1,7 @@
 package hearthstone.client.gui.game.status;
 
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
@@ -74,7 +75,7 @@ public class StatusPanel extends JPanel {
     private void makeDeckList() {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
-        ArrayList<Deck> topDecks = HearthStone.currentAccount.getBestDecks(10);
+        ArrayList<Deck> topDecks = HSClient.currentAccount.getBestDecks(10);
 
         for (Deck deck : topDecks) {
             decks.add(deck);

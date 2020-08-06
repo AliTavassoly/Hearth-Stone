@@ -1,6 +1,7 @@
 package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import hearthstone.client.HSClient;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.server.logic.Market;
 import hearthstone.models.Account;
@@ -14,6 +15,7 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.passive.passives.*;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -322,7 +324,7 @@ public class DataBase {
         });
     }
 
-    private static Market getMarket() throws Exception { // ????????????????????
+    private static Market getMarket() {
         return getAll(Market.class).get(0);
     }
 
@@ -352,7 +354,7 @@ public class DataBase {
     }
 
     private static void saveCurrentAccount() {
-        saveOrUpdate(currentAccount);
+        saveOrUpdate(HSClient.currentAccount);
     }
 
     private static void saveAccount(Account account){
@@ -366,14 +368,15 @@ public class DataBase {
     }
 
     private static void saveMarket(){
-        saveOrUpdate(market);
+        System.out.println(HSServer.market.getCards());
+        saveOrUpdate(HSServer.market);
     }
 
     public static void save() {
         saveCredentials();
         saveMarket();
-        if (currentAccount != null) {
-            saveAccount(currentAccount);
+        if (HSClient.currentAccount != null) {
+            saveAccount(HSClient.currentAccount);
         }
     }
 
@@ -391,8 +394,9 @@ public class DataBase {
         GUIConfigs.setConfigs(sizeConfigs);
     }
 
-    private static void loadMarket() throws Exception {
-        market = getMarket();
+    private static void loadMarket() {
+        HSServer.market = getMarket();
+        System.out.println(HSServer.market);
     }
 
     private static void loadAccounts() {

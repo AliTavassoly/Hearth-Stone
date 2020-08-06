@@ -1,16 +1,23 @@
 package hearthstone.client;
 
+import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.gui.credetials.CredentialsFrame;
+import hearthstone.client.gui.credetials.LoginPanel;
 import hearthstone.client.gui.credetials.LogisterPanel;
+import hearthstone.client.gui.credetials.RegisterPanel;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.client.gui.game.market.MarketPanel;
 import hearthstone.client.network.Receiver;
 import hearthstone.client.network.Sender;
+import hearthstone.models.Account;
 import hearthstone.models.Packet;
+import hearthstone.models.card.Card;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HSClient {
     private static HSClient client;
@@ -18,6 +25,8 @@ public class HSClient {
     private Socket socket;
     private Receiver receiver;
     private Sender sender;
+
+    public static Account currentAccount;
 
     private HSClient(String serverIP, int serverPort){
         try{
@@ -55,6 +64,12 @@ public class HSClient {
         getClient().sender.sendPacket(packet);
     }
 
+    // -------------
+
+    public void updateAccount(Account account) {
+        currentAccount = account;
+    }
+
     public void login(){
         CredentialsFrame.getInstance().setVisible(false);
         GameFrame.getNewInstance().setVisible(true);
@@ -77,5 +92,26 @@ public class HSClient {
         GameFrame.getInstance().setVisible(false);
         GameFrame.getInstance().dispose();
         CredentialsFrame.getNewInstance().setVisible(true);
+    }
+
+    public void showLoginError(String error){
+        LoginPanel.getInstance().showError(error);
+    }
+
+    public void showRegisterError(String error){
+        RegisterPanel.getInstance().showError(error);
+    }
+
+    public void showMenuError(String error){
+        BaseFrame.error(error);
+    }
+
+    public void openMarket(ArrayList<Card> cards) {
+        MarketPanel.marketCards = cards;
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), MarketPanel.makeInstance());
+    }
+
+    public static void updateMarketCards(ArrayList<Card> cards) {
+        MarketPanel.getInstance().update(cards);
     }
 }

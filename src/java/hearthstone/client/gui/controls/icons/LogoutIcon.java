@@ -26,7 +26,7 @@ public class LogoutIcon extends ImageButton {
                 ClientMapper.logoutRequest();
                 //try {
                     /*try {
-                        if (HearthStone.currentAccount != null)
+                        if (HSClient.currentAccount != null)
                             hearthstone.util.Logger.saveLog("Click_icon",
                                     "Logout_button");
                     } catch (Exception e) {

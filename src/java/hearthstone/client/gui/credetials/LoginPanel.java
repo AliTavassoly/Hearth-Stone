@@ -19,6 +19,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class LoginPanel extends JPanel{
+    private static LoginPanel instance;
+
     private ImageButton backButton, loginButton, closeButton, minimizeButton;
     private TextField userField;
     private PasswordField passField;
@@ -43,7 +45,7 @@ public class LoginPanel extends JPanel{
     private final int stringFieldDis = 3;
     private final int loginButtonY = 300;
 
-    public LoginPanel() {
+    private LoginPanel() {
         configPanel();
 
         configText();
@@ -55,6 +57,14 @@ public class LoginPanel extends JPanel{
         makeFields();
 
         layoutComponent();
+    }
+
+    public static LoginPanel makeInstance(){
+        return instance = new LoginPanel();
+    }
+
+    public static LoginPanel getInstance(){
+        return instance;
     }
 
     @Override

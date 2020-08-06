@@ -87,14 +87,14 @@ public class LogisterPanel extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 CredentialsFrame.getInstance().switchPanelTo(
-                        CredentialsFrame.getInstance(), new LoginPanel());
+                        CredentialsFrame.getInstance(), LoginPanel.makeInstance());
             }
         });
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 CredentialsFrame.getInstance().switchPanelTo(
-                        CredentialsFrame.getInstance(), new RegisterPanel());
+                        CredentialsFrame.getInstance(), RegisterPanel.makeInstance());
             }
         });
     }

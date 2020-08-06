@@ -3,6 +3,7 @@ package hearthstone.models;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.server.data.GameConfigs;
 import hearthstone.server.data.ServerData;
 import hearthstone.models.card.Card;
@@ -185,7 +186,7 @@ public class Deck implements Comparable<Deck> {
     }
 
     public boolean canAdd(Card baseCard, int cnt) {
-        if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
+        if (numberOfCards(baseCard) + cnt > HSClient.currentAccount.getCollection().numberOfCards(baseCard)) {
             return false;
         }
         if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
@@ -194,7 +195,7 @@ public class Deck implements Comparable<Deck> {
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             return false;
         }
-        if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
+        if (!HSClient.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
             return false;
         }
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
@@ -204,7 +205,7 @@ public class Deck implements Comparable<Deck> {
     }
 
     public void add(Card baseCard, int cnt) throws HearthStoneException {
-        if (numberOfCards(baseCard) + cnt > HearthStone.currentAccount.getCollection().numberOfCards(baseCard)) {
+        if (numberOfCards(baseCard) + cnt > HSClient.currentAccount.getCollection().numberOfCards(baseCard)) {
             throw new HearthStoneException("You don't have " + (numberOfCards(baseCard) + cnt) + " numbers of this card!");
         }
         if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
@@ -213,7 +214,7 @@ public class Deck implements Comparable<Deck> {
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             throw new HearthStoneException("You can not have " + cnt + " numbers of this card!");
         }
-        if (!HearthStone.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
+        if (!HSClient.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
             throw new HearthStoneException("This card is locked for you!");
         }
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {

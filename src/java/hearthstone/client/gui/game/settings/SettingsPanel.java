@@ -3,6 +3,7 @@ package hearthstone.client.gui.game.settings;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.client.ClientMapper;
+import hearthstone.client.HSClient;
 import hearthstone.server.data.ServerData;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
@@ -116,7 +117,7 @@ public class SettingsPanel extends JPanel {
                 String newPassword = passwordDialog.getValue();
 
                 if (newPassword.length() > 0) {
-                    ServerData.changePassword(HearthStone.currentAccount.getUsername(),
+                    ServerData.changePassword(HSClient.currentAccount.getUsername(),
                             newPassword);
                 } else {
                     return;
@@ -141,7 +142,7 @@ public class SettingsPanel extends JPanel {
                 String newName = nameDialog.getValue();
 
                 if (newName.length() > 0)
-                    HearthStone.currentAccount.setName(newName);
+                    HSClient.currentAccount.setName(newName);
                 else
                     return;
 
@@ -149,7 +150,7 @@ public class SettingsPanel extends JPanel {
                     Mapper.saveDataBase();
 
                     Logger.saveLog("Settings changed",
-                            "name changed to: " + HearthStone.currentAccount.getName());
+                            "name changed to: " + HSClient.currentAccount.getName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -161,12 +162,12 @@ public class SettingsPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 CardsBackDialog cardsBackDialog = new CardsBackDialog(GameFrame.getInstance());
 
-                HearthStone.currentAccount.setCardsBackId(cardsBackDialog.getId());
+                HSClient.currentAccount.setCardsBackId(cardsBackDialog.getId());
 
                 try {
                     Mapper.saveDataBase();
                     Logger.saveLog("Settings changed",
-                            "cards back id changed to: " + HearthStone.currentAccount.getCardsBackId());
+                            "cards back id changed to: " + HSClient.currentAccount.getCardsBackId());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -189,7 +190,7 @@ public class SettingsPanel extends JPanel {
                     boolean sure = sureDialog.getValue();
 
                     if (sure) {
-                        ServerData.deleteAccount(HearthStone.currentAccount.getUsername());
+                        ServerData.deleteAccount(HSClient.currentAccount.getUsername());
                         GameFrame.getInstance().setVisible(false);
                         GameFrame.getInstance().dispose();
                         CredentialsFrame.getNewInstance().setVisible(true);

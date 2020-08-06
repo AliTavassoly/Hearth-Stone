@@ -20,6 +20,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class RegisterPanel extends JPanel {
+    private static RegisterPanel instance;
+
     private ImageButton backButton, registerButton, closeButton, minimizeButton;
     private TextField nameField, userField;
     private PasswordField passField, repField;
@@ -47,7 +49,7 @@ public class RegisterPanel extends JPanel {
 
     public static String error = "no";
 
-    public RegisterPanel() {
+    private RegisterPanel() {
         configPanel();
 
         makeFields();
@@ -59,6 +61,14 @@ public class RegisterPanel extends JPanel {
         makeButtons();
 
         layoutComponent();
+    }
+
+    public static RegisterPanel makeInstance() {
+        return instance = new RegisterPanel();
+    }
+
+    public static RegisterPanel getInstance(){
+        return instance;
     }
 
     @Override

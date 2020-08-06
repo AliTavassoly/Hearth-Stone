@@ -1,6 +1,7 @@
 package hearthstone.client.gui.game.play.controls;
 
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.interfaces.HaveCard;
@@ -105,7 +106,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
 
         try {
             if (cardBackImage == null)
-                cardBackImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" + "card_back_" + HearthStone.currentAccount.getCardsBackId() + ".png");
+                cardBackImage = ImageResource.getInstance().getImage("/images/cards/cards_back/" + "card_back_" + HSClient.currentAccount.getCardsBackId() + ".png");
 
             if (deathRattleImage == null)
                 deathRattleImage = ImageResource.getInstance().getImage(

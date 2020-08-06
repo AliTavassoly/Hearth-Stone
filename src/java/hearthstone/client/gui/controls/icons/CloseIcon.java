@@ -1,6 +1,7 @@
 package hearthstone.client.gui.controls.icons;
 
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.SureDialog;
@@ -21,7 +22,7 @@ public class CloseIcon extends ImageButton {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    if (HearthStone.currentAccount != null)
+                    if (HSClient.currentAccount != null)
                         hearthstone.util.Logger.saveLog("Click_icon",
                                 "Close_button");
                 } catch (Exception e) {

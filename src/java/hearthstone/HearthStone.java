@@ -21,7 +21,7 @@ public class  HearthStone{
     public static Map<Integer, Hero> baseHeroes = new HashMap<>();
     public static Map<Integer, Passive> basePassives = new HashMap<>();
 
-    public static Account currentAccount;
+    //public static Account currentAccount;
     //public static String dataPath;
     public static Market market = new Market();
 
@@ -92,7 +92,7 @@ public class  HearthStone{
         return null;
     }
 
-    public static void login(String username, String password) throws HearthStoneException {
+    /*public static void login(String username, String password) throws HearthStoneException {
         ServerData.checkAccountCredentials(username, password);
         currentAccount = DataBase.getAccount(username);
         try {
@@ -104,7 +104,7 @@ public class  HearthStone{
 
     public static void register(String name, String username,
                                 String password, String repeat) throws Exception {
-        /*if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
+        if(name.length() == 0 || username.length() == 0 || password.length() == 0 || repeat.length() == 0){
             throw new HearthStoneException("please fill all the fields!");
         }
         if (!password.equals(repeat)) {
@@ -115,7 +115,7 @@ public class  HearthStone{
         }
         if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
-        }*/
+        }
         ServerData.addAccountCredentials(username, password);
         currentAccount = new Account(ServerData.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);
@@ -127,7 +127,7 @@ public class  HearthStone{
             hearthstone.util.Logger.saveLog("logout", "signed out in successfully!");
         currentAccount = null;
     }
-
+*/
     public static void main(String[] args) {
         //dataPath = "./data";
         try {

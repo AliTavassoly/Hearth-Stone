@@ -1,5 +1,6 @@
 package hearthstone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
 import hearthstone.server.data.GameConfigs;
@@ -11,6 +12,7 @@ import hearthstone.util.jacksonserializers.DeckListSerializer;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.jacksonserializers.HeroListSerializer;
 import hearthstone.util.Rand;
+import hearthstone.util.jacksonserializers.IntegerListSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@JsonIgnoreProperties(value = {"player"})
 @Entity
 public class Account {
     @Id
@@ -49,6 +52,7 @@ public class Account {
     private List<Deck> decks;
 
     @ElementCollection
+    @JsonSerialize(converter = IntegerListSerializer.class)
     private List<Integer> unlockedCards;
 
     @OneToOne
@@ -222,7 +226,7 @@ public class Account {
         return true;
     }
 
-    public void buyCards(Card baseCard, int cnt) throws Exception {
+    public void buyCards(Card baseCard, int cnt) throws HearthStoneException {
         if (!unlockedCards.contains(baseCard.getId())) {
             throw new HearthStoneException("This card is locked for you!");
         }
@@ -233,18 +237,26 @@ public class Account {
             collection.add(baseCard, cnt);
         gem -= baseCard.getSellPrice() * cnt;
 
-        hearthstone.util.Logger.saveLog("buy",
-                "in market, bought " + 1 + " of " +
-                        baseCard.getName() + "!");
+        try {
+            hearthstone.util.Logger.saveLog("buy",
+                    "in market, bought " + 1 + " of " +
+                            baseCard.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void sellCards(Card baseCard, int cnt) throws Exception {
+    public void sellCards(Card baseCard, int cnt) throws HearthStoneException {
         gem += baseCard.getSellPrice() * cnt;
         collection.remove(baseCard, cnt);
 
-        hearthstone.util.Logger.saveLog("sell",
-                "in market, sold " + 1 + " of " +
-                        baseCard.getName() + "!");
+        try {
+            hearthstone.util.Logger.saveLog("sell",
+                    "in market, sold " + 1 + " of " +
+                            baseCard.getName() + "!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Deck> getBestDecks(int cnt) {

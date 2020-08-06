@@ -1,5 +1,6 @@
 package hearthstone.util;
 
+import hearthstone.client.HSClient;
 import hearthstone.server.Main;
 import hearthstone.server.data.ServerData;
 
@@ -10,12 +11,10 @@ import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static hearthstone.HearthStone.currentAccount;
-
 public class Logger {
     public static void saveLog(String title, String description, String username)
             throws Exception {
-        Date date = new Date();
+        /*Date date = new Date();
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
@@ -28,15 +27,15 @@ public class Logger {
             newLog = title + " @ " + ts + "\n" + "INFO : " + description + "\n" + "\n";
         fileWriter.append(newLog);
 
-        fileWriter.close();
+        fileWriter.close();*/
     }
 
     public static void saveLog(String title, String description) throws Exception {
-        saveLog(title, description, currentAccount.getUsername());
+        //saveLog(title, description, HSClient.currentAccount.getUsername());
     }
 
     public static void createAccountLog(String username) throws Exception {
-        Date date = new Date();
+        /*Date date = new Date();
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
@@ -49,7 +48,7 @@ public class Logger {
         fileWriter.append(newLog);
         fileWriter.close();
 
-        saveLog("register", "signed up successfully!", username);
+        saveLog("register", "signed up successfully!", username);*/
     }
 
     public static String exceptionToLog(Exception e) {

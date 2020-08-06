@@ -2,6 +2,7 @@ package hearthstone.client.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
+import hearthstone.client.HSClient;
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.HeroButton;
@@ -174,7 +175,7 @@ public class DeckSelection extends JPanel {
                     try {
                         Deck deck = new Deck(name, hero.getType());
                         hero.makeNewDeck(deck);
-                        HearthStone.currentAccount.getDecks().add(deck);
+                        HSClient.currentAccount.getDecks().add(deck);
 
                         Mapper.saveDataBase();
 

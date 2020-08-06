@@ -64,7 +64,7 @@ public class Collection {
                 cards.size() + cnt <= GameConfigs.maxCardInCollection;
     }
 
-    public void add(Card baseCard, int cnt) throws Exception {
+    public void add(Card baseCard, int cnt) throws HearthStoneException {
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             throw new HearthStoneException("Can not have " +
                     (numberOfCards(baseCard) + cnt) + " numbers of " + baseCard.getName() + " card!");
@@ -80,7 +80,7 @@ public class Collection {
         return numberOfCards(baseCard) - cnt >= 0;
     }
 
-    public void remove(Card baseCard, int cnt) throws Exception {
+    public void remove(Card baseCard, int cnt) throws HearthStoneException {
         if (numberOfCards(baseCard) - cnt < 0) {
             throw new HearthStoneException("You don't have " + cnt + " numbers of " +
                     baseCard.getName() + " in your collection!");

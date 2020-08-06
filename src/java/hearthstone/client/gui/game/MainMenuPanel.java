@@ -1,5 +1,6 @@
 package hearthstone.client.gui.game;
 
+import hearthstone.client.ClientMapper;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -11,6 +12,9 @@ import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.market.MarketPanel;
 import hearthstone.client.gui.game.play.PlaySelectionPanel;
 import hearthstone.client.gui.game.status.StatusPanel;
+import hearthstone.client.gui.game.waitingpanels.LoadingPanel;
+import hearthstone.server.logic.Game;
+import hearthstone.server.network.ClientHandler;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -36,7 +40,6 @@ public class MainMenuPanel extends JPanel {
             - GUIConfigs.largeButtonWidth;
     private final int secondButtonX = GUIConfigs.gameFrameWidth / 2 + halfButtonDisX;
     private final int buttonDisY = 120;
-
 
     public MainMenuPanel() {
         configPanel();
@@ -112,14 +115,11 @@ public class MainMenuPanel extends JPanel {
 
         marketButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "market_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
+                ClientMapper.marketCardsRequest();
+                ClientMapper.startUpdateMarketCards();
 
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MarketPanel());
+                //GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), MarketPanel.makeInstance());
             }
         });
 

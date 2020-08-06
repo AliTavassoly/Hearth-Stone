@@ -1,6 +1,7 @@
 package hearthstone.client.gui.game.play;
 
 import hearthstone.HearthStone;
+import hearthstone.client.HSClient;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.data.GUIConfigs;
@@ -114,7 +115,7 @@ public class PlaySelectionPanel extends JPanel {
         practicePlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.currentAccount.readyForPlay();
+                    HSClient.currentAccount.readyForPlay();
 
                     makeNewPracticeGame();
 
@@ -131,7 +132,7 @@ public class PlaySelectionPanel extends JPanel {
         soloPlay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    HearthStone.currentAccount.readyForPlay();
+                    HSClient.currentAccount.readyForPlay();
 
                     makeNewSoloGame();
 
@@ -216,8 +217,8 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeNewPracticeGame(){
-        Player player0 = HearthStone.currentAccount.getPlayer();
-        Player player1 = HearthStone.currentAccount.getPlayer();
+        Player player0 = HSClient.currentAccount.getPlayer();
+        Player player1 = HSClient.currentAccount.getPlayer();
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
@@ -225,9 +226,9 @@ public class PlaySelectionPanel extends JPanel {
     }
 
     private void makeNewSoloGame(){
-        Player player0 = HearthStone.currentAccount.getPlayer();
-        Player player1 = new AIPlayer(HearthStone.currentAccount.getSelectedHero(),
-                HearthStone.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
+        Player player0 = HSClient.currentAccount.getPlayer();
+        Player player1 = new AIPlayer(HSClient.currentAccount.getSelectedHero(),
+                HSClient.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
@@ -242,12 +243,12 @@ public class PlaySelectionPanel extends JPanel {
         Player player0 = new Player(Objects.requireNonNull(HearthStone.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("friend"))),
-                HearthStone.currentAccount.getUsername());
+                HSClient.currentAccount.getUsername());
 
         Player player1 = new Player(Objects.requireNonNull(HearthStone.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("enemy"))),
-                HearthStone.currentAccount.getUsername());
+                HSClient.currentAccount.getUsername());
 
         HearthStone.currentGame = new Game(player0, player1);
         HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);

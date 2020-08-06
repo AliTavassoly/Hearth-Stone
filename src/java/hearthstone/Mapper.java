@@ -1,5 +1,6 @@
 package hearthstone;
 
+import hearthstone.client.HSClient;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.game.play.boards.GameBoard;
 import hearthstone.server.logic.Game;
@@ -87,13 +88,13 @@ public class Mapper {
 
     public static void buyCard(int cardId) throws Exception {
         Card card = HearthStone.getCardById(cardId);
-        HearthStone.currentAccount.buyCards(card, 1);
+        HSClient.currentAccount.buyCards(card, 1);
         HearthStone.market.removeCard(card, 1);
     }
 
     public static void sellCard(int cardId) throws Exception {
         Card card = HearthStone.getCardById(cardId);
-        HearthStone.currentAccount.sellCards(card, 1);
+        HSClient.currentAccount.sellCards(card, 1);
         HearthStone.market.addCard(card.copy(), 1);
     }
 

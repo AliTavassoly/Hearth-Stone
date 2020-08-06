@@ -109,12 +109,15 @@ public class CardsPanel extends JPanel {
     }
 
     public void removeCard(Card card) {
-        int ind = originalCards.indexOf(card);
-
-        originalButtons.remove(ind);
-        originalCards.remove(ind);
-        originalPanels.remove(ind);
-
+        for(int i = 0; i < originalCards.size(); i++){
+            Card card1 = originalCards.get(i);
+            if(card.getId() == card1.getId()) {
+                originalButtons.remove(i);
+                originalCards.remove(i);
+                originalPanels.remove(i);
+                break;
+            }
+        }
         restart();
     }
 
@@ -158,7 +161,7 @@ public class CardsPanel extends JPanel {
     }
 
     private void restart() {
-        try {
+        /*try {
             Mapper.saveDataBase();
         } catch (HearthStoneException e) {
             try {
@@ -168,7 +171,7 @@ public class CardsPanel extends JPanel {
             } catch (Exception f) { }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
+        }*/
         removeAll();
 
         makeCompressedCards();

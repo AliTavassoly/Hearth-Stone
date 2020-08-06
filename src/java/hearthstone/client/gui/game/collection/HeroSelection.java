@@ -2,6 +2,7 @@ package hearthstone.client.gui.game.collection;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
+import hearthstone.client.HSClient;
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
@@ -90,19 +91,19 @@ public class HeroSelection extends JPanel {
         ArrayList<Hero> heroes = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for (int i = 0; i < HearthStone.currentAccount.getHeroes().size(); i++) {
-            if (HearthStone.currentAccount.getSelectedHero() == null)
+        for (int i = 0; i < HSClient.currentAccount.getHeroes().size(); i++) {
+            if (HSClient.currentAccount.getSelectedHero() == null)
                 break;
-            Hero hero = HearthStone.currentAccount.getHeroes().get(i);
-            Hero zero = HearthStone.currentAccount.getHeroes().get(0);
+            Hero hero = HSClient.currentAccount.getHeroes().get(i);
+            Hero zero = HSClient.currentAccount.getHeroes().get(0);
 
-            if (HearthStone.currentAccount.getSelectedHero().getName().equals(hero.getName())) {
-                HearthStone.currentAccount.getHeroes().set(0, hero);
-                HearthStone.currentAccount.getHeroes().set(i, zero);
+            if (HSClient.currentAccount.getSelectedHero().getName().equals(hero.getName())) {
+                HSClient.currentAccount.getHeroes().set(0, hero);
+                HSClient.currentAccount.getHeroes().set(i, zero);
             }
         }
 
-        for (Hero hero : HearthStone.currentAccount.getHeroes()) {
+        for (Hero hero : HSClient.currentAccount.getHeroes()) {
             heroes.add(hero);
             panels.add(getHeroPanel(hero));
         }
@@ -139,7 +140,7 @@ public class HeroSelection extends JPanel {
         });
 
         ImageButton selectionButton;
-        if (HearthStone.currentAccount.getSelectedHero() != null && hero.getName().equals(HearthStone.currentAccount.getSelectedHero().getName())) {
+        if (HSClient.currentAccount.getSelectedHero() != null && hero.getName().equals(HSClient.currentAccount.getSelectedHero().getName())) {
             selectionButton = new ImageButton("selected", "buttons/green_background.png", 0,
                     Color.white, Color.yellow,
                     15, 0,
@@ -154,7 +155,7 @@ public class HeroSelection extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     try {
-                        HearthStone.currentAccount.setSelectedHero(hero);
+                        HSClient.currentAccount.setSelectedHero(hero);
                         Mapper.saveDataBase();
 
                         hearthstone.util.Logger.saveLog("Click_button",
