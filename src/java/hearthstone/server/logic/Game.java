@@ -1,4 +1,4 @@
-package hearthstone.logic;
+package hearthstone.server.logic;
 
 import hearthstone.Mapper;
 import hearthstone.models.card.Card;

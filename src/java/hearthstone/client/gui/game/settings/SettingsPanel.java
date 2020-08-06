@@ -2,7 +2,8 @@ package hearthstone.client.gui.game.settings;
 
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.server.data.Data;
+import hearthstone.client.ClientMapper;
+import hearthstone.server.data.ServerData;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.CardsBackDialog;
@@ -115,7 +116,7 @@ public class SettingsPanel extends JPanel {
                 String newPassword = passwordDialog.getValue();
 
                 if (newPassword.length() > 0) {
-                    Data.changePassword(HearthStone.currentAccount.getUsername(),
+                    ServerData.changePassword(HearthStone.currentAccount.getUsername(),
                             newPassword);
                 } else {
                     return;
@@ -180,14 +181,15 @@ public class SettingsPanel extends JPanel {
 
         deletedAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
+                ClientMapper.deleteAccountRequest();
+                /*try {
                     SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to delete you account ?",
                             GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
 
                     boolean sure = sureDialog.getValue();
 
                     if (sure) {
-                        Data.deleteAccount(HearthStone.currentAccount.getUsername());
+                        ServerData.deleteAccount(HearthStone.currentAccount.getUsername());
                         GameFrame.getInstance().setVisible(false);
                         GameFrame.getInstance().dispose();
                         CredentialsFrame.getNewInstance().setVisible(true);
@@ -197,7 +199,7 @@ public class SettingsPanel extends JPanel {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
     }

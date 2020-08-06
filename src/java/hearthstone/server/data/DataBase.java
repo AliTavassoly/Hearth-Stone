@@ -2,7 +2,7 @@ package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hearthstone.client.data.GUIConfigs;
-import hearthstone.logic.Market;
+import hearthstone.server.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
 import hearthstone.models.card.Card;
@@ -14,6 +14,7 @@ import hearthstone.models.hero.HeroType;
 import hearthstone.models.hero.heroes.*;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.passive.passives.*;
+import hearthstone.util.HearthStoneException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -31,19 +32,20 @@ import java.io.*;
 import java.util.*;
 
 import static hearthstone.HearthStone.*;
+import static hearthstone.server.Main.dataPath;
 
 public class DataBase {
     private static SessionFactory sessionFactory = buildSessionFactory();
     private static Session session = sessionFactory.openSession();
 
     private static SessionFactory buildSessionFactory() {
-        PrintStream err = System.err;
+        /*PrintStream err = System.err;
         try {
             PrintStream printStream = new PrintStream(new File("./l.txt"));
             System.setErr(printStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
 
         final ServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
@@ -289,7 +291,7 @@ public class DataBase {
         basePassives = getBasePassives();
     }
 
-    private static Map<String, AccountCredential> getCredentials() throws Exception {
+    private static Map<String, AccountCredential> getCredentials(){
         Map<String, AccountCredential> ans = new HashMap<>();
         List<AccountCredential> accountCredentials = getAll(AccountCredential.class);
         for (AccountCredential accountCredential : accountCredentials) {
@@ -298,25 +300,25 @@ public class DataBase {
         return ans;
     }
 
-    public static Account getAccount(String username) throws Exception {
+    public static Account getAccount(String username){
         return fetch(Account.class, username);
     }
 
     private static Map<String, Integer> getGameConfigs() throws Exception {
         File file = new File(dataPath + "/game_configs.json");
-        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
+        return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
         });
     }
 
     public static Map<String, ArrayList<String>> getDecks() throws Exception {
         File file = new File(dataPath + "/decks.json");
-        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {
+        return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {
         });
     }
 
     private static Map<String, Integer> getSizeConfigs() throws Exception {
         File file = new File(dataPath + "/size_configs.json");
-        return Data.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
+        return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
         });
     }
 
@@ -324,7 +326,7 @@ public class DataBase {
         return getAll(Market.class).get(0);
     }
 
-    private static Map<Integer, Card> getBaseCards() throws Exception {
+    private static Map<Integer, Card> getBaseCards() {
         Map<Integer, Card> map = new HashMap<>();
         for (int i = 1; i <= 46; i++) {
             map.put(i - 1, fetch(Card.class, i));
@@ -332,7 +334,7 @@ public class DataBase {
         return map;
     }
 
-    private static Map<Integer, Hero> getBaseHeroes() throws Exception {
+    private static Map<Integer, Hero> getBaseHeroes(){
         Map<Integer, Hero> map = new HashMap<>();
         for (int i = 1; i <= 5; i++) {
             map.put(i - 1, fetch(Hero.class, i));
@@ -340,7 +342,7 @@ public class DataBase {
         return map;
     }
 
-    private static Map<Integer, Passive> getBasePassives() throws Exception {
+    private static Map<Integer, Passive> getBasePassives(){
         List<Passive> passives = getAll(Passive.class);
         Map<Integer, Passive> map = new HashMap<>();
         for (Passive passive : passives) {
@@ -349,26 +351,36 @@ public class DataBase {
         return map;
     }
 
-    private static void saveCurrentAccount() throws Exception {
+    private static void saveCurrentAccount() {
         saveOrUpdate(currentAccount);
     }
 
-    private static void saveCredentials() throws Exception {
-        for (AccountCredential accountCredential : Data.getAccounts().values()) {
+    private static void saveAccount(Account account){
+        saveOrUpdate(account);
+    }
+
+    private static void saveCredentials(){
+        for (AccountCredential accountCredential : ServerData.getAccounts().values()) {
             saveOrUpdate(accountCredential);
         }
     }
 
-    private static void saveMarket() throws Exception {
+    private static void saveMarket(){
         saveOrUpdate(market);
     }
 
-    public static void save() throws Exception {
+    public static void save() {
         saveCredentials();
         saveMarket();
         if (currentAccount != null) {
-            saveCurrentAccount();
+            saveAccount(currentAccount);
         }
+    }
+
+    public static void save(Account account) {
+        saveCredentials();
+        saveMarket();
+        saveAccount(account);
     }
 
     private static void loadConfigs() throws Exception {
@@ -383,11 +395,15 @@ public class DataBase {
         market = getMarket();
     }
 
-    private static void loadAccounts() throws Exception {
-        Data.setAccounts(getCredentials());
+    private static void loadAccounts() {
+        ServerData.setAccounts(getCredentials());
     }
 
-    private static void saveCards() throws Exception {
+    private static void loadClientsDetails(){
+        ServerData.setClientsDetails();
+    }
+
+    private static void saveCards() {
         int id = 0;
         // Mage
         Polymorph polymorph = new Polymorph(id++, "Polymorph", "Transform a minion into a 1/1 sheep.", 4, HeroType.MAGE, Rarity.COMMON, CardType.SPELL);
@@ -604,7 +620,7 @@ public class DataBase {
         saveOrUpdate(priest);
     }
 
-    private static void savePassives() throws Exception {
+    private static void savePassives() {
         int id = 0;
         TwiceDraw twiceDraw = new TwiceDraw(id++, "Twice Draw");
         saveOrUpdate(twiceDraw);
@@ -637,6 +653,8 @@ public class DataBase {
         loadPassives();
 
         loadAccounts();
+        loadClientsDetails();
+
         loadMarket();
     }
 

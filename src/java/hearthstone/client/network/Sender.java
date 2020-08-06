@@ -1,6 +1,6 @@
 package hearthstone.client.network;
 
-import hearthstone.client.data.Data;
+import hearthstone.client.data.ClientData;
 import hearthstone.models.Packet;
 
 import java.io.PrintStream;
@@ -16,7 +16,7 @@ public class Sender {
         try {
             String objectString;
 
-            objectString = Data.getNetworkMapper().writeValueAsString(packet);
+            objectString = ClientData.getNetworkMapper().writeValueAsString(packet);
 
             System.out.println(objectString);
 

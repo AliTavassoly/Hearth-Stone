@@ -1,9 +1,11 @@
 package hearthstone.client;
 
 import hearthstone.client.gui.credetials.CredentialsFrame;
+import hearthstone.client.gui.credetials.LogisterPanel;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.network.Receiver;
 import hearthstone.client.network.Sender;
+import hearthstone.models.Packet;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,5 +49,33 @@ public class HSClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void sendPacket(Packet packet) {
+        getClient().sender.sendPacket(packet);
+    }
+
+    public void login(){
+        CredentialsFrame.getInstance().setVisible(false);
+        GameFrame.getNewInstance().setVisible(true);
+    }
+
+    public void register(){
+        CredentialsFrame.getInstance().getContentPane().setVisible(false);
+        CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
+        CredentialsFrame.getInstance().setVisible(false);
+        GameFrame.getNewInstance().setVisible(true);
+    }
+
+    public void logout() {
+        GameFrame.getInstance().setVisible(false);
+        GameFrame.getInstance().dispose();
+        CredentialsFrame.getNewInstance().setVisible(true);
+    }
+
+    public void deleteAccount(){
+        GameFrame.getInstance().setVisible(false);
+        GameFrame.getInstance().dispose();
+        CredentialsFrame.getNewInstance().setVisible(true);
     }
 }

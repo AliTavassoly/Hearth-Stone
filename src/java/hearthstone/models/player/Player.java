@@ -3,7 +3,7 @@ package hearthstone.models.player;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.server.data.GameConfigs;
-import hearthstone.logic.Game;
+import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.behaviours.*;
 import hearthstone.models.card.Card;

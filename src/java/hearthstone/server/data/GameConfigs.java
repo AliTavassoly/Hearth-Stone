@@ -3,14 +3,13 @@ package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hearthstone.server.Main;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameConfigs {
-    public static String dataPath = "data";
-
     public static int maxCardInCollection;
     public static int initialCoins;
     public static int maxCardInDeck;
@@ -39,7 +38,7 @@ public class GameConfigs {
 
     private static Map<String, Integer> getConfigs() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File(dataPath + "/game_configs.json");
+        File file = new File(Main.dataPath + "/game_configs.json");
         file.getParentFile().mkdirs();
         file.createNewFile();
         return mapper.readValue(file, new TypeReference<HashMap<String, Integer>>() {});

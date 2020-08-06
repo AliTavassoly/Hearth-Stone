@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
 import hearthstone.server.data.GameConfigs;
-import hearthstone.server.data.Data;
+import hearthstone.server.data.ServerData;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
@@ -163,7 +163,7 @@ public class Deck implements Comparable<Deck> {
     }
 
     public Deck copy() {
-        ObjectMapper mapper = Data.getObjectCloneMapper();
+        ObjectMapper mapper = ServerData.getObjectCloneMapper();
         Deck deck = null;
         try {
             String json =  mapper.writeValueAsString(this);

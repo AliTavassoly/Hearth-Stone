@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.HearthStone;
 import hearthstone.server.data.GameConfigs;
-import hearthstone.server.data.Data;
+import hearthstone.server.data.ServerData;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.Deck;
 import hearthstone.models.specialpower.SpecialHeroPower;
@@ -203,7 +203,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
 
     public Hero copy() {
-        ObjectMapper mapper = Data.getObjectCloneMapper();
+        ObjectMapper mapper = ServerData.getObjectCloneMapper();
         Hero hero = null;
         try {
             String json = mapper.writeValueAsString(this);

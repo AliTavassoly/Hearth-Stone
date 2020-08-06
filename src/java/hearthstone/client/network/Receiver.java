@@ -2,7 +2,7 @@ package hearthstone.client.network;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.client.ClientMapper;
-import hearthstone.client.data.Data;
+import hearthstone.client.data.ClientData;
 import hearthstone.models.Packet;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class Receiver extends Thread{
                 String message = scanner.nextLine();
                 System.out.println(message);
 
-                ObjectMapper mapper = Data.getNetworkMapper();
+                ObjectMapper mapper = ClientData.getNetworkMapper();
 
                 Packet packet = mapper.readValue(message, Packet.class);
 

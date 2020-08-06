@@ -54,6 +54,8 @@ public class HulkingOverfiend extends MinionCard {
         } else if (object instanceof Hero) {
             if (((Hero) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
+            } else if(isFirstTurn){
+                throw new HearthStoneException("Rush card can not attack to hero in first turn!");
             } else {
                 this.attack((Hero) object);
                 numberOfAttack--;

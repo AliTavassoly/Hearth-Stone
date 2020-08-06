@@ -1,6 +1,7 @@
 package hearthstone.client.gui.credetials;
 
 import hearthstone.Mapper;
+import hearthstone.client.ClientMapper;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
@@ -44,7 +45,7 @@ public class RegisterPanel extends JPanel {
     private final int stringFieldDis = 1;
     private final int registerButtonY = 300;
 
-    private String error = "no";
+    public static String error = "no";
 
     public RegisterPanel() {
         configPanel();
@@ -172,15 +173,16 @@ public class RegisterPanel extends JPanel {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
+                //try {
+                    /*hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
                             new String(passField.getPassword()), new String(repField.getPassword()));
                     CredentialsFrame.getInstance().getContentPane().setVisible(false);
                     CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
                     CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getNewInstance().setVisible(true);
-
-                    Mapper.saveDataBase();
+                    GameFrame.getNewInstance().setVisible(true);*/
+                ClientMapper.registerRequest(nameField.getText(), userField.getText(),
+                        new String(passField.getPassword()));
+                /*    Mapper.saveDataBase();
                 } catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
@@ -192,7 +194,7 @@ public class RegisterPanel extends JPanel {
                     repaint();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
+                }*/
             }
         });
     }
@@ -249,11 +251,20 @@ public class RegisterPanel extends JPanel {
         add(closeButton);
     }
 
+    public void showError(String error){
+        this.error = error;
+        repaint();
+    }
+
     class MyAction implements KeyListener {
-        public void keyTyped(KeyEvent keyEvent) { }
-        public void keyReleased(KeyEvent keyEvent) { }
+        public void keyTyped(KeyEvent keyEvent) {
+        }
+
+        public void keyReleased(KeyEvent keyEvent) {
+        }
+
         public void keyPressed(KeyEvent keyEvent) {
-            if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER){
+            if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                 registerButton.doClick();
             }
         }

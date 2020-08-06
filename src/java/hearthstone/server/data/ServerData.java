@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
+import hearthstone.server.model.ClientDetails;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
 import org.hibernate.collection.internal.PersistentBag;
@@ -12,18 +14,37 @@ import org.hibernate.collection.internal.PersistentBag;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Data {
+public class ServerData {
     private static Map<String, AccountCredential> accounts = new HashMap<>();
+    private static Map<String, ClientDetails> clientsDetails = new HashMap<>();
 
     public static void setAccounts(Map<String, AccountCredential> accounts) {
-        Data.accounts = accounts;
+        ServerData.accounts = accounts;
+    }
+
+    public static void setClientsDetails(){
+        for(String username: accounts.keySet()){
+            try {
+                clientsDetails.put(username, new ClientDetails(DataBase.getAccount(username)));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public static Map<String, AccountCredential> getAccounts() {
         return accounts;
     }
 
-    public static void checkAccountCredentials(String username, String password) throws Exception {
+    public static Map<String, ClientDetails> getClientsDetails() {
+        return clientsDetails;
+    }
+
+    public static ClientDetails getClientDetails(String username){
+        return clientsDetails.get(username);
+    }
+
+    public static void checkAccountCredentials(String username, String password) throws HearthStoneException {
         if (!accounts.containsKey(username)) {
             throw new HearthStoneException("This username does not exists!");
         }
@@ -35,18 +56,15 @@ public class Data {
         }
     }
 
-    public static void addAccountCredentials(String username, String password) throws Exception {
+    public static void addAccountCredentials(String username, String password) throws HearthStoneException {
         if (accounts.containsKey(username)) {
             throw new HearthStoneException("This username is already exists!");
         }
         accounts.put(username, new AccountCredential(accounts.size(), username, Crypt.hash(password)));
     }
 
-    public static void deleteAccount(String username, String password) throws Exception {
-        if (accounts.get(username).getPasswordHash() != Crypt.hash(password)) {
-            throw new HearthStoneException("Password is not correct!");
-        }
-        accounts.get(username).setDeleted(true);
+    public static void addNewClientDetails(String username, Account account) {
+        clientsDetails.put(username, new ClientDetails(account));
     }
 
     public static void deleteAccount(String username) {

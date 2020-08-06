@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 
 @Entity
 public class Locust extends MinionCard implements MinionBehaviour {
-
     public Locust() {
     }
 

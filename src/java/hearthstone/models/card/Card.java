@@ -1,7 +1,7 @@
 package hearthstone.models.card;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.server.data.Data;
+import hearthstone.server.data.ServerData;
 import hearthstone.models.hero.HeroType;
 import hearthstone.util.HearthStoneException;
 
@@ -137,7 +137,7 @@ public abstract class Card implements CardBehaviour {
     }
 
     public Card copy() {
-        ObjectMapper mapper = Data.getObjectCloneMapper();
+        ObjectMapper mapper = ServerData.getObjectCloneMapper();
         Card card = null;
         try {
             String json = mapper.writeValueAsString(this);

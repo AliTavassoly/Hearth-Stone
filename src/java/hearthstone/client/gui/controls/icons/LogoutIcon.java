@@ -1,6 +1,7 @@
 package hearthstone.client.gui.controls.icons;
 
 import hearthstone.HearthStone;
+import hearthstone.client.ClientMapper;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.SureDialog;
@@ -22,8 +23,9 @@ public class LogoutIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    try {
+                ClientMapper.logoutRequest();
+                //try {
+                    /*try {
                         if (HearthStone.currentAccount != null)
                             hearthstone.util.Logger.saveLog("Click_icon",
                                     "Logout_button");
@@ -38,8 +40,8 @@ public class LogoutIcon extends ImageButton {
                         GameFrame.getInstance().setVisible(false);
                         GameFrame.getInstance().dispose();
                         CredentialsFrame.getNewInstance().setVisible(true);
-                    }
-                } catch (HearthStoneException e) {
+                    }*/
+                /*} catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage()
@@ -48,7 +50,7 @@ public class LogoutIcon extends ImageButton {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
+                }*/
             }
         });
     }

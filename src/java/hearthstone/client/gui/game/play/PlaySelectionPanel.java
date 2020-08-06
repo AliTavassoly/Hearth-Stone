@@ -13,7 +13,7 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.client.gui.game.play.boards.SoloGameBoard;
-import hearthstone.logic.Game;
+import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;

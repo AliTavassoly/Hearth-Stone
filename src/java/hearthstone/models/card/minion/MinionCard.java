@@ -47,6 +47,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     @Transient
     protected int numberOfAttackedHero;
 
+    @Column
     protected boolean spellSafe;
 
     @Column
@@ -399,6 +400,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public boolean canAttack() {
+        System.out.println(getName() + " " + isRush);
         if (isFreeze)
             return false;
         if (numberOfAttack > 0)

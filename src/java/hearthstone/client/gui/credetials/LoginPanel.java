@@ -1,5 +1,6 @@
 package hearthstone.client.gui.credetials;
 
+import hearthstone.client.ClientMapper;
 import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
@@ -24,7 +25,8 @@ public class LoginPanel extends JPanel{
 
     private final String userText = "Username : ";
     private final String passText = "Password : ";
-    private String error = "no";
+
+    public static String error = "no";
 
     private BufferedImage backgroundImage;
 
@@ -96,12 +98,12 @@ public class LoginPanel extends JPanel{
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
+                //try {
+                    /*hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
                     CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getNewInstance().setVisible(true);
-
-                } catch (HearthStoneException e) {
+                    GameFrame.getNewInstance().setVisible(true);*/
+                    ClientMapper.loginRequest(userField.getText(), new String(passField.getPassword()));
+                /*} catch (HearthStoneException e) {
                     try {
                         hearthstone.util.Logger.saveLog("ERROR",
                                 e.getClass().getName() + ": " + e.getMessage() +
@@ -112,7 +114,7 @@ public class LoginPanel extends JPanel{
                     repaint();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
+                }*/
             }
         });
     }
@@ -218,6 +220,11 @@ public class LoginPanel extends JPanel{
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(closeButton);
+    }
+
+    public void showError(String error){
+        this.error = error;
+        repaint();
     }
 
     class MyAction implements KeyListener {

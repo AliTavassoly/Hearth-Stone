@@ -1,6 +1,7 @@
 package hearthstone.util;
 
-import hearthstone.server.data.Data;
+import hearthstone.server.Main;
+import hearthstone.server.data.ServerData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import static hearthstone.HearthStone.currentAccount;
-import static hearthstone.HearthStone.dataPath;
 
 public class Logger {
     public static void saveLog(String title, String description, String username)
@@ -19,8 +19,8 @@ public class Logger {
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
-        FileWriter fileWriter = new FileWriter(dataPath + "/logs" +
-                "/account_" + Data.getAccountId(username) + ".log", true);
+        FileWriter fileWriter = new FileWriter(Main.dataPath + "/logs" +
+                "/account_" + ServerData.getAccountId(username) + ".log", true);
         String newLog;
         if (title.equals("ERROR"))
             newLog = title + " @ " + ts + "\n" + description + "\n" + "\n";
@@ -40,11 +40,11 @@ public class Logger {
         long time = date.getTime();
         Timestamp ts = new Timestamp(time);
 
-        File logFile = new File(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".log");
+        File logFile = new File(Main.dataPath + "/logs" + "/account_" + ServerData.getAccountId(username) + ".log");
         logFile.getParentFile().mkdirs();
         logFile.createNewFile();
 
-        FileWriter fileWriter = new FileWriter(dataPath + "/logs" + "/account_" + Data.getAccountId(username) + ".log", true);
+        FileWriter fileWriter = new FileWriter(Main.dataPath + "/logs" + "/account_" + ServerData.getAccountId(username) + ".log", true);
         String newLog = "Log File" + "\n" + username + " @ Hearth Stone" + "\n" + "\n";
         fileWriter.append(newLog);
         fileWriter.close();
@@ -52,7 +52,7 @@ public class Logger {
         saveLog("register", "signed up successfully!", username);
     }
 
-    public static String exceptionToLog(Exception e){
+    public static String exceptionToLog(Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);

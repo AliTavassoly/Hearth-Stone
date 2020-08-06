@@ -1,15 +1,16 @@
 package hearthstone;
 
-import hearthstone.server.data.Data;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.credetials.CredentialsFrame;
 import hearthstone.client.gui.game.play.boards.GameBoard;
-import hearthstone.logic.Game;
-import hearthstone.logic.Market;
+import hearthstone.server.logic.Game;
+import hearthstone.server.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
+import hearthstone.util.HearthStoneException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class  HearthStone{
     public static Map<Integer, Passive> basePassives = new HashMap<>();
 
     public static Account currentAccount;
-    public static String dataPath;
+    //public static String dataPath;
     public static Market market = new Market();
 
     public static GameBoard currentGameBoard;
@@ -91,10 +92,14 @@ public class  HearthStone{
         return null;
     }
 
-    public static void login(String username, String password) throws Exception {
-        Data.checkAccountCredentials(username, password);
+    public static void login(String username, String password) throws HearthStoneException {
+        ServerData.checkAccountCredentials(username, password);
         currentAccount = DataBase.getAccount(username);
-        hearthstone.util.Logger.saveLog("login", "signed in successfully!");
+        try {
+            hearthstone.util.Logger.saveLog("login", "signed in successfully!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void register(String name, String username,
@@ -111,8 +116,8 @@ public class  HearthStone{
         if (!passwordIsValid(password)) {
             throw new HearthStoneException("Password is invalid(at least 4 character and contains at least a capital letter!)");
         }*/
-        Data.addAccountCredentials(username, password);
-        currentAccount = new Account(Data.getAccountId(username), name, username);
+        ServerData.addAccountCredentials(username, password);
+        currentAccount = new Account(ServerData.getAccountId(username), name, username);
         hearthstone.util.Logger.createAccountLog(username);
     }
 
@@ -124,7 +129,7 @@ public class  HearthStone{
     }
 
     public static void main(String[] args) {
-        dataPath = "./data";
+        //dataPath = "./data";
         try {
             DataBase.load();
         } catch (Exception e) {

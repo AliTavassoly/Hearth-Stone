@@ -2,7 +2,7 @@ package hearthstone.models.passive;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.Mapper;
-import hearthstone.server.data.Data;
+import hearthstone.server.data.ServerData;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,7 +60,7 @@ public abstract class Passive {
     }
 
     public Passive copy() {
-        ObjectMapper mapper = Data.getObjectCloneMapper();
+        ObjectMapper mapper = ServerData.getObjectCloneMapper();
         Passive passive = null;
         try {
             passive = mapper.readValue(mapper.writeValueAsString(this), Passive.class);

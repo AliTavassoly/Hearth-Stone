@@ -2,7 +2,7 @@ package hearthstone;
 
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.game.play.boards.GameBoard;
-import hearthstone.logic.Game;
+import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerCard;
