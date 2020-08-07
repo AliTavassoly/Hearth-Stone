@@ -1,9 +1,6 @@
 package hearthstone.client.gui.game.play.boards;
 
-import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.client.data.GUIConfigs;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.client.gui.controls.buttons.CardButton;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
@@ -23,6 +20,9 @@ import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.card.weapon.WeaponBehaviour;
+import hearthstone.server.network.HSServer;
+import hearthstone.shared.GUIConfigs;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.*;
 import hearthstone.util.getresource.ImageResource;
 import hearthstone.util.timer.HSBigTask;
@@ -250,7 +250,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        HearthStone.basePassives.size())
+                        HSServer.basePassives.size())
         );
         Mapper.setPassive(myPlayerId, passiveDialog0.getPassive());
 
@@ -259,7 +259,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        HearthStone.basePassives.size())
+                        HSServer.basePassives.size())
         );
         Mapper.setPassive(enemyPlayerId, passiveDialog1.getPassive());
     }

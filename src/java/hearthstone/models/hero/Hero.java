@@ -2,8 +2,6 @@ package hearthstone.models.hero;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hearthstone.HearthStone;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.server.data.ServerData;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.Deck;
@@ -146,7 +144,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     public List<Deck> getDecks() {
         return decks;
     }
-    public void setDecks(ArrayList<Deck> decks) {
+    public void setDecks(List<Deck> decks) {
         this.decks = decks;
     }
 
@@ -216,20 +214,32 @@ public abstract class Hero implements HeroBehaviour, Character {
     }
 
     // End of getter setter
-    public void makeNewDeck(Deck deck) throws Exception{
-        if(GameConfigs.maxNumberOfDeck == decks.size()){
-            throw new HearthStoneException("You can't have " + GameConfigs.maxNumberOfDeck +
-                    " number of decks for one hero!");
-        }
-        decks.add(deck);
-    }
-
-    public static Hero getHeroByType(HeroType heroType){
-        for(Hero hero : HearthStone.baseHeroes.values()){
-            if(hero.getType() == heroType)
-                return hero.copy();
+    public Deck getDeckByName(String deckName){
+        for(Deck deck: decks){
+            if(deck.getName().equals(deckName))
+                return deck;
         }
         return null;
+    }
+
+    public boolean validNameForDeck(String name){
+        for(Deck deck: decks){
+            if(deck.getName().equals(name))
+                return false;
+        }
+        return true;
+    }
+
+    public void selectDeck(String deckName){
+        Deck deck = getDeckByName(deckName);
+        selectedDeck = deck;
+    }
+
+    public void removeDeck(String deckName){
+        Deck deck = getDeckByName(deckName);
+        if(selectedDeck != null && selectedDeck.getName().equals(deckName))
+            selectedDeck = null;
+        decks.remove(deck);
     }
 
     @Override

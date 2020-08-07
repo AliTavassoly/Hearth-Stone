@@ -1,10 +1,9 @@
 package hearthstone.client.gui.game.play;
 
 import hearthstone.HearthStone;
-import hearthstone.client.HSClient;
+import hearthstone.client.network.HSClient;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -19,6 +18,8 @@ import hearthstone.models.Deck;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
+import hearthstone.server.network.HSServer;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
@@ -240,12 +241,12 @@ public class PlaySelectionPanel extends JPanel {
         if(decks == null)
             throw new HearthStoneException("There is a problem in deck reader!");
 
-        Player player0 = new Player(Objects.requireNonNull(HearthStone.getHeroByName("Mage")),
+        Player player0 = new Player(Objects.requireNonNull(HSServer.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("friend"))),
                 HSClient.currentAccount.getUsername());
 
-        Player player1 = new Player(Objects.requireNonNull(HearthStone.getHeroByName("Mage")),
+        Player player1 = new Player(Objects.requireNonNull(HSServer.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("enemy"))),
                 HSClient.currentAccount.getUsername());

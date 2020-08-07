@@ -1,10 +1,7 @@
 package hearthstone.client.gui.game.collection;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
-import hearthstone.client.HSClient;
-import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.client.gui.controls.buttons.HeroButton;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.TextField;
@@ -19,8 +16,8 @@ import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
-import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -32,6 +29,8 @@ import java.util.*;
 import java.util.List;
 
 public class DeckArrangement extends JPanel {
+    private static DeckArrangement instance;
+
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private ImageButton searchButton, allCardsButton, myCardsButton, lockCardsButton, deleteButton;
     private CardsPanel cardsPanel, deckCardsPanel;
@@ -40,8 +39,8 @@ public class DeckArrangement extends JPanel {
     private JLabel nameLabel, manaLabel;
     private TextField nameField, manaField;
     private int selectedButton;
-    private Deck deck;
-    private Hero hero;
+    private String deckName;
+    private String heroName;
 
     private static BufferedImage backgroundImage;
 
@@ -63,9 +62,9 @@ public class DeckArrangement extends JPanel {
     private final int filterDisY = 50;
     private final int filterDisX = 10;
 
-    public DeckArrangement(Hero hero, Deck deck) {
-        this.hero = hero;
-        this.deck = deck;
+    private DeckArrangement(String heroName, String deckName) {
+        this.heroName = heroName;
+        this.deckName = deckName;
 
         selectedButton = 0;
 
@@ -88,12 +87,20 @@ public class DeckArrangement extends JPanel {
         layoutComponent();
     }
 
+    public static DeckArrangement makeInstance(String heroName, String deckName) {
+        return instance = new DeckArrangement(heroName, deckName);
+    }
+
+    public static DeckArrangement getInstance() {
+        return instance;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         try {
-            if(backgroundImage == null)
+            if (backgroundImage == null)
                 backgroundImage = ImageResource.getInstance().getImage(
-                    "/images/hero_selection_background.png");
+                        "/images/hero_selection_background.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,7 +116,7 @@ public class DeckArrangement extends JPanel {
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_hovered.png",
                 GUIConfigs.iconWidth,
-                GUIConfigs.iconHeight, new DeckSelection(hero));
+                GUIConfigs.iconHeight, DeckSelection.makeInstance(heroName));
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_hovered.png",
                 GUIConfigs.iconWidth,
@@ -151,6 +158,8 @@ public class DeckArrangement extends JPanel {
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
+        Deck deck = HSClient.currentAccount.getHeroByName(heroName).getDeckByName(deckName);
+
         for (Card card : deck.getCards()) {
             Card card1 = card.copy();
             cards.add(card1);
@@ -171,7 +180,9 @@ public class DeckArrangement extends JPanel {
     }
 
     private void makeHeroButton() {
-        heroButton = new HeroButton(hero,   // REAL HERO SHOULD BE
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+
+        heroButton = new HeroButton(hero,
                 GUIConfigs.bigHeroWidth,
                 GUIConfigs.bigHeroHeight);
     }
@@ -179,11 +190,11 @@ public class DeckArrangement extends JPanel {
     private void makeLabels() {
         nameLabel = new JLabel("name  :  ");
         nameLabel.setForeground(new Color(255, 255, 68));
-        nameLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 15));
+        nameLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 15));
 
         manaLabel = new JLabel("mana cost  :  ");
         manaLabel.setForeground(new Color(255, 255, 68));
-        manaLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT,0, 15));
+        manaLabel.setFont(GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, 15));
     }
 
     private void makeFields() {
@@ -264,12 +275,6 @@ public class DeckArrangement extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "search");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 update();
             }
         });
@@ -277,32 +282,17 @@ public class DeckArrangement extends JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    HSClient.currentAccount.getDecks().remove(deck);
-                    hero.getDecks().remove(deck);
+                ClientMapper.removeDeckRequest(heroName, deckName);
 
-                    Mapper.saveDataBase();
-
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "delete");
-                    hearthstone.util.Logger.saveLog("Delete deck",
-                            deck.getName() + " removed from decks!");
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), DeckSelection.makeInstance(heroName));
             }
         });
     }
 
     private <T> ArrayList<Card> cardsInFilter(List<Card> cards) {
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+        Deck deck = hero.getDeckByName(deckName);
+
         ArrayList<Card> ans = new ArrayList<>();
         for (Card card : cards) {
             if (nameField.getText().length() != 0) {
@@ -320,7 +310,8 @@ public class DeckArrangement extends JPanel {
                 if (card.getHeroType() != hero.getType())
                     continue;
             } else if (selectedButton == 2) {
-                if (!deck.canAdd(card, 1))
+                if (!deck.canAdd(card, HSClient.currentAccount.getCollection(),
+                        HSClient.currentAccount.getUnlockedCards(),1))
                     continue;
 
                 int cardNumber = 1;
@@ -330,7 +321,8 @@ public class DeckArrangement extends JPanel {
                     }
                 }
 
-                if (!deck.canAdd(card, cardNumber))
+                if (!deck.canAdd(card,  HSClient.currentAccount.getCollection(),
+                        HSClient.currentAccount.getUnlockedCards(), cardNumber))
                     continue;
             }
             ans.add(card.copy());
@@ -348,29 +340,7 @@ public class DeckArrangement extends JPanel {
         removeCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    //deck.remove(card, 1);
-                    Mapper.removeFromDeck(deck, card, 1);
-
-                    deckCardsPanel.removeCard(card);
-                    cardsPanel.addCard(card, getCardsPanel(card));
-
-                    Mapper.saveDataBase();
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "remove");
-                    hearthstone.util.Logger.saveLog("Remove From Deck",
-                            card.getName() + " removed from deck!");
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
-                    BaseFrame.error(e.getMessage());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                ClientMapper.removeCardFromDeckRequest(heroName, deckName, card.getId(), 1);
             }
         });
 
@@ -389,29 +359,7 @@ public class DeckArrangement extends JPanel {
         addCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    //deck.add(card, 1);
-                    Mapper.addToDeck(deck, card, 1);
-                    if (selectedButton != 0)
-                        cardsPanel.removeCard(card);
-                    deckCardsPanel.addCard(card, getDeckCardsPanel(card));
-
-                    Mapper.saveDataBase();
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "add");
-                    hearthstone.util.Logger.saveLog("Add To Deck",
-                            card.getName() + " added to deck!");
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) { }
-                    BaseFrame.error(e.getMessage());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                ClientMapper.addCardToDeckRequest(heroName, deckName, card.getId(), 1);
             }
         });
 
@@ -505,7 +453,7 @@ public class DeckArrangement extends JPanel {
         add(deleteButton);
     }
 
-    private void update() {
+    public void update() {
         ArrayList<Card> cards = cardsInFilter(HSClient.currentAccount.getCollection().getCards());
         ArrayList<JPanel> panels = new ArrayList<>();
 
@@ -514,5 +462,19 @@ public class DeckArrangement extends JPanel {
         }
 
         cardsPanel.update(cards, panels);
+    }
+
+    public void addCardToDeck(Card card) {
+        if (selectedButton != 0)
+            cardsPanel.removeCard(card);
+        deckCardsPanel.addCard(card, getDeckCardsPanel(card));
+        System.out.println("in client, after add to deck: " + HSClient.currentAccount.getSelectedHero().getDecks().size());
+    }
+
+    public void removeCardFromDeck(Card card) {
+        deckCardsPanel.removeCard(card);
+        cardsPanel.addCard(card, getCardsPanel(card));
+
+        System.out.println("in client, after remove from deck: " + HSClient.currentAccount.getSelectedHero().getDecks().size());
     }
 }

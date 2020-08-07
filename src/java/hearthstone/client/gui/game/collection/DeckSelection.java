@@ -1,13 +1,8 @@
 package hearthstone.client.gui.game.collection;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
-import hearthstone.client.HSClient;
-import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.HeroButton;
 import hearthstone.client.gui.controls.buttons.ImageButton;
-import hearthstone.client.gui.controls.dialogs.ErrorDialog;
 import hearthstone.client.gui.controls.dialogs.NameDialog;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -16,9 +11,10 @@ import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.controls.panels.DecksPanel;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.util.CustomScrollBarUI;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.Hero;
-import hearthstone.util.HearthStoneException;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -29,12 +25,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class DeckSelection extends JPanel {
+    private static DeckSelection instance;
+
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private DecksPanel deckPanel;
     private JScrollPane deckCardScroll;
     private HeroButton heroButton;
     private ImageButton addButton;
-    private Hero hero;
+    private String heroName;
 
     private static BufferedImage backgroundImage;
 
@@ -52,8 +50,8 @@ public class DeckSelection extends JPanel {
     private final int startAddButtonX = startHeroX + GUIConfigs.bigHeroWidth / 2 - GUIConfigs.medButtonWidth / 2;
     private final int startAddButtonY = startHeroY + GUIConfigs.bigHeroHeight + 20;
 
-    public DeckSelection(Hero hero) {
-        this.hero = hero;
+    private DeckSelection(String heroName) {
+        this.heroName = heroName;
 
         configPanel();
 
@@ -68,11 +66,19 @@ public class DeckSelection extends JPanel {
         layoutComponent();
     }
 
+    public static DeckSelection makeInstance(String heroName) {
+        return instance = new DeckSelection(heroName);
+    }
+
+    public static DeckSelection getInstance() {
+        return instance;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         BufferedImage image = null;
         try {
-            if(backgroundImage == null)
+            if (backgroundImage == null)
                 backgroundImage = ImageResource.getInstance().getImage(
                         "/images/hero_selection_background.png");
         } catch (Exception e) {
@@ -90,7 +96,7 @@ public class DeckSelection extends JPanel {
     private void makeIcons() {
         backButton = new BackIcon("icons/back.png", "icons/back_hovered.png",
                 GUIConfigs.iconWidth,
-                GUIConfigs.iconHeight, new HeroSelection());
+                GUIConfigs.iconHeight, HeroSelection.makeInstance());
 
         logoutButton = new LogoutIcon("icons/logout.png", "icons/logout_hovered.png",
                 GUIConfigs.iconWidth,
@@ -109,11 +115,13 @@ public class DeckSelection extends JPanel {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        for(int i = 0; i < hero.getDecks().size(); i++){
-            if(hero.getSelectedDeck() == null)
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+
+        for (int i = 0; i < hero.getDecks().size(); i++) {
+            if (hero.getSelectedDeck() == null)
                 break;
             Deck deck = hero.getDecks().get(i);
-            if(deck.getName().equals(hero.getSelectedDeck().getName())){
+            if (deck.getName().equals(hero.getSelectedDeck().getName())) {
                 Deck selected = deck;
                 Deck zero = hero.getDecks().get(0);
 
@@ -123,7 +131,7 @@ public class DeckSelection extends JPanel {
             }
         }
 
-        for(Deck deck : hero.getDecks()){
+        for (Deck deck : hero.getDecks()) {
             decks.add(deck);
             panels.add(getDeckPanel(deck));
         }
@@ -141,66 +149,36 @@ public class DeckSelection extends JPanel {
     }
 
     private void makeHeroButton() {
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+
         heroButton = new HeroButton(hero,  // REAL HERO SHOULD BE
                 GUIConfigs.bigHeroWidth,
                 GUIConfigs.bigHeroHeight);
     }
 
-    private void makeAddButton(){
+    private void makeAddButton() {
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+
         addButton = new ImageButton("New Deck", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
                 GUIConfigs.medButtonWidth, GUIConfigs.medButtonHeight);
         addButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent){
+            public void actionPerformed(ActionEvent actionEvent) {
                 NameDialog nameDialog = new NameDialog(GameFrame.getInstance(),
                         "Deck Name : ", GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
                 String name = nameDialog.getValue();
-                Deck beforeDeck = hero.getDecks().stream().
-                        filter(deck -> name.equals(deck.getName())).findAny().orElse(null);
 
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "new_deck_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if(beforeDeck != null){
-                    BaseFrame.error("this name is already token!");
-                }
-
-                if (beforeDeck == null && name.length() != 0) {
-                    try {
-                        Deck deck = new Deck(name, hero.getType());
-                        hero.makeNewDeck(deck);
-                        HSClient.currentAccount.getDecks().add(deck);
-
-                        Mapper.saveDataBase();
-
-                        hearthstone.util.Logger.saveLog("New Deck",
-                                deck.getName() + " deck created!");
-                        restart();
-                    } catch (HearthStoneException e){
-                        try {
-                            hearthstone.util.Logger.saveLog("ERROR",
-                                    e.getClass().getName() + ": " + e.getMessage()
-                                            + "\nStack Trace: " + e.getStackTrace());
-
-                            ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(),
-                                    e.getMessage(),
-                                    GUIConfigs.errorWidth, GUIConfigs.errorHeight);
-                        } catch (Exception f) { }
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
+                Deck deck = new Deck(name, hero.getType());
+                ClientMapper.createNewDeckRequest(deck, hero.getName());
             }
         });
     }
 
     private JPanel getDeckPanel(Deck deck) {
+        Hero hero = HSClient.currentAccount.getHeroByName(heroName);
+
         JPanel panel = new JPanel();
         ImageButton arrangeButton = new ImageButton("arrange", "buttons/pink_background.png", 0,
                 Color.white, Color.yellow,
@@ -209,14 +187,7 @@ public class DeckSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "arrange");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckArrangement(hero, deck));
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), DeckArrangement.makeInstance(heroName, deck.getName()));
             }
         });
 
@@ -235,28 +206,7 @@ public class DeckSelection extends JPanel {
             selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    try {
-                        hero.setSelectedDeck(deck);
-
-                        Mapper.saveDataBase();
-
-                        restart();
-
-                        hearthstone.util.Logger.saveLog("Click_button",
-                                "select");
-
-                        hearthstone.util.Logger.saveLog("Select deck",
-                                deck.getName() + " deck, selected for " + hero.getName() + "!");
-                    } catch (HearthStoneException e){
-                        try {
-                            hearthstone.util.Logger.saveLog("ERROR",
-                                    e.getClass().getName() + ": " + e.getMessage()
-                                            + "\nStack Trace: " + e.getStackTrace());
-                        } catch (Exception f) { }
-                        BaseFrame.error(e.getMessage());
-                    } catch (Exception ex){
-                        ex.printStackTrace();
-                    }
+                    ClientMapper.selectDeckRequest(hero.getName(), deck.getName());
                 }
             });
         }
@@ -317,12 +267,7 @@ public class DeckSelection extends JPanel {
         add(addButton);
     }
 
-    private void restart() {
-        try {
-            Mapper.saveDataBase();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+    public void restart(String heroName) {
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(heroName));
     }
 }

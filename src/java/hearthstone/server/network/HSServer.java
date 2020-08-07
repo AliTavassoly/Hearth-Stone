@@ -1,8 +1,11 @@
 package hearthstone.server.network;
 
-import hearthstone.HearthStone;
 import hearthstone.models.Account;
+import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
+import hearthstone.models.passive.Passive;
 import hearthstone.server.data.DataBase;
 import hearthstone.server.data.ServerData;
 import hearthstone.server.logic.Market;
@@ -10,6 +13,7 @@ import hearthstone.server.model.updaters.AccountUpdater;
 import hearthstone.server.model.ClientDetails;
 import hearthstone.server.model.updaters.MarketCardsUpdater;
 import hearthstone.server.model.UpdateWaiter;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.HearthStoneException;
 
 import java.io.IOException;
@@ -20,6 +24,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HSServer extends Thread {
+    public static Map<Integer, Card> baseCards = new HashMap<>();
+    public static Map<Integer, Hero> baseHeroes = new HashMap<>();
+    public static Map<Integer, Passive> basePassives = new HashMap<>();
+
+    public static Card getCardByName(String name){
+        for(Card card: baseCards.values()){
+            if(card.getName().equals(name)){
+                return card.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Card getCardById(int cardId){
+        for(Card card: baseCards.values()){
+            if(card.getId() == cardId){
+                return card.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Hero getHeroByName(String name){
+        for(Hero hero: baseHeroes.values()){
+            if(hero.getName().equals(name)){
+                return hero.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Hero getHeroByType(HeroType heroType){
+        for(Hero hero: baseHeroes.values()){
+            if(hero.getType() == heroType){
+                return hero.copy();
+            }
+        }
+        return null;
+    }
+
     private static HSServer server;
 
     private ServerSocket serverSocket;
@@ -28,7 +72,7 @@ public class HSServer extends Thread {
 
     private ArrayList<UpdateWaiter> updaterWaiters;
 
-    public static Market market;
+    public static Market market = new Market();
 
     private HSServer(int serverPort) {
         try {
@@ -69,6 +113,19 @@ public class HSServer extends Thread {
             }
         }
     }
+
+    public void createBaseCards(ClientHandler clientHandler) {
+        ServerMapper.createBaseCardsResponse(baseCards, clientHandler);
+    }
+
+    public void createBaseHeroes(ClientHandler clientHandler) {
+        ServerMapper.createBaseHeroesResponse(baseHeroes, clientHandler);
+    }
+
+    public void createBasePassives(ClientHandler clientHandler) {
+        ServerMapper.createBasePassivesResponse(basePassives, clientHandler);
+    }
+
 
     private void accountConnected(String username, ClientHandler clientHandler) {
         ServerData.getClientDetails(username).setClientHandler(clientHandler);
@@ -134,7 +191,7 @@ public class HSServer extends Thread {
     }
 
     public void buyCard(int cardId, ClientHandler clientHandler) throws HearthStoneException {
-        Card card = HearthStone.getCardById(cardId);
+        Card card = HSServer.getCardById(cardId);
         clients.get(clientHandler.getUsername()).getAccount().buyCards(card, 1);
         HSServer.market.removeCard(card, 1);
 
@@ -146,7 +203,7 @@ public class HSServer extends Thread {
     }
 
     public void sellCard(int cardId, ClientHandler clientHandler) throws HearthStoneException{
-        Card card = HearthStone.getCardById(cardId);
+        Card card = HSServer.getCardById(cardId);
         clients.get(clientHandler.getUsername()).getAccount().sellCards(card, 1);
         HSServer.market.addCard(card.copy(), 1);
 
@@ -212,5 +269,66 @@ public class HSServer extends Thread {
     public void stopUpdateMarketCards(ClientHandler clientHandler) {
         System.out.println("Market updated stopped: " + clientHandler.getUsername());
         removeUpdater(clientHandler.getUsername(), UpdateWaiter.UpdaterType.MARKET_CARDS);
+    }
+
+    public void statusBestDecks(ClientHandler clientHandler) {
+        ServerMapper.statusDecksResponse(clients.get(clientHandler.getUsername()).getAccount().getBestDecks(10), clientHandler);
+    }
+
+    public void selectHero(String heroName, ClientHandler clientHandler) {
+        clients.get(clientHandler.getUsername()).getAccount().selectHero(heroName);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(clients.get(clientHandler.getUsername()).getAccount());
+
+        ServerMapper.selectHeroResponse(clientHandler);
+    }
+
+    public void createNewDeck(Deck deck, String heroName, ClientHandler clientHandler) throws HearthStoneException{
+        clients.get(clientHandler.getUsername()).getAccount().createDeck(deck, heroName);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(clients.get(clientHandler.getUsername()).getAccount());
+
+        ServerMapper.createNewDeckResponse(heroName, clientHandler);
+    }
+
+    public void selectDeck(String heroName, String deckName, ClientHandler clientHandler) {
+        clients.get(clientHandler.getUsername()).getAccount().selectDeck(heroName, deckName);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(clients.get(clientHandler.getUsername()).getAccount());
+
+        ServerMapper.selectDeckResponse(heroName, clientHandler);
+    }
+
+    public void removeDeck(String heroName, String deckName, ClientHandler clientHandler) {
+        clients.get(clientHandler.getUsername()).getAccount().removeDeck(heroName, deckName);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(clients.get(clientHandler.getUsername()).getAccount());
+
+        ServerMapper.removeDeckResponse(heroName, clientHandler);
+    }
+
+    public void addCardToDeck(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler) throws HearthStoneException{
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+        Card card = account.addCardToDeck(heroName, deckName, cardId, account.getCollection(),
+                account.getUnlockedCards(), cnt);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(account);
+
+        ServerMapper.addCardToDeckResponse(card, clientHandler);
+    }
+
+    public void removeCardFromDeck(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler) throws HearthStoneException{
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+        Card card = account.removeCardFromDeck(heroName, deckName, cardId, cnt);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        DataBase.save(account);
+
+        ServerMapper.removeCardFromDeckResponse(card, clientHandler);
     }
 }

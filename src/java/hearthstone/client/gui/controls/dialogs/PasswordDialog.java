@@ -1,10 +1,10 @@
 package hearthstone.client.gui.controls.dialogs;
 
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 
 import javax.swing.*;

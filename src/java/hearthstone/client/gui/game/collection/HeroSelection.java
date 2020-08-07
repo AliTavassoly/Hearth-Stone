@@ -1,10 +1,7 @@
 package hearthstone.client.gui.game.collection;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
-import hearthstone.client.HSClient;
-import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -15,7 +12,7 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.util.CustomScrollBarUI;
 import hearthstone.models.hero.Hero;
-import hearthstone.util.HearthStoneException;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -26,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class HeroSelection extends JPanel {
+    private static HeroSelection instance;
+
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private HeroesPanel heroesPanel;
     private JScrollPane heroesScroll;
@@ -41,7 +40,7 @@ public class HeroSelection extends JPanel {
     private final int startListY = GUIConfigs.gameFrameHeight / 2 - GUIConfigs.heroesListHeight / 2;
 
 
-    public HeroSelection() {
+    private HeroSelection() {
         configPanel();
 
         makeIcons();
@@ -49,6 +48,14 @@ public class HeroSelection extends JPanel {
         makeList();
 
         layoutComponent();
+    }
+
+    public static HeroSelection getInstance(){
+        return instance;
+    }
+
+    public static HeroSelection makeInstance(){
+        return instance = new HeroSelection();
     }
 
     @Override
@@ -129,13 +136,7 @@ public class HeroSelection extends JPanel {
         arrangeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "arrange");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new DeckSelection(hero));
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), DeckSelection.makeInstance(hero.getName()));
             }
         });
 
@@ -154,15 +155,15 @@ public class HeroSelection extends JPanel {
             selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    try {
-                        HSClient.currentAccount.setSelectedHero(hero);
-                        Mapper.saveDataBase();
+                    //try {
+                        //HSClient.currentAccount.setSelectedHero(hero);
+                        //Mapper.saveDataBase();
 
-                        hearthstone.util.Logger.saveLog("Click_button",
+                        /*hearthstone.util.Logger.saveLog("Click_button",
                                 "select");
                         hearthstone.util.Logger.saveLog("Select hero",
-                                hero.getName() + " selected for battle!");
-                    } catch (HearthStoneException e) {
+                                hero.getName() + " selected for battle!");*/
+                    /*} catch (HearthStoneException e) {
                         try {
                             hearthstone.util.Logger.saveLog("ERROR",
                                     e.getClass().getName() + ": " + e.getMessage()
@@ -172,7 +173,10 @@ public class HeroSelection extends JPanel {
                         BaseFrame.error(e.getMessage());
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                    }
+                    }*/
+
+                    ClientMapper.selectHeroRequest(hero.getName());
+
                     restart();
                 }
             });
@@ -222,12 +226,12 @@ public class HeroSelection extends JPanel {
         add(heroesScroll);
     }
 
-    private void restart() {
-        try {
+    public void restart() {
+        /*try {
             Mapper.saveDataBase();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
     }
 }

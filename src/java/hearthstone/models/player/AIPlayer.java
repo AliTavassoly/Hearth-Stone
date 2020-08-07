@@ -8,6 +8,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 import hearthstone.util.timer.HSDelayTask;
@@ -51,7 +52,7 @@ public class AIPlayer extends Player {
 
     public void choosePassive(ArrayList<Integer> passives){
         int ind = Rand.getInstance().getRandomNumber(passives.size());
-        Mapper.setPassive(getPlayerId(), HearthStone.basePassives.get(ind));
+        Mapper.setPassive(getPlayerId(), HSServer.basePassives.get(ind));
     }
 
     private void attackToMinions(){

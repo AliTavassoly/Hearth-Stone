@@ -9,6 +9,7 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -36,7 +37,7 @@ public class DesertSpear extends WeaponCard {
         } catch (HearthStoneException ignore) { }
 
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName("Locust"));
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked)minionCard);
@@ -54,7 +55,7 @@ public class DesertSpear extends WeaponCard {
         Mapper.updateBoard();
 
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Locust"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName("Locust"));
 
         Mapper.updateBoard();
     }

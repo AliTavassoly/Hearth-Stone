@@ -1,9 +1,9 @@
 package hearthstone.client.gui.controls.buttons;
 
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.Deck;
-import hearthstone.models.hero.Hero;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
 
@@ -42,7 +42,7 @@ public class DeckButton extends ImageButton {
             if (heroImage == null)
                 heroImage = ImageResource.getInstance().getImage(
                         "/images/heroes/circle_heroes/" +
-                                Hero.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_')
+                                ClientData.getHeroByType(deck.getHeroType()).getName().toLowerCase().replace(' ', '_')
                                 + ".png");
 
             if (deckImage == null)

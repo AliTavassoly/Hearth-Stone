@@ -1,6 +1,6 @@
 package hearthstone.client.gui.game.waitingpanels;
 
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;

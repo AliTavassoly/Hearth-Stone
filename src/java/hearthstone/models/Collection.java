@@ -1,8 +1,8 @@
 package hearthstone.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.models.card.Card;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.jacksonserializers.CardListSerializer;
 import org.hibernate.annotations.Cascade;

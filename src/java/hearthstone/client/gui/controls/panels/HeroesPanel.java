@@ -1,8 +1,8 @@
 package hearthstone.client.gui.controls.panels;
 
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.HeroButton;
 import hearthstone.models.hero.Hero;
+import hearthstone.shared.GUIConfigs;
 
 import javax.swing.*;
 import java.awt.*;

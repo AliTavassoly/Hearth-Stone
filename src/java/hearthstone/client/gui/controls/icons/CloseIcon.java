@@ -1,11 +1,10 @@
 package hearthstone.client.gui.controls.icons;
 
-import hearthstone.HearthStone;
-import hearthstone.client.HSClient;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.HSClient;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.shared.GUIConfigs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

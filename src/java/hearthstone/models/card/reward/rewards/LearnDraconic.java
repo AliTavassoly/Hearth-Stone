@@ -7,6 +7,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -43,7 +44,7 @@ public class LearnDraconic extends RewardCard implements Battlecry {
     @Override
     public void doReward() {
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Faerie Dragon"));
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName("Faerie Dragon"));
+        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName("Faerie Dragon"));
 
         //Mapper.restartSpentManaOnSpells(getPlayerId());
         Mapper.getPlayer(getPlayerId()).setManaSpentOnSpells(0);

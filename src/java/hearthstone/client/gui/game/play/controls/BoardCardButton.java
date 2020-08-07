@@ -1,8 +1,6 @@
 package hearthstone.client.gui.game.play.controls;
 
-import hearthstone.HearthStone;
-import hearthstone.client.HSClient;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.HSClient;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.interfaces.HaveCard;
 import hearthstone.client.gui.credetials.CredentialsFrame;
@@ -11,6 +9,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 import hearthstone.util.SoundPlayer;
 import hearthstone.util.getresource.ImageResource;

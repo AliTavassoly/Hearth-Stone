@@ -1,8 +1,5 @@
 package hearthstone.client.gui.game.status;
 
-import hearthstone.HearthStone;
-import hearthstone.client.HSClient;
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -12,6 +9,7 @@ import hearthstone.client.gui.controls.panels.DecksPanel;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.util.CustomScrollBarUI;
 import hearthstone.models.Deck;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -20,9 +18,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class StatusPanel extends JPanel {
+    private static StatusPanel instance;
+
     private ImageButton backButton, minimizeButton, closeButton, logoutButton;
     private DecksPanel deckPanel;
     private JScrollPane deckCardScroll;
+
+    public static ArrayList<Deck> topDecks;
 
     private static BufferedImage backgroundImage;
 
@@ -33,7 +35,7 @@ public class StatusPanel extends JPanel {
     private final int startListY = (GUIConfigs.gameFrameHeight - GUIConfigs.statusListHeight) / 2;
     private final int startListX = 100;
 
-    public StatusPanel() {
+    private StatusPanel() {
         configPanel();
 
         makeIcons();
@@ -41,6 +43,14 @@ public class StatusPanel extends JPanel {
         makeDeckList();
 
         layoutComponent();
+    }
+
+    public static StatusPanel makeInstance(){
+        return instance = new StatusPanel();
+    }
+
+    public static StatusPanel getInstance(){
+        return instance;
     }
 
     @Override
@@ -75,7 +85,7 @@ public class StatusPanel extends JPanel {
     private void makeDeckList() {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
-        ArrayList<Deck> topDecks = HSClient.currentAccount.getBestDecks(10);
+        //ArrayList<Deck> topDecks = HSClient.currentAccount.getBestDecks(10);
 
         for (Deck deck : topDecks) {
             decks.add(deck);

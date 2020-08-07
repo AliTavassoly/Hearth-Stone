@@ -1,5 +1,6 @@
 package hearthstone.models.card.heropower.heropowers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hearthstone.HearthStone;
 import hearthstone.Mapper;
 import hearthstone.models.behaviours.Upgradeable;
@@ -8,10 +9,12 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
 
+@JsonIgnoreProperties(value = {"upgraded"})
 @Entity
 public class AncientBlades extends HeroPowerCard implements Upgradeable {
     public AncientBlades() {
@@ -23,12 +26,12 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
 
     public void stealFromHand(int stealerId, int stolenId, int cardId) {
         Mapper.getPlayer(stolenId).getFactory().removeFromHand(cardId);
-        Mapper.getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardById(cardId));
+        Mapper.getPlayer(stealerId).getFactory().makeAndPutDeck(HSServer.getCardById(cardId));
     }
 
     public void stealFromDeck(int stealerId, int stolenId, int cardId) {
         Mapper.getPlayer(stolenId).getFactory().removeFromDeck(cardId);
-        Mapper.getPlayer(stealerId).getFactory().makeAndPutDeck(HearthStone.getCardById(cardId));
+        Mapper.getPlayer(stealerId).getFactory().makeAndPutDeck(HSServer.getCardById(cardId));
     }
 
     private void doAbility() {

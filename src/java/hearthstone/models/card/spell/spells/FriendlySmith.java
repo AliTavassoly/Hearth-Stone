@@ -10,6 +10,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.Rand;
 
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ public class FriendlySmith  extends SpellCard {
     public void doAbility() {
         ArrayList<Card> allWeapons = new ArrayList<>();
         ArrayList<Card> discoverWeapons = new ArrayList<>();
-        for(Card card: HearthStone.baseCards.values()){
+        for(Card card: HSServer.baseCards.values()){
             if(card.getCardType() == CardType.WEAPON_CARD){
                 allWeapons.add(card.copy());
             }

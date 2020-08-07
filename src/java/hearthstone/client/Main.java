@@ -1,6 +1,7 @@
 package hearthstone.client;
 
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.data.ClientData;
+import hearthstone.client.network.HSClient;
 
 public class Main {
     static String serverIP = "localhost";
@@ -8,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         try{
-            GUIConfigs.loadConfigs();
+            ClientData.load();
         } catch(Exception e){
             e.printStackTrace();;
         }

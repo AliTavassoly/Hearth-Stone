@@ -1,7 +1,6 @@
 package hearthstone.client.network;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.client.ClientMapper;
 import hearthstone.client.data.ClientData;
 import hearthstone.models.Packet;
 

@@ -1,15 +1,15 @@
-package hearthstone.client.data;
+package hearthstone.shared;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hearthstone.client.data.ClientData;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GUIConfigs {
-    public static String dataPath = "data";
-
+    private static String dataPath = "data";
     // General
     public static int credentialFrameWidth;
     public static int credentialFrameHeight;

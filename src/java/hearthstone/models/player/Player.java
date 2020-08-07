@@ -1,8 +1,6 @@
 package hearthstone.models.player;
 
-import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.behaviours.*;
@@ -16,6 +14,8 @@ import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
+import hearthstone.server.network.HSServer;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Logger;
 import hearthstone.util.Rand;
@@ -593,7 +593,7 @@ public class Player {
 
         hero.setPlayerId(this.getPlayerId());
 
-        HeroPowerCard heroPower = (HeroPowerCard) HearthStone.getCardByName(hero.getHeroPowerName());
+        HeroPowerCard heroPower = (HeroPowerCard) HSServer.getCardByName(hero.getHeroPowerName());
         configCard(heroPower);
         this.heroPower = heroPower;
 
@@ -822,7 +822,7 @@ public class Player {
 
         public void makeAndPickCard(MinionType minionType) throws HearthStoneException {
             Card cardInHand = null;
-            for (Card card : HearthStone.baseCards.values()) {
+            for (Card card : HSServer.baseCards.values()) {
                 if (card.getCardType() == CardType.MINION_CARD && ((MinionCard) card).getMinionType() == minionType) {
                     cardInHand = card.copy();
                     configCard(cardInHand);
@@ -838,7 +838,7 @@ public class Player {
 
         public void makeAndSummonMinion(MinionType minionType) throws HearthStoneException {
             Card cardInLand = null;
-            for (Card card : HearthStone.baseCards.values()) {
+            for (Card card : HSServer.baseCards.values()) {
                 if (card.getCardType() == CardType.MINION_CARD && ((MinionCard) card).getMinionType() == minionType) {
                     cardInLand = card.copy();
                     configCard(cardInLand);

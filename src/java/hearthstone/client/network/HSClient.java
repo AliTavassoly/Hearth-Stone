@@ -1,4 +1,4 @@
-package hearthstone.client;
+package hearthstone.client.network;
 
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.gui.credetials.CredentialsFrame;
@@ -6,12 +6,16 @@ import hearthstone.client.gui.credetials.LoginPanel;
 import hearthstone.client.gui.credetials.LogisterPanel;
 import hearthstone.client.gui.credetials.RegisterPanel;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.client.gui.game.collection.DeckArrangement;
+import hearthstone.client.gui.game.collection.DeckSelection;
+import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.market.MarketPanel;
-import hearthstone.client.network.Receiver;
-import hearthstone.client.network.Sender;
+import hearthstone.client.gui.game.status.StatusPanel;
 import hearthstone.models.Account;
+import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,9 +59,17 @@ public class HSClient {
             sender = new Sender(socketPrinter);
 
             receiver.start();
+
+            createHearthStoneConfigs();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createHearthStoneConfigs() {
+        ClientMapper.createBaseCardsRequest();
+        ClientMapper.createBaseHeroesRequest();
+        ClientMapper.createBasePassivesRequest();
     }
 
     public static void sendPacket(Packet packet) {
@@ -106,12 +118,43 @@ public class HSClient {
         BaseFrame.error(error);
     }
 
+    public static void updateMarketCards(ArrayList<Card> cards) {
+        MarketPanel.getInstance().update(cards);
+    }
+
     public void openMarket(ArrayList<Card> cards) {
         MarketPanel.marketCards = cards;
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), MarketPanel.makeInstance());
     }
 
-    public static void updateMarketCards(ArrayList<Card> cards) {
-        MarketPanel.getInstance().update(cards);
+    public void openStatus(ArrayList<Deck> decks) {
+        StatusPanel.topDecks = decks;
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), StatusPanel.makeInstance());
+    }
+
+    public void selectedHero() {
+        HeroSelection.getInstance().restart();
+    }
+
+    public void newDeckCreated(String heroName) {
+        DeckSelection.getInstance().restart(heroName);
+    }
+
+    public void deckSelected(String heroName) {
+        DeckSelection.getInstance().restart(heroName);
+    }
+
+    public void deckRemoved(String heroName){
+        DeckSelection.getInstance().restart(heroName);
+    }
+
+    public void addCardToDeck(Card card) {
+        DeckArrangement.getInstance().addCardToDeck(card);
+        DeckArrangement.getInstance().update();
+    }
+
+    public void removeCardFromDeck(Card card){
+        DeckArrangement.getInstance().removeCardFromDeck(card);
+        DeckArrangement.getInstance().update();
     }
 }

@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class  HearthStone{
-    public static Map<Integer, Card> baseCards = new HashMap<>();
-    public static Map<Integer, Hero> baseHeroes = new HashMap<>();
-    public static Map<Integer, Passive> basePassives = new HashMap<>();
+import static hearthstone.server.network.HSServer.getCardByName;
 
+public class  HearthStone{
     //public static Account currentAccount;
     //public static String dataPath;
     public static Market market = new Market();
@@ -63,33 +61,6 @@ public class  HearthStone{
         }
 
         return ans;
-    }
-
-    public static Card getCardByName(String name){
-        for(Card card: baseCards.values()){
-            if(card.getName().equals(name)){
-                return card.copy();
-            }
-        }
-        return null;
-    }
-
-    public static Card getCardById(int cardId){
-        for(Card card: baseCards.values()){
-            if(card.getId() == cardId){
-                return card.copy();
-            }
-        }
-        return null;
-    }
-
-    public static Hero getHeroByName(String name){
-        for(Hero hero: baseHeroes.values()){
-            if(hero.getName().equals(name)){
-                return hero.copy();
-            }
-        }
-        return null;
     }
 
     /*public static void login(String username, String password) throws HearthStoneException {

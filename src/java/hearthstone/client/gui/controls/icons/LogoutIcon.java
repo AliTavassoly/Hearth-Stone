@@ -1,13 +1,7 @@
 package hearthstone.client.gui.controls.icons;
 
-import hearthstone.HearthStone;
-import hearthstone.client.ClientMapper;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.ImageButton;
-import hearthstone.client.gui.controls.dialogs.SureDialog;
-import hearthstone.client.gui.credetials.CredentialsFrame;
-import hearthstone.client.gui.game.GameFrame;
-import hearthstone.util.HearthStoneException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

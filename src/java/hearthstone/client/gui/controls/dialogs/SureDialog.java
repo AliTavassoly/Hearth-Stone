@@ -1,9 +1,9 @@
 package hearthstone.client.gui.controls.dialogs;
 
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 
 import javax.swing.*;
@@ -50,6 +50,7 @@ public class SureDialog extends HSDialog {
         okButton = new ImageButton("ok", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
+
                 GUIConfigs.smallButtonWidth, GUIConfigs.smallButtonHeight);
 
         cancelButton = new ImageButton("cancel", "buttons/red_background.png", 0,

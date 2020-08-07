@@ -1,23 +1,20 @@
 package hearthstone.client.gui.game.settings;
 
-import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.client.ClientMapper;
-import hearthstone.client.HSClient;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.server.data.ServerData;
-import hearthstone.client.data.GUIConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.dialogs.CardsBackDialog;
 import hearthstone.client.gui.controls.dialogs.NameDialog;
 import hearthstone.client.gui.controls.dialogs.PasswordDialog;
-import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.LogoutIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;
-import hearthstone.client.gui.credetials.CredentialsFrame;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.Logger;
 import hearthstone.util.getresource.ImageResource;
 

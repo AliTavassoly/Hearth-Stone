@@ -1,8 +1,7 @@
 package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import hearthstone.client.HSClient;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.HSClient;
 import hearthstone.server.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
@@ -16,7 +15,8 @@ import hearthstone.models.hero.heroes.*;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.passive.passives.*;
 import hearthstone.server.network.HSServer;
-import hearthstone.util.HearthStoneException;
+import hearthstone.shared.GUIConfigs;
+import hearthstone.shared.GameConfigs;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -33,7 +33,6 @@ import hearthstone.models.card.weapon.weapons.*;
 import java.io.*;
 import java.util.*;
 
-import static hearthstone.HearthStone.*;
 import static hearthstone.server.Main.dataPath;
 
 public class DataBase {
@@ -243,7 +242,7 @@ public class DataBase {
                 "Reward: Summon a\n" +
                 " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
         HearthStone.baseCards.put(securityReward.getId(), securityReward);*/
-        baseCards = getBaseCards();
+        HSServer.baseCards = getBaseCards();
     }
 
     private static void loadHeroes() throws Exception {
@@ -271,7 +270,7 @@ public class DataBase {
         Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
                 30);
         HearthStone.baseHeroes.put(priest.getId(), priest);*/
-        baseHeroes = getBaseHeroes();
+        HSServer.baseHeroes = getBaseHeroes();
     }
 
     private static void loadPassives() throws Exception {
@@ -290,10 +289,10 @@ public class DataBase {
 
         Nurse nurse = new Nurse(id++, "Nurse");
         basePassives.put(nurse.getId(), nurse);*/
-        basePassives = getBasePassives();
+        HSServer.basePassives = getBasePassives();
     }
 
-    private static Map<String, AccountCredential> getCredentials(){
+    private static Map<String, AccountCredential> getCredentials() {
         Map<String, AccountCredential> ans = new HashMap<>();
         List<AccountCredential> accountCredentials = getAll(AccountCredential.class);
         for (AccountCredential accountCredential : accountCredentials) {
@@ -302,11 +301,11 @@ public class DataBase {
         return ans;
     }
 
-    public static Account getAccount(String username){
+    public static Account getAccount(String username) {
         return fetch(Account.class, username);
     }
 
-    private static Map<String, Integer> getGameConfigs() throws Exception {
+    public static Map<String, Integer> getGameConfigs() throws Exception {
         File file = new File(dataPath + "/game_configs.json");
         return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
         });
@@ -336,7 +335,7 @@ public class DataBase {
         return map;
     }
 
-    private static Map<Integer, Hero> getBaseHeroes(){
+    private static Map<Integer, Hero> getBaseHeroes() {
         Map<Integer, Hero> map = new HashMap<>();
         for (int i = 1; i <= 5; i++) {
             map.put(i - 1, fetch(Hero.class, i));
@@ -344,7 +343,7 @@ public class DataBase {
         return map;
     }
 
-    private static Map<Integer, Passive> getBasePassives(){
+    private static Map<Integer, Passive> getBasePassives() {
         List<Passive> passives = getAll(Passive.class);
         Map<Integer, Passive> map = new HashMap<>();
         for (Passive passive : passives) {
@@ -357,18 +356,17 @@ public class DataBase {
         saveOrUpdate(HSClient.currentAccount);
     }
 
-    private static void saveAccount(Account account){
+    private static void saveAccount(Account account) {
         saveOrUpdate(account);
     }
 
-    private static void saveCredentials(){
+    private static void saveCredentials() {
         for (AccountCredential accountCredential : ServerData.getAccounts().values()) {
             saveOrUpdate(accountCredential);
         }
     }
 
-    private static void saveMarket(){
-        System.out.println(HSServer.market.getCards());
+    private static void saveMarket() {
         saveOrUpdate(HSServer.market);
     }
 
@@ -387,11 +385,9 @@ public class DataBase {
     }
 
     private static void loadConfigs() throws Exception {
-        var gameConfigs = getGameConfigs();
-        GameConfigs.setConfigs(gameConfigs);
+        GUIConfigs.loadConfigs();
 
-        var sizeConfigs = getSizeConfigs();
-        GUIConfigs.setConfigs(sizeConfigs);
+        GameConfigs.loadConfigs();
     }
 
     private static void loadMarket() {
@@ -403,7 +399,7 @@ public class DataBase {
         ServerData.setAccounts(getCredentials());
     }
 
-    private static void loadClientsDetails(){
+    private static void loadClientsDetails() {
         ServerData.setClientsDetails();
     }
 

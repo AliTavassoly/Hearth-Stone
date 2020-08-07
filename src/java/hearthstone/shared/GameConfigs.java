@@ -1,15 +1,15 @@
-package hearthstone.server.data;
-
+package hearthstone.shared;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.server.Main;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameConfigs {
+    private static String dataPath = "data";
+
     public static int maxCardInCollection;
     public static int initialCoins;
     public static int maxCardInDeck;
@@ -22,7 +22,7 @@ public class GameConfigs {
     public static int initialDiscardCards;
     public static int initialCardsBack;
 
-    public static void setConfigs(Map<String, Integer> configs) {
+    static public void setConfigs(Map<String, Integer> configs) {
         maxCardInCollection = configs.get("maxCardInCollection");
         maxCardInDeck = configs.get("maxCardInDeck");
         initialCoins = configs.get("initialCoins");
@@ -38,15 +38,14 @@ public class GameConfigs {
 
     private static Map<String, Integer> getConfigs() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File(Main.dataPath + "/game_configs.json");
+        File file = new File(dataPath + "/game_configs.json");
         file.getParentFile().mkdirs();
         file.createNewFile();
         return mapper.readValue(file, new TypeReference<HashMap<String, Integer>>() {});
     }
 
     public static void loadConfigs() throws Exception{
-        var gameConfigs = getConfigs();
-        setConfigs(gameConfigs);
+        var guiConfigs = getConfigs();
+        setConfigs(guiConfigs);
     }
 }
-

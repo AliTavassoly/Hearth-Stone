@@ -2,13 +2,11 @@ package hearthstone.models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hearthstone.HearthStone;
-import hearthstone.client.HSClient;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.server.data.ServerData;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.jacksonserializers.CardListSerializer;
 import hearthstone.util.jacksonserializers.MapIntToIntSerializer;
@@ -185,27 +183,31 @@ public class Deck implements Comparable<Deck> {
         return ans;
     }
 
-    public boolean canAdd(Card baseCard, int cnt) {
-        if (numberOfCards(baseCard) + cnt > HSClient.currentAccount.getCollection().numberOfCards(baseCard)) {
+    public boolean canAdd(Card baseCard, Collection collection, List<Integer> unlockedCards, int cnt) {
+        if (numberOfCards(baseCard) + cnt > collection.numberOfCards(baseCard)) {
             return false;
         }
+        System.out.println("salam1" + " " + cards.size() + " " + cnt + " " + GameConfigs.maxCardInDeck);
         if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
             return false;
         }
+        System.out.println("salam2");
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             return false;
         }
-        if (!HSClient.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
+        System.out.println("salam3");
+        if (!unlockedCards.contains(baseCard.getId())) {
             return false;
         }
+        System.out.println("salam4");
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
             return false;
         }
         return true;
     }
 
-    public void add(Card baseCard, int cnt) throws HearthStoneException {
-        if (numberOfCards(baseCard) + cnt > HSClient.currentAccount.getCollection().numberOfCards(baseCard)) {
+    public void add(Card baseCard, Collection accountCollection, List<Integer> unlockedCards, int cnt) throws HearthStoneException {
+        if (numberOfCards(baseCard) + cnt > accountCollection.numberOfCards(baseCard)) { // edited
             throw new HearthStoneException("You don't have " + (numberOfCards(baseCard) + cnt) + " numbers of this card!");
         }
         if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
@@ -214,7 +216,7 @@ public class Deck implements Comparable<Deck> {
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             throw new HearthStoneException("You can not have " + cnt + " numbers of this card!");
         }
-        if (!HSClient.currentAccount.getUnlockedCards().contains(baseCard.getId())) {
+        if (!unlockedCards.contains(baseCard.getId())) { // edited
             throw new HearthStoneException("This card is locked for you!");
         }
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
@@ -235,7 +237,7 @@ public class Deck implements Comparable<Deck> {
         return numberOfCards(baseCard) - cnt >= 0;
     }
 
-    public void remove(Card baseCard, int cnt) throws Exception {
+    public void remove(Card baseCard, int cnt) throws HearthStoneException {
         if (numberOfCards(baseCard) - cnt < 0) {
             throw new HearthStoneException("There is not " + cnt + " numbers of " + baseCard.getName() + " in your deck!");
         }

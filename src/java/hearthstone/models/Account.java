@@ -2,12 +2,12 @@ package hearthstone.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hearthstone.HearthStone;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
+import hearthstone.server.network.HSServer;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.jacksonserializers.DeckListSerializer;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.jacksonserializers.HeroListSerializer;
@@ -88,13 +88,13 @@ public class Account {
     }
 
     private void accountConfigs() {
-        for(Hero hero: HearthStone.baseHeroes.values()){
+        for (Hero hero : HSServer.baseHeroes.values()) {
             Hero hero1 = hero.copy();
             heroes.add(hero1);
         }
 
         ArrayList<Card> cards = new ArrayList<>();
-        for (Card card : HearthStone.baseCards.values()) {
+        for (Card card : HSServer.baseCards.values()) {
             if (card.getCardType() == CardType.HERO_POWER) {
                 unlockedCards.add(card.getId());
                 continue;
@@ -194,17 +194,6 @@ public class Account {
     }
 
     public List<Deck> getDecks() {
-        for (int i = 0; i < decks.size(); i++) {
-            for (Hero hero : heroes) {
-                for (int j = 0; j < hero.getDecks().size(); j++) {
-                    Deck deck = decks.get(i);
-                    Deck deck1 = hero.getDecks().get(j);
-                    if (deck.getName().equals(deck1.getName()) && deck1.getHeroType() == deck.getHeroType()) {
-                        decks.set(i, deck1);
-                    }
-                }
-            }
-        }
         return decks;
     }
 
@@ -221,6 +210,15 @@ public class Account {
     }
 
     // End of setters and getters
+
+    public void selectHero(String heroName) {
+        for (Hero hero : heroes) {
+            if (hero.getName().equals(heroName)) {
+                selectedHero = hero;
+                return;
+            }
+        }
+    }
 
     public boolean canSell(Card baseCard, int cnt) {
         return true;
@@ -241,7 +239,7 @@ public class Account {
             hearthstone.util.Logger.saveLog("buy",
                     "in market, bought " + 1 + " of " +
                             baseCard.getName() + "!");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -254,14 +252,20 @@ public class Account {
             hearthstone.util.Logger.saveLog("sell",
                     "in market, sold " + 1 + " of " +
                             baseCard.getName() + "!");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public ArrayList<Deck> getBestDecks(int cnt) {
         ArrayList<Deck> ans = new ArrayList<>();
-        List<Deck> decks = getDecks();
+        List<Deck> decks = new ArrayList<>();
+
+        System.out.println("in getting best decks: " + this.decks.size() + " " + this);
+
+        for(Deck deck: this.decks){
+            decks.add(deck);
+        }
 
         Collections.sort(decks);
 
@@ -288,5 +292,67 @@ public class Account {
 
     public Player getPlayer() {
         return new Player(selectedHero, getSelectedHero().getSelectedDeck(), username);
+    }
+
+    public Hero getHeroByName(String heroName) {
+        for (Hero hero : heroes) {
+            if (hero.getName().equals(heroName))
+                return hero;
+        }
+        return null;
+    }
+
+    public void createDeck(Deck deck, String heroName) throws HearthStoneException {
+        Hero hero = getHeroByName(heroName);
+        if (!hero.validNameForDeck(deck.getName()))
+            throw new HearthStoneException("This name is already token!");
+        if (GameConfigs.maxNumberOfDeck == hero.getDecks().size())
+            throw new HearthStoneException("You can't have " + GameConfigs.maxNumberOfDeck +
+                    " number of decks for one hero!");
+
+        List<Deck> decks = hero.getDecks();
+        decks.add(deck);
+
+        this.decks.add(deck);
+
+        hero.setDecks(decks);
+    }
+
+    public void selectDeck(String heroName, String deckName) {
+        Hero hero = getHeroByName(heroName);
+        hero.selectDeck(deckName);
+    }
+
+    public void removeDeck(String heroName, String deckName) {
+        Hero hero = getHeroByName(heroName);
+        hero.removeDeck(deckName);
+
+        for(Deck deck: this.decks){
+            if(deck.getName().equals(deckName) && deck.getHeroType().getHeroName().equals(heroName)){
+                this.decks.remove(deck);
+                break;
+            }
+        }
+    }
+
+    public Card addCardToDeck(String heroName, String deckName, int cardId,
+                              Collection accountCollection, List<Integer> unlockedCards, int cnt) throws HearthStoneException{
+        Hero hero = getHeroByName(heroName);
+        Deck deck = hero.getDeckByName(deckName);
+
+        Card card = HSServer.getCardById(cardId);
+        deck.add(card, accountCollection, unlockedCards, cnt);
+
+        return card;
+    }
+
+    public Card removeCardFromDeck(String heroName, String deckName, int cardId, int cnt) throws HearthStoneException{
+        Hero hero = getHeroByName(heroName);
+        Deck deck = hero.getDeckByName(deckName);
+
+        Card card = HSServer.getCardById(cardId);
+        deck.remove(card, cnt);
+
+        return card;
     }
 }

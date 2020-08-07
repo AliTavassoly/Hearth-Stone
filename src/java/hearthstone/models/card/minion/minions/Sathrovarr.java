@@ -10,6 +10,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -40,13 +41,13 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
             //Mapper.makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HSServer.getCardByName(card.getName()));
 
             //Mapper.makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HSServer.getCardByName(card.getName()));
 
             //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HearthStone.getCardByName(card.getName()));
+            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName(card.getName()));
 
             Mapper.deleteCurrentMouseWaiting();
             Mapper.updateBoard();

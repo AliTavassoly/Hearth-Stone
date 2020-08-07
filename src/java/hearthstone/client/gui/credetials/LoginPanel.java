@@ -1,13 +1,11 @@
 package hearthstone.client.gui.credetials;
 
-import hearthstone.client.ClientMapper;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
 import hearthstone.client.gui.controls.fields.TextField;
-import hearthstone.client.gui.game.GameFrame;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
-import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;

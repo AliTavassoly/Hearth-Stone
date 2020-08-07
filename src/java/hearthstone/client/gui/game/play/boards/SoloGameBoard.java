@@ -1,9 +1,6 @@
 package hearthstone.client.gui.game.play.boards;
 
-import hearthstone.HearthStone;
 import hearthstone.Mapper;
-import hearthstone.client.data.GUIConfigs;
-import hearthstone.server.data.GameConfigs;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.CardDialog;
@@ -15,6 +12,9 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.gui.util.Animation;
 import hearthstone.models.card.Card;
+import hearthstone.server.network.HSServer;
+import hearthstone.shared.GUIConfigs;
+import hearthstone.shared.GameConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
@@ -98,13 +98,13 @@ public class SoloGameBoard extends GameBoard {
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        HearthStone.basePassives.size())
+                        HSServer.basePassives.size())
         );
         Mapper.setPassive(myPlayerId, passiveDialog0.getPassive());
 
         Mapper.passPassivesToAI(enemyPlayerId, Rand.getInstance().getRandomArray(
                 GameConfigs.initialPassives,
-                HearthStone.basePassives.size()));
+                HSServer.basePassives.size()));
     }
 
     @Override

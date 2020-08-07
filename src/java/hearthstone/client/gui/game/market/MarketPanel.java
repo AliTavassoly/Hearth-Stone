@@ -1,13 +1,8 @@
 package hearthstone.client.gui.game.market;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
-import hearthstone.client.ClientMapper;
-import hearthstone.client.HSClient;
-import hearthstone.client.gui.BaseFrame;
-import hearthstone.client.data.GUIConfigs;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.client.gui.controls.buttons.ImageButton;
-import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.controls.icons.BackIcon;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.LogoutIcon;
@@ -18,10 +13,9 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.util.CustomScrollBarUI;
 import hearthstone.models.card.Card;
-import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
+import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
-import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -424,8 +418,19 @@ public class MarketPanel extends JPanel {
         gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
     }
 
-    public void update(ArrayList<Card> cards){
+    private void updateCards(ArrayList<Card> cards){
         MarketPanel.marketCards = cards;
+    }
+
+    private void updateInformation(){
+        gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
+    }
+
+    public void update(ArrayList<Card> cards){
+        updateCards(cards);
+
+        updateInformation();
+
         revalidate();
         repaint();
     }

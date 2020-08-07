@@ -1,6 +1,6 @@
 package hearthstone;
 
-import hearthstone.client.HSClient;
+import hearthstone.client.network.HSClient;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.game.play.boards.GameBoard;
 import hearthstone.server.logic.Game;
@@ -13,6 +13,7 @@ import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -86,18 +87,6 @@ public class Mapper {
         getGameBoard().animateSpell(playerId, card);
     }
 
-    public static void buyCard(int cardId) throws Exception {
-        Card card = HearthStone.getCardById(cardId);
-        HSClient.currentAccount.buyCards(card, 1);
-        HearthStone.market.removeCard(card, 1);
-    }
-
-    public static void sellCard(int cardId) throws Exception {
-        Card card = HearthStone.getCardById(cardId);
-        HSClient.currentAccount.sellCards(card, 1);
-        HearthStone.market.addCard(card.copy(), 1);
-    }
-
     public static void saveDataBase() throws Exception {
         DataBase.save();
     }
@@ -106,14 +95,6 @@ public class Mapper {
         getPlayer(0).updatePlayer();
         getPlayer(1).updatePlayer();
         getGameBoard().restart();
-    }
-
-    public static void removeFromDeck(Deck deck, Card card, int cnt) throws Exception{
-        deck.remove(card, cnt);
-    }
-
-    public static void addToDeck(Deck deck, Card card, int cnt) throws Exception{
-        deck.add(card, cnt);
     }
 
     public static int getEnemyId(int playerId){

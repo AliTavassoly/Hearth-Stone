@@ -1,15 +1,7 @@
 package hearthstone.util;
 
-import hearthstone.client.HSClient;
-import hearthstone.server.Main;
-import hearthstone.server.data.ServerData;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class Logger {
     public static void saveLog(String title, String description, String username)
