@@ -148,7 +148,7 @@ public class MainMenuPanel extends JPanel {
                     }
 
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                            new PlaySelectionPanel());
+                            PlaySelectionPanel.makeInstance());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

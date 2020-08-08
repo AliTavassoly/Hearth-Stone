@@ -1,11 +1,11 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public class WeaponSteal extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.makeNewMouseWaiting(getCursorType(), this);
+        HSServer.getInstance().createMouseWaiting(playerId, getCursorType(), this);
     }
 
     @Override
@@ -38,10 +38,11 @@ public class WeaponSteal extends SpellCard {
 
             //Mapper.addDurability(2, card);
             card.setDurability(card.getDurability() + 2);
-            Mapper.updateBoard();
+            // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
 
             //Mapper.makeAndPutDeck(getPlayerId(), card);
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
         }
     }
 }

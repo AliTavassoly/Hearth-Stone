@@ -468,13 +468,10 @@ public class DeckArrangement extends JPanel {
         if (selectedButton != 0)
             cardsPanel.removeCard(card);
         deckCardsPanel.addCard(card, getDeckCardsPanel(card));
-        System.out.println("in client, after add to deck: " + HSClient.currentAccount.getSelectedHero().getDecks().size());
     }
 
     public void removeCardFromDeck(Card card) {
         deckCardsPanel.removeCard(card);
         cardsPanel.addCard(card, getCardsPanel(card));
-
-        System.out.println("in client, after remove from deck: " + HSClient.currentAccount.getSelectedHero().getDecks().size());
     }
 }

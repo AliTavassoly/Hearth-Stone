@@ -1,12 +1,12 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -26,18 +26,19 @@ public class Flamereaper extends WeaponCard {
         /*DataTransform.getNeighbors(
                         Mapper.getEnemyId(getPlayerId()),
                         minionCard);*/
-        ArrayList <MinionCard> neighbors = Mapper.getPlayer(minionCard.getPlayerId()).neighborCards(minionCard);
+        ArrayList <MinionCard> neighbors = HSServer.getInstance().getPlayer(minionCard.getPlayerId()).neighborCards(minionCard);
 
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
 
         log(minionCard);
 
         try {
             /*Mapper.damage(minionCard.getAttack(),
                     Mapper.getHero(getPlayerId()), false);*/
-            Mapper.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+            HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
 
         } catch (HearthStoneException ignore) { }
 
@@ -48,7 +49,8 @@ public class Flamereaper extends WeaponCard {
             } catch (HearthStoneException ignore) { }
         }
 
-        Mapper.updateBoard();
+        //Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked)minionCard);

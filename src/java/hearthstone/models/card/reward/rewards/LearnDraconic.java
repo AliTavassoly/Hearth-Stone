@@ -1,12 +1,11 @@
 package hearthstone.models.card.reward.rewards;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
@@ -23,13 +22,13 @@ public class LearnDraconic extends RewardCard implements Battlecry {
     @Override
     public void battlecry() {
         //Mapper.restartSpentManaOnSpells(getPlayerId());
-        Mapper.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
+        HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnSpells(0);
     }
 
     @Override
     public int getPercentage() {
         //int now = DataTransform.spentManaOnSpells(getPlayerId());
-        int now = Mapper.getPlayer(getPlayerId()).getManaSpentOnSpells();
+        int now = HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnSpells();
         int end = 8;
 
         return (int)(((double)now / (double)end) * 100);
@@ -37,20 +36,21 @@ public class LearnDraconic extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return Mapper.getPlayer(getPlayerId()).getManaSpentOnSpells() >= 8
+        return HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnSpells() >= 8
                 /*DataTransform.spentManaOnSpells(getPlayerId()) >= 8*/ ;
     }
 
     @Override
     public void doReward() {
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Faerie Dragon"));
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName("Faerie Dragon"));
+        HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Faerie Dragon"));
 
         //Mapper.restartSpentManaOnSpells(getPlayerId());
-        Mapper.getPlayer(getPlayerId()).setManaSpentOnSpells(0);
+        HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnSpells(0);
 
         log();
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

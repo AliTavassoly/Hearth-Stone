@@ -22,11 +22,13 @@ public class Receiver extends Thread{
             while (true) {
                 System.out.println("client started to read ... : ");
                 String message = scanner.nextLine();
-                System.out.println(message);
+                //System.out.println(message);
 
                 ObjectMapper mapper = ClientData.getNetworkMapper();
 
                 Packet packet = mapper.readValue(message, Packet.class);
+
+                System.out.println(packet.getFunctionName());
 
                 ClientMapper.invokeFunction(packet);
             }

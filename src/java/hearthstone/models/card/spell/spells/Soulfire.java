@@ -1,11 +1,11 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -33,8 +33,9 @@ public class Soulfire extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.makeNewMouseWaiting(getCursorType(), this);
-        Mapper.updateBoard();
+        HSServer.getInstance().createMouseWaiting(playerId, getCursorType(), this);
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 
     @Override
@@ -52,9 +53,10 @@ public class Soulfire extends SpellCard {
             } catch (HearthStoneException ignore) { }
 
             try {
-                //Mapper.getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
-                Mapper.getPlayer(getPlayerId()).discardCard(Mapper.getPlayer(getPlayerId()).getFactory().getRandomCardFromHand().getCardGameId());
-                Mapper.updateBoard();
+                //HSServer.getInstance().getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
+                HSServer.getInstance().getPlayer(getPlayerId()).discardCard(HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomCardFromHand().getCardGameId());
+                // Mapper.updateBoard();
+                HSServer.getInstance().updateGameRequest(playerId);
             } catch (Exception ignore) {
             }
         }

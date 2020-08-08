@@ -1,12 +1,12 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -27,7 +27,7 @@ public class LabRecruiter extends MinionCard implements Battlecry {
     public void battlecry() {
         //MinionCard minionCard = (MinionCard) DataTransform.getRandomCardFromOriginalDeck(getPlayerId(),
         //                CardType.MINION_CARD);
-        MinionCard minionCard = (MinionCard) Mapper.getPlayer(getPlayerId()).getFactory().getRandomCardFromOriginalDeck(CardType.MINION_CARD);
+        MinionCard minionCard = (MinionCard) HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomCardFromOriginalDeck(CardType.MINION_CARD);
 
 
         if(minionCard == null)
@@ -38,7 +38,7 @@ public class LabRecruiter extends MinionCard implements Battlecry {
         //Mapper.makeAndPutDeck(getPlayerId(), minionCard.copy());
 
         for(int i = 0; i < 3; i++){
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(minionCard.copy());
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(minionCard.copy());
         }
     }
 }

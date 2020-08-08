@@ -73,11 +73,11 @@ public class MarketPanel extends JPanel {
         layoutComponent();
     }
 
-    public static MarketPanel makeInstance(){
+    public static MarketPanel makeInstance() {
         return instance = new MarketPanel();
     }
 
-    public static MarketPanel getInstance(){
+    public static MarketPanel getInstance() {
         return instance;
     }
 
@@ -179,7 +179,6 @@ public class MarketPanel extends JPanel {
         ArrayList<Card> cards = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
-        System.out.println(HSServer.market);
         for (Card card : marketCards) {
             cards.add(card);
             panels.add(getBuyPanel(card));
@@ -287,35 +286,7 @@ public class MarketPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                /*try {
-                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
-                            "Are you sure you want to sell " + card.getName()
-                                    + " for " + card.getSellPrice() + "gems" + " ?",
-                            GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "sell_button");
-                    boolean sure = sureDialog.getValue();
-                    if (sure) {*/
-                //Mapper.sellCard(card.getId());
                 ClientMapper.sellCardRequest(card.getId());
-
-                /*buyPanel.addCard(card, getBuyPanel(card));
-                sellPanel.removeCard(card);
-                gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));*/
-
-                //Mapper.saveDataBase();
-                //}
-                /*} catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage() +
-                                        "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception ignored) { }
-                    BaseFrame.error(e.getMessage());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }*/
             }
         });
         Price price = new Price(String.valueOf(card.getBuyPrice()));
@@ -344,35 +315,7 @@ public class MarketPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                /*try {
-                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
-                            "Are you sure you want to buy " + card.getName()
-                                    + " for  " + card.getBuyPrice() + "  gems " + " ?",
-                            GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
-
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "buy_button");
-
-                    boolean sure = sureDialog.getValue();
-                    if (sure) {*/
-                        //Mapper.buyCard(card.getId());
-                        ClientMapper.buyCardRequest(card.getId());
-                        //buyPanel.removeCard(card);
-                        //gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
-
-                        //Mapper.saveDataBase();
-                    /*}
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) {
-                    }
-                    BaseFrame.error(e.getMessage());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }*/
+                ClientMapper.buyCardRequest(card.getId());
             }
         });
         Price price = new Price(String.valueOf(card.getBuyPrice()));
@@ -407,26 +350,26 @@ public class MarketPanel extends JPanel {
         }
     }
 
-    public void sold(Card card){
+    public void sold(Card card) {
         buyPanel.addCard(card, getBuyPanel(card));
         sellPanel.removeCard(card);
         gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
     }
 
-    public void bought(Card card){
+    public void bought(Card card) {
         buyPanel.removeCard(card);
         gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
     }
 
-    private void updateCards(ArrayList<Card> cards){
+    private void updateCards(ArrayList<Card> cards) {
         MarketPanel.marketCards = cards;
     }
 
-    private void updateInformation(){
+    private void updateInformation() {
         gemLabel.setText(String.valueOf(HSClient.currentAccount.getGem()));
     }
 
-    public void update(ArrayList<Card> cards){
+    public void update(ArrayList<Card> cards) {
         updateCards(cards);
 
         updateInformation();

@@ -187,19 +187,15 @@ public class Deck implements Comparable<Deck> {
         if (numberOfCards(baseCard) + cnt > collection.numberOfCards(baseCard)) {
             return false;
         }
-        System.out.println("salam1" + " " + cards.size() + " " + cnt + " " + GameConfigs.maxCardInDeck);
         if (cards.size() + cnt > GameConfigs.maxCardInDeck) {
             return false;
         }
-        System.out.println("salam2");
         if (numberOfCards(baseCard) + cnt > GameConfigs.maxCardOfOneType) {
             return false;
         }
-        System.out.println("salam3");
         if (!unlockedCards.contains(baseCard.getId())) {
             return false;
         }
-        System.out.println("salam4");
         if (baseCard.getHeroType() != HeroType.ALL && baseCard.getHeroType() != heroType) {
             return false;
         }

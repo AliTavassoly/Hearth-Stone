@@ -1,14 +1,12 @@
 package hearthstone.models.player;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
-import hearthstone.server.network.HSServer;
+import hearthstone.server.data.ServerData;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
 import hearthstone.util.timer.HSDelayTask;
@@ -22,7 +20,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public void startTurn() throws Exception {
+    public void startTurn() throws HearthStoneException {
         super.startTurn();
 
         playWeapon();
@@ -45,14 +43,14 @@ public class AIPlayer extends Player {
                     attackToHero();
                 }
 
-                Mapper.endTurn();
+                game.endTurn();
             }
         }).start();
     }
 
     public void choosePassive(ArrayList<Integer> passives){
         int ind = Rand.getInstance().getRandomNumber(passives.size());
-        Mapper.setPassive(getPlayerId(), HSServer.basePassives.get(ind));
+        this.passive = ServerData.basePassives.get(ind);
     }
 
     private void attackToMinions(){
@@ -66,9 +64,9 @@ public class AIPlayer extends Player {
     }
 
     private void playWeapon(){
-        ArrayList<Card> hand = new ArrayList<>(Mapper.getHand(getPlayerId()));
+        ArrayList<Card> hand = new ArrayList<>(this.hand);
         for(Card card: hand){
-            if(card.getCardType() == CardType.WEAPON_CARD && Mapper.getWeapon(getPlayerId()) == null) {
+            if(card.getCardType() == CardType.WEAPON_CARD && weapon == null) {
                 try {
                     playCard(card);
                 } catch (HearthStoneException ignore) {
@@ -78,7 +76,7 @@ public class AIPlayer extends Player {
     }
 
     private void playMinions(){
-        ArrayList<Card> hand = new ArrayList<>(Mapper.getHand(getPlayerId()));
+        ArrayList<Card> hand = new ArrayList<>(this.hand);
         for(Card card: hand){
             if(card.getCardType() == CardType.MINION_CARD) {
                 try {
@@ -90,20 +88,20 @@ public class AIPlayer extends Player {
     }
 
     private void attackMinionsToHero(){
-        ArrayList<Card> land = new ArrayList<>(Mapper.getLand(getPlayerId()));
+        ArrayList<Card> land = new ArrayList<>(this.land);
         for (Card myCard : land) {
             MinionCard myMinion = (MinionCard) myCard;
             if(myMinion.canAttack() && myMinion.getHealth() > 0){
                 try {
-                    myMinion.found(Mapper.getHero(Mapper.getEnemyId(getPlayerId())));
+                    myMinion.found(game.getPlayerById(enemyPlayerId).getHero());
                 } catch (HearthStoneException ignore) {}
             }
         }
     }
 
     private void attackMinionToMinion(){
-        ArrayList<Card> myLand = new ArrayList<>(Mapper.getLand(getPlayerId()));
-        ArrayList<Card> enemyLand = new ArrayList<>(Mapper.getLand(Mapper.getEnemyId(getPlayerId())));
+        ArrayList<Card> myLand = new ArrayList<>(this.land);
+        ArrayList<Card> enemyLand = new ArrayList<>(game.getPlayerById(enemyPlayerId).getLand());
 
         for(int i = 0; i < 10; i++) {
             for (Card myCard : myLand) {
@@ -122,10 +120,10 @@ public class AIPlayer extends Player {
     }
 
     private void attackWeaponToMinion(){
-        WeaponCard myWeapon = Mapper.getWeapon(getPlayerId());
+        WeaponCard myWeapon = weapon;
         if(myWeapon == null || !myWeapon.canAttack())
             return;
-        ArrayList<Card> enemyLand = new ArrayList<>(Mapper.getLand(Mapper.getEnemyId(getPlayerId())));
+        ArrayList<Card> enemyLand = new ArrayList<>(game.getPlayerById(enemyPlayerId).getLand());
         for (Card enemyCard: enemyLand){
             MinionCard enemyMinion = (MinionCard)enemyCard;
             if(enemyMinion.getHealth() > 0 && myWeapon.canAttack()){
@@ -137,12 +135,12 @@ public class AIPlayer extends Player {
     }
 
     private void attackWeaponToHero(){
-        WeaponCard myWeapon = Mapper.getWeapon(getPlayerId());
+        WeaponCard myWeapon = weapon;
         if(myWeapon == null || !myWeapon.canAttack())
             return;
 
         try {
-            myWeapon.found(Mapper.getHero(Mapper.getEnemyId(getPlayerId())));
+            myWeapon.found(game.getPlayerById(enemyPlayerId).getHero());
         } catch (HearthStoneException ignore) {}
     }
 }

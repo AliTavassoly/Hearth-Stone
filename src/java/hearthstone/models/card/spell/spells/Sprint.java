@@ -1,10 +1,10 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Sprint extends SpellCard {
         try {
             for (int i = 0; i < 4; i++)
                 //Mapper.drawCard(getPlayerId());
-                Mapper.getPlayer(getPlayerId()).drawCard();
+                HSServer.getInstance().getPlayer(getPlayerId()).drawCard();
         } catch (HearthStoneException ignore) {
         }
     }

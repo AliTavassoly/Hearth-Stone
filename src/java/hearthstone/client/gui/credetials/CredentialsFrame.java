@@ -1,10 +1,13 @@
 package hearthstone.client.gui.credetials;
 
 import hearthstone.client.gui.BaseFrame;
+import hearthstone.client.gui.game.GameFrame;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.SoundPlayer;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class CredentialsFrame extends BaseFrame {
     private LogisterPanel logisterPanel;
@@ -15,6 +18,22 @@ public class CredentialsFrame extends BaseFrame {
         logisterPanel = new LogisterPanel();
 
         configFrame();
+
+        changeLocationMouseListener();
+    }
+
+    private void changeLocationMouseListener() {
+        this.addMouseMotionListener(new MouseMotionListener() {
+            public void mouseDragged(MouseEvent mouseEvent) {
+                CredentialsFrame.this.setLocation(
+                        (int) mouseEvent.getLocationOnScreen().getX() - GUIConfigs.credentialFrameWidth / 2,
+                        (int) mouseEvent.getLocationOnScreen().getY() - GUIConfigs.credentialFrameHeight / 2
+                );
+            }
+
+            public void mouseMoved(MouseEvent mouseEvent) {
+            }
+        });
     }
 
     public static CredentialsFrame getInstance() {
@@ -26,7 +45,7 @@ public class CredentialsFrame extends BaseFrame {
     }
 
     public static CredentialsFrame getNewInstance() {
-        if(credentialsFrame != null)
+        if (credentialsFrame != null)
             credentialsFrame.stopSound();
         credentialsFrame = new CredentialsFrame();
         credentialsFrame.playSound();
@@ -57,7 +76,7 @@ public class CredentialsFrame extends BaseFrame {
         soundPlayer.loopPlay();
     }
 
-    public SoundPlayer getSoundPlayer(){
+    public SoundPlayer getSoundPlayer() {
         return soundPlayer;
     }
 }

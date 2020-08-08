@@ -1,8 +1,8 @@
 package hearthstone.models.specialpower.specialpowers;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.specialpower.SpecialHeroPower;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -16,7 +16,6 @@ public class MagePower extends SpecialHeroPower implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        //Mapper.discountSpells(getPlayerId(), 2);
-        Mapper.getPlayer(getPlayerId()).discountSpells(2);
+        HSServer.getInstance().getPlayer(getPlayerId()).discountSpells(2);
     }
 }

@@ -1,11 +1,11 @@
 package hearthstone.models.card.heropower.heropowers;
 
-import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.Rand;
@@ -22,22 +22,24 @@ public class Sacrificer extends HeroPowerCard {
 
     private void doAbility(Hero hero){
         //Mapper.reduceMana(getPlayerId(), getManaCost());
-        Mapper.getPlayer(getPlayerId()).reduceMana(getManaCost());
+        HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(getManaCost());
 
         //Mapper.setHealth(hero.getHealth() - 2, hero);
         hero.setHealth(hero.getHealth() - 2);
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
 
         if(Rand.getInstance().getProbability(1, 2)){
             try {
                 //Mapper.drawCard(getPlayerId());
-                Mapper.getPlayer(getPlayerId()).drawCard();
+                HSServer.getInstance().getPlayer(getPlayerId()).drawCard();
 
-                Mapper.updateBoard();
+                //Mapper.updateBoard();
+                HSServer.getInstance().updateGameRequest(playerId);
             } catch (HearthStoneException ignore) {}
         } else {
             //MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
-            MinionCard minionCard = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
+            MinionCard minionCard = HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
             if(minionCard != null){
                 //Mapper.addAttack(1, minionCard.getCardGameId());
                 minionCard.changeAttack(1);
@@ -45,7 +47,8 @@ public class Sacrificer extends HeroPowerCard {
                 //Mapper.addHealth(1, minionCard);
                 minionCard.gotHeal(1);
 
-                Mapper.updateBoard();
+                // Mapper.updateBoard();
+                HSServer.getInstance().updateGameRequest(playerId);
             }
         }
 

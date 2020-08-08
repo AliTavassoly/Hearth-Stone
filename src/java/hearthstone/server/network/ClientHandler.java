@@ -3,7 +3,9 @@ package hearthstone.server.network;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.models.Packet;
+import hearthstone.models.player.Player;
 import hearthstone.server.data.ServerData;
+import hearthstone.server.logic.Game;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,8 +16,25 @@ public class ClientHandler extends Thread {
     private Socket socket;
     private String username;
 
+    private Game game;
+    private Player player;
+
     public String getUsername(){
         return username;
+    }
+
+    public void setGame(Game game){
+        this.game = game;
+    }
+    public Game getGame(){
+        return game;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+    public Player getPlayer(){
+        return player;
     }
 
     public ClientHandler(){}
@@ -39,13 +58,12 @@ public class ClientHandler extends Thread {
             while (true) {
                 String message = scanner.nextLine();
 
-                System.out.println(message + " received in server!");
-
                 ServerMapper.invokeFunction(getPacket(message), this);
+
+                System.out.println(getPacket(message).getFunctionName());
             }
         } catch (Exception e) {
-            // HSServer.getInstance().clientHandlerDisconnected(authToken);
-            // Disconnected
+            clientDisconnected();
             e.printStackTrace();
         }
     }
@@ -56,7 +74,7 @@ public class ClientHandler extends Thread {
 
             objectString = ServerData.getNetworkMapper().writeValueAsString(packet);
 
-            System.out.println("From server: " + objectString);
+            System.out.println("Sent from server: " + packet.getFunctionName());
 
             new PrintStream(socket.getOutputStream()).println(objectString);
         } catch (Exception e) {
@@ -84,6 +102,6 @@ public class ClientHandler extends Thread {
     }
 
     public void clientDisconnected(){
-
+        HSServer.getInstance().clientHandlerDisconnected(this);
     }
 }

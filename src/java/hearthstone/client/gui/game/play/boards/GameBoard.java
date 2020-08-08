@@ -1,6 +1,5 @@
 package hearthstone.client.gui.game.play.boards;
 
-import hearthstone.Mapper;
 import hearthstone.client.gui.controls.buttons.CardButton;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
@@ -14,12 +13,12 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.gui.util.Animation;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
-import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.card.weapon.WeaponBehaviour;
+import hearthstone.models.player.Player;
 import hearthstone.server.network.HSServer;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
@@ -43,7 +42,7 @@ public class GameBoard extends JPanel implements MouseListener {
     protected BoardHeroButton enemyHero;
     private final SoundPlayer soundPlayer;
 
-    protected final int myPlayerId, enemyPlayerId;
+    protected Player myPlayer, enemyPlayer;
 
     protected PassiveButton myPassive;
 
@@ -163,9 +162,9 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // Finals END
 
-    public GameBoard(int myPlayerId, int enemyPlayerId) {
-        this.myPlayerId = myPlayerId;
-        this.enemyPlayerId = enemyPlayerId;
+    public GameBoard(Player myPlayer, Player enemyPlayer) {
+        this.myPlayer = myPlayer;
+        this.enemyPlayer = enemyPlayer;
 
         animatedCardsInHand = new ArrayList<>();
         animatedCardsInLand = new ArrayList<>();
@@ -188,21 +187,6 @@ public class GameBoard extends JPanel implements MouseListener {
         gameStuffLayoutBeforeStartGame();
 
         addMouseListener(this);
-
-        new HSDelayTimerTask(100, new HSDelayTask() {
-            @Override
-            public void delayAction() {
-                showPassiveDialogs();
-
-                showCardDialog();
-
-                gameStuffLayout();
-
-                drawEndTurnTimeLine();
-
-                Mapper.startGame();
-            }
-        }).start();
     }
 
     @Override
@@ -219,16 +203,16 @@ public class GameBoard extends JPanel implements MouseListener {
         }
         g2.drawImage(backgroundImage, 0, 0, null);
 
-        drawMyMana(g2, Mapper.getMana(myPlayerId),
-                Mapper.getTurnNumber(myPlayerId));
+        drawMyMana(g2, myPlayer.getMana(),
+                myPlayer.getTurnNumber());
 
-        drawEnemyMana(g2, Mapper.getMana(enemyPlayerId),
-                Mapper.getTurnNumber(enemyPlayerId));
+        drawEnemyMana(g2, enemyPlayer.getMana(),
+                enemyPlayer.getTurnNumber());
 
         drawDeckNumberOfCards(g2, myDeckCardsNumberX, myDeckCardsNumberY,
-                Mapper.getDeckSize(myPlayerId));
+                myPlayer.getDeck().getCards().size());
         drawDeckNumberOfCards(g2, enemyDeckCardsNumberX, enemyDeckCardsNumberY,
-                Mapper.getDeckSize(enemyPlayerId));
+                enemyPlayer.getDeck().getCards().size());
 
         g2.drawImage(sparkImage.getImage().getScaledInstance(
                 sparkImage.getWidth(), sparkImage.getHeight(),
@@ -245,37 +229,40 @@ public class GameBoard extends JPanel implements MouseListener {
         setVisible(true);
     }
 
-    protected void showPassiveDialogs() {
-        PassiveDialog passiveDialog0 = new PassiveDialog(
+    public void startGameOnGui(Player myPlayer, Player enemyPlayer) {
+        this.myPlayer = myPlayer;
+        this.enemyPlayer = enemyPlayer;
+
+        gameStuffLayout();
+
+        drawEndTurnTimeLine();
+    }
+
+    public void showPassiveDialogs() {
+        /*PassiveDialog passiveDialog0 = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        HSServer.basePassives.size())
+                        ClientData.basePassives.size())
         );
-        Mapper.setPassive(myPlayerId, passiveDialog0.getPassive());
-
+        //Mapper.setPassive(myPlayer, passiveDialog0.getPassive());
+        myPlayer.setPassive(passiveDialog0.getPassive());
 
         PassiveDialog passiveDialog1 = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        HSServer.basePassives.size())
+                        ClientData.basePassives.size())
         );
-        Mapper.setPassive(enemyPlayerId, passiveDialog1.getPassive());
+        enemyPlayer.setPassive(passiveDialog1.getPassive());*/
     }
 
-    protected void showCardDialog() {
-        CardDialog cardDialog0 = new CardDialog(
+    public void showCardDialog(ArrayList<Card> cards) {
+        /*CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
-                Mapper.getTopCards(0, GameConfigs.initialDiscardCards));
-
-        Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
-
-        CardDialog cardDialog1 = new CardDialog(
-                GameFrame.getInstance(),
-                Mapper.getTopCards(1, GameConfigs.initialDiscardCards));
-
-        Mapper.removeInitialCards(1, cardDialog1.getCards(), GameConfigs.initialDiscardCards);
+                cards);
+        ClientMapper.removeFromInitialHandRequest(cardDialog0.getCards(), GameConfigs.initialDiscardCards);*/
+        //  Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
     }
 
     // DRAW MANA
@@ -350,13 +337,12 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW DECK NUMBER
 
     // DRAW REWARD
-    private void drawReward(int playerId, int X, int Y) {
-        RewardCard rewardCard = Mapper.getReward(playerId);
-        if (rewardCard == null)
+    private void drawReward(Player player, int X, int Y) {
+        if (player.getReward() == null)
             return;
 
         BoardRewardButton rewardButton = new BoardRewardButton(
-                rewardCard,
+                player.getReward(),
                 GUIConfigs.medCardWidth,
                 GUIConfigs.medCardHeight);
 
@@ -368,11 +354,11 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW REWARD
 
     // DRAW HEROPOWER
-    private void drawHeroPower(int playerId, int X, int Y) {
-        if (Mapper.getHeroPower(playerId) == null)
+    private void drawHeroPower(Player player, int X, int Y) {
+        if (player.getHeroPower() == null)
             return;
-        HeroPowerButton heroPowerButton = new HeroPowerButton(Mapper.getHeroPower(playerId),
-                GUIConfigs.heroPowerWidth, GUIConfigs.heroPowerHeight, true, playerId);
+        HeroPowerButton heroPowerButton = new HeroPowerButton(player.getHeroPower(),
+                GUIConfigs.heroPowerWidth, GUIConfigs.heroPowerHeight, true, player.getPlayerId());
 
         makeHeroPowerMouseListener(heroPowerButton);
 
@@ -384,12 +370,12 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW HEROPOWER
 
     // DRAW WEAPON
-    private void drawWeapon(int playerId, int X, int Y) {
-        if (Mapper.getWeapon(playerId) == null)
+    private void drawWeapon(Player player, int X, int Y) {
+        if (player.getWeapon() == null)
             return;
 
-        WeaponButton weaponButton = new WeaponButton(Mapper.getWeapon(playerId),
-                GUIConfigs.weaponWidth, GUIConfigs.weaponHeight, true, playerId);
+        WeaponButton weaponButton = new WeaponButton(player.getWeapon(),
+                GUIConfigs.weaponWidth, GUIConfigs.weaponHeight, true, player.getPlayerId());
         weaponButton.setBounds(X, Y,
                 GUIConfigs.weaponWidth, GUIConfigs.weaponHeight);
 
@@ -403,8 +389,8 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW WEAPON
 
     // DRAW CARDS
-    protected void drawCardsOnHand(int playerId, int handX, int handY) {
-        ArrayList<Card> cards = Mapper.getHand(playerId);
+    protected void drawCardsOnHand(Player player, int handX, int handY) {
+        ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;
 
@@ -420,12 +406,12 @@ public class GameBoard extends JPanel implements MouseListener {
             Card card = cards.get(i);
             BoardCardButton cardButton;
 
-            if (playerId == myPlayerId) {
+            if (player.getPlayerId() == myPlayer.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, true, playerId);
+                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, true, player.getPlayerId());
             } else {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, 180, true, playerId);
+                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, 180, true, player.getPlayerId());
             }
 
             makeCardOnHandMouseListener(cardButton,
@@ -456,7 +442,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 Animation destination = new Animation(startX + dis * (i - cards.size() / 2),
                         startY, cardButton);
 
-                if (playerId == myPlayerId)
+                if (player.getPlayerId() == myPlayer.getPlayerId())
                     animateCard(myPickedCardX, myPickedCardY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, destination);
                 else
                     animateCard(enemyPickedCardX, enemyPickedCardY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, destination);
@@ -464,8 +450,8 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
-    private void drawCardsOnLand(int playerId, int landX, int landY) {
-        ArrayList<Card> cards = Mapper.getLand(playerId);
+    private void drawCardsOnLand(Player player, int landX, int landY) {
+        ArrayList<Card> cards = player.getLand();
         if (cards.size() == 0)
             return;
 
@@ -477,12 +463,12 @@ public class GameBoard extends JPanel implements MouseListener {
             Card card = cards.get(i);
             BoardCardButton cardButton;
 
-            if (myPlayerId == playerId) {
+            if (myPlayer.getPlayerId() == player.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidthOnLand, GUIConfigs.smallCardHeightOnLand, true, 0, true);
+                        GUIConfigs.smallCardWidthOnLand, GUIConfigs.smallCardHeightOnLand, true, myPlayer.getPlayerId(), true);
             } else {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidthOnLand, GUIConfigs.smallCardHeightOnLand, true, 1, true);
+                        GUIConfigs.smallCardWidthOnLand, GUIConfigs.smallCardHeightOnLand, true, enemyPlayer.getPlayerId(), true);
             }
 
             makeCardOnLandMouseListener(cardButton,
@@ -521,7 +507,7 @@ public class GameBoard extends JPanel implements MouseListener {
                         - (cards.size() % 2 == 1 ? GUIConfigs.smallCardWidthOnLand / 2 : 0),
                         startY, cardButton);
 
-                if (playerId == myPlayerId)
+                if (player.getPlayerId() == myPlayer.getPlayerId())
                     animateCard(myHandX, myHandY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, destination);
                 else
                     animateCard(enemyHandX, enemyHandY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, destination);
@@ -602,8 +588,8 @@ public class GameBoard extends JPanel implements MouseListener {
 
         new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
-                for(Component component1: GameBoard.this.getComponents()){
-                    if(component1 == component)
+                for (Component component1 : GameBoard.this.getComponents()) {
+                    if (component1 == component)
                         return;
                 }
                 GameBoard.this.add(component);
@@ -657,7 +643,8 @@ public class GameBoard extends JPanel implements MouseListener {
                             animations.remove(ind);
 
                             if (animationsCard.size() == 0) {
-                                Mapper.updateBoard();
+                                //Mapper.updateBoard();
+                                restart();
                             }
                         }
                     }
@@ -684,8 +671,8 @@ public class GameBoard extends JPanel implements MouseListener {
 
         new HSTimerTask(period, new HSBigTask() {
             private void addComponentIfNot(Component component) {
-                for(Component component1: GameBoard.this.getComponents()){
-                    if(component1 == component)
+                for (Component component1 : GameBoard.this.getComponents()) {
+                    if (component1 == component)
                         return;
                 }
                 GameBoard.this.add(component);
@@ -723,8 +710,8 @@ public class GameBoard extends JPanel implements MouseListener {
                 width[0] += (animation.getDestinationWidth() - width[0] != 0 ? plusWidth * (animation.getDestinationWidth() - width[0]) / Math.abs(animation.getDestinationWidth() - width[0]) : 0);
                 height[0] += (animation.getDestinationHeight() - height[0] != 0 ? plusHeight * (animation.getDestinationHeight() - height[0]) / Math.abs(animation.getDestinationHeight() - height[0]) : 0);
 
-                ((CardButton)animation.getComponent()).setMySize(width[0], height[0]);
-                animation.getComponent().setBounds( x[0], y[0], width[0], height[0]);
+                ((CardButton) animation.getComponent()).setMySize(width[0], height[0]);
+                animation.getComponent().setBounds(x[0], y[0], width[0], height[0]);
                 addComponentIfNot(animation.getComponent());
             }
 
@@ -747,7 +734,8 @@ public class GameBoard extends JPanel implements MouseListener {
                             animations.remove(ind);
 
                             if (animationsCard.size() == 0) {
-                                Mapper.updateBoard();
+                                //Mapper.updateBoard();
+                                restart();
                             }
                         }
                     }
@@ -774,7 +762,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.medCardHeight,
                 -1);
 
-        if (button.getPlayerId() == 0) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
             bigCardButton.setBounds(
                     GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
                     GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
@@ -792,7 +780,7 @@ public class GameBoard extends JPanel implements MouseListener {
             public void mouseEntered(MouseEvent e) {
                 if (button.isShowBig()) {
                     add(bigCardButton);
-                    if (button.getPlayerId() == 0)
+                    if (button.getPlayerId() == myPlayer.getPlayerId())
                         button.setBounds(button.getX(), button.getY() - 47, button.getWidth(), button.getHeight());
                     else
                         button.setBounds(button.getX(), button.getY() + 47, button.getWidth(), button.getHeight());
@@ -803,9 +791,9 @@ public class GameBoard extends JPanel implements MouseListener {
             public void mouseExited(MouseEvent e) {
                 if (button.isShowBig()) {
                     remove(bigCardButton);
-                    if (button.getPlayerId() == 0 && button.getY() != startY)
+                    if (button.getPlayerId() == myPlayer.getPlayerId() && button.getY() != startY)
                         button.setBounds(button.getX(), button.getY() + 47, button.getWidth(), button.getHeight());
-                    else if (button.getPlayerId() == 1 && button.getY() != startY)
+                    else if (button.getPlayerId() == enemyPlayer.getPlayerId() && button.getY() != startY)
                         button.setBounds(button.getX(), button.getY() - 47, button.getWidth(), button.getHeight());
                     updateUI();
                 }
@@ -813,13 +801,13 @@ public class GameBoard extends JPanel implements MouseListener {
 
             public void mouseReleased(MouseEvent E) {
                 if (isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        Mapper.getWhoseTurn() == button.getCard().getPlayerId() &&
-                button.getCard().getPlayerId() == myPlayerId) {
+                        getWhoseTurn() == button.getCard().getPlayerId() &&
+                        button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else if (isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
-                        Mapper.getWhoseTurn() == button.getCard().getPlayerId() &&
-                button.getCard().getPlayerId() == enemyPlayerId) {
+                        getWhoseTurn() == button.getCard().getPlayerId() &&
+                        button.getCard().getPlayerId() == enemyPlayer.getPlayerId()) {
                     playCard(button, button.getCard(),
                             startX, startY, width, height);
                 } else {
@@ -830,7 +818,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
         button.addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if ((Mapper.getWhoseTurn() != button.getPlayerId()))
+                if ((getWhoseTurn() != button.getPlayerId()))
                     return;
 
                 int newX = e.getX() + button.getX();
@@ -848,7 +836,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.medCardHeight,
                 -1);
 
-        if (button.getPlayerId() == 0) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
             bigCardButton.setBounds(
                     GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
                     GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
@@ -865,16 +853,10 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    try {
-                        Mapper.foundObjectForObject(waitingObject, button.getCard());
-                        deleteCurrentMouseWaiting();
-                        Mapper.updateBoard();
-                    } catch (HearthStoneException hse) {
-                        showError(hse.getMessage());
-                    }
+                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
                 } else {
-                    if (button.getPlayerId() == Mapper.getWhoseTurn()
-                            && ((MinionBehaviour) button.getCard()).canAttack()) {
+                    if (button.getPlayerId() == getWhoseTurn()
+                            && ((MinionBehaviour) button.getCard()).isCanAttack()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }
@@ -903,7 +885,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.medCardHeight,
                 -1);
 
-        if (button.getPlayerId() == 0) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
             bigCardButton.setBounds(
                     GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
                     GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
@@ -920,15 +902,9 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    try {
-                        Mapper.foundObjectForObject(waitingObject, button.getCard());
-                        deleteCurrentMouseWaiting();
-                        Mapper.updateBoard();
-                    } catch (HearthStoneException hse) {
-                        showError(hse.getMessage());
-                    }
+                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
                 } else {
-                    if (button.getPlayerId() == Mapper.getWhoseTurn()
+                    if (button.getPlayerId() == getWhoseTurn()
                             && ((WeaponBehaviour) button.getCard()).pressed()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
@@ -958,7 +934,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.medCardHeight,
                 -1);
 
-        if (button.getPlayerId() == 0) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
             bigCardButton.setBounds(
                     GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
                     GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
@@ -975,16 +951,10 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    try {
-                        Mapper.foundObjectForObject(waitingObject, button.getCard());
-                        deleteCurrentMouseWaiting();
-                        Mapper.updateBoard();
-                    } catch (HearthStoneException hse) {
-                        showError(hse.getMessage());
-                    }
+                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
                 } else {
-                    if (button.getPlayerId() == Mapper.getWhoseTurn()
-                            && ((HeroPowerBehaviour) button.getCard()).canAttack()) {
+                    if (button.getPlayerId() == getWhoseTurn()
+                            && ((HeroPowerBehaviour) button.getCard()).isCanAttack()) {
                         makeNewMouseWaiting(((HeroPowerBehaviour) button.getCard()).lookingForCursorType(),
                                 button.getCard());
                     }
@@ -1011,12 +981,7 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    try {
-                        Mapper.foundObjectForObject(waitingObject, button.getHero());
-                        deleteCurrentMouseWaiting();
-                    } catch (HearthStoneException hse) {
-                        showError(hse.getMessage());
-                    }
+                    ClientMapper.foundObjectRequest(waitingObject, button.getHero());
                 }
             }
         });
@@ -1025,23 +990,18 @@ public class GameBoard extends JPanel implements MouseListener {
 
     private void playCard(BoardCardButton button, Card card,
                           int startX, int startY, int width, int height) {
-        try {
-            if (button.getPlayerId() == 0) {
-                Mapper.playCard(myPlayerId, card);
-            } else {
-                Mapper.playCard(enemyPlayerId, card);
-            }
+        if (button.getPlayerId() == myPlayer.getPlayerId()){
+            ClientMapper.playCardRequest(card);
+        } /*else {
 
-            if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPON_CARD || card.getCardType() == CardType.HERO_POWER)
-                removeCardAnimation(card);
+        }*/
 
-            button.playSound();
-        } catch (HearthStoneException e) {
-            button.setBounds(startX, startY, width, height);
-            showError(e.getMessage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        // if all is ok -> button.playSound();
+
+        // if exception -> button.setBounds(startX, startY, width, height);
+
+        // if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPON_CARD || card.getCardType() == CardType.HERO_POWER)
+        //    removeCardAnimation(card);
     }
 
     public void animateSpell(int playerId, Card card) {
@@ -1051,7 +1011,7 @@ public class GameBoard extends JPanel implements MouseListener {
             }
         }
 
-        if (playerId == myPlayerId) {
+        if (playerId == myPlayer.getPlayerId()) {
             animateCardWithResize(myHandX, myHandY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight,
                     new Animation(spellDestinationX, spellDestinationY,
                             GUIConfigs.medCardWidth, GUIConfigs.medCardHeight,
@@ -1132,14 +1092,6 @@ public class GameBoard extends JPanel implements MouseListener {
                     GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
             boolean sure = sureDialog.getValue();
             if (sure) {
-                try {
-                    Mapper.saveDataBase();
-
-                    hearthstone.util.Logger.saveLog("Exit",
-                            "Exited from game board");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
                 beforeCloseBoard();
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
             }
@@ -1158,13 +1110,13 @@ public class GameBoard extends JPanel implements MouseListener {
 
                 try {
                     hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            Mapper.getPlayerName(Mapper.getWhoseTurn()) +
+                            HSServer.getInstance().getPlayerName(getWhoseTurn()) +
                             " ended turn!");
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                Mapper.endTurn();
+                ClientMapper.endTurnRequest();
                 endTurnLineTimerTask.myStop();
 
                 deleteCurrentMouseWaiting();
@@ -1186,14 +1138,14 @@ public class GameBoard extends JPanel implements MouseListener {
                 sparkImage.getY() + sparkImage.getHeight() / 2, true);
         add(ropeImage);
 
-        myHero = new BoardHeroButton(Mapper.getHero(myPlayerId),
-                heroWidth, heroHeight, 0);
+        myHero = new BoardHeroButton(myPlayer.getHero(),
+                heroWidth, heroHeight, myPlayer.getPlayerId());
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(Mapper.getHero(enemyPlayerId), heroWidth, heroHeight, 1); // enemy hero
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, enemyPlayer.getPlayerId()); // enemy hero
         makeHeroMouseListener(enemyHero);
 
-        myPassive = new PassiveButton(Mapper.getPassive(myPlayerId),
+        myPassive = new PassiveButton(myPlayer.getPassive(),
                 GUIConfigs.medCardWidth,
                 GUIConfigs.medCardHeight);
 
@@ -1239,20 +1191,20 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     private void gameStuffLayout() {
-        drawCardsOnHand(0, myHandX, myHandY);
-        drawCardsOnHand(1, enemyHandX, enemyHandY);
+        drawCardsOnHand(myPlayer, myHandX, myHandY);
+        drawCardsOnHand(enemyPlayer, enemyHandX, enemyHandY);
 
-        drawCardsOnLand(0, myLandX, myLandY);
-        drawCardsOnLand(1, enemyLandX, enemyLandY);
+        drawCardsOnLand(myPlayer, myLandX, myLandY);
+        drawCardsOnLand(enemyPlayer, enemyLandX, enemyLandY);
 
-        drawHeroPower(0, myHeroPowerX, myHeroPowerY);
-        drawHeroPower(1, enemyHeroPowerX, enemyHeroPowerY);
+        drawHeroPower(myPlayer, myHeroPowerX, myHeroPowerY);
+        drawHeroPower(enemyPlayer, enemyHeroPowerX, enemyHeroPowerY);
 
-        drawWeapon(0, myWeaponX, myWeaponY);
-        drawWeapon(1, enemyWeaponX, enemyWeaponY);
+        drawWeapon(myPlayer, myWeaponX, myWeaponY);
+        drawWeapon(enemyPlayer, enemyWeaponX, enemyWeaponY);
 
-        drawReward(0, myRewardX, myRewardY);
-        drawReward(1, enemyRewardX, enemyRewardY);
+        drawReward(myPlayer, myRewardX, myRewardY);
+        drawReward(enemyPlayer, enemyRewardX, enemyRewardY);
 
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
                 GUIConfigs.endTurnButtonWidth, GUIConfigs.endTurnButtonHeight);
@@ -1265,12 +1217,6 @@ public class GameBoard extends JPanel implements MouseListener {
         enemyHero.setBounds(enemyHeroX, enemyHeroY,
                 heroWidth, heroHeight);
         add(enemyHero);
-
-        /*myPassive.setBounds(SizeConfigs.gameFrameWidth - SizeConfigs.medCardWidth,
-                0,
-                SizeConfigs.medCardWidth,
-                SizeConfigs.medCardHeight);
-        add(myPassive);*/
     }
 
     private boolean isInMyLand(int x, int y) {
@@ -1281,8 +1227,8 @@ public class GameBoard extends JPanel implements MouseListener {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    protected synchronized void showError(String text) {
-        if (Mapper.getWhoseTurn() == 0) {
+    public synchronized void showError(String text) {
+        if (getWhoseTurn() == myPlayer.getPlayerId()) {
             myMessageDialog.setText(text);
             myMessageDialog.setImagePath("/images/my_think_dialog.png");
             myMessageDialog.setBounds(myErrorX, myErrorY,
@@ -1298,13 +1244,8 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     public void gameEnded() {
-        if (Mapper.isLost(0)) {
+        if (myPlayer.getHero().getHealth() <= 0) {
             try {
-                Mapper.saveDataBase();
-
-                Mapper.lost(0);
-                Mapper.won(1);
-
                 SoundPlayer loseSound = new SoundPlayer("/sounds/lose.wav");
 
                 ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Ooops! You lost the game :(",
@@ -1314,11 +1255,6 @@ public class GameBoard extends JPanel implements MouseListener {
             }
         } else {
             try {
-                Mapper.saveDataBase();
-
-                Mapper.lost(1);
-                Mapper.won(0);
-
                 SoundPlayer victorySound = new SoundPlayer("/sounds/victory.wav");
 
                 ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "congratulations! You won the game!",
@@ -1334,10 +1270,10 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     private void beforeCloseBoard() {
-        endTurnLineTimerTask.myStop();
-        CredentialsFrame.getInstance().playSound();
-        soundPlayer.stop();
-        deleteCurrentMouseWaiting();
+        //endTurnLineTimerTask.myStop();
+        //CredentialsFrame.getInstance().playSound();
+        //soundPlayer.stop();
+        //deleteCurrentMouseWaiting();
     }
 
     private void removeComponents() {
@@ -1363,7 +1299,25 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
+    public int getWhoseTurn() {
+        System.out.println("Turn: " + myPlayer.isMyTurn() + " " + enemyPlayer.isMyTurn());
+        if (myPlayer.isMyTurn())
+            return myPlayer.getPlayerId();
+        return enemyPlayer.getPlayerId();
+    }
+
     public void restart() {
+        removeComponents();
+        iconLayout();
+        gameStuffLayout();
+        revalidate();
+        repaint();
+    }
+
+    public void restart(Player myPlayer, Player enemyPlayer) {
+        this.myPlayer = myPlayer;
+        this.enemyPlayer = enemyPlayer;
+
         removeComponents();
         iconLayout();
         gameStuffLayout();
@@ -1373,12 +1327,20 @@ public class GameBoard extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        if(SwingUtilities.isRightMouseButton(mouseEvent)){
-            Mapper.deleteCurrentMouseWaiting();
+        if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+            deleteCurrentMouseWaiting();
         }
     }
-    public void mouseClicked(MouseEvent mouseEvent) { }
-    public void mouseReleased(MouseEvent mouseEvent) { }
-    public void mouseEntered(MouseEvent mouseEvent) { }
-    public void mouseExited(MouseEvent mouseEvent) { }
+
+    public void mouseClicked(MouseEvent mouseEvent) {
+    }
+
+    public void mouseReleased(MouseEvent mouseEvent) {
+    }
+
+    public void mouseEntered(MouseEvent mouseEvent) {
+    }
+
+    public void mouseExited(MouseEvent mouseEvent) {
+    }
 }

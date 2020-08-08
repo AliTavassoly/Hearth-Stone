@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -9,6 +8,7 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -29,20 +29,22 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
 
     @Override
     public void isAttacked() {
-        Hero hero = Mapper.getHero(Mapper.getEnemyId(getPlayerId()));
+        Hero hero = HSServer.getInstance().getPlayer(enemyPlayerId).getHero();
 
         try {
             //Mapper.damage(1, hero);
             hero.gotDamage(1);
-            Mapper.updateBoard();
+            // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
         } catch (HearthStoneException ignore) { }
 
-        for(Card card: Mapper.getLand(Mapper.getEnemyId(getPlayerId()))){
+        for(Card card: HSServer.getInstance().getPlayer(enemyPlayerId).getLand()){
             try {
                 //Mapper.damage(1, (MinionCard) card, false);
                 ((MinionCard) card).gotDamage(1);
             } catch (HearthStoneException ignore) { }
         }
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

@@ -11,8 +11,6 @@ public class Main {
     public static void main(String[] args) {
         try {
             DataBase.load();
-
-            System.out.println(ServerData.getClientsDetails().size());
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -1,12 +1,12 @@
 package hearthstone.models.card.heropower.heropowers;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerCard;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -24,16 +24,17 @@ public class Fireblast extends HeroPowerCard {
     private void doAbility(Object object) throws HearthStoneException {
         if (object instanceof Hero) {
             Hero hero = (Hero) object;
-            if (Mapper.getPlayer(hero.getPlayerId()).haveTaunt())
+            if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
             //Mapper.damage(1, hero);
             hero.gotDamage(1);
-            Mapper.updateBoard();
+            //Mapper.updateBoard();
+            //HSServer.getInstance().updateGameRequest(playerId);
 
             log();
             //Mapper.reduceMana(getPlayerId(), this.getManaCost());
-            Mapper.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
+            HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
         } else if (object instanceof MinionCard) {
@@ -42,17 +43,18 @@ public class Fireblast extends HeroPowerCard {
                 throw new HearthStoneException("This minion is hero power safe!");
             if (!minion.isImmune() && minion.isDivineShield()) {
                 minion.removeDivineShield();
-                Mapper.updateBoard();
+                // Mapper.updateBoard();
+                HSServer.getInstance().updateGameRequest(playerId);
                 return;
             }
 
             //Mapper.damage(1, minion);
             minion.gotDamage(1);
-            Mapper.updateBoard();
+            // Mapper.updateBoard();
             log();
 
             //Mapper.reduceMana(getPlayerId(), this.getManaCost());
-            Mapper.getPlayer(getPlayerId()).reduceMana(this.getManaCost());
+            HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             if (minion instanceof IsAttacked) {
                 //Mapper.isAttacked((IsAttacked) minion);
@@ -61,7 +63,8 @@ public class Fireblast extends HeroPowerCard {
 
             numberOfAttack--;
         }
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 
     @Override
@@ -82,7 +85,7 @@ public class Fireblast extends HeroPowerCard {
             Hero hero = (Hero) object;
             if (hero.getPlayerId() == this.getPlayerId())
                 throw new HearthStoneException("Choose enemy!");
-            if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt())
+            if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
             doAbility(hero);

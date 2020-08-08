@@ -1,11 +1,10 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
@@ -23,8 +22,9 @@ public class SwarmOfLocusts extends SpellCard {
     public void doAbility() {
         for (int i = 0; i < 7; i++) {
             //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName("Locust"));
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
         }
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

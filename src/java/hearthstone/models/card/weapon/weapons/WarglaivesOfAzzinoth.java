@@ -1,6 +1,5 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -9,6 +8,7 @@ import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -51,10 +51,11 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
         try {
             /*Mapper.damage(minionCard.getAttack(),
                     Mapper.getHero(getPlayerId()), false);*/
-            Mapper.getHero(getPlayerId()).gotDamage(minionCard.getAttack());
+            HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
         } catch (HearthStoneException ignore) { }
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked) minionCard);

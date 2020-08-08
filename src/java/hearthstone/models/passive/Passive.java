@@ -1,8 +1,9 @@
 package hearthstone.models.passive;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hearthstone.Mapper;
 import hearthstone.server.data.ServerData;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,9 @@ public abstract class Passive {
     private int id;
     @Column
     private String name;
-    private int playerId;
+
+    @JsonProperty("playerId")
+    protected int playerId;
 
     public Passive() {
     }
@@ -36,7 +39,7 @@ public abstract class Passive {
     public void log(){
         try {
             hearthstone.util.Logger.saveLog("Passive",
-                    Mapper.getPlayerName(getPlayerId()) +
+                    HSServer.getInstance().getPlayerName(getPlayerId()) +
                     " player, chose " + this.getName() + " passive!");
         } catch (Exception e){
             e.printStackTrace();

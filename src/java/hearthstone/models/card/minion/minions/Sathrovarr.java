@@ -1,7 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.Card;
@@ -10,6 +8,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
@@ -41,22 +40,25 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
             //Mapper.makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(HSServer.getCardByName(card.getName()));
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(ServerData.getCardByName(card.getName()));
 
             //Mapper.makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutHand(HSServer.getCardByName(card.getName()));
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutHand(ServerData.getCardByName(card.getName()));
 
             //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
-            Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName(card.getName()));
+            HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName(card.getName()));
 
-            Mapper.deleteCurrentMouseWaiting();
-            Mapper.updateBoard();
+            //Mapper.deleteCurrentMouseWaiting();
+            HSServer.getInstance().deleteMouseWaitingRequest(playerId);
+
+            // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
         }
     }
 
     @Override
     public void battlecry() {
-        Mapper.makeNewMouseWaiting(CursorType.SEARCH, this);
+        HSServer.getInstance().createMouseWaiting(playerId, CursorType.SEARCH, this);
     }
 
     @Override

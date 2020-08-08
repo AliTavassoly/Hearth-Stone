@@ -1,6 +1,9 @@
 package hearthstone.client.gui.game.play;
 
 import hearthstone.HearthStone;
+import hearthstone.client.gui.game.play.boards.OnlineGameBoard;
+import hearthstone.client.gui.game.waitingpanels.WaitForOpponentPanel;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.BaseFrame;
@@ -13,6 +16,7 @@ import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.client.gui.game.play.boards.SoloGameBoard;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.HeroType;
@@ -33,6 +37,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class PlaySelectionPanel extends JPanel {
+    private static PlaySelectionPanel instance;
+
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
     private ImageButton playOnline, practicePlay, soloPlay, deckReaderPlay;
 
@@ -46,7 +52,7 @@ public class PlaySelectionPanel extends JPanel {
     private final int startButtonY = GUIConfigs.gameFrameHeight / 2 - buttonDisY * 3 / 2 - GUIConfigs.largeButtonHeight / 2;
     private final int buttonX = GUIConfigs.gameFrameWidth - 200;
 
-    public PlaySelectionPanel() {
+    private PlaySelectionPanel() {
         configPanel();
 
         makeIcons();
@@ -54,6 +60,14 @@ public class PlaySelectionPanel extends JPanel {
         makeButtons();
 
         layoutComponent();
+    }
+
+    public static PlaySelectionPanel makeInstance(){
+        return instance = new PlaySelectionPanel();
+    }
+
+    public static PlaySelectionPanel getInstance(){
+        return instance;
     }
 
     @Override
@@ -109,7 +123,8 @@ public class PlaySelectionPanel extends JPanel {
         // listeners
         playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                // Nothing in this phase
+                ClientMapper.onlineGameRequest();
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
             }
         });
 
@@ -221,8 +236,8 @@ public class PlaySelectionPanel extends JPanel {
         Player player0 = HSClient.currentAccount.getPlayer();
         Player player1 = HSClient.currentAccount.getPlayer();
 
-        HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
+        //HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGameBoard = new PracticeGameBoard(player0, player1);
         //HearthStone.currentGame.startGameEndingTimer();
     }
 
@@ -231,8 +246,8 @@ public class PlaySelectionPanel extends JPanel {
         Player player1 = new AIPlayer(HSClient.currentAccount.getSelectedHero(),
                 HSClient.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new SoloGameBoard(0, 1);
+        //HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGameBoard = new SoloGameBoard(player0, player1);
     }
 
     private void makeNewDeckReaderPlay() throws Exception{
@@ -241,17 +256,21 @@ public class PlaySelectionPanel extends JPanel {
         if(decks == null)
             throw new HearthStoneException("There is a problem in deck reader!");
 
-        Player player0 = new Player(Objects.requireNonNull(HSServer.getHeroByName("Mage")),
+        Player player0 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("friend"))),
                 HSClient.currentAccount.getUsername());
 
-        Player player1 = new Player(Objects.requireNonNull(HSServer.getHeroByName("Mage")),
+        Player player1 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
                         HearthStone.getCardsArray(decks.get("enemy"))),
                 HSClient.currentAccount.getUsername());
 
-        HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new PracticeGameBoard(0, 1);
+        //HearthStone.currentGame = new Game(player0, player1);
+        HearthStone.currentGameBoard = new PracticeGameBoard(player0, player1);
+    }
+
+    public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer){
+        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
     }
 }

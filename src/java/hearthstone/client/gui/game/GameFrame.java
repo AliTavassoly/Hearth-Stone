@@ -6,12 +6,29 @@ import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class GameFrame extends BaseFrame {
     private static GameFrame gameFrame;
 
     private GameFrame() {
         configFrame();
+
+        changeLocationMouseListener();
+    }
+
+    private void changeLocationMouseListener() {
+        this.addMouseMotionListener(new MouseMotionListener() {
+            public void mouseDragged(MouseEvent mouseEvent) {
+                GameFrame.this.setLocation(
+                        (int) mouseEvent.getLocationOnScreen().getX() - GUIConfigs.gameFrameWidth / 2,
+                        (int) mouseEvent.getLocationOnScreen().getY() - GUIConfigs.gameFrameHeight / 2
+                );
+            }
+
+            public void mouseMoved(MouseEvent mouseEvent) { }
+        });
     }
 
     public static GameFrame getInstance() {
@@ -38,7 +55,7 @@ public class GameFrame extends BaseFrame {
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
     }
 
-    public void setCursor(String path){
+    public void setCursor(String path) {
         Image cursorImage = null;
         try {
             cursorImage = ImageResource.getInstance().getImage(path);

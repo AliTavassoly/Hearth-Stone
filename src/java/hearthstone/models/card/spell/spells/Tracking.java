@@ -1,6 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.Mapper;
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.card.Card;
@@ -8,6 +7,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Tracking extends SpellCard {
 
     @Override
     public void doAbility() {
-        ArrayList<Card> cards = Mapper.getTopCards(getPlayerId(), 3);
+        ArrayList<Card> cards = HSServer.getInstance().getPlayer(playerId).getTopCards(3);
         if(cards == null || cards.size() == 0)
             return;
 
@@ -31,8 +31,9 @@ public class Tracking extends SpellCard {
         Card card = dialog.getCard();
         try {
             //Mapper.drawCard(getPlayerId(), card);
-            Mapper.getPlayer(getPlayerId()).drawCard(card);
-            Mapper.updateBoard();
+            HSServer.getInstance().getPlayer(getPlayerId()).drawCard(card);
+            // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
         } catch (HearthStoneException ignore) {}
     }
 }

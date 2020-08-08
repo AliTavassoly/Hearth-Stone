@@ -6,6 +6,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
+import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
+import hearthstone.models.hero.HeroType;
+import hearthstone.models.passive.Passive;
 import hearthstone.server.model.ClientDetails;
 import hearthstone.util.Crypt;
 import hearthstone.util.HearthStoneException;
@@ -17,6 +21,10 @@ import java.util.Map;
 public class ServerData {
     private static Map<String, AccountCredential> accounts = new HashMap<>();
     private static Map<String, ClientDetails> clientsDetails = new HashMap<>();
+
+    public static Map<Integer, Card> baseCards = new HashMap<>();
+    public static Map<Integer, Hero> baseHeroes = new HashMap<>();
+    public static Map<Integer, Passive> basePassives = new HashMap<>();
 
     public static void setAccounts(Map<String, AccountCredential> accounts) {
         ServerData.accounts = accounts;
@@ -84,13 +92,13 @@ public class ServerData {
         accounts.get(username).setPasswordHash(Crypt.hash(password));
     }
 
-    public synchronized static ObjectMapper getDataMapper(){
+    public /*synchronized*/ static ObjectMapper getDataMapper(){
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper;
     }
 
-    public synchronized static ObjectMapper getObjectCloneMapper(){
+    public /*synchronized*/ static ObjectMapper getObjectCloneMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -99,11 +107,47 @@ public class ServerData {
         return mapper;
     }
 
-    public synchronized static ObjectMapper getNetworkMapper(){
+    public /*synchronized*/ static ObjectMapper getNetworkMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.registerModule(new Hibernate5Module());
         return mapper;
+    }
+
+    public static Card getCardByName(String name) {
+        for (Card card : baseCards.values()) {
+            if (card.getName().equals(name)) {
+                return card.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Card getCardById(int cardId) {
+        for (Card card : baseCards.values()) {
+            if (card.getId() == cardId) {
+                return card.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Hero getHeroByName(String name) {
+        for (Hero hero : baseHeroes.values()) {
+            if (hero.getName().equals(name)) {
+                return hero.copy();
+            }
+        }
+        return null;
+    }
+
+    public static Hero getHeroByType(HeroType heroType) {
+        for (Hero hero : baseHeroes.values()) {
+            if (hero.getType() == heroType) {
+                return hero.copy();
+            }
+        }
+        return null;
     }
 }

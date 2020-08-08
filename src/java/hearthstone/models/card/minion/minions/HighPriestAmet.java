@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.WaitSummonCard;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -8,6 +7,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -31,7 +31,9 @@ public class HighPriestAmet extends MinionCard implements WaitSummonCard {
         MinionCard minionCard = (MinionCard) card;
         //Mapper.setHealth(this.getHealth(), minionCard);
         minionCard.setHealth(this.getHealth());
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
+
         return true;
     }
 }

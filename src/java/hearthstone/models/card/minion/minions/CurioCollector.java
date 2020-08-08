@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.WaitDrawingCard;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;

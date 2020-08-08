@@ -1,5 +1,6 @@
 package hearthstone.models.card;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.server.data.ServerData;
 import hearthstone.models.hero.HeroType;
@@ -30,7 +31,16 @@ public abstract class Card implements CardBehaviour {
     private int buyPrice, sellPrice;
 
     @Transient
-    private int playerId, cardGameId;
+    @JsonProperty("playerId")
+    protected int playerId;
+
+    @Transient
+    @JsonProperty("enemyPlayerId")
+    protected int enemyPlayerId;
+
+    @Transient
+    @JsonProperty("cardGameId")
+    private int cardGameId;
 
     public Card() {
     }
@@ -127,6 +137,13 @@ public abstract class Card implements CardBehaviour {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public void setEnemyPlayerId(int enemyPlayerId){
+        this.enemyPlayerId = enemyPlayerId;
+    }
+    public int getEnemyPlayerId(){
+        return enemyPlayerId;
     }
 
     public int getCardGameId(){

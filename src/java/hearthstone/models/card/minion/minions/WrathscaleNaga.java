@@ -1,6 +1,5 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.FriendlyMinionDies;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -8,6 +7,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
@@ -30,18 +30,19 @@ public class WrathscaleNaga extends MinionCard implements FriendlyMinionDies {
 
     @Override
     public void friendlyMinionDies() {
-        ArrayList<Card> land = Mapper.getLand(Mapper.getEnemyId(getPlayerId()));
+        ArrayList<Card> land = HSServer.getInstance().getPlayer(enemyPlayerId).getLand();
         if (land.size() == 0)
             return;
 
         //MinionCard card = DataTransform.getRandomMinionFromLand(getPlayerId());
-        MinionCard card = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
+        MinionCard card = HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
 
         try {
             if (card != null) {
                 //Mapper.damage(3, card);
                 card.gotDamage(3);
-                Mapper.updateBoard();
+                // Mapper.updateBoard();
+                HSServer.getInstance().updateGameRequest(playerId);
             }
         } catch (HearthStoneException ignore) {
         }

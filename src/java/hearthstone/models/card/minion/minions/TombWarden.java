@@ -1,13 +1,12 @@
 package hearthstone.models.card.minion.minions;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.minion.MinionType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
@@ -28,8 +27,9 @@ public class TombWarden extends MinionCard implements Battlecry {
     @Override
     public void battlecry() {
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(this.getName()));
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(HSServer.getCardByName(this.getName()));
+        HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName(this.getName()));
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

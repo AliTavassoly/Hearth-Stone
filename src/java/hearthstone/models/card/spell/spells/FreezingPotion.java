@@ -1,11 +1,11 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ public class FreezingPotion  extends SpellCard {
 
     @Override
     public void doAbility() {
-        Mapper.makeNewMouseWaiting(CursorType.FREEZE, this);
+        HSServer.getInstance().getInstance().createMouseWaiting(playerId, CursorType.FREEZE, this);
     }
 
     @Override
@@ -31,7 +31,8 @@ public class FreezingPotion  extends SpellCard {
             character.addFreezes(2);
             character.handleFreezes();
 
-            Mapper.deleteCurrentMouseWaiting();
+            // Mapper.deleteCurrentMouseWaiting();
+            HSServer.getInstance().deleteMouseWaitingRequest(playerId);
         }
     }
 }

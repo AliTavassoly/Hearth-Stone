@@ -13,8 +13,9 @@ public abstract class SpecialHeroPower {
     private int id;
     @Column
     private String name;
+
     @Transient
-    private int playerId;
+    protected int playerId;
 
     public SpecialHeroPower(){}
 

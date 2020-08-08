@@ -10,12 +10,15 @@ import hearthstone.client.gui.game.collection.DeckArrangement;
 import hearthstone.client.gui.game.collection.DeckSelection;
 import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.market.MarketPanel;
+import hearthstone.client.gui.game.play.PlaySelectionPanel;
+import hearthstone.client.gui.game.play.boards.GameBoard;
 import hearthstone.client.gui.game.status.StatusPanel;
 import hearthstone.models.Account;
 import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
+import hearthstone.models.player.Player;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +34,8 @@ public class HSClient {
     private Sender sender;
 
     public static Account currentAccount;
+
+    public static GameBoard currentGameBoard;
 
     private HSClient(String serverIP, int serverPort){
         try{
@@ -156,5 +161,10 @@ public class HSClient {
     public void removeCardFromDeck(Card card){
         DeckArrangement.getInstance().removeCardFromDeck(card);
         DeckArrangement.getInstance().update();
+    }
+
+    public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer) {
+        PlaySelectionPanel.getInstance().makeNewOnlineGame(myPlayer, enemyPlayer);
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 }

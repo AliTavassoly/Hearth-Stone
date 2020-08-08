@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static hearthstone.server.network.HSServer.getCardByName;
-
 public class  HearthStone{
     //public static Account currentAccount;
     //public static String dataPath;
@@ -26,38 +24,11 @@ public class  HearthStone{
     public static GameBoard currentGameBoard;
     public static Game currentGame;
 
-    public static boolean userNameIsValid(String username) {
-        for (int i = 0; i < username.length(); i++) {
-            char c = username.charAt(i);
-            if (c >= '0' && c <= '9')
-                continue;
-            if (c >= 'a' && c <= 'z')
-                continue;
-            if (c >= 'A' && c <= 'Z')
-                continue;
-            if (c == '_' || c == '.')
-                continue;
-            return false;
-        }
-        return username.length() >= 4;
-    }
-
-    public static boolean passwordIsValid(String username) {
-        if (username.length() < 4)
-            return false;
-        for (int i = 0; i < username.length(); i++) {
-            if (username.charAt(i) >= 'A' && username.charAt(i) <= 'Z') {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static ArrayList<Card> getCardsArray(ArrayList<String> cardsName){
         ArrayList<Card> ans = new ArrayList<>();
 
         for(int i = 0; i < cardsName.size(); i++){
-            ans.add(getCardByName(cardsName.get(i)));
+            ans.add(ServerData.getCardByName(cardsName.get(i)));
         }
 
         return ans;

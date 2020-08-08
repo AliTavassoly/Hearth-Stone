@@ -6,6 +6,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.jacksonserializers.DeckListSerializer;
@@ -88,13 +89,13 @@ public class Account {
     }
 
     private void accountConfigs() {
-        for (Hero hero : HSServer.baseHeroes.values()) {
+        for (Hero hero : ServerData.baseHeroes.values()) {
             Hero hero1 = hero.copy();
             heroes.add(hero1);
         }
 
         ArrayList<Card> cards = new ArrayList<>();
-        for (Card card : HSServer.baseCards.values()) {
+        for (Card card : ServerData.baseCards.values()) {
             if (card.getCardType() == CardType.HERO_POWER) {
                 unlockedCards.add(card.getId());
                 continue;
@@ -261,8 +262,6 @@ public class Account {
         ArrayList<Deck> ans = new ArrayList<>();
         List<Deck> decks = new ArrayList<>();
 
-        System.out.println("in getting best decks: " + this.decks.size() + " " + this);
-
         for(Deck deck: this.decks){
             decks.add(deck);
         }
@@ -340,7 +339,7 @@ public class Account {
         Hero hero = getHeroByName(heroName);
         Deck deck = hero.getDeckByName(deckName);
 
-        Card card = HSServer.getCardById(cardId);
+        Card card = ServerData.getCardById(cardId);
         deck.add(card, accountCollection, unlockedCards, cnt);
 
         return card;
@@ -350,7 +349,7 @@ public class Account {
         Hero hero = getHeroByName(heroName);
         Deck deck = hero.getDeckByName(deckName);
 
-        Card card = HSServer.getCardById(cardId);
+        Card card = ServerData.getCardById(cardId);
         deck.remove(card, cnt);
 
         return card;

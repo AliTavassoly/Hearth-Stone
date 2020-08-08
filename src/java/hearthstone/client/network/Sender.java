@@ -18,8 +18,6 @@ public class Sender {
 
             objectString = ClientData.getNetworkMapper().writeValueAsString(packet);
 
-            System.out.println(objectString);
-
             printStream.println(objectString);
         } catch (Exception e) {
             e.printStackTrace();

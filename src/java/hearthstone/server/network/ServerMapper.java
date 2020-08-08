@@ -1,11 +1,16 @@
 package hearthstone.server.network;
 
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.Account;
 import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
+import hearthstone.models.player.Player;
+import hearthstone.shared.GameConfigs;
+import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,6 +49,7 @@ public class ServerMapper {
         }
     }
 
+    // ERROR
     public static void showLoginError(String error, ClientHandler clientHandler){
         Packet packet = new Packet("showLoginError",
                 new Object[]{error});
@@ -61,6 +67,13 @@ public class ServerMapper {
                 new Object[]{error});
         clientHandler.sendPacket(packet);
     }
+
+    public static void showGameError(String error, ClientHandler clientHandler){
+        Packet packet = new Packet("showGameError",
+                new Object[]{error});
+        clientHandler.sendPacket(packet);
+    }
+    // ERROR
 
     // BASES
     public static void createBaseCardsRequest(ClientHandler clientHandler) {
@@ -93,6 +106,14 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
     // BASES
+
+    // ACCOUNT UPDATE
+    public static void updateAccount(Account account, ClientHandler clientHandler) {
+        Packet packet = new Packet("updateAccount",
+                new Object[]{account});
+        clientHandler.sendPacket(packet);
+    }
+    // ACCOUNT UPDATE
 
     // CREDENTIALS
     public static void deleteAccountRequest(ClientHandler clientHandler) {
@@ -286,10 +307,101 @@ public class ServerMapper {
     }
     // DECK ARRANGE
 
-    public static void updateAccount(Account account, ClientHandler clientHandler) {
-        System.out.println("Update account sent to client: " + account.getUsername());
-        Packet packet = new Packet("updateAccount",
-                new Object[]{account});
+    // START GAME
+    public static void onlineGameRequest(ClientHandler clientHandler){
+        HSServer.getInstance().onlineGameRequest(clientHandler);
+    }
+
+    public static void onlineGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler){
+        Packet packet = new Packet("onlineGameResponse",
+                new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
     }
+
+    public static void onlineGameCancelRequest(ClientHandler clientHandler){
+        HSServer.getInstance().onlineGameCancelRequest(clientHandler);
+    }
+    // START GAME
+
+    // BEGINNING GAME
+    public static void selectPassiveRequest(ClientHandler clientHandler){
+        Packet packet = new Packet("selectPassiveRequest",
+                null);
+        clientHandler.sendPacket(packet);
+    }
+
+    public synchronized static void selectPassiveResponse(Passive passive, ClientHandler clientHandler){
+        clientHandler.getPlayer().setPassive(passive);
+    }
+
+    public static void selectNotWantedCardsRequest(ArrayList<Card> topCards, ClientHandler clientHandler){
+        Packet packet = new Packet("selectNotWantedCardsRequest",
+                new Object[]{topCards});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void selectNotWantedCardsResponse(ArrayList<Integer> discardedCards, ClientHandler clientHandler){
+        clientHandler.getPlayer().setDiscardedCards(true);
+        clientHandler.getPlayer().removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
+    }
+
+    public static void startGameOnGuiRequest(Player player0, Player player1, ClientHandler clientHandler){
+        Packet packet = new Packet("startGameOnGuiRequest",
+                new Object[]{player0, player1});
+        clientHandler.sendPacket(packet);
+    }
+    // BEGINNING GAME
+
+    // MIDDLE OF GAME
+    public static void animateSpellRequest(int playerId, Card card, ClientHandler clientHandler){
+        Packet packet = new Packet("animateSpellRequest",
+                new Object[]{playerId, card});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void endTurnRequest(ClientHandler clientHandler){
+        clientHandler.getGame().endTurn();
+    }
+
+    public static void deleteMouseWaitingRequest(ClientHandler clientHandler) {
+        Packet packet = new Packet("deleteMouseWaitingRequest",
+                null);
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void createMouseWaitingRequest(CursorType cursorType, Card card, ClientHandler clientHandler) {
+        Packet packet = new Packet("deleteMouseWaitingRequest",
+                new Object[]{cursorType, card});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void foundObjectRequest(Object waitedCard, Object founded, ClientHandler clientHandler){
+        try {
+            clientHandler.getGame().foundObject(waitedCard, founded);
+            foundObjectResponse(clientHandler);
+        } catch (HearthStoneException e) {
+            showGameError(e.getMessage(), clientHandler);
+        }
+    }
+
+    public static void foundObjectResponse(ClientHandler clientHandler) {
+        Packet packet = new Packet("foundObjectResponse",
+                null);
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void playCardRequest(Card card, ClientHandler clientHandler){
+        try {
+            clientHandler.getPlayer().playCard(card);
+        } catch (HearthStoneException e){
+            showGameError(e.getMessage(), clientHandler);
+        }
+    }
+
+    public static void updateBoardRequest(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
+        Packet packet = new Packet("updateBoardRequest",
+                new Object[]{myPlayer, enemyPlayer});
+        clientHandler.sendPacket(packet);
+    }
+    // MIDDLE OF GAME
 }

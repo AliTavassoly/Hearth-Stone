@@ -1,6 +1,6 @@
 package hearthstone.models.card.minion;
 
-import hearthstone.Mapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
@@ -8,6 +8,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Column;
@@ -46,6 +47,10 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected int numberOfAttackedMinion;
     @Transient
     protected int numberOfAttackedHero;
+
+    @Transient
+    @JsonProperty("canAttack")
+    protected boolean canAttack;
 
     @Column
     protected boolean spellSafe;
@@ -217,6 +222,10 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isHeroPowerSafe = isHeroPowerSafe;
     }
 
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
+
     // END OF GETTER SETTER
 
     public void removeDivineShield() {
@@ -341,7 +350,9 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         } else {
             //Mapper.damage(this.attack, minionCard);
             minionCard.gotDamage(this.attack);
-            Mapper.updateBoard();
+             // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
+
             log(minionCard);
         }
 
@@ -353,7 +364,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         try {
             //Mapper.damage(minionCard.getAttack(), this);
             this.gotDamage(minionCard.getAttack());
-            Mapper.updateBoard();
+            // Mapper.updateBoard();
+            HSServer.getInstance().updateGameRequest(playerId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -361,7 +373,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/Mapper.getPlayer(hero.getPlayerId()).haveTaunt()) {
+        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
             if (isRush && !isCharge) {
@@ -370,7 +382,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         }
         //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
 
         log(hero);
     }
@@ -400,7 +413,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public boolean canAttack() {
-        System.out.println(getName() + " " + isRush);
         if (isFreeze)
             return false;
         if (numberOfAttack > 0)
@@ -408,5 +420,10 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         if (numberOfAttack == 0 && (isRush || isCharge))
             return true;
         return false;
+    }
+
+    @Override
+    public boolean isCanAttack() {
+        return canAttack;
     }
 }

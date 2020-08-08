@@ -1,8 +1,8 @@
 package hearthstone.models.passive.passives;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.StartGameBehave;
 import hearthstone.models.passive.Passive;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -17,6 +17,6 @@ public class OffCards extends Passive implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        Mapper.getPlayer(getPlayerId()).discountAllDeckCard(1);
+        HSServer.getInstance().getPlayer(getPlayerId()).discountAllDeckCard(1);
     }
 }

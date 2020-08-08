@@ -1,6 +1,5 @@
 package hearthstone.client.gui.game.settings;
 
-import hearthstone.Mapper;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.server.data.ServerData;
@@ -15,7 +14,6 @@ import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.shared.GUIConfigs;
-import hearthstone.util.Logger;
 import hearthstone.util.getresource.ImageResource;
 
 import javax.swing.*;
@@ -119,15 +117,6 @@ public class SettingsPanel extends JPanel {
                 } else {
                     return;
                 }
-
-                try {
-                    Mapper.saveDataBase();
-
-                    Logger.saveLog("Settings changed",
-                            "password changed");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -142,15 +131,6 @@ public class SettingsPanel extends JPanel {
                     HSClient.currentAccount.setName(newName);
                 else
                     return;
-
-                try {
-                    Mapper.saveDataBase();
-
-                    Logger.saveLog("Settings changed",
-                            "name changed to: " + HSClient.currentAccount.getName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -160,14 +140,6 @@ public class SettingsPanel extends JPanel {
                 CardsBackDialog cardsBackDialog = new CardsBackDialog(GameFrame.getInstance());
 
                 HSClient.currentAccount.setCardsBackId(cardsBackDialog.getId());
-
-                try {
-                    Mapper.saveDataBase();
-                    Logger.saveLog("Settings changed",
-                            "cards back id changed to: " + HSClient.currentAccount.getCardsBackId());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
 

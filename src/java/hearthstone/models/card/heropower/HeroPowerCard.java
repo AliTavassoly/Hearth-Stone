@@ -1,9 +1,10 @@
 package hearthstone.models.card.heropower;
 
-import hearthstone.Mapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -11,9 +12,16 @@ import javax.persistence.Transient;
 @Entity
 public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
     @Transient
+    @JsonProperty("extraNumberOfAttack")
     protected int extraNumberOfAttack;
+
     @Transient
+    @JsonProperty("numberOfAttack")
     protected int numberOfAttack;
+
+    @Transient
+    @JsonProperty("isFirstTurn")
+    protected boolean canAttack;
 
     public HeroPowerCard() {
     }
@@ -24,6 +32,10 @@ public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
 
     public void setExtraNumberOfAttack(int extraNumberOfAttack) {
         this.extraNumberOfAttack = extraNumberOfAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
     }
 
     public void log(){
@@ -42,7 +54,12 @@ public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
     @Override
     public boolean canAttack() {
         return numberOfAttack > 0 &&
-                getManaCost() <= Mapper.getMana(getPlayerId()) &&
-                Mapper.getWhoseTurn() == getPlayerId();
+                getManaCost() <= HSServer.getInstance().getPlayer(getPlayerId()).getMana() &&
+                HSServer.getInstance().getPlayer(getPlayerId()).isMyTurn();
+    }
+
+    @Override
+    public boolean isCanAttack() {
+        return canAttack;
     }
 }

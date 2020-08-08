@@ -242,7 +242,7 @@ public class DataBase {
                 "Reward: Summon a\n" +
                 " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARDCARD);
         HearthStone.baseCards.put(securityReward.getId(), securityReward);*/
-        HSServer.baseCards = getBaseCards();
+        ServerData.baseCards = getBaseCards();
     }
 
     private static void loadHeroes() throws Exception {
@@ -270,7 +270,7 @@ public class DataBase {
         Priest priest = new Priest(id++, "Priest", HeroType.PRIEST, "", "Heal",
                 30);
         HearthStone.baseHeroes.put(priest.getId(), priest);*/
-        HSServer.baseHeroes = getBaseHeroes();
+        ServerData.baseHeroes = getBaseHeroes();
     }
 
     private static void loadPassives() throws Exception {
@@ -289,7 +289,7 @@ public class DataBase {
 
         Nurse nurse = new Nurse(id++, "Nurse");
         basePassives.put(nurse.getId(), nurse);*/
-        HSServer.basePassives = getBasePassives();
+        ServerData.basePassives = getBasePassives();
     }
 
     private static Map<String, AccountCredential> getCredentials() {
@@ -392,7 +392,6 @@ public class DataBase {
 
     private static void loadMarket() {
         HSServer.market = getMarket();
-        System.out.println(HSServer.market);
     }
 
     private static void loadAccounts() {

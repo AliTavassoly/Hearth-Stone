@@ -4,6 +4,7 @@ import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
 import hearthstone.client.gui.controls.fields.TextField;
+import hearthstone.server.network.ServerMapper;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
@@ -180,30 +181,33 @@ public class RegisterPanel extends JPanel {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                //try {
-                    /*hearthstone.HearthStone.register(nameField.getText(), userField.getText(),
-                            new String(passField.getPassword()), new String(repField.getPassword()));
-                    CredentialsFrame.getInstance().getContentPane().setVisible(false);
-                    CredentialsFrame.getInstance().setContentPane(new LogisterPanel());
-                    CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getNewInstance().setVisible(true);*/
+                RegisterPanel.this.checkValid();
                 ClientMapper.registerRequest(nameField.getText(), userField.getText(),
                         new String(passField.getPassword()));
-                /*    Mapper.saveDataBase();
-                } catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage()
-                                        + "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) {
-                    }
-                    error = e.getMessage();
-                    repaint();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }*/
             }
         });
+    }
+
+    private void checkValid() {
+        String pass1 = new String(passField.getPassword());
+        String pass2 = new String(repField.getPassword());
+
+        if(nameField.getText().length() == 0){
+            showError("name should contain at least one character!");
+            return;
+        }
+        if(userField.getText().length() == 0){
+            showError("username should contain at least one character!");
+            return;
+        }
+        if(pass1.length() == 0) {
+            showError("passwords should contain at least one character!");
+            return;
+        }
+
+        if(!pass1.equals(pass2)){
+            showError("passwords does not match!");
+        }
     }
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {

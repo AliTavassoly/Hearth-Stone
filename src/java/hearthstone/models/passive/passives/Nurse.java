@@ -1,9 +1,9 @@
 package hearthstone.models.passive.passives;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.passive.Passive;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -18,7 +18,7 @@ public class Nurse extends Passive implements EndTurnBehave {
     @Override
     public void endTurnBehave() {
         //MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
-        MinionCard minionCard = Mapper.getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
+        MinionCard minionCard = HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomMinionFromLand();
 
 
         if(minionCard == null)
@@ -26,6 +26,7 @@ public class Nurse extends Passive implements EndTurnBehave {
 
         //Mapper.restoreHealth(minionCard);
         minionCard.restoreHealth();
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

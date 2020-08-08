@@ -77,7 +77,7 @@ public class WeaponButton extends ImageButton {
                 activeWeaponImageHovered = ImageResource.getInstance().getImage("/images/cards/weapon/" + "active_frame_hovered.png");
 
             if (weaponImage == null) {
-                if (card.canAttack())
+                if (card.isCanAttack())
                     weaponImage = activeWeaponImage;
                 else
                     weaponImage = inactiveWeaponImage;
@@ -91,7 +91,7 @@ public class WeaponButton extends ImageButton {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        if (card.canAttack()) {
+        if (card.isCanAttack()) {
             drawAttack(g2, String.valueOf(card.getAttack()));
             drawDurability(g2, String.valueOf(card.getDurability()));
         }
@@ -123,7 +123,7 @@ public class WeaponButton extends ImageButton {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        if (card.canAttack()) {
+        if (card.isCanAttack()) {
             weaponImage = activeWeaponImageHovered;
         }
         repaint();
@@ -132,7 +132,7 @@ public class WeaponButton extends ImageButton {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        if (card.canAttack()) {
+        if (card.isCanAttack()) {
             weaponImage = activeWeaponImage;
         } else {
             weaponImage = inactiveWeaponImage;

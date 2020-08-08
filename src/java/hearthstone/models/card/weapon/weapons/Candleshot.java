@@ -1,10 +1,10 @@
 package hearthstone.models.card.weapon.weapons;
 
-import hearthstone.Mapper;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -22,11 +22,12 @@ public class Candleshot extends WeaponCard {
         super.startTurnBehave();
 
         //Mapper.addImmunity(getPlayerId(), 1, Mapper.getHero(getPlayerId()));
-        Mapper.getHero(getPlayerId()).addImmunity(1);
+        HSServer.getInstance().getPlayer(playerId).getHero().addImmunity(1);
 
         //Mapper.handleImmunities(getPlayerId(), Mapper.getHero(getPlayerId()));
-        Mapper.getHero(getPlayerId()).handleImmunities();
+        HSServer.getInstance().getPlayer(playerId).getHero().handleImmunities();
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

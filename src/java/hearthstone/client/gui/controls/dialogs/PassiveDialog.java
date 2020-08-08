@@ -1,5 +1,6 @@
 package hearthstone.client.gui.controls.dialogs;
 
+import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.models.passive.Passive;
@@ -37,8 +38,10 @@ public class PassiveDialog extends HSDialog {
         this.frame = frame;
 
         passives = new ArrayList<>();
-        for(int id : passivesId)
-            passives.add(HSServer.basePassives.get(id).copy());
+
+        for(int id : passivesId) {
+            passives.add(ClientData.basePassives.get(id).copy());
+        }
 
         passiveButtons = new ArrayList<>();
 

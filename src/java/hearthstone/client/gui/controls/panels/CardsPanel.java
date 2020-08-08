@@ -1,9 +1,7 @@
 package hearthstone.client.gui.controls.panels;
 
-import hearthstone.Mapper;
 import hearthstone.client.gui.controls.buttons.CardButton;
 import hearthstone.models.card.Card;
-import hearthstone.util.HearthStoneException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -105,6 +103,7 @@ public class CardsPanel extends JPanel {
         originalButtons.add(cardButton);
         originalCards.add(card);
         originalPanels.add(panel);
+
         restart();
     }
 
@@ -118,6 +117,7 @@ public class CardsPanel extends JPanel {
                 break;
             }
         }
+
         restart();
     }
 
@@ -161,17 +161,6 @@ public class CardsPanel extends JPanel {
     }
 
     private void restart() {
-        /*try {
-            Mapper.saveDataBase();
-        } catch (HearthStoneException e) {
-            try {
-                hearthstone.util.Logger.saveLog("ERROR",
-                        e.getClass().getName() + ": " + e.getMessage()
-                                + "\nStack Trace: " + e.getStackTrace());
-            } catch (Exception f) { }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
         removeAll();
 
         makeCompressedCards();

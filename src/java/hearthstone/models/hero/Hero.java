@@ -39,7 +39,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JsonSerialize(converter = DeckListSerializer.class)
+    //@JsonSerialize(converter = DeckListSerializer.class)
     private List<Deck> decks;
 
     @ManyToOne

@@ -1,11 +1,11 @@
 package hearthstone.models.card.reward.rewards;
 
-import hearthstone.Mapper;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.reward.RewardCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.network.HSServer;
 
 import javax.persistence.Entity;
 
@@ -21,13 +21,13 @@ public class SecurityReward extends RewardCard implements Battlecry {
     @Override
     public void battlecry() {
         //Mapper.restartSpentManaOnMinions(getPlayerId());
-        Mapper.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
+        HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnMinions(0);
     }
 
     @Override
     public int getPercentage() {
         //int now = DataTransform.spentManaOnMinions(getPlayerId());
-        int now = Mapper.getPlayer(getPlayerId()).getManaSpentOnMinions();
+        int now = HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions();
         int end = 10;
 
         return (int)(((double)now / (double)end) * 100);
@@ -35,20 +35,21 @@ public class SecurityReward extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return Mapper.getPlayer(getPlayerId()).getManaSpentOnMinions() >= 10
+        return HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions() >= 10
                 /*DataTransform.spentManaOnMinions(getPlayerId()) >= 10*/;
     }
 
     @Override
     public void doReward() {
         //Mapper.summonMinionFromCurrentDeck(getPlayerId(), "Security Rover");
-        Mapper.getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck("Security Rover");
+        HSServer.getInstance().getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck("Security Rover");
 
         //Mapper.restartSpentManaOnMinions(getPlayerId());
-        Mapper.getPlayer(getPlayerId()).setManaSpentOnMinions(0);
+        HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnMinions(0);
 
         log();
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

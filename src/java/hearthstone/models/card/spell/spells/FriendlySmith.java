@@ -1,7 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.HearthStone;
-import hearthstone.Mapper;
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.card.Card;
@@ -10,6 +8,7 @@ import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
 import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
+import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 import hearthstone.util.Rand;
 
@@ -28,7 +27,7 @@ public class FriendlySmith  extends SpellCard {
     public void doAbility() {
         ArrayList<Card> allWeapons = new ArrayList<>();
         ArrayList<Card> discoverWeapons = new ArrayList<>();
-        for(Card card: HSServer.baseCards.values()){
+        for(Card card: ServerData.baseCards.values()){
             if(card.getCardType() == CardType.WEAPON_CARD){
                 allWeapons.add(card.copy());
             }
@@ -52,8 +51,9 @@ public class FriendlySmith  extends SpellCard {
         //Mapper.updateBoard();
 
         //Mapper.makeAndPutDeck(getPlayerId(), selectedWeapon);
-        Mapper.getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
+        HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
 
-        Mapper.updateBoard();
+        // Mapper.updateBoard();
+        HSServer.getInstance().updateGameRequest(playerId);
     }
 }

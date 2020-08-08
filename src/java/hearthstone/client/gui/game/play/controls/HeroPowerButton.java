@@ -92,7 +92,7 @@ public class HeroPowerButton extends ImageButton {
 
         g2.drawImage(cardImage, 20, 25, null);
 
-        if (((HeroPowerBehaviour) card).canAttack()) {
+        if (card.isCanAttack()) {
             if (card instanceof Upgradeable && ((Upgradeable) card).isUpgraded())
                 g2.drawImage(heroPowerUpgradeFrame, 0, 0, null);
             else
@@ -103,7 +103,7 @@ public class HeroPowerButton extends ImageButton {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        if (((HeroPowerBehaviour) card).canAttack())
+        if (card.isCanAttack())
             drawMana(g2, String.valueOf(card.getManaCost()));
     }
 
