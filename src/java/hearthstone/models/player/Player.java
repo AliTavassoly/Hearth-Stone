@@ -421,7 +421,6 @@ public class Player {
             case SPELL:
                 break;
         }
-        //hand.remove(cardInHand);
         removeFromHand(cardInHand.getCardGameId());
 
         mana -= cardInHand.getManaCost();
@@ -623,14 +622,18 @@ public class Player {
         HSServer.getInstance().updateGameRequest(playerId);
     }
 
-    public void startTurn() throws HearthStoneException {
+    public void startTurn() {
         mana = ++turnNumber + extraMana;
         mana = 10;
         //mana = Math.min(mana, GameConfigs.maxManaInGame);
 
         handleStartTurnBehaviours();
 
-        drawCard();
+        try {
+            drawCard();
+        } catch (HearthStoneException e){
+            e.printStackTrace();
+        }
 
         HSServer.getInstance().updateGameRequest(playerId);
     }

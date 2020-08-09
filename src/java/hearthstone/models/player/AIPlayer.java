@@ -20,7 +20,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public void startTurn() throws HearthStoneException {
+    public void startTurn() {
         super.startTurn();
 
         playWeapon();

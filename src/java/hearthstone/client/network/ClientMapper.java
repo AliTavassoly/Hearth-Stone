@@ -378,5 +378,9 @@ public class ClientMapper {
     public static void updateBoardRequest(Player myPlayer, Player enemyPlayer) {
         HSClient.currentGameBoard.restart(myPlayer, enemyPlayer);
     }
+
+    public static void endGameRequest() {
+        HSClient.currentGameBoard.gameEnded();
+    }
     // MIDDLE OF GAME
 }

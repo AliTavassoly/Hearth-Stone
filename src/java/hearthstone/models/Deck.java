@@ -280,4 +280,13 @@ public class Deck implements Comparable<Deck> {
         }
         return 0;
     }
+
+    public void lostGame() {
+        totalGames++;
+    }
+
+    public void wonGame(){
+        totalGames++;
+        winGames++;
+    }
 }

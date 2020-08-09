@@ -431,5 +431,11 @@ public class ServerMapper {
     public static void chooseCardAbilityResponse(int cardGameId, Card card, ClientHandler clientHandler) {
         clientHandler.getGame().chooseCardAbility(cardGameId, card);
     }
+
+    public static void endGameRequest(ClientHandler clientHandler) {
+        Packet packet = new Packet("endGameRequest",
+                null);
+        clientHandler.sendPacket(packet);
+    }
     // MIDDLE OF GAME
 }

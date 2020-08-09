@@ -443,4 +443,40 @@ public class HSServer extends Thread {
     public void chooseCardAbilityRequest(int cardGameId, ArrayList<Card> cards, int playerId) {
         ServerMapper.chooseCardAbilityRequest(cardGameId, cards, clients.get(getPlayer(playerId).getUsername()).getClientHandler());
     }
+
+    private void updateGameEndedInGui(Player player0, Player player1){
+        ServerMapper.endGameRequest(clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.endGameRequest(clients.get(player1.getUsername()).getClientHandler());
+    }
+
+    private void updateGameEndedInClients(Player player0, Player player1){
+        clients.get(player0.getUsername()).getClientHandler().gameEnded();
+        clients.get(player1.getUsername()).getClientHandler().gameEnded();
+    }
+
+    public void gameEnded(Player player0, Player player1) {
+        updateGameEndedInGui(player0, player1);
+
+        updateGameEndedInClients(player0, player1);
+
+        updateGameEndedInAccounts(player0, player1);
+    }
+
+    private void updateGameEndedInAccounts(Player player0, Player player1) {
+        Account account0 = clients.get(player0.getUsername()).getAccount();
+        Account account1 = clients.get(player1.getUsername()).getAccount();
+
+        if(player0.getHero().getHealth() <= 0){
+            account0.lostGame(player0.getHero().getName(), player0.getDeck().getName());
+            account1.wonGame(player1.getHero().getName(), player1.getDeck().getName());
+        } else {
+            account0.wonGame(player0.getHero().getName(), player0.getDeck().getName());
+            account1.lostGame(player1.getHero().getName(), player1.getDeck().getName());
+        }
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+
+        DataBase.save(account0);
+        DataBase.save(account1);
+    }
 }

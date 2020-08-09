@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@JsonIgnoreProperties(value = {"player"})
+@JsonIgnoreProperties(value = {"player", "allDecks"})
 @Entity
 public class Account {
     @Id
@@ -262,7 +262,7 @@ public class Account {
         ArrayList<Deck> ans = new ArrayList<>();
         List<Deck> decks = new ArrayList<>();
 
-        for(Deck deck: this.decks){
+        for(Deck deck: getAllDecks()){
             decks.add(deck);
         }
 
@@ -293,6 +293,16 @@ public class Account {
         return new Player(selectedHero, getSelectedHero().getSelectedDeck(), username);
     }
 
+    private ArrayList<Deck> getAllDecks(){
+        ArrayList<Deck> decks = new ArrayList<>();
+        for(Hero hero: heroes){
+            for(Deck deck: hero.getDecks()){
+                decks.add(deck);
+            }
+        }
+        return decks;
+    }
+
     public Hero getHeroByName(String heroName) {
         for (Hero hero : heroes) {
             if (hero.getName().equals(heroName))
@@ -312,7 +322,7 @@ public class Account {
         List<Deck> decks = hero.getDecks();
         decks.add(deck);
 
-        this.decks.add(deck);
+        //this.decks.add(deck);
 
         hero.setDecks(decks);
     }
@@ -325,13 +335,12 @@ public class Account {
     public void removeDeck(String heroName, String deckName) {
         Hero hero = getHeroByName(heroName);
         hero.removeDeck(deckName);
-
-        for(Deck deck: this.decks){
+        /*for(Deck deck: getAllDecks()){
             if(deck.getName().equals(deckName) && deck.getHeroType().getHeroName().equals(heroName)){
                 this.decks.remove(deck);
                 break;
             }
-        }
+        }*/
     }
 
     public Card addCardToDeck(String heroName, String deckName, int cardId,
@@ -353,5 +362,19 @@ public class Account {
         deck.remove(card, cnt);
 
         return card;
+    }
+
+    public void lostGame(String heroName, String deckName) {
+        Hero hero = getHeroByName(heroName);
+        Deck deck = hero.getDeckByName(deckName);
+
+        deck.lostGame();
+    }
+
+    public void wonGame(String heroName, String deckName) {
+        Hero hero = getHeroByName(heroName);
+        Deck  deck = hero.getDeckByName(deckName);
+
+        deck.wonGame();
     }
 }

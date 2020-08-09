@@ -2,7 +2,6 @@ package hearthstone.server.logic;
 
 import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.server.network.HSServer;
@@ -14,7 +13,7 @@ import hearthstone.util.timer.HSTimerTask;
 
 import java.util.*;
 
-public class Game extends Thread{
+public class Game extends Thread {
     private Player player0, player1;
     private int whoseTurn;
 
@@ -54,7 +53,7 @@ public class Game extends Thread{
 
             @Override
             public void closeFunction() {
-                //Mapper.gameEnded(); ???????????????
+                HSServer.getInstance().gameEnded(player0, player1);
             }
 
             @Override
@@ -93,7 +92,7 @@ public class Game extends Thread{
             player1.startGame();
 
             player0.startTurn();
-        } catch (HearthStoneException e){
+        } catch (HearthStoneException e) {
             e.printStackTrace();
         }
     }
@@ -116,7 +115,7 @@ public class Game extends Thread{
         }
     }
 
-    private void discardInitialCards() throws HearthStoneException{
+    private void discardInitialCards() throws HearthStoneException {
         ServerMapper.selectNotWantedCardsRequest(player0.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player0));
         ServerMapper.selectNotWantedCardsRequest(player1.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player1));
 
@@ -136,29 +135,21 @@ public class Game extends Thread{
 
     public void endTurn() {
         if (whoseTurn == 0) {
-            try {
-                player0.endTurn();
+            player0.endTurn();
 
-                whoseTurn = 1;
+            whoseTurn = 1;
 
-                player0.setMyTurn(false);
-                player1.setMyTurn(true);
-                player1.startTurn();
-            } catch (HearthStoneException e) {
-                e.printStackTrace();
-            }
+            player0.setMyTurn(false);
+            player1.setMyTurn(true);
+            player1.startTurn();
         } else {
-            try {
-                player1.endTurn();
+            player1.endTurn();
 
-                whoseTurn = 0;
+            whoseTurn = 0;
 
-                player0.setMyTurn(true);
-                player1.setMyTurn(false);
-                player0.startTurn();
-            } catch (HearthStoneException e) {
-                e.printStackTrace();
-            }
+            player0.setMyTurn(true);
+            player1.setMyTurn(false);
+            player0.startTurn();
         }
     }
 
@@ -166,11 +157,11 @@ public class Game extends Thread{
         return whoseTurn;
     }
 
-    public Player getFirstPlayer(){
+    public Player getFirstPlayer() {
         return player0;
     }
 
-    public Player getSecondPlayer(){
+    public Player getSecondPlayer() {
         return player1;
     }
 
@@ -208,26 +199,26 @@ public class Game extends Thread{
         return null;
     }
 
-    public Hero getHeroById(int heroId){
-        for(Hero hero: heroes){
-            if(hero.getHeroGameId() == heroId)
+    public Hero getHeroById(int heroId) {
+        for (Hero hero : heroes) {
+            if (hero.getHeroGameId() == heroId)
                 return hero;
         }
         return null;
     }
 
-    public void foundObject(Object waitedCardId, Object founded) throws HearthStoneException{
-        if(!(waitedCardId instanceof Card)){
+    public void foundObject(Object waitedCardId, Object founded) throws HearthStoneException {
+        if (!(waitedCardId instanceof Card)) {
             throw new HearthStoneException("Strange Object founded!");
         }
 
-        Card waitObject = getCardById(((Card)waitedCardId).getCardGameId());
+        Card waitObject = getCardById(((Card) waitedCardId).getCardGameId());
         Object foundedObject = null;
 
-        if(founded instanceof Hero){
-            foundedObject = getHeroById(((Hero)founded).getHeroGameId());
-        }  else if (founded instanceof Card){
-            foundedObject = getCardById(((Card)founded).getCardGameId());
+        if (founded instanceof Hero) {
+            foundedObject = getHeroById(((Hero) founded).getHeroGameId());
+        } else if (founded instanceof Card) {
+            foundedObject = getCardById(((Card) founded).getCardGameId());
         } else {
             throw new HearthStoneException("Strange Object founded!");
         }
@@ -238,9 +229,9 @@ public class Game extends Thread{
     }
 
     public synchronized void chooseCardAbility(int cardGameId, Card card) {
-        for(Card card1: cards){
-            if(card1.getCardGameId() == cardGameId){
-                ((ChooseCardAbility)card1).doAfterChoosingCard(card);
+        for (Card card1 : cards) {
+            if (card1.getCardGameId() == cardGameId) {
+                ((ChooseCardAbility) card1).doAfterChoosingCard(card);
                 break;
             }
         }

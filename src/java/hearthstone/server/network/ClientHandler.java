@@ -104,4 +104,9 @@ public class ClientHandler extends Thread {
     public void clientDisconnected(){
         HSServer.getInstance().clientHandlerDisconnected(this);
     }
+
+    public void gameEnded() {
+        game = null;
+        player = null;
+    }
 }
