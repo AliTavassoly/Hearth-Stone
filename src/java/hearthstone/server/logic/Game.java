@@ -136,24 +136,24 @@ public class Game extends Thread{
         if (whoseTurn == 0) {
             try {
                 player0.endTurn();
-                player0.setMyTurn(false);
 
                 whoseTurn = 1;
 
-                player1.startTurn();
+                player0.setMyTurn(false);
                 player1.setMyTurn(true);
+                player1.startTurn();
             } catch (HearthStoneException e) {
                 e.printStackTrace();
             }
         } else {
             try {
                 player1.endTurn();
-                player1.setMyTurn(false);
 
                 whoseTurn = 0;
 
-                player0.startTurn();
                 player0.setMyTurn(true);
+                player1.setMyTurn(false);
+                player0.startTurn();
             } catch (HearthStoneException e) {
                 e.printStackTrace();
             }
@@ -164,8 +164,16 @@ public class Game extends Thread{
         return whoseTurn;
     }
 
+    public Player getFirstPlayer(){
+        return player0;
+    }
+
+    public Player getSecondPlayer(){
+        return player1;
+    }
+
     public Player getPlayerById(int id) {
-        if (id == 0) return player0;
+        if (player0.getPlayerId() == id) return player0;
         else return player1;
     }
 

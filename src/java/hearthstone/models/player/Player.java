@@ -400,6 +400,7 @@ public class Player {
         }
         //hand.remove(cardInHand);
         removeFromHand(cardInHand.getCardGameId());
+
         mana -= cardInHand.getManaCost();
 
         handleBattleCry(cardInHand);
@@ -412,10 +413,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGameRequest(playerId);
-
-        logPlayCard(cardInHand);
     }
 
     private void summonMinion(Card card) {
@@ -599,7 +597,6 @@ public class Player {
     public void endTurn() {
         handleEndTurnBehaviours();
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGameRequest(playerId);
     }
 
@@ -631,7 +628,7 @@ public class Player {
     private void configHero(Hero hero) {
         hero.setHeroGameId(game.getNewHeroId());
 
-        hero.setPlayerId(this.getPlayerId());
+        hero.setPlayerId(playerId);
 
         HeroPowerCard heroPower = (HeroPowerCard) ServerData.getCardByName(hero.getHeroPowerName());
         configCard(heroPower);

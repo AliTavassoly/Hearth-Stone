@@ -34,18 +34,32 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected boolean isCharge, isRush;
 
     @Transient
-    protected boolean isImmune, isFreeze;
+    @JsonProperty("isImmune")
+    protected boolean isImmune;
 
     @Transient
-    private ArrayList<Integer> immunities, freezes;
+    @JsonProperty("isFreeze")
+    protected boolean isFreeze;
 
     @Transient
+    @JsonProperty("immunities")
+    private ArrayList<Integer> immunities;
+
+    @Transient
+    @JsonProperty("freezes")
+    private ArrayList<Integer> freezes;
+
+    @Transient
+    @JsonProperty("numberOfAttack")
     protected int numberOfAttack;
     @Transient
+    @JsonProperty("isFirstTurn")
     protected boolean isFirstTurn;
     @Transient
+    @JsonProperty("numberOfAttackedMinion")
     protected int numberOfAttackedMinion;
     @Transient
+    @JsonProperty("numberOfAttackedHero")
     protected int numberOfAttackedHero;
 
     @Transient

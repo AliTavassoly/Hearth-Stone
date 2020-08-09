@@ -327,6 +327,10 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
+    public static void endTurnResponse() {
+        HSClient.currentGameBoard.restartTimeLine();
+    }
+
     public static void deleteMouseWaitingRequest() {
         HSClient.currentGameBoard.deleteCurrentMouseWaiting();
     }
@@ -335,9 +339,9 @@ public class ClientMapper {
         HSClient.currentGameBoard.makeNewMouseWaiting(cursorType, card);
     }
 
-    public static void foundObjectRequest(Object waitedCardId, Object founded) {
+    public static void foundObjectRequest(Object waitedCard, Object founded) {
         Packet packet = new Packet("foundObjectRequest",
-                new Object[]{waitedCardId, founded});
+                new Object[]{waitedCard, founded});
         HSClient.sendPacket(packet);
     }
 
@@ -349,6 +353,10 @@ public class ClientMapper {
         Packet packet = new Packet("playCardRequest",
                 new Object[]{card});
         HSClient.sendPacket(packet);
+    }
+
+    public static void playCardResponse(Card card){
+        HSClient.currentGameBoard.removeCardAnimation(card);
     }
 
     public static void updateBoardRequest(Player myPlayer, Player enemyPlayer) {

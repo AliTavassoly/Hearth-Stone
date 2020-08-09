@@ -1,5 +1,6 @@
 package hearthstone.models.card.minion.minions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
 @Entity
 public class HulkingOverfiend extends MinionCard {
     @Transient
+    @JsonProperty("thisTurnAttack")
     private int thisTurnAttack;
 
     public HulkingOverfiend() {

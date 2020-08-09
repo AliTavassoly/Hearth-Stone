@@ -1,5 +1,7 @@
 package hearthstone.models.specialpower;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public abstract class SpecialHeroPower {
     private String name;
 
     @Transient
+    @JsonProperty("playerId")
     protected int playerId;
 
     public SpecialHeroPower(){}

@@ -360,7 +360,15 @@ public class ServerMapper {
     }
 
     public static void endTurnRequest(ClientHandler clientHandler){
+        HSServer.getInstance().endTurnGuiResponse(clientHandler);
+
         clientHandler.getGame().endTurn();
+    }
+
+    public static void endTurnResponse(ClientHandler clientHandler){
+        Packet packet = new Packet("endTurnResponse",
+                null);
+        clientHandler.sendPacket(packet);
     }
 
     public static void deleteMouseWaitingRequest(ClientHandler clientHandler) {
@@ -370,7 +378,7 @@ public class ServerMapper {
     }
 
     public static void createMouseWaitingRequest(CursorType cursorType, Card card, ClientHandler clientHandler) {
-        Packet packet = new Packet("deleteMouseWaitingRequest",
+        Packet packet = new Packet("createMouseWaitingRequest",
                 new Object[]{cursorType, card});
         clientHandler.sendPacket(packet);
     }
@@ -393,9 +401,19 @@ public class ServerMapper {
     public static void playCardRequest(Card card, ClientHandler clientHandler){
         try {
             clientHandler.getPlayer().playCard(card);
+
+            HSServer.getInstance().updateGameRequest(clientHandler.getPlayer().getPlayerId());
+
+            playCardResponse(card, clientHandler);
         } catch (HearthStoneException e){
             showGameError(e.getMessage(), clientHandler);
         }
+    }
+
+    public static void playCardResponse(Card card, ClientHandler clientHandler){
+        Packet packet = new Packet("playCardResponse",
+                new Object[]{card});
+        clientHandler.sendPacket(packet);
     }
 
     public static void updateBoardRequest(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {

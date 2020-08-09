@@ -1,5 +1,6 @@
 package hearthstone.models.card.minion.minions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -14,6 +15,7 @@ import javax.persistence.Transient;
 @Entity
 public class PitCommander extends MinionCard implements EndTurnBehave {
     @Transient
+    @JsonProperty("didItEndTurnBehave")
     private boolean didItEndTurnBehave;
 
     public PitCommander(){ }

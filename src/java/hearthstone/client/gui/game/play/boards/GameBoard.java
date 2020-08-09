@@ -15,6 +15,7 @@ import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.gui.util.Animation;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.card.weapon.WeaponBehaviour;
@@ -734,7 +735,6 @@ public class GameBoard extends JPanel implements MouseListener {
                             animations.remove(ind);
 
                             if (animationsCard.size() == 0) {
-                                //Mapper.updateBoard();
                                 restart();
                             }
                         }
@@ -992,16 +992,12 @@ public class GameBoard extends JPanel implements MouseListener {
                           int startX, int startY, int width, int height) {
         if (button.getPlayerId() == myPlayer.getPlayerId()){
             ClientMapper.playCardRequest(card);
+            restart();
         } /*else {
 
         }*/
 
-        // if all is ok -> button.playSound();
-
         // if exception -> button.setBounds(startX, startY, width, height);
-
-        // if (card.getCardType() == CardType.SPELL || card.getCardType() == CardType.WEAPON_CARD || card.getCardType() == CardType.HERO_POWER)
-        //    removeCardAnimation(card);
     }
 
     public void animateSpell(int playerId, Card card) {
@@ -1024,7 +1020,7 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
-    private void removeCardAnimation(Card card) {
+    public void removeCardAnimation(Card card) {
         synchronized (animationLock) {
             if (animationsCard.contains(card.getCardGameId())) {
                 int ind = animationsCard.indexOf(card.getCardGameId());
@@ -1142,7 +1138,8 @@ public class GameBoard extends JPanel implements MouseListener {
                 heroWidth, heroHeight, myPlayer.getPlayerId());
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, enemyPlayer.getPlayerId()); // enemy hero
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(),
+                heroWidth, heroHeight, enemyPlayer.getPlayerId());
         makeHeroMouseListener(enemyHero);
 
         myPassive = new PassiveButton(myPlayer.getPassive(),
@@ -1210,6 +1207,13 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.endTurnButtonWidth, GUIConfigs.endTurnButtonHeight);
         add(endTurnButton);
 
+        myHero = new BoardHeroButton(myPlayer.getHero(),
+                heroWidth, heroHeight, myPlayer.getPlayerId());
+        makeHeroMouseListener(myHero);
+
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(),
+                heroWidth, heroHeight, enemyPlayer.getPlayerId());
+        makeHeroMouseListener(enemyHero);
         myHero.setBounds(myHeroX, myHeroY,
                 heroWidth, heroHeight);
         add(myHero);
@@ -1300,10 +1304,17 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     public int getWhoseTurn() {
-        System.out.println("Turn: " + myPlayer.isMyTurn() + " " + enemyPlayer.isMyTurn());
         if (myPlayer.isMyTurn())
             return myPlayer.getPlayerId();
         return enemyPlayer.getPlayerId();
+    }
+
+    public void restartTimeLine(){
+        endTurnLineTimerTask.myStop();
+
+        drawEndTurnTimeLine();
+
+        restart();
     }
 
     public void restart() {

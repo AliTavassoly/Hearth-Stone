@@ -23,6 +23,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
     protected int attack;
 
     @Transient
+    @JsonProperty("numberOfAttack")
     protected int numberOfAttack;
 
     @Transient
@@ -30,6 +31,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
     protected boolean isFirstTurn;
 
     @Transient
+    @JsonProperty("canAttack")
     protected boolean canAttack;
 
     public WeaponCard() {

@@ -54,6 +54,14 @@ public class HSServer extends Thread {
         }
     }
 
+    public void endTurnGuiResponse(ClientHandler clientHandler) {
+        String username0 = clients.get(clientHandler.getUsername()).getClientHandler().getGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(clientHandler.getUsername()).getClientHandler().getGame().getSecondPlayer().getUsername();
+
+        ServerMapper.endTurnResponse(clients.get(username0).getClientHandler());
+        ServerMapper.endTurnResponse(clients.get(username1).getClientHandler());
+    }
+
     private void configServer() {
         clients = new HashMap<>();
         updaterWaiters = new ArrayList<>();
@@ -345,20 +353,20 @@ public class HSServer extends Thread {
         return clients.get(player.getUsername()).getClientHandler();
     }
 
-    public int makeNewPlayerId(Player player){
+    public int makeNewPlayerId(Player player) {
         synchronized (playersLock) {
             players.put(players.size(), player);
             return players.size() - 1;
         }
     }
 
-    public Player getPlayer(int playerId){
+    public Player getPlayer(int playerId) {
         synchronized (playersLock) {
             return players.get(playerId);
         }
     }
 
-    public String getPlayerName(int playerId){
+    public String getPlayerName(int playerId) {
         synchronized (playersLock) {
             return players.get(playerId).getUsername();
         }
@@ -370,8 +378,8 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        String username0 = clients.get(username).getClientHandler().getGame().getPlayerById(0).getUsername();
-        String username1 = clients.get(username).getClientHandler().getGame().getPlayerById(1).getUsername();
+        String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
 
         Player player0 = clients.get(username0).getClientHandler().getPlayer();
         Player player1 = clients.get(username1).getClientHandler().getPlayer();
@@ -389,8 +397,8 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        String username0 = clients.get(username).getClientHandler().getGame().getPlayerById(0).getUsername();
-        String username1 = clients.get(username).getClientHandler().getGame().getPlayerById(1).getUsername();
+        String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
 
         Player player0 = clients.get(username0).getClientHandler().getPlayer();
         Player player1 = clients.get(username1).getClientHandler().getPlayer();

@@ -1,5 +1,6 @@
 package hearthstone.models.hero;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hearthstone.server.data.ServerData;
@@ -39,7 +40,7 @@ public abstract class Hero implements HeroBehaviour, Character {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    //@JsonSerialize(converter = DeckListSerializer.class)
+    @JsonSerialize(converter = DeckListSerializer.class)
     private List<Deck> decks;
 
     @ManyToOne
@@ -53,22 +54,32 @@ public abstract class Hero implements HeroBehaviour, Character {
     protected SpecialHeroPower specialHeroPower;
 
     @Transient
+    @JsonProperty("immunities")
     private ArrayList<Integer> immunities;
 
     @Transient
+    @JsonProperty("freezes")
     private ArrayList<Integer> freezes;
 
     @Transient
+    @JsonProperty("isImmune")
     protected boolean isImmune;
 
     @Transient
+    @JsonProperty("isFreeze")
     protected boolean isFreeze;
 
     @Transient
+    @JsonProperty("spellSafe")
     protected boolean spellSafe;
 
     @Transient
-    private int playerId, heroGameId;
+    @JsonProperty("playerId")
+    protected int playerId;
+
+    @Transient
+    @JsonProperty("heroGameId")
+    protected int heroGameId;
 
     @PostLoad
     void postLoad() {

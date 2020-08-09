@@ -32,10 +32,7 @@ public class OnlineGameBoard extends GameBoard {
     }
 
     protected void drawCardsOnHand(Player player, int handX, int handY) {
-        System.out.println("Salam " + myPlayer.getPlayerId() + " " + enemyPlayer.getPlayerId() + " " + player.getPlayerId() + " " + myPlayer.isMyTurn() + " " + enemyPlayer.isMyTurn());
-
         ArrayList<Card> cards = player.getHand();
-        System.out.println("Hand Size: " + cards.size());
         if (cards.size() == 0)
             return;
 
@@ -50,8 +47,6 @@ public class OnlineGameBoard extends GameBoard {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton;
-
-            System.out.println("ID GAME: " + card.getCardGameId());
 
             if (player.getPlayerId() == myPlayer.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
@@ -192,27 +187,16 @@ public class OnlineGameBoard extends GameBoard {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (getWhoseTurn() != myPlayer.getPlayerId()/*Mapper.getWhoseTurn() != myPlayer.getPlayerId()*/)
+                if (getWhoseTurn() != myPlayer.getPlayerId())
                     return;
-
-                /*try {
-                    hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            HSServer.getInstance().getPlayerName(Mapper.getWhoseTurn()) +
-                            " ended turn!");
-                } catch (Exception e){
-                    e.printStackTrace();
-                }*/
 
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
                 ClientMapper.endTurnRequest();
 
-                endTurnLineTimerTask.myStop();
-
                 deleteCurrentMouseWaiting();
 
-                drawEndTurnTimeLine();
                 restart();
             }
         });
@@ -233,12 +217,9 @@ public class OnlineGameBoard extends GameBoard {
                 heroWidth, heroHeight, myPlayer.getPlayerId());
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, enemyPlayer.getPlayerId()); // enemy hero
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(),
+                heroWidth, heroHeight, enemyPlayer.getPlayerId());
         makeHeroMouseListener(enemyHero);
-
-        myPassive = new PassiveButton(myPlayer.getPassive(),
-                GUIConfigs.medCardWidth,
-                GUIConfigs.medCardHeight);
 
         myMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, GUIConfigs.inGameErrorWidth, GUIConfigs.inGameErrorHeight);

@@ -1,5 +1,6 @@
 package hearthstone.models.card.weapon.weapons;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.behaviours.IsAttacked;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -17,6 +18,7 @@ import javax.persistence.Transient;
 @Entity
 public class WarglaivesOfAzzinoth extends WeaponCard {
     @Transient
+    @JsonProperty("numberOfThisTurnAttacked")
     private int numberOfThisTurnAttacked;
 
     public WarglaivesOfAzzinoth() {

@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.behaviours.Character;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
 @Entity
 public class Soulfire extends SpellCard {
     @Transient
+    @JsonProperty("damage")
     private int damage;
 
     public Soulfire() {
