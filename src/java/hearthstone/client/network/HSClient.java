@@ -155,12 +155,10 @@ public class HSClient {
 
     public void addCardToDeck(Card card) {
         DeckArrangement.getInstance().addCardToDeck(card);
-        DeckArrangement.getInstance().update();
     }
 
     public void removeCardFromDeck(Card card){
         DeckArrangement.getInstance().removeCardFromDeck(card);
-        DeckArrangement.getInstance().update();
     }
 
     public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer) {
