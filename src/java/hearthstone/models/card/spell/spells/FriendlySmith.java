@@ -2,6 +2,7 @@ package hearthstone.models.card.spell.spells;
 
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -10,13 +11,14 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
+import hearthstone.server.network.ServerMapper;
 import hearthstone.util.Rand;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
 @Entity
-public class FriendlySmith  extends SpellCard {
+public class FriendlySmith  extends SpellCard implements ChooseCardAbility {
     public FriendlySmith() { }
 
     public FriendlySmith(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -38,22 +40,18 @@ public class FriendlySmith  extends SpellCard {
             discoverWeapons.add(allWeapons.get(randomArray.get(i)));
         }
 
-        CardSelectionDialog cardDialog = new CardSelectionDialog(GameFrame.getInstance(),
-                discoverWeapons);
+        HSServer.getInstance().chooseCardAbilityRequest(cardGameId, discoverWeapons, playerId);
+    }
 
-        WeaponCard selectedWeapon = (WeaponCard) cardDialog.getCard();
-        //Mapper.addAttack(2, selectedWeapon);
+    @Override
+    public void doAfterChoosingCard(Card card) {
+        WeaponCard selectedWeapon = (WeaponCard) card;
         selectedWeapon.setAttack(selectedWeapon.getAttack() + 2);
-        //Mapper.updateBoard();
 
-        //Mapper.addDurability(2, selectedWeapon);
         selectedWeapon.setDurability(selectedWeapon.getDurability() + 2);
-        //Mapper.updateBoard();
 
-        //Mapper.makeAndPutDeck(getPlayerId(), selectedWeapon);
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGameRequest(playerId);
     }
 }

@@ -1,6 +1,8 @@
 package hearthstone.models.card.heropower.heropowers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import hearthstone.models.behaviours.Upgradeable;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -12,10 +14,14 @@ import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
-@JsonIgnoreProperties(value = {"upgraded"})
 @Entity
 public class AncientBlades extends HeroPowerCard implements Upgradeable {
+    @Transient
+    @JsonProperty("upgraded")
+    private boolean upgraded;
+
     public AncientBlades() {
     }
 
@@ -23,58 +29,48 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
         super(id, name, description, manaCost, heroType, cardType);
     }
 
-    public void stealFromHand(int stealerId, int stolenId, int cardId) {
+    public void stealFromHand(int stealerId, int stolenId, int cardId, String cardName) {
         HSServer.getInstance().getPlayer(stolenId).getFactory().removeFromHand(cardId);
-        HSServer.getInstance().getPlayer(stealerId).getFactory().makeAndPutDeck(ServerData.getCardById(cardId));
+        HSServer.getInstance().getPlayer(stealerId).getFactory().makeAndPutDeck(ServerData.getCardByName(cardName));
     }
 
-    public void stealFromDeck(int stealerId, int stolenId, int cardId) {
+    public void stealFromDeck(int stealerId, int stolenId, int cardId, String cardName) {
         HSServer.getInstance().getPlayer(stolenId).getFactory().removeFromDeck(cardId);
-        HSServer.getInstance().getPlayer(stealerId).getFactory().makeAndPutDeck(ServerData.getCardById(cardId));
+        HSServer.getInstance().getPlayer(stealerId).getFactory().makeAndPutDeck(ServerData.getCardByName(cardName));
     }
 
     private void doAbility() {
-        //Mapper.reduceMana(getPlayerId(), getManaCost());
         HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(getManaCost());
 
         if (isUpgraded()) {
-            int myId = getPlayerId();
-
-            //Card handCard = DataTransform.getRandomCardFromHand(enemyId);
             Card handCard = HSServer.getInstance().getPlayer(enemyPlayerId).getFactory().getRandomCardFromHand();
 
             if (handCard != null) {
-                stealFromHand(myId, enemyPlayerId, handCard.getCardGameId());
+                stealFromHand(playerId, enemyPlayerId, handCard.getCardGameId(), handCard.getName());
                 if (handCard.getHeroType() != HeroType.ALL && handCard.getHeroType() != HSServer.getInstance().getPlayer(playerId).getHero().getType())
-                    //Mapper.setCardMana(handCard, Math.max(0, handCard.getManaCost() - 2));
                     handCard.setManaCost(Math.max(0, handCard.getManaCost() - 2));
             }
 
-            //Card deckCard = DataTransform.getRandomCardFromCurrentDeck(enemyId);
             Card deckCard = HSServer.getInstance().getPlayer(enemyPlayerId).getFactory().getRandomCardFromCurrentDeck();
 
             if (deckCard != null) {
-                stealFromDeck(myId, enemyPlayerId, deckCard.getCardGameId());
+                stealFromDeck(playerId, enemyPlayerId, deckCard.getCardGameId(), deckCard.getName());
                 if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != HSServer.getInstance().getPlayer(playerId).getHero().getType())
-                    //Mapper.setCardMana(deckCard, Math.max(0, deckCard.getManaCost() - 2));
                     deckCard.setManaCost(Math.max(0, deckCard.getManaCost() - 2));
             }
         } else {
             int myId = getPlayerId();
 
-            //Card deckCard = DataTransform.getRandomCardFromCurrentDeck(enemyId);
             Card deckCard = HSServer.getInstance().getPlayer(enemyPlayerId).getFactory().getRandomCardFromCurrentDeck();
 
             if (deckCard != null) {
-                stealFromDeck(myId, enemyPlayerId, deckCard.getCardGameId());
+                stealFromDeck(myId, enemyPlayerId, deckCard.getCardGameId(), deckCard.getName());
                 if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != HSServer.getInstance().getPlayer(playerId).getHero().getType())
-                    //Mapper.setCardMana(deckCard, Math.max(0, deckCard.getManaCost() - 2));
                     deckCard.setManaCost(Math.max(0, deckCard.getManaCost() - 2));
 
             }
         }
-        log();
-        // Mapper.updateBoard();
+
         HSServer.getInstance().updateGameRequest(playerId);
     }
 
@@ -93,6 +89,16 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
 
     @Override
     public boolean isUpgraded() {
-        return HSServer.getInstance().getPlayer(getPlayerId()).haveWeapon();
+        return upgraded;
+    }
+
+    @Override
+    public void setUpgraded(boolean upgraded) {
+        this.upgraded = upgraded;
+    }
+
+    @Override
+    public void updateUpgraded() {
+       this.upgraded = HSServer.getInstance().getPlayer(getPlayerId()).haveWeapon();
     }
 }

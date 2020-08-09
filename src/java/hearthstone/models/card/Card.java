@@ -14,21 +14,21 @@ public abstract class Card implements CardBehaviour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int allId;
     @Column
-    private int id;
+    protected int id;
     @Column
-    private String name;
+    protected String name;
     @Column
-    private String description;
+    protected String description;
     @Column
-    private int manaCost;
+    protected int manaCost;
     @Column
-    private HeroType heroType;
+    protected HeroType heroType;
     @Column
-    private Rarity rarity;
+    protected Rarity rarity;
     @Column
-    private CardType cardType;
+    protected CardType cardType;
     @Column
-    private int buyPrice, sellPrice;
+    protected int buyPrice, sellPrice;
 
     @Transient
     @JsonProperty("playerId")
@@ -40,7 +40,7 @@ public abstract class Card implements CardBehaviour {
 
     @Transient
     @JsonProperty("cardGameId")
-    private int cardGameId;
+    protected int cardGameId;
 
     public Card() {
     }

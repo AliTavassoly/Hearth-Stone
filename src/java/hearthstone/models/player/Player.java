@@ -57,6 +57,7 @@ public class Player {
 
     protected final CardFactory factory;
 
+    @JsonIgnoreProperties
     protected Game game;
 
     public Player() {
@@ -254,6 +255,26 @@ public class Player {
         return enemyPlayerId;
     }
 
+    public int getExtraMana() {
+        return extraMana;
+    }
+
+    public ArrayList<Card> getWaitingForDraw() {
+        return waitingForDraw;
+    }
+
+    public ArrayList<Card> getWaitingForSummon() {
+        return waitingForSummon;
+    }
+
+    public void setWaitingForDraw(ArrayList<Card> waitingForDraw) {
+        this.waitingForDraw = waitingForDraw;
+    }
+
+    public void setWaitingForSummon(ArrayList<Card> waitingForSummon) {
+        this.waitingForSummon = waitingForSummon;
+    }
+
     // End of getter setter
 
     public void reduceMana(int reduce) {
@@ -378,6 +399,8 @@ public class Player {
     }
 
     public void playCard(Card cardInHand) throws HearthStoneException {
+        cardInHand = game.getCardById(cardInHand.getCardGameId());
+
         if (cardInHand.getManaCost() > mana)
             throw new HearthStoneException("you don't have enough mana!");
 
@@ -620,6 +643,7 @@ public class Player {
     private void configCard(Card card) {
         card.setPlayerId(this.getPlayerId());
         card.setEnemyPlayerId(this.enemyPlayerId);
+
         card.setCardGameId(game.getNewCardId());
 
         game.addCard(card);
@@ -684,6 +708,10 @@ public class Player {
     }
 
     private void updateReward() {
+        if(reward != null){
+            reward.updatePercentage();
+        }
+
         if (reward != null && reward.metCondition()) {
             reward.doReward();
             reward = null;
@@ -750,6 +778,9 @@ public class Player {
 
     private void updateHeroPower() {
         heroPower.setCanAttack(heroPower.canAttack());
+        if(heroPower instanceof Upgradeable){
+            ((Upgradeable)heroPower).updateUpgraded();
+        }
     }
 
     public void transformMinion(int oldMinionId, MinionCard newMinion) {
@@ -957,29 +988,26 @@ public class Player {
         }
 
         public void removeFromDeck(int cardGameId) {
-            for (Card card : deck.getCards()) {
-                if (card.getCardGameId() == cardGameId) {
-                    //hand.remove(card);
-                    Player.this.removeFromHand(card.getCardGameId());
-                    return;
-                }
-            }
+            Player.this.removeFromDeck(cardGameId);
         }
 
         public void removeFromHand(int cardGameId) {
-            for (Card card : hand) {
-                if (card.getCardGameId() == cardGameId) {
-                    //hand.remove(card);
-                    Player.this.removeFromHand(card.getCardGameId());
-                    return;
-                }
+            Player.this.removeFromHand(cardGameId);
+        }
+    }
+
+    private void removeFromDeck(int cardGameId) {
+        for (Card card : deck.getCards()) {
+            if (card.getCardGameId() == cardGameId) {
+                deck.getCards().remove(card);
+                return;
             }
         }
     }
 
-    public void removeFromHand(int cardId) {
+    public void removeFromHand(int cardGameId) {
         for (Card card : hand) {
-            if (card.getCardGameId() == cardId) {
+            if (card.getCardGameId() == cardGameId) {
                 hand.remove(card);
                 return;
             }

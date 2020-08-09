@@ -1,6 +1,8 @@
 package hearthstone.server.logic;
 
+import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.server.network.HSServer;
@@ -231,5 +233,16 @@ public class Game extends Thread{
         }
 
         waitObject.found(foundedObject);
+
+        HSServer.getInstance().updateGameRequest(player0.getPlayerId());
+    }
+
+    public synchronized void chooseCardAbility(int cardGameId, Card card) {
+        for(Card card1: cards){
+            if(card1.getCardGameId() == cardGameId){
+                ((ChooseCardAbility)card1).doAfterChoosingCard(card);
+                break;
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package hearthstone.client.gui.game.play;
 
 import hearthstone.HearthStone;
+import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.game.play.boards.OnlineGameBoard;
 import hearthstone.client.gui.game.waitingpanels.WaitForOpponentPanel;
 import hearthstone.client.network.ClientMapper;
@@ -258,12 +259,12 @@ public class PlaySelectionPanel extends JPanel {
 
         Player player0 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
-                        HearthStone.getCardsArray(decks.get("friend"))),
+                        ClientData.getCardsArrayFromName(decks.get("friend"))),
                 HSClient.currentAccount.getUsername());
 
         Player player1 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
                 new Deck("Deck1", HeroType.MAGE,
-                        HearthStone.getCardsArray(decks.get("enemy"))),
+                        ClientData.getCardsArrayFromName(decks.get("enemy"))),
                 HSClient.currentAccount.getUsername());
 
         //HearthStone.currentGame = new Game(player0, player1);

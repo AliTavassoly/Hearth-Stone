@@ -170,8 +170,10 @@ public class DeckSelection extends JPanel {
                         "Deck Name : ", GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
                 String name = nameDialog.getValue();
 
-                Deck deck = new Deck(name, hero.getType());
-                ClientMapper.createNewDeckRequest(deck, hero.getName());
+                if(name != null && name.length() != 0) {
+                    Deck deck = new Deck(name, hero.getType());
+                    ClientMapper.createNewDeckRequest(deck, hero.getName());
+                }
             }
         });
     }

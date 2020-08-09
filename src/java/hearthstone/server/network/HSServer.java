@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.models.Account;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.card.spell.spells.WeaponSteal;
 import hearthstone.models.player.Player;
 import hearthstone.server.data.DataBase;
@@ -102,6 +103,16 @@ public class HSServer extends Thread {
 
     public void createBasePassives(ClientHandler clientHandler) {
         ServerMapper.createBasePassivesResponse(ServerData.basePassives, clientHandler);
+    }
+
+    public static ArrayList<Card> getCardsArrayFromName(ArrayList<String> cardsName) {
+        ArrayList<Card> ans = new ArrayList<>();
+
+        for (int i = 0; i < cardsName.size(); i++) {
+            ans.add(ServerData.getCardByName(cardsName.get(i)));
+        }
+
+        return ans;
     }
 
     private void accountConnected(String username, ClientHandler clientHandler) {
@@ -409,8 +420,12 @@ public class HSServer extends Thread {
 
     public void animateSpellRequest(int playerId, Card card) {
         Player player = getPlayer(playerId);
-        ClientHandler clientHandler = clients.get(player.getUsername()).getClientHandler();
-        ServerMapper.animateSpellRequest(playerId, card, clientHandler);
+
+        Player player0 = clients.get(player.getUsername()).getCurrentGame().getFirstPlayer();
+        Player player1 = clients.get(player.getUsername()).getCurrentGame().getSecondPlayer();
+
+        ServerMapper.animateSpellRequest(card, clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.animateSpellRequest(card, clients.get(player1.getUsername()).getClientHandler());
     }
 
     public void deleteMouseWaitingRequest(int playerId) {
@@ -423,5 +438,9 @@ public class HSServer extends Thread {
         Player player = getPlayer(playerId);
         ClientHandler clientHandler = clients.get(player.getUsername()).getClientHandler();
         ServerMapper.createMouseWaitingRequest(cursorType, card, clientHandler);
+    }
+
+    public void chooseCardAbilityRequest(int cardGameId, ArrayList<Card> cards, int playerId) {
+        ServerMapper.chooseCardAbilityRequest(cardGameId, cards, clients.get(getPlayer(playerId).getUsername()).getClientHandler());
     }
 }

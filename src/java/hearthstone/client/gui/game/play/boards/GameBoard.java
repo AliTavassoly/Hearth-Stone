@@ -19,6 +19,7 @@ import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.card.weapon.WeaponBehaviour;
+import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.player.Player;
 import hearthstone.server.network.HSServer;
 import hearthstone.shared.GUIConfigs;
@@ -905,7 +906,7 @@ public class GameBoard extends JPanel implements MouseListener {
                     ClientMapper.foundObjectRequest(waitingObject, button.getCard());
                 } else {
                     if (button.getPlayerId() == getWhoseTurn()
-                            && ((WeaponBehaviour) button.getCard()).pressed()) {
+                            && (button.getCard()).isCanAttack()) {
                         makeNewMouseWaiting(CursorType.ATTACK, button.getCard());
                     }
                 }
@@ -996,18 +997,16 @@ public class GameBoard extends JPanel implements MouseListener {
         } /*else {
 
         }*/
-
-        // if exception -> button.setBounds(startX, startY, width, height);
     }
 
-    public void animateSpell(int playerId, Card card) {
+    public void animateSpell(Card card) {
         for (Component component : this.getComponents()) {
             if (component instanceof HaveCard && ((HaveCard) component).getCard().getCardGameId() == card.getCardGameId()) {
                 this.remove(component);
             }
         }
 
-        if (playerId == myPlayer.getPlayerId()) {
+        if (card.getPlayerId() == myPlayer.getPlayerId()) {
             animateCardWithResize(myHandX, myHandY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight,
                     new Animation(spellDestinationX, spellDestinationY,
                             GUIConfigs.medCardWidth, GUIConfigs.medCardHeight,

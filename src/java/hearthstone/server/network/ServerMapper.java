@@ -50,25 +50,25 @@ public class ServerMapper {
     }
 
     // ERROR
-    public static void showLoginError(String error, ClientHandler clientHandler){
+    public static void showLoginError(String error, ClientHandler clientHandler) {
         Packet packet = new Packet("showLoginError",
                 new Object[]{error});
         clientHandler.sendPacket(packet);
     }
 
-    public static void showRegisterError(String error, ClientHandler clientHandler){
+    public static void showRegisterError(String error, ClientHandler clientHandler) {
         Packet packet = new Packet("showRegisterError",
                 new Object[]{error});
         clientHandler.sendPacket(packet);
     }
 
-    public static void showMenuError(String error, ClientHandler clientHandler){
+    public static void showMenuError(String error, ClientHandler clientHandler) {
         Packet packet = new Packet("showMenuError",
                 new Object[]{error});
         clientHandler.sendPacket(packet);
     }
 
-    public static void showGameError(String error, ClientHandler clientHandler){
+    public static void showGameError(String error, ClientHandler clientHandler) {
         Packet packet = new Packet("showGameError",
                 new Object[]{error});
         clientHandler.sendPacket(packet);
@@ -278,29 +278,29 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void addCardToDeckRequest(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler){
+    public static void addCardToDeckRequest(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler) {
         try {
             HSServer.getInstance().addCardToDeck(heroName, deckName, cardId, cnt, clientHandler);
-        } catch (HearthStoneException e){
+        } catch (HearthStoneException e) {
             showMenuError(e.getMessage(), clientHandler);
         }
     }
 
-    public static void addCardToDeckResponse(Card card, ClientHandler clientHandler){
+    public static void addCardToDeckResponse(Card card, ClientHandler clientHandler) {
         Packet packet = new Packet("addCardToDeckResponse",
                 new Object[]{card});
         clientHandler.sendPacket(packet);
     }
 
-    public static void removeCardFromDeckRequest(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler){
+    public static void removeCardFromDeckRequest(String heroName, String deckName, int cardId, int cnt, ClientHandler clientHandler) {
         try {
             HSServer.getInstance().removeCardFromDeck(heroName, deckName, cardId, cnt, clientHandler);
-        } catch (HearthStoneException e){
+        } catch (HearthStoneException e) {
             showMenuError(e.getMessage(), clientHandler);
         }
     }
 
-    public static void removeCardFromDeckResponse(Card card, ClientHandler clientHandler){
+    public static void removeCardFromDeckResponse(Card card, ClientHandler clientHandler) {
         Packet packet = new Packet("removeCardFromDeckResponse",
                 new Object[]{card});
         clientHandler.sendPacket(packet);
@@ -308,44 +308,44 @@ public class ServerMapper {
     // DECK ARRANGE
 
     // START GAME
-    public static void onlineGameRequest(ClientHandler clientHandler){
+    public static void onlineGameRequest(ClientHandler clientHandler) {
         HSServer.getInstance().onlineGameRequest(clientHandler);
     }
 
-    public static void onlineGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler){
+    public static void onlineGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("onlineGameResponse",
                 new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
     }
 
-    public static void onlineGameCancelRequest(ClientHandler clientHandler){
+    public static void onlineGameCancelRequest(ClientHandler clientHandler) {
         HSServer.getInstance().onlineGameCancelRequest(clientHandler);
     }
     // START GAME
 
     // BEGINNING GAME
-    public static void selectPassiveRequest(ClientHandler clientHandler){
+    public static void selectPassiveRequest(ClientHandler clientHandler) {
         Packet packet = new Packet("selectPassiveRequest",
                 null);
         clientHandler.sendPacket(packet);
     }
 
-    public synchronized static void selectPassiveResponse(Passive passive, ClientHandler clientHandler){
+    public synchronized static void selectPassiveResponse(Passive passive, ClientHandler clientHandler) {
         clientHandler.getPlayer().setPassive(passive);
     }
 
-    public static void selectNotWantedCardsRequest(ArrayList<Card> topCards, ClientHandler clientHandler){
+    public static void selectNotWantedCardsRequest(ArrayList<Card> topCards, ClientHandler clientHandler) {
         Packet packet = new Packet("selectNotWantedCardsRequest",
                 new Object[]{topCards});
         clientHandler.sendPacket(packet);
     }
 
-    public static void selectNotWantedCardsResponse(ArrayList<Integer> discardedCards, ClientHandler clientHandler){
+    public static void selectNotWantedCardsResponse(ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
         clientHandler.getPlayer().setDiscardedCards(true);
         clientHandler.getPlayer().removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 
-    public static void startGameOnGuiRequest(Player player0, Player player1, ClientHandler clientHandler){
+    public static void startGameOnGuiRequest(Player player0, Player player1, ClientHandler clientHandler) {
         Packet packet = new Packet("startGameOnGuiRequest",
                 new Object[]{player0, player1});
         clientHandler.sendPacket(packet);
@@ -353,19 +353,19 @@ public class ServerMapper {
     // BEGINNING GAME
 
     // MIDDLE OF GAME
-    public static void animateSpellRequest(int playerId, Card card, ClientHandler clientHandler){
+    public static void animateSpellRequest(Card card, ClientHandler clientHandler) {
         Packet packet = new Packet("animateSpellRequest",
-                new Object[]{playerId, card});
+                new Object[]{card});
         clientHandler.sendPacket(packet);
     }
 
-    public static void endTurnRequest(ClientHandler clientHandler){
+    public static void endTurnRequest(ClientHandler clientHandler) {
         HSServer.getInstance().endTurnGuiResponse(clientHandler);
 
         clientHandler.getGame().endTurn();
     }
 
-    public static void endTurnResponse(ClientHandler clientHandler){
+    public static void endTurnResponse(ClientHandler clientHandler) {
         Packet packet = new Packet("endTurnResponse",
                 null);
         clientHandler.sendPacket(packet);
@@ -383,7 +383,7 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void foundObjectRequest(Object waitedCard, Object founded, ClientHandler clientHandler){
+    public static void foundObjectRequest(Object waitedCard, Object founded, ClientHandler clientHandler) {
         try {
             clientHandler.getGame().foundObject(waitedCard, founded);
             foundObjectResponse(clientHandler);
@@ -398,19 +398,19 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void playCardRequest(Card card, ClientHandler clientHandler){
+    public static void playCardRequest(Card card, ClientHandler clientHandler) {
         try {
             clientHandler.getPlayer().playCard(card);
 
             HSServer.getInstance().updateGameRequest(clientHandler.getPlayer().getPlayerId());
 
             playCardResponse(card, clientHandler);
-        } catch (HearthStoneException e){
+        } catch (HearthStoneException e) {
             showGameError(e.getMessage(), clientHandler);
         }
     }
 
-    public static void playCardResponse(Card card, ClientHandler clientHandler){
+    public static void playCardResponse(Card card, ClientHandler clientHandler) {
         Packet packet = new Packet("playCardResponse",
                 new Object[]{card});
         clientHandler.sendPacket(packet);
@@ -420,6 +420,16 @@ public class ServerMapper {
         Packet packet = new Packet("updateBoardRequest",
                 new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
+    }
+
+    public static void chooseCardAbilityRequest(int cardGameId, ArrayList<Card> cards, ClientHandler clientHandler) {
+        Packet packet = new Packet("chooseCardAbilityRequest",
+                new Object[]{cardGameId, cards});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void chooseCardAbilityResponse(int cardGameId, Card card, ClientHandler clientHandler) {
+        clientHandler.getGame().chooseCardAbility(cardGameId, card);
     }
     // MIDDLE OF GAME
 }

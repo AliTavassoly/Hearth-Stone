@@ -1,16 +1,21 @@
 package hearthstone.models.card.reward;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.hero.HeroType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
-@JsonIgnoreProperties(value = {"percentage"})
 public abstract class RewardCard extends Card implements RewardBehaviour {
+    @Transient
+    @JsonProperty("percentage")
+    protected int percentage;
+
     public RewardCard(){ }
 
     public RewardCard(int id, String name, String description,
@@ -25,5 +30,13 @@ public abstract class RewardCard extends Card implements RewardBehaviour {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getPercentage(){
+        return percentage;
+    }
+
+    public void setPercentage(int percentage){
+        this.percentage = percentage;
     }
 }

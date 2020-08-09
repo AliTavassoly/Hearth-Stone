@@ -24,16 +24,6 @@ public class  HearthStone{
     public static GameBoard currentGameBoard;
     public static Game currentGame;
 
-    public static ArrayList<Card> getCardsArray(ArrayList<String> cardsName){
-        ArrayList<Card> ans = new ArrayList<>();
-
-        for(int i = 0; i < cardsName.size(); i++){
-            ans.add(ServerData.getCardByName(cardsName.get(i)));
-        }
-
-        return ans;
-    }
-
     /*public static void login(String username, String password) throws HearthStoneException {
         ServerData.checkAccountCredentials(username, password);
         currentAccount = DataBase.getAccount(username);

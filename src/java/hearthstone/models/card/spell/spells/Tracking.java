@@ -2,6 +2,7 @@ package hearthstone.models.card.spell.spells;
 
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
@@ -14,7 +15,7 @@ import javax.persistence.Entity;
 import java.util.ArrayList;
 
 @Entity
-public class Tracking extends SpellCard {
+public class Tracking extends SpellCard implements ChooseCardAbility {
     public Tracking() { }
 
     public Tracking(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -27,12 +28,14 @@ public class Tracking extends SpellCard {
         if(cards == null || cards.size() == 0)
             return;
 
-        CardSelectionDialog dialog = new CardSelectionDialog(GameFrame.getInstance(), cards);
-        Card card = dialog.getCard();
+        HSServer.getInstance().chooseCardAbilityRequest(cardGameId, cards, playerId);
+    }
+
+
+    @Override
+    public void doAfterChoosingCard(Card card) {
         try {
-            //Mapper.drawCard(getPlayerId(), card);
             HSServer.getInstance().getPlayer(getPlayerId()).drawCard(card);
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGameRequest(playerId);
         } catch (HearthStoneException ignore) {}
     }

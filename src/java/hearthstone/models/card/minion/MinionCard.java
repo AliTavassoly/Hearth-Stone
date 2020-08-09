@@ -24,6 +24,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
     protected int attack;
     @Column
     protected int initialHealth;
+
     @Column
     protected int initialAttack;
     @Column
@@ -224,20 +225,68 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         return spellSafe;
     }
 
-    public void setSpellSafe(boolean spellSafe){
+    public void setSpellSafe(boolean spellSafe) {
         this.spellSafe = spellSafe;
     }
 
-    public boolean isHeroPowerSafe(){
+    public boolean isHeroPowerSafe() {
         return isHeroPowerSafe;
     }
 
-    public void setHeroPowerSafe(boolean isHeroPowerSafe){
+    public void setHeroPowerSafe(boolean isHeroPowerSafe) {
         this.isHeroPowerSafe = isHeroPowerSafe;
     }
 
     public void setCanAttack(boolean canAttack) {
         this.canAttack = canAttack;
+    }
+
+    public boolean isRush() {
+        return isRush;
+    }
+
+    public ArrayList<Integer> getImmunities() {
+        return immunities;
+    }
+
+    public ArrayList<Integer> getFreezes() {
+        return freezes;
+    }
+
+    public boolean isFirstTurn() {
+        return isFirstTurn;
+    }
+
+    public int getNumberOfAttackedMinion() {
+        return numberOfAttackedMinion;
+    }
+
+    public int getNumberOfAttackedHero() {
+        return numberOfAttackedHero;
+    }
+
+    public void setRush(boolean rush) {
+        isRush = rush;
+    }
+
+    public void setImmunities(ArrayList<Integer> immunities) {
+        this.immunities = immunities;
+    }
+
+    public void setFreezes(ArrayList<Integer> freezes) {
+        this.freezes = freezes;
+    }
+
+    public void setFirstTurn(boolean firstTurn) {
+        isFirstTurn = firstTurn;
+    }
+
+    public void setNumberOfAttackedMinion(int numberOfAttackedMinion) {
+        this.numberOfAttackedMinion = numberOfAttackedMinion;
+    }
+
+    public void setNumberOfAttackedHero(int numberOfAttackedHero) {
+        this.numberOfAttackedHero = numberOfAttackedHero;
     }
 
     // END OF GETTER SETTER
@@ -246,20 +295,20 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isDivineShield = false;
     }
 
-    public void log(Hero hero){
+    public void log(Hero hero) {
         try {
             hearthstone.util.Logger.saveLog("Minion Attack",
                     this.getName() + " attack to " + hero.getName() + "!");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void log(MinionCard minion){
+    public void log(MinionCard minion) {
         try {
             hearthstone.util.Logger.saveLog("Minion Attack",
                     this.getName() + " attack to " + minion.getName() + "!");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -364,7 +413,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         } else {
             //Mapper.damage(this.attack, minionCard);
             minionCard.gotDamage(this.attack);
-             // Mapper.updateBoard();
+            // Mapper.updateBoard();
             HSServer.getInstance().updateGameRequest(playerId);
 
             log(minionCard);

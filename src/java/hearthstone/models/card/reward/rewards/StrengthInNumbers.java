@@ -25,12 +25,12 @@ public class StrengthInNumbers extends RewardCard implements Battlecry {
     }
 
     @Override
-    public int getPercentage() {
+    public void updatePercentage() {
         //int now = DataTransform.spentManaOnMinions(getPlayerId());
         int now = HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions();
         int end = 10;
 
-        return (int)(((double)now / (double)end) * 100);
+        percentage = (int)(((double)now / (double)end) * 100);
     }
 
     @Override

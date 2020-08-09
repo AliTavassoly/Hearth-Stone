@@ -26,12 +26,12 @@ public class LearnDraconic extends RewardCard implements Battlecry {
     }
 
     @Override
-    public int getPercentage() {
+    public void updatePercentage() {
         //int now = DataTransform.spentManaOnSpells(getPlayerId());
         int now = HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnSpells();
         int end = 8;
 
-        return (int)(((double)now / (double)end) * 100);
+        percentage = (int)(((double)now / (double)end) * 100);
     }
 
     @Override

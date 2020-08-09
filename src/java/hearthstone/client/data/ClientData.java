@@ -8,10 +8,12 @@ import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.passive.Passive;
+import hearthstone.server.data.ServerData;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
 import org.hibernate.collection.internal.PersistentBag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,16 @@ public class ClientData {
             }
         }
         return null;
+    }
+
+    public static ArrayList<Card> getCardsArrayFromName(ArrayList<String> cardsName){
+        ArrayList<Card> ans = new ArrayList<>();
+
+        for(int i = 0; i < cardsName.size(); i++){
+            ans.add(ServerData.getCardByName(cardsName.get(i)));
+        }
+
+        return ans;
     }
 
     public synchronized static ObjectMapper getDataMapper(){

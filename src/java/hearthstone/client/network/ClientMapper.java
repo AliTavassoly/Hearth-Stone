@@ -1,6 +1,8 @@
 package hearthstone.client.network;
 
 import hearthstone.client.data.ClientData;
+import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
+import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.market.MarketPanel;
 import hearthstone.models.Account;
 import hearthstone.models.Deck;
@@ -317,8 +319,8 @@ public class ClientMapper {
     // BEGIN OF GAME
 
     // MIDDLE OF GAME
-    public static void animateSpellRequest(int playerId, Card card) {
-        HSClient.currentGameBoard.animateSpell(playerId, card);
+    public static void animateSpellRequest(Card card) {
+        HSClient.currentGameBoard.animateSpell(card);
     }
 
     public static void endTurnRequest() {
@@ -357,6 +359,20 @@ public class ClientMapper {
 
     public static void playCardResponse(Card card){
         HSClient.currentGameBoard.removeCardAnimation(card);
+    }
+
+    public static void chooseCardAbilityRequest(int cardGameId, ArrayList<Card> cards) {
+        System.out.println("Req received in client: " + cardGameId + " " + cards.size());
+
+        chooseCardAbilityResponse(cardGameId, new CardSelectionDialog(GameFrame.getInstance(), cards).getCard());
+    }
+
+    public static void chooseCardAbilityResponse(int cardGameId, Card card) {
+        System.out.println("Req going to send to server ... :" + cardGameId + " " + card.getName());
+
+        Packet packet = new Packet("chooseCardAbilityResponse",
+                new Object[]{cardGameId, card});
+        HSClient.sendPacket(packet);
     }
 
     public static void updateBoardRequest(Player myPlayer, Player enemyPlayer) {
