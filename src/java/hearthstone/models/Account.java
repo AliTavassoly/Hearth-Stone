@@ -46,12 +46,6 @@ public class Account {
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Collection collection;
 
-    /*@ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JsonSerialize(converter = DeckListSerializer.class)
-    private List<Deck> decks;*/
-
     @ElementCollection
     @JsonSerialize(converter = IntegerListSerializer.class)
     private List<Integer> unlockedCards;
@@ -193,14 +187,6 @@ public class Account {
     public int getGem() {
         return gem;
     }
-
-    /* public List<Deck> getDecks() {
-        return decks;
-    }
-
-    public void setDecks(List<Deck> decks) {
-        this.decks = decks;
-    } */
 
     public int getCardsBackId() {
         return cardsBackId;

@@ -92,18 +92,18 @@ public class OnlineGameBoard extends GameBoard {
     }
 
     @Override
-    public void showPassiveDialogs() {
+    public void showPassiveDialogs(int playerId) {
         PassiveDialog passiveDialog = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
                         ClientData.basePassives.size())
         );
-        ClientMapper.selectPassiveResponse(passiveDialog.getPassive());
+        ClientMapper.selectPassiveResponse(myPlayer.getPlayerId(), passiveDialog.getPassive());
     }
 
     @Override
-    public void showCardDialog(ArrayList<Card> cards) {
+    public void showCardDialog(int playerId, ArrayList<Card> cards) {
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
                 cards);
@@ -114,14 +114,21 @@ public class OnlineGameBoard extends GameBoard {
             selectedId.add(card.getCardGameId());
         }
 
-        ClientMapper.selectNotWantedCardsResponse(selectedId);
+        ClientMapper.selectNotWantedCardsResponse(playerId, selectedId);
+    }
+
+    @Override
+    protected void playCard(BoardCardButton button, Card card) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()){
+            ClientMapper.playCardRequest(myPlayer.getPlayerId(), card);
+            restart();
+        }
     }
 
     @Override
     protected void makeCardOnHandMouseListener(BoardCardButton button, int startX, int startY, int width, int height) {
         if (button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
             super.makeCardOnHandMouseListener(button, startX, startY, width, height);
-            return;
         }
     }
 
@@ -135,7 +142,7 @@ public class OnlineGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -151,7 +158,7 @@ public class OnlineGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -167,7 +174,7 @@ public class OnlineGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -193,7 +200,7 @@ public class OnlineGameBoard extends GameBoard {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                ClientMapper.endTurnRequest();
+                ClientMapper.endTurnRequest(myPlayer.getPlayerId());
 
                 deleteCurrentMouseWaiting();
 

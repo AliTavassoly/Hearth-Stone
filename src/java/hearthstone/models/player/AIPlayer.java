@@ -15,6 +15,8 @@ import hearthstone.util.timer.HSDelayTimerTask;
 import java.util.ArrayList;
 
 public class AIPlayer extends Player {
+    public AIPlayer(){}
+
     public AIPlayer(Hero hero, Deck deck, String username) {
         super(hero, deck, username);
     }

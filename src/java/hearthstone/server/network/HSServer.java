@@ -1,17 +1,14 @@
 package hearthstone.server.network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.models.Account;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.minion.MinionCard;
-import hearthstone.models.card.spell.spells.WeaponSteal;
+import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
 import hearthstone.server.data.DataBase;
 import hearthstone.server.data.ServerData;
-import hearthstone.server.logic.Game;
-import hearthstone.server.logic.Market;
+import hearthstone.server.logic.*;
+import hearthstone.server.model.GameType;
 import hearthstone.server.model.updaters.AccountUpdater;
 import hearthstone.server.model.ClientDetails;
 import hearthstone.server.model.updaters.MarketCardsUpdater;
@@ -60,6 +57,7 @@ public class HSServer extends Thread {
         String username1 = clients.get(clientHandler.getUsername()).getClientHandler().getGame().getSecondPlayer().getUsername();
 
         ServerMapper.endTurnResponse(clients.get(username0).getClientHandler());
+
         ServerMapper.endTurnResponse(clients.get(username1).getClientHandler());
     }
 
@@ -199,6 +197,21 @@ public class HSServer extends Thread {
             makeNewOnlineGame(username0, username1);
     }
 
+    public void practiceGameRequest(ClientHandler clientHandler) {
+        Player player = clients.get(clientHandler.getUsername()).getAccount().getPlayer();
+        Player practicePlayer = clients.get(clientHandler.getUsername()).getAccount().getPlayer();
+
+        makeNewPracticeGame(clientHandler.getUsername(), player, practicePlayer);
+    }
+
+    public void soloGameRequest(ClientHandler clientHandler) {
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+        Player player = account.getPlayer();
+        Player aiPlayer = new AIPlayer(account.getSelectedHero(), account.getSelectedHero().getSelectedDeck(), account.getUsername());
+
+        makeNewSoloGame(clientHandler.getUsername(), player, aiPlayer);
+    }
+
     public void onlineGameCancelRequest(ClientHandler clientHandler) {
         synchronized (waitingForGameLock) {
             waitingForGame.remove(clientHandler.getUsername());
@@ -209,7 +222,7 @@ public class HSServer extends Thread {
         Player player0 = clients.get(username0).getAccount().getPlayer();
         Player player1 = clients.get(username1).getAccount().getPlayer();
 
-        Game game = new Game(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1));
+        Game game = new OnlineGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.ONLINE_GAME);
 
         clients.get(username0).setCurrentGame(game);
         clients.get(username1).setCurrentGame(game);
@@ -217,11 +230,32 @@ public class HSServer extends Thread {
         clients.get(player0.getUsername()).getClientHandler().setGame(game);
         clients.get(player1.getUsername()).getClientHandler().setGame(game);
 
-        clients.get(player0.getUsername()).getClientHandler().setPlayer(player0);
-        clients.get(player1.getUsername()).getClientHandler().setPlayer(player1);
-
         ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
         ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
+
+        game.start();
+    }
+
+    private void makeNewPracticeGame(String username, Player player, Player practicePlayer) {
+        Game game = new PracticeGame(player, practicePlayer, makeNewPlayerId(player), makeNewPlayerId(practicePlayer), GameType.PRACTICE_GAME);
+
+        clients.get(username).setCurrentGame(game);
+
+        clients.get(username).getClientHandler().setGame(game);
+
+        ServerMapper.practiceGameResponse(player, practicePlayer, clients.get(username).getClientHandler());
+
+        game.start();
+    }
+
+    private void makeNewSoloGame(String username, Player player, Player aiPlayer) {
+        Game game = new SoloGame(player, aiPlayer, makeNewPlayerId(player), makeNewPlayerId(aiPlayer), GameType.SOLO_GAME);
+
+        clients.get(username).setCurrentGame(game);
+
+        clients.get(username).getClientHandler().setGame(game);
+
+        ServerMapper.soloGameResponse(player, aiPlayer, clients.get(username).getClientHandler());
 
         game.start();
     }
@@ -389,17 +423,20 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
+        System.out.println(username + " " + clients.get(username) + " " + clients.get(username).getClientHandler().getGame() + " " + clients.get(username).getClientHandler().getGame().getFirstPlayer());
+
         String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
         String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
 
-        Player player0 = clients.get(username0).getClientHandler().getPlayer();
-        Player player1 = clients.get(username1).getClientHandler().getPlayer();
+        Player player0 = clients.get(username0).getClientHandler().getGame().getFirstPlayer();
+        Player player1 = clients.get(username1).getClientHandler().getGame().getSecondPlayer();
 
         player0.updatePlayer();
         player1.updatePlayer();
 
         ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
-        ServerMapper.updateBoardRequest(player1, player0, clients.get(username1).getClientHandler());
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.updateBoardRequest(player1, player0, clients.get(username1).getClientHandler());
     }
 
     public void startGameOnGui(int playerId) {
@@ -411,11 +448,12 @@ public class HSServer extends Thread {
         String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
         String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
 
-        Player player0 = clients.get(username0).getClientHandler().getPlayer();
-        Player player1 = clients.get(username1).getClientHandler().getPlayer();
+        Player player0 = clients.get(username0).getClientHandler().getGame().getFirstPlayer();
+        Player player1 = clients.get(username1).getClientHandler().getGame().getSecondPlayer();
 
         ServerMapper.startGameOnGuiRequest(player0, player1, clients.get(username0).getClientHandler());
-        ServerMapper.startGameOnGuiRequest(player1, player0, clients.get(username1).getClientHandler());
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.startGameOnGuiRequest(player1, player0, clients.get(username1).getClientHandler());
     }
 
     public void animateSpellRequest(int playerId, Card card) {
@@ -425,7 +463,8 @@ public class HSServer extends Thread {
         Player player1 = clients.get(player.getUsername()).getCurrentGame().getSecondPlayer();
 
         ServerMapper.animateSpellRequest(card, clients.get(player0.getUsername()).getClientHandler());
-        ServerMapper.animateSpellRequest(card, clients.get(player1.getUsername()).getClientHandler());
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.animateSpellRequest(card, clients.get(player1.getUsername()).getClientHandler());
     }
 
     public void deleteMouseWaitingRequest(int playerId) {
@@ -444,17 +483,20 @@ public class HSServer extends Thread {
         ServerMapper.chooseCardAbilityRequest(cardGameId, cards, clients.get(getPlayer(playerId).getUsername()).getClientHandler());
     }
 
-    private void updateGameEndedInGui(Player player0, Player player1){
+    private void updateGameEndedInGui(Player player0, Player player1) {
         updateGameRequest(player0.getPlayerId());
-        updateGameRequest(player1.getPlayerId());
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            updateGameRequest(player1.getPlayerId());
 
         ServerMapper.endGameRequest(clients.get(player0.getUsername()).getClientHandler());
-        ServerMapper.endGameRequest(clients.get(player1.getUsername()).getClientHandler());
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.endGameRequest(clients.get(player1.getUsername()).getClientHandler());
     }
 
-    private void updateGameEndedInClients(String username0, String username1){
+    private void updateGameEndedInClients(String username0, String username1) {
         clients.get(username0).getClientHandler().gameEnded();
-        clients.get(username1).getClientHandler().gameEnded();
+        if (clients.get(username0).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            clients.get(username1).getClientHandler().gameEnded();
     }
 
     public void gameEnded(Player player0, Player player1) {
@@ -464,14 +506,15 @@ public class HSServer extends Thread {
 
         updateGameEndedInClients(player0.getUsername(), player1.getUsername());
 
-        updateGameEndedInAccounts(player0, player1);
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            updateGameEndedInAccounts(player0, player1);
     }
 
-    private void updateGameEndedInAccounts(Player player0, Player player1) {
+    private void updateGameEndedInAccounts(Player player0, Player player1)  {
         Account account0 = clients.get(player0.getUsername()).getAccount();
         Account account1 = clients.get(player1.getUsername()).getAccount();
 
-        if(player0.getHero().getHealth() <= 0){
+        if (player0.getHero().getHealth() <= 0) {
             account0.lostGame(player0.getHero().getName(), player0.getDeck().getName());
             account1.wonGame(player1.getHero().getName(), player1.getDeck().getName());
         } else {

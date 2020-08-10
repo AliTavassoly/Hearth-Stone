@@ -18,12 +18,10 @@ import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.game.play.boards.PracticeGameBoard;
 import hearthstone.client.gui.game.play.boards.SoloGameBoard;
 import hearthstone.server.data.ServerData;
-import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
-import hearthstone.server.network.HSServer;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
@@ -121,7 +119,6 @@ public class PlaySelectionPanel extends JPanel {
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
-        // listeners
         playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 ClientMapper.onlineGameRequest();
@@ -134,10 +131,9 @@ public class PlaySelectionPanel extends JPanel {
                 try {
                     HSClient.currentAccount.readyForPlay();
 
-                    makeNewPracticeGame();
+                    ClientMapper.practiceGameRequest();
 
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                            HearthStone.currentGameBoard);
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
                 } catch (HearthStoneException hse){
                     BaseFrame.error(hse.getMessage());
                 } catch (Exception e){
@@ -151,10 +147,9 @@ public class PlaySelectionPanel extends JPanel {
                 try {
                     HSClient.currentAccount.readyForPlay();
 
-                    makeNewSoloGame();
+                    ClientMapper.soloGameRequest();
 
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                            HearthStone.currentGameBoard);
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
                 } catch (HearthStoneException hse){
                     BaseFrame.error(hse.getMessage());
                 } catch (Exception e){
@@ -233,24 +228,6 @@ public class PlaySelectionPanel extends JPanel {
         add(deckReaderPlay);
     }
 
-    private void makeNewPracticeGame(){
-        Player player0 = HSClient.currentAccount.getPlayer();
-        Player player1 = HSClient.currentAccount.getPlayer();
-
-        //HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new PracticeGameBoard(player0, player1);
-        //HearthStone.currentGame.startGameEndingTimer();
-    }
-
-    private void makeNewSoloGame(){
-        Player player0 = HSClient.currentAccount.getPlayer();
-        Player player1 = new AIPlayer(HSClient.currentAccount.getSelectedHero(),
-                HSClient.currentAccount.getSelectedHero().getSelectedDeck(), player0.getUsername());
-
-        //HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new SoloGameBoard(player0, player1);
-    }
-
     private void makeNewDeckReaderPlay() throws Exception{
         Map<String, ArrayList<String> > decks = DataBase.getDecks();
 
@@ -273,5 +250,13 @@ public class PlaySelectionPanel extends JPanel {
 
     public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer){
         HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
+    }
+
+    public void makeNewPracticeGame(Player myPlayer, Player practicePlayer) {
+        HSClient.currentGameBoard = new PracticeGameBoard(myPlayer, practicePlayer);
+    }
+
+    public void makeNewSoloGame(Player myPlayer, Player aiPlayer){
+        HSClient.currentGameBoard = new SoloGameBoard(myPlayer, aiPlayer);
     }
 }

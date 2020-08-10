@@ -240,26 +240,10 @@ public class GameBoard extends JPanel implements MouseListener {
         drawEndTurnTimeLine();
     }
 
-    public void showPassiveDialogs() {
-        /*PassiveDialog passiveDialog0 = new PassiveDialog(
-                GameFrame.getInstance(),
-                Rand.getInstance().getRandomArray(
-                        GameConfigs.initialPassives,
-                        ClientData.basePassives.size())
-        );
-        //Mapper.setPassive(myPlayer, passiveDialog0.getPassive());
-        myPlayer.setPassive(passiveDialog0.getPassive());
-
-        PassiveDialog passiveDialog1 = new PassiveDialog(
-                GameFrame.getInstance(),
-                Rand.getInstance().getRandomArray(
-                        GameConfigs.initialPassives,
-                        ClientData.basePassives.size())
-        );
-        enemyPlayer.setPassive(passiveDialog1.getPassive());*/
+    public void showPassiveDialogs(int playerId) {
     }
 
-    public void showCardDialog(ArrayList<Card> cards) {
+    public void showCardDialog(int playerId, ArrayList<Card> cards) {
         /*CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
                 cards);
@@ -391,7 +375,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW WEAPON
 
     // DRAW CARDS
-    protected void drawCardsOnHand(Player player, int handX, int handY) {
+    protected synchronized void drawCardsOnHand(Player player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;
@@ -407,6 +391,8 @@ public class GameBoard extends JPanel implements MouseListener {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             BoardCardButton cardButton;
+
+            System.out.println("In client hand: " + card.getName() + " " + card.getPlayerId());
 
             if (player.getPlayerId() == myPlayer.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
@@ -534,13 +520,14 @@ public class GameBoard extends JPanel implements MouseListener {
 
         SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
-        if(endTurnLineTimerTask != null) {
+        if (endTurnLineTimerTask != null) {
             endTurnLineTimerTask.myStop();
             endTurnLineTimerTask.interrupt();
         }
 
         endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new HSBigTask() {
-            public void startFunction()     { }
+            public void startFunction() {
+            }
 
             @Override
             public void periodFunction() {
@@ -631,10 +618,12 @@ public class GameBoard extends JPanel implements MouseListener {
             }
 
             @Override
-            public void warningFunction() { }
+            public void warningFunction() {
+            }
 
             @Override
-            public void finishedFunction() { }
+            public void finishedFunction() {
+            }
 
             @Override
             public void closeFunction() {
@@ -720,10 +709,12 @@ public class GameBoard extends JPanel implements MouseListener {
             }
 
             @Override
-            public void warningFunction() { }
+            public void warningFunction() {
+            }
 
             @Override
-            public void finishedFunction() { }
+            public void finishedFunction() {
+            }
 
             @Override
             public void closeFunction() {
@@ -804,13 +795,11 @@ public class GameBoard extends JPanel implements MouseListener {
                 if (isInMyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         getWhoseTurn() == button.getCard().getPlayerId() &&
                         button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
-                    playCard(button, button.getCard(),
-                            startX, startY, width, height);
+                    playCard(button, button.getCard());
                 } else if (isInEnemyLand(E.getX() + button.getX(), E.getY() + button.getY()) &&
                         getWhoseTurn() == button.getCard().getPlayerId() &&
                         button.getCard().getPlayerId() == enemyPlayer.getPlayerId()) {
-                    playCard(button, button.getCard(),
-                            startX, startY, width, height);
+                    playCard(button, button.getCard());
                 } else {
                     button.setBounds(startX, startY, width, height);
                 }
@@ -854,7 +843,7 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
                 } else {
                     if (button.getPlayerId() == getWhoseTurn()
                             && ((MinionBehaviour) button.getCard()).isCanAttack()) {
@@ -903,7 +892,7 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
                 } else {
                     if (button.getPlayerId() == getWhoseTurn()
                             && (button.getCard()).isCanAttack()) {
@@ -952,7 +941,7 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
                 } else {
                     if (button.getPlayerId() == getWhoseTurn()
                             && ((HeroPowerBehaviour) button.getCard()).isCanAttack()) {
@@ -982,21 +971,16 @@ public class GameBoard extends JPanel implements MouseListener {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getHero());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getHero());
                 }
             }
         });
     }
     // MOUSE LISTENERS
 
-    private void playCard(BoardCardButton button, Card card,
-                          int startX, int startY, int width, int height) {
-        if (button.getPlayerId() == myPlayer.getPlayerId()){
-            ClientMapper.playCardRequest(card);
-            restart();
-        } /*else {
-
-        }*/
+    protected void playCard(BoardCardButton button, Card card) {
+        ClientMapper.playCardRequest(card.getPlayerId(), card);
+        restart();
     }
 
     public void animateSpell(Card card) {
@@ -1080,7 +1064,7 @@ public class GameBoard extends JPanel implements MouseListener {
                     GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
             boolean sure = sureDialog.getValue();
             if (sure) {
-                ClientMapper.exitGameRequest();
+                ClientMapper.exitGameRequest(myPlayer.getPlayerId());
             }
         });
     }
@@ -1095,15 +1079,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                try {
-                    hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            HSServer.getInstance().getPlayerName(getWhoseTurn()) +
-                            " ended turn!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                ClientMapper.endTurnRequest();
+                ClientMapper.endTurnRequest(getWhoseTurn());
                 endTurnLineTimerTask.myStop();
 
                 deleteCurrentMouseWaiting();
@@ -1264,7 +1240,7 @@ public class GameBoard extends JPanel implements MouseListener {
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
     }
 
-    private void beforeCloseBoard() {
+    protected void beforeCloseBoard() {
         //endTurnLineTimerTask.myStop();
         //CredentialsFrame.getInstance().playSound();
         //soundPlayer.stop();
@@ -1300,7 +1276,13 @@ public class GameBoard extends JPanel implements MouseListener {
         return enemyPlayer.getPlayerId();
     }
 
-    public void restartTimeLine(){
+    public Player getPlayerById(int playerId) {
+        if (myPlayer.getPlayerId() == playerId)
+            return myPlayer;
+        return enemyPlayer;
+    }
+
+    public void restartTimeLine() {
         endTurnLineTimerTask.myStop();
 
         drawEndTurnTimeLine();

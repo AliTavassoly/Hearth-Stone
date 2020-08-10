@@ -4,6 +4,7 @@ import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
+import hearthstone.server.model.GameType;
 import hearthstone.server.network.HSServer;
 import hearthstone.server.network.ServerMapper;
 import hearthstone.shared.GameConfigs;
@@ -14,18 +15,26 @@ import hearthstone.util.timer.HSTimerTask;
 import java.util.*;
 
 public class Game extends Thread {
-    private Player player0, player1;
-    private int whoseTurn;
+    protected Player player0, player1;
+    protected int whoseTurn;
 
-    private ArrayList<Card> cards;
-    private ArrayList<Hero> heroes;
+    protected ArrayList<Card> cards;
+    protected ArrayList<Hero> heroes;
 
-    public Game(Player player0, Player player1, int id0, int id1) {
+    protected GameType gameType;
+
+    public GameType getGameType(){
+        return gameType;
+    }
+
+    public Game(Player player0, Player player1, int id0, int id1, GameType gameType) {
         this.player0 = player0;
         this.player1 = player1;
 
         this.player0.setPlayerId(id0);
         this.player1.setPlayerId(id1);
+
+        this.gameType = gameType;
 
         this.player0.setEnemyPlayerId(id1);
         this.player1.setEnemyPlayerId(id0);
@@ -63,7 +72,7 @@ public class Game extends Thread {
         }).start();
     }
 
-    private void configGame() {
+    protected void configGame() {
         whoseTurn = 0;
 
         player0.setGame(this);
@@ -97,9 +106,9 @@ public class Game extends Thread {
         }
     }
 
-    private void selectPassive() throws HearthStoneException {
-        ServerMapper.selectPassiveRequest(HSServer.getInstance().getClientHandlerByPlayer(player0));
-        ServerMapper.selectPassiveRequest(HSServer.getInstance().getClientHandlerByPlayer(player1));
+    protected void selectPassive() throws HearthStoneException {
+        ServerMapper.selectPassiveRequest(player0.getPlayerId(), HSServer.getInstance().getClientHandlerByPlayer(player0));
+        ServerMapper.selectPassiveRequest(player1.getPlayerId(), HSServer.getInstance().getClientHandlerByPlayer(player1));
 
         long startTime = System.currentTimeMillis();
 
@@ -115,9 +124,9 @@ public class Game extends Thread {
         }
     }
 
-    private void discardInitialCards() throws HearthStoneException {
-        ServerMapper.selectNotWantedCardsRequest(player0.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player0));
-        ServerMapper.selectNotWantedCardsRequest(player1.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player1));
+    protected void discardInitialCards() throws HearthStoneException {
+        ServerMapper.selectNotWantedCardsRequest(player0.getPlayerId(), player0.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player0));
+        ServerMapper.selectNotWantedCardsRequest(player1.getPlayerId(), player1.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player1));
 
         long startTime = System.currentTimeMillis();
 

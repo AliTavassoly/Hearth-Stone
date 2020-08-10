@@ -17,7 +17,6 @@ public class ClientHandler extends Thread {
     private String username;
 
     private Game game;
-    private Player player;
 
     public String getUsername(){
         return username;
@@ -28,13 +27,6 @@ public class ClientHandler extends Thread {
     }
     public Game getGame(){
         return game;
-    }
-
-    public void setPlayer(Player player){
-        this.player = player;
-    }
-    public Player getPlayer(){
-        return player;
     }
 
     public ClientHandler(){}
@@ -107,6 +99,5 @@ public class ClientHandler extends Thread {
 
     public void gameEnded() {
         game = null;
-        player = null;
     }
 }

@@ -70,7 +70,7 @@ public class Player {
 
     public Player(Hero hero, Deck deck, String username) {
         this.hero = hero.copy();
-        originalDeck = deck;
+        this.originalDeck = deck.copy();
         this.deck = deck.copy();
 
         this.username = username;
@@ -640,7 +640,6 @@ public class Player {
 
     public void configPassive(Passive passive) {
         passive.setPlayerId(getPlayerId());
-        passive.log();
     }
 
     private void configCard(Card card) {
@@ -738,15 +737,6 @@ public class Player {
         }
     }
 
-    public void lostGame() {
-        originalDeck.setTotalGames(originalDeck.getTotalGames() + 1);
-    }
-
-    public void wonGame() {
-        originalDeck.setTotalGames(originalDeck.getWinGames() + 1);
-        originalDeck.setWinGames(originalDeck.getWinGames() + 1);
-    }
-
     public ArrayList<Card> getTopCards(int numberOfTopCards) {
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -758,6 +748,8 @@ public class Player {
     }
 
     public void removeInitialCards(ArrayList<Integer> discardCards, int numberOfTopCards) {
+        setDiscardedCards(true);
+
         for (int i = 0; i < numberOfTopCards; i++) {
             Card card = deck.getCards().get(i);
             if (discardCards.contains(card.getCardGameId())) {

@@ -187,7 +187,7 @@ public class ClientMapper {
         HSClient.getClient().showMenuError(error);
     }
 
-    public static void showGameError(String error){
+    public static void showGameError(String error) {
         HSClient.currentGameBoard.showError(error);
     }
     // ERROR
@@ -284,32 +284,46 @@ public class ClientMapper {
                 null);
         HSClient.sendPacket(packet);
     }
+
+    public static void practiceGameRequest() {
+        Packet packet = new Packet("practiceGameRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void practiceGameResponse(Player myPlayer, Player practicePlayer) {
+        HSClient.getClient().makeNewPracticeGame(myPlayer, practicePlayer);
+    }
+
+    public static void soloGameRequest() {
+        Packet packet = new Packet("soloGameRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void soloGameResponse(Player myPlayer, Player aiPlayer) {
+        HSClient.getClient().makeNewSoloGame(myPlayer, aiPlayer);
+    }
     // FIND GAME
 
     // BEGIN OF GAME
-    public static void removeFromInitialHandRequest(ArrayList<Card> cards, int initialNumberOfChoice) {
-        Packet packet = new Packet("removeFromInitialHandRequest",
-                new Object[]{cards, initialNumberOfChoice});
-        HSClient.sendPacket(packet);
+    public static void selectPassiveRequest(int playerId) {
+        HSClient.currentGameBoard.showPassiveDialogs(playerId);
     }
 
-    public static void selectPassiveRequest() {
-        HSClient.currentGameBoard.showPassiveDialogs();
-    }
-
-    public static void selectPassiveResponse(Passive passive) {
+    public static void selectPassiveResponse(int playerId, Passive passive) {
         Packet packet = new Packet("selectPassiveResponse",
-                new Object[]{passive});
+                new Object[]{playerId, passive});
         HSClient.sendPacket(packet);
     }
 
-    public static void selectNotWantedCardsRequest(ArrayList<Card> topCards) {
-        HSClient.currentGameBoard.showCardDialog(topCards);
+    public static void selectNotWantedCardsRequest(int playerId, ArrayList<Card> topCards) {
+        HSClient.currentGameBoard.showCardDialog(playerId, topCards);
     }
 
-    public static void selectNotWantedCardsResponse(ArrayList<Integer> discardedCards) {
+    public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards) {
         Packet packet = new Packet("selectNotWantedCardsResponse",
-                new Object[]{discardedCards});
+                new Object[]{playerId, discardedCards});
         HSClient.sendPacket(packet);
     }
 
@@ -323,9 +337,9 @@ public class ClientMapper {
         HSClient.currentGameBoard.animateSpell(card);
     }
 
-    public static void endTurnRequest() {
+    public static void endTurnRequest(int playerId) {
         Packet packet = new Packet("endTurnRequest",
-                null);
+                new Object[]{playerId});
         HSClient.sendPacket(packet);
     }
 
@@ -341,9 +355,9 @@ public class ClientMapper {
         HSClient.currentGameBoard.makeNewMouseWaiting(cursorType, card);
     }
 
-    public static void foundObjectRequest(Object waitedCard, Object founded) {
+    public static void foundObjectRequest(int playerId, Object waitedCard, Object founded) {
         Packet packet = new Packet("foundObjectRequest",
-                new Object[]{waitedCard, founded});
+                new Object[]{playerId, waitedCard, founded});
         HSClient.sendPacket(packet);
     }
 
@@ -351,13 +365,13 @@ public class ClientMapper {
         HSClient.currentGameBoard.deleteCurrentMouseWaiting();
     }
 
-    public static void playCardRequest(Card card){
+    public static void playCardRequest(int playerId, Card card) {
         Packet packet = new Packet("playCardRequest",
-                new Object[]{card});
+                new Object[]{playerId, card});
         HSClient.sendPacket(packet);
     }
 
-    public static void playCardResponse(Card card){
+    public static void playCardResponse(Card card) {
         HSClient.currentGameBoard.removeCardAnimation(card);
     }
 
@@ -379,9 +393,9 @@ public class ClientMapper {
         HSClient.currentGameBoard.gameEnded();
     }
 
-    public static void exitGameRequest() {
+    public static void exitGameRequest(int playerId) {
         Packet packet = new Packet("exitGameRequest",
-                null);
+                new Object[]{playerId});
         HSClient.sendPacket(packet);
     }
     // MIDDLE OF GAME

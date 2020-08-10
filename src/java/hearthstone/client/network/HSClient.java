@@ -165,4 +165,14 @@ public class HSClient {
         PlaySelectionPanel.getInstance().makeNewOnlineGame(myPlayer, enemyPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
+
+    public void makeNewPracticeGame(Player myPlayer, Player practicePlayer) {
+        PlaySelectionPanel.getInstance().makeNewPracticeGame(myPlayer, practicePlayer);
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
+    }
+
+    public void makeNewSoloGame(Player myPlayer, Player aiPlayer) {
+        PlaySelectionPanel.getInstance().makeNewSoloGame(myPlayer, aiPlayer);
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
+    }
 }

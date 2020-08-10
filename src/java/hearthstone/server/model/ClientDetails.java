@@ -5,10 +5,6 @@ import hearthstone.models.Account;
 import hearthstone.server.logic.Game;
 import hearthstone.server.network.ClientHandler;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-
 @JsonIgnoreProperties(value = { "currentGame", "clientHandler"})
 
 public class ClientDetails {

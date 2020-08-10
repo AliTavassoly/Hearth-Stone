@@ -1,5 +1,6 @@
 package hearthstone.client.gui.game.play.boards;
 
+import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.CardDialog;
@@ -28,8 +29,8 @@ import java.util.ArrayList;
 
 public class SoloGameBoard extends GameBoard {
     public SoloGameBoard(Player myPlayer, Player enemyPlayer) {
-        super(myPlayer, enemyPlayer);
-    }
+    super(myPlayer, enemyPlayer);
+}
 
     protected void drawCardsOnHand(Player player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
@@ -50,7 +51,7 @@ public class SoloGameBoard extends GameBoard {
 
             if (player.getPlayerId() == myPlayer.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, true, 0);
+                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, true, myPlayer.getPlayerId());
 
                 makeCardOnHandMouseListener(cardButton,
                         startX + dis * (i - cards.size() / 2),
@@ -59,7 +60,7 @@ public class SoloGameBoard extends GameBoard {
                         GUIConfigs.smallCardHeight);
             } else {
                 cardButton = new BoardCardButton(card,
-                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, 1, true);
+                        GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, enemyPlayer.getPlayerId(), true);
             }
 
             synchronized (animationLock) {
@@ -75,7 +76,6 @@ public class SoloGameBoard extends GameBoard {
             cardButton.setBounds(startX + dis * (i - cards.size() / 2),
                     startY,
                     GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight);
-
             add(cardButton);
 
             if (!animatedCardsInHand.contains(card.getCardGameId())) {
@@ -93,40 +93,49 @@ public class SoloGameBoard extends GameBoard {
     }
 
     @Override
-    public void showPassiveDialogs() {
-        PassiveDialog passiveDialog0 = new PassiveDialog(
+    public void showPassiveDialogs(int playerId) {
+        PassiveDialog passiveDialog = new PassiveDialog(
                 GameFrame.getInstance(),
                 Rand.getInstance().getRandomArray(
                         GameConfigs.initialPassives,
-                        ServerData.basePassives.size())
+                        ClientData.basePassives.size())
         );
-        //Mapper.setPassive(myPlayer, passiveDialog0.getPassive());
-
-        /*Mapper.passPassivesToAI(enemyPlayer, Rand.getInstance().getRandomArray(
-                GameConfigs.initialPassives,
-                ServerData.basePassives.size()));*/
+        ClientMapper.selectPassiveResponse(myPlayer.getPlayerId(), passiveDialog.getPassive());
     }
 
     @Override
-    public void showCardDialog(ArrayList<Card> cards) {
+    public void showCardDialog(int playerId, ArrayList<Card> cards) {
         CardDialog cardDialog0 = new CardDialog(
                 GameFrame.getInstance(),
                 cards);
+        ArrayList<Card> selectedCards = cardDialog0.getCards();
+        ArrayList<Integer> selectedId = new ArrayList<>();
 
-        //Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
+        for (Card card : selectedCards) {
+            selectedId.add(card.getCardGameId());
+        }
+
+        ClientMapper.selectNotWantedCardsResponse(playerId, selectedId);
+    }
+
+    @Override
+    protected void playCard(BoardCardButton button, Card card) {
+        if (button.getPlayerId() == myPlayer.getPlayerId()){
+            ClientMapper.playCardRequest(myPlayer.getPlayerId(), card);
+            restart();
+        }
     }
 
     @Override
     protected void makeCardOnHandMouseListener(BoardCardButton button, int startX, int startY, int width, int height) {
-        if (button.getCard().getPlayerId() == 0) {
+        if (button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
             super.makeCardOnHandMouseListener(button, startX, startY, width, height);
-            return;
         }
     }
 
     @Override
     protected void makeCardOnLandMouseListener(BoardCardButton button, int startX, int startY) {
-        if (button.getCard().getPlayerId() == 0) {
+        if (button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
             super.makeCardOnLandMouseListener(button, startX, startY);
             return;
         }
@@ -134,7 +143,7 @@ public class SoloGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -142,7 +151,7 @@ public class SoloGameBoard extends GameBoard {
 
     @Override
     protected void makeHeroPowerMouseListener(HeroPowerButton button) {
-        if (button.getCard().getPlayerId() == 0) {
+        if (button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
             super.makeHeroPowerMouseListener(button);
             return;
         }
@@ -150,7 +159,7 @@ public class SoloGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -158,7 +167,7 @@ public class SoloGameBoard extends GameBoard {
 
     @Override
     protected void makeWeaponMouseListener(WeaponButton button) {
-        if (button.getCard().getPlayerId() == 0) {
+        if (button.getCard().getPlayerId() == myPlayer.getPlayerId()) {
             super.makeWeaponMouseListener(button);
             return;
         }
@@ -166,7 +175,7 @@ public class SoloGameBoard extends GameBoard {
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
                 }
             }
         });
@@ -179,34 +188,23 @@ public class SoloGameBoard extends GameBoard {
                 GUIConfigs.endTurnButtonWidth, GUIConfigs.endTurnButtonHeight, new ShouldHovered() {
             @Override
             public boolean shouldHovered() {
-                return /*Mapper.getWhoseTurn() == 0*/getWhoseTurn() == myPlayer.getPlayerId();
+                return myPlayer.isMyTurn();
             }
         });
 
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (/*Mapper.getWhoseTurn() != myPlayer.getPlayerId()*/getWhoseTurn() != myPlayer.getPlayerId())
+                if (getWhoseTurn() != myPlayer.getPlayerId())
                     return;
-
-                /*try {
-                    hearthstone.util.Logger.saveLog("End turn", "Player " +
-                            HSServer.getInstance().getPlayerName(Mapper.getWhoseTurn()) +
-                            " ended turn!");
-                } catch (Exception e){
-                    e.printStackTrace();
-                }*/
 
                 SoundPlayer soundPlayer = new SoundPlayer("/sounds/ding.wav");
                 soundPlayer.playOnce();
 
-                ClientMapper.endTurnRequest();
-
-                endTurnLineTimerTask.myStop();
+                ClientMapper.endTurnRequest(myPlayer.getPlayerId());
 
                 deleteCurrentMouseWaiting();
 
-                drawEndTurnTimeLine();
                 restart();
             }
         });
@@ -224,15 +222,12 @@ public class SoloGameBoard extends GameBoard {
         add(ropeImage);
 
         myHero = new BoardHeroButton(myPlayer.getHero(),
-                heroWidth, heroHeight, 0);
+                heroWidth, heroHeight, myPlayer.getPlayerId());
         makeHeroMouseListener(myHero);
 
-        enemyHero = new BoardHeroButton(enemyPlayer.getHero(), heroWidth, heroHeight, 1); // enemy hero
+        enemyHero = new BoardHeroButton(enemyPlayer.getHero(),
+                heroWidth, heroHeight, enemyPlayer.getPlayerId());
         makeHeroMouseListener(enemyHero);
-
-        myPassive = new PassiveButton(myPlayer.getPassive(),
-                GUIConfigs.medCardWidth,
-                GUIConfigs.medCardHeight);
 
         myMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, GUIConfigs.inGameErrorWidth, GUIConfigs.inGameErrorHeight);

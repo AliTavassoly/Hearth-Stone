@@ -307,7 +307,7 @@ public class ServerMapper {
     }
     // DECK ARRANGE
 
-    // START GAME
+    // FIND GAME
     public static void onlineGameRequest(ClientHandler clientHandler) {
         HSServer.getInstance().onlineGameRequest(clientHandler);
     }
@@ -321,28 +321,49 @@ public class ServerMapper {
     public static void onlineGameCancelRequest(ClientHandler clientHandler) {
         HSServer.getInstance().onlineGameCancelRequest(clientHandler);
     }
-    // START GAME
+
+    public static void practiceGameRequest(ClientHandler clientHandler){
+        HSServer.getInstance().practiceGameRequest(clientHandler);
+    }
+
+    public static void practiceGameResponse(Player myPlayer, Player practicePlayer, ClientHandler clientHandler){
+        Packet packet = new Packet("practiceGameResponse",
+                new Object[]{myPlayer, practicePlayer});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void soloGameRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().soloGameRequest(clientHandler);
+    }
+
+    public static void soloGameResponse(Player myPlayer, Player aiPlayer, ClientHandler clientHandler) {
+        Packet packet = new Packet("soloGameResponse",
+                new Object[]{myPlayer, aiPlayer});
+        clientHandler.sendPacket(packet);
+    }
+    // FIND GAME
 
     // BEGINNING GAME
-    public static void selectPassiveRequest(ClientHandler clientHandler) {
+    public static void selectPassiveRequest(int playerId, ClientHandler clientHandler) {
+        System.out.println("Sent to client");
         Packet packet = new Packet("selectPassiveRequest",
-                null);
+                new Object[]{playerId});
         clientHandler.sendPacket(packet);
     }
 
-    public synchronized static void selectPassiveResponse(Passive passive, ClientHandler clientHandler) {
-        clientHandler.getPlayer().setPassive(passive);
+    public synchronized static void selectPassiveResponse(int playerId, Passive passive, ClientHandler clientHandler) {
+        // clientHandler.getPlayer().setPassive(passive);
+        HSServer.getInstance().getPlayer(playerId).setPassive(passive);
     }
 
-    public static void selectNotWantedCardsRequest(ArrayList<Card> topCards, ClientHandler clientHandler) {
+    public static void selectNotWantedCardsRequest(int playerId, ArrayList<Card> topCards, ClientHandler clientHandler) {
         Packet packet = new Packet("selectNotWantedCardsRequest",
-                new Object[]{topCards});
+                new Object[]{playerId, topCards});
         clientHandler.sendPacket(packet);
     }
 
-    public static void selectNotWantedCardsResponse(ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
-        clientHandler.getPlayer().setDiscardedCards(true);
-        clientHandler.getPlayer().removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
+    public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
+        HSServer.getInstance().getPlayer(playerId).removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 
     public static void startGameOnGuiRequest(Player player0, Player player1, ClientHandler clientHandler) {
@@ -359,7 +380,7 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void endTurnRequest(ClientHandler clientHandler) {
+    public static void endTurnRequest(int playerId, ClientHandler clientHandler) {
         HSServer.getInstance().endTurnGuiResponse(clientHandler);
 
         clientHandler.getGame().endTurn();
@@ -383,7 +404,7 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void foundObjectRequest(Object waitedCard, Object founded, ClientHandler clientHandler) {
+    public static void foundObjectRequest(int playerId, Object waitedCard, Object founded, ClientHandler clientHandler) {
         try {
             clientHandler.getGame().foundObject(waitedCard, founded);
             foundObjectResponse(clientHandler);
@@ -398,11 +419,12 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void playCardRequest(Card card, ClientHandler clientHandler) {
+    public static void playCardRequest(int playerId, Card card, ClientHandler clientHandler) {
         try {
-            clientHandler.getPlayer().playCard(card);
+            // clientHandler.getPlayer().playCard(card);
+            HSServer.getInstance().getPlayer(playerId).playCard(card);
 
-            HSServer.getInstance().updateGameRequest(clientHandler.getPlayer().getPlayerId());
+            HSServer.getInstance().updateGameRequest(playerId);
 
             playCardResponse(card, clientHandler);
         } catch (HearthStoneException e) {
@@ -438,8 +460,8 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void exitGameRequest(ClientHandler clientHandler) {
-        clientHandler.getPlayer().getHero().setHealth(0);
+    public static void exitGameRequest(int playerId, ClientHandler clientHandler) {
+        HSServer.getInstance().getPlayer(playerId).getHero().setHealth(0);
     }
     // MIDDLE OF GAME
 }
