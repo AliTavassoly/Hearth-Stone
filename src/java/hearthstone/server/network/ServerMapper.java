@@ -437,5 +437,9 @@ public class ServerMapper {
                 null);
         clientHandler.sendPacket(packet);
     }
+
+    public static void exitGameRequest(ClientHandler clientHandler) {
+        clientHandler.getPlayer().getHero().setHealth(0);
+    }
     // MIDDLE OF GAME
 }

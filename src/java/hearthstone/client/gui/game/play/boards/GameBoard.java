@@ -538,9 +538,9 @@ public class GameBoard extends JPanel implements MouseListener {
             endTurnLineTimerTask.myStop();
             endTurnLineTimerTask.interrupt();
         }
+
         endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new HSBigTask() {
-            public void startFunction()     {
-            }
+            public void startFunction()     { }
 
             @Override
             public void periodFunction() {
@@ -631,12 +631,10 @@ public class GameBoard extends JPanel implements MouseListener {
             }
 
             @Override
-            public void warningFunction() {
-            }
+            public void warningFunction() { }
 
             @Override
-            public void finishedFunction() {
-            }
+            public void finishedFunction() { }
 
             @Override
             public void closeFunction() {
@@ -722,12 +720,10 @@ public class GameBoard extends JPanel implements MouseListener {
             }
 
             @Override
-            public void warningFunction() {
-            }
+            public void warningFunction() { }
 
             @Override
-            public void finishedFunction() {
-            }
+            public void finishedFunction() { }
 
             @Override
             public void closeFunction() {
@@ -1079,20 +1075,12 @@ public class GameBoard extends JPanel implements MouseListener {
                 GUIConfigs.iconHeight);
 
         backButton.addActionListener(actionEvent -> {
-            try {
-                hearthstone.util.Logger.saveLog("Click_button",
-                        "back_button");
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-
             SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
                     "Are you sure you want to exit game?! (you will lose current game)",
                     GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
             boolean sure = sureDialog.getValue();
             if (sure) {
-                beforeCloseBoard();
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+                ClientMapper.exitGameRequest();
             }
         });
     }

@@ -46,11 +46,11 @@ public class Account {
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Collection collection;
 
-    @ManyToMany
+    /*@ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JsonSerialize(converter = DeckListSerializer.class)
-    private List<Deck> decks;
+    private List<Deck> decks;*/
 
     @ElementCollection
     @JsonSerialize(converter = IntegerListSerializer.class)
@@ -67,7 +67,7 @@ public class Account {
     @PostLoad
     void postLoad() {
         this.heroes = new ArrayList<>(this.heroes);
-        this.decks = new ArrayList<>(this.decks);
+        //this.decks = new ArrayList<>(this.decks);
         this.unlockedCards = new ArrayList<>(this.unlockedCards);
     }
 
@@ -83,7 +83,7 @@ public class Account {
 
         heroes = new ArrayList<>();
         unlockedCards = new ArrayList<>();
-        decks = new ArrayList<>();
+        //decks = new ArrayList<>();
 
         accountConfigs();
     }
@@ -194,13 +194,13 @@ public class Account {
         return gem;
     }
 
-    public List<Deck> getDecks() {
+    /* public List<Deck> getDecks() {
         return decks;
     }
 
     public void setDecks(List<Deck> decks) {
         this.decks = decks;
-    }
+    } */
 
     public int getCardsBackId() {
         return cardsBackId;

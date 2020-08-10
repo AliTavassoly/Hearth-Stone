@@ -1,7 +1,6 @@
 package hearthstone.server;
 
 import hearthstone.server.data.DataBase;
-import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
 
 public class Main {

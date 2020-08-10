@@ -445,19 +445,24 @@ public class HSServer extends Thread {
     }
 
     private void updateGameEndedInGui(Player player0, Player player1){
+        updateGameRequest(player0.getPlayerId());
+        updateGameRequest(player1.getPlayerId());
+
         ServerMapper.endGameRequest(clients.get(player0.getUsername()).getClientHandler());
         ServerMapper.endGameRequest(clients.get(player1.getUsername()).getClientHandler());
     }
 
-    private void updateGameEndedInClients(Player player0, Player player1){
-        clients.get(player0.getUsername()).getClientHandler().gameEnded();
-        clients.get(player1.getUsername()).getClientHandler().gameEnded();
+    private void updateGameEndedInClients(String username0, String username1){
+        clients.get(username0).getClientHandler().gameEnded();
+        clients.get(username1).getClientHandler().gameEnded();
     }
 
     public void gameEnded(Player player0, Player player1) {
+        System.out.println("In server: " + player0.getHero().getHealth() + " " + player1.getHero().getHealth());
+
         updateGameEndedInGui(player0, player1);
 
-        updateGameEndedInClients(player0, player1);
+        updateGameEndedInClients(player0.getUsername(), player1.getUsername());
 
         updateGameEndedInAccounts(player0, player1);
     }

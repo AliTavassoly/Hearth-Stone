@@ -378,5 +378,11 @@ public class ClientMapper {
     public static void endGameRequest() {
         HSClient.currentGameBoard.gameEnded();
     }
+
+    public static void exitGameRequest() {
+        Packet packet = new Packet("exitGameRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
     // MIDDLE OF GAME
 }
