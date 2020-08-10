@@ -534,8 +534,12 @@ public class GameBoard extends JPanel implements MouseListener {
 
         SoundPlayer warningPlayer = new SoundPlayer("/sounds/countdown.wav");
 
+        if(endTurnLineTimerTask != null) {
+            endTurnLineTimerTask.myStop();
+            endTurnLineTimerTask.interrupt();
+        }
         endTurnLineTimerTask = new HSTimerTask(period, length, warningTime, new HSBigTask() {
-            public void startFunction() {
+            public void startFunction()     {
             }
 
             @Override

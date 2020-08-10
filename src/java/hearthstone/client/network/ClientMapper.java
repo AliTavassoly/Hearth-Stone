@@ -362,14 +362,10 @@ public class ClientMapper {
     }
 
     public static void chooseCardAbilityRequest(int cardGameId, ArrayList<Card> cards) {
-        System.out.println("Req received in client: " + cardGameId + " " + cards.size());
-
         chooseCardAbilityResponse(cardGameId, new CardSelectionDialog(GameFrame.getInstance(), cards).getCard());
     }
 
     public static void chooseCardAbilityResponse(int cardGameId, Card card) {
-        System.out.println("Req going to send to server ... :" + cardGameId + " " + card.getName());
-
         Packet packet = new Packet("chooseCardAbilityResponse",
                 new Object[]{cardGameId, card});
         HSClient.sendPacket(packet);
