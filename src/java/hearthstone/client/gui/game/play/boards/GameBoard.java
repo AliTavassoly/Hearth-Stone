@@ -1241,10 +1241,13 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     protected void beforeCloseBoard() {
-        //endTurnLineTimerTask.myStop();
-        //CredentialsFrame.getInstance().playSound();
-        //soundPlayer.stop();
-        //deleteCurrentMouseWaiting();
+        endTurnLineTimerTask.myStop();
+        endTurnLineTimerTask.interrupt();
+
+        CredentialsFrame.getInstance().playSound();
+        soundPlayer.stop();
+
+        deleteCurrentMouseWaiting();
     }
 
     private void removeComponents() {
