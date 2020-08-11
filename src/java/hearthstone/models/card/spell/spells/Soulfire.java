@@ -59,7 +59,8 @@ public class Soulfire extends SpellCard {
                 HSServer.getInstance().getPlayer(getPlayerId()).discardCard(HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomCardFromHand().getCardGameId());
                 // Mapper.updateBoard();
                 HSServer.getInstance().updateGameRequest(playerId);
-            } catch (Exception ignore) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

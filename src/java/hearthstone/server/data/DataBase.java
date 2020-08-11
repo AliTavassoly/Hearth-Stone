@@ -2,6 +2,7 @@ package hearthstone.server.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hearthstone.client.network.HSClient;
+import hearthstone.models.card.EmptyCard;
 import hearthstone.server.logic.Market;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
@@ -329,7 +330,7 @@ public class DataBase {
 
     private static Map<Integer, Card> getBaseCards() {
         Map<Integer, Card> map = new HashMap<>();
-        for (int i = 1; i <= 46; i++) {
+        for (int i = 1; i <= 47; i++) {
             map.put(i - 1, fetch(Card.class, i));
         }
         return map;
@@ -590,6 +591,9 @@ public class DataBase {
                 "Reward: Summon a\n" +
                 " security rover from your deck.", 1, HeroType.ALL, Rarity.COMMON, CardType.REWARD_CARD);
         saveOrUpdate(securityReward);
+
+        EmptyCard emptyCard = new EmptyCard(id++, "Empty Card", "Empty", 0, HeroType.ALL, Rarity.COMMON, CardType.EMPTY);
+        saveOrUpdate(emptyCard);
     }
 
     private static void saveHeroes() throws Exception {

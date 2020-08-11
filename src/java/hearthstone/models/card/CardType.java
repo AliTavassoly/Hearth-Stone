@@ -5,5 +5,6 @@ public enum CardType {
     MINION_CARD,
     WEAPON_CARD,
     REWARD_CARD,
-    HERO_POWER
+    HERO_POWER,
+    EMPTY
 }

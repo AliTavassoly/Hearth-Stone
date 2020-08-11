@@ -120,7 +120,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
             if (minionImage == null && card.getCardType() == CardType.MINION_CARD)
                 minionImage = ImageResource.getInstance().getImage("/images/cards/oval_minions/" + card.getName().
                         toLowerCase().replace(' ', '_').replace("'", "") + ".png");
-            if (cardImage == null)
+            if (cardImage == null && card.getCardType() != CardType.EMPTY)
                 cardImage = ImageResource.getInstance().getImage(
                         "/images/cards/" + card.getName().toLowerCase().
                                 replace(' ', '_').replace("'", "") + ".png");

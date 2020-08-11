@@ -1,6 +1,7 @@
 package hearthstone.models.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.server.data.ServerData;
 import hearthstone.server.logic.Game;
 import hearthstone.models.Deck;
@@ -27,7 +28,8 @@ import java.util.ArrayList;
 
 public class Player {
     protected Hero hero;
-    protected Deck originalDeck = null;
+
+    protected Deck originalDeck;
     protected Deck deck;
     protected Passive passive;
     protected boolean isDiscardedCards;
@@ -247,11 +249,11 @@ public class Player {
         this.myTurn = myTurn;
     }
 
-    public void setEnemyPlayerId(int enemyPlayerId){
+    public void setEnemyPlayerId(int enemyPlayerId) {
         this.enemyPlayerId = enemyPlayerId;
     }
 
-    public int getEnemyPlayerId(){
+    public int getEnemyPlayerId() {
         return enemyPlayerId;
     }
 
@@ -275,6 +277,13 @@ public class Player {
         this.waitingForSummon = waitingForSummon;
     }
 
+    public Deck getOriginalDeck() {
+        return originalDeck;
+    }
+
+    public void setOriginalDeck(Deck originalDeck) {
+        this.originalDeck = originalDeck;
+    }
     // End of getter setter
 
     public void reduceMana(int reduce) {
@@ -631,7 +640,7 @@ public class Player {
 
         try {
             drawCard();
-        } catch (HearthStoneException e){
+        } catch (HearthStoneException e) {
             e.printStackTrace();
         }
 
@@ -710,7 +719,7 @@ public class Player {
     }
 
     private void updateReward() {
-        if(reward != null){
+        if (reward != null) {
             reward.updatePercentage();
         }
 
@@ -726,12 +735,12 @@ public class Player {
             HSServer.getInstance().getPlayer(getPlayerId()).setWeapon(null);
         }
 
-        if(weapon != null)
+        if (weapon != null)
             weapon.setCanAttack(weapon.canAttack());
     }
 
-    private void updateMinions(){
-        for(Card card: land){
+    private void updateMinions() {
+        for (Card card : land) {
             MinionCard minionCard = (MinionCard) card;
             minionCard.setCanAttack(minionCard.canAttack());
         }
@@ -773,8 +782,8 @@ public class Player {
 
     private void updateHeroPower() {
         heroPower.setCanAttack(heroPower.canAttack());
-        if(heroPower instanceof Upgradeable){
-            ((Upgradeable)heroPower).updateUpgraded();
+        if (heroPower instanceof Upgradeable) {
+            ((Upgradeable) heroPower).updateUpgraded();
         }
     }
 
@@ -1016,5 +1025,17 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public Player copy() {
+        ObjectMapper mapper = ServerData.getObjectCloneMapper();
+        Player player = null;
+        try {
+            String json = mapper.writeValueAsString(this);
+            player = mapper.readValue(json, Player.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return player;
     }
 }

@@ -392,8 +392,6 @@ public class GameBoard extends JPanel implements MouseListener {
             Card card = cards.get(i);
             BoardCardButton cardButton;
 
-            System.out.println("In client hand: " + card.getName() + " " + card.getPlayerId());
-
             if (player.getPlayerId() == myPlayer.getPlayerId()) {
                 cardButton = new BoardCardButton(card,
                         GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, true, player.getPlayerId());

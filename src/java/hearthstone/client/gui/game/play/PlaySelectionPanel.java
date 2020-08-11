@@ -121,8 +121,17 @@ public class PlaySelectionPanel extends JPanel {
                 GUIConfigs.largeButtonHeight);
         playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                ClientMapper.onlineGameRequest();
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
+                try {
+                    HSClient.currentAccount.readyForPlay();
+
+                    ClientMapper.onlineGameRequest();
+
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
+                } catch (HearthStoneException hse){
+                    BaseFrame.error(hse.getMessage());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

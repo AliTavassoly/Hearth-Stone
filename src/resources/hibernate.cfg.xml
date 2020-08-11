@@ -93,6 +93,8 @@
         <mapping class="hearthstone.models.card.weapon.weapons.WarglaivesOfAzzinoth"/>
         <mapping class="hearthstone.models.card.weapon.weapons.WickedKnife"/>
 
+        <mapping class="hearthstone.models.card.EmptyCard"/>
+
         <mapping class="hearthstone.models.Account"/>
         <mapping class="hearthstone.models.Collection"/>
         <mapping class="hearthstone.models.AccountCredential"/>

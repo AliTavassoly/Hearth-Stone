@@ -423,8 +423,6 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        System.out.println(username + " " + clients.get(username) + " " + clients.get(username).getClientHandler().getGame() + " " + clients.get(username).getClientHandler().getGame().getFirstPlayer());
-
         String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
         String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
 
@@ -434,9 +432,13 @@ public class HSServer extends Thread {
         player0.updatePlayer();
         player1.updatePlayer();
 
-        ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
         if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
-            ServerMapper.updateBoardRequest(player1, player0, clients.get(username1).getClientHandler());
+            ServerMapper.updateBoardRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
+
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.updateBoardRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
+        else
+            ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
     }
 
     public void startGameOnGui(int playerId) {
@@ -451,9 +453,13 @@ public class HSServer extends Thread {
         Player player0 = clients.get(username0).getClientHandler().getGame().getFirstPlayer();
         Player player1 = clients.get(username1).getClientHandler().getGame().getSecondPlayer();
 
-        ServerMapper.startGameOnGuiRequest(player0, player1, clients.get(username0).getClientHandler());
         if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
-            ServerMapper.startGameOnGuiRequest(player1, player0, clients.get(username1).getClientHandler());
+            ServerMapper.startGameOnGuiRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
+
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            ServerMapper.startGameOnGuiRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
+        else
+            ServerMapper.startGameOnGuiRequest(player0, player1, clients.get(username0).getClientHandler());
     }
 
     public void animateSpellRequest(int playerId, Card card) {
@@ -484,6 +490,9 @@ public class HSServer extends Thread {
     }
 
     private void updateGameEndedInGui(Player player0, Player player1) {
+        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+            player1 = getSafePlayer(player1);
+
         updateGameRequest(player0.getPlayerId());
         if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
             updateGameRequest(player1.getPlayerId());
@@ -500,8 +509,6 @@ public class HSServer extends Thread {
     }
 
     public void gameEnded(Player player0, Player player1) {
-        System.out.println("In server: " + player0.getHero().getHealth() + " " + player1.getHero().getHealth());
-
         updateGameEndedInGui(player0, player1);
 
         updateGameEndedInClients(player0.getUsername(), player1.getUsername());
@@ -510,7 +517,7 @@ public class HSServer extends Thread {
             updateGameEndedInAccounts(player0, player1);
     }
 
-    private void updateGameEndedInAccounts(Player player0, Player player1)  {
+    private void updateGameEndedInAccounts(Player player0, Player player1) {
         Account account0 = clients.get(player0.getUsername()).getAccount();
         Account account1 = clients.get(player1.getUsername()).getAccount();
 
@@ -526,5 +533,33 @@ public class HSServer extends Thread {
 
         DataBase.save(account0);
         DataBase.save(account1);
+    }
+
+    private Card safeCard(Card card){
+        Card safeCard = ServerData.getCardByName("Empty Card");
+        safeCard.setCardGameId(card.getCardGameId());
+        safeCard.setPlayerId(card.getPlayerId());
+        safeCard.setEnemyPlayerId(card.getEnemyPlayerId());
+        return safeCard;
+    }
+
+    private Player getSafePlayer(Player player) {
+        Player safePlayer = player.copy();
+
+        for (int i = 0; i < safePlayer.getHand().size(); i++) {
+            Card card = safePlayer.getHand().get(i);
+            safePlayer.getHand().set(i, getInstance().safeCard(card));
+        }
+
+        for (int i = 0; i < safePlayer.getDeck().getCards().size(); i++) {
+            Card card = safePlayer.getDeck().getCards().get(i);
+            safePlayer.getDeck().getCards().set(i, getInstance().safeCard(card));
+        }
+
+        for (int i = 0; i < safePlayer.getOriginalDeck().getCards().size(); i++) {
+            Card card = safePlayer.getOriginalDeck().getCards().get(i);
+            safePlayer.getOriginalDeck().getCards().set(i, getInstance().safeCard(card));
+        }
+        return safePlayer;
     }
 }
