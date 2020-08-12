@@ -5,7 +5,7 @@ target
 *.json
 *.log
 !data/game_configs.json
-!data/size_configs.json
+!data/gui_configs.json
 !data/base_cards.json
 !data/base_heroes.json
 !data/base_passives.json

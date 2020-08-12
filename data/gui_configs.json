@@ -35,6 +35,9 @@
   "statusListWidth": 569,
   "statusListHeight": 650,
 
+  "rankingListWidth": 470,
+  "rankingListHeight": 650,
+
   "deckSelectionListWidth": 670,
   "deckSelectionListHeight": 650,
 
@@ -93,6 +96,9 @@
 
   "weaponWidth": 110,
   "weaponHeight": 110,
+
+  "accountInfoWidth": 430,
+  "accountInfoHeight": 122,
 
   "weaponDetailWidth": 35,
   "weaponDetailHeight": 35,

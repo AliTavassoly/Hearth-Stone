@@ -1,5 +1,6 @@
 package hearthstone.client.gui.game;
 
+import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.CloseIcon;
@@ -21,7 +22,7 @@ import java.awt.image.BufferedImage;
 
 public class MainMenuPanel extends JPanel {
     private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
-    private ImageButton playButton, collectionButton, marketButton, statusButton;
+    private ImageButton playButton, collectionButton, marketButton, statusButton, rankingButton;
     private ImagePanel logoImage;
 
     private static BufferedImage backgroundImage;
@@ -36,6 +37,8 @@ public class MainMenuPanel extends JPanel {
             - GUIConfigs.largeButtonWidth;
     private final int secondButtonX = GUIConfigs.gameFrameWidth / 2 + halfButtonDisX;
     private final int buttonDisY = 120;
+
+    private final int rankingButtonY = GUIConfigs.gameFrameHeight / 2 + 80;
 
     public MainMenuPanel() {
         configPanel();
@@ -87,22 +90,27 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void makeButtons() {
-        playButton = new ImageButton("play", "buttons/long_pink_background.png",
+        playButton = new ImageButton("Play", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
 
-        collectionButton = new ImageButton("collection", "buttons/long_pink_background.png",
+        collectionButton = new ImageButton("Collection", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
 
-        statusButton = new ImageButton("status", "buttons/long_pink_background.png",
+        statusButton = new ImageButton("Status", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
 
-        marketButton = new ImageButton("market", "buttons/long_pink_background.png",
+        marketButton = new ImageButton("Market", "buttons/long_pink_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                GUIConfigs.largeButtonWidth,
+                GUIConfigs.largeButtonHeight);
+
+        rankingButton = new ImageButton("Ranking", "buttons/long_pink_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
@@ -114,6 +122,14 @@ public class MainMenuPanel extends JPanel {
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
                 ClientMapper.marketCardsRequest();
                 ClientMapper.startUpdateMarketCards();
+            }
+        });
+
+        rankingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
+                ClientMapper.rankingRequest();
+                ClientMapper.startUpdateRanking();
             }
         });
 
@@ -164,12 +180,8 @@ public class MainMenuPanel extends JPanel {
 
     private void layoutComponent() {
         // LOGO
-        /*logoImage.setBounds(buttonX + DefaultSizes.largeButtonWidth / 2 - DefaultSizes.mainMenuLogoWidth / 2,
-                startButtonY - (int) (1.80 * buttonDis),
-                DefaultSizes.mainMenuLogoWidth,
-                DefaultSizes.mainMenuLogoHeight);*/
         logoImage.setBounds(GUIConfigs.gameFrameWidth / 2 - GUIConfigs.mainMenuLogoWidth / 2,
-                450,
+                460,
                 GUIConfigs.mainMenuLogoWidth,
                 GUIConfigs.mainMenuLogoHeight);
         add(logoImage);
@@ -215,5 +227,11 @@ public class MainMenuPanel extends JPanel {
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
         add(marketButton);
+
+        rankingButton.setBounds(GUIConfigs.gameFrameWidth / 2 - GUIConfigs.largeButtonWidth / 2,
+                rankingButtonY,
+                GUIConfigs.largeButtonWidth,
+                GUIConfigs.largeButtonHeight);
+        add(rankingButton);
     }
 }

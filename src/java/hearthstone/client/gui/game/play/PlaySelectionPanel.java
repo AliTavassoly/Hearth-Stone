@@ -3,6 +3,8 @@ package hearthstone.client.gui.game.play;
 import hearthstone.HearthStone;
 import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.game.play.boards.OnlineGameBoard;
+import hearthstone.client.gui.game.waitingpanels.CancelOperation;
+import hearthstone.client.gui.game.waitingpanels.LoadingPanel;
 import hearthstone.client.gui.game.waitingpanels.WaitForOpponentPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
@@ -61,11 +63,11 @@ public class PlaySelectionPanel extends JPanel {
         layoutComponent();
     }
 
-    public static PlaySelectionPanel makeInstance(){
+    public static PlaySelectionPanel makeInstance() {
         return instance = new PlaySelectionPanel();
     }
 
-    public static PlaySelectionPanel getInstance(){
+    public static PlaySelectionPanel getInstance() {
         return instance;
     }
 
@@ -126,10 +128,16 @@ public class PlaySelectionPanel extends JPanel {
 
                     ClientMapper.onlineGameRequest();
 
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
-                } catch (HearthStoneException hse){
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel(new CancelOperation() {
+                        @Override
+                        public void operation() {
+                            ClientMapper.onlineGameCancelRequest();
+                            GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+                        }
+                    }));
+                } catch (HearthStoneException hse) {
                     BaseFrame.error(hse.getMessage());
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -142,10 +150,10 @@ public class PlaySelectionPanel extends JPanel {
 
                     ClientMapper.practiceGameRequest();
 
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
-                } catch (HearthStoneException hse){
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
+                } catch (HearthStoneException hse) {
                     BaseFrame.error(hse.getMessage());
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -158,10 +166,10 @@ public class PlaySelectionPanel extends JPanel {
 
                     ClientMapper.soloGameRequest();
 
-                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel());
-                } catch (HearthStoneException hse){
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
+                } catch (HearthStoneException hse) {
                     BaseFrame.error(hse.getMessage());
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -171,14 +179,18 @@ public class PlaySelectionPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    makeNewDeckReaderPlay();
-                } catch (Exception e){
-                    BaseFrame.error("There is a problem in deck reader!");
-                    return;
-                }
+                    ClientMapper.deckReaderGameRequest();
 
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
-                        HearthStone.currentGameBoard);
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel(new CancelOperation() {
+                        @Override
+                        public void operation() {
+                            ClientMapper.deckReaderGameCancelRequest();
+                            GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+                        }
+                    }));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -235,37 +247,5 @@ public class PlaySelectionPanel extends JPanel {
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
         add(deckReaderPlay);
-    }
-
-    private void makeNewDeckReaderPlay() throws Exception{
-        Map<String, ArrayList<String> > decks = DataBase.getDecks();
-
-        if(decks == null)
-            throw new HearthStoneException("There is a problem in deck reader!");
-
-        Player player0 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
-                new Deck("Deck1", HeroType.MAGE,
-                        ClientData.getCardsArrayFromName(decks.get("friend"))),
-                HSClient.currentAccount.getUsername());
-
-        Player player1 = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
-                new Deck("Deck1", HeroType.MAGE,
-                        ClientData.getCardsArrayFromName(decks.get("enemy"))),
-                HSClient.currentAccount.getUsername());
-
-        //HearthStone.currentGame = new Game(player0, player1);
-        HearthStone.currentGameBoard = new PracticeGameBoard(player0, player1);
-    }
-
-    public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer){
-        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
-    }
-
-    public void makeNewPracticeGame(Player myPlayer, Player practicePlayer) {
-        HSClient.currentGameBoard = new PracticeGameBoard(myPlayer, practicePlayer);
-    }
-
-    public void makeNewSoloGame(Player myPlayer, Player aiPlayer){
-        HSClient.currentGameBoard = new SoloGameBoard(myPlayer, aiPlayer);
     }
 }

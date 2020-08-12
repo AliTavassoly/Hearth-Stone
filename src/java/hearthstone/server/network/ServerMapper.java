@@ -1,8 +1,10 @@
 package hearthstone.server.network;
 
+import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.models.Account;
+import hearthstone.models.AccountInfo;
 import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
@@ -219,6 +221,32 @@ public class ServerMapper {
     }
     // MARKET
 
+    // RANKING
+    public static void rankingRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().initialRanks(clientHandler);
+    }
+
+    public static void rankingResponse(ArrayList<AccountInfo> topRanks, ArrayList<AccountInfo> nearRanks, ClientHandler clientHandler) {
+        Packet packet = new Packet("rankingResponse",
+                new Object[]{topRanks, nearRanks});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void startUpdateRanking(ClientHandler clientHandler) {
+        HSServer.getInstance().startUpdateRanking(clientHandler);
+    }
+
+    public static void updateRanking(ArrayList<AccountInfo> topRanks, ArrayList<AccountInfo> nearRanks, ClientHandler clientHandler){
+        Packet packet = new Packet("updateRanking",
+                new Object[]{topRanks, nearRanks});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void stopUpdateRanking(ClientHandler clientHandler) {
+        HSServer.getInstance().stopUpdateRanking(clientHandler);
+    }
+    // RANKING
+
     // STATUS
     public static void statusDecksRequest(ClientHandler clientHandler) {
         HSServer.getInstance().statusBestDecks(clientHandler);
@@ -320,6 +348,20 @@ public class ServerMapper {
 
     public static void onlineGameCancelRequest(ClientHandler clientHandler) {
         HSServer.getInstance().onlineGameCancelRequest(clientHandler);
+    }
+
+    public static void deckReaderGameRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().deckReaderGameRequest(clientHandler);
+    }
+
+    public static void deckReaderGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
+        Packet packet = new Packet("deckReaderGameResponse",
+                new Object[]{myPlayer, enemyPlayer});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void deckReaderGameCancelRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().deckReaderGameCancelRequest(clientHandler);
     }
 
     public static void practiceGameRequest(ClientHandler clientHandler){

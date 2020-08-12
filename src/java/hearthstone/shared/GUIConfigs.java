@@ -128,6 +128,12 @@ public class GUIConfigs {
     public static int bigRedMarkWidth;
     public static int bigRedMarkHeight;
 
+    public static int accountInfoWidth;
+    public static int accountInfoHeight;
+
+    public static int rankingListWidth;
+    public static int rankingListHeight;
+
     static public void setConfigs(Map<String, Integer> configs) {
         // General
         credentialFrameWidth = configs.get("credentialFrameWidth");
@@ -246,11 +252,17 @@ public class GUIConfigs {
 
         bigRedMarkWidth = configs.get("bigRedMarkWidth");
         bigRedMarkHeight = configs.get("bigRedMarkHeight");
+
+        accountInfoWidth = configs.get("accountInfoWidth");
+        accountInfoHeight = configs.get("accountInfoHeight");
+
+        rankingListWidth = configs.get("rankingListWidth");
+        rankingListHeight = configs.get("rankingListHeight");
     }
 
     private static Map<String, Integer> getConfigs() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File(dataPath + "/size_configs.json");
+        File file = new File(dataPath + "/gui_configs.json");
         file.getParentFile().mkdirs();
         file.createNewFile();
         return mapper.readValue(file, new TypeReference<HashMap<String, Integer>>() {});

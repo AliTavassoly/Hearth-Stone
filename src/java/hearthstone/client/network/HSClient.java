@@ -10,14 +10,14 @@ import hearthstone.client.gui.game.collection.DeckArrangement;
 import hearthstone.client.gui.game.collection.DeckSelection;
 import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.market.MarketPanel;
-import hearthstone.client.gui.game.play.PlaySelectionPanel;
-import hearthstone.client.gui.game.play.boards.GameBoard;
+import hearthstone.client.gui.game.play.boards.*;
+import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.client.gui.game.status.StatusPanel;
 import hearthstone.models.Account;
+import hearthstone.models.AccountInfo;
 import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
-import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 
 import java.io.IOException;
@@ -162,17 +162,28 @@ public class HSClient {
     }
 
     public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer) {
-        PlaySelectionPanel.getInstance().makeNewOnlineGame(myPlayer, enemyPlayer);
+        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
     public void makeNewPracticeGame(Player myPlayer, Player practicePlayer) {
-        PlaySelectionPanel.getInstance().makeNewPracticeGame(myPlayer, practicePlayer);
+        HSClient.currentGameBoard = new PracticeGameBoard(myPlayer, practicePlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
     public void makeNewSoloGame(Player myPlayer, Player aiPlayer) {
-        PlaySelectionPanel.getInstance().makeNewSoloGame(myPlayer, aiPlayer);
+        HSClient.currentGameBoard = new SoloGameBoard(myPlayer, aiPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
+    }
+
+    public void makeNewDeckReaderGame(Player myPlayer, Player enemyPlayer) {
+        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
+    }
+
+    public void openRanking(ArrayList<AccountInfo> topRanks, ArrayList<AccountInfo> myRank) {
+        RankingPanel.topRanks = topRanks;
+        RankingPanel.nearRanks = myRank;
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), RankingPanel.makeInstance());
     }
 }

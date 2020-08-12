@@ -7,6 +7,7 @@ public interface UpdateWaiter {
 
     enum UpdaterType{
         ACCOUNT,
-        MARKET_CARDS
+        MARKET_CARDS,
+        RANKING
     }
 }

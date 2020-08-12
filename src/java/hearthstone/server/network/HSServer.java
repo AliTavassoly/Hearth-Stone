@@ -1,8 +1,13 @@
 package hearthstone.server.network;
 
+import hearthstone.client.data.ClientData;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.Account;
+import hearthstone.models.AccountCredential;
+import hearthstone.models.AccountInfo;
 import hearthstone.models.Deck;
 import hearthstone.models.card.Card;
+import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
 import hearthstone.server.data.DataBase;
@@ -13,15 +18,14 @@ import hearthstone.server.model.updaters.AccountUpdater;
 import hearthstone.server.model.ClientDetails;
 import hearthstone.server.model.updaters.MarketCardsUpdater;
 import hearthstone.server.model.UpdateWaiter;
+import hearthstone.server.model.updaters.RankingUpdater;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class HSServer extends Thread {
     private static HSServer server;
@@ -36,7 +40,10 @@ public class HSServer extends Thread {
     private ArrayList<UpdateWaiter> updaterWaiters;
 
     private ArrayList<String> waitingForGame;
+    private ArrayList<String> waitingForDeckReaderGame;
+
     private final Object waitingForGameLock = new Object();
+    private final Object waitingForDeckReaderGameLock = new Object();
 
     public static Market market = new Market();
 
@@ -65,6 +72,7 @@ public class HSServer extends Thread {
         clients = new HashMap<>();
         updaterWaiters = new ArrayList<>();
         waitingForGame = new ArrayList<>();
+        waitingForDeckReaderGame = new ArrayList<>();
         players = new HashMap<>();
     }
 
@@ -91,6 +99,7 @@ public class HSServer extends Thread {
         }
     }
 
+    // BASES
     public void createBaseCards(ClientHandler clientHandler) {
         ServerMapper.createBaseCardsResponse(ServerData.baseCards, clientHandler);
     }
@@ -101,6 +110,29 @@ public class HSServer extends Thread {
 
     public void createBasePassives(ClientHandler clientHandler) {
         ServerMapper.createBasePassivesResponse(ServerData.basePassives, clientHandler);
+    }
+    // BASES
+
+    public void removeUpdater(String username, UpdateWaiter.UpdaterType updaterType) {
+        for (UpdateWaiter updateWaiter : updaterWaiters) {
+            if (updateWaiter.getUsername().equals(username) && updateWaiter.updaterType() == updaterType) {
+                updaterWaiters.remove(updateWaiter);
+                return;
+            }
+        }
+    }
+
+    public void updateWaiters(UpdateWaiter.UpdaterType[] updaterTypes) {
+        if (updaterTypes == null)
+            return;
+        for (UpdateWaiter updateWaiter : this.updaterWaiters) {
+            for (UpdateWaiter.UpdaterType updaterType : updaterTypes) {
+                if (updateWaiter.updaterType() == updaterType) {
+                    updateWaiter.update();
+                    break;
+                }
+            }
+        }
     }
 
     public static ArrayList<Card> getCardsArrayFromName(ArrayList<String> cardsName) {
@@ -122,7 +154,7 @@ public class HSServer extends Thread {
 
         clients.put(username, ServerData.getClientDetails(username));
 
-        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT, UpdateWaiter.UpdaterType.RANKING});
     }
 
     private void accountDisconnected(ClientHandler clientHandler) {
@@ -144,6 +176,7 @@ public class HSServer extends Thread {
         }
     }
 
+    // CREDENTIAL
     public void login(String username, String password, ClientHandler clientHandler) throws HearthStoneException {
         ServerData.checkAccountCredentials(username, password);
 
@@ -181,7 +214,9 @@ public class HSServer extends Thread {
 
         ServerMapper.deleteAccountResponse(clientHandler);
     }
+    // CREDENTIAL
 
+    // GAME REQUEST
     public void onlineGameRequest(ClientHandler clientHandler) {
         String username0 = null, username1 = null;
 
@@ -193,8 +228,27 @@ public class HSServer extends Thread {
             }
         }
 
-        if (username0 != null && username1 != null)
-            makeNewOnlineGame(username0, username1);
+        makeNewOnlineGame(username0, username1);
+    }
+
+    public void deckReaderGameRequest(ClientHandler clientHandler) {
+        String username0 = null, username1 = null;
+
+        synchronized (waitingForDeckReaderGameLock) {
+            waitingForDeckReaderGame.add(clientHandler.getUsername());
+            if (waitingForDeckReaderGame.size() >= 2) {
+                username1 = waitingForDeckReaderGame.remove(waitingForDeckReaderGame.size() - 1);
+                username0 = waitingForDeckReaderGame.remove(0);
+            }
+        }
+
+        if (username0 != null && username1 != null) {
+            try {
+                makeNewDeckReaderGame(username0, username1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void practiceGameRequest(ClientHandler clientHandler) {
@@ -211,16 +265,44 @@ public class HSServer extends Thread {
 
         makeNewSoloGame(clientHandler.getUsername(), player, aiPlayer);
     }
+    // GAME REQUEST
 
+    // CANCEL GAME
     public void onlineGameCancelRequest(ClientHandler clientHandler) {
         synchronized (waitingForGameLock) {
             waitingForGame.remove(clientHandler.getUsername());
         }
     }
 
+    public void deckReaderGameCancelRequest(ClientHandler clientHandler) {
+        synchronized (waitingForDeckReaderGameLock) {
+            waitingForDeckReaderGame.remove(clientHandler.getUsername());
+        }
+    }
+    // CANCEL GAME
+
+    // MAKE GAME
     public void makeNewOnlineGame(String username0, String username1) {
         Player player0 = clients.get(username0).getAccount().getPlayer();
         Player player1 = clients.get(username1).getAccount().getPlayer();
+
+        Game game = new OnlineGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.ONLINE_GAME);
+
+        clients.get(username0).setCurrentGame(game);
+        clients.get(username1).setCurrentGame(game);
+
+        clients.get(player0.getUsername()).getClientHandler().setGame(game);
+        clients.get(player1.getUsername()).getClientHandler().setGame(game);
+
+        ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
+
+        game.start();
+    }
+
+    private void makeNewDeckReaderGame(String username0, String username1) throws Exception {
+        Player player0 = getFirstPlayerInDeckReader(username0);
+        Player player1 = getSecondPlayerInDeckReader(username1);
 
         Game game = new OnlineGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.ONLINE_GAME);
 
@@ -259,7 +341,9 @@ public class HSServer extends Thread {
 
         game.start();
     }
+    // MAKE GAME
 
+    // MARKET
     public void buyCard(int cardId, ClientHandler clientHandler) throws HearthStoneException {
         Card card = ServerData.getCardById(cardId);
         clients.get(clientHandler.getUsername()).getAccount().buyCards(card, 1);
@@ -282,31 +366,6 @@ public class HSServer extends Thread {
         ServerMapper.sellCardResponse(card, clientHandler);
 
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT, UpdateWaiter.UpdaterType.MARKET_CARDS});
-    }
-
-    public void removeUpdater(String username, UpdateWaiter.UpdaterType updaterType) {
-        for (UpdateWaiter updateWaiter : updaterWaiters) {
-            if (updateWaiter.getUsername().equals(username) && updateWaiter.updaterType() == updaterType) {
-                updaterWaiters.remove(updateWaiter);
-                return;
-            }
-        }
-    }
-
-    public void updateWaiters(UpdateWaiter.UpdaterType[] updaterTypes) {
-        if (updaterTypes == null)
-            return;
-        for (UpdateWaiter updateWaiter : this.updaterWaiters) {
-            for (int i = 0; i < updaterTypes.length; i++) {
-                if (updateWaiter.updaterType() == updaterTypes[i]) {
-                    updateWaiter.update();
-                }
-            }
-        }
-    }
-
-    public void updateAccount(ClientHandler clientHandler) {
-        ServerMapper.updateAccount(ServerData.getClientDetails(clientHandler.getUsername()).getAccount(), clientHandler);
     }
 
     public void marketCardsInitialCard(ClientHandler clientHandler) {
@@ -332,11 +391,95 @@ public class HSServer extends Thread {
     public void stopUpdateMarketCards(ClientHandler clientHandler) {
         removeUpdater(clientHandler.getUsername(), UpdateWaiter.UpdaterType.MARKET_CARDS);
     }
+    // MARKET
 
+    public void updateAccount(ClientHandler clientHandler) {
+        ServerMapper.updateAccount(ServerData.getClientDetails(clientHandler.getUsername()).getAccount(), clientHandler);
+    }
+
+    // RANKING
+    public void startUpdateRanking(ClientHandler clientHandler) {
+        updaterWaiters.add(new RankingUpdater(clientHandler.getUsername(),
+                UpdateWaiter.UpdaterType.RANKING,
+                clientHandler));
+    }
+
+    public void stopUpdateRanking(ClientHandler clientHandler) {
+        removeUpdater(clientHandler.getUsername(), UpdateWaiter.UpdaterType.RANKING);
+    }
+
+    public void updateRanking(ClientHandler clientHandler) {
+        ServerMapper.updateRanking(getTopRanks(), getNearRanks(clientHandler.getUsername()), clientHandler);
+    }
+
+    private ArrayList<AccountInfo> getNearRanks(String username) {
+        ArrayList<AccountInfo> allAccountInfos = new ArrayList<>();
+        ArrayList<AccountInfo> res = new ArrayList<>();
+
+        for (AccountCredential accountCredential : ServerData.getAccounts().values()) {
+            Account account = ServerData.getClientDetails(accountCredential.getUsername()).getAccount();
+            allAccountInfos.add(new AccountInfo(account.getUsername(), account.getCup()));
+        }
+
+        Collections.sort(allAccountInfos);
+
+        for (int i = 0; i < allAccountInfos.size(); i++) {
+            if (allAccountInfos.get(i).getUsername().equals(username)) {
+                for (int j = i - 5; j <= i - 1; j++) {
+                    if (j >= 0) {
+                        res.add(allAccountInfos.get(j));
+                        allAccountInfos.get(j).setRank(j + 1);
+                    }
+                }
+
+                allAccountInfos.get(i).setRank(i + 1);
+                res.add(allAccountInfos.get(i));
+
+                for (int j = i + 1; j <= i + 5; j++) {
+                    if (j < allAccountInfos.size()) {
+                        res.add(allAccountInfos.get(j));
+                        allAccountInfos.get(j).setRank(j + 1);
+                    }
+                }
+                return res;
+            }
+        }
+
+        return res;
+    }
+
+    private ArrayList<AccountInfo> getTopRanks() {
+        ArrayList<AccountInfo> accountInfos = new ArrayList<>();
+
+        for (AccountCredential accountCredential : ServerData.getAccounts().values()) {
+            Account account = ServerData.getClientDetails(accountCredential.getUsername()).getAccount();
+            accountInfos.add(new AccountInfo(account.getUsername(), account.getCup()));
+        }
+
+        Collections.sort(accountInfos);
+
+        while (accountInfos.size() > 10)
+            accountInfos.remove(accountInfos.size() - 1);
+
+        for (int i = 0; i < accountInfos.size(); i++){
+            accountInfos.get(i).setRank(i + 1);
+        }
+
+        return accountInfos;
+    }
+
+    public void initialRanks(ClientHandler clientHandler) {
+        ServerMapper.rankingResponse(getTopRanks(), getNearRanks(clientHandler.getUsername()), clientHandler);
+    }
+    // RANKING
+
+    // STATUS
     public void statusBestDecks(ClientHandler clientHandler) {
         ServerMapper.statusDecksResponse(clients.get(clientHandler.getUsername()).getAccount().getBestDecks(10), clientHandler);
     }
+    //STATUS
 
+    // COLLECTION
     public void selectHero(String heroName, ClientHandler clientHandler) {
         clients.get(clientHandler.getUsername()).getAccount().selectHero(heroName);
 
@@ -393,30 +536,9 @@ public class HSServer extends Thread {
 
         ServerMapper.removeCardFromDeckResponse(card, clientHandler);
     }
+    // COLLECTION
 
-    public ClientHandler getClientHandlerByPlayer(Player player) {
-        return clients.get(player.getUsername()).getClientHandler();
-    }
-
-    public int makeNewPlayerId(Player player) {
-        synchronized (playersLock) {
-            players.put(players.size(), player);
-            return players.size() - 1;
-        }
-    }
-
-    public Player getPlayer(int playerId) {
-        synchronized (playersLock) {
-            return players.get(playerId);
-        }
-    }
-
-    public String getPlayerName(int playerId) {
-        synchronized (playersLock) {
-            return players.get(playerId).getUsername();
-        }
-    }
-
+    // MIDDLE OF GAME
     public void updateGameRequest(int playerId) {
         String username;
         synchronized (playersLock) {
@@ -515,6 +637,32 @@ public class HSServer extends Thread {
 
         if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
             updateGameEndedInAccounts(player0, player1);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT, UpdateWaiter.UpdaterType.RANKING});
+    }
+    // MIDDLE OF GAME
+
+    public ClientHandler getClientHandlerByPlayer(Player player) {
+        return clients.get(player.getUsername()).getClientHandler();
+    }
+
+    public int makeNewPlayerId(Player player) {
+        synchronized (playersLock) {
+            players.put(players.size(), player);
+            return players.size() - 1;
+        }
+    }
+
+    public Player getPlayer(int playerId) {
+        synchronized (playersLock) {
+            return players.get(playerId);
+        }
+    }
+
+    public String getPlayerName(int playerId) {
+        synchronized (playersLock) {
+            return players.get(playerId).getUsername();
+        }
     }
 
     private void updateGameEndedInAccounts(Player player0, Player player1) {
@@ -522,11 +670,11 @@ public class HSServer extends Thread {
         Account account1 = clients.get(player1.getUsername()).getAccount();
 
         if (player0.getHero().getHealth() <= 0) {
-            account0.lostGame(player0.getHero().getName(), player0.getDeck().getName());
-            account1.wonGame(player1.getHero().getName(), player1.getDeck().getName());
+            account0.lostGame(player0.getHero().getName(), player0.getDeck().getName(), account1.getCup());
+            account1.wonGame(player1.getHero().getName(), player1.getDeck().getName(), account0.getCup());
         } else {
-            account0.wonGame(player0.getHero().getName(), player0.getDeck().getName());
-            account1.lostGame(player1.getHero().getName(), player1.getDeck().getName());
+            account0.wonGame(player0.getHero().getName(), player0.getDeck().getName(), account1.getCup());
+            account1.lostGame(player1.getHero().getName(), player1.getDeck().getName(), account0.getCup());
         }
 
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
@@ -535,7 +683,35 @@ public class HSServer extends Thread {
         DataBase.save(account1);
     }
 
-    private Card safeCard(Card card){
+    private Player getFirstPlayerInDeckReader(String username) throws Exception {
+        Map<String, ArrayList<String>> decks = DataBase.getDecks();
+
+        if (decks == null)
+            throw new HearthStoneException("There is a problem in deck reader!");
+
+        Player player = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
+                new Deck("Deck1", HeroType.MAGE,
+                        ClientData.getCardsArrayFromName(decks.get("friend"))),
+                username);
+
+        return player;
+    }
+
+    private Player getSecondPlayerInDeckReader(String username) throws Exception {
+        Map<String, ArrayList<String>> decks = DataBase.getDecks();
+
+        if (decks == null)
+            throw new HearthStoneException("There is a problem in deck reader!");
+
+        Player player = new Player(Objects.requireNonNull(ServerData.getHeroByName("Mage")),
+                new Deck("Deck2", HeroType.MAGE,
+                        ClientData.getCardsArrayFromName(decks.get("enemy"))),
+                username);
+
+        return player;
+    }
+
+    private Card safeCard(Card card) {
         Card safeCard = ServerData.getCardByName("Empty Card");
         safeCard.setCardGameId(card.getCardGameId());
         safeCard.setPlayerId(card.getPlayerId());

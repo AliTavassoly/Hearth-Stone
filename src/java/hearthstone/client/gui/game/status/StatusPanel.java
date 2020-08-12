@@ -85,7 +85,6 @@ public class StatusPanel extends JPanel {
     private void makeDeckList() {
         ArrayList<Deck> decks = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
-        //ArrayList<Deck> topDecks = HSClient.currentAccount.getBestDecks(10);
 
         for (Deck deck : topDecks) {
             decks.add(deck);

@@ -306,21 +306,9 @@ public class DataBase {
         return fetch(Account.class, username);
     }
 
-    public static Map<String, Integer> getGameConfigs() throws Exception {
-        File file = new File(dataPath + "/game_configs.json");
-        return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
-        });
-    }
-
     public static Map<String, ArrayList<String>> getDecks() throws Exception {
         File file = new File(dataPath + "/decks.json");
         return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, ArrayList<String>>>() {
-        });
-    }
-
-    private static Map<String, Integer> getSizeConfigs() throws Exception {
-        File file = new File(dataPath + "/size_configs.json");
-        return ServerData.getDataMapper().readValue(file, new TypeReference<HashMap<String, Integer>>() {
         });
     }
 

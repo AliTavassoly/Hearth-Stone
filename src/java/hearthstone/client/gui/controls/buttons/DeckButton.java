@@ -77,26 +77,26 @@ public class DeckButton extends ImageButton {
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
 
-        g2.drawString("total games: " + deck.getTotalGames(), 380, stringStartY);
-        g2.drawString("win rate: " + deck.getWinPercentage() + "%", 380, stringStartY + stringDis);
-        g2.drawString("wins: " + deck.getWinGames(), 380, stringStartY + 2 * stringDis);
+        g2.drawString("Cup: " + deck.getCup(), 380, stringStartY);
+        g2.drawString("Win rate: " + deck.getWinPercentage() + "%", 380, stringStartY + stringDis);
+        g2.drawString("Wins: " + deck.getWinGames(), 380, stringStartY + 2 * stringDis);
 
         g2.setFont(font);
-        g2.drawString("mana average: " + String.valueOf(deck.getManaAv()), 155, stringStartY);
-        g2.drawString("name: " + deck.getName(), 163, stringStartY + stringDis);
+        g2.drawString("Mana average: " + String.valueOf(deck.getManaAv()), 155, stringStartY);
+        g2.drawString("Name: " + deck.getName(), 163, stringStartY + stringDis);
 
         if (deck.getBestCardName() == null) {
-            String text = "favorite card: no card";
+            String text = "Favorite card: no card";
             font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
-            g2.drawString("favorite card: no card", 155, stringStartY + 2 * stringDis);
+            g2.drawString("Favorite card: no card", 155, stringStartY + 2 * stringDis);
         } else {
-            String text = "favorite card: " + deck.getBestCardName();
+            String text = "Favorite card: " + deck.getBestCardName();
             font = GameFrame.getInstance().getCustomFont(FontType.TEXT, 0, getSize(text, maxCardNameWidth));
             g2.setFont(font);
 
-            g2.drawString("favorite card: " + deck.getBestCardName(), 155, stringStartY + 2 * stringDis);
+            g2.drawString("Favorite card: " + deck.getBestCardName(), 155, stringStartY + 2 * stringDis);
         }
     }
 }

@@ -105,9 +105,6 @@ public class CardDialog extends HSDialog {
         grid.gridx = 0;
         grid.gridwidth = cards.size();
         backgroundPanel.add(okButton, grid);
-
-        //backgroundPanel.add(okButton);
-        //okButton.setBounds(width / 2, height / 2, SizeConfigs.smallButtonWidth, SizeConfigs.smallButtonHeight);
     }
 
     public ArrayList<Card> getCards() {

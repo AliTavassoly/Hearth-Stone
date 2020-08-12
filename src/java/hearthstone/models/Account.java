@@ -34,6 +34,8 @@ public class Account {
     private int id;
     @Column
     private int cardsBackId;
+    @Column
+    private int cup;
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -61,7 +63,6 @@ public class Account {
     @PostLoad
     void postLoad() {
         this.heroes = new ArrayList<>(this.heroes);
-        //this.decks = new ArrayList<>(this.decks);
         this.unlockedCards = new ArrayList<>(this.unlockedCards);
     }
 
@@ -77,7 +78,6 @@ public class Account {
 
         heroes = new ArrayList<>();
         unlockedCards = new ArrayList<>();
-        //decks = new ArrayList<>();
 
         accountConfigs();
     }
@@ -196,6 +196,13 @@ public class Account {
         this.cardsBackId = cardsBackId;
     }
 
+    public int getCup(){
+        return cup;
+    }
+
+    public void setCup(int cup){
+        this.cup = cup;
+    }
     // End of setters and getters
 
     public void selectHero(String heroName) {
@@ -350,14 +357,14 @@ public class Account {
         return card;
     }
 
-    public void lostGame(String heroName, String deckName) {
+    public void lostGame(String heroName, String deckName, int enemyCup) {
         Hero hero = getHeroByName(heroName);
         Deck deck = hero.getDeckByName(deckName);
 
         deck.lostGame();
     }
 
-    public void wonGame(String heroName, String deckName) {
+    public void wonGame(String heroName, String deckName, int enemyCup) {
         Hero hero = getHeroByName(heroName);
         Deck  deck = hero.getDeckByName(deckName);
 

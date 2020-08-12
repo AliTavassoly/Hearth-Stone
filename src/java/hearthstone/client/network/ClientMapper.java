@@ -4,7 +4,9 @@ import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.market.MarketPanel;
+import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.models.Account;
+import hearthstone.models.AccountInfo;
 import hearthstone.models.Deck;
 import hearthstone.models.Packet;
 import hearthstone.models.card.Card;
@@ -174,6 +176,34 @@ public class ClientMapper {
     }
     // MARKET
 
+    // RANKING
+    public static void rankingRequest() {
+        Packet packet = new Packet("rankingRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void rankingResponse(ArrayList<AccountInfo> topRanks, ArrayList<AccountInfo> nearRanks) {
+        HSClient.getClient().openRanking(topRanks, nearRanks);
+    }
+
+    public static void startUpdateRanking() {
+        Packet packet = new Packet("startUpdateRanking",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void updateRanking(ArrayList<AccountInfo> topRanks, ArrayList<AccountInfo> nearRanks){
+        RankingPanel.getInstance().updatePanel(topRanks, nearRanks);
+    }
+
+    public static void stopUpdateRanking() {
+        Packet packet = new Packet("stopUpdateRanking",
+                null);
+        HSClient.sendPacket(packet);
+    }
+    // RANKING
+
     // ERROR
     public static void showLoginError(String error) {
         HSClient.getClient().showLoginError(error);
@@ -281,6 +311,22 @@ public class ClientMapper {
 
     public static void onlineGameCancelRequest() {
         Packet packet = new Packet("onlineGameCancelRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void deckReaderGameRequest() {
+        Packet packet = new Packet("deckReaderGameRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void deckReaderGameResponse(Player myPlayer, Player enemyPlayer) {
+        HSClient.getClient().makeNewDeckReaderGame(myPlayer, enemyPlayer);
+    }
+
+    public static void deckReaderGameCancelRequest() {
+        Packet packet = new Packet("deckReaderGameCancelRequest",
                 null);
         HSClient.sendPacket(packet);
     }

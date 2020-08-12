@@ -1,10 +1,6 @@
 package hearthstone.client.gui.game.waitingpanels;
 
 import hearthstone.client.gui.controls.buttons.ImageButton;
-import hearthstone.client.gui.controls.icons.LogoutIcon;
-import hearthstone.client.gui.game.GameFrame;
-import hearthstone.client.gui.game.play.PlaySelectionPanel;
-import hearthstone.client.network.ClientMapper;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.getresource.ImageResource;
 
@@ -18,10 +14,14 @@ public class WaitForOpponentPanel extends JPanel {
     public static BufferedImage backgroundImage;
     private ImageButton cancelButton;
 
+    private CancelOperation cancelOperation;
+
     private final int iconX = 20;
     private final int iconY = 20;
 
-    public WaitForOpponentPanel(){
+    public WaitForOpponentPanel(CancelOperation cancelOperation){
+        this.cancelOperation = cancelOperation;
+
         configPanel();
 
         makeButtons();
@@ -54,8 +54,7 @@ public class WaitForOpponentPanel extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ClientMapper.onlineGameCancelRequest();
-                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), PlaySelectionPanel.makeInstance());
+                cancelOperation.operation();
             }
         });
     }

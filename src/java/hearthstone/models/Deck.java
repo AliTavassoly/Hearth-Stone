@@ -33,6 +33,8 @@ public class Deck implements Comparable<Deck> {
     private int totalGames;
     @Column
     private int winGames;
+    @Column
+    private int cup;
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -115,6 +117,14 @@ public class Deck implements Comparable<Deck> {
 
     public HeroType getHeroType() {
         return heroType;
+    }
+
+    public int getCup(){
+        return cup;
+    }
+
+    public void setCup(int cup){
+        this.cup = cup;
     }
 
     public int getWinPercentage() {
@@ -258,6 +268,11 @@ public class Deck implements Comparable<Deck> {
 
     @Override
     public int compareTo(Deck deck) {
+        if (this.getCup() != deck.getCup()) {
+            if (this.getCup() > deck.getCup())
+                return -1;
+            return 1;
+        }
         if (this.getWinPercentage() != deck.getWinPercentage()) {
             if (this.getWinPercentage() > deck.getWinPercentage())
                 return -1;
@@ -268,11 +283,11 @@ public class Deck implements Comparable<Deck> {
                 return -1;
             return 1;
         }
-        if(this.getTotalGames() != deck.getTotalGames()){
+        /*if(this.getTotalGames() != deck.getTotalGames()){
             if (this.getTotalGames() > deck.getTotalGames())
                 return -1;
             return 1;
-        }
+        }*/
         if(this.getManaAv() != deck.getManaAv()){
             if(this.getManaAv() < deck.getManaAv())
                 return -1;

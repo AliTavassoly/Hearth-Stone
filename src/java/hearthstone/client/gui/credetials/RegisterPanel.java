@@ -65,7 +65,7 @@ public class RegisterPanel extends JPanel {
         return instance = new RegisterPanel();
     }
 
-    public static RegisterPanel getInstance(){
+    public static RegisterPanel getInstance() {
         return instance;
     }
 
@@ -181,33 +181,35 @@ public class RegisterPanel extends JPanel {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                RegisterPanel.this.checkValid();
-                ClientMapper.registerRequest(nameField.getText(), userField.getText(),
-                        new String(passField.getPassword()));
+                if (RegisterPanel.this.checkValid())
+                    ClientMapper.registerRequest(nameField.getText(), userField.getText(),
+                            new String(passField.getPassword()));
             }
         });
     }
 
-    private void checkValid() {
+    private boolean checkValid() {
         String pass1 = new String(passField.getPassword());
         String pass2 = new String(repField.getPassword());
 
-        if(nameField.getText().length() == 0){
+        if (nameField.getText().length() == 0) {
             showError("name should contain at least one character!");
-            return;
+            return false;
         }
-        if(userField.getText().length() == 0){
+        if (userField.getText().length() == 0) {
             showError("username should contain at least one character!");
-            return;
+            return false;
         }
-        if(pass1.length() == 0) {
+        if (pass1.length() == 0) {
             showError("passwords should contain at least one character!");
-            return;
+            return false;
         }
 
-        if(!pass1.equals(pass2)){
+        if (!pass1.equals(pass2)) {
             showError("passwords does not match!");
+            return false;
         }
+        return true;
     }
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {
@@ -262,7 +264,7 @@ public class RegisterPanel extends JPanel {
         add(closeButton);
     }
 
-    public void showError(String error){
+    public void showError(String error) {
         this.error = error;
         repaint();
     }
