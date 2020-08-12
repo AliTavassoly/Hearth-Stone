@@ -738,4 +738,34 @@ public class HSServer extends Thread {
         }
         return safePlayer;
     }
+
+    // SETTINGS
+    public void changePassword(String password, ClientHandler clientHandler) {
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+
+        ServerData.changePassword(clientHandler.getUsername(), password);
+
+        DataBase.save(account);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+    }
+
+    public void changeName(String name, ClientHandler clientHandler) {
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+        account.setName(name);
+
+        DataBase.save(account);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+    }
+
+    public void changeBackCard(int backId, ClientHandler clientHandler) {
+        Account account = clients.get(clientHandler.getUsername()).getAccount();
+        account.setCardsBackId(backId);
+
+        DataBase.save(account);
+
+        updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+    }
+    // SETTINGS
 }

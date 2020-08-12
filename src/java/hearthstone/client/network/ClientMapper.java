@@ -445,4 +445,24 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
     // MIDDLE OF GAME
+
+    // SETTINGS
+    public static void changePasswordRequest(String password) {
+        Packet packet = new Packet("changePasswordRequest",
+                new Object[]{password});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void changeNameRequest(String name) {
+        Packet packet = new Packet("changeNameRequest",
+                new Object[]{name});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void changeBackCard(int backId) {
+        Packet packet = new Packet("changeBackCard",
+                new Object[]{backId});
+        HSClient.sendPacket(packet);
+    }
+    // SETTINGS
 }

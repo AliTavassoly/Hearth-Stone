@@ -112,10 +112,9 @@ public class SettingsPanel extends JPanel {
                 String newPassword = passwordDialog.getValue();
 
                 if (newPassword.length() > 0) {
-                    ServerData.changePassword(HSClient.currentAccount.getUsername(),
-                            newPassword);
-                } else {
-                    return;
+                    /*ServerData.changePassword(HSClient.currentAccount.getUsername(),
+                            newPassword);*/
+                    ClientMapper.changePasswordRequest(newPassword);
                 }
             }
         });
@@ -128,9 +127,7 @@ public class SettingsPanel extends JPanel {
                 String newName = nameDialog.getValue();
 
                 if (newName.length() > 0)
-                    HSClient.currentAccount.setName(newName);
-                else
-                    return;
+                    ClientMapper.changeNameRequest(newName);
             }
         });
 
@@ -139,7 +136,8 @@ public class SettingsPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 CardsBackDialog cardsBackDialog = new CardsBackDialog(GameFrame.getInstance());
 
-                HSClient.currentAccount.setCardsBackId(cardsBackDialog.getId());
+                // HSClient.currentAccount.setCardsBackId(cardsBackDialog.getId());
+                ClientMapper.changeBackCard(cardsBackDialog.getId());
             }
         });
 

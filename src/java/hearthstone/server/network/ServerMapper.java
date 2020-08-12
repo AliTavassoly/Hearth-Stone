@@ -506,4 +506,18 @@ public class ServerMapper {
         HSServer.getInstance().getPlayer(playerId).getHero().setHealth(0);
     }
     // MIDDLE OF GAME
+
+    // SETTINGS
+    public static void changePasswordRequest(String password, ClientHandler clientHandler) {
+        HSServer.getInstance().changePassword(password, clientHandler);
+    }
+
+    public static void changeNameRequest(String name, ClientHandler clientHandler) {
+        HSServer.getInstance().changeName(name, clientHandler);
+    }
+
+    public static void changeBackCard(int backId, ClientHandler clientHandler) {
+        HSServer.getInstance().changeBackCard(backId, clientHandler);
+    }
+    // SETTINGS
 }
