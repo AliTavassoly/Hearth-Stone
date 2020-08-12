@@ -296,12 +296,18 @@ public class Deck implements Comparable<Deck> {
         return 0;
     }
 
-    public void lostGame() {
+    public void lostGame(int cupDiff) {
         totalGames++;
+
+        this.cup += cupDiff;
+        this.cup = Math.max(0, this.cup);
     }
 
-    public void wonGame(){
+    public void wonGame(int cupDiff){
         totalGames++;
         winGames++;
+
+        this.cup += cupDiff;
+        this.cup = Math.max(0, this.cup);
     }
 }

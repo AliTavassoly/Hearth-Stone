@@ -52,6 +52,10 @@ public class Account {
     @JsonSerialize(converter = IntegerListSerializer.class)
     private List<Integer> unlockedCards;
 
+    @ElementCollection
+    @JsonSerialize(converter = IntegerListSerializer.class)
+    private List<Integer> gamesCup;
+
     @OneToOne
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -64,6 +68,7 @@ public class Account {
     void postLoad() {
         this.heroes = new ArrayList<>(this.heroes);
         this.unlockedCards = new ArrayList<>(this.unlockedCards);
+        this.gamesCup = new ArrayList<>(this.gamesCup);
     }
 
     public Account() {
@@ -78,6 +83,7 @@ public class Account {
 
         heroes = new ArrayList<>();
         unlockedCards = new ArrayList<>();
+        gamesCup = new ArrayList<>();
 
         accountConfigs();
     }
@@ -357,17 +363,43 @@ public class Account {
         return card;
     }
 
-    public void lostGame(String heroName, String deckName, int enemyCup) {
-        Hero hero = getHeroByName(heroName);
-        Deck deck = hero.getDeckByName(deckName);
+    public void lostGame(String heroName, String deckName, int enemyCup, boolean updateDeck) {
+        int cupDiff = -(g(this.cup + enemyCup) + f(this.cup - enemyCup));
 
-        deck.lostGame();
+        this.cup += cupDiff;
+        this.cup = Math.max(0, this.cup);
+
+        if(updateDeck) {
+            Hero hero = getHeroByName(heroName);
+            Deck deck = hero.getDeckByName(deckName);
+
+            deck.lostGame(cupDiff);
+        }
     }
 
-    public void wonGame(String heroName, String deckName, int enemyCup) {
-        Hero hero = getHeroByName(heroName);
-        Deck  deck = hero.getDeckByName(deckName);
+    public void wonGame(String heroName, String deckName, int enemyCup, boolean updateDck) {
+        int cupDiff = g(this.cup + enemyCup) + f(this.cup - enemyCup);
 
-        deck.wonGame();
+        this.cup += cupDiff;
+        this.cup = Math.max(0, this.cup);
+
+        if(updateDck) {
+            Hero hero = getHeroByName(heroName);
+            Deck deck = hero.getDeckByName(deckName);
+
+            deck.wonGame(cupDiff);
+        }
+    }
+
+    public int f(int x){
+        if(x >= 0){
+            return (int)((double)2 * Math.sqrt(x));
+        } else {
+            return -(int)((double)2 * Math.sqrt(x));
+        }
+    }
+
+    public int g(int x){
+        return (int)((double)20 / ((double) x / (double) 200 + (double) 1) + (double) 30);
     }
 }

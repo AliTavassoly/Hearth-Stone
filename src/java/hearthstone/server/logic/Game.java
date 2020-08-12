@@ -85,11 +85,11 @@ public class Game extends Thread {
     @Override
     public void run() {
         try {
-            configGame();
-
             selectPassive();
 
             discardInitialCards();
+
+            configGame();
 
             player0.setMyTurn(true);
 

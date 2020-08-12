@@ -16,6 +16,8 @@ public class AccountInfosPanel extends JPanel{
     private ArrayList<AccountInfoButton> infoButtons;
     private int infoWidth, infoHeight;
 
+    private Color color;
+
     private int startX = 10;
     private int startY = 10;
     private int disY = 10;
@@ -31,6 +33,29 @@ public class AccountInfosPanel extends JPanel{
 
         for (AccountInfo accountInfo : this.accountInfos) {
             AccountInfoButton infoButton = new AccountInfoButton(accountInfo, infoWidth, infoHeight);
+            infoButtons.add(infoButton);
+        }
+
+        disY += infoHeight;
+
+        configPanel();
+
+        layoutComponent();
+    }
+
+    public AccountInfosPanel(ArrayList<AccountInfo> accountInfos, ArrayList<JPanel> panels,
+                             Color color, int infoWidth, int infoHeight) {
+        this.accountInfos = accountInfos;
+        this.panels = panels;
+        this.infoWidth = infoWidth;
+        this.infoHeight = infoHeight;
+
+        this.color = color;
+
+        infoButtons = new ArrayList<>();
+
+        for (AccountInfo accountInfo : this.accountInfos) {
+            AccountInfoButton infoButton = new AccountInfoButton(accountInfo, color, infoWidth, infoHeight);
             infoButtons.add(infoButton);
         }
 

@@ -1,6 +1,7 @@
 package hearthstone.client.gui.controls.buttons;
 
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.AccountInfo;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
@@ -13,6 +14,8 @@ public class AccountInfoButton extends ImageButton {
     int width, height;
     private AccountInfo accountInfo;
 
+    private Color color;
+
     private static BufferedImage accountIcon;
     private static BufferedImage accountInfoImage;
 
@@ -24,6 +27,20 @@ public class AccountInfoButton extends ImageButton {
         this.accountInfo = accountInfo;
         this.width = width;
         this.height = height;
+
+        setPreferredSize(new Dimension(width, height));
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        addMouseListener(this);
+    }
+
+    public AccountInfoButton(AccountInfo accountInfo, Color color, int width, int height) {
+        this.accountInfo = accountInfo;
+        this.width = width;
+        this.height = height;
+
+        this.color = color;
 
         setPreferredSize(new Dimension(width, height));
         setBorderPainted(false);
@@ -63,6 +80,9 @@ public class AccountInfoButton extends ImageButton {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
+
+        if(this.color != null && accountInfo.getUsername().equals(HSClient.currentAccount.getUsername()))
+            g2.setColor(this.color);
 
         g2.drawString("Rank: " + accountInfo.getRank(), stringsX, stringStartY);
         g2.drawString("Username: " + accountInfo.getUsername(), stringsX, stringStartY + stringDis);

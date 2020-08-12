@@ -16,7 +16,6 @@ public class ManaJump extends Passive implements StartGameBehave {
 
     @Override
     public void startGameBehave() {
-        //Mapper.setExtraMane(getPlayerId(), 1);
         HSServer.getInstance().getPlayer(getPlayerId()).setExtraMana(1);
     }
 }

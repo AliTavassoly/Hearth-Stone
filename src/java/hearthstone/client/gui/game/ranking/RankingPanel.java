@@ -123,7 +123,7 @@ public class RankingPanel extends JPanel {
             panels.add(null);
         }
 
-        nearRanksPanel = new AccountInfosPanel(accounts, panels,
+        nearRanksPanel = new AccountInfosPanel(accounts, panels, Color.RED,
                 GUIConfigs.accountInfoWidth, GUIConfigs.accountInfoHeight);
         nearRanksScroll = new JScrollPane(nearRanksPanel);
         nearRanksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

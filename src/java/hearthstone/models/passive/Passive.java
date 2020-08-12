@@ -8,6 +8,7 @@ import hearthstone.server.network.HSServer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public abstract class Passive {
@@ -16,6 +17,7 @@ public abstract class Passive {
     @Column
     private String name;
 
+    // @Transient
     @JsonProperty("playerId")
     protected int playerId;
 
@@ -33,7 +35,6 @@ public abstract class Passive {
 
     public int getPlayerId() {
         return playerId;
-
     }
 
     public void log(){

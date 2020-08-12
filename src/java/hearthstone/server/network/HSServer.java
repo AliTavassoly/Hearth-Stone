@@ -1,7 +1,6 @@
 package hearthstone.server.network;
 
 import hearthstone.client.data.ClientData;
-import hearthstone.client.network.HSClient;
 import hearthstone.models.Account;
 import hearthstone.models.AccountCredential;
 import hearthstone.models.AccountInfo;
@@ -21,6 +20,8 @@ import hearthstone.server.model.UpdateWaiter;
 import hearthstone.server.model.updaters.RankingUpdater;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.timer.HSPeriodTask;
+import hearthstone.util.timer.HSPeriodTimer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -45,6 +46,8 @@ public class HSServer extends Thread {
     private final Object waitingForGameLock = new Object();
     private final Object waitingForDeckReaderGameLock = new Object();
 
+    private HSPeriodTimer onlineGameFinder, deckReaderGameFinder;
+
     public static Market market = new Market();
 
     private HSServer(int serverPort) {
@@ -54,18 +57,87 @@ public class HSServer extends Thread {
             System.out.println("Server Started at: " + serverPort);
 
             configServer();
+
+            startOnlineMathFinder();
+
+            startDeckReaderMathFinder();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void endTurnGuiResponse(ClientHandler clientHandler) {
-        String username0 = clients.get(clientHandler.getUsername()).getClientHandler().getGame().getFirstPlayer().getUsername();
-        String username1 = clients.get(clientHandler.getUsername()).getClientHandler().getGame().getSecondPlayer().getUsername();
+    private void startOnlineMathFinder(){
+        onlineGameFinder = new HSPeriodTimer(500, new HSPeriodTask() {
+            @Override
+            public void startFunction() {}
 
-        ServerMapper.endTurnResponse(clients.get(username0).getClientHandler());
+            @Override
+            public void periodFunction() {
+                synchronized (waitingForGameLock){
+                    for(int i = 0; i < waitingForGame.size(); i++){
+                        for(int j = i + 1; j < waitingForGame.size(); j++){
+                            if(HSServer.getInstance().canMatch(waitingForGame.get(i), waitingForGame.get(j))){
+                                String user0 = waitingForGame.get(i);
+                                String user1 = waitingForGame.get(j);
 
-        ServerMapper.endTurnResponse(clients.get(username1).getClientHandler());
+                                waitingForGame.remove(user0);
+                                waitingForGame.remove(user1);
+
+                                makeNewOnlineGame(user0, user1);
+
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public boolean finishCondition() { return false; }
+        });
+        onlineGameFinder.start();
+    }
+
+    private void startDeckReaderMathFinder(){
+        deckReaderGameFinder = new HSPeriodTimer(500, new HSPeriodTask() {
+            @Override
+            public void startFunction() {}
+
+            @Override
+            public void periodFunction() {
+                synchronized (waitingForDeckReaderGameLock){
+                    for(int i = 0; i < waitingForDeckReaderGame.size(); i++){
+                        for(int j = i + 1; j < waitingForDeckReaderGame.size(); j++){
+                            if(HSServer.getInstance().canMatch(waitingForDeckReaderGame.get(i), waitingForDeckReaderGame.get(j))){
+                                String user0 = waitingForDeckReaderGame.get(i);
+                                String user1 = waitingForDeckReaderGame.get(j);
+
+                                waitingForDeckReaderGame.remove(user0);
+                                waitingForDeckReaderGame.remove(user1);
+
+                                try {
+                                    makeNewDeckReaderGame(user0, user1);
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public boolean finishCondition() { return false; }
+        });
+        deckReaderGameFinder.start();
+    }
+
+    private boolean canMatch(String user0, String user1) {
+        return true;
     }
 
     private void configServer() {
@@ -218,36 +290,14 @@ public class HSServer extends Thread {
 
     // GAME REQUEST
     public void onlineGameRequest(ClientHandler clientHandler) {
-        String username0 = null, username1 = null;
-
         synchronized (waitingForGameLock) {
             waitingForGame.add(clientHandler.getUsername());
-            if (waitingForGame.size() >= 2) {
-                username1 = waitingForGame.remove(waitingForGame.size() - 1);
-                username0 = waitingForGame.remove(0);
-            }
         }
-
-        makeNewOnlineGame(username0, username1);
     }
 
     public void deckReaderGameRequest(ClientHandler clientHandler) {
-        String username0 = null, username1 = null;
-
         synchronized (waitingForDeckReaderGameLock) {
             waitingForDeckReaderGame.add(clientHandler.getUsername());
-            if (waitingForDeckReaderGame.size() >= 2) {
-                username1 = waitingForDeckReaderGame.remove(waitingForDeckReaderGame.size() - 1);
-                username0 = waitingForDeckReaderGame.remove(0);
-            }
-        }
-
-        if (username0 != null && username1 != null) {
-            try {
-                makeNewDeckReaderGame(username0, username1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -304,13 +354,13 @@ public class HSServer extends Thread {
         Player player0 = getFirstPlayerInDeckReader(username0);
         Player player1 = getSecondPlayerInDeckReader(username1);
 
-        Game game = new OnlineGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.ONLINE_GAME);
+        Game game = new OnlineGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.DECK_READER_GAME);
 
         clients.get(username0).setCurrentGame(game);
         clients.get(username1).setCurrentGame(game);
 
-        clients.get(player0.getUsername()).getClientHandler().setGame(game);
-        clients.get(player1.getUsername()).getClientHandler().setGame(game);
+        clients.get(username0).getClientHandler().setGame(game);
+        clients.get(username1).getClientHandler().setGame(game);
 
         ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
         ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
@@ -545,19 +595,24 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
-        String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
+        /*System.out.println(clients.get(username) + " " + clients.get(username).getClientHandler() + " " +
+                clients.get(username).getClientHandler().getGame() + " " + clients.get(username).getClientHandler().getGame().getFirstPlayer() + " " +
+                clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername());
+        */
 
-        Player player0 = clients.get(username0).getClientHandler().getGame().getFirstPlayer();
-        Player player1 = clients.get(username1).getClientHandler().getGame().getSecondPlayer();
+        String username0 = clients.get(username).getCurrentGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(username).getCurrentGame().getSecondPlayer().getUsername();
+
+        Player player0 = clients.get(username0).getCurrentGame().getFirstPlayer();
+        Player player1 = clients.get(username1).getCurrentGame().getSecondPlayer();
 
         player0.updatePlayer();
         player1.updatePlayer();
 
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.updateBoardRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
 
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.updateBoardRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
         else
             ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
@@ -569,16 +624,16 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        String username0 = clients.get(username).getClientHandler().getGame().getFirstPlayer().getUsername();
-        String username1 = clients.get(username).getClientHandler().getGame().getSecondPlayer().getUsername();
+        String username0 = clients.get(username).getCurrentGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(username).getCurrentGame().getSecondPlayer().getUsername();
 
-        Player player0 = clients.get(username0).getClientHandler().getGame().getFirstPlayer();
-        Player player1 = clients.get(username1).getClientHandler().getGame().getSecondPlayer();
+        Player player0 = clients.get(username0).getCurrentGame().getFirstPlayer();
+        Player player1 = clients.get(username1).getCurrentGame().getSecondPlayer();
 
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.startGameOnGuiRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
 
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.startGameOnGuiRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
         else
             ServerMapper.startGameOnGuiRequest(player0, player1, clients.get(username0).getClientHandler());
@@ -591,7 +646,7 @@ public class HSServer extends Thread {
         Player player1 = clients.get(player.getUsername()).getCurrentGame().getSecondPlayer();
 
         ServerMapper.animateSpellRequest(card, clients.get(player0.getUsername()).getClientHandler());
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.animateSpellRequest(card, clients.get(player1.getUsername()).getClientHandler());
     }
 
@@ -612,21 +667,30 @@ public class HSServer extends Thread {
     }
 
     private void updateGameEndedInGui(Player player0, Player player1) {
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             player1 = getSafePlayer(player1);
 
         updateGameRequest(player0.getPlayerId());
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             updateGameRequest(player1.getPlayerId());
 
         ServerMapper.endGameRequest(clients.get(player0.getUsername()).getClientHandler());
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             ServerMapper.endGameRequest(clients.get(player1.getUsername()).getClientHandler());
+    }
+
+    public void endTurnGuiResponse(ClientHandler clientHandler) {
+        String username0 = clients.get(clientHandler.getUsername()).getCurrentGame().getFirstPlayer().getUsername();
+        String username1 = clients.get(clientHandler.getUsername()).getCurrentGame().getSecondPlayer().getUsername();
+
+        ServerMapper.endTurnResponse(clients.get(username0).getClientHandler());
+
+        ServerMapper.endTurnResponse(clients.get(username1).getClientHandler());
     }
 
     private void updateGameEndedInClients(String username0, String username1) {
         clients.get(username0).getClientHandler().gameEnded();
-        if (clients.get(username0).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(username0))
             clients.get(username1).getClientHandler().gameEnded();
     }
 
@@ -635,7 +699,7 @@ public class HSServer extends Thread {
 
         updateGameEndedInClients(player0.getUsername(), player1.getUsername());
 
-        if (clients.get(player0.getUsername()).getCurrentGame().getGameType() == GameType.ONLINE_GAME)
+        if (isOnlineGame(player0))
             updateGameEndedInAccounts(player0, player1);
 
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT, UpdateWaiter.UpdaterType.RANKING});
@@ -669,12 +733,15 @@ public class HSServer extends Thread {
         Account account0 = clients.get(player0.getUsername()).getAccount();
         Account account1 = clients.get(player1.getUsername()).getAccount();
 
-        if (player0.getHero().getHealth() <= 0) {
-            account0.lostGame(player0.getHero().getName(), player0.getDeck().getName(), account1.getCup());
-            account1.wonGame(player1.getHero().getName(), player1.getDeck().getName(), account0.getCup());
-        } else {
-            account0.wonGame(player0.getHero().getName(), player0.getDeck().getName(), account1.getCup());
-            account1.lostGame(player1.getHero().getName(), player1.getDeck().getName(), account0.getCup());
+        int cup0 = account0.getCup();
+        int cup1 = account1.getCup();
+
+        if (player0.getHero().getHealth() <= 0 && isOnlineGame(player0)) {
+            account0.lostGame(player0.getHero().getName(), player0.getDeck().getName(), cup1, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
+            account1.wonGame(player1.getHero().getName(), player1.getDeck().getName(), cup0, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
+        } else if(isOnlineGame(player0)){
+            account0.wonGame(player0.getHero().getName(), player0.getDeck().getName(), cup0, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
+            account1.lostGame(player1.getHero().getName(), player1.getDeck().getName(), cup1, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
         }
 
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
@@ -745,27 +812,40 @@ public class HSServer extends Thread {
 
         ServerData.changePassword(clientHandler.getUsername(), password);
 
-        DataBase.save(account);
-
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+
+        DataBase.save(account);
     }
 
     public void changeName(String name, ClientHandler clientHandler) {
         Account account = clients.get(clientHandler.getUsername()).getAccount();
         account.setName(name);
 
-        DataBase.save(account);
-
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+
+        DataBase.save(account);
     }
 
     public void changeBackCard(int backId, ClientHandler clientHandler) {
         Account account = clients.get(clientHandler.getUsername()).getAccount();
         account.setCardsBackId(backId);
 
-        DataBase.save(account);
-
         updateWaiters(new UpdateWaiter.UpdaterType[]{UpdateWaiter.UpdaterType.ACCOUNT});
+
+        DataBase.save(account);
     }
     // SETTINGS
+
+    private boolean isOnlineGame(String username){
+        //System.out.println("Is ONlineeeeeeeeeeeE: " + clients.get(username).getClientHandler() + " " + clients.get(username).getCurrentGame());
+        //System.out.println("Is ONlineeeeeeeeeeeE: " +   clients.size() + " " + clients);
+        // System.out.println("In online game: " + clients.get(username).getClientHandler());
+
+        GameType gameType = clients.get(username).getCurrentGame().getGameType();
+        return gameType == GameType.ONLINE_GAME || gameType == GameType.DECK_READER_GAME;
+    }
+
+    private boolean isOnlineGame(Player player){
+        return isOnlineGame(player.getUsername());
+    }
 }

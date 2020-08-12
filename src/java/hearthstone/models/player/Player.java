@@ -89,8 +89,9 @@ public class Player {
             configCard(card);
         }
 
-        if (passive != null)
+        if (passive != null) {
             configPassive(passive);
+        }
 
         configHero(hero);
 
@@ -648,7 +649,7 @@ public class Player {
     }
 
     public void configPassive(Passive passive) {
-        passive.setPlayerId(getPlayerId());
+        passive.setPlayerId(playerId);
     }
 
     private void configCard(Card card) {
