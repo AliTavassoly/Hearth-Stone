@@ -57,6 +57,8 @@ public class Sacrificer extends HeroPowerCard {
 
     @Override
     public void found(Object object) {
+        if(!canAttack)
+            return;
         if(object instanceof Hero && ((Hero)object).getPlayerId() == this.getPlayerId()) {
             doAbility(((Hero)object));
             numberOfAttack--;

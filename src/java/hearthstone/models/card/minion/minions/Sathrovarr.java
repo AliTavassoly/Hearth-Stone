@@ -68,6 +68,9 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(!canAttack)
+            return;
+
         if (isFirstTurn)
             doBattlecry(object);
         else

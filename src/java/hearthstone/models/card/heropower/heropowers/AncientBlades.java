@@ -81,6 +81,8 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
 
     @Override
     public void found(Object object) {
+        if(!canAttack)
+            return;
         if (object instanceof Hero && ((Hero) object).getPlayerId() == this.getPlayerId()) {
             doAbility();
             numberOfAttack--;

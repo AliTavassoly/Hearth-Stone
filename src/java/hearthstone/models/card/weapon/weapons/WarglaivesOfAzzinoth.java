@@ -67,6 +67,8 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(!canAttack)
+            return;
         if (object instanceof MinionCard) {
             if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");

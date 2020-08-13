@@ -96,6 +96,9 @@ public class Account {
 
         ArrayList<Card> cards = new ArrayList<>();
         for (Card card : ServerData.baseCards.values()) {
+            if(card.getName().equals("Empty Card"))
+                continue;
+
             if (card.getCardType() == CardType.HERO_POWER) {
                 unlockedCards.add(card.getId());
                 continue;
@@ -369,6 +372,8 @@ public class Account {
         this.cup += cupDiff;
         this.cup = Math.max(0, this.cup);
 
+        this.gamesCup.add(cupDiff);
+
         if(updateDeck) {
             Hero hero = getHeroByName(heroName);
             Deck deck = hero.getDeckByName(deckName);
@@ -382,6 +387,8 @@ public class Account {
 
         this.cup += cupDiff;
         this.cup = Math.max(0, this.cup);
+
+        this.gamesCup.add(cupDiff);
 
         if(updateDck) {
             Hero hero = getHeroByName(heroName);
@@ -401,5 +408,19 @@ public class Account {
 
     public int g(int x){
         return (int)((double)20 / ((double) x / (double) 200 + (double) 1) + (double) 30);
+    }
+
+    public int h(int x){
+        return (int)(-(double) x * x * (double)(1 / 50) + 50);
+    }
+
+    public long getGamesValue(){
+        long ans = 0;
+
+        for(int i = 0; i < Math.min(gamesCup.size(), 50); i++){
+            int ind = gamesCup.size() - i - 1;
+            ans += h(i) * gamesCup.get(ind);
+        }
+        return ans;
     }
 }

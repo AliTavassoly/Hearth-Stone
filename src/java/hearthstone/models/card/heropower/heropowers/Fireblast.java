@@ -74,6 +74,8 @@ public class Fireblast extends HeroPowerCard {
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(!canAttack)
+            return;
         if (object instanceof MinionCard) {
             MinionCard minionCard = (MinionCard) object;
             if (minionCard.getPlayerId() == this.getPlayerId())

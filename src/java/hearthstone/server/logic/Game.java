@@ -216,7 +216,7 @@ public class Game extends Thread {
         return null;
     }
 
-    public void foundObject(Object waitedCardId, Object founded) throws HearthStoneException {
+    public synchronized void foundObject(Object waitedCardId, Object founded) throws HearthStoneException {
         if (!(waitedCardId instanceof Card)) {
             throw new HearthStoneException("Strange Object founded!");
         }
@@ -244,5 +244,13 @@ public class Game extends Thread {
                 break;
             }
         }
+    }
+
+    public Player getPlayerByUsername(String username) {
+        if(player0.getUsername().equals(username))
+            return player0;
+        else if(player1.getUsername().equals(username))
+            return player1;
+        return null;
     }
 }

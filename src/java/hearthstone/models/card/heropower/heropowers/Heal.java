@@ -25,6 +25,8 @@ public class Heal extends HeroPowerCard {
 
     @Override
     public void found(Object object) {
+        if(!canAttack)
+            return;
         if(object instanceof Hero){
             Hero hero = (Hero)object;
 

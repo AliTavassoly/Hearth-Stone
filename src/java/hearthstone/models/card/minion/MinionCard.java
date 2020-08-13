@@ -453,6 +453,8 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(!canAttack)
+            return;
         if (object instanceof MinionCard) {
             MinionCard minion = (MinionCard) object;
             if (minion.getPlayerId() == this.getPlayerId()) {

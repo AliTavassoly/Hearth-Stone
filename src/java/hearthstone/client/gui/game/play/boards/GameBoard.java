@@ -1217,7 +1217,7 @@ public class GameBoard extends JPanel implements MouseListener {
             try {
                 SoundPlayer loseSound = new SoundPlayer("/sounds/lose.wav");
 
-                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Ooops! You lost the game :(",
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "Ooops! You lost game :(",
                         GUIConfigs.dialogWidth, GUIConfigs.dialogHeight, loseSound);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1226,7 +1226,7 @@ public class GameBoard extends JPanel implements MouseListener {
             try {
                 SoundPlayer victorySound = new SoundPlayer("/sounds/victory.wav");
 
-                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "congratulations! You won the game!",
+                ErrorDialog errorDialog = new ErrorDialog(GameFrame.getInstance(), "congratulations! You won game!",
                         new Color(38, 104, 23),
                         GUIConfigs.dialogWidth, GUIConfigs.dialogHeight, victorySound);
             } catch (Exception e) {

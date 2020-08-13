@@ -133,6 +133,8 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(!canAttack)
+            return;
         if (object instanceof MinionCard) {
             if (((Card) object).getPlayerId() == this.getPlayerId()) {
                 throw new HearthStoneException("Choose enemy!");
