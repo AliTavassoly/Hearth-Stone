@@ -41,8 +41,8 @@ public class RankingPanel extends JPanel {
     private final int startTopRankListY = (GUIConfigs.gameFrameHeight - GUIConfigs.rankingListHeight) / 2;
     private final int startTopRankListX = 100;
 
-    private final int startMyRankListY = (GUIConfigs.gameFrameHeight - GUIConfigs.rankingListHeight) / 2;
-    private final int startMtRankListX = GUIConfigs.gameFrameWidth - GUIConfigs.rankingListWidth - 20;
+    private final int startNearRankListY = (GUIConfigs.gameFrameHeight - GUIConfigs.rankingListHeight) / 2;
+    private final int startNearRankListX = GUIConfigs.gameFrameWidth - GUIConfigs.rankingListWidth - 20;
 
     private RankingPanel() {
         configPanel();
@@ -51,7 +51,7 @@ public class RankingPanel extends JPanel {
 
         makeTopRanksList();
 
-        makeMyRanksList();
+        makeNearRanksList();
 
         layoutComponent();
     }
@@ -102,7 +102,7 @@ public class RankingPanel extends JPanel {
             panels.add(null);
         }
 
-        topRanksPanel = new AccountInfosPanel(accounts, panels,
+        topRanksPanel = new AccountInfosPanel(accounts, panels, Color.RED,
                 GUIConfigs.accountInfoWidth, GUIConfigs.accountInfoHeight);
         topRanksScroll = new JScrollPane(topRanksPanel);
         topRanksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -114,7 +114,7 @@ public class RankingPanel extends JPanel {
         topRanksScroll.setBorder(null);
     }
 
-    private void makeMyRanksList() {
+    private void makeNearRanksList() {
         ArrayList<AccountInfo> accounts = new ArrayList<>();
         ArrayList<JPanel> panels = new ArrayList<>();
 
@@ -169,7 +169,7 @@ public class RankingPanel extends JPanel {
                 GUIConfigs.rankingListHeight);
         add(topRanksScroll);
 
-        nearRanksScroll.setBounds(startMtRankListX, startMyRankListY,
+        nearRanksScroll.setBounds(startNearRankListX, startNearRankListY,
                 GUIConfigs.rankingListWidth,
                 GUIConfigs.rankingListHeight);
         add(nearRanksScroll);
@@ -179,7 +179,7 @@ public class RankingPanel extends JPanel {
         RankingPanel.topRanks = topRanks;
         RankingPanel.nearRanks = nearRanks;
 
-        makeMyRanksList();
+        makeNearRanksList();
         makeTopRanksList();
 
         revalidate();

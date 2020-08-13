@@ -6,6 +6,7 @@ import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.*;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;
+import hearthstone.client.gui.controls.icons.WatchersIcon;
 import hearthstone.client.gui.controls.interfaces.HaveCard;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.credetials.CredentialsFrame;
@@ -15,13 +16,9 @@ import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.gui.util.Animation;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.models.card.Card;
-import hearthstone.models.card.CardType;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
-import hearthstone.models.card.weapon.WeaponBehaviour;
-import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.player.Player;
-import hearthstone.server.network.HSServer;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.*;
@@ -38,11 +35,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel implements MouseListener {
-    private ImageButton backButton, minimizeButton, closeButton;
+    protected ImageButton backButton, minimizeButton, closeButton, watchersButton;
     protected ImageButton endTurnButton;
     protected BoardHeroButton myHero;
     protected BoardHeroButton enemyHero;
-    private final SoundPlayer soundPlayer;
+    protected final SoundPlayer soundPlayer;
 
     protected Player myPlayer, enemyPlayer;
 
@@ -62,80 +59,81 @@ public class GameBoard extends JPanel implements MouseListener {
     protected boolean isLookingFor;
     protected Object waitingObject;
 
-    private static BufferedImage backgroundImage;
-    private static BufferedImage manaImage;
+    protected static BufferedImage backgroundImage;
+    protected static BufferedImage manaImage;
 
     protected MessageDialog myMessageDialog;
     protected MessageDialog enemyMessageDialog;
 
     // Finals START
-    private final int boardStartX = GUIConfigs.gameFrameWidth / 2 - 360;
-    private final int boardEndX = GUIConfigs.gameFrameWidth / 2 + 360;
+    protected final int boardStartX = GUIConfigs.gameFrameWidth / 2 - 360;
+    protected final int boardEndX = GUIConfigs.gameFrameWidth / 2 + 360;
 
-    private final int midX = GUIConfigs.gameFrameWidth / 2;
-    private final int midY = GUIConfigs.gameFrameHeight / 2 - 23;
+    protected final int midX = GUIConfigs.gameFrameWidth / 2;
+    protected final int midY = GUIConfigs.gameFrameHeight / 2 - 23;
 
-    private final int iconX = 20;
-    private final int startIconY = 20;
-    private final int endIconY = GUIConfigs.gameFrameHeight - GUIConfigs.iconHeight - 20;
-    private final int iconsDis = 70;
+    protected final int leftIconX = 20;
+    protected final int rightIconX = GUIConfigs.gameFrameWidth - 20 - GUIConfigs.iconWidth;
+    protected final int startIconY = 20;
+    protected final int endIconY = GUIConfigs.gameFrameHeight - GUIConfigs.iconHeight - 20;
+    protected final int iconsDis = 70;
 
-    private final int endTurnButtonX = 882;
-    private final int endTurnButtonY = 300;
+    protected final int endTurnButtonX = 882;
+    protected final int endTurnButtonY = 300;
 
-    private final int manaX = 770;
-    private final int manaY = 638;
-    private final int manaDis = 0;
-    private final int myManaStringX = 742;
-    private final int myManaStringY = 658;
+    protected final int manaX = 770;
+    protected final int manaY = 638;
+    protected final int manaDis = 0;
+    protected final int myManaStringX = 742;
+    protected final int myManaStringY = 658;
 
-    private final int enemyManaStringX = 713;
-    private final int enemyManaStringY = 53;
+    protected final int enemyManaStringX = 713;
+    protected final int enemyManaStringY = 53;
 
-    private final int myHeroX = midX - 60;
-    private final int myHeroY = GUIConfigs.gameFrameHeight - 236;
+    protected final int myHeroX = midX - 60;
+    protected final int myHeroY = GUIConfigs.gameFrameHeight - 236;
 
-    private final int myHeroPowerX = midX + 52;
-    private final int myHeroPowerY = GUIConfigs.gameFrameHeight - 220;
+    protected final int myHeroPowerX = midX + 52;
+    protected final int myHeroPowerY = GUIConfigs.gameFrameHeight - 220;
 
-    private final int enemyHeroPowerX = midX + 52;
-    private final int enemyHeroPowerY = 90;
+    protected final int enemyHeroPowerX = midX + 52;
+    protected final int enemyHeroPowerY = 90;
 
-    private final int myWeaponX = midX - 165;
-    private final int myWeaponY = GUIConfigs.gameFrameHeight - 220;
+    protected final int myWeaponX = midX - 165;
+    protected final int myWeaponY = GUIConfigs.gameFrameHeight - 220;
 
-    private final int enemyWeaponX = midX - 165;
-    private final int enemyWeaponY = 90;
+    protected final int enemyWeaponX = midX - 165;
+    protected final int enemyWeaponY = 90;
 
     protected final int heroWidth = GUIConfigs.medHeroWidth;
     protected final int heroHeight = GUIConfigs.medHeroHeight;
 
-    private final int enemyHeroX = midX - 60;
-    private final int enemyHeroY = 60;
+    protected final int enemyHeroX = midX - 60;
+    protected final int enemyHeroY = 60;
 
-    private final int myHandX = GUIConfigs.gameFrameWidth / 2 - 40;
-    private final int myHandY = GUIConfigs.gameFrameHeight - 80;
+    protected final int myHandX = GUIConfigs.gameFrameWidth / 2 - 40;
+    protected final int myHandY = GUIConfigs.gameFrameHeight - 80;
     protected final int handDisCard = 220;
 
     protected final int enemyHandX = GUIConfigs.gameFrameWidth / 2 - 40;
     protected final int enemyHandY = -65;
 
-    private final int myLandStartY = midY + 10;
-    private final int myLandEndY = midY + 180;
-    private final int myLandX = midX;
-    private final int myLandY = myLandStartY;
-    private final int landDisCard = 115;
+    protected final int myLandStartY = midY + 10;
+    protected final int myLandEndY = midY + 180;
+    protected final int myLandX = midX;
+    protected final int myLandY = myLandStartY;
+    protected final int landDisCard = 115;
 
-    private final int enemyLandStartY = midY - 120;
-    private final int enemyLandEndY = midY;
-    private final int enemyLandX = midX;
-    private final int enemyLandY = enemyLandStartY;
+    protected final int enemyLandStartY = midY - 120;
+    protected final int enemyLandEndY = midY;
+    protected final int enemyLandX = midX;
+    protected final int enemyLandY = enemyLandStartY;
 
-    private final int myDeckCardsNumberX = midX + 450;
-    private final int myDeckCardsNumberY = midY + 105;
+    protected final int myDeckCardsNumberX = midX + 450;
+    protected final int myDeckCardsNumberY = midY + 105;
 
-    private final int enemyDeckCardsNumberX = midX + 450;
-    private final int enemyDeckCardsNumberY = midY - 95;
+    protected final int enemyDeckCardsNumberX = midX + 450;
+    protected final int enemyDeckCardsNumberY = midY - 95;
 
     protected int myPickedCardX = myDeckCardsNumberX;
     protected int myPickedCardY = myDeckCardsNumberY;
@@ -153,14 +151,14 @@ public class GameBoard extends JPanel implements MouseListener {
     protected final int enemyErrorX = 200;
     protected final int enemyErrorY = 70;
 
-    private final int myRewardX = 0;
-    private final int myRewardY = 315;
+    protected final int myRewardX = 0;
+    protected final int myRewardY = 315;
 
-    private final int spellDestinationX = 180;
-    private final int spellDestinationY = midY - GUIConfigs.medCardHeight / 2;
+    protected final int spellDestinationX = 180;
+    protected final int spellDestinationY = midY - GUIConfigs.medCardHeight / 2;
 
-    private final int enemyRewardX = 0;
-    private final int enemyRewardY = 130;
+    protected final int enemyRewardX = 0;
+    protected final int enemyRewardY = 130;
 
     // Finals END
 
@@ -224,7 +222,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 null);
     }
 
-    private void configPanel() {
+    protected void configPanel() {
         setSize(new Dimension(GUIConfigs.gameFrameWidth, GUIConfigs.gameFrameHeight));
         setLayout(null);
         setDoubleBuffered(true);
@@ -252,7 +250,7 @@ public class GameBoard extends JPanel implements MouseListener {
     }
 
     // DRAW MANA
-    private void drawMyMana(Graphics2D g, int number, int maxNumber) {
+    protected void drawMyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
@@ -285,7 +283,7 @@ public class GameBoard extends JPanel implements MouseListener {
                 myManaStringX - fontMetrics.stringWidth(text) / 2, myManaStringY);
     }
 
-    private void drawEnemyMana(Graphics2D g, int number, int maxNumber) {
+    protected void drawEnemyMana(Graphics2D g, int number, int maxNumber) {
         int fontSize = 25;
         maxNumber = Math.min(maxNumber, GameConfigs.maxManaInGame);
 
@@ -306,7 +304,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW MANA
 
     // DRAW DECK NUMBER
-    private void drawDeckNumberOfCards(Graphics2D g, int X, int Y, int number) {
+    protected void drawDeckNumberOfCards(Graphics2D g, int X, int Y, int number) {
         int fontSize = 50;
 
         g.setFont(GameFrame.getInstance().getCustomFont(FontType.NUMBER, 0, fontSize));
@@ -323,7 +321,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW DECK NUMBER
 
     // DRAW REWARD
-    private void drawReward(Player player, int X, int Y) {
+    protected void drawReward(Player player, int X, int Y) {
         if (player.getReward() == null)
             return;
 
@@ -340,7 +338,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW REWARD
 
     // DRAW HEROPOWER
-    private void drawHeroPower(Player player, int X, int Y) {
+    protected void drawHeroPower(Player player, int X, int Y) {
         if (player.getHeroPower() == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(player.getHeroPower(),
@@ -356,7 +354,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW HEROPOWER
 
     // DRAW WEAPON
-    private void drawWeapon(Player player, int X, int Y) {
+    protected void drawWeapon(Player player, int X, int Y) {
         if (player.getWeapon() == null)
             return;
 
@@ -436,7 +434,7 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
-    private void drawCardsOnLand(Player player, int landX, int landY) {
+    protected void drawCardsOnLand(Player player, int landX, int landY) {
         ArrayList<Card> cards = player.getLand();
         if (cards.size() == 0)
             return;
@@ -578,7 +576,7 @@ public class GameBoard extends JPanel implements MouseListener {
         final int[] y = {startY};
 
         new HSTimerTask(period, new HSBigTask() {
-            private void addComponentIfNot(Component component) {
+            protected void addComponentIfNot(Component component) {
                 for (Component component1 : GameBoard.this.getComponents()) {
                     if (component1 == component)
                         return;
@@ -661,7 +659,7 @@ public class GameBoard extends JPanel implements MouseListener {
         final int[] height = {startHeight};
 
         new HSTimerTask(period, new HSBigTask() {
-            private void addComponentIfNot(Component component) {
+            protected void addComponentIfNot(Component component) {
                 for (Component component1 : GameBoard.this.getComponents()) {
                     if (component1 == component)
                         return;
@@ -1040,7 +1038,7 @@ public class GameBoard extends JPanel implements MouseListener {
         GameFrame.getInstance().setCursor("/images/normal_cursor.png");
     }
 
-    private void makeIcons() {
+    protected void makeIcons() {
         backButton = new ImageButton("icons/back.png",
                 "icons/back_hovered.png",
                 GUIConfigs.iconWidth,
@@ -1053,6 +1051,11 @@ public class GameBoard extends JPanel implements MouseListener {
 
         closeButton = new CloseIcon("icons/close.png",
                 "icons/close_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        watchersButton = new WatchersIcon("icons/watchers.png",
+                "icons/watchers_hovered.png",
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
 
@@ -1120,25 +1123,25 @@ public class GameBoard extends JPanel implements MouseListener {
         add(enemyMessageDialog);
     }
 
-    private void iconLayout() {
+    protected void iconLayout() {
         // ICONS
-        backButton.setBounds(iconX, startIconY,
+        backButton.setBounds(leftIconX, startIconY,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(backButton);
 
-        minimizeButton.setBounds(iconX, endIconY - iconsDis,
+        minimizeButton.setBounds(leftIconX, endIconY - iconsDis,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(minimizeButton);
 
-        closeButton.setBounds(iconX, endIconY,
+        closeButton.setBounds(leftIconX, endIconY,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(closeButton);
     }
 
-    private void gameStuffLayoutBeforeStartGame() {
+    protected void gameStuffLayoutBeforeStartGame() {
         endTurnButton.setBounds(endTurnButtonX, endTurnButtonY,
                 GUIConfigs.endTurnButtonWidth, GUIConfigs.endTurnButtonHeight);
         add(endTurnButton);
@@ -1152,7 +1155,7 @@ public class GameBoard extends JPanel implements MouseListener {
         add(enemyHero);
     }
 
-    private void gameStuffLayout() {
+    protected void gameStuffLayout() {
         drawCardsOnHand(myPlayer, myHandX, myHandY);
         drawCardsOnHand(enemyPlayer, enemyHandX, enemyHandY);
 
@@ -1188,11 +1191,11 @@ public class GameBoard extends JPanel implements MouseListener {
         add(enemyHero);
     }
 
-    private boolean isInMyLand(int x, int y) {
+    protected boolean isInMyLand(int x, int y) {
         return x >= boardStartX && x <= boardEndX && y >= myLandStartY && y <= myLandEndY;
     }
 
-    private boolean isInEnemyLand(int x, int y) {
+    protected boolean isInEnemyLand(int x, int y) {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
@@ -1248,7 +1251,7 @@ public class GameBoard extends JPanel implements MouseListener {
         deleteCurrentMouseWaiting();
     }
 
-    private void removeComponents() {
+    protected void removeComponents() {
         for (Component component : this.getComponents()) {
             if (component instanceof ImagePanel &&
                     ((ImagePanel) component).getImagePath().contains("spark"))

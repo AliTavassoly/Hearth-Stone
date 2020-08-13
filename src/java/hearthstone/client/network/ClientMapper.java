@@ -5,10 +5,7 @@ import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.market.MarketPanel;
 import hearthstone.client.gui.game.ranking.RankingPanel;
-import hearthstone.models.Account;
-import hearthstone.models.AccountInfo;
-import hearthstone.models.Deck;
-import hearthstone.models.Packet;
+import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
@@ -465,4 +462,16 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
     // SETTINGS
+
+    // GAMES
+    public static void gamesListRequest() {
+        Packet packet = new Packet("gamesListRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void gamesListResponse(ArrayList<GameInfo> games) {
+        HSClient.getClient().gamesResponse(games);
+    }
+    // GAMES
 }

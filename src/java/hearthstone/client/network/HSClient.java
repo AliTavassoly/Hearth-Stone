@@ -10,13 +10,11 @@ import hearthstone.client.gui.game.collection.DeckArrangement;
 import hearthstone.client.gui.game.collection.DeckSelection;
 import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.market.MarketPanel;
+import hearthstone.client.gui.game.onlinegames.GamesPanel;
 import hearthstone.client.gui.game.play.boards.*;
 import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.client.gui.game.status.StatusPanel;
-import hearthstone.models.Account;
-import hearthstone.models.AccountInfo;
-import hearthstone.models.Deck;
-import hearthstone.models.Packet;
+import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 
@@ -185,5 +183,10 @@ public class HSClient {
         RankingPanel.topRanks = topRanks;
         RankingPanel.nearRanks = myRank;
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), RankingPanel.makeInstance());
+    }
+
+    public void gamesResponse(ArrayList<GameInfo> games) {
+        GamesPanel.games = games;
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), GamesPanel.makeInstance());
     }
 }

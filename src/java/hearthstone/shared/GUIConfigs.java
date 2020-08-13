@@ -134,6 +134,12 @@ public class GUIConfigs {
     public static int rankingListWidth;
     public static int rankingListHeight;
 
+    public static int gamesListWidth;
+    public static int gamesListHeight;
+
+    public static int gameInfoWidth;
+    public static int gameInfoHeight;
+
     static public void setConfigs(Map<String, Integer> configs) {
         // General
         credentialFrameWidth = configs.get("credentialFrameWidth");
@@ -256,8 +262,14 @@ public class GUIConfigs {
         accountInfoWidth = configs.get("accountInfoWidth");
         accountInfoHeight = configs.get("accountInfoHeight");
 
+        gameInfoWidth = configs.get("gameInfoWidth");
+        gameInfoHeight = configs.get("gameInfoHeight");
+
         rankingListWidth = configs.get("rankingListWidth");
         rankingListHeight = configs.get("rankingListHeight");
+
+        gamesListWidth = configs.get("gamesListWidth");
+        gamesListHeight = configs.get("gamesListHeight");
     }
 
     private static Map<String, Integer> getConfigs() throws Exception {

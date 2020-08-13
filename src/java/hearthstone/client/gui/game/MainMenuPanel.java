@@ -1,12 +1,9 @@
 package hearthstone.client.gui.game;
 
-import hearthstone.client.gui.game.ranking.RankingPanel;
+import hearthstone.client.gui.controls.icons.*;
+import hearthstone.client.gui.game.onlinegames.GamesPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.gui.controls.buttons.ImageButton;
-import hearthstone.client.gui.controls.icons.CloseIcon;
-import hearthstone.client.gui.controls.icons.LogoutIcon;
-import hearthstone.client.gui.controls.icons.MinimizeIcon;
-import hearthstone.client.gui.controls.icons.SettingIcon;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.game.collection.HeroSelection;
 import hearthstone.client.gui.game.play.PlaySelectionPanel;
@@ -21,13 +18,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class MainMenuPanel extends JPanel {
-    private ImageButton settingsButton, logoutButton, minimizeButton, closeButton;
+    private ImageButton settingsButton, logoutButton, minimizeButton, closeButton, gamesButton;
     private ImageButton playButton, collectionButton, marketButton, statusButton, rankingButton;
     private ImagePanel logoImage;
 
     private static BufferedImage backgroundImage;
 
-    private final int iconX = 20;
+    private final int leftIconX = 20;
+    private final int rightIconX = GUIConfigs.gameFrameWidth - 20 - GUIConfigs.iconWidth;
     private final int startIconY = 20;
     private final int endIconY = GUIConfigs.gameFrameHeight - GUIConfigs.iconHeight - 20;
     private final int iconsDis = 70;
@@ -81,6 +79,18 @@ public class MainMenuPanel extends JPanel {
         closeButton = new CloseIcon("icons/close.png", "icons/close_hovered.png",
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
+
+        gamesButton = new GameIcon("icons/games.png", "icons/games_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        gamesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new LoadingPanel());
+                ClientMapper.gamesListRequest();
+            }
+        });
     }
 
     private void makeLogo() {
@@ -187,25 +197,30 @@ public class MainMenuPanel extends JPanel {
         add(logoImage);
 
         // ICONS
-        settingsButton.setBounds(iconX, startIconY,
+        settingsButton.setBounds(leftIconX, startIconY,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(settingsButton);
 
-        logoutButton.setBounds(iconX, startIconY + iconsDis,
+        logoutButton.setBounds(leftIconX, startIconY + iconsDis,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(logoutButton);
 
-        minimizeButton.setBounds(iconX, endIconY - iconsDis,
+        minimizeButton.setBounds(leftIconX, endIconY - iconsDis,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(minimizeButton);
 
-        closeButton.setBounds(iconX, endIconY,
+        closeButton.setBounds(leftIconX, endIconY,
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(closeButton);
+
+        gamesButton.setBounds(rightIconX, startIconY,
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+        add(gamesButton);
 
         // BUTTONS
         playButton.setBounds(firstButtonX, startButtonY + 0 * buttonDisY,

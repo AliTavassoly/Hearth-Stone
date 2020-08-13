@@ -3,10 +3,7 @@ package hearthstone.server.network;
 import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
-import hearthstone.models.Account;
-import hearthstone.models.AccountInfo;
-import hearthstone.models.Deck;
-import hearthstone.models.Packet;
+import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
@@ -520,4 +517,16 @@ public class ServerMapper {
         HSServer.getInstance().changeBackCard(backId, clientHandler);
     }
     // SETTINGS
+
+    // GAMES
+    public static void gamesListRequest(ClientHandler clientHandler) {
+        gamesListResponse(HSServer.getInstance().getGamesList(), clientHandler);
+    }
+
+    public static void gamesListResponse(ArrayList<GameInfo> games, ClientHandler clientHandler) {
+        Packet packet = new Packet("gamesListResponse",
+                new Object[]{games});
+        clientHandler.sendPacket(packet);
+    }
+    // GAMES
 }

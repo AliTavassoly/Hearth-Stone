@@ -38,6 +38,9 @@
   "rankingListWidth": 470,
   "rankingListHeight": 650,
 
+  "gamesListWidth": 470,
+  "gamesListHeight": 650,
+
   "deckSelectionListWidth": 670,
   "deckSelectionListHeight": 650,
 
@@ -99,6 +102,9 @@
 
   "accountInfoWidth": 430,
   "accountInfoHeight": 122,
+
+  "gameInfoWidth": 430,
+  "gameInfoHeight": 122,
 
   "weaponDetailWidth": 35,
   "weaponDetailHeight": 35,

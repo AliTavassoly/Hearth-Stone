@@ -3,14 +3,17 @@ package hearthstone.client.gui.game.play.boards;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.MessageDialog;
+import hearthstone.client.gui.controls.dialogs.SureDialog;
+import hearthstone.client.gui.controls.icons.CloseIcon;
+import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.controls.panels.ImagePanel;
+import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.play.controls.*;
+import hearthstone.client.network.ClientMapper;
 import hearthstone.models.player.Player;
 import hearthstone.shared.GUIConfigs;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ViewGameBoard extends GameBoard{
     public ViewGameBoard(Player myPlayer, Player enemyPlayer) {
@@ -84,5 +87,33 @@ public class ViewGameBoard extends GameBoard{
         enemyMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, GUIConfigs.inGameErrorWidth, GUIConfigs.inGameErrorHeight);
         add(enemyMessageDialog);
+    }
+
+    @Override
+    protected void makeIcons() {
+        backButton = new ImageButton("icons/back.png",
+                "icons/back_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        minimizeButton = new MinimizeIcon("icons/minimize.png",
+                "icons/minimize_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        closeButton = new CloseIcon("icons/close.png",
+                "icons/close_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        backButton.addActionListener(actionEvent -> {
+            SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
+                    "Are you sure you want to exit game?! (you will lose current game)",
+                    GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
+            boolean sure = sureDialog.getValue();
+            if (sure) {
+                ClientMapper.exitGameRequest(myPlayer.getPlayerId());
+            }
+        });
     }
 }

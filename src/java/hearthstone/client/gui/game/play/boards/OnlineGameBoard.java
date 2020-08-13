@@ -6,6 +6,10 @@ import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.CardDialog;
 import hearthstone.client.gui.controls.dialogs.MessageDialog;
 import hearthstone.client.gui.controls.dialogs.PassiveDialog;
+import hearthstone.client.gui.controls.dialogs.SureDialog;
+import hearthstone.client.gui.controls.icons.CloseIcon;
+import hearthstone.client.gui.controls.icons.MinimizeIcon;
+import hearthstone.client.gui.controls.icons.WatchersIcon;
 import hearthstone.client.gui.controls.interfaces.ShouldHovered;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.game.GameFrame;
@@ -89,6 +93,67 @@ public class OnlineGameBoard extends GameBoard {
                     animateCard(enemyPickedCardX, enemyPickedCardY, GUIConfigs.smallCardWidth, GUIConfigs.smallCardHeight, destination);
             }
         }
+    }
+
+    @Override
+    protected void makeIcons() {
+        backButton = new ImageButton("icons/back.png",
+                "icons/back_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        minimizeButton = new MinimizeIcon("icons/minimize.png",
+                "icons/minimize_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        closeButton = new CloseIcon("icons/close.png",
+                "icons/close_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        watchersButton = new WatchersIcon("icons/watchers.png",
+                "icons/watchers_hovered.png",
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+
+        backButton.addActionListener(actionEvent -> {
+            SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
+                    "Are you sure you want to exit game?! (you will lose current game)",
+                    GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
+            boolean sure = sureDialog.getValue();
+            if (sure) {
+                ClientMapper.exitGameRequest(myPlayer.getPlayerId());
+            }
+        });
+
+        watchersButton.addActionListener(actionEvent -> {
+            System.out.println("Saaaaaaaaaaaaaalam");
+        });
+    }
+
+    @Override
+    protected void iconLayout() {
+        // ICONS
+        backButton.setBounds(leftIconX, startIconY,
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+        add(backButton);
+
+        minimizeButton.setBounds(leftIconX, endIconY - iconsDis,
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+        add(minimizeButton);
+
+        closeButton.setBounds(leftIconX, endIconY,
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+        add(closeButton);
+
+        watchersButton.setBounds(rightIconX, startIconY,
+                GUIConfigs.iconWidth,
+                GUIConfigs.iconHeight);
+        add(watchersButton);
     }
 
     @Override

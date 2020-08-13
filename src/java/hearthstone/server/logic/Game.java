@@ -21,6 +21,8 @@ public class Game extends Thread {
     protected ArrayList<Card> cards;
     protected ArrayList<Hero> heroes;
 
+    protected ArrayList<String> watchers;
+
     protected GameType gameType;
 
     public GameType getGameType(){
@@ -41,6 +43,7 @@ public class Game extends Thread {
 
         cards = new ArrayList<>();
         heroes = new ArrayList<>();
+        watchers = new ArrayList<>();
 
         new HSTimerTask(500, new HSBigTask() {
             @Override
@@ -189,6 +192,14 @@ public class Game extends Thread {
 
     public void addHero(Hero hero) {
         heroes.add(hero);
+    }
+
+    public void addWatcher(String username){
+        watchers.add(username);
+    }
+
+    public void removeWatcher(String username){
+        watchers.add(username);
     }
 
     public int getNewCardId() {

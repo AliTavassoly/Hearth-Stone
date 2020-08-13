@@ -1,10 +1,8 @@
 package hearthstone.server.network;
 
 import hearthstone.client.data.ClientData;
-import hearthstone.models.Account;
-import hearthstone.models.AccountCredential;
-import hearthstone.models.AccountInfo;
-import hearthstone.models.Deck;
+import hearthstone.client.network.HSClient;
+import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;
@@ -46,6 +44,9 @@ public class HSServer extends Thread {
     private ArrayList<GameRequest> waitingForGame;
     private ArrayList<GameRequest> waitingForDeckReaderGame;
 
+    private ArrayList<Game> games;
+    private final Object gamesLock = new Object();
+
     private final Object waitingForGameLock = new Object();
     private final Object waitingForDeckReaderGameLock = new Object();
 
@@ -69,17 +70,18 @@ public class HSServer extends Thread {
         }
     }
 
-    private void startOnlineMathFinder(){
+    private void startOnlineMathFinder() {
         onlineGameFinder = new HSPeriodTimer(500, new HSPeriodTask() {
             @Override
-            public void startFunction() {}
+            public void startFunction() {
+            }
 
             @Override
             public void periodFunction() {
-                synchronized (waitingForGameLock){
-                    for(int i = 0; i < waitingForGame.size(); i++){
-                        for(int j = i + 1; j < waitingForGame.size(); j++){
-                            if(HSServer.getInstance().canMatch(waitingForGame.get(i), waitingForGame.get(j))){
+                synchronized (waitingForGameLock) {
+                    for (int i = 0; i < waitingForGame.size(); i++) {
+                        for (int j = i + 1; j < waitingForGame.size(); j++) {
+                            if (HSServer.getInstance().canMatch(waitingForGame.get(i), waitingForGame.get(j))) {
                                 GameRequest request0 = waitingForGame.get(i);
                                 GameRequest request1 = waitingForGame.get(j);
 
@@ -97,22 +99,25 @@ public class HSServer extends Thread {
             }
 
             @Override
-            public boolean finishCondition() { return false; }
+            public boolean finishCondition() {
+                return false;
+            }
         });
         onlineGameFinder.start();
     }
 
-    private void startDeckReaderMathFinder(){
+    private void startDeckReaderMathFinder() {
         deckReaderGameFinder = new HSPeriodTimer(500, new HSPeriodTask() {
             @Override
-            public void startFunction() {}
+            public void startFunction() {
+            }
 
             @Override
             public void periodFunction() {
-                synchronized (waitingForDeckReaderGameLock){
-                    for(int i = 0; i < waitingForDeckReaderGame.size(); i++){
-                        for(int j = i + 1; j < waitingForDeckReaderGame.size(); j++){
-                            if(HSServer.getInstance().canMatch(waitingForDeckReaderGame.get(i), waitingForDeckReaderGame.get(j))){
+                synchronized (waitingForDeckReaderGameLock) {
+                    for (int i = 0; i < waitingForDeckReaderGame.size(); i++) {
+                        for (int j = i + 1; j < waitingForDeckReaderGame.size(); j++) {
+                            if (HSServer.getInstance().canMatch(waitingForDeckReaderGame.get(i), waitingForDeckReaderGame.get(j))) {
                                 GameRequest request0 = waitingForDeckReaderGame.get(i);
                                 GameRequest request1 = waitingForDeckReaderGame.get(j);
 
@@ -121,7 +126,7 @@ public class HSServer extends Thread {
 
                                 try {
                                     makeNewDeckReaderGame(request0.getUsername(), request1.getUsername());
-                                } catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
@@ -134,7 +139,9 @@ public class HSServer extends Thread {
             }
 
             @Override
-            public boolean finishCondition() { return false; }
+            public boolean finishCondition() {
+                return false;
+            }
         });
         deckReaderGameFinder.start();
     }
@@ -160,6 +167,7 @@ public class HSServer extends Thread {
         waitingForGame = new ArrayList<>();
         waitingForDeckReaderGame = new ArrayList<>();
         players = new HashMap<>();
+        games = new ArrayList<>();
     }
 
     public static HSServer makeNewInstance(int serverPort) {
@@ -257,14 +265,16 @@ public class HSServer extends Thread {
     public void clientHandlerDisconnected(ClientHandler clientHandler) {
         String username = clientHandler.getUsername();
         if (username != null) {
-            if(clients.get(username).getCurrentGame() != null){
+            if (clients.get(username).getCurrentGame() != null) {
                 clients.get(username).getCurrentGame().getPlayerByUsername(username).getHero().setHealth(0);
                 HSPeriodTimer timer = new HSPeriodTimer(500, new HSPeriodTask() {
                     @Override
-                    public void startFunction() { }
+                    public void startFunction() {
+                    }
 
                     @Override
-                    public void periodFunction() { }
+                    public void periodFunction() {
+                    }
 
                     @Override
                     public boolean finishCondition() {
@@ -351,8 +361,8 @@ public class HSServer extends Thread {
     // CANCEL GAME
     public void onlineGameCancelRequest(ClientHandler clientHandler) {
         synchronized (waitingForGameLock) {
-            for(GameRequest gameRequest: waitingForGame) {
-                if(gameRequest.getUsername().equals(clientHandler.getUsername())){
+            for (GameRequest gameRequest : waitingForGame) {
+                if (gameRequest.getUsername().equals(clientHandler.getUsername())) {
                     waitingForGame.remove(gameRequest);
                     break;
                 }
@@ -362,8 +372,8 @@ public class HSServer extends Thread {
 
     public void deckReaderGameCancelRequest(ClientHandler clientHandler) {
         synchronized (waitingForDeckReaderGameLock) {
-            for(GameRequest gameRequest: waitingForDeckReaderGame) {
-                if(gameRequest.getUsername().equals(clientHandler.getUsername())){
+            for (GameRequest gameRequest : waitingForDeckReaderGame) {
+                if (gameRequest.getUsername().equals(clientHandler.getUsername())) {
                     waitingForDeckReaderGame.remove(gameRequest);
                     break;
                 }
@@ -388,6 +398,10 @@ public class HSServer extends Thread {
         ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
         ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
 
+        synchronized (gamesLock) {
+            games.add(game);
+        }
+
         game.start();
     }
 
@@ -405,6 +419,10 @@ public class HSServer extends Thread {
 
         ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
         ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
+
+        synchronized (gamesLock) {
+            games.add(game);
+        }
 
         game.start();
     }
@@ -552,7 +570,7 @@ public class HSServer extends Thread {
         while (accountInfos.size() > 10)
             accountInfos.remove(accountInfos.size() - 1);
 
-        for (int i = 0; i < accountInfos.size(); i++){
+        for (int i = 0; i < accountInfos.size(); i++) {
             accountInfos.get(i).setRank(i + 1);
         }
 
@@ -730,7 +748,16 @@ public class HSServer extends Thread {
             clients.get(username1).getClientHandler().gameEnded();
     }
 
+    public void removeGameFromList(Game game) {
+        synchronized (gamesLock) {
+            games.remove(game);
+        }
+    }
+
     public void gameEnded(Player player0, Player player1) {
+        if (isOnlineGame(player0))
+            removeGameFromList(clients.get(player0.getUsername()).getCurrentGame());
+
         updateGameEndedInGui(player0, player1);
 
         updateGameEndedInClients(player0.getUsername(), player1.getUsername());
@@ -775,7 +802,7 @@ public class HSServer extends Thread {
         if (player0.getHero().getHealth() <= 0 && isOnlineGame(player0)) {
             account0.lostGame(player0.getHero().getName(), player0.getDeck().getName(), cup1, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
             account1.wonGame(player1.getHero().getName(), player1.getDeck().getName(), cup0, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
-        } else if(isOnlineGame(player0)){
+        } else if (isOnlineGame(player0)) {
             account0.wonGame(player0.getHero().getName(), player0.getDeck().getName(), cup0, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
             account1.lostGame(player1.getHero().getName(), player1.getDeck().getName(), cup1, clients.get(player0.getUsername()).getCurrentGame().getGameType() != GameType.DECK_READER_GAME);
         }
@@ -872,12 +899,22 @@ public class HSServer extends Thread {
     }
     // SETTINGS
 
-    private boolean isOnlineGame(String username){
+    private boolean isOnlineGame(String username) {
         GameType gameType = clients.get(username).getCurrentGame().getGameType();
         return gameType == GameType.ONLINE_GAME || gameType == GameType.DECK_READER_GAME;
     }
 
-    private boolean isOnlineGame(Player player){
+    private boolean isOnlineGame(Player player) {
         return isOnlineGame(player.getUsername());
+    }
+
+    public ArrayList<GameInfo> getGamesList() {
+        ArrayList<GameInfo> gameInfos = new ArrayList<>();
+        synchronized (gamesLock) {
+            for (Game game : games) {
+                gameInfos.add(new GameInfo(game.getFirstPlayer().getUsername(), game.getSecondPlayer().getUsername()));
+            }
+        }
+        return gameInfos;
     }
 }

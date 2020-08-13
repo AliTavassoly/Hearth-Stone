@@ -36,7 +36,6 @@ public class Receiver extends Thread{
         } catch (Exception e) {
             BaseFrame.error("Disconnected from server");
             e.printStackTrace();
-            System.exit(0);
         }
     }
 }
