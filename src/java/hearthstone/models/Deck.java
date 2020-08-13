@@ -283,11 +283,6 @@ public class Deck implements Comparable<Deck> {
                 return -1;
             return 1;
         }
-        /*if(this.getTotalGames() != deck.getTotalGames()){
-            if (this.getTotalGames() > deck.getTotalGames())
-                return -1;
-            return 1;
-        }*/
         if(this.getManaAv() != deck.getManaAv()){
             if(this.getManaAv() < deck.getManaAv())
                 return -1;
@@ -300,7 +295,6 @@ public class Deck implements Comparable<Deck> {
         totalGames++;
 
         this.cup += cupDiff;
-        this.cup = Math.max(0, this.cup);
     }
 
     public void wonGame(int cupDiff){
@@ -308,6 +302,5 @@ public class Deck implements Comparable<Deck> {
         winGames++;
 
         this.cup += cupDiff;
-        this.cup = Math.max(0, this.cup);
     }
 }

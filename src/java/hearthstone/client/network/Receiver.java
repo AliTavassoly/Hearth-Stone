@@ -2,6 +2,7 @@ package hearthstone.client.network;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hearthstone.client.data.ClientData;
+import hearthstone.client.gui.BaseFrame;
 import hearthstone.models.Packet;
 
 import java.io.IOException;
@@ -32,8 +33,10 @@ public class Receiver extends Thread{
 
                 ClientMapper.invokeFunction(packet);
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+        } catch (Exception e) {
+            BaseFrame.error("Disconnected from server");
+            e.printStackTrace();
+            System.exit(0);
         }
     }
 }

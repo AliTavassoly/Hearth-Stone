@@ -24,7 +24,7 @@ import hearthstone.util.Rand;
 
 import java.util.ArrayList;
 
-@JsonIgnoreProperties(value = {"factory"})
+@JsonIgnoreProperties(value = {"factory", "originalDeck"})
 
 public class Player {
     protected Hero hero;
@@ -72,7 +72,7 @@ public class Player {
 
     public Player(Hero hero, Deck deck, String username) {
         this.hero = hero.copy();
-        this.originalDeck = deck.copy();
+        this.originalDeck = deck;
         this.deck = deck.copy();
 
         this.username = username;

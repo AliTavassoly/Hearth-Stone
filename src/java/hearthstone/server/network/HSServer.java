@@ -835,10 +835,10 @@ public class HSServer extends Thread {
             safePlayer.getDeck().getCards().set(i, getInstance().safeCard(card));
         }
 
-        for (int i = 0; i < safePlayer.getOriginalDeck().getCards().size(); i++) {
+        /*for (int i = 0; i < safePlayer.getOriginalDeck().getCards().size(); i++) {
             Card card = safePlayer.getOriginalDeck().getCards().get(i);
             safePlayer.getOriginalDeck().getCards().set(i, getInstance().safeCard(card));
-        }
+        }*/
         return safePlayer;
     }
 
