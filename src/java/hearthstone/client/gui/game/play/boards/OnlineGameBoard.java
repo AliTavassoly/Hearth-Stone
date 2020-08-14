@@ -1,6 +1,7 @@
 package hearthstone.client.gui.game.play.boards;
 
 import hearthstone.client.data.ClientData;
+import hearthstone.client.gui.controls.buttons.CardButton;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.CardDialog;
@@ -21,9 +22,12 @@ import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.models.WatcherInfo;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.heropower.HeroPowerBehaviour;
+import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.player.Player;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
+import hearthstone.util.CursorType;
 import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
 
@@ -47,11 +51,11 @@ public class OnlineGameBoard extends GameBoard {
         super(myPlayer, enemyPlayer);
     }
 
-    public static OnlineGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+    public static OnlineGameBoard makeInstance(Player myPlayer, Player enemyPlayer) {
         return instance = new OnlineGameBoard(myPlayer, enemyPlayer);
     }
 
-    public static OnlineGameBoard getInstance(){
+    public static OnlineGameBoard getInstance() {
         return instance;
     }
 
@@ -150,7 +154,7 @@ public class OnlineGameBoard extends GameBoard {
         watchersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(!watcherScroll.isVisible()){
+                if (!watcherScroll.isVisible()) {
                     ClientMapper.watchersRequest(HSClient.currentAccount.getUsername());
                 }
                 watcherScroll.setVisible(!watcherScroll.isVisible());
@@ -212,7 +216,7 @@ public class OnlineGameBoard extends GameBoard {
 
     @Override
     protected void playCard(BoardCardButton button, Card card) {
-        if (button.getPlayerId() == myPlayer.getPlayerId()){
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
             ClientMapper.playCardRequest(myPlayer.getPlayerId(), card);
             restart();
         }
@@ -232,10 +236,44 @@ public class OnlineGameBoard extends GameBoard {
             return;
         }
 
+        CardButton bigCardButton = new CardButton(
+                button.getCard(),
+                GUIConfigs.medCardWidth,
+                GUIConfigs.medCardHeight,
+                -1);
+
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    0,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        }
+
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (button.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (button.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
                 }
             }
         });
@@ -248,10 +286,44 @@ public class OnlineGameBoard extends GameBoard {
             return;
         }
 
+        CardButton bigCardButton = new CardButton(
+                button.getCard(),
+                GUIConfigs.medCardWidth,
+                GUIConfigs.medCardHeight,
+                -1);
+
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    0,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        }
+
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (button.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (button.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
                 }
             }
         });
@@ -264,10 +336,44 @@ public class OnlineGameBoard extends GameBoard {
             return;
         }
 
+        CardButton bigCardButton = new CardButton(
+                button.getCard(),
+                GUIConfigs.medCardWidth,
+                GUIConfigs.medCardHeight,
+                -1);
+
+        if (button.getPlayerId() == myPlayer.getPlayerId()) {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    GUIConfigs.gameFrameHeight - GUIConfigs.medCardHeight,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        } else {
+            bigCardButton.setBounds(
+                    GUIConfigs.gameFrameWidth - GUIConfigs.medCardWidth,
+                    0,
+                    GUIConfigs.medCardWidth,
+                    GUIConfigs.medCardHeight);
+        }
+
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (isLookingFor) {
-                    ClientMapper.foundObjectRequest(((Card)waitingObject).getPlayerId(), waitingObject, button.getCard());
+                    ClientMapper.foundObjectRequest(((Card) waitingObject).getPlayerId(), waitingObject, button.getCard());
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                if (button.isShowBig()) {
+                    add(bigCardButton);
+                    updateUI();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (button.isShowBig()) {
+                    remove(bigCardButton);
+                    updateUI();
                 }
             }
         });
@@ -354,7 +460,7 @@ public class OnlineGameBoard extends GameBoard {
         watcherScroll.setVisible(false);
     }
 
-    public void updateWatchers(ArrayList<WatcherInfo> watchers){
+    public void updateWatchers(ArrayList<WatcherInfo> watchers) {
         watchersPanel.updateWatchers(watchers);
     }
 }
