@@ -48,7 +48,7 @@ public class PharaohsBlessing extends SpellCard {
             minionCard.setDivineShield(true);
 
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         }
     }
 }

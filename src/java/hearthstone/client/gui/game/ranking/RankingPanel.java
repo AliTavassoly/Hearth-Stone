@@ -102,7 +102,7 @@ public class RankingPanel extends JPanel {
             panels.add(null);
         }
 
-        topRanksPanel = new AccountInfosPanel(accounts, panels, Color.RED,
+        topRanksPanel = new AccountInfosPanel(accounts, Color.RED,
                 GUIConfigs.accountInfoWidth, GUIConfigs.accountInfoHeight);
         topRanksScroll = new JScrollPane(topRanksPanel);
         topRanksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -123,7 +123,7 @@ public class RankingPanel extends JPanel {
             panels.add(null);
         }
 
-        nearRanksPanel = new AccountInfosPanel(accounts, panels, Color.RED,
+        nearRanksPanel = new AccountInfosPanel(accounts, Color.RED,
                 GUIConfigs.accountInfoWidth, GUIConfigs.accountInfoHeight);
         nearRanksScroll = new JScrollPane(nearRanksPanel);
         nearRanksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

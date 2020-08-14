@@ -25,6 +25,6 @@ public class SwarmOfLocusts extends SpellCard {
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
         }
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

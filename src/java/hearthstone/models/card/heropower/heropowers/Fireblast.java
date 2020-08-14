@@ -44,7 +44,7 @@ public class Fireblast extends HeroPowerCard {
             if (!minion.isImmune() && minion.isDivineShield()) {
                 minion.removeDivineShield();
                 // Mapper.updateBoard();
-                HSServer.getInstance().updateGameRequest(playerId);
+                HSServer.getInstance().updateGame(playerId);
                 return;
             }
 
@@ -64,7 +64,7 @@ public class Fireblast extends HeroPowerCard {
             numberOfAttack--;
         }
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     @Override

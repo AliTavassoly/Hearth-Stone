@@ -140,6 +140,12 @@ public class GUIConfigs {
     public static int gameInfoWidth;
     public static int gameInfoHeight;
 
+    public static int watcherInfoWidth;
+    public static int watcherInfoHeight;
+
+    public static int watchersInfoListWidth;
+    public static int watchersInfoListHeight;
+
     static public void setConfigs(Map<String, Integer> configs) {
         // General
         credentialFrameWidth = configs.get("credentialFrameWidth");
@@ -270,6 +276,12 @@ public class GUIConfigs {
 
         gamesListWidth = configs.get("gamesListWidth");
         gamesListHeight = configs.get("gamesListHeight");
+
+        watcherInfoWidth = configs.get("watcherInfoWidth");
+        watcherInfoHeight = configs.get("watcherInfoHeight");
+
+        watchersInfoListWidth = configs.get("watchersInfoListWidth");
+        watchersInfoListHeight = configs.get("watchersInfoListHeight");
     }
 
     private static Map<String, Integer> getConfigs() throws Exception {

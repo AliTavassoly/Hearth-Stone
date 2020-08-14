@@ -42,7 +42,7 @@ public class GnomishArmyKnife  extends SpellCard {
             minionCard.setCharge(true);
 
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         }
     }
 }

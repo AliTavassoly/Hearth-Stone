@@ -1,7 +1,5 @@
 package hearthstone.server.network;
 
-import hearthstone.client.gui.game.ranking.RankingPanel;
-import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.models.*;
 import hearthstone.models.card.Card;
@@ -463,7 +461,7 @@ public class ServerMapper {
             // clientHandler.getPlayer().playCard(card);
             HSServer.getInstance().getPlayer(playerId).playCard(card);
 
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
 
             playCardResponse(card, clientHandler);
         } catch (HearthStoneException e) {
@@ -518,7 +516,7 @@ public class ServerMapper {
     }
     // SETTINGS
 
-    // GAMES
+    // GAME VIEW
     public static void gamesListRequest(ClientHandler clientHandler) {
         gamesListResponse(HSServer.getInstance().getGamesList(), clientHandler);
     }
@@ -528,5 +526,45 @@ public class ServerMapper {
                 new Object[]{games});
         clientHandler.sendPacket(packet);
     }
-    // GAMES
+
+    public static void watchersRequest(String username, ClientHandler clientHandler) {
+        watchersResponse(HSServer.getInstance().getWatchers(username), clientHandler);
+    }
+
+    public static void watchersResponse(ArrayList<WatcherInfo> watchers, ClientHandler clientHandler) {
+        Packet packet = new Packet("watchersResponse",
+                new Object[]{watchers});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void viewRequest(String wantToView, String viewer, ClientHandler clientHandler){
+        HSServer.getInstance().view(wantToView, viewer, clientHandler);
+    }
+
+    public static void viewResponse(Player firstPlayer, Player secondPlayer, ClientHandler clientHandler) {
+        Packet packet = new Packet("viewResponse",
+                new Object[]{firstPlayer, secondPlayer});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void cancelViewRequest(String firstPlayerUsername, String wantToCancel, ClientHandler clientHandler) {
+        HSServer.getInstance().cancelView(firstPlayerUsername, wantToCancel);
+    }
+
+    public static void viewerUpdateRequest(Player firstPlayer, Player secondPlayer, ClientHandler clientHandler){
+        Packet packet = new Packet("viewerUpdateRequest",
+                new Object[]{firstPlayer, secondPlayer});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void kickWatcherRequest(String username, ClientHandler clientHandler){
+        HSServer.getInstance().kickWatcher(username, clientHandler.getUsername(), clientHandler);
+    }
+
+    public static void kickWatcherResponse(ClientHandler clientHandler){
+        Packet packet = new Packet("kickWatcherResponse",
+                null);
+        clientHandler.sendPacket(packet);
+    }
+    // GAME VIEW
 }

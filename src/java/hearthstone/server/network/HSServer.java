@@ -1,7 +1,6 @@
 package hearthstone.server.network;
 
 import hearthstone.client.data.ClientData;
-import hearthstone.client.network.HSClient;
 import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.HeroType;
@@ -22,12 +21,10 @@ import hearthstone.util.HearthStoneException;
 import hearthstone.util.timer.HSPeriodTask;
 import hearthstone.util.timer.HSPeriodTimer;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class HSServer extends Thread {
     private static HSServer server;
@@ -149,12 +146,6 @@ public class HSServer extends Thread {
     private boolean canMatch(GameRequest request0, GameRequest request1) {
         Account account0 = ServerData.getClientDetails(request0.getUsername()).getAccount();
         Account account1 = ServerData.getClientDetails(request1.getUsername()).getAccount();
-
-        // System.out.println(account0.getGamesValue() + " " + account1.getGamesValue());
-
-        synchronized (waitingForDeckReaderGameLock) {
-            System.out.println("Size of waiter: " + waitingForDeckReaderGame.size());
-        }
 
         return Math.abs(account0.getCup() - account1.getCup()) <= 100 &&
                 Math.abs(account0.getGamesValue() - account1.getGamesValue()) <
@@ -648,7 +639,7 @@ public class HSServer extends Thread {
     // COLLECTION
 
     // MIDDLE OF GAME
-    public void updateGameRequest(int playerId) {
+    public void updateGame(int playerId) {
         String username;
         synchronized (playersLock) {
             username = players.get(playerId).getUsername();
@@ -663,13 +654,21 @@ public class HSServer extends Thread {
         player0.updatePlayer();
         player1.updatePlayer();
 
-        if (isOnlineGame(player0))
+        if (isOnlineGame(player0)) {
             ServerMapper.updateBoardRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
-
+            updateGameWatchers(username0);
+        }
         if (isOnlineGame(player0))
             ServerMapper.updateBoardRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
         else
             ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
+    }
+
+    private void updateGameWatchers(String username){
+        Game game = clients.get(username).getCurrentGame();
+        for(WatcherInfo watcherInfo: game.getWatchers()){
+            ServerMapper.viewerUpdateRequest(game.getFirstPlayer(), game.getSecondPlayer(), clients.get(watcherInfo.getUsername()).getClientHandler());
+        }
     }
 
     public void startGameOnGui(int playerId) {
@@ -724,9 +723,9 @@ public class HSServer extends Thread {
         if (isOnlineGame(player0))
             player1 = getSafePlayer(player1);
 
-        updateGameRequest(player0.getPlayerId());
+        updateGame(player0.getPlayerId());
         if (isOnlineGame(player0))
-            updateGameRequest(player1.getPlayerId());
+            updateGame(player1.getPlayerId());
 
         ServerMapper.endGameRequest(clients.get(player0.getUsername()).getClientHandler());
         if (isOnlineGame(player0))
@@ -916,5 +915,36 @@ public class HSServer extends Thread {
             }
         }
         return gameInfos;
+    }
+
+    public ArrayList<WatcherInfo> getWatchers(String username) {
+        return clients.get(username).getCurrentGame().getWatchers();
+    }
+
+    public void kickWatcher(String kicked, String kicker, ClientHandler clientHandler) {
+        clients.get(kicker).getCurrentGame().removeWatcher(kicked);
+        ServerMapper.kickWatcherResponse(clients.get(kicked).getClientHandler());
+
+        ServerMapper.watchersResponse(getWatchers(clientHandler.getUsername()), clientHandler);
+    }
+
+    public void view(String wantToView, String viewer, ClientHandler clientHandler) {
+        clients.get(wantToView).getCurrentGame().addWatcher(viewer);
+
+        ServerMapper.viewResponse(clients.get(wantToView).getCurrentGame().getFirstPlayer(),
+                clients.get(wantToView).getCurrentGame().getSecondPlayer(),
+                clientHandler);
+
+        Game game = clients.get(wantToView).getCurrentGame();
+
+        String user0 = game.getFirstPlayer().getUsername();
+        String user1 = game.getSecondPlayer().getUsername();
+
+        ServerMapper.watchersResponse(getWatchers(user0), clients.get(user0).getClientHandler());
+        ServerMapper.watchersResponse(getWatchers(user1), clients.get(user1).getClientHandler());
+    }
+
+    public void cancelView(String firstPlayerUsername, String wantToCancel) {
+        clients.get(firstPlayerUsername).getCurrentGame().removeWatcher(wantToCancel);
     }
 }

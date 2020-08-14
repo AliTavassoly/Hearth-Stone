@@ -3,14 +3,19 @@ package hearthstone.client.network;
 import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.gui.game.market.MarketPanel;
+import hearthstone.client.gui.game.play.boards.OnlineGameBoard;
+import hearthstone.client.gui.game.play.boards.ViewGameBoard;
 import hearthstone.client.gui.game.ranking.RankingPanel;
 import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.player.Player;
+import hearthstone.server.logic.OnlineGame;
 import hearthstone.server.network.ClientHandler;
+import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
@@ -463,7 +468,7 @@ public class ClientMapper {
     }
     // SETTINGS
 
-    // GAMES
+    // GAME VIEW
     public static void gamesListRequest() {
         Packet packet = new Packet("gamesListRequest",
                 null);
@@ -473,5 +478,46 @@ public class ClientMapper {
     public static void gamesListResponse(ArrayList<GameInfo> games) {
         HSClient.getClient().gamesResponse(games);
     }
-    // GAMES
+
+    public static void watchersRequest(String username) {
+        Packet packet = new Packet("watchersRequest",
+                new Object[]{username});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void watchersResponse(ArrayList<WatcherInfo> watchers) {
+        OnlineGameBoard.getInstance().updateWatchers(watchers);
+    }
+
+    public static void viewRequest(String wantToView, String viewer){
+        Packet packet = new Packet("viewRequest",
+                new Object[]{wantToView, viewer});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void viewResponse(Player firstPlayer, Player secondPlayer) {
+        HSClient.getClient().makeNewViewGameBoard(firstPlayer, secondPlayer);
+        ViewGameBoard.getInstance().restart(firstPlayer, secondPlayer);
+    }
+
+    public static void viewerUpdateRequest(Player firstPlayer, Player secondPlayer){
+        ViewGameBoard.getInstance().restart(firstPlayer, secondPlayer);
+    }
+
+    public static void cancelViewRequest(String firstPlayerUsername, String wantToCancel) {
+        Packet packet = new Packet("cancelViewRequest",
+                new Object[]{firstPlayerUsername, wantToCancel});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void kickWatcherRequest(String username){
+        Packet packet = new Packet("kickWatcherRequest",
+                new Object[]{username});
+        HSClient.sendPacket(packet);
+    }
+
+    public static void kickWatcherResponse(){
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+    }
+    // GAME VIEW
 }

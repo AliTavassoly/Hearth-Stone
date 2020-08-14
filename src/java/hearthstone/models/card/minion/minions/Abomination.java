@@ -34,7 +34,7 @@ public class Abomination extends MinionCard implements DeathRattle {
             //Mapper.damage(2, hero);
             hero.gotDamage(2);
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) { }
 
         for(Card card: HSServer.getInstance().getPlayer(enemyPlayerId).getLand()){
@@ -45,6 +45,6 @@ public class Abomination extends MinionCard implements DeathRattle {
         }
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

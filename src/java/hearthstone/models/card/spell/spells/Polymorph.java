@@ -38,7 +38,7 @@ public class Polymorph  extends SpellCard {
             HSServer.getInstance().getPlayer(minionCard.getPlayerId()).transformMinion(minionCard.getCardGameId(), (MinionCard) ServerData.getCardByName("Sheep"));
 
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         }
     }
 }

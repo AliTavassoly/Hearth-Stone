@@ -1,5 +1,6 @@
 package hearthstone.server.logic;
 
+import hearthstone.models.WatcherInfo;
 import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
@@ -21,7 +22,13 @@ public class Game extends Thread {
     protected ArrayList<Card> cards;
     protected ArrayList<Hero> heroes;
 
-    protected ArrayList<String> watchers;
+    protected ArrayList<WatcherInfo> watchers;
+    public ArrayList<WatcherInfo> getWatchers() {
+        return watchers;
+    }
+    public void setWatchers(ArrayList<WatcherInfo> watchers) {
+        this.watchers = watchers;
+    }
 
     protected GameType gameType;
 
@@ -195,11 +202,16 @@ public class Game extends Thread {
     }
 
     public void addWatcher(String username){
-        watchers.add(username);
+        watchers.add(new WatcherInfo(username));
     }
 
     public void removeWatcher(String username){
-        watchers.add(username);
+        for(WatcherInfo info: watchers){
+            if(info.getUsername().equals(username)){
+                watchers.remove(info);
+                return;
+            }
+        }
     }
 
     public int getNewCardId() {
@@ -245,7 +257,7 @@ public class Game extends Thread {
 
         waitObject.found(foundedObject);
 
-        HSServer.getInstance().updateGameRequest(player0.getPlayerId());
+        HSServer.getInstance().updateGame(player0.getPlayerId());
     }
 
     public synchronized void chooseCardAbility(int cardGameId, Card card) {

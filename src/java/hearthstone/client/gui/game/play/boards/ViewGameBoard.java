@@ -7,17 +7,35 @@ import hearthstone.client.gui.controls.dialogs.SureDialog;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.controls.panels.ImagePanel;
+import hearthstone.client.gui.controls.panels.WatchersPanel;
 import hearthstone.client.gui.game.GameFrame;
+import hearthstone.client.gui.game.MainMenuPanel;
+import hearthstone.client.gui.game.onlinegames.GamesPanel;
 import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.player.Player;
 import hearthstone.shared.GUIConfigs;
+import hearthstone.util.SoundPlayer;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ViewGameBoard extends GameBoard{
-    public ViewGameBoard(Player myPlayer, Player enemyPlayer) {
+    private static ViewGameBoard instance;
+
+    private ViewGameBoard(Player myPlayer, Player enemyPlayer) {
         super(myPlayer, enemyPlayer);
+    }
+
+    public static ViewGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+        return instance = new ViewGameBoard(myPlayer, enemyPlayer);
+    }
+
+    public static ViewGameBoard getInstance(){
+        return instance;
     }
 
     @Override
@@ -107,13 +125,8 @@ public class ViewGameBoard extends GameBoard{
                 GUIConfigs.iconHeight);
 
         backButton.addActionListener(actionEvent -> {
-            SureDialog sureDialog = new SureDialog(GameFrame.getInstance(),
-                    "Are you sure you want to exit game?! (you will lose current game)",
-                    GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
-            boolean sure = sureDialog.getValue();
-            if (sure) {
-                ClientMapper.exitGameRequest(myPlayer.getPlayerId());
-            }
+            ClientMapper.cancelViewRequest(myPlayer.getUsername(), HSClient.currentAccount.getUsername());
+            GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
         });
     }
 }

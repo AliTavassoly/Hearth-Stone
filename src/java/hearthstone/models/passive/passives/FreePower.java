@@ -23,6 +23,6 @@ public class FreePower extends Passive implements StartGameBehave {
 
         power.setExtraNumberOfAttack(1);
 
-        HSServer.getInstance().updateGameRequest(getPlayerId());
+        HSServer.getInstance().updateGame(getPlayerId());
     }
 }

@@ -24,6 +24,6 @@ public class Nurse extends Passive implements EndTurnBehave {
 
         minionCard.restoreHealth();
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

@@ -28,9 +28,19 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class SoloGameBoard extends GameBoard {
-    public SoloGameBoard(Player myPlayer, Player enemyPlayer) {
-    super(myPlayer, enemyPlayer);
-}
+    private static SoloGameBoard instance;
+
+    private SoloGameBoard(Player myPlayer, Player enemyPlayer) {
+        super(myPlayer, enemyPlayer);
+    }
+
+    public static SoloGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+        return instance = new SoloGameBoard(myPlayer, enemyPlayer);
+    }
+
+    public static SoloGameBoard getInstance(){
+        return instance;
+    }
 
     protected void drawCardsOnHand(Player player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();

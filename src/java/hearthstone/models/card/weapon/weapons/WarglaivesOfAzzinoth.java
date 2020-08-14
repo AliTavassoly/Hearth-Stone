@@ -57,7 +57,7 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
         } catch (HearthStoneException ignore) { }
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked) minionCard);

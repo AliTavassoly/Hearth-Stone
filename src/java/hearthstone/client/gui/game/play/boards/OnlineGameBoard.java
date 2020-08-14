@@ -12,10 +12,14 @@ import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.controls.icons.WatchersIcon;
 import hearthstone.client.gui.controls.interfaces.ShouldHovered;
 import hearthstone.client.gui.controls.panels.ImagePanel;
+import hearthstone.client.gui.controls.panels.WatchersPanel;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.gui.util.Animation;
+import hearthstone.client.gui.util.CustomScrollBarUI;
 import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
+import hearthstone.models.WatcherInfo;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 import hearthstone.shared.GUIConfigs;
@@ -23,6 +27,7 @@ import hearthstone.shared.GameConfigs;
 import hearthstone.util.Rand;
 import hearthstone.util.SoundPlayer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,8 +36,23 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class OnlineGameBoard extends GameBoard {
-    public OnlineGameBoard(Player myPlayer, Player enemyPlayer) {
+    private static OnlineGameBoard instance;
+
+    private ImageButton watchersButton;
+
+    protected WatchersPanel watchersPanel;
+    protected JScrollPane watcherScroll;
+
+    private OnlineGameBoard(Player myPlayer, Player enemyPlayer) {
         super(myPlayer, enemyPlayer);
+    }
+
+    public static OnlineGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+        return instance = new OnlineGameBoard(myPlayer, enemyPlayer);
+    }
+
+    public static OnlineGameBoard getInstance(){
+        return instance;
     }
 
     protected void drawCardsOnHand(Player player, int handX, int handY) {
@@ -127,8 +147,14 @@ public class OnlineGameBoard extends GameBoard {
             }
         });
 
-        watchersButton.addActionListener(actionEvent -> {
-            System.out.println("Saaaaaaaaaaaaaalam");
+        watchersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(!watcherScroll.isVisible()){
+                    ClientMapper.watchersRequest(HSClient.currentAccount.getUsername());
+                }
+                watcherScroll.setVisible(!watcherScroll.isVisible());
+            }
         });
     }
 
@@ -154,6 +180,8 @@ public class OnlineGameBoard extends GameBoard {
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
         add(watchersButton);
+
+        makeWatchersPanel();
     }
 
     @Override
@@ -300,5 +328,33 @@ public class OnlineGameBoard extends GameBoard {
         enemyMessageDialog = new MessageDialog("Not enough mana!", new Color(69, 27, 27),
                 15, 0, -17, 2500, GUIConfigs.inGameErrorWidth, GUIConfigs.inGameErrorHeight);
         add(enemyMessageDialog);
+    }
+
+    private void makeWatchersPanel() {
+        ArrayList<WatcherInfo> watcherInfos = new ArrayList<>();
+
+        watchersPanel = new WatchersPanel(watcherInfos, GUIConfigs.watcherInfoWidth,
+                GUIConfigs.watcherInfoHeight);
+
+        watcherScroll = new JScrollPane(watchersPanel);
+        watcherScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        watcherScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        watcherScroll.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        watcherScroll.setOpaque(false);
+        watcherScroll.getViewport().setOpaque(true);
+        watcherScroll.getViewport().setBackground(new Color(0, 0, 0, 150));
+        watcherScroll.setBorder(null);
+
+        watcherScroll.setBounds(rightIconX + GUIConfigs.iconWidth - GUIConfigs.watchersInfoListWidth,
+                startIconY + GUIConfigs.iconHeight,
+                GUIConfigs.watchersInfoListWidth,
+                GUIConfigs.watchersInfoListHeight);
+        add(watcherScroll);
+
+        watcherScroll.setVisible(false);
+    }
+
+    public void updateWatchers(ArrayList<WatcherInfo> watchers){
+        watchersPanel.updateWatchers(watchers);
     }
 }

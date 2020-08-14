@@ -30,6 +30,6 @@ public class TombWarden extends MinionCard implements Battlecry {
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName(this.getName()));
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

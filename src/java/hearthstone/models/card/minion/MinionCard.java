@@ -414,7 +414,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
             //Mapper.damage(this.attack, minionCard);
             minionCard.gotDamage(this.attack);
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
 
             log(minionCard);
         }
@@ -428,7 +428,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
             //Mapper.damage(minionCard.getAttack(), this);
             this.gotDamage(minionCard.getAttack());
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -446,7 +446,7 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         log(hero);
     }

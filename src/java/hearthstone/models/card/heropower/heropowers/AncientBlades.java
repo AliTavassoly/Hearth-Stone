@@ -1,8 +1,6 @@
 package hearthstone.models.card.heropower.heropowers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import hearthstone.models.behaviours.Upgradeable;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -71,7 +69,7 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
             }
         }
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     @Override

@@ -28,6 +28,6 @@ public class PaladinPower extends SpecialHeroPower implements EndTurnBehave {
         //Mapper.addHealth(1, minionCard);
         minionCard.gotHeal(1);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

@@ -52,7 +52,7 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
             HSServer.getInstance().deleteMouseWaitingRequest(playerId);
 
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         }
     }
 

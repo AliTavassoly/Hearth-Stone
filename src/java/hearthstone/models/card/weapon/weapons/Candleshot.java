@@ -28,6 +28,6 @@ public class Candleshot extends WeaponCard {
         HSServer.getInstance().getPlayer(playerId).getHero().handleImmunities();
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

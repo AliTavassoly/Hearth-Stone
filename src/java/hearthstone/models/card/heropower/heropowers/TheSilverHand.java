@@ -29,7 +29,7 @@ public class TheSilverHand extends HeroPowerCard  {
         }
 
         //Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         log();
     }

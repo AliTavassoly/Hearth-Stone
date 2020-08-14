@@ -1,29 +1,29 @@
 package hearthstone.client.gui.controls.panels;
 
 import hearthstone.client.gui.controls.buttons.GameInfoButton;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.models.GameInfo;
 import hearthstone.shared.GUIConfigs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class GameInfosPanel extends JPanel {
     private ArrayList<GameInfo> gameInfos;
-    private ArrayList<JPanel> panels;
     private ArrayList<GameInfoButton> infoButtons;
     private int infoWidth, infoHeight;
-
-    private Color color;
 
     private int startX = 10;
     private int startY = 10;
     private int disY = 10;
 
-    public GameInfosPanel(ArrayList<GameInfo> gameInfos, ArrayList<JPanel> panels,
+    public GameInfosPanel(ArrayList<GameInfo> gameInfos,
                           int infoWidth, int infoHeight) {
         this.gameInfos = gameInfos;
-        this.panels = panels;
         this.infoWidth = infoWidth;
         this.infoHeight = infoHeight;
 
@@ -31,6 +31,14 @@ public class GameInfosPanel extends JPanel {
 
         for (GameInfo gameInfo : this.gameInfos) {
             GameInfoButton infoButton = new GameInfoButton(gameInfo, infoWidth, infoHeight);
+
+            infoButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    ClientMapper.viewRequest(gameInfo.getPlayer0(), HSClient.currentAccount.getUsername());
+                }
+            });
+
             infoButtons.add(infoButton);
         }
 
@@ -53,19 +61,10 @@ public class GameInfosPanel extends JPanel {
     private void layoutComponent() {
         for (int i = 0; i < gameInfos.size(); i++) {
             GameInfoButton button = infoButtons.get(i);
-            JPanel panel = panels.get(i);
 
             button.setBounds(startX, startY + i * disY,
                     infoWidth, infoHeight);
-            if (panel != null) {
-                panel.setBounds(startX + infoWidth + 10, startY + i * disY + 7,
-                        (int) panel.getPreferredSize().getWidth(),
-                        (int) panel.getPreferredSize().getHeight());
-            }
-
             add(button);
-            if (panel != null)
-                add(panel);
         }
     }
 }

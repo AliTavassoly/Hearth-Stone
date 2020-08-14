@@ -27,14 +27,14 @@ public class DesertSpear extends WeaponCard {
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         try {
             /*Mapper.damage(minionCard.getAttack(),
                     Mapper.getHero(getPlayerId()));*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) { }
 
         //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
@@ -60,6 +60,6 @@ public class DesertSpear extends WeaponCard {
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

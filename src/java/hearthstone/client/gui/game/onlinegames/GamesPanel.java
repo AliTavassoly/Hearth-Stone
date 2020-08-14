@@ -85,15 +85,9 @@ public class GamesPanel extends JPanel {
     }
 
     private void makeGamesList() {
-        ArrayList<GameInfo> games = new ArrayList<>();
-        ArrayList<JPanel> panels = new ArrayList<>();
+        ArrayList<GameInfo> games = new ArrayList<>(GamesPanel.games);
 
-        for (GameInfo gameInfo : GamesPanel.games) {
-            games.add(gameInfo);
-            panels.add(null);
-        }
-
-        gamesPanel = new GameInfosPanel(games, panels,
+        gamesPanel = new GameInfosPanel(games,
                 GUIConfigs.gameInfoWidth, GUIConfigs.gameInfoHeight);
         gamesScroll = new JScrollPane(gamesPanel);
         gamesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

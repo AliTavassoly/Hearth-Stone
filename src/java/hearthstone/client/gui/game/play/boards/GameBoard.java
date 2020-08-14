@@ -6,7 +6,6 @@ import hearthstone.client.gui.controls.buttons.PassiveButton;
 import hearthstone.client.gui.controls.dialogs.*;
 import hearthstone.client.gui.controls.icons.CloseIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;
-import hearthstone.client.gui.controls.icons.WatchersIcon;
 import hearthstone.client.gui.controls.interfaces.HaveCard;
 import hearthstone.client.gui.controls.panels.ImagePanel;
 import hearthstone.client.gui.credetials.CredentialsFrame;
@@ -35,7 +34,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel implements MouseListener {
-    protected ImageButton backButton, minimizeButton, closeButton, watchersButton;
+    protected static GameBoard instance;
+
+    protected ImageButton backButton, minimizeButton, closeButton;
     protected ImageButton endTurnButton;
     protected BoardHeroButton myHero;
     protected BoardHeroButton enemyHero;
@@ -162,7 +163,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // Finals END
 
-    public GameBoard(Player myPlayer, Player enemyPlayer) {
+    protected GameBoard(Player myPlayer, Player enemyPlayer) {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
 
@@ -187,6 +188,14 @@ public class GameBoard extends JPanel implements MouseListener {
         gameStuffLayoutBeforeStartGame();
 
         addMouseListener(this);
+    }
+
+    public static GameBoard makeInstance(Player myPlayer, Player enemyPlayer) {
+        return instance = new GameBoard(myPlayer, enemyPlayer);
+    }
+
+    public static GameBoard getInstance() {
+        return instance;
     }
 
     @Override
@@ -238,16 +247,9 @@ public class GameBoard extends JPanel implements MouseListener {
         drawEndTurnTimeLine();
     }
 
-    public void showPassiveDialogs(int playerId) {
-    }
+    public void showPassiveDialogs(int playerId) { }
 
-    public void showCardDialog(int playerId, ArrayList<Card> cards) {
-        /*CardDialog cardDialog0 = new CardDialog(
-                GameFrame.getInstance(),
-                cards);
-        ClientMapper.removeFromInitialHandRequest(cardDialog0.getCards(), GameConfigs.initialDiscardCards);*/
-        //  Mapper.removeInitialCards(0, cardDialog0.getCards(), GameConfigs.initialDiscardCards);
-    }
+    public void showCardDialog(int playerId, ArrayList<Card> cards) { }
 
     // DRAW MANA
     protected void drawMyMana(Graphics2D g, int number, int maxNumber) {
@@ -1051,11 +1053,6 @@ public class GameBoard extends JPanel implements MouseListener {
 
         closeButton = new CloseIcon("icons/close.png",
                 "icons/close_hovered.png",
-                GUIConfigs.iconWidth,
-                GUIConfigs.iconHeight);
-
-        watchersButton = new WatchersIcon("icons/watchers.png",
-                "icons/watchers_hovered.png",
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
 

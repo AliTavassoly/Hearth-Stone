@@ -17,8 +17,18 @@ import hearthstone.util.SoundPlayer;
 import java.util.ArrayList;
 
 public class PracticeGameBoard extends GameBoard {
-    public PracticeGameBoard(Player myPlayer, Player enemyPlayer) {
+    private static PracticeGameBoard instance;
+
+    private PracticeGameBoard(Player myPlayer, Player enemyPlayer) {
         super(myPlayer, enemyPlayer);
+    }
+
+    public static PracticeGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+        return instance = new PracticeGameBoard(myPlayer, enemyPlayer);
+    }
+
+    public static PracticeGameBoard getInstance(){
+        return instance;
     }
 
     @Override

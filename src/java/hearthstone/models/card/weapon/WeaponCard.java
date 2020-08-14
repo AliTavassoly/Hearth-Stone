@@ -100,7 +100,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         log(minionCard);
 
@@ -109,7 +109,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
                     Mapper.getHero(getPlayerId()));*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) {
         }
 
@@ -126,7 +126,7 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
         //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         log(hero);
     }

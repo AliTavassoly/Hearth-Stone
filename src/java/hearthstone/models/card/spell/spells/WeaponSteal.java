@@ -39,7 +39,7 @@ public class WeaponSteal extends SpellCard {
             //Mapper.addDurability(2, card);
             card.setDurability(card.getDurability() + 2);
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
 
             //Mapper.makeAndPutDeck(getPlayerId(), card);
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);

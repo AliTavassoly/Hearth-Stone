@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class AccountInfosPanel extends JPanel{
     private ArrayList<AccountInfo> accountInfos;
-    private ArrayList<JPanel> panels;
     private ArrayList<AccountInfoButton> infoButtons;
     private int infoWidth, infoHeight;
 
@@ -22,10 +21,9 @@ public class AccountInfosPanel extends JPanel{
     private int startY = 10;
     private int disY = 10;
 
-    public AccountInfosPanel(ArrayList<AccountInfo> accountInfos, ArrayList<JPanel> panels,
+    public AccountInfosPanel(ArrayList<AccountInfo> accountInfos,
                       int infoWidth, int infoHeight) {
         this.accountInfos = accountInfos;
-        this.panels = panels;
         this.infoWidth = infoWidth;
         this.infoHeight = infoHeight;
 
@@ -43,10 +41,9 @@ public class AccountInfosPanel extends JPanel{
         layoutComponent();
     }
 
-    public AccountInfosPanel(ArrayList<AccountInfo> accountInfos, ArrayList<JPanel> panels,
+    public AccountInfosPanel(ArrayList<AccountInfo> accountInfos,
                              Color color, int infoWidth, int infoHeight) {
         this.accountInfos = accountInfos;
-        this.panels = panels;
         this.infoWidth = infoWidth;
         this.infoHeight = infoHeight;
 
@@ -78,19 +75,11 @@ public class AccountInfosPanel extends JPanel{
     private void layoutComponent() {
         for (int i = 0; i < accountInfos.size(); i++) {
             AccountInfoButton button = infoButtons.get(i);
-            JPanel panel = panels.get(i);
 
             button.setBounds(startX, startY + i * disY,
                     infoWidth, infoHeight);
-            if (panel != null) {
-                panel.setBounds(startX + infoWidth + 10, startY + i * disY + 7,
-                        (int) panel.getPreferredSize().getWidth(),
-                        (int) panel.getPreferredSize().getHeight());
-            }
 
             add(button);
-            if (panel != null)
-                add(panel);
         }
     }
 }

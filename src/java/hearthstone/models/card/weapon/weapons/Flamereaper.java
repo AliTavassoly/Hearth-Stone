@@ -31,7 +31,7 @@ public class Flamereaper extends WeaponCard {
         //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         log(minionCard);
 
@@ -50,7 +50,7 @@ public class Flamereaper extends WeaponCard {
         }
 
         //Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         if (minionCard instanceof IsAttacked) {
             //Mapper.isAttacked((IsAttacked)minionCard);

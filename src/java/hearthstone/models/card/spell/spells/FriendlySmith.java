@@ -1,7 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
-import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -11,7 +9,6 @@ import hearthstone.models.card.weapon.WeaponCard;
 import hearthstone.models.hero.HeroType;
 import hearthstone.server.data.ServerData;
 import hearthstone.server.network.HSServer;
-import hearthstone.server.network.ServerMapper;
 import hearthstone.util.Rand;
 
 import javax.persistence.Entity;
@@ -52,6 +49,6 @@ public class FriendlySmith  extends SpellCard implements ChooseCardAbility {
 
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(selectedWeapon);
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

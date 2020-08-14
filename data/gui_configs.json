@@ -106,6 +106,12 @@
   "gameInfoWidth": 430,
   "gameInfoHeight": 122,
 
+  "watcherInfoWidth": 180,
+  "watcherInfoHeight": 50,
+
+  "watchersInfoListWidth": 200,
+  "watchersInfoListHeight": 300,
+
   "weaponDetailWidth": 35,
   "weaponDetailHeight": 35,
 

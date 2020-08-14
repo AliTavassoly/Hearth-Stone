@@ -27,7 +27,7 @@ public class Sacrificer extends HeroPowerCard {
         //Mapper.setHealth(hero.getHealth() - 2, hero);
         hero.setHealth(hero.getHealth() - 2);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         if(Rand.getInstance().getProbability(1, 2)){
             try {
@@ -35,7 +35,7 @@ public class Sacrificer extends HeroPowerCard {
                 HSServer.getInstance().getPlayer(getPlayerId()).drawCard();
 
                 //Mapper.updateBoard();
-                HSServer.getInstance().updateGameRequest(playerId);
+                HSServer.getInstance().updateGame(playerId);
             } catch (HearthStoneException ignore) {}
         } else {
             //MinionCard minionCard = DataTransform.getRandomMinionFromLand(getPlayerId());
@@ -48,7 +48,7 @@ public class Sacrificer extends HeroPowerCard {
                 minionCard.gotHeal(1);
 
                 // Mapper.updateBoard();
-                HSServer.getInstance().updateGameRequest(playerId);
+                HSServer.getInstance().updateGame(playerId);
             }
         }
 

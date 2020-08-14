@@ -1,7 +1,5 @@
 package hearthstone.models.card.spell.spells;
 
-import hearthstone.client.gui.controls.dialogs.CardSelectionDialog;
-import hearthstone.client.gui.game.GameFrame;
 import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.card.CardType;
@@ -36,7 +34,7 @@ public class Tracking extends SpellCard implements ChooseCardAbility {
     public void doAfterChoosingCard(Card card) {
         try {
             HSServer.getInstance().getPlayer(getPlayerId()).drawCard(card);
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) {}
     }
 }

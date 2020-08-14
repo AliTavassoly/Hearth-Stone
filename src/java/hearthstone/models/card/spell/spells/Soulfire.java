@@ -37,7 +37,7 @@ public class Soulfire extends SpellCard {
     public void doAbility() {
         HSServer.getInstance().createMouseWaiting(playerId, getCursorType(), this);
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Soulfire extends SpellCard {
                 //HSServer.getInstance().getPlayer(getPlayerId()).discardCard(DataTransform.getRandomCardFromHand(getPlayerId()).getCardGameId());
                 HSServer.getInstance().getPlayer(getPlayerId()).discardCard(HSServer.getInstance().getPlayer(getPlayerId()).getFactory().getRandomCardFromHand().getCardGameId());
                 // Mapper.updateBoard();
-                HSServer.getInstance().updateGameRequest(playerId);
+                HSServer.getInstance().updateGame(playerId);
             } catch (Exception e) {
                 e.printStackTrace();
             }

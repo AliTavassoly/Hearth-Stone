@@ -35,6 +35,6 @@ public class Dreadscale extends MinionCard implements EndTurnBehave {
             } catch (HearthStoneException ignore) { }
         }
         //Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

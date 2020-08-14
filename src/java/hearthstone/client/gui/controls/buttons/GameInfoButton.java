@@ -15,7 +15,7 @@ public class GameInfoButton extends ImageButton implements MouseListener {
     private GameInfo gameInfo;
 
     private static BufferedImage gameIcon;
-    private static BufferedImage gameInfoImage;
+    private BufferedImage gameInfoImage;
     private static BufferedImage gameInfoImageHovered;
     private static BufferedImage gameInfoImageNormal;
 
@@ -47,11 +47,14 @@ public class GameInfoButton extends ImageButton implements MouseListener {
 
             if (gameInfoImageNormal == null) {
                 gameInfoImageNormal = ImageResource.getInstance().getImage("/images/game_info.png");
-                gameInfoImage = gameInfoImageNormal;
             }
 
             if (gameInfoImageHovered == null)
                 gameInfoImageHovered = ImageResource.getInstance().getImage("/images/game_info_hovered.png");
+
+            if(gameInfoImage == null){
+                gameInfoImage = gameInfoImageNormal;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,9 +75,9 @@ public class GameInfoButton extends ImageButton implements MouseListener {
         g2.setFont(font);
         g2.setColor(new Color(69, 27, 27));
 
-        g2.drawString("Player1: " + gameInfo.getPlayer0(), stringsX, stringStartY);
-        // g2.drawString("Username: " + accountInfo.getUsername(), stringsX, stringStartY + stringDis);
-        g2.drawString("Player2: " + gameInfo.getPlayer1(), stringsX, stringStartY + 2 * stringDis);
+        g2.drawString("Player 1: " + gameInfo.getPlayer0(), stringsX, stringStartY);
+
+        g2.drawString("Player 2: " + gameInfo.getPlayer1(), stringsX, stringStartY + 2 * stringDis);
     }
 
     @Override

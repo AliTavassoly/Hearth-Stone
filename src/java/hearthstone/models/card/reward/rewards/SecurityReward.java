@@ -50,6 +50,6 @@ public class SecurityReward extends RewardCard implements Battlecry {
         log();
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 }

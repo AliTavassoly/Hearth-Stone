@@ -403,7 +403,7 @@ public class Player {
             playSpell(cardInHand);
 
         // Mapper.updateBoard();
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
 
         logPlayCard(cardInHand);
     }
@@ -445,7 +445,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     private void summonMinion(Card card) {
@@ -586,7 +586,7 @@ public class Player {
 
         if (deathRattles.size() > 0) {
             // Mapper.updateBoard();
-            HSServer.getInstance().updateGameRequest(playerId);
+            HSServer.getInstance().updateGame(playerId);
         }
     }
 
@@ -629,7 +629,7 @@ public class Player {
     public void endTurn() {
         handleEndTurnBehaviours();
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     public void startTurn() {
@@ -645,7 +645,7 @@ public class Player {
             e.printStackTrace();
         }
 
-        HSServer.getInstance().updateGameRequest(playerId);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     public void configPassive(Passive passive) {

@@ -18,6 +18,7 @@ import hearthstone.models.*;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -160,22 +161,27 @@ public class HSClient {
     }
 
     public void makeNewOnlineGame(Player myPlayer, Player enemyPlayer) {
-        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
+        HSClient.currentGameBoard = OnlineGameBoard.makeInstance(myPlayer, enemyPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
     public void makeNewPracticeGame(Player myPlayer, Player practicePlayer) {
-        HSClient.currentGameBoard = new PracticeGameBoard(myPlayer, practicePlayer);
+        HSClient.currentGameBoard = PracticeGameBoard.makeInstance(myPlayer, practicePlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
     public void makeNewSoloGame(Player myPlayer, Player aiPlayer) {
-        HSClient.currentGameBoard = new SoloGameBoard(myPlayer, aiPlayer);
+        HSClient.currentGameBoard = SoloGameBoard.makeInstance(myPlayer, aiPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
     public void makeNewDeckReaderGame(Player myPlayer, Player enemyPlayer) {
-        HSClient.currentGameBoard = new OnlineGameBoard(myPlayer, enemyPlayer);
+        HSClient.currentGameBoard = OnlineGameBoard.makeInstance(myPlayer, enemyPlayer);
+        GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
+    }
+
+    public void makeNewViewGameBoard(Player firstPlayer, Player secondPlayer) {
+        HSClient.currentGameBoard = ViewGameBoard.makeInstance(firstPlayer, secondPlayer);
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HSClient.currentGameBoard);
     }
 
