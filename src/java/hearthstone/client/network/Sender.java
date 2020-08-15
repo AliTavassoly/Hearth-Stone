@@ -18,8 +18,6 @@ public class Sender extends Thread{
 
             objectString = ClientData.getNetworkMapper().writeValueAsString(packet);
 
-            System.out.println("Sent from client: " + objectString);
-
             printStream.println(objectString);
             printStream.flush();
         } catch (Exception e) {

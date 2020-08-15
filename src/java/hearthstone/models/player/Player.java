@@ -89,10 +89,8 @@ public class Player {
     }
 
     public void configPlayer() {
-        System.out.println(playerId);
         synchronized (deckLock) {
             for (Card card : deck.getCards()) { // ConcurrentModificationException
-                System.out.println("Id In config Player: " + playerId);
                 configCard(card);
             }
         }

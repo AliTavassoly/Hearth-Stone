@@ -92,7 +92,6 @@ public class Game extends Thread {
     }
 
     protected void configGame() {
-        System.out.println("Config function in game");
         whoseTurn = player0.getPlayerId();
 
         player0.setGame(this);
@@ -104,7 +103,6 @@ public class Game extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Run function in game: ...");
         try {
             configGame();
 
@@ -283,12 +281,6 @@ public class Game extends Thread {
             foundedObject = getCardById(((Card) founded).getCardGameId());
         } else {
             throw new HearthStoneException("Strange Object founded!");
-        }
-
-        System.out.println(waitObject.getName() + " " + foundedObject + " " + waitObject);
-        if(waitObject instanceof MinionCard){
-            System.out.print(waitObject.getName() + " ");
-            System.out.println(((MinionCard) waitObject).canAttack() + " " + ((MinionCard) waitObject).isCanAttack());
         }
 
         waitObject.found(foundedObject);

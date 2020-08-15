@@ -12,11 +12,9 @@ public class Main {
 
     public static void main(String[] args) {
         if (args.length > 0) {
-            System.out.println("1: " + args[0]);
             makePort(args[0]);
         }
         if(args.length > 1) {
-            System.out.println("2: " + args[1]);
             makeIP(args[1]);
         }
 

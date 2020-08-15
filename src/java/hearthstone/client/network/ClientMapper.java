@@ -386,7 +386,6 @@ public class ClientMapper {
     }
 
     public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards) {
-        System.out.println("Sent from client: " + playerId + " " + discardedCards.size());
         Packet packet = new Packet("selectNotWantedCardsResponse",
                 new Object[]{playerId, discardedCards});
         HSClient.sendPacket(packet);

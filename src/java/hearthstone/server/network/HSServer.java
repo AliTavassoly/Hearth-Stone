@@ -741,6 +741,8 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
+        System.out.println(clients.get(username) + " " + clients.get(username).getCurrentGame() + " " + clients.get(username).getCurrentGame().getFirstPlayer());
+
         String username0 = clients.get(username).getCurrentGame().getFirstPlayer().getUsername();
         String username1 = clients.get(username).getCurrentGame().getSecondPlayer().getUsername();
 

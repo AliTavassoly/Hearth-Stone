@@ -20,7 +20,7 @@ public class CloseIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
+                SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you wanna exit the game?",
                         GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
                 boolean sure = sureDialog.getValue();
                 if (sure) {

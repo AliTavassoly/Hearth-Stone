@@ -397,7 +397,6 @@ public class ServerMapper{
 
     // BEGINNING GAME
     public static void selectPassiveRequest(int playerId, ClientHandler clientHandler) {
-        System.out.println("Sent to client");
         Packet packet = new Packet("selectPassiveRequest",
                 new Object[]{playerId});
         clientHandler.sendPacket(packet);
@@ -414,7 +413,6 @@ public class ServerMapper{
     }
 
     public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
-        System.out.println("Received in server: " + playerId + " " + discardedCards.size());
         HSServer.getInstance().getPlayer(playerId).removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 

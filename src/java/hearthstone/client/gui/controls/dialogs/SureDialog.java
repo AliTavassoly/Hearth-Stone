@@ -47,10 +47,9 @@ public class SureDialog extends HSDialog {
     }
 
     private void makeButtons(){
-        okButton = new ImageButton("ok", "buttons/green_background.png", 0,
+        okButton = new ImageButton("Ok", "buttons/green_background.png", 0,
                 Color.white, Color.yellow,
                 15, 0,
-
                 GUIConfigs.smallButtonWidth, GUIConfigs.smallButtonHeight);
 
         cancelButton = new ImageButton("cancel", "buttons/red_background.png", 0,
@@ -89,6 +88,7 @@ public class SureDialog extends HSDialog {
         grid.weightx = 5;
 
         grid.gridx = 0;
+        grid.insets = new Insets(20, 0, 0, 0);
         add(message, grid);
 
         // second row
@@ -97,13 +97,13 @@ public class SureDialog extends HSDialog {
         grid.gridx = 0;
         grid.gridwidth = 1;
         grid.anchor = GridBagConstraints.FIRST_LINE_END;
-        grid.insets = new Insets(0, 0, 0, 20);
+        grid.insets = new Insets(20, 0, 0, 20);
         add(okButton, grid);
 
         grid.gridx = 1;
         grid.gridwidth = 1;
         grid.anchor = GridBagConstraints.FIRST_LINE_START;
-        grid.insets = new Insets(0, 20, 0, 0);
+        grid.insets = new Insets(20, 20, 0, 0);
         add(cancelButton, grid);
     }
 
