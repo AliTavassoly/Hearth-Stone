@@ -24,42 +24,31 @@ public class DesertSpear extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
-        // Mapper.updateBoard();
+
         HSServer.getInstance().updateGame(playerId);
 
         try {
-            /*Mapper.damage(minionCard.getAttack(),
-                    Mapper.getHero(getPlayerId()));*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) { }
 
-        //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
 
         if (minionCard instanceof IsAttacked) {
-            //Mapper.isAttacked((IsAttacked)minionCard);
             ((IsAttacked) minionCard).isAttacked();
         }
     }
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
+        if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
-        //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
-        // Mapper.updateBoard();
-        // HSServer.getInstance().updateGameRequest(playerId);
 
-        //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 }

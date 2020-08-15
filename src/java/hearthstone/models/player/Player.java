@@ -87,6 +87,7 @@ public class Player {
     }
 
     public void configPlayer() {
+        System.out.println(playerId);
         for (Card card : deck.getCards()) { // ConcurrentModificationException
             System.out.println("Id In config Player: " + playerId);
             configCard(card);
@@ -307,23 +308,6 @@ public class Player {
 
     // CARD ACTION
     public void logDrawCard(Card card) {
-        /*try {
-            Logger.saveLog("Draw Card",
-                    HSServer.getInstance().getPlayerName(getPlayerId())
-                            + " drew " + card.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    public void logPlayCard(Card card) {
-        try {
-            Logger.saveLog("Play Card",
-                    HSServer.getInstance().getPlayerName(getPlayerId())
-                            + " played " + card.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void drawCard() throws HearthStoneException {
@@ -405,10 +389,7 @@ public class Player {
         if (cardInHand.getCardType() == CardType.SPELL)
             playSpell(cardInHand);
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
-
-        logPlayCard(cardInHand);
     }
 
     public void playCard(Card cardInHand) throws HearthStoneException {
@@ -471,7 +452,6 @@ public class Player {
     protected void playSpell(Card card) {
         SpellCard spell = (SpellCard) card;
 
-        // Mapper.animateSpell(getPlayerId(), card);
         HSServer.getInstance().animateSpellRequest(playerId, card);
 
         spell.doAbility();
@@ -588,7 +568,6 @@ public class Player {
         }
 
         if (deathRattles.size() > 0) {
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
         }
     }
@@ -637,8 +616,8 @@ public class Player {
     public void startTurn() {
         mana = calculateMana();
 
-        //mana = 10;
-        mana = Math.min(mana, calculateMaxMana());
+        mana = 10;
+        //mana = Math.min(mana, calculateMaxMana());
 
         handleStartTurnBehaviours();
 
@@ -755,7 +734,6 @@ public class Player {
 
     protected void updateWeapon() {
         if (weapon != null && weapon.getDurability() < 0) {
-            //Mapper.setWeapon(getPlayerId(), null);
             HSServer.getInstance().getPlayer(getPlayerId()).setWeapon(null);
         }
 

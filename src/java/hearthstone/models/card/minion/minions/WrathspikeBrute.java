@@ -32,19 +32,15 @@ public class WrathspikeBrute extends MinionCard implements IsAttacked{
         Hero hero = HSServer.getInstance().getPlayer(enemyPlayerId).getHero();
 
         try {
-            //Mapper.damage(1, hero);
             hero.gotDamage(1);
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) { }
 
         for(Card card: HSServer.getInstance().getPlayer(enemyPlayerId).getLand()){
             try {
-                //Mapper.damage(1, (MinionCard) card, false);
                 ((MinionCard) card).gotDamage(1);
             } catch (HearthStoneException ignore) { }
         }
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 }

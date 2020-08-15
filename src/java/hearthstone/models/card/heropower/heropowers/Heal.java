@@ -30,24 +30,16 @@ public class Heal extends HeroPowerCard {
         if(object instanceof Hero){
             Hero hero = (Hero)object;
 
-            //Mapper.restoreHealth(4, hero);
             hero.restoreHealth(4);
 
-            log();
-
-            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
             HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
         } else if (object instanceof MinionCard){
             MinionCard minion = (MinionCard)object;
 
-            //Mapper.restoreHealth(4, minion);
             minion.restoreHealth(4);
 
-            log();
-
-            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
             HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;

@@ -18,20 +18,13 @@ public class TheSilverHand extends HeroPowerCard  {
     }
 
     private void doAbility(){
-        //Mapper.reduceMana(getPlayerId(), this.getManaCost());
         HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
-
-        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
-        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), 1, 1);
 
         for(int i = 0; i < 2; i++){
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck(1, 1);
         }
 
-        //Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
-
-        log();
     }
 
     @Override

@@ -237,27 +237,11 @@ public class Account {
         for (int i = 0; i < cnt; i++)
             collection.add(baseCard, cnt);
         gem -= baseCard.getSellPrice() * cnt;
-
-        try {
-            hearthstone.util.Logger.saveLog("buy",
-                    "in market, bought " + 1 + " of " +
-                            baseCard.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void sellCards(Card baseCard, int cnt) throws HearthStoneException {
         gem += baseCard.getSellPrice() * cnt;
         collection.remove(baseCard, cnt);
-
-        try {
-            hearthstone.util.Logger.saveLog("sell",
-                    "in market, sold " + 1 + " of " +
-                            baseCard.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public ArrayList<Deck> getBestDecks(int cnt) {
@@ -337,12 +321,6 @@ public class Account {
     public void removeDeck(String heroName, String deckName) {
         Hero hero = getHeroByName(heroName);
         hero.removeDeck(deckName);
-        /*for(Deck deck: getAllDecks()){
-            if(deck.getName().equals(deckName) && deck.getHeroType().getHeroName().equals(heroName)){
-                this.decks.remove(deck);
-                break;
-            }
-        }*/
     }
 
     public Card addCardToDeck(String heroName, String deckName, int cardId,

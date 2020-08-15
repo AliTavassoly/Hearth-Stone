@@ -112,8 +112,6 @@ public class SettingsPanel extends JPanel {
                 String newPassword = passwordDialog.getValue();
 
                 if (newPassword.length() > 0) {
-                    /*ServerData.changePassword(HSClient.currentAccount.getUsername(),
-                            newPassword);*/
                     ClientMapper.changePasswordRequest(newPassword);
                 }
             }
@@ -150,24 +148,6 @@ public class SettingsPanel extends JPanel {
         deletedAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 ClientMapper.deleteAccountRequest();
-                /*try {
-                    SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to delete you account ?",
-                            GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
-
-                    boolean sure = sureDialog.getValue();
-
-                    if (sure) {
-                        ServerData.deleteAccount(HSClient.currentAccount.getUsername());
-                        GameFrame.getInstance().setVisible(false);
-                        GameFrame.getInstance().dispose();
-                        CredentialsFrame.getNewInstance().setVisible(true);
-
-                        Logger.saveLog("Delete account",
-                                "account deleted");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
             }
         });
     }

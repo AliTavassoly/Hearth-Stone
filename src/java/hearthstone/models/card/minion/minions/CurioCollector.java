@@ -31,10 +31,8 @@ public class CurioCollector extends MinionCard implements WaitDrawingCard {
         if (card.getCardType() != CardType.MINION_CARD)
             return false;
         MinionCard minionCard = (MinionCard) card;
-        //Mapper.addAttack(1, minionCard.getCardGameId());
         minionCard.changeAttack(1);
 
-        //Mapper.heal(1, minionCard);
         minionCard.gotHeal(1);
         return true;
     }

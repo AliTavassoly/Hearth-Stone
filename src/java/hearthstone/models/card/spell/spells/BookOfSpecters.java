@@ -25,9 +25,8 @@ public class BookOfSpecters  extends SpellCard {
         for(Card card: topCards){
             if(card.getCardType() != CardType.SPELL){
                 try {
-                    //Mapper.drawCard(getPlayerId(), card);
                     HSServer.getInstance().getPlayer(getPlayerId()).drawCard(card);
-                    // Mapper.updateBoard();
+
                     HSServer.getInstance().updateGame(playerId);
                 } catch (HearthStoneException ignore){}
             }

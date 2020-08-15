@@ -152,13 +152,6 @@ public class MainMenuPanel extends JPanel {
 
         collectionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "collection_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), HeroSelection.makeInstance());
             }
         });
@@ -166,13 +159,6 @@ public class MainMenuPanel extends JPanel {
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    try {
-                        hearthstone.util.Logger.saveLog("Click_button",
-                                "play_button");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
                     GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                             PlaySelectionPanel.makeInstance());
                 } catch (Exception ex) {

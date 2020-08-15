@@ -404,7 +404,6 @@ public class ServerMapper {
     }
 
     public synchronized static void selectPassiveResponse(int playerId, Passive passive, ClientHandler clientHandler) {
-        // clientHandler.getPlayer().setPassive(passive);
         HSServer.getInstance().getPlayer(playerId).setPassive(passive);
     }
 
@@ -414,7 +413,8 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
+    public synchronized static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
+        System.out.println("Recieved in server: " + playerId + " " + discardedCards.size());
         HSServer.getInstance().getPlayer(playerId).removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 
@@ -477,7 +477,6 @@ public class ServerMapper {
 
     public static void playCardRequest(int playerId, Card card, ClientHandler clientHandler) {
         try {
-            // clientHandler.getPlayer().playCard(card);
             HSServer.getInstance().getPlayer(playerId).playCard(card);
 
             HSServer.getInstance().updateGame(playerId);

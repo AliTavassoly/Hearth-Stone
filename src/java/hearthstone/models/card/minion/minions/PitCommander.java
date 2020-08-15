@@ -34,12 +34,10 @@ public class PitCommander extends MinionCard implements EndTurnBehave {
         if(didItEndTurnBehave)
             return;
 
-        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), MinionType.DEMON);
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck(MinionType.DEMON);
 
         didItEndTurnBehave = true;
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 }

@@ -22,13 +22,6 @@ public class BackIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (HSClient.currentAccount != null)
-                        hearthstone.util.Logger.saveLog("Click_icon",
-                                "Back_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(),
                         panel);
             }

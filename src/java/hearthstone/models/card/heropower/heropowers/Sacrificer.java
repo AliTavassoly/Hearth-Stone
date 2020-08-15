@@ -43,8 +43,6 @@ public class Sacrificer extends HeroPowerCard {
                 HSServer.getInstance().updateGame(playerId);
             }
         }
-
-        log();
     }
 
     @Override

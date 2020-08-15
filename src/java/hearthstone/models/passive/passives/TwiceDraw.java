@@ -18,7 +18,6 @@ public class TwiceDraw extends Passive implements StartTurnBehave {
     @Override
     public void startTurnBehave() {
         try {
-            //Mapper.drawCard(getPlayerId());
             HSServer.getInstance().getPlayer(getPlayerId()).drawCard();
         } catch (HearthStoneException ignore) {}
     }

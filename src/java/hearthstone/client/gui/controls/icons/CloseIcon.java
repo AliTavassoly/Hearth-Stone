@@ -20,13 +20,6 @@ public class CloseIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (HSClient.currentAccount != null)
-                        hearthstone.util.Logger.saveLog("Click_icon",
-                                "Close_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 SureDialog sureDialog = new SureDialog(GameFrame.getInstance(), "Are you sure you want to Exit Game ?",
                         GUIConfigs.dialogWidth, GUIConfigs.dialogHeight);
                 boolean sure = sureDialog.getValue();

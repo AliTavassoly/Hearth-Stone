@@ -22,7 +22,6 @@ public class Sprint extends SpellCard {
     public void doAbility() {
         try {
             for (int i = 0; i < 4; i++)
-                //Mapper.drawCard(getPlayerId());
                 HSServer.getInstance().getPlayer(getPlayerId()).drawCard();
         } catch (HearthStoneException ignore) {
         }

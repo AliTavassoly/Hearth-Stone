@@ -295,24 +295,6 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         this.isDivineShield = false;
     }
 
-    public void log(Hero hero) {
-        try {
-            hearthstone.util.Logger.saveLog("Minion Attack",
-                    this.getName() + " attack to " + hero.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void log(MinionCard minion) {
-        try {
-            hearthstone.util.Logger.saveLog("Minion Attack",
-                    this.getName() + " attack to " + minion.getName() + "!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void reduceImmunities() {
         for (int i = 0; i < immunities.size(); i++) {
@@ -366,16 +348,12 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         numberOfAttack = 1;
         isFirstTurn = false;
 
-        //Mapper.reduceImmunities(getPlayerId(), this);
         this.reduceImmunities();
 
-        //Mapper.handleImmunities(getPlayerId(), this);
         this.handleImmunities();
 
-        //Mapper.reduceFreezes(getPlayerId(), this);
         this.reduceFreezes();
 
-        //Mapper.handleFreezes(getPlayerId(), this);
         this.handleFreezes();
     }
 
@@ -411,23 +389,16 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
         if (!minionCard.isImmune && minionCard.isDivineShield) {
             minionCard.removeDivineShield();
         } else {
-            //Mapper.damage(this.attack, minionCard);
             minionCard.gotDamage(this.attack);
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
-
-            log(minionCard);
         }
 
         if (minionCard instanceof IsAttacked) {
-            //Mapper.isAttacked((IsAttacked) minionCard);
             ((IsAttacked) minionCard).isAttacked();
         }
 
         try {
-            //Mapper.damage(minionCard.getAttack(), this);
             this.gotDamage(minionCard.getAttack());
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -436,19 +407,15 @@ public abstract class MinionCard extends Card implements MinionBehaviour, Charac
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
+        if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         } else if (isFirstTurn) {
             if (isRush && !isCharge) {
                 throw new HearthStoneException("Rush card can not attack to hero in first turn!");
             }
         }
-        //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
-
-        log(hero);
     }
 
     @Override

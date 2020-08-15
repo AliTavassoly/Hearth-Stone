@@ -67,22 +67,6 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
         this.canAttack = canAttack;
     }
 
-    protected void log(Hero hero){
-        try {
-            hearthstone.util.Logger.saveLog("Weapon Attack", this.getName() + " attacked to " + hero.getName() + "!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    protected void log(MinionCard minion){
-        try {
-            hearthstone.util.Logger.saveLog("Weapon Attack", this.getName() + " attacked to " + minion.getName() + "!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public boolean canAttack() {
         return numberOfAttack > 0 &&
                 HSServer.getInstance().getPlayer(getPlayerId()).isMyTurn() && !HSServer.getInstance().getPlayer(playerId).getHero().isFreeze();
@@ -97,38 +81,28 @@ public abstract class WeaponCard extends Card implements WeaponBehaviour {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
 
-        log(minionCard);
-
         try {
-            /*Mapper.damage(minionCard.getAttack(),
-                    Mapper.getHero(getPlayerId()));*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
-            // Mapper.updateBoard();
+
             HSServer.getInstance().updateGame(playerId);
         } catch (HearthStoneException ignore) {
         }
 
         if (minionCard instanceof IsAttacked)
-            //Mapper.isAttacked((IsAttacked) minionCard);
             ((IsAttacked) minionCard).isAttacked();
     }
 
     @Override
     public void attack(Hero hero) throws HearthStoneException {
-        if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
+        if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt()) {
             throw new HearthStoneException("There is taunt in front of you!");
         }
-        //Mapper.damage(this.attack, hero);
         hero.gotDamage(this.attack);
-        // Mapper.updateBoard();
-        HSServer.getInstance().updateGame(playerId);
 
-        log(hero);
+        HSServer.getInstance().updateGame(playerId);
     }
 
     @Override

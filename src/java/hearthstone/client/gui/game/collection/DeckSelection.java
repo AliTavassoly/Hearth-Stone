@@ -151,7 +151,7 @@ public class DeckSelection extends JPanel {
     private void makeHeroButton() {
         Hero hero = HSClient.currentAccount.getHeroByName(heroName);
 
-        heroButton = new HeroButton(hero,  // REAL HERO SHOULD BE
+        heroButton = new HeroButton(hero,
                 GUIConfigs.bigHeroWidth,
                 GUIConfigs.bigHeroHeight);
     }

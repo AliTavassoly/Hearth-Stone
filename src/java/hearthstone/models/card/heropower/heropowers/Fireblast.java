@@ -27,13 +27,8 @@ public class Fireblast extends HeroPowerCard {
             if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
-            //Mapper.damage(1, hero);
             hero.gotDamage(1);
-            //Mapper.updateBoard();
-            //HSServer.getInstance().updateGameRequest(playerId);
 
-            log();
-            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
             HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             numberOfAttack--;
@@ -43,27 +38,20 @@ public class Fireblast extends HeroPowerCard {
                 throw new HearthStoneException("This minion is hero power safe!");
             if (!minion.isImmune() && minion.isDivineShield()) {
                 minion.removeDivineShield();
-                // Mapper.updateBoard();
                 HSServer.getInstance().updateGame(playerId);
                 return;
             }
 
-            //Mapper.damage(1, minion);
             minion.gotDamage(1);
-            // Mapper.updateBoard();
-            log();
 
-            //Mapper.reduceMana(getPlayerId(), this.getManaCost());
             HSServer.getInstance().getPlayer(getPlayerId()).reduceMana(this.getManaCost());
 
             if (minion instanceof IsAttacked) {
-                //Mapper.isAttacked((IsAttacked) minion);
                 ((IsAttacked) minion).isAttacked();
             }
 
             numberOfAttack--;
         }
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 
@@ -87,7 +75,7 @@ public class Fireblast extends HeroPowerCard {
             Hero hero = (Hero) object;
             if (hero.getPlayerId() == this.getPlayerId())
                 throw new HearthStoneException("Choose enemy!");
-            if (/*DataTransform.haveTaunt(hero.getPlayerId())*/HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt())
+            if (HSServer.getInstance().getPlayer(hero.getPlayerId()).haveTaunt())
                 throw new HearthStoneException("There is taunt in front of you!");
 
             doAbility(hero);

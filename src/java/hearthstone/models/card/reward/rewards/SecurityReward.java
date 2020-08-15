@@ -20,13 +20,11 @@ public class SecurityReward extends RewardCard implements Battlecry {
 
     @Override
     public void battlecry() {
-        //Mapper.restartSpentManaOnMinions(getPlayerId());
         HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnMinions(0);
     }
 
     @Override
     public void updatePercentage() {
-        //int now = DataTransform.spentManaOnMinions(getPlayerId());
         int now = HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions();
         int end = 10;
 
@@ -35,21 +33,15 @@ public class SecurityReward extends RewardCard implements Battlecry {
 
     @Override
     public boolean metCondition() {
-        return HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions() >= 10
-                /*DataTransform.spentManaOnMinions(getPlayerId()) >= 10*/;
+        return HSServer.getInstance().getPlayer(getPlayerId()).getManaSpentOnMinions() >= 10;
     }
 
     @Override
     public void doReward() {
-        //Mapper.summonMinionFromCurrentDeck(getPlayerId(), "Security Rover");
         HSServer.getInstance().getPlayer(getPlayerId()).getFactory().summonMinionFromCurrentDeck("Security Rover");
 
-        //Mapper.restartSpentManaOnMinions(getPlayerId());
         HSServer.getInstance().getPlayer(getPlayerId()).setManaSpentOnMinions(0);
 
-        log();
-
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 }

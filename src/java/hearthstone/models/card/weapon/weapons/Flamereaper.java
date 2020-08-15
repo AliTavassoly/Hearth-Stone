@@ -23,37 +23,26 @@ public class Flamereaper extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        /*DataTransform.getNeighbors(
-                        Mapper.getEnemyId(getPlayerId()),
-                        minionCard);*/
         ArrayList <MinionCard> neighbors = HSServer.getInstance().getPlayer(minionCard.getPlayerId()).neighborCards(minionCard);
 
-        //Mapper.damage(this.attack, minionCard);
         minionCard.gotDamage(this.attack);
-        // Mapper.updateBoard();
+
         HSServer.getInstance().updateGame(playerId);
 
-        log(minionCard);
-
         try {
-            /*Mapper.damage(minionCard.getAttack(),
-                    Mapper.getHero(getPlayerId()), false);*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
 
         } catch (HearthStoneException ignore) { }
 
         for (MinionCard minionCard1 : neighbors){
             try {
-                //Mapper.damage(this.getAttack(), minionCard1, false);
                 minionCard1.gotDamage(this.getAttack());
             } catch (HearthStoneException ignore) { }
         }
 
-        //Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
 
         if (minionCard instanceof IsAttacked) {
-            //Mapper.isAttacked((IsAttacked)minionCard);
             ((IsAttacked) minionCard).isAttacked();
         }
     }

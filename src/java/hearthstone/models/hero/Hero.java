@@ -326,16 +326,12 @@ public abstract class Hero implements HeroBehaviour, Character {
 
     @Override
     public void startTurnBehave()  {
-        //Mapper.reduceImmunities(getPlayerId(), this);
         this.reduceImmunities();
 
-        //Mapper.handleImmunities(getPlayerId(), this);
         this.handleImmunities();
 
-        //Mapper.reduceFreezes(getPlayerId(), this);
         this.reduceFreezes();
 
-        //Mapper.handleFreezes(getPlayerId(), this);
         this.handleFreezes();
     }
 }

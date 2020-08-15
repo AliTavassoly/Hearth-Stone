@@ -45,19 +45,14 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
         } else if (card == this) {
             throw new HearthStoneException("you cant choose this minion for it's behave!");
         } else {
-            //Mapper.makeAndPutDeck(getPlayerId(), HearthStone.getCardByName(card.getName()));
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(ServerData.getCardByName(card.getName()));
 
-            //Mapper.makeAndPutHand(getPlayerId(), HearthStone.getCardByName(card.getName()));
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutHand(ServerData.getCardByName(card.getName()));
 
-            //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName(card.getName()));
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName(card.getName()));
 
-            //Mapper.deleteCurrentMouseWaiting();
             HSServer.getInstance().deleteMouseWaitingRequest(playerId);
 
-            // Mapper.updateBoard();
             HSServer.getInstance().updateGame(playerId);
         }
     }

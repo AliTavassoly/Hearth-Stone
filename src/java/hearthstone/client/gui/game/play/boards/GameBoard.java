@@ -376,7 +376,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW WEAPON
 
     // DRAW CARDS
-    protected synchronized void drawCardsOnHand(PlayerModel player, int handX, int handY) {
+    protected void drawCardsOnHand(PlayerModel player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;
@@ -437,7 +437,7 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
-    protected synchronized void drawCardsOnLand(PlayerModel player, int landX, int landY) {
+    protected void drawCardsOnLand(PlayerModel player, int landX, int landY) {
         ArrayList<Card> cards = player.getLand();
         if (cards.size() == 0)
             return;
@@ -635,7 +635,6 @@ public class GameBoard extends JPanel implements MouseListener {
                             animations.remove(ind);
 
                             if (animationsCard.size() == 0) {
-                                //Mapper.updateBoard();
                                 restart();
                             }
                         }
@@ -1197,7 +1196,7 @@ public class GameBoard extends JPanel implements MouseListener {
         return x >= boardStartX && x <= boardEndX && y >= enemyLandStartY && y <= enemyLandEndY;
     }
 
-    public synchronized void showError(String text) {
+    public void showError(String text) {
         if (getWhoseTurn() == myPlayer.getPlayerId()) {
             myMessageDialog.setText(text);
             myMessageDialog.setImagePath("/images/my_think_dialog.png");

@@ -92,13 +92,13 @@ public class ServerData {
         accounts.get(username).setPasswordHash(Crypt.hash(password));
     }
 
-    public /*synchronized*/ static ObjectMapper getDataMapper(){
+    public static ObjectMapper getDataMapper(){
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper;
     }
 
-    public /*synchronized*/ static ObjectMapper getObjectCloneMapper(){
+    public static ObjectMapper getObjectCloneMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -107,7 +107,7 @@ public class ServerData {
         return mapper;
     }
 
-    public /*synchronized*/ static ObjectMapper getNetworkMapper(){
+    public static ObjectMapper getNetworkMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.EVERYTHING);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

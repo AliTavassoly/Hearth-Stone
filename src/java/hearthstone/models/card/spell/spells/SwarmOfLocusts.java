@@ -21,10 +21,8 @@ public class SwarmOfLocusts extends SpellCard {
     @Override
     public void doAbility() {
         for (int i = 0; i < 7; i++) {
-            //Mapper.makeAndSummonMinion(getPlayerId(), HearthStone.getCardByName("Locust"));
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndSummonMinion(ServerData.getCardByName("Locust"));
         }
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
     }
 }

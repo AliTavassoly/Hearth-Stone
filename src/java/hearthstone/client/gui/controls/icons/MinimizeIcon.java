@@ -19,13 +19,6 @@ public class MinimizeIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (HSClient.currentAccount != null)
-                        hearthstone.util.Logger.saveLog("Click_icon",
-                                "Minimize_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 GameFrame.getInstance().setState(Frame.ICONIFIED);
                 GameFrame.getInstance().setState(Frame.NORMAL);
             }

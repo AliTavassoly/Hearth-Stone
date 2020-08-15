@@ -130,12 +130,6 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 buyScroll.setVisible(false);
-                /*try {
-                    hearthstone.util.Logger.saveLog("Click_button",
-                            "sell panel_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
                 sellScroll.setVisible(true);
             }
         });
@@ -147,12 +141,6 @@ public class MarketPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 sellScroll.setVisible(false);
-                try {
-                    hearthstone.util.Logger.saveLog("Button_click",
-                            "buy panel_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 buyScroll.setVisible(true);
             }
         });

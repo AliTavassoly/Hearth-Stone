@@ -18,9 +18,8 @@ public class Blur  extends SpellCard{
 
     @Override
     public void doAbility() {
-        //Mapper.addImmunity(getPlayerId(), 1, Mapper.getHero(getPlayerId()));
         HSServer.getInstance().getPlayer(playerId).getHero().addImmunity(1);
-        //Mapper.handleImmunities(getPlayerId(), Mapper.getHero(getPlayerId()));
+
         HSServer.getInstance().getPlayer(playerId).getHero().handleImmunities();
     }
 }

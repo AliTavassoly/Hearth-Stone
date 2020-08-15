@@ -155,26 +155,6 @@ public class HeroSelection extends JPanel {
             selectionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    //try {
-                        //HSClient.currentAccount.setSelectedHero(hero);
-                        //Mapper.saveDataBase();
-
-                        /*hearthstone.util.Logger.saveLog("Click_button",
-                                "select");
-                        hearthstone.util.Logger.saveLog("Select hero",
-                                hero.getName() + " selected for battle!");*/
-                    /*} catch (HearthStoneException e) {
-                        try {
-                            hearthstone.util.Logger.saveLog("ERROR",
-                                    e.getClass().getName() + ": " + e.getMessage()
-                                            + "\nStack Trace: " + e.getStackTrace());
-                        } catch (Exception f) {
-                        }
-                        BaseFrame.error(e.getMessage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }*/
-
                     ClientMapper.selectHeroRequest(hero.getName());
 
                     restart();
@@ -227,11 +207,6 @@ public class HeroSelection extends JPanel {
     }
 
     public void restart() {
-        /*try {
-            Mapper.saveDataBase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new HeroSelection());
     }
 }

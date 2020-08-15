@@ -65,7 +65,6 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
                 stealFromDeck(myId, enemyPlayerId, deckCard.getCardGameId(), deckCard.getName());
                 if (deckCard.getHeroType() != HeroType.ALL && deckCard.getHeroType() != HSServer.getInstance().getPlayer(playerId).getHero().getType())
                     deckCard.setManaCost(Math.max(0, deckCard.getManaCost() - 2));
-
             }
         }
 
@@ -99,6 +98,6 @@ public class AncientBlades extends HeroPowerCard implements Upgradeable {
 
     @Override
     public void updateUpgraded() {
-       this.upgraded = HSServer.getInstance().getPlayer(getPlayerId()).haveWeapon();
+       this.upgraded = HSServer.getInstance().getPlayer(playerId).haveWeapon();
     }
 }

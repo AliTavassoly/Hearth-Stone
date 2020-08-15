@@ -44,23 +44,17 @@ public class WarglaivesOfAzzinoth extends WeaponCard {
 
     @Override
     public void attack(MinionCard minionCard) throws HearthStoneException {
-        //Mapper.damage(this.attack, minionCard, false);
         minionCard.gotDamage(this.attack);
 
-        log(minionCard);
         numberOfAttack++;
 
         try {
-            /*Mapper.damage(minionCard.getAttack(),
-                    Mapper.getHero(getPlayerId()), false);*/
             HSServer.getInstance().getPlayer(playerId).getHero().gotDamage(minionCard.getAttack());
         } catch (HearthStoneException ignore) { }
 
-        // Mapper.updateBoard();
         HSServer.getInstance().updateGame(playerId);
 
         if (minionCard instanceof IsAttacked) {
-            //Mapper.isAttacked((IsAttacked) minionCard);
             ((IsAttacked) minionCard).isAttacked();
         }
     }

@@ -3,6 +3,7 @@ package hearthstone.server.logic;
 import hearthstone.models.WatcherInfo;
 import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
+import hearthstone.models.card.minion.MinionCard;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
 import hearthstone.models.player.PlayerModel;
@@ -272,7 +273,7 @@ public class Game extends Thread {
         }
 
         Card waitObject = getCardById(((Card) waitedCardId).getCardGameId());
-        Object foundedObject = null;
+        Object foundedObject;
 
         if (founded instanceof Hero) {
             foundedObject = getHeroById(((Hero) founded).getHeroGameId());
@@ -280,6 +281,12 @@ public class Game extends Thread {
             foundedObject = getCardById(((Card) founded).getCardGameId());
         } else {
             throw new HearthStoneException("Strange Object founded!");
+        }
+
+        System.out.println(waitObject.getName() + " " + foundedObject + " " + waitObject);
+        if(waitObject instanceof MinionCard){
+            System.out.print(waitObject.getName() + " ");
+            System.out.println(((MinionCard) waitObject).canAttack() + " " + ((MinionCard) waitObject).isCanAttack());
         }
 
         waitObject.found(foundedObject);

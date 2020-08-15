@@ -37,16 +37,6 @@ public abstract class Passive {
         return playerId;
     }
 
-    public void log(){
-        try {
-            hearthstone.util.Logger.saveLog("Passive",
-                    HSServer.getInstance().getPlayerName(getPlayerId()) +
-                    " player, chose " + this.getName() + " passive!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public int getId() {
         return id;
     }

@@ -51,9 +51,13 @@ public class PracticeGameBoard extends GameBoard {
         ArrayList<Card> selectedCards = cardDialog0.getCards();
         ArrayList<Integer> selectedId = new ArrayList<>();
 
+        System.out.println("Salam1");
+
         for (Card card : selectedCards) {
             selectedId.add(card.getCardGameId());
         }
+
+        System.out.println("Salam2 " + selectedId.size() + " " + playerId);
 
         ClientMapper.selectNotWantedCardsResponse(playerId, selectedId);
     }

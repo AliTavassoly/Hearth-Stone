@@ -27,11 +27,9 @@ public class FreezingPotion  extends SpellCard {
     public void found(Object object){
         if(object instanceof Character){
             Character character = (Character) object;
-            //Mapper.addFreezes(character.getPlayerId(), 2, character);
             character.addFreezes(2);
             character.handleFreezes();
 
-            // Mapper.deleteCurrentMouseWaiting();
             HSServer.getInstance().deleteMouseWaitingRequest(playerId);
         }
     }

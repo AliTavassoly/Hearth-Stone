@@ -23,15 +23,6 @@ public abstract class RewardCard extends Card implements RewardBehaviour {
         super(id, name, description, manaCost, heroType, rarity, cardType);
     }
 
-    protected void log(){
-        try {
-            hearthstone.util.Logger.saveLog("Reward Action", this.getName() + "' " +
-                    "side quest were done and it's reward has been received!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public int getPercentage(){
         return percentage;
     }

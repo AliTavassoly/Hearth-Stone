@@ -56,7 +56,6 @@ public class ClientMapper {
             String key = (String) object;
             ClientData.baseCards.put(Integer.parseInt(key), card);
         }
-        //baseCards.forEach((k, v) ->  ClientData.baseCards.put(Integer.parseInt(String.valueOf(k)), v));
     }
 
     public static void createBaseHeroesRequest() {
@@ -387,6 +386,7 @@ public class ClientMapper {
     }
 
     public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards) {
+        System.out.println("Sent from client: " + playerId + " " + discardedCards.size());
         Packet packet = new Packet("selectNotWantedCardsResponse",
                 new Object[]{playerId, discardedCards});
         HSClient.sendPacket(packet);

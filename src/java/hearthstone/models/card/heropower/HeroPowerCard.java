@@ -38,14 +38,6 @@ public abstract class HeroPowerCard extends Card implements HeroPowerBehaviour {
         this.canAttack = canAttack;
     }
 
-    public void log(){
-        try {
-            hearthstone.util.Logger.saveLog("Power Action", this.getName() + " power used!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void startTurnBehave() {
         numberOfAttack = 1 + extraNumberOfAttack;

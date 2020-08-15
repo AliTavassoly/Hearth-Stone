@@ -24,7 +24,7 @@ public class PracticeGame extends Game {
         long startTime = System.currentTimeMillis();
 
         while (player.getPassive() == null) {
-            if ((System.currentTimeMillis() - startTime) / 1000 > 10) {
+            if ((System.currentTimeMillis() - startTime) / 1000 > 20) {
                 throw new HearthStoneException("Player didn't choose passive!");
             }
             try {
@@ -42,12 +42,13 @@ public class PracticeGame extends Game {
     }
 
     protected void discardInitialCards(Player player) throws HearthStoneException {
-        ServerMapper.selectNotWantedCardsRequest(player.getPlayerId(), player.getTopCards(GameConfigs.initialDiscardCards), HSServer.getInstance().getClientHandlerByPlayer(player));
+        ServerMapper.selectNotWantedCardsRequest(player.getPlayerId(), player.getTopCards(GameConfigs.initialDiscardCards),
+                HSServer.getInstance().getClientHandlerByPlayer(player));
 
         long startTime = System.currentTimeMillis();
 
         while (!player.isDiscardedCards()) {
-            if ((System.currentTimeMillis() - startTime) / 1000 > 10) {
+            if ((System.currentTimeMillis() - startTime) / 1000 > 20) {
                 throw new HearthStoneException("Player didn't discard initial cards!");
             }
             try {

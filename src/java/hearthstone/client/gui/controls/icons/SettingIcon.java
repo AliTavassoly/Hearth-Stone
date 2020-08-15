@@ -19,14 +19,6 @@ public class SettingIcon extends ImageButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if (HSClient.currentAccount != null)
-                        hearthstone.util.Logger.saveLog("Click_icon",
-                                "Setting_button");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
                 GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new SettingsPanel());
             }
         });

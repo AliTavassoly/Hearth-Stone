@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-public class LoginPanel extends JPanel{
+public class LoginPanel extends JPanel {
     private static LoginPanel instance;
 
     private ImageButton backButton, loginButton, closeButton, minimizeButton;
@@ -57,11 +57,11 @@ public class LoginPanel extends JPanel{
         layoutComponent();
     }
 
-    public static LoginPanel makeInstance(){
+    public static LoginPanel makeInstance() {
         return instance = new LoginPanel();
     }
 
-    public static LoginPanel getInstance(){
+    public static LoginPanel getInstance() {
         return instance;
     }
 
@@ -106,23 +106,7 @@ public class LoginPanel extends JPanel{
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                //try {
-                    /*hearthstone.HearthStone.login(userField.getText(), new String(passField.getPassword()));
-                    CredentialsFrame.getInstance().setVisible(false);
-                    GameFrame.getNewInstance().setVisible(true);*/
-                    ClientMapper.loginRequest(userField.getText(), new String(passField.getPassword()));
-                /*} catch (HearthStoneException e) {
-                    try {
-                        hearthstone.util.Logger.saveLog("ERROR",
-                                e.getClass().getName() + ": " + e.getMessage() +
-                                        "\nStack Trace: " + e.getStackTrace());
-                    } catch (Exception f) {
-                    }
-                    error = e.getMessage();
-                    repaint();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }*/
+                ClientMapper.loginRequest(userField.getText(), new String(passField.getPassword()));
             }
         });
     }
@@ -230,16 +214,20 @@ public class LoginPanel extends JPanel{
         add(closeButton);
     }
 
-    public void showError(String error){
+    public void showError(String error) {
         this.error = error;
         repaint();
     }
 
     class MyAction implements KeyListener {
-        public void keyTyped(KeyEvent keyEvent) { }
-        public void keyReleased(KeyEvent keyEvent) { }
+        public void keyTyped(KeyEvent keyEvent) {
+        }
+
+        public void keyReleased(KeyEvent keyEvent) {
+        }
+
         public void keyPressed(KeyEvent keyEvent) {
-            if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER){
+            if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                 loginButton.doClick();
             }
         }
