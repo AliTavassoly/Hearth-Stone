@@ -54,6 +54,7 @@ public class PracticeGameBoard extends GameBoard {
         System.out.println("Salam1");
 
         for (Card card : selectedCards) {
+            System.out.println(card.getName() + " " + card.getCardGameId());
             selectedId.add(card.getCardGameId());
         }
 

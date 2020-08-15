@@ -92,6 +92,7 @@ public class Game extends Thread {
     }
 
     protected void configGame() {
+        System.out.println("Config function in game");
         whoseTurn = player0.getPlayerId();
 
         player0.setGame(this);
@@ -103,12 +104,13 @@ public class Game extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Run function in game: ...");
         try {
+            configGame();
+
             selectPassive();
 
             discardInitialCards();
-
-            configGame();
 
             player0.setMyTurn(true);
 

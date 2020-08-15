@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ServerMapper {
+public class ServerMapper{
     private static Packet addClientHandlerToPacket(Packet packet, ClientHandler clientHandler) {
         if (packet.getArgs() == null) {
             packet.setArgs(new Object[]{clientHandler});
@@ -403,7 +403,7 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public synchronized static void selectPassiveResponse(int playerId, Passive passive, ClientHandler clientHandler) {
+    public static void selectPassiveResponse(int playerId, Passive passive, ClientHandler clientHandler) {
         HSServer.getInstance().getPlayer(playerId).setPassive(passive);
     }
 
@@ -413,8 +413,8 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public synchronized static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
-        System.out.println("Recieved in server: " + playerId + " " + discardedCards.size());
+    public static void selectNotWantedCardsResponse(int playerId, ArrayList<Integer> discardedCards, ClientHandler clientHandler) {
+        System.out.println("Received in server: " + playerId + " " + discardedCards.size());
         HSServer.getInstance().getPlayer(playerId).removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 

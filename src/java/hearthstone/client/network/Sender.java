@@ -5,7 +5,7 @@ import hearthstone.models.Packet;
 
 import java.io.PrintStream;
 
-public class Sender {
+public class Sender extends Thread{
     private PrintStream printStream;
 
     public Sender(PrintStream printStream) {
@@ -18,7 +18,10 @@ public class Sender {
 
             objectString = ClientData.getNetworkMapper().writeValueAsString(packet);
 
+            System.out.println("Sent from client: " + objectString);
+
             printStream.println(objectString);
+            printStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }

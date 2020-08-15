@@ -50,9 +50,9 @@ public class ClientHandler extends Thread {
             while (true) {
                 String message = scanner.nextLine();
 
-                ServerMapper.invokeFunction(getPacket(message), this);
+                System.out.println("ClientHandler: " + message);
 
-                System.out.println(getPacket(message).getFunctionName());
+                ServerMapper.invokeFunction(getPacket(message), this);
             }
         } catch (Exception e) {
             clientDisconnected();
@@ -69,6 +69,10 @@ public class ClientHandler extends Thread {
             System.out.println("Sent from server: " + packet.getFunctionName());
 
             new PrintStream(socket.getOutputStream()).println(objectString);
+
+            /*PrintStream printStream = new PrintStream(socket.getOutputStream());
+            printStream.println(objectString);
+            printStream.flush();*/
         } catch (Exception e) {
             e.printStackTrace();
         }

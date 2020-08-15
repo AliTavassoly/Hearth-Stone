@@ -31,6 +31,8 @@ public class Player {
 
     protected Deck originalDeck;
     protected Deck deck;
+    protected final Object deckLock = new Object();
+
     protected Passive passive;
     protected boolean isDiscardedCards;
 
@@ -88,9 +90,11 @@ public class Player {
 
     public void configPlayer() {
         System.out.println(playerId);
-        for (Card card : deck.getCards()) { // ConcurrentModificationException
-            System.out.println("Id In config Player: " + playerId);
-            configCard(card);
+        synchronized (deckLock) {
+            for (Card card : deck.getCards()) { // ConcurrentModificationException
+                System.out.println("Id In config Player: " + playerId);
+                configCard(card);
+            }
         }
 
         if (passive != null) {
@@ -307,15 +311,16 @@ public class Player {
     }
 
     // CARD ACTION
-    public void logDrawCard(Card card) {
-    }
-
     public void drawCard() throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
         int cardInd = 0;
-        Card card = deck.getCards().get(cardInd);
-        deck.getCards().remove(cardInd);
+
+        Card card;
+        synchronized (deckLock) {
+            card = deck.getCards().get(cardInd);
+            deck.getCards().remove(cardInd);
+        }
 
         if (hand.size() == maxCardInHand())
             throw new HearthStoneException("your hand is full!");
@@ -323,15 +328,18 @@ public class Player {
         handleWaitingDrawCards(card);
 
         hand.add(card);
-        logDrawCard(card);
     }
 
     public void drawCard(int ind) throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
         int cardInd = ind;
-        Card card = deck.getCards().get(cardInd);
-        deck.getCards().remove(cardInd);
+
+        Card card;
+        synchronized (deckLock) {
+            card = deck.getCards().get(cardInd);
+            deck.getCards().remove(cardInd);
+        }
 
         if (hand.size() == maxCardInHand())
             throw new HearthStoneException("your hand is full!");
@@ -339,13 +347,15 @@ public class Player {
         handleWaitingDrawCards(card);
 
         hand.add(card);
-        logDrawCard(card);
     }
 
     public void drawCard(Card card) throws HearthStoneException {
         if (deck.getCards().size() == 0)
             throw new HearthStoneException("your deck is empty!");
-        deck.getCards().remove(card);
+
+        synchronized (deckLock) {
+            deck.getCards().remove(card);
+        }
 
         if (hand.size() == maxCardInHand())
             throw new HearthStoneException("your hand is full!");
@@ -353,7 +363,6 @@ public class Player {
         handleWaitingDrawCards(card);
 
         hand.add(card);
-        logDrawCard(card);
     }
 
     public void discardCard(int cardId) throws HearthStoneException {
@@ -764,11 +773,13 @@ public class Player {
         for (int i = 0; i < numberOfTopCards; i++) {
             Card card = deck.getCards().get(i);
             if (discardCards.contains(card.getCardGameId())) {
-                deck.getCards().remove(i);
+                synchronized (deckLock) {
+                    deck.getCards().remove(i);
 
-                i--;
+                    i--;
 
-                deck.getCards().add(card);
+                    deck.getCards().add(card);
+                }
             }
         }
     }
@@ -833,7 +844,9 @@ public class Player {
                 Card card = deck.getCards().get(start);
                 if (card.getCardType() == CardType.MINION_CARD) {
                     summonMinion(card);
-                    deck.getCards().remove(start);
+                    synchronized (deckLock) {
+                        deck.getCards().remove(start);
+                    }
                     return;
                 }
                 start++;
@@ -1009,7 +1022,9 @@ public class Player {
     protected void removeFromDeck(int cardGameId) {
         for (Card card : deck.getCards()) {
             if (card.getCardGameId() == cardGameId) {
-                deck.getCards().remove(card);
+                synchronized (deckLock) {
+                    deck.getCards().remove(card);
+                }
                 return;
             }
         }
