@@ -25,6 +25,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.CursorType;
@@ -47,11 +48,11 @@ public class OnlineGameBoard extends GameBoard {
     protected WatchersPanel watchersPanel;
     protected JScrollPane watcherScroll;
 
-    private OnlineGameBoard(Player myPlayer, Player enemyPlayer) {
+    private OnlineGameBoard(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         super(myPlayer, enemyPlayer);
     }
 
-    public static OnlineGameBoard makeInstance(Player myPlayer, Player enemyPlayer) {
+    public static OnlineGameBoard makeInstance(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         return instance = new OnlineGameBoard(myPlayer, enemyPlayer);
     }
 
@@ -59,7 +60,7 @@ public class OnlineGameBoard extends GameBoard {
         return instance;
     }
 
-    protected void drawCardsOnHand(Player player, int handX, int handY) {
+    protected void drawCardsOnHand(PlayerModel player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;
@@ -378,7 +379,7 @@ public class OnlineGameBoard extends GameBoard {
             }
         });
     }
-
+ 
     @Override
     protected void makeGameStuff() {
         endTurnButton = new ImageButton("End Turn", "end_turn.png",

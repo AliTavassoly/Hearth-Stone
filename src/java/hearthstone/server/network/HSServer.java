@@ -3,9 +3,11 @@ package hearthstone.server.network;
 import hearthstone.client.data.ClientData;
 import hearthstone.models.*;
 import hearthstone.models.card.Card;
+import hearthstone.models.hero.Hero;
 import hearthstone.models.hero.HeroType;
 import hearthstone.models.player.AIPlayer;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.server.data.DataBase;
 import hearthstone.server.data.ServerData;
 import hearthstone.server.logic.*;
@@ -18,10 +20,12 @@ import hearthstone.server.model.UpdateWaiter;
 import hearthstone.server.model.updaters.RankingUpdater;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
+import hearthstone.util.Reflection;
 import hearthstone.util.timer.HSPeriodTask;
 import hearthstone.util.timer.HSPeriodTimer;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -40,14 +44,16 @@ public class HSServer extends Thread {
 
     private ArrayList<GameRequest> waitingForGame;
     private ArrayList<GameRequest> waitingForDeckReaderGame;
+    private ArrayList<GameRequest> waitingForTavernBrawlGame;
 
     private ArrayList<Game> games;
     private final Object gamesLock = new Object();
 
     private final Object waitingForGameLock = new Object();
     private final Object waitingForDeckReaderGameLock = new Object();
+    private final Object waitingForTavernBrawlGameLock = new Object();
 
-    private HSPeriodTimer onlineGameFinder, deckReaderGameFinder;
+    private HSPeriodTimer onlineGameFinder, deckReaderGameFinder, tavernBrawlGameFinder;
 
     public static Market market = new Market();
 
@@ -62,6 +68,8 @@ public class HSServer extends Thread {
             startOnlineMathFinder();
 
             startDeckReaderMathFinder();
+
+            startTavernBrawlMathFinder();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,6 +151,46 @@ public class HSServer extends Thread {
         deckReaderGameFinder.start();
     }
 
+    private void startTavernBrawlMathFinder() {
+        tavernBrawlGameFinder = new HSPeriodTimer(500, new HSPeriodTask() {
+            @Override
+            public void startFunction() {
+            }
+
+            @Override
+            public void periodFunction() {
+                synchronized (waitingForTavernBrawlGameLock) {
+                    for (int i = 0; i < waitingForTavernBrawlGame.size(); i++) {
+                        for (int j = i + 1; j < waitingForTavernBrawlGame.size(); j++) {
+                            if (HSServer.getInstance().canMatch(waitingForTavernBrawlGame.get(i), waitingForTavernBrawlGame.get(j))) {
+                                GameRequest request0 = waitingForTavernBrawlGame.get(i);
+                                GameRequest request1 = waitingForTavernBrawlGame.get(j);
+
+                                waitingForTavernBrawlGame.remove(request0);
+                                waitingForTavernBrawlGame.remove(request1);
+
+                                try {
+                                    makeNewTavernBrawlGame(request0.getUsername(), request1.getUsername());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public boolean finishCondition() {
+                return false;
+            }
+        });
+        tavernBrawlGameFinder.start();
+    }
+
     private boolean canMatch(GameRequest request0, GameRequest request1) {
         Account account0 = ServerData.getClientDetails(request0.getUsername()).getAccount();
         Account account1 = ServerData.getClientDetails(request1.getUsername()).getAccount();
@@ -157,6 +205,7 @@ public class HSServer extends Thread {
         updaterWaiters = new ArrayList<>();
         waitingForGame = new ArrayList<>();
         waitingForDeckReaderGame = new ArrayList<>();
+        waitingForTavernBrawlGame = new ArrayList<>();
         players = new HashMap<>();
         games = new ArrayList<>();
     }
@@ -289,7 +338,11 @@ public class HSServer extends Thread {
         ServerMapper.loginResponse(username, clientHandler);
     }
 
-    public void register(String name, String username, String password, ClientHandler clientHandler) throws HearthStoneException {
+    public void register(String name, String username, String password, String repPassword, ClientHandler clientHandler) throws HearthStoneException {
+        if(!password.equals(repPassword)){
+            throw new HearthStoneException("Password does not match!");
+        }
+
         ServerData.addAccountCredentials(username, password);
         Account account = new Account(ServerData.getAccountId(username), name, username);
         ServerData.addNewClientDetails(username, account);
@@ -333,6 +386,12 @@ public class HSServer extends Thread {
         }
     }
 
+    public void tavernBrawlGameRequest(ClientHandler clientHandler) {
+        synchronized (waitingForTavernBrawlGameLock) {
+            waitingForTavernBrawlGame.add(new GameRequest(clientHandler.getUsername(), System.currentTimeMillis()));
+        }
+    }
+
     public void practiceGameRequest(ClientHandler clientHandler) {
         Player player = clients.get(clientHandler.getUsername()).getAccount().getPlayer();
         Player practicePlayer = clients.get(clientHandler.getUsername()).getAccount().getPlayer();
@@ -371,6 +430,17 @@ public class HSServer extends Thread {
             }
         }
     }
+
+    public void tavernBrawlGameCancelRequest(ClientHandler clientHandler){
+        synchronized (waitingForTavernBrawlGameLock) {
+            for (GameRequest gameRequest : waitingForTavernBrawlGame) {
+                if (gameRequest.getUsername().equals(clientHandler.getUsername())) {
+                    waitingForTavernBrawlGame.remove(gameRequest);
+                    break;
+                }
+            }
+        }
+    }
     // CANCEL GAME
 
     // MAKE GAME
@@ -386,8 +456,10 @@ public class HSServer extends Thread {
         clients.get(player0.getUsername()).getClientHandler().setGame(game);
         clients.get(player1.getUsername()).getClientHandler().setGame(game);
 
-        ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
-        ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player0), PlayerModel.getPlayerModel(player1),
+                clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player1), PlayerModel.getPlayerModel(player0),
+                clients.get(player1.getUsername()).getClientHandler());
 
         synchronized (gamesLock) {
             games.add(game);
@@ -408,8 +480,32 @@ public class HSServer extends Thread {
         clients.get(username0).getClientHandler().setGame(game);
         clients.get(username1).getClientHandler().setGame(game);
 
-        ServerMapper.onlineGameResponse(player0, player1, clients.get(player0.getUsername()).getClientHandler());
-        ServerMapper.onlineGameResponse(player1, player0, clients.get(player1.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player0), PlayerModel.getPlayerModel(player1),
+                clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player1), PlayerModel.getPlayerModel(player0),
+                clients.get(player1.getUsername()).getClientHandler());
+
+        synchronized (gamesLock) {
+            games.add(game);
+        }
+
+        game.start();
+    }
+
+    private void makeNewTavernBrawlGame(String username0, String username1) {
+        Player player0 = getTBPlayer(username0);
+        Player player1 = getTBPlayer(username1);
+
+        Game game = getTBGame(player0, player1, makeNewPlayerId(player0), makeNewPlayerId(player1), GameType.DECK_READER_GAME);
+
+        clients.get(username0).setCurrentGame(game);
+        clients.get(username1).setCurrentGame(game);
+
+        clients.get(username0).getClientHandler().setGame(game);
+        clients.get(username1).getClientHandler().setGame(game);
+
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player0), PlayerModel.getPlayerModel(player1), clients.get(player0.getUsername()).getClientHandler());
+        ServerMapper.onlineGameResponse(PlayerModel.getPlayerModel(player1), PlayerModel.getPlayerModel(player0), clients.get(player1.getUsername()).getClientHandler());
 
         synchronized (gamesLock) {
             games.add(game);
@@ -425,7 +521,7 @@ public class HSServer extends Thread {
 
         clients.get(username).getClientHandler().setGame(game);
 
-        ServerMapper.practiceGameResponse(player, practicePlayer, clients.get(username).getClientHandler());
+        ServerMapper.practiceGameResponse(PlayerModel.getPlayerModel(player), PlayerModel.getPlayerModel(practicePlayer), clients.get(username).getClientHandler());
 
         game.start();
     }
@@ -437,7 +533,7 @@ public class HSServer extends Thread {
 
         clients.get(username).getClientHandler().setGame(game);
 
-        ServerMapper.soloGameResponse(player, aiPlayer, clients.get(username).getClientHandler());
+        ServerMapper.soloGameResponse(PlayerModel.getPlayerModel(player), PlayerModel.getPlayerModel(aiPlayer), clients.get(username).getClientHandler());
 
         game.start();
     }
@@ -655,19 +751,23 @@ public class HSServer extends Thread {
         player1.updatePlayer();
 
         if (isOnlineGame(player0)) {
-            ServerMapper.updateBoardRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
+            ServerMapper.updateBoardRequest(PlayerModel.getPlayerModel(player1), (getSafePlayer(PlayerModel.getPlayerModel(player0))),
+                    clients.get(username1).getClientHandler());
             updateGameWatchers(username0);
         }
         if (isOnlineGame(player0))
-            ServerMapper.updateBoardRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
+            ServerMapper.updateBoardRequest(PlayerModel.getPlayerModel(player0), (getSafePlayer(PlayerModel.getPlayerModel(player1))),
+                    clients.get(username0).getClientHandler());
         else
-            ServerMapper.updateBoardRequest(player0, player1, clients.get(username0).getClientHandler());
+            ServerMapper.updateBoardRequest(PlayerModel.getPlayerModel(player0), PlayerModel.getPlayerModel(player1),
+                    clients.get(username0).getClientHandler());
     }
 
     private void updateGameWatchers(String username){
         Game game = clients.get(username).getCurrentGame();
         for(WatcherInfo watcherInfo: game.getWatchers()){
-            ServerMapper.viewerUpdateRequest(game.getFirstPlayer(), game.getSecondPlayer(), clients.get(watcherInfo.getUsername()).getClientHandler());
+            ServerMapper.viewerUpdateRequest(PlayerModel.getPlayerModel(game.getFirstPlayer()), PlayerModel.getPlayerModel(game.getSecondPlayer()),
+                    clients.get(watcherInfo.getUsername()).getClientHandler());
         }
     }
 
@@ -684,12 +784,18 @@ public class HSServer extends Thread {
         Player player1 = clients.get(username1).getCurrentGame().getSecondPlayer();
 
         if (isOnlineGame(player0))
-            ServerMapper.startGameOnGuiRequest(player1, getSafePlayer(player0), clients.get(username1).getClientHandler());
+            ServerMapper.startGameOnGuiRequest(PlayerModel.getPlayerModel(player1),
+                    getSafePlayer(PlayerModel.getPlayerModel(player0)),
+                    clients.get(username1).getClientHandler());
 
         if (isOnlineGame(player0))
-            ServerMapper.startGameOnGuiRequest(player0, getSafePlayer(player1), clients.get(username0).getClientHandler());
+            ServerMapper.startGameOnGuiRequest(PlayerModel.getPlayerModel(player0),
+                    getSafePlayer(PlayerModel.getPlayerModel(player1)),
+                    clients.get(username0).getClientHandler());
         else
-            ServerMapper.startGameOnGuiRequest(player0, player1, clients.get(username0).getClientHandler());
+            ServerMapper.startGameOnGuiRequest(PlayerModel.getPlayerModel(player0),
+                    PlayerModel.getPlayerModel(player1),
+                    clients.get(username0).getClientHandler());
     }
 
     public void animateSpellRequest(int playerId, Card card) {
@@ -720,9 +826,6 @@ public class HSServer extends Thread {
     }
 
     private void updateGameEndedInGui(Player player0, Player player1) {
-        if (isOnlineGame(player0))
-            player1 = getSafePlayer(player1);
-
         updateGame(player0.getPlayerId());
         if (isOnlineGame(player0))
             updateGame(player1.getPlayerId());
@@ -848,24 +951,20 @@ public class HSServer extends Thread {
         return safeCard;
     }
 
-    private Player getSafePlayer(Player player) {
-        Player safePlayer = player.copy();
+    private PlayerModel getSafePlayer(PlayerModel playerModel) {
+        PlayerModel safePlayerModel = playerModel.copy();
 
-        for (int i = 0; i < safePlayer.getHand().size(); i++) {
-            Card card = safePlayer.getHand().get(i);
-            safePlayer.getHand().set(i, getInstance().safeCard(card));
+        for (int i = 0; i < safePlayerModel.getHand().size(); i++) {
+            Card card = safePlayerModel.getHand().get(i);
+            safePlayerModel.getHand().set(i, getInstance().safeCard(card));
         }
 
-        for (int i = 0; i < safePlayer.getDeck().getCards().size(); i++) {
-            Card card = safePlayer.getDeck().getCards().get(i);
-            safePlayer.getDeck().getCards().set(i, getInstance().safeCard(card));
+        for (int i = 0; i < safePlayerModel.getDeck().getCards().size(); i++) {
+            Card card = safePlayerModel.getDeck().getCards().get(i);
+            safePlayerModel.getDeck().getCards().set(i, getInstance().safeCard(card));
         }
 
-        /*for (int i = 0; i < safePlayer.getOriginalDeck().getCards().size(); i++) {
-            Card card = safePlayer.getOriginalDeck().getCards().get(i);
-            safePlayer.getOriginalDeck().getCards().set(i, getInstance().safeCard(card));
-        }*/
-        return safePlayer;
+        return safePlayerModel;
     }
 
     // SETTINGS
@@ -931,8 +1030,8 @@ public class HSServer extends Thread {
     public void view(String wantToView, String viewer, ClientHandler clientHandler) {
         clients.get(wantToView).getCurrentGame().addWatcher(viewer);
 
-        ServerMapper.viewResponse(clients.get(wantToView).getCurrentGame().getFirstPlayer(),
-                clients.get(wantToView).getCurrentGame().getSecondPlayer(),
+        ServerMapper.viewResponse(PlayerModel.getPlayerModel(clients.get(wantToView).getCurrentGame().getFirstPlayer()),
+                PlayerModel.getPlayerModel(clients.get(wantToView).getCurrentGame().getSecondPlayer()),
                 clientHandler);
 
         Game game = clients.get(wantToView).getCurrentGame();
@@ -946,5 +1045,34 @@ public class HSServer extends Thread {
 
     public void cancelView(String firstPlayerUsername, String wantToCancel) {
         clients.get(firstPlayerUsername).getCurrentGame().removeWatcher(wantToCancel);
+    }
+
+    public Player getTBPlayer(String username){
+        Player player = clients.get(username).getAccount().getPlayer();
+        Class tbClass = Reflection.getClassByName("./TavernBrawl.jar", "TBPlayer");
+        Player tbPlayer = null;
+
+        try {
+            Constructor constructor = tbClass.getConstructor(Hero.class, Deck.class, String.class);
+            tbPlayer = (Player) constructor.newInstance(player.getHero(), player.getDeck(), player.getUsername());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return tbPlayer;
+    }
+
+    private Game getTBGame(Player player0, Player player1, int makeNewPlayerId, int makeNewPlayerId1, GameType gameType) {
+        Class tbClass = Reflection.getClassByName("./TavernBrawl.jar", "TBGame");
+        Game tbGame = null;
+
+        try {
+            Constructor constructor = tbClass.getConstructor(Player.class, Player.class, int.class, int.class, GameType.class);
+            tbGame = (Game) constructor.newInstance(player0, player1, makeNewPlayerId, makeNewPlayerId1, gameType);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return tbGame;
     }
 }

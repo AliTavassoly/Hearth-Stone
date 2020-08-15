@@ -45,7 +45,11 @@ public class AIPlayer extends Player {
                     attackToHero();
                 }
 
-                game.endTurn();
+                try {
+                    game.endTurn(playerId);
+                } catch (HearthStoneException e){
+                    e.printStackTrace();
+                }
             }
         }).start();
     }

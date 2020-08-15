@@ -4,7 +4,7 @@
   "maxCardInDeck": 15,
   "maxManaInGame": 10,
   "maxCardInHand": 10,
-  "maxCardInLand": 5,
+  "maxCardInLand": 6,
   "maxCardOfOneType": 5,
   "maxNumberOfDeck": 7,
   "initialPassives": 3,

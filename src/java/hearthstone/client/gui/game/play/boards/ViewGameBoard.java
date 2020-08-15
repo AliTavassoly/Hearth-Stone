@@ -15,6 +15,7 @@ import hearthstone.client.gui.game.play.controls.*;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.SoundPlayer;
 
@@ -26,11 +27,11 @@ import java.awt.event.ActionListener;
 public class ViewGameBoard extends GameBoard{
     private static ViewGameBoard instance;
 
-    private ViewGameBoard(Player myPlayer, Player enemyPlayer) {
+    private ViewGameBoard(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         super(myPlayer, enemyPlayer);
     }
 
-    public static ViewGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+    public static ViewGameBoard makeInstance(PlayerModel myPlayer, PlayerModel enemyPlayer){
         return instance = new ViewGameBoard(myPlayer, enemyPlayer);
     }
 

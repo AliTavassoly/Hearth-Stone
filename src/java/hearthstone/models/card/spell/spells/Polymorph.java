@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
@@ -11,9 +12,14 @@ import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class Polymorph  extends SpellCard {
+    @Transient
+    @JsonProperty("didAbility")
+    private boolean didAbility;
+
     public Polymorph() { }
 
     public Polymorph(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -32,12 +38,15 @@ public class Polymorph  extends SpellCard {
 
     @Override
     public void found(Object object) throws HearthStoneException {
+        if(didAbility)
+            return;
+
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
-            //Mapper.transformMinion(minionCard.getPlayerId(), minionCard.getCardGameId(), (MinionCard) HearthStone.getCardByName("Sheep"));
             HSServer.getInstance().getPlayer(minionCard.getPlayerId()).transformMinion(minionCard.getCardGameId(), (MinionCard) ServerData.getCardByName("Sheep"));
 
-            // Mapper.updateBoard();
+            didAbility = true;
+
             HSServer.getInstance().updateGame(playerId);
         }
     }

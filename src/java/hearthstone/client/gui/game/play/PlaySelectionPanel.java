@@ -41,7 +41,7 @@ public class PlaySelectionPanel extends JPanel {
     private static PlaySelectionPanel instance;
 
     private ImageButton backButton, logoutButton, minimizeButton, closeButton;
-    private ImageButton playOnline, practicePlay, soloPlay, deckReaderPlay;
+    private ImageButton playOnline, practicePlay, soloPlay, deckReaderPlay, tavernBrawlPlay;
 
     private static BufferedImage backgroundImage;
 
@@ -49,8 +49,8 @@ public class PlaySelectionPanel extends JPanel {
     private final int startIconY = 20;
     private final int endIconY = GUIConfigs.gameFrameHeight - GUIConfigs.iconHeight - 20;
     private final int iconsDis = 70;
-    private final int buttonDisY = 150;
-    private final int startButtonY = GUIConfigs.gameFrameHeight / 2 - buttonDisY * 3 / 2 - GUIConfigs.largeButtonHeight / 2;
+    private final int buttonDisY = 100;
+    private final int startButtonY = GUIConfigs.gameFrameHeight / 2 - buttonDisY * 4 / 2 - GUIConfigs.largeButtonHeight / 2;
     private final int buttonX = GUIConfigs.gameFrameWidth - 200;
 
     private PlaySelectionPanel() {
@@ -121,6 +121,12 @@ public class PlaySelectionPanel extends JPanel {
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
+
+        tavernBrawlPlay = new ImageButton("Tavern Brawl", "buttons/long_pink_background.png",
+                -1, Color.white, Color.yellow, 14, 0,
+                GUIConfigs.largeButtonWidth,
+                GUIConfigs.largeButtonHeight);
+
         playOnline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
@@ -193,6 +199,29 @@ public class PlaySelectionPanel extends JPanel {
                 }
             }
         });
+
+        tavernBrawlPlay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    HSClient.currentAccount.readyForPlay();
+
+                    ClientMapper.tavernBrawlGameRequest();
+
+                    GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new WaitForOpponentPanel(new CancelOperation() {
+                        @Override
+                        public void operation() {
+                            ClientMapper.tavernBrawlGameCancelRequest();
+                            GameFrame.getInstance().switchPanelTo(GameFrame.getInstance(), new MainMenuPanel());
+                        }
+                    }));
+                } catch (HearthStoneException hse) {
+                    BaseFrame.error(hse.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void configPanel() {
@@ -247,5 +276,11 @@ public class PlaySelectionPanel extends JPanel {
                 GUIConfigs.largeButtonWidth,
                 GUIConfigs.largeButtonHeight);
         add(deckReaderPlay);
+
+        tavernBrawlPlay.setBounds(buttonX,
+                startButtonY + 4 * buttonDisY,
+                GUIConfigs.largeButtonWidth,
+                GUIConfigs.largeButtonHeight);
+        add(tavernBrawlPlay);
     }
 }

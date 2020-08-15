@@ -5,6 +5,7 @@ import hearthstone.models.behaviours.ChooseCardAbility;
 import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.server.model.GameType;
 import hearthstone.server.network.HSServer;
 import hearthstone.server.network.ServerMapper;
@@ -20,9 +21,14 @@ public class Game extends Thread {
     protected int whoseTurn;
 
     protected ArrayList<Card> cards;
+    protected final Object cardsLock = new Object();
+
     protected ArrayList<Hero> heroes;
+    protected final Object heroesLock = new Object();
 
     protected ArrayList<WatcherInfo> watchers;
+    protected final Object watchersLock = new Object();
+
     public ArrayList<WatcherInfo> getWatchers() {
         return watchers;
     }
@@ -35,6 +41,8 @@ public class Game extends Thread {
     public GameType getGameType(){
         return gameType;
     }
+
+    public Game(){}
 
     public Game(Player player0, Player player1, int id0, int id1, GameType gameType) {
         this.player0 = player0;
@@ -83,7 +91,7 @@ public class Game extends Thread {
     }
 
     protected void configGame() {
-        whoseTurn = 0;
+        whoseTurn = player0.getPlayerId();
 
         player0.setGame(this);
         player1.setGame(this);
@@ -152,11 +160,14 @@ public class Game extends Thread {
         }
     }
 
-    public void endTurn() {
-        if (whoseTurn == 0) {
+    public synchronized void endTurn(int playerId) throws HearthStoneException{
+        if(playerId != whoseTurn)
+            throw new HearthStoneException("Not Your Turn");
+
+        if (whoseTurn == player0.getPlayerId()) {
             player0.endTurn();
 
-            whoseTurn = 1;
+            whoseTurn = player1.getPlayerId();
 
             player0.setMyTurn(false);
             player1.setMyTurn(true);
@@ -164,7 +175,7 @@ public class Game extends Thread {
         } else {
             player1.endTurn();
 
-            whoseTurn = 0;
+            whoseTurn = player0.getPlayerId();
 
             player0.setMyTurn(true);
             player1.setMyTurn(false);
@@ -194,49 +205,65 @@ public class Game extends Thread {
     }
 
     public void addCard(Card card) {
-        cards.add(card);
+        synchronized (cardsLock) {
+            cards.add(card);
+        }
     }
 
     public void addHero(Hero hero) {
-        heroes.add(hero);
+        synchronized (heroesLock) {
+            heroes.add(hero);
+        }
     }
 
     public void addWatcher(String username){
-        watchers.add(new WatcherInfo(username));
+        synchronized (watchersLock) {
+            watchers.add(new WatcherInfo(username));
+        }
     }
 
     public void removeWatcher(String username){
-        for(WatcherInfo info: watchers){
-            if(info.getUsername().equals(username)){
-                watchers.remove(info);
-                return;
+        synchronized (watchersLock) {
+            for (WatcherInfo info : watchers) {
+                if (info.getUsername().equals(username)) {
+                    watchers.remove(info);
+                    return;
+                }
             }
         }
     }
 
     public int getNewCardId() {
-        return cards.size();
+        synchronized (cardsLock) {
+            return cards.size();
+        }
     }
 
     public int getNewHeroId() {
-        return heroes.size();
+        synchronized (heroesLock) {
+            return heroes.size();
+        }
     }
 
     public Card getCardById(int cardId) {
-        for (Card card : cards) {
-            if (card.getCardGameId() == cardId) {
-                return card;
+        synchronized (cardsLock) {
+            for (Card card : cards) {
+                if (card.getCardGameId() == cardId) {
+                    return card;
+                }
             }
+            return null;
         }
-        return null;
     }
 
     public Hero getHeroById(int heroId) {
-        for (Hero hero : heroes) {
-            if (hero.getHeroGameId() == heroId)
-                return hero;
+        synchronized (heroesLock) {
+            for (Hero hero : heroes) {
+                if (hero.getHeroGameId() == heroId)
+                    return hero;
+            }
+            return null;
         }
-        return null;
     }
 
     public synchronized void foundObject(Object waitedCardId, Object founded) throws HearthStoneException {

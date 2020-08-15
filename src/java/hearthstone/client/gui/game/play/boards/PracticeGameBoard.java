@@ -9,6 +9,7 @@ import hearthstone.client.gui.game.MainMenuPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.Rand;
@@ -19,11 +20,11 @@ import java.util.ArrayList;
 public class PracticeGameBoard extends GameBoard {
     private static PracticeGameBoard instance;
 
-    private PracticeGameBoard(Player myPlayer, Player enemyPlayer) {
+    private PracticeGameBoard(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         super(myPlayer, enemyPlayer);
     }
 
-    public static PracticeGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+    public static PracticeGameBoard makeInstance(PlayerModel myPlayer, PlayerModel enemyPlayer){
         return instance = new PracticeGameBoard(myPlayer, enemyPlayer);
     }
 

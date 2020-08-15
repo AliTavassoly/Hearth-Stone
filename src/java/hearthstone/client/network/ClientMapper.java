@@ -13,6 +13,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.server.logic.OnlineGame;
 import hearthstone.server.network.ClientHandler;
 import hearthstone.server.network.HSServer;
@@ -118,9 +119,9 @@ public class ClientMapper {
         HSClient.getClient().login();
     }
 
-    public static void registerRequest(String name, String username, String password) {
+    public static void registerRequest(String name, String username, String password, String repPassword) {
         Packet packet = new Packet("registerRequest",
-                new Object[]{name, username, password});
+                new Object[]{name, username, password, repPassword});
         HSClient.sendPacket(packet);
     }
 
@@ -307,7 +308,7 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void onlineGameResponse(Player myPlayer, Player enemyPlayer) {
+    public static void onlineGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         HSClient.getClient().makeNewOnlineGame(myPlayer, enemyPlayer);
     }
 
@@ -323,8 +324,24 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void deckReaderGameResponse(Player myPlayer, Player enemyPlayer) {
+    public static void deckReaderGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         HSClient.getClient().makeNewDeckReaderGame(myPlayer, enemyPlayer);
+    }
+
+    public static void tavernBrawlGameRequest() {
+        Packet packet = new Packet("tavernBrawlGameRequest",
+                null);
+        HSClient.sendPacket(packet);
+    }
+
+    public static void tavernBrawlGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer) {
+        HSClient.getClient().makeNewTavernBrawlGame(myPlayer, enemyPlayer);
+    }
+
+    public static void tavernBrawlGameCancelRequest() {
+        Packet packet = new Packet("tavernBrawlGameCancelRequest",
+                null);
+        HSClient.sendPacket(packet);
     }
 
     public static void deckReaderGameCancelRequest() {
@@ -339,7 +356,7 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void practiceGameResponse(Player myPlayer, Player practicePlayer) {
+    public static void practiceGameResponse(PlayerModel myPlayer, PlayerModel practicePlayer) {
         HSClient.getClient().makeNewPracticeGame(myPlayer, practicePlayer);
     }
 
@@ -349,7 +366,7 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void soloGameResponse(Player myPlayer, Player aiPlayer) {
+    public static void soloGameResponse(PlayerModel myPlayer, PlayerModel aiPlayer) {
         HSClient.getClient().makeNewSoloGame(myPlayer, aiPlayer);
     }
     // FIND GAME
@@ -375,7 +392,7 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void startGameOnGuiRequest(Player myPlayer, Player enemyPlayer) {
+    public static void startGameOnGuiRequest(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         HSClient.currentGameBoard.startGameOnGui(myPlayer, enemyPlayer);
     }
     // BEGIN OF GAME
@@ -433,7 +450,7 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void updateBoardRequest(Player myPlayer, Player enemyPlayer) {
+    public static void updateBoardRequest(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         HSClient.currentGameBoard.restart(myPlayer, enemyPlayer);
     }
 
@@ -495,12 +512,12 @@ public class ClientMapper {
         HSClient.sendPacket(packet);
     }
 
-    public static void viewResponse(Player firstPlayer, Player secondPlayer) {
+    public static void viewResponse(PlayerModel firstPlayer, PlayerModel secondPlayer) {
         HSClient.getClient().makeNewViewGameBoard(firstPlayer, secondPlayer);
         ViewGameBoard.getInstance().restart(firstPlayer, secondPlayer);
     }
 
-    public static void viewerUpdateRequest(Player firstPlayer, Player secondPlayer){
+    public static void viewerUpdateRequest(PlayerModel firstPlayer, PlayerModel secondPlayer){
         ViewGameBoard.getInstance().restart(firstPlayer, secondPlayer);
     }
 

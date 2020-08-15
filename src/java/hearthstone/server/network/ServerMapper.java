@@ -6,6 +6,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.hero.Hero;
 import hearthstone.models.passive.Passive;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
@@ -147,9 +148,9 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void registerRequest(String name, String username, String password, ClientHandler clientHandler) {
+    public static void registerRequest(String name, String username, String password, String repPassword, ClientHandler clientHandler) {
         try {
-            HSServer.getInstance().register(name, username, password, clientHandler);
+            HSServer.getInstance().register(name, username, password, repPassword, clientHandler);
         } catch (HearthStoneException e) {
             showRegisterError(e.getMessage(), clientHandler);
         }
@@ -335,7 +336,7 @@ public class ServerMapper {
         HSServer.getInstance().onlineGameRequest(clientHandler);
     }
 
-    public static void onlineGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
+    public static void onlineGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("onlineGameResponse",
                 new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
@@ -349,7 +350,7 @@ public class ServerMapper {
         HSServer.getInstance().deckReaderGameRequest(clientHandler);
     }
 
-    public static void deckReaderGameResponse(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
+    public static void deckReaderGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("deckReaderGameResponse",
                 new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
@@ -359,11 +360,25 @@ public class ServerMapper {
         HSServer.getInstance().deckReaderGameCancelRequest(clientHandler);
     }
 
+    public static void tavernBrawlGameRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().tavernBrawlGameRequest(clientHandler);
+    }
+
+    public static void tavernBrawlGameResponse(PlayerModel myPlayer, PlayerModel enemyPlayer, ClientHandler clientHandler) {
+        Packet packet = new Packet("tavernBrawlGameResponse",
+                new Object[]{myPlayer, enemyPlayer});
+        clientHandler.sendPacket(packet);
+    }
+
+    public static void tavernBrawlGameCancelRequest(ClientHandler clientHandler) {
+        HSServer.getInstance().tavernBrawlGameCancelRequest(clientHandler);
+    }
+
     public static void practiceGameRequest(ClientHandler clientHandler){
         HSServer.getInstance().practiceGameRequest(clientHandler);
     }
 
-    public static void practiceGameResponse(Player myPlayer, Player practicePlayer, ClientHandler clientHandler){
+    public static void practiceGameResponse(PlayerModel myPlayer, PlayerModel practicePlayer, ClientHandler clientHandler){
         Packet packet = new Packet("practiceGameResponse",
                 new Object[]{myPlayer, practicePlayer});
         clientHandler.sendPacket(packet);
@@ -373,7 +388,7 @@ public class ServerMapper {
         HSServer.getInstance().soloGameRequest(clientHandler);
     }
 
-    public static void soloGameResponse(Player myPlayer, Player aiPlayer, ClientHandler clientHandler) {
+    public static void soloGameResponse(PlayerModel myPlayer, PlayerModel aiPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("soloGameResponse",
                 new Object[]{myPlayer, aiPlayer});
         clientHandler.sendPacket(packet);
@@ -403,7 +418,7 @@ public class ServerMapper {
         HSServer.getInstance().getPlayer(playerId).removeInitialCards(discardedCards, GameConfigs.initialDiscardCards);
     }
 
-    public static void startGameOnGuiRequest(Player player0, Player player1, ClientHandler clientHandler) {
+    public static void startGameOnGuiRequest(PlayerModel player0, PlayerModel player1, ClientHandler clientHandler) {
         Packet packet = new Packet("startGameOnGuiRequest",
                 new Object[]{player0, player1});
         clientHandler.sendPacket(packet);
@@ -418,9 +433,13 @@ public class ServerMapper {
     }
 
     public static void endTurnRequest(int playerId, ClientHandler clientHandler) {
-        HSServer.getInstance().endTurnGuiResponse(clientHandler);
+        try {
+            clientHandler.getGame().endTurn(playerId);
 
-        clientHandler.getGame().endTurn();
+            HSServer.getInstance().endTurnGuiResponse(clientHandler);
+        } catch (HearthStoneException e){
+            e.printStackTrace();
+        }
     }
 
     public static void endTurnResponse(ClientHandler clientHandler) {
@@ -475,7 +494,7 @@ public class ServerMapper {
         clientHandler.sendPacket(packet);
     }
 
-    public static void updateBoardRequest(Player myPlayer, Player enemyPlayer, ClientHandler clientHandler) {
+    public static void updateBoardRequest(PlayerModel myPlayer, PlayerModel enemyPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("updateBoardRequest",
                 new Object[]{myPlayer, enemyPlayer});
         clientHandler.sendPacket(packet);
@@ -541,7 +560,7 @@ public class ServerMapper {
         HSServer.getInstance().view(wantToView, viewer, clientHandler);
     }
 
-    public static void viewResponse(Player firstPlayer, Player secondPlayer, ClientHandler clientHandler) {
+    public static void viewResponse(PlayerModel firstPlayer, PlayerModel secondPlayer, ClientHandler clientHandler) {
         Packet packet = new Packet("viewResponse",
                 new Object[]{firstPlayer, secondPlayer});
         clientHandler.sendPacket(packet);
@@ -551,7 +570,7 @@ public class ServerMapper {
         HSServer.getInstance().cancelView(firstPlayerUsername, wantToCancel);
     }
 
-    public static void viewerUpdateRequest(Player firstPlayer, Player secondPlayer, ClientHandler clientHandler){
+    public static void viewerUpdateRequest(PlayerModel firstPlayer, PlayerModel secondPlayer, ClientHandler clientHandler){
         Packet packet = new Packet("viewerUpdateRequest",
                 new Object[]{firstPlayer, secondPlayer});
         clientHandler.sendPacket(packet);

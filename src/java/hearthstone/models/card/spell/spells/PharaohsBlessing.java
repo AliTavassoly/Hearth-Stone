@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
@@ -9,9 +10,14 @@ import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class PharaohsBlessing extends SpellCard {
+    @Transient
+    @JsonProperty("didAbility")
+    private boolean didAbility;
+
     public PharaohsBlessing() { }
 
     public PharaohsBlessing(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -30,24 +36,22 @@ public class PharaohsBlessing extends SpellCard {
 
     @Override
     public void found(Object object) {
+        if(didAbility)
+            return;
+
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
 
-            //Mapper.addAttack(4, minionCard.getCardGameId());
             minionCard.changeAttack(4);
 
-            //Mapper.addHealth(4, minionCard);
             minionCard.gotHeal(4);
-            // Mapper.updateBoard();
-            //HSServer.getInstance().updateGameRequest(playerId);
 
-            //Mapper.setTaunt(true, minionCard);
             minionCard.setTaunt(true);
 
-            //Mapper.setDivineShield(true, minionCard);
             minionCard.setDivineShield(true);
 
-            // Mapper.updateBoard();
+            didAbility = true;
+
             HSServer.getInstance().updateGame(playerId);
         }
     }

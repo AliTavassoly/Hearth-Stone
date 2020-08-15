@@ -183,7 +183,7 @@ public class RegisterPanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (RegisterPanel.this.checkValid())
                     ClientMapper.registerRequest(nameField.getText(), userField.getText(),
-                            new String(passField.getPassword()));
+                            new String(passField.getPassword()), new String(repField.getPassword()));
             }
         });
     }

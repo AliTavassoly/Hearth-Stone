@@ -14,6 +14,7 @@ import hearthstone.client.gui.util.Animation;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.models.card.Card;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.server.data.ServerData;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
@@ -30,11 +31,11 @@ import java.util.ArrayList;
 public class SoloGameBoard extends GameBoard {
     private static SoloGameBoard instance;
 
-    private SoloGameBoard(Player myPlayer, Player enemyPlayer) {
+    private SoloGameBoard(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         super(myPlayer, enemyPlayer);
     }
 
-    public static SoloGameBoard makeInstance(Player myPlayer, Player enemyPlayer){
+    public static SoloGameBoard makeInstance(PlayerModel myPlayer, PlayerModel enemyPlayer){
         return instance = new SoloGameBoard(myPlayer, enemyPlayer);
     }
 
@@ -42,7 +43,7 @@ public class SoloGameBoard extends GameBoard {
         return instance;
     }
 
-    protected void drawCardsOnHand(Player player, int handX, int handY) {
+    protected void drawCardsOnHand(PlayerModel player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;

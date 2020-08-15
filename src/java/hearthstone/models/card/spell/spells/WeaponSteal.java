@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.spell.SpellCard;
@@ -9,9 +10,14 @@ import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class WeaponSteal extends SpellCard {
+    @Transient
+    @JsonProperty("didAbility")
+    private boolean didAbility;
+
     public WeaponSteal() { }
 
     public WeaponSteal(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -30,18 +36,19 @@ public class WeaponSteal extends SpellCard {
 
     @Override
     public void found(Object object) {
+        if(didAbility)
+            return;
+
         if(object instanceof WeaponCard){
             WeaponCard card = (WeaponCard)((WeaponCard) object).copy();
-            //Mapper.addAttack(2, card);
             card.setAttack(card.getAttack() + 2);
-            //updateBoard();
 
-            //Mapper.addDurability(2, card);
             card.setDurability(card.getDurability() + 2);
-            // Mapper.updateBoard();
+
+            didAbility = true;
+
             HSServer.getInstance().updateGame(playerId);
 
-            //Mapper.makeAndPutDeck(getPlayerId(), card);
             HSServer.getInstance().getPlayer(getPlayerId()).getFactory().makeAndPutDeck(card);
         }
     }

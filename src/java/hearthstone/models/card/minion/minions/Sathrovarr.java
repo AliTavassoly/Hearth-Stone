@@ -1,5 +1,6 @@
 package hearthstone.models.card.minion.minions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.behaviours.Battlecry;
 import hearthstone.models.behaviours.EndTurnBehave;
 import hearthstone.models.card.Card;
@@ -14,9 +15,14 @@ import hearthstone.util.CursorType;
 import hearthstone.util.HearthStoneException;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
+    @Transient
+    @JsonProperty("didBattlecry")
+    private boolean didBattlecry;
+
     public Sathrovarr() {
     }
 
@@ -68,9 +74,12 @@ public class Sathrovarr extends MinionCard implements Battlecry, EndTurnBehave {
 
     @Override
     public void found(Object object) throws HearthStoneException {
-        if (isFirstTurn)
-            doBattlecry(object);
-        else
+        if (isFirstTurn) {
+            if (!didBattlecry) {
+                doBattlecry(object);
+                didBattlecry = true;
+            }
+        } else
             super.found(object);
     }
 }

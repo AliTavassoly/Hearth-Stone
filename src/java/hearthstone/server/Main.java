@@ -2,6 +2,7 @@ package hearthstone.server;
 
 import hearthstone.server.data.DataBase;
 import hearthstone.server.network.HSServer;
+import hearthstone.util.Reflection;
 
 public class Main {
     public static int serverPort = 8000;

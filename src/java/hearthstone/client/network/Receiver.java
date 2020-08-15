@@ -23,7 +23,7 @@ public class Receiver extends Thread{
             while (true) {
                 System.out.println("client started to read ... : ");
                 String message = scanner.nextLine();
-                //System.out.println(message);
+                // System.out.println(message);
 
                 ObjectMapper mapper = ClientData.getNetworkMapper();
 

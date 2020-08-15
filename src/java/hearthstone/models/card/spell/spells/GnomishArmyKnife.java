@@ -1,5 +1,6 @@
 package hearthstone.models.card.spell.spells;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hearthstone.models.card.CardType;
 import hearthstone.models.card.Rarity;
 import hearthstone.models.card.minion.MinionCard;
@@ -9,9 +10,14 @@ import hearthstone.server.network.HSServer;
 import hearthstone.util.CursorType;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class GnomishArmyKnife  extends SpellCard {
+    @Transient
+    @JsonProperty("didAbility")
+    private boolean didAbility;
+
     public GnomishArmyKnife() { }
 
     public GnomishArmyKnife(int id, String name, String description, int manaCost, HeroType heroType, Rarity rarity, CardType cardType){
@@ -30,18 +36,19 @@ public class GnomishArmyKnife  extends SpellCard {
 
     @Override
     public void found(Object object) {
+        if(didAbility)
+            return;
         if(object instanceof MinionCard){
             MinionCard minionCard = (MinionCard)object;
-            //Mapper.setDivineShield(true, minionCard);
+
             minionCard.setDivineShield(true);
 
-            //Mapper.setTaunt(true, minionCard);
             minionCard.setTaunt(true);
 
-            //Mapper.setCharge(true, minionCard);
             minionCard.setCharge(true);
 
-            // Mapper.updateBoard();
+            didAbility = true;
+
             HSServer.getInstance().updateGame(playerId);
         }
     }

@@ -18,6 +18,7 @@ import hearthstone.models.card.Card;
 import hearthstone.models.card.heropower.HeroPowerBehaviour;
 import hearthstone.models.card.minion.MinionBehaviour;
 import hearthstone.models.player.Player;
+import hearthstone.models.player.PlayerModel;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.shared.GameConfigs;
 import hearthstone.util.*;
@@ -42,7 +43,7 @@ public class GameBoard extends JPanel implements MouseListener {
     protected BoardHeroButton enemyHero;
     protected final SoundPlayer soundPlayer;
 
-    protected Player myPlayer, enemyPlayer;
+    protected PlayerModel myPlayer, enemyPlayer;
 
     protected PassiveButton myPassive;
 
@@ -114,7 +115,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     protected final int myHandX = GUIConfigs.gameFrameWidth / 2 - 40;
     protected final int myHandY = GUIConfigs.gameFrameHeight - 80;
-    protected final int handDisCard = 220;
+    protected final int handDisCard = 150;
 
     protected final int enemyHandX = GUIConfigs.gameFrameWidth / 2 - 40;
     protected final int enemyHandY = -65;
@@ -163,7 +164,7 @@ public class GameBoard extends JPanel implements MouseListener {
 
     // Finals END
 
-    protected GameBoard(Player myPlayer, Player enemyPlayer) {
+    protected GameBoard(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
 
@@ -190,7 +191,7 @@ public class GameBoard extends JPanel implements MouseListener {
         addMouseListener(this);
     }
 
-    public static GameBoard makeInstance(Player myPlayer, Player enemyPlayer) {
+    public static GameBoard makeInstance(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         return instance = new GameBoard(myPlayer, enemyPlayer);
     }
 
@@ -238,7 +239,7 @@ public class GameBoard extends JPanel implements MouseListener {
         setVisible(true);
     }
 
-    public void startGameOnGui(Player myPlayer, Player enemyPlayer) {
+    public void startGameOnGui(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
 
@@ -323,7 +324,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW DECK NUMBER
 
     // DRAW REWARD
-    protected void drawReward(Player player, int X, int Y) {
+    protected void drawReward(PlayerModel player, int X, int Y) {
         if (player.getReward() == null)
             return;
 
@@ -340,7 +341,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW REWARD
 
     // DRAW HEROPOWER
-    protected void drawHeroPower(Player player, int X, int Y) {
+    protected void drawHeroPower(PlayerModel player, int X, int Y) {
         if (player.getHeroPower() == null)
             return;
         HeroPowerButton heroPowerButton = new HeroPowerButton(player.getHeroPower(),
@@ -356,7 +357,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW HEROPOWER
 
     // DRAW WEAPON
-    protected void drawWeapon(Player player, int X, int Y) {
+    protected void drawWeapon(PlayerModel player, int X, int Y) {
         if (player.getWeapon() == null)
             return;
 
@@ -375,7 +376,7 @@ public class GameBoard extends JPanel implements MouseListener {
     // DRAW WEAPON
 
     // DRAW CARDS
-    protected synchronized void drawCardsOnHand(Player player, int handX, int handY) {
+    protected synchronized void drawCardsOnHand(PlayerModel player, int handX, int handY) {
         ArrayList<Card> cards = player.getHand();
         if (cards.size() == 0)
             return;
@@ -436,7 +437,7 @@ public class GameBoard extends JPanel implements MouseListener {
         }
     }
 
-    protected void drawCardsOnLand(Player player, int landX, int landY) {
+    protected synchronized void drawCardsOnLand(PlayerModel player, int landX, int landY) {
         ArrayList<Card> cards = player.getLand();
         if (cards.size() == 0)
             return;
@@ -1277,7 +1278,7 @@ public class GameBoard extends JPanel implements MouseListener {
         return enemyPlayer.getPlayerId();
     }
 
-    public Player getPlayerById(int playerId) {
+    public PlayerModel getPlayerById(int playerId) {
         if (myPlayer.getPlayerId() == playerId)
             return myPlayer;
         return enemyPlayer;
@@ -1299,7 +1300,7 @@ public class GameBoard extends JPanel implements MouseListener {
         repaint();
     }
 
-    public void restart(Player myPlayer, Player enemyPlayer) {
+    public void restart(PlayerModel myPlayer, PlayerModel enemyPlayer) {
         this.myPlayer = myPlayer;
         this.enemyPlayer = enemyPlayer;
 
