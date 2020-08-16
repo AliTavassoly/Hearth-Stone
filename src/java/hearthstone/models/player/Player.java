@@ -623,8 +623,8 @@ public class Player {
     public void startTurn() {
         mana = calculateMana();
 
-        mana = 10;
-        //mana = Math.min(mana, calculateMaxMana());
+        // mana = 10;
+        mana = Math.min(mana, calculateMaxMana());
 
         handleStartTurnBehaviours();
 
