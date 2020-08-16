@@ -214,7 +214,7 @@ public class RegisterPanel extends JPanel {
 
     private void drawString(String text, int x, int y, int size, int style, Color color, Graphics graphic) {
         Graphics2D graphics2D = (Graphics2D) graphic;
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, style, size);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT, style, size);
         FontMetrics fontMetrics = graphics2D.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
 

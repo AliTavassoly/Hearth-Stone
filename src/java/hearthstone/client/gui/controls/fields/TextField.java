@@ -16,7 +16,7 @@ public class TextField extends JTextField {
         setOpaque(false);
         setBackground(new Color(0, 0, 0, 150));
         setForeground(new Color(255, 255, 68));
-        setFont(CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, Font.PLAIN, 20));
+        setFont(CredentialsFrame.getCustomFont(FontType.TEXT, Font.PLAIN, 20));
         setBorder(null);
     }
 

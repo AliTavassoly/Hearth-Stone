@@ -741,8 +741,6 @@ public class HSServer extends Thread {
             username = players.get(playerId).getUsername();
         }
 
-        System.out.println(clients.get(username) + " " + clients.get(username).getCurrentGame() + " " + clients.get(username).getCurrentGame().getFirstPlayer());
-
         String username0 = clients.get(username).getCurrentGame().getFirstPlayer().getUsername();
         String username1 = clients.get(username).getCurrentGame().getSecondPlayer().getUsername();
 
@@ -1051,7 +1049,7 @@ public class HSServer extends Thread {
 
     public Player getTBPlayer(String username){
         Player player = clients.get(username).getAccount().getPlayer();
-        Class tbClass = Reflection.getClassByName("./TavernBrawl.jar", "TBPlayer");
+        Class tbClass = Reflection.getClassByName("./modes/TavernBrawl.jar", "TBPlayer");
         Player tbPlayer = null;
 
         try {
@@ -1065,7 +1063,7 @@ public class HSServer extends Thread {
     }
 
     private Game getTBGame(Player player0, Player player1, int makeNewPlayerId, int makeNewPlayerId1, GameType gameType) {
-        Class tbClass = Reflection.getClassByName("./TavernBrawl.jar", "TBGame");
+        Class tbClass = Reflection.getClassByName("./modes/TavernBrawl.jar", "TBGame");
         Game tbGame = null;
 
         try {

@@ -61,7 +61,7 @@ public class HeroButton extends ImageButton {
                 GUIConfigs.bigHeroDetailWidth - 4, GUIConfigs.bigHeroDetailHeight,
                 null);
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 15);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT,0, 15);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -81,7 +81,7 @@ public class HeroButton extends ImageButton {
     }
 
     private void drawHealth(Graphics2D g, FontMetrics fontMetrics) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 25);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT,0, 25);
         g.setFont(font);
         String health = String.valueOf(hero.getHealth());
         g.setColor(Color.WHITE);

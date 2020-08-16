@@ -108,7 +108,7 @@ public class HeroPowerButton extends ImageButton {
     }
 
     private void drawMana(Graphics2D g, String text) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
         int width = fontMetrics.stringWidth(text);
 

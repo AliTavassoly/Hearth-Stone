@@ -1,9 +1,15 @@
-package hearthstone.client.gui.credetials;
+package hearthstone.client.gui;
 
-import hearthstone.client.network.ClientMapper;
+import hearthstone.client.Main;
+import hearthstone.client.data.ClientData;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.fields.PasswordField;
 import hearthstone.client.gui.controls.fields.TextField;
+import hearthstone.client.gui.credetials.CredentialsFrame;
+import hearthstone.client.gui.credetials.LoginPanel;
+import hearthstone.client.gui.credetials.LogisterPanel;
+import hearthstone.client.network.ClientMapper;
+import hearthstone.client.network.HSClient;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.FontType;
 import hearthstone.util.getresource.ImageResource;
@@ -16,17 +22,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-public class LoginPanel extends JPanel {
-    private static LoginPanel instance;
+public class IPPornPanel extends JPanel {
+    private static IPPornPanel instance;
 
-    private ImageButton backButton, loginButton, closeButton, minimizeButton;
-    private TextField userField;
-    private PasswordField passField;
+    private ImageButton enterButton, closeButton, minimizeButton;
+    private TextField ipField, portField;
 
-    private final String userText = "Username : ";
-    private final String passText = "Password : ";
-
-    public static String error = "no";
+    private final String userText = "IP: : ";
+    private final String passText = "Port: : ";
 
     private BufferedImage backgroundImage;
 
@@ -43,7 +46,7 @@ public class LoginPanel extends JPanel {
     private final int stringFieldDis = 3;
     private final int loginButtonY = 300;
 
-    private LoginPanel() {
+    private IPPornPanel() {
         configPanel();
 
         configText();
@@ -57,11 +60,11 @@ public class LoginPanel extends JPanel {
         layoutComponent();
     }
 
-    public static LoginPanel makeInstance() {
-        return instance = new LoginPanel();
+    public static IPPornPanel makeInstance() {
+        return instance = new IPPornPanel();
     }
 
-    public static LoginPanel getInstance() {
+    public static IPPornPanel getInstance() {
         return instance;
     }
 
@@ -81,11 +84,6 @@ public class LoginPanel extends JPanel {
         drawString(passText,
                 GUIConfigs.credentialFrameWidth / 2 - stringFieldDis,
                 startTextY + 1 * 30, 20, Font.PLAIN, textColor, g);
-        if (!error.equals("no")) {
-            drawString(error,
-                    GUIConfigs.credentialFrameWidth / 2,
-                    startTextY + 2 * 30, 15, Font.PLAIN, Color.RED, g);
-        }
     }
 
     private void configPanel() {
@@ -99,23 +97,19 @@ public class LoginPanel extends JPanel {
     }
 
     private void makeButtons() {
-        loginButton = new ImageButton("login", "buttons/green_background.png",
+        enterButton = new ImageButton("Enter", "buttons/green_background.png",
                 -1, Color.white, Color.yellow, 14, 0,
                 GUIConfigs.medButtonWidth,
                 GUIConfigs.medButtonHeight);
 
-        loginButton.addActionListener(new ActionListener() {
+        enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                ClientMapper.loginRequest(userField.getText(), new String(passField.getPassword()));
+                Main.createNewClient(ipField.getText(), Integer.valueOf(portField.getText()));
             }
         });
     }
 
     private void makeIcons() {
-        backButton = new ImageButton("icons/back.png", "icons/back_hovered.png",
-                GUIConfigs.iconWidth,
-                GUIConfigs.iconHeight);
-
         closeButton = new ImageButton("icons/close.png", "icons/close_hovered.png",
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
@@ -124,16 +118,10 @@ public class LoginPanel extends JPanel {
                 GUIConfigs.iconWidth,
                 GUIConfigs.iconHeight);
 
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().switchPanelTo(CredentialsFrame.getInstance(), new LogisterPanel());
-            }
-        });
-
         minimizeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                CredentialsFrame.getInstance().setState(Frame.ICONIFIED);
-                CredentialsFrame.getInstance().setState(Frame.NORMAL);
+                CredentialsFrame.getIpPortInstance().setState(Frame.ICONIFIED);
+                CredentialsFrame.getIpPortInstance().setState(Frame.NORMAL);
             }
         });
 
@@ -145,13 +133,13 @@ public class LoginPanel extends JPanel {
     }
 
     private void makeFields() {
-        userField = new TextField(10);
-        userField.setBorder(null);
-        userField.addKeyListener(new MyAction());
+        ipField = new TextField(10);
+        ipField.setBorder(null);
+        ipField.addKeyListener(new MyAction());
 
-        passField = new PasswordField(10);
-        passField.setBorder(null);
-        passField.addKeyListener(new MyAction());
+        portField = new TextField(10);
+        portField.setBorder(null);
+        portField.addKeyListener(new MyAction());
     }
 
     private void drawString(String text, int x, int y, int size, int style,
@@ -177,30 +165,21 @@ public class LoginPanel extends JPanel {
     }
 
     private void layoutComponent() {
-        backButton.setBounds(iconX, iconX, GUIConfigs.iconWidth, GUIConfigs.iconHeight);
-        add(backButton);
-
-        userField.setBounds(GUIConfigs.credentialFrameWidth / 2 + constAddX - 12,
+        ipField.setBounds(GUIConfigs.credentialFrameWidth / 2 + constAddX - 12,
                 startFieldY + 0 * textFieldDis,
                 100, 20);
-        add(userField);
+        add(ipField);
 
-        passField.setBounds(GUIConfigs.credentialFrameWidth / 2 + constAddX - 12,
+        portField.setBounds(GUIConfigs.credentialFrameWidth / 2 + constAddX - 12,
                 startFieldY + 1 * textFieldDis,
                 100, 20);
-        add(passField);
+        add(portField);
 
-        loginButton.setBounds(GUIConfigs.credentialFrameWidth / 2 - GUIConfigs.medButtonWidth / 2,
+        enterButton.setBounds(GUIConfigs.credentialFrameWidth / 2 - GUIConfigs.medButtonWidth / 2,
                 loginButtonY,
                 GUIConfigs.medButtonWidth,
                 GUIConfigs.medButtonHeight);
-        add(loginButton);
-
-        //
-        backButton.setBounds(iconX, startIconY,
-                GUIConfigs.iconWidth,
-                GUIConfigs.iconHeight);
-        add(backButton);
+        add(enterButton);
 
         //
         minimizeButton.setBounds(iconX, endIconY - iconsDis,
@@ -214,11 +193,6 @@ public class LoginPanel extends JPanel {
         add(closeButton);
     }
 
-    public void showError(String error) {
-        this.error = error;
-        repaint();
-    }
-
     class MyAction implements KeyListener {
         public void keyTyped(KeyEvent keyEvent) {
         }
@@ -228,7 +202,7 @@ public class LoginPanel extends JPanel {
 
         public void keyPressed(KeyEvent keyEvent) {
             if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-                loginButton.doClick();
+                enterButton.doClick();
             }
         }
     }

@@ -128,7 +128,7 @@ public class CardButton extends ImageButton implements MouseListener, HaveCard {
                     null);
         }
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 30);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT, 0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,

@@ -19,7 +19,7 @@ public class BaseFrame extends JFrame {
         setCursor();
     }
 
-    public Font getCustomFont(FontType fontType, int style, int size) {
+    public static Font getCustomFont(FontType fontType, int style, int size) {
         Font font = null;
         switch (fontType){
             case TEXT:

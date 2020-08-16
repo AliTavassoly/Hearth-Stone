@@ -216,7 +216,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
         if (isBack)
             return;
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, 0, 20);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT, 0, 20);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -290,7 +290,7 @@ public class BoardCardButton extends ImageButton implements HaveCard, MouseListe
                     null);
         }
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 30);
+        Font font = CredentialsFrame.getCustomFont(FontType.NUMBER, 0, 30);
         FontMetrics fontMetrics = g.getFontMetrics(font);
 
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,

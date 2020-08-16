@@ -41,7 +41,7 @@ public class HSClient {
         try{
             this.socket = new Socket(serverIP, serverPort);
 
-            CredentialsFrame.getInstance();
+            CredentialsFrame.getNewInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

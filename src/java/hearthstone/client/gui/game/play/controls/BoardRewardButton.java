@@ -78,13 +78,13 @@ public class BoardRewardButton extends ImageButton {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         // DRAW MANA
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 30);
+        Font font = CredentialsFrame.getCustomFont(FontType.TEXT,0, 30);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
         g2.setFont(font);
         drawMana(g2, fontMetrics);
 
         // DRAW PROGRESS
-        font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT,0, 24);
+        font = CredentialsFrame.getCustomFont(FontType.TEXT,0, 24);
         fontMetrics = g2.getFontMetrics(font);
         g2.setFont(font);
         drawProgressMana(g2, fontMetrics);

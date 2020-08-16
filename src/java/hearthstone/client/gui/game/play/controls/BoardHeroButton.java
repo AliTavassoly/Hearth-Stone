@@ -96,7 +96,7 @@ public class BoardHeroButton extends ImageButton {
                     null);
         }
 
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER,0, 15);
+        Font font = CredentialsFrame.getCustomFont(FontType.NUMBER,0, 15);
         FontMetrics fontMetrics = g2.getFontMetrics(font);
 
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -116,7 +116,7 @@ public class BoardHeroButton extends ImageButton {
     }
 
     private void drawHealth(Graphics2D g, String text, FontMetrics fontMetrics) {
-        Font font = CredentialsFrame.getInstance().getCustomFont(FontType.NUMBER, 0, 20);
+        Font font = CredentialsFrame.getCustomFont(FontType.NUMBER, 0, 20);
         g.setFont(font);
         String health = String.valueOf(hero.getHealth());
         g.setColor(Color.WHITE);

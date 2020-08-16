@@ -192,7 +192,7 @@ public class ImageButton extends JButton implements MouseListener {
 
     private void drawText(Graphics2D g) {
         if (text != null) {
-            Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
+            Font font = CredentialsFrame.getCustomFont(FontType.TEXT, textStyle, textSize);
             FontMetrics fontMetrics = g.getFontMetrics(font);
             int textWidth = fontMetrics.stringWidth(text);
 

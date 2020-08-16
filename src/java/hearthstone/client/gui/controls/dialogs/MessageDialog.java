@@ -88,14 +88,14 @@ public class MessageDialog extends ImageButton {
 
     private void drawText(Graphics2D g) {
         if (text != null) {
-            Font font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
+            Font font = CredentialsFrame.getCustomFont(FontType.TEXT, textStyle, textSize);
             FontMetrics fontMetrics = g.getFontMetrics(font);
             int textWidth = fontMetrics.stringWidth(text);
 
             while (textWidth >= width){
                 textSize--;
 
-                font = CredentialsFrame.getInstance().getCustomFont(FontType.TEXT, textStyle, textSize);
+                font = CredentialsFrame.getCustomFont(FontType.TEXT, textStyle, textSize);
                 fontMetrics = g.getFontMetrics(font);
                 textWidth = fontMetrics.stringWidth(text);
             }
