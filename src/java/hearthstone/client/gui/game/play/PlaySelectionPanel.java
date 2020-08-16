@@ -1,14 +1,10 @@
 package hearthstone.client.gui.game.play;
 
-import hearthstone.HearthStone;
-import hearthstone.client.data.ClientData;
-import hearthstone.client.gui.game.play.boards.OnlineGameBoard;
 import hearthstone.client.gui.game.waitingpanels.CancelOperation;
 import hearthstone.client.gui.game.waitingpanels.LoadingPanel;
 import hearthstone.client.gui.game.waitingpanels.WaitForOpponentPanel;
 import hearthstone.client.network.ClientMapper;
 import hearthstone.client.network.HSClient;
-import hearthstone.server.data.DataBase;
 import hearthstone.client.gui.BaseFrame;
 import hearthstone.client.gui.controls.buttons.ImageButton;
 import hearthstone.client.gui.controls.icons.BackIcon;
@@ -17,13 +13,6 @@ import hearthstone.client.gui.controls.icons.LogoutIcon;
 import hearthstone.client.gui.controls.icons.MinimizeIcon;
 import hearthstone.client.gui.game.GameFrame;
 import hearthstone.client.gui.game.MainMenuPanel;
-import hearthstone.client.gui.game.play.boards.PracticeGameBoard;
-import hearthstone.client.gui.game.play.boards.SoloGameBoard;
-import hearthstone.server.data.ServerData;
-import hearthstone.models.Deck;
-import hearthstone.models.hero.HeroType;
-import hearthstone.models.player.AIPlayer;
-import hearthstone.models.player.Player;
 import hearthstone.shared.GUIConfigs;
 import hearthstone.util.HearthStoneException;
 import hearthstone.util.getresource.ImageResource;
@@ -33,9 +22,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 public class PlaySelectionPanel extends JPanel {
     private static PlaySelectionPanel instance;
